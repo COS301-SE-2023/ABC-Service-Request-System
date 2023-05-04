@@ -48,7 +48,7 @@ Enter description
 </details>
 
 <details><summary>Edwin Chang</summary><br>
-<img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
+<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Edwin%20Pic.jpg" width=150>
 <p>
 Enter description
 </p>
