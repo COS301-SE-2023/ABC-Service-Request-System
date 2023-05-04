@@ -52,10 +52,10 @@ Enter description
 <p>
 Enter description
 </p>
-<a href="https://github.com/Priyul" target="_blank">
+<a href="https://github.com/SilentNight000" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
 </a> 
-<a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
+<a href="https://www.linkedin.com/in/edwin-chang-3b8378270/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 <br><br><br><br><br><br>
