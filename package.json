@@ -18,6 +18,9 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "express": "^4.18.2",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -34,5 +37,23 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~5.0.2"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/COS301-SE-2023/ABC-Service-Request-System.git"
+  },
+  "keywords": [
+    "ticket_management_system",
+    "Node.js",
+    "Angular",
+    "MongoDB"
+  ],
+  "author": "Ashir Butt, Jaimen Govender, Priyul Mahabeer, Dharshan Pillay, Edwin Chang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues"
+  },
+  "homepage": "https://github.com/COS301-SE-2023/ABC-Service-Request-System#readme"
 }
