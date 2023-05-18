@@ -3,10 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DashPanelComponent } from './dash-panel/dash-panel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashPanelComponent
   ],
   imports: [
     BrowserModule,
