@@ -49,7 +49,7 @@ async function connect() {
 connect();
 
 // Serve static files from the 'dist' folder
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist/project')));
 
 // API route
 app.get('/api/data', (req, res) => {
@@ -58,7 +58,7 @@ app.get('/api/data', (req, res) => {
 
 // Catch-all route for Angular routing
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist/project', 'index.html'));
 });
 
 const port = process.env.PORT || 3000;
