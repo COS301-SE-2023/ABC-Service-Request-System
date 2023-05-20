@@ -1,85 +1,59 @@
+.ticket-container {
+  background-color: #f3f3f3;
+  border-radius: 1px;
+  padding: 20px;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 15px;
+}
+
+.ticket-table {
+  width: 98%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  font-size: 25px;
+  background-color: #ffffff;
+  border-radius: 0px;
+  margin-left: 11px;
+  margin: 10px;
+}
+
+.ticket-row {
+  border-radius: 15px;
+  padding: 40px;
+}
 
 .card {
   all: unset;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background-color: #fafafa;
-  height: 40px;
-  width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  line-height: 24px;
+  display: inline-block;
 }
 
-.card-priority-high {
-  all: unset;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background-color: #ff0606;
-  height: 40px;
-  width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  line-height: 24px;
+.ticket-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.card-priority-med {
-  all: unset;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background-color: #f17501;
-  height: 40px;
-  width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  line-height: 24px;
+.assignee img {
+  // height: 40px;
+  // width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
-.card-priority-low {
-  all: unset;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background-color: #faf603;
-  height: 40px;
-  width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  line-height: 24px;
+.card-priority-high::before {
+  content: "⬆";
+  margin-right: 5px;
 }
 
-.card-status-completed {
-  all: unset;
-  border-radius: 4px;
-  border: 1px solid #eee;
-  background-color: #01bb20d7;
-  height: 40px;
-  width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  line-height: 24px;
+.card-status {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.deadline {
+  font-weight: bold;
 }
