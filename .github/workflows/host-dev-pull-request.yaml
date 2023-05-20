@@ -28,7 +28,7 @@ jobs:
         run: npm install
 
       - name: Build Angular Application
-        run: npm run build -- --prod  # assuming your Angular app build script is "build"
+        run: npm run build  # assuming your Angular app build script is "build"
 
       - name: Start Express Server
         run: node server.js  # assuming your Express server entry point is "server.js"
