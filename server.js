@@ -35,7 +35,7 @@ const path = require('path');
 
 const app = express();
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://hyperiontechcapstone:mongodb+srv://hyperiontechcapstone:@Jetpad2023@cluster0.ki6ifk0.mongodb.net/?retryWrites=true";
+const uri = process.env.MONGODB_URI || "mongodb+srv://hyperiontechcapstone:@Jetpad2023@cluster0.ki6ifk0.mongodb.net/?retryWrites=true";
 
 async function connect() {
   try {
