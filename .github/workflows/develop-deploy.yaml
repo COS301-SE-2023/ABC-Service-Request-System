@@ -29,14 +29,10 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      - name: Login to Heroku
-        run: |
-          heroku login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
       - name: Deploy to Heroku
-        run: |
-          git push heroku ${GITHUB_REF#refs/heads/}:master
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        uses: akhileshns/heroku-deploy@v3.12.12 # This action will handle the deployment
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.heroku_app_name}} # replace with your app's name
+          heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
+          healthcheck: "https://infinite-reaches-07482.herokuapp.com/" # replace with your app's URL
