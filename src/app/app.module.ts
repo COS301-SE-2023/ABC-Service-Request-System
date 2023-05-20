@@ -7,7 +7,6 @@ import { DashPanelComponent } from './dash-panel/dash-panel.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
