@@ -61,6 +61,12 @@ Enter description
 <br><br><br><br><br><br>
 </details>
 
+[![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
+[![Coverage Status](https://coveralls.io/repos/github/username/repo/badge.svg?branch=master)](https://coveralls.io/github/username/repo?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
+
+
 <details><summary>Dharshan Pillay</summary><br>
 <img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
 <p>
