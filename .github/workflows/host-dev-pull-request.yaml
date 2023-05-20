@@ -27,13 +27,17 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Application
-        run: npm run build
+      - name: Build Angular Application
+        run: npm run build -- --prod  # assuming your Angular app build script is "build"
+
+      - name: Start Express Server
+        run: node server.js  # assuming your Express server entry point is "server.js"
 
       - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12 # This action will handle the deployment
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.heroku_app_name}} # Replace with your Heroku app name
-          heroku_email: hyperiontech.capstone@gmail.com # Replace with your Heroku email
-          healthcheck: "https://infinite-reaches-07482.herokuapp.com/" # Replace with your app's URL
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: hyperiontech.capstone@gmail.com
+          healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
+
