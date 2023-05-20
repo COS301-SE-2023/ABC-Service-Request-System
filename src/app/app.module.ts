@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { DashPanelComponent } from './dash-panel/dash-panel.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { TicketDashboardComponent } from './ticket-dashboard/ticket-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashPanelComponent
+    DashPanelComponent,
+    TicketDashboardComponent
   ],
   imports: [
     BrowserModule,
