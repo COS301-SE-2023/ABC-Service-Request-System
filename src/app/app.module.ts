@@ -5,14 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 
+import { FormsModule } from '@angular/forms';
+import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
+import { RouterModule } from '@angular/router';
+
 @NgModule({
   declarations: [
     AppComponent,
-    TicketItemComponent
+    TicketItemComponent,
+    TicketDetailComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

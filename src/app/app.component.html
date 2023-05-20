@@ -1,1 +1,6 @@
-<app-ticket-item></app-ticket-item>
+<div class="search-container">
+  <input type="text" placeholder="Search by ID..." [(ngModel)]="searchTerm">
+  <button (click)="searchTicket()">Search</button>
+</div>
+
+<app-ticket-item [tickets]="filteredTickets"></app-ticket-item>

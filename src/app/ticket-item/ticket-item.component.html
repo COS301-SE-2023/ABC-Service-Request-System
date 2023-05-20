@@ -1,34 +1,33 @@
-
-    <table>
-            <tbody>
-                  <tr>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>1</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>Update UI and bug fixes</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>Jesse</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>Jaimen</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>Hyperion Tech</span></a>
-                      </td>
-                      <td>
-                        <a class="card-priority-high" target="_blank" href="#"><span>High</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>19/05/2023</span></a>
-                      </td>
-                      <td>
-                        <a class="card" target="_blank" href="#"><span>23/05/2023</span></a>
-                      </td>
-                      <td>
-                        <a class="card-status-completed" target="_blank" href="#"><span>Completed</span></a>
-                      </td>
-                    </tr>
-            </tbody>
-    </table>
+<table>
+  <tbody>
+    <tr *ngFor="let ticket of tickets">
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.id}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.title}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.assignee}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.reviewer}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.company}}</span></a>
+      </td>
+      <td>
+        <a class="card-priority-high" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.priority}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.startDate}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.endDate}}</span></a>
+      </td>
+      <td>
+        <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.status}}</span></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
