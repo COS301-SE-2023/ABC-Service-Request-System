@@ -1,0 +1,54 @@
+name: Development Continous Integration (CI)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build_and_test:
+    environment: Development
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create Temporary .env
+        run: |
+          touch .env
+          echo ${{ secrets.ENV_FILE }} >> .env
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Lint All Projects
+        run: npm run lint  # assuming your lint script is "lint"
+
+      - name: Run Tests and Create Coverage Report
+        run: npm run test -- --coverage  # assuming your test script is "test"
+
+      - name: Build Angular Application
+        run: npm run build  # assuming your Angular app build script is "build"
+
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # You'll need to provide a token from codecov.io
+          files: ./coverage/lcov.info # The path to your coverage files
+          flags: unittests # Optional: Flags help you differentiate coverage reports for different testing environments.
+          name: codecov-umbrella # Optional: Name of the upload. Defaults to codecov-action
+          fail_ci_if_error: true # Optional: If true, the main CI build status would fail if this action fails. Default is false.
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: hyperiontech.capstone@gmail.com
+          healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
