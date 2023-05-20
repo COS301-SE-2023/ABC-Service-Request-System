@@ -7,12 +7,14 @@ import { DashPanelComponent } from './dash-panel/dash-panel.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { TicketDashboardComponent } from './ticket-dashboard/ticket-dashboard.component';
+import { TicketItemComponent } from './ticket-item/ticket-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashPanelComponent,
-    TicketDashboardComponent
+    TicketDashboardComponent,
+    TicketItemComponent
   ],
   imports: [
     BrowserModule,
