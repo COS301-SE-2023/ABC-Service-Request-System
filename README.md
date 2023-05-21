@@ -1,9 +1,9 @@
 # Project
 
-[![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/main/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
+[![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
 
-![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/main/graphs/sunburst.svg?token=8DEVQ31GUY)
+![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
 
 
 ## Development server
