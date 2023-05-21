@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'Project';
   constructor(private http: HttpClient) {
-    alert(this.fetchData());
+    // alert(this.fetchData());
   }
 
   getData() {
