@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node server.js",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "jest --coverage",
+    "lint": "eslint \"src/**/*.ts\"",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -18,21 +20,53 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "express": "^4.18.2",
+    "jasmine": "^5.0.0",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.0.2",
+    "@angular-eslint/builder": "16.0.2",
+    "@angular-eslint/eslint-plugin": "16.0.2",
+    "@angular-eslint/eslint-plugin-template": "16.0.2",
+    "@angular-eslint/schematics": "16.0.2",
+    "@angular-eslint/template-parser": "16.0.2",
     "@angular/cli": "~16.0.2",
     "@angular/compiler-cli": "^16.0.0",
     "@types/jasmine": "~4.3.0",
+    "@typescript-eslint/eslint-plugin": "5.59.2",
+    "@typescript-eslint/parser": "5.59.2",
+    "eslint": "^8.41.0",
     "jasmine-core": "~4.6.0",
+    "jest": "^29.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~5.0.2"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/COS301-SE-2023/ABC-Service-Request-System.git"
+  },
+  "keywords": [
+    "ticket_management_system",
+    "Node.js",
+    "Angular",
+    "MongoDB"
+  ],
+  "author": "Ashir Butt, Jaimen Govender, Priyul Mahabeer, Dharshan Pillay, Edwin Chang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues"
+  },
+  "homepage": "https://github.com/COS301-SE-2023/ABC-Service-Request-System#readme"
 }
