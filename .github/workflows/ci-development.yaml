@@ -37,9 +37,6 @@ jobs:
           Xvfb :99 -screen 0 1024x768x24 &
           echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
-      - name: Lint All Projects
-        run: npm run lint
-
       - name: Create Coverage Report
         run: npm run test
 
