@@ -43,6 +43,9 @@ jobs:
       - name: Run Tests and Generate Coverage Report
         run: npm run test:coverage
 
+      - name: List coverage directory
+        run: ls -al ./coverage
+
       - name: Build Angular Application
         run: npm run build
 
