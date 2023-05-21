@@ -14,47 +14,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create Temporary .env
-        run: |
-          touch .env
-          echo ${{ secrets.ENV_FILE }} >> .env
-
-      - name: Cache Dependencies
-        uses: actions/cache@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          node-version: 14
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Install xvfb
-        run: sudo apt-get install xvfb -y
-
-      - name: Start xvfb
-        run: |
-          Xvfb :99 -screen 0 1024x768x24 &
-          echo "DISPLAY=:99.0" >> $GITHUB_ENV
-
-      - name: Lint All Projects
-        run: npm run lint
-
-      - name: Create Coverage Report
-        run: ng test --code-coverage --no-watch
-
-
-      - name: Build Angular Application
-        run: npm run build
+      - name: Run Tests and Generate Coverage Report
+        run: npx ng test -- --no-watch --code-coverage
 
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/index.html
+          file: ./coverage/lcov.info
           flags: unittests
-          name: codecov-umbrella
           fail_ci_if_error: true
+
+      - name: Build Angular Application
+        run: npm run build
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
@@ -64,4 +47,4 @@ jobs:
           heroku_email: hyperiontech.capstone@gmail.com
           healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
 
-        # new flow
+      # Add more steps as needed
