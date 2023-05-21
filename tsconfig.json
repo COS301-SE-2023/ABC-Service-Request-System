@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -22,6 +21,9 @@
     "lib": [
       "ES2022",
       "dom"
+    ],
+    "files": [
+      "src/polyfills.ts"
     ]
   },
   "angularCompilerOptions": {
