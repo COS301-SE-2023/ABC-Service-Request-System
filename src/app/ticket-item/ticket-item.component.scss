@@ -1,27 +1,25 @@
 .ticket-container {
   background-color: #f3f3f3;
-  border-radius: 1px;
   padding: 20px;
   width: 95%;
   margin: auto;
   margin-bottom: 30px;
   margin-top: 15px;
+  font-size: 28px;
 }
 
-.ticket-table {
-  width: 98%;
-  border-collapse: separate;
-  border-spacing: 0 15px;
-  font-size: 25px;
-  background-color: #ffffff;
-  border-radius: 0px;
-  margin-left: 11px;
-  margin: 10px;
-}
-
-.ticket-row {
+.ticket {
+  border: 2px solid black;
   border-radius: 15px;
-  padding: 40px;
+  padding: 10px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ticket-item {
+  padding: 10px 0;
+  text-align: center;
 }
 
 .card {
@@ -36,15 +34,28 @@
 }
 
 .assignee img {
-  // height: 40px;
-  // width: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.card-priority-high::before {
-  content: "⬆";
-  margin-right: 5px;
+.priority-bubble {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.high {
+  color: red;
+}
+
+.medium {
+  color: #FFA500;
+}
+
+.low {
+  color: green;
 }
 
 .card-status {
@@ -57,3 +68,13 @@
 .deadline {
   font-weight: bold;
 }
+
+.ticket-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-container td {
+  border: none;
+}
+

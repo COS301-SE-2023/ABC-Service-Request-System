@@ -1,6 +1,8 @@
 export const tickets = [
   {id: 1, title: 'Update UI and bug fixes', assignee: 'Jesse', reviewer: 'Jaimen', company: 'Hyperion Tech', priority: 'High', startDate: '19/05/2023', endDate: '23/05/2023', status: 'DONE'},
-  {id: 2, title: 'testing tickets', assignee: 'Jesse', reviewer: 'Jaimen', company: 'Hyperion Tech', priority: 'High', startDate: '19/05/2023', endDate: '23/05/2023', status: 'DONE'},
-  // write script to generate more tickets of the form later
-  //empyu search returns all -> add later
+  {id: 2, title: 'testing tickets', assignee: 'Jesse', reviewer: 'Ashir', company: 'AWS', priority: 'Low', startDate: '09/11/2023', endDate: '10/11/2023', status: 'PENDING'},
+  {id: 3, title: 'Epiuse frontend ticket', assignee: 'Jesse', reviewer: 'Priyul', company: 'NASA Tech', priority: 'Medium', startDate: '24/08/2023', endDate: '29/08/2023', status: 'ACTIVE'},
+  // write script to add tickets to this mock database
+  //unit testing
+  //empty search returns all -> add later
 ];

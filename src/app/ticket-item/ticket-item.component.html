@@ -1,36 +1,56 @@
-<div class = "ticket-container">
-  <table class="ticket-table">
-    <tbody>
-      <tr *ngFor="let ticket of tickets" class="ticket-row">
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.id}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.title}}</span></a>
-        </td>
-        <td class = "assignee">
+<div class="ticket-container">
+  <table class="individual-ticket">
+    <tr *ngFor="let ticket of tickets">
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.id}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.title}}</a>
+        </div>
+      </td>
+      <td class="ticket-item assignee">
+        <div class="ticket">
           <img src="assets/profile-icon.png" alt="Profile icon">
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.assignee}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.reviewer}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.company}}</span></a>
-        </td>
-        <td>
-          <a class="card-priority-high" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.priority}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.startDate}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.endDate}}</span></a>
-        </td>
-        <td>
-          <a class="card" [routerLink]="['/ticket', ticket.id]"><span>{{ticket.status}}</span></a>
-        </td>
-      </tr>
-    </tbody>
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.assignee}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.reviewer}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.company}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">
+            <span [ngClass]="{'high': ticket.priority == 'High', 'medium': ticket.priority == 'Medium', 'low': ticket.priority == 'Low'}" class="priority-bubble">
+              {{ticket.priority}}
+            </span>
+          </a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.startDate}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.endDate}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.status}}</a>
+        </div>
+      </td>
+    </tr>
   </table>
 </div>

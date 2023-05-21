@@ -28,3 +28,21 @@
   width: 20px;
   height: 20px;
 }
+
+.add-ticket-button {
+  display: block;
+  margin: 20px auto;
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-ticket-button:hover {
+  background-color: #0056b3;
+}
+

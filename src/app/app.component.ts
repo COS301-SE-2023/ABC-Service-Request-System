@@ -2,6 +2,19 @@ import { Component } from '@angular/core';
 import { tickets } from './data'
 import { Router } from '@angular/router';
 
+export interface Ticket {
+  id: number;
+  title: string;
+  assignee: string;
+  reviewer: string;
+  company: string;
+  priority: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+}
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +25,7 @@ export class AppComponent {
   searchTerm: string = '';
   tickets = tickets;
   filteredTickets = this.tickets;
+  showForm = false;
 
   constructor(private router: Router) { }
 
@@ -35,4 +49,24 @@ export class AppComponent {
       this.filteredTickets = [];
     }
   }
+
+  openNewTicketForm() {
+    this.showForm = true;
+  }
+
+  getNewId(): number {
+    return this.tickets.length > 0 ? Math.max(...this.tickets.map(ticket => ticket.id)) + 1 : 1;
+  }
+
+  addNewTicket(newTicket: Ticket) {
+    newTicket.id = this.getNewId();
+    this.tickets.push(newTicket);
+    this.showForm = false;
+    this.filterTickets();
+  }
+
+  closeForm(): void {
+    this.showForm = false;
+  }
+
 }
