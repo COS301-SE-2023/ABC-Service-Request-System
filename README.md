@@ -2,8 +2,12 @@
 
 [![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
+[![Lint Codebase](https://github.com/COS301-SE-2023/AI-Photo-Editor/actions/workflows/ci-development.yml/badge.svg)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yml)
+
 
 ![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
+
+
 
 
 ## Development server
