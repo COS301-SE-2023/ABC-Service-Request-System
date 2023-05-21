@@ -9,15 +9,19 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PageHeaderComponent } from './page-header/page-header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { TicketDashboardComponent } from './ticket-dashboard/ticket-dashboard.component';
+import { TicketItemComponent } from './ticket-item/ticket-item.component';
+import 'tslib';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    DashPanelComponent,
     PageHeaderComponent,
-    DashboardComponent
+    DashboardComponent,
+    DashPanelComponent,
+    TicketDashboardComponent,
+    TicketItemComponent
   ],
   imports: [
     BrowserModule,
