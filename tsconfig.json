@@ -21,9 +21,6 @@
     "lib": [
       "ES2022",
       "dom"
-    ],
-    "files": [
-      "src/polyfills.ts"
     ]
   },
   "angularCompilerOptions": {
@@ -31,5 +28,9 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/polyfills.ts"
+  ]
 }
