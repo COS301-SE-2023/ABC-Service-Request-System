@@ -9,7 +9,7 @@
 .header-container{
   width: 100vw;
   height: 100px;
-  background-color: #DEDEDE;
+  background-color: rgba(0,0,0,0.5);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +20,7 @@
   justify-content: center;
   align-items: center;
   margin-left: 2em;
-  color: black;
+  color: white;
   font-family: 'Poppins', sans-serif;
 }
 
