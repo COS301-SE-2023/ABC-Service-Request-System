@@ -1,9 +1,9 @@
 <div class="sidelogin">
-  <div class="logoName">
+  <!-- <div class="logoName">
     <img class="img-fluid" alt="Logo">
     <br>
     <h3>Software Name</h3>
-  </div>
+  </div> -->
 
   <div class="loginDescription">
     <h1>Log in</h1>
@@ -22,6 +22,6 @@
       <label class="form-check-label" for="kLogin"> Keep me logged in</label>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Log in</button>
+    <button type="button" class="btn btn-primary mt-3" (click)="navigateToDashboard($event)">Log in</button>
   </form>
 </div>
