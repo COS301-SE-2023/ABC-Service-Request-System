@@ -26,16 +26,8 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
       - name: Install Dependencies
-        run: npm ci
-
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: npm install
 
       - name: Install xvfb
         run: sudo apt-get install xvfb -y
@@ -49,8 +41,7 @@ jobs:
         run: npm run lint
 
       - name: Create Coverage Report
-        run: npx ng test --no-watch --code-coverage
-
+        run: npm run test:coverage
 
 
       - name: Build Angular Application
@@ -60,7 +51,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: true
@@ -72,3 +63,5 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: hyperiontech.capstone@gmail.com
           healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
+
+        # new flow
