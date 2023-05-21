@@ -29,6 +29,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install xvfb
+        run: sudo apt-get install xvfb -y
+
+      - name: Start xvfb
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 &
+          echo "DISPLAY=:99.0" >> $GITHUB_ENV
+
       - name: Lint All Projects
         run: npm run lint
 
