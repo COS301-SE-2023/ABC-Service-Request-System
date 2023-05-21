@@ -41,7 +41,7 @@ jobs:
         run: npm run lint
 
       - name: Create Coverage Report
-        run: npm run test:coverage
+        run: npx ng test  --code-coverage
 
 
       - name: Build Angular Application
