@@ -3,7 +3,7 @@ name: Development Continuous Integration (CI)
 on:
   push:
     branches:
-      - develop
+      - '*'
 
 jobs:
   build_and_test:
