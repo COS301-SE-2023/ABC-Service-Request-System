@@ -111,12 +111,12 @@
     }
   },
   "cli": {
-    "analytics": "15e1af3d-a68f-44ef-ab00-f31399201e28",
+    "analytics": "d4851b6c-f850-498c-9347-d1a44d2547f9",
     "schematicCollections": [
       "@angular-eslint/schematics"
     ]
   }
 }
 
-
+//"analytics": "15e1af3d-a68f-44ef-ab00-f31399201e28", new
 //"analytics": "d4851b6c-f850-498c-9347-d1a44d2547f9"
