@@ -1,8 +1,10 @@
 # Project
 
-[codecov](https://codecov.io/gh/nibble0101/learn-test-coverage/branch/master/graph/badge
+[![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/main/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+
+![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/main/graphs/sunburst.svg?token=8DEVQ31GUY)
+
 
 ## Development server
 
