@@ -7,13 +7,17 @@ import { DashPanelComponent } from './dash-panel/dash-panel.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { PageHeaderComponent } from './page-header/page-header.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    DashPanelComponent
+    DashPanelComponent,
+    PageHeaderComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
