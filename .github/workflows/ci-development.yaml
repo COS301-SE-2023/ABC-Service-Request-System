@@ -47,15 +47,6 @@ jobs:
       - name: Build Angular Application
         run: npm run build
 
-      - name: Upload Coverage Report
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/project/index.html
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
-
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:

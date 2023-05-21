@@ -1,5 +1,7 @@
 # Project
 
+[codecov](https://codecov.io/gh/nibble0101/learn-test-coverage/branch/master/graph/badge
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
 
 ## Development server
