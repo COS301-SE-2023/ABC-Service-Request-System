@@ -1,0 +1,80 @@
+.ticket-container {
+  background-color: #f3f3f3;
+  padding: 20px;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 15px;
+  font-size: 28px;
+}
+
+.ticket {
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ticket-item {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.card {
+  all: unset;
+  display: inline-block;
+}
+
+.ticket-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.assignee img {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.priority-bubble {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.high {
+  color: red;
+}
+
+.medium {
+  color: #FFA500;
+}
+
+.low {
+  color: green;
+}
+
+.card-status {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.deadline {
+  font-weight: bold;
+}
+
+.ticket-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-container td {
+  border: none;
+}
+

@@ -11,18 +11,31 @@ import { PageHeaderComponent } from './page-header/page-header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
+import { RouterModule } from '@angular/router';
+
+import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
+import { TicketItemComponent } from './ticket-item/ticket-item.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     DashPanelComponent,
     PageHeaderComponent,
-    DashboardComponent
+    DashboardComponent,
+    TicketItemComponent,
+    TicketDetailComponent,
+    NewTicketFormComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

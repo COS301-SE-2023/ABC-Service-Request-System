@@ -1,0 +1,56 @@
+<div class="ticket-container">
+  <table class="individual-ticket">
+    <tr *ngFor="let ticket of tickets">
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.id}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.title}}</a>
+        </div>
+      </td>
+      <td class="ticket-item assignee">
+        <div class="ticket">
+          <img src="assets/profile-icon.png" alt="Profile icon">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.assignee}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.reviewer}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.company}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">
+            <span [ngClass]="{'high': ticket.priority == 'High', 'medium': ticket.priority == 'Medium', 'low': ticket.priority == 'Low'}" class="priority-bubble">
+              {{ticket.priority}}
+            </span>
+          </a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.startDate}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.endDate}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.status}}</a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
