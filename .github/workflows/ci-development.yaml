@@ -43,8 +43,6 @@ jobs:
       - name: Create Coverage Report
         run: npm run test:coverage
 
-      - name: Run Test
-        run: npm run test
 
       - name: Build Angular Application
         run: npm run build
