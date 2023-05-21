@@ -82,8 +82,7 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": [
-              "zone.js",
-              "zone.js/testing"
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
