@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { tickets } from '../data';
 
 
@@ -10,5 +10,10 @@ import { tickets } from '../data';
 
 export class TicketItemComponent {
   @Input() tickets: any[] = [];
+  @Output() openForm = new EventEmitter<string>();
+
+  openUpdateForm(oldAssignee: string){
+    this.openForm.emit(oldAssignee);
+  }
 }
 

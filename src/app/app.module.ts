@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     TicketDetailComponent,
     NewTicketFormComponent,
     SearchBarComponent,
+    UpdateTicketModalComponent,
   ],
   imports: [
     BrowserModule,

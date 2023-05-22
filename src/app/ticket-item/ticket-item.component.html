@@ -14,7 +14,7 @@
       <td class="ticket-item assignee">
         <div class="ticket">
           <img src="assets/profile-icon.png" alt="Profile icon">
-          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.assignee}}</a>
+          <button class="card" (click)="openUpdateForm(ticket.assignee)">{{ticket.assignee}}</button>
         </div>
       </td>
       <td class="ticket-item">

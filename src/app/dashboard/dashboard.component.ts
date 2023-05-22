@@ -14,6 +14,8 @@ export class DashboardComponent {
   searchTerm = '';
   filteredTickets = this.tickets;
   showForm = false;
+  showUpdateForm = false;
+  oldAsignee = '';
 
   constructor(private router: Router) {}
 
@@ -52,8 +54,27 @@ export class DashboardComponent {
     this.showForm = false;
   }
 
+  updateTicket(newAssignee: string){
+    const ticket = this.tickets.find(ticket => ticket.assignee == this.oldAsignee);
+    if(ticket) {
+      ticket.assignee = newAssignee;
+    }
+    this.showUpdateForm = false;
+  }
+
   closeForm(): void {
     this.showForm = false;
+  }
+
+
+  //Update-ticket-modal
+  openUpdateForm(oldAssignee: string){
+    this.oldAsignee = oldAssignee;
+    this.showUpdateForm = true;
+  }
+
+  closeUpdateForm(){
+    this.showUpdateForm = false;
   }
 }
 
