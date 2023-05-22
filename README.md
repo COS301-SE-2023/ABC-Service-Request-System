@@ -26,14 +26,24 @@ Enter description
 </details>
 
 <details><summary>Ashir Butt</summary><br>
-<img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
+<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imageAshir.jpeg" width=150>
 <p>
-Enter description
+👋 Welcome to my LinkedIn profile! I'm [Your Name], a final year BIS Multimedia student at the University of Pretoria. I am passionate about AI, game development, and all things technology-related. With a strong foundation in programming and a thirst for knowledge, I am constantly exploring new possibilities and seeking opportunities to contribute to innovative projects.
+
+💡 My skill set includes a diverse range of programming languages and technologies. I am proficient in Angular, Vue, JavaScript, HTML, CSS, TypeScript, Node.js, PHP, Python, Java, C#, C++, SQL, and MongoDB. This versatility allows me to adapt quickly to different development environments and contribute effectively to various aspects of software engineering.
+
+🎮 Game development has always been an area of immense fascination for me. I enjoy exploring the creative possibilities of blending cutting-edge technology with captivating storytelling to create immersive experiences. Through personal projects and coursework, I have gained hands-on experience in game development frameworks, engines, and design principles, which has further fueled my passion for this field.
+
+🤖 In addition to game development, I am deeply interested in artificial intelligence (AI). The potential of AI to revolutionize industries and drive innovation is truly remarkable. I am eager to apply my programming skills and knowledge to contribute to the development of intelligent systems and explore the possibilities of machine learning and data analysis.
+
+🌟 As a proactive learner, I am always seeking opportunities to expand my knowledge and stay up-to-date with the latest advancements in the tech industry. I am a firm believer in continuous improvement and enjoy collaborating with like-minded individuals who share a passion for technology and innovation.
+
+🌐 If you're interested in discussing AI, game development, or any exciting tech projects, feel free to connect with me. I'm open to new opportunities, collaborations, and sharing ideas. Let's connect and explore the possibilities together!
 </p>
-<a href="https://github.com/Priyul" target="_blank">
+<a href="https://github.com/RaamnNoodlez99" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
 </a> 
-<a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
+<a href="https://www.linkedin.com/in/ashir-butt-074b6423a/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 <br><br><br><br><br><br>
