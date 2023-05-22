@@ -40,7 +40,7 @@ Enter description
 </details>
 
 <details><summary>Jaimen Govender</summary><br>
-<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/WhatsApp%Image%2023-05-22.jpeg" width=150>
+<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imageJaimen.jpeg" width=150>
 <p>
 I, Jaimen Govender am a final year student studying BSC Computer Science. I have a passion for learning about new concepts and technologies. I have skills in various coding backgrounds such as c++, java and python. I have experience in web development using languages like HTML, CSS, JS and web frameworks like Angular. I have knowledge in SQL and currently learning MongoDB for this Capstone Project.
 </p>
