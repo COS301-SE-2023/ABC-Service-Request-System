@@ -1,6 +1,10 @@
 body {
   background-color: #000;
-  color: #fff;
+  font-family: 'Montserrat';
+}
+
+.loginPage {
+  background-color: #000;
   font-family: 'Montserrat';
 }
 
@@ -13,6 +17,8 @@ body {
   left: 0;
   background-color: #fff;
   overflow-x: hidden;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .logoName {
@@ -45,6 +51,22 @@ body {
   margin-bottom: 20px;
 }
 
+.form-check.keepLogin label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.form-check.keepLogin input {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+}
+
 .btn {
   background: #000;
   color: #fff;
@@ -60,7 +82,17 @@ body {
   transition: background 0.3s ease;
 }
 
+.loginButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .center {
   display: flex;
   justify-content: center;
+}
+
+.illustration {
+  background-color: #000
 }
