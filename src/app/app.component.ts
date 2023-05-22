@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tickets } from './data'
+import { tickets } from './data';
 import { Router } from '@angular/router';
 
 export interface Ticket {
