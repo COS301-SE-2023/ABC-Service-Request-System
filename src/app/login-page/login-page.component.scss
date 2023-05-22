@@ -1,13 +1,18 @@
 body {
   background-color: #000;
   color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: 'Montserrat';
 }
 
 .sidelogin {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
+  height: 100%;
+  width: 792px;
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  overflow-x: hidden;
 }
 
 .logoName {
@@ -41,8 +46,8 @@ body {
 }
 
 .btn {
-  background: #fff;
-  color: #000;
+  background: #000;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -51,6 +56,11 @@ body {
 }
 
 .btn:hover {
-  background: #eee;
+  background: #494945;
   transition: background 0.3s ease;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
 }
