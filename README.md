@@ -12,9 +12,9 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 ## Team Members
 <details><summary>Priyul Mahabeer</summary><br>
-<img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
+<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
 <p>
-Enter description
+Passionate about space exploration, quantum computing, and AI, I'm an aspiring software engineer inspired by great minds in the field. Skilled in languages like C++, Java, and Python, I'm eager to push boundaries and innovate for a better future.
 </p>
 <a href="https://github.com/Priyul" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
