@@ -5,11 +5,7 @@
   </button>
 </div>
 
-<button (click)=openNewTicketForm() class="add-ticket-button">Add new ticket</button>
 
-<app-ticket-item [tickets]="filteredTickets"></app-ticket-item>
-
-<app-new-ticket-form *ngIf="showForm" (newTicketEvent)="addNewTicket($event)" (closeForm)="closeForm()"></app-new-ticket-form>
 
 <router-outlet></router-outlet>
 

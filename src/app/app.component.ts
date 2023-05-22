@@ -44,7 +44,7 @@ export class AppComponent {
     });
   }
 
-  searchTerm: string = '';
+  searchTerm = '';
   tickets = tickets;
   filteredTickets = this.tickets;
   showForm = false;

@@ -1,1 +1,51 @@
-<p>ticket-detail works!</p>
+<div class="ticket-container" *ngIf="ticket">
+  <table class="individual-ticket">
+    <tr>
+      <td class="ticket-item">
+        <div class="ticket">
+          <h2 class="card">{{ ticket.title }}</h2>
+        </div>
+      </td>
+      <td class="ticket-item assignee">
+        <div class="ticket">
+          <img src="assets/profile-icon.png" alt="Profile icon">
+          <p class="card">{{ ticket.assignee }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.reviewer }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.company }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">
+            <span [ngClass]="{'high': ticket.priority === 'High', 'medium': ticket.priority === 'Medium', 'low': ticket.priority === 'Low'}" class="priority-bubble">
+              {{ticket.priority}}
+            </span>
+          </p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.startDate }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.endDate }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.status }}</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

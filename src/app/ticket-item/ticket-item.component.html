@@ -30,7 +30,7 @@
       <td class="ticket-item">
         <div class="ticket">
           <a class="card" [routerLink]="['/ticket', ticket.id]">
-            <span [ngClass]="{'high': ticket.priority == 'High', 'medium': ticket.priority == 'Medium', 'low': ticket.priority == 'Low'}" class="priority-bubble">
+            <span [ngClass]="{'high': ticket.priority === 'High', 'medium': ticket.priority === 'Medium', 'low': ticket.priority === 'Low'}" class="priority-bubble">
               {{ticket.priority}}
             </span>
           </a>

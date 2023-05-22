@@ -1,2 +1,12 @@
-<app-page-header></app-page-header>
-<app-dash-panel></app-dash-panel>
+<div class="dashboard-container">
+  <app-page-header></app-page-header>
+  <div class="search-container">
+    <input type="text" placeholder="Search by ID..." [(ngModel)]="searchTerm" class="search-input">
+    <button (click)="searchTicket()" class="search-button">
+      <img src="/assets/search-icon.png" alt="search" >
+    </button>
+  </div>
+  <app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
+  <app-ticket-item [tickets]="tickets"></app-ticket-item>
+  <app-new-ticket-form *ngIf="showForm" (newTicketEvent)="addNewTicket($event)" (closeForm)="closeForm()"></app-new-ticket-form>
+</div>
