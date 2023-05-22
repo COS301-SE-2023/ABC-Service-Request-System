@@ -4,6 +4,12 @@ The primary objective of this ticketing system is to streamline project manageme
 As companies grow it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress, and allocates work among the management, technical, and functional teams.
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
+## Visit our deplyed app at: [https://infinite-reaches-07482.herokuapp.com](https://infinite-reaches-07482.herokuapp.com)
+[![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
+
+
+![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
+
 ## Team Members
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
@@ -62,7 +68,7 @@ Enter description
 </details>
 
 [![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
-[![Coverage Status](https://coveralls.io/repos/github/username/repo/badge.svg?branch=master)](https://coveralls.io/github/username/repo?branch=master)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
 
@@ -83,3 +89,29 @@ Enter description
 
 ## Contact us:
 Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
+
+# Project
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
