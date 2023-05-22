@@ -1,13 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 body {
-  background-color: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
+  background-color: #494945;
+  font-family: 'Montserrat';
 }
 
 .sidelogin {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
+  height: 100%;
+  width: 700px;
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  overflow-x: hidden;
+  padding-top: 30px;
 }
 
 .logoName {
@@ -17,40 +24,111 @@ body {
 
 .loginDescription {
   margin-bottom: 30px;
+  padding-left: 100px;
+  padding-right: 100px;
+  font-family: 'Montserrat'
 }
 
 .loginDetails {
   margin-bottom: 20px;
+  padding-left: 100px;
+  padding-right:100px;
+}
+
+
+.loginDetails label {
+  display: block;
+  font-size: 13px;
 }
 
 .loginDetails input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0 15px;
-  border: none;
-  background: #fff;
+  width: 465px;
+  padding: 15px;
+  border: 2px solid #CCC;
+  margin: 10px 0 20px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+  border-radius: 8px;
+  font-size: 13px;
 }
 
-.loginDetails label {
-  margin-bottom: 5px;
-  display: block;
+.loginDetails input[type=email]:focus {
+  border: 2px solid #494945;
+}
+
+.loginDetails input[type=email]:focus {
+  border: 2px solid #494945;
 }
 
 .form-check.keepLogin {
   margin-bottom: 20px;
 }
 
+.form-check.keepLogin label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  font-size: 13px;
+}
+
+.form-check.keepLogin input {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  border-color: #494945;
+}
+
+.form-check.keepLogin input[type="checkbox"]#kLogin:checked + span {
+  background-color: #494945;
+}
+
 .btn {
-  background: #fff;
-  color: #000;
+  background: #494945;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  text-transform: uppercase;
   font-weight: bold;
+  width: 500px;
+  border-radius: 8px;
+  height: 50px;
+  font-size: 20px;
 }
 
 .btn:hover {
-  background: #eee;
+  background: #575752;
   transition: background 0.3s ease;
+}
+
+.loginButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.illustration {
+  background-color: #494945;
+  padding-left: 700px; //same length as the size of the side nav
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 60%;
 }
