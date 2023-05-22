@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+*, html, body{
+  margin: 0;
+  padding: 0;
+}
+
+.header-container{
+  width: 100vw;
+  height: 100px;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2em;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logo{
+  width: 3em;
+  height: 3em;
+  background-color: white;
+  border-radius: 50%;
+  margin-right: 1em;
+}
+
+.profile-photo{
+  width: 3em;
+  height: 3em;
+  background-color: white;
+  margin-right: 2em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 1500px;
+}
+
+.search-input {
+  padding: 20px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  outline: none;
+  width: 200px;
+}
+
+.search-button {
+  padding: 20px;
+  border: 1px solid black;
+  border-left: none;
+  background: #f3f3f3;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.search-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.add-ticket-button {
+  display: block;
+  margin: 20px auto;
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-ticket-button:hover {
+  background-color: #0056b3;
+}
