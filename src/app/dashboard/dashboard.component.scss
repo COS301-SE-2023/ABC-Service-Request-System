@@ -1,11 +1,21 @@
 .dashboard-container {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+width: 70%;
+margin-left: 330px;
+margin-top: 120px;
 }
 
+app-page-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 
-
+app-dash-panel{
+  position: fixed;
+  top: 99px;
+  left: 0;
+  height: 100vh;
+}
 // .dashboard-container {
 //   display: flex;
 //   flex-direction: column;
