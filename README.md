@@ -42,12 +42,12 @@ Enter description
 <details><summary>Jaimen Govender</summary><br>
 <img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
 <p>
-Enter description
+I, Jaimen Govender am currently in my final year doing BSC Computer Science. I have a passion for technology and the future, I find joy in learning about new concepts and technology. I have skills in coding in various languages such as c++, java and python and I have experience in working with Angular and Typescript. I have knowledge in SQL and currently learning MongoDB  for this Capstone Project. 
 </p>
-<a href="https://github.com/Priyul" target="_blank">
+<a href="https://github.com/Jaimen789" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
 </a> 
-<a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
+<a href="https://www.linkedin.com/in/jaimen-govender-684084246/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 <br><br><br><br><br><br>
