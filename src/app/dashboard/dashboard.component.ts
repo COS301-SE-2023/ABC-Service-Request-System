@@ -31,8 +31,8 @@ export class DashboardComponent {
     }
   }
 
-  searchTicket(): void {
-    const ticketId = parseInt(this.searchTerm, 10);
+  searchTicket(searchTerm: string): void {
+    const ticketId = parseInt(searchTerm, 10);
     const ticket = this.tickets.find(ticket => ticket.id === ticketId);
     if (ticket) {
       this.filteredTickets = [ticket];
@@ -40,7 +40,7 @@ export class DashboardComponent {
     } else {
       this.filteredTickets = [];
     }
-  }
+}
 
   getNewId(): number {
     return this.tickets.length > 0 ? Math.max(...this.tickets.map(ticket => ticket.id)) + 1 : 1;

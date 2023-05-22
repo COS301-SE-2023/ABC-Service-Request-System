@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TicketItemComponent } from './ticket-item/ticket-item.component';
     TicketItemComponent,
     TicketDetailComponent,
     NewTicketFormComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,
