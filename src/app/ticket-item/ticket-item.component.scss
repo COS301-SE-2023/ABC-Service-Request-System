@@ -8,20 +8,34 @@
   margin-left: 350px;
   font-size: 28px;
   font-family: 'Poppins', sans-serif;
+
 }
 
+// .ticket {
+//   border: 2px solid black;
+//   border-radius: 15px;
+//   padding: 10px;
+//   background-color: white;
+//   width: 100%;
+//   box-sizing: border-box;
+// }
+
 .ticket {
-  border: 2px solid black;
-  border-radius: 15px;
-  padding: 10px;
-  background-color: white;
-  width: 100%;
-  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  margin-bottom: 30px;
+
 }
+
+// .indivudal-ticket a {
+//   border-bottom: 1px solid black;
+//   margin-top: 5px;
+//   margin-bottom: 11px;
+// }
 
 .ticket-item {
   padding: 10px 0;
   text-align: center;
+
 }
 
 .card {
@@ -40,13 +54,13 @@
   margin-right: 10px;
 }
 
-.priority-bubble {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 15px;
-  background-color: #eee;
-  font-weight: bold;
-}
+// .priority-bubble {
+//   display: inline-block;
+//   padding: 5px 10px;
+//   border-radius: 15px;
+//   background-color: #d6d6d6;
+//   font-weight: bold;
+// }
 
 .high {
   color: red;

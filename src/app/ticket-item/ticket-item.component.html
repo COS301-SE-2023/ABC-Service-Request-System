@@ -38,17 +38,17 @@
       </td>
       <td class="ticket-item">
         <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.status}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
           <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.startDate}}</a>
         </div>
       </td>
       <td class="ticket-item">
         <div class="ticket">
           <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.endDate}}</a>
-        </div>
-      </td>
-      <td class="ticket-item">
-        <div class="ticket">
-          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.status}}</a>
         </div>
       </td>
     </tr>

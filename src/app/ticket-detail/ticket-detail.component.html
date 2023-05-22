@@ -3,6 +3,11 @@
     <tr>
       <td class="ticket-item">
         <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.id}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
           <h2 class="card">{{ ticket.title }}</h2>
         </div>
       </td>
