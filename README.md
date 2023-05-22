@@ -66,7 +66,7 @@ I, Jaimen Govender am a final year student studying BSC Computer Science. I have
 <details><summary>Edwin Chang</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Edwin%20Pic.jpg" width=150>
 <p>
-Enter description
+I am in my final year of BSc Computer Science at the University of Pretoria. My passion lies in Front End Development, Cyber Security and AI. I am proficient with JS, HTML, CSS, Java, Python, C++ and SQL. I also have experience in web development using web framework, Angular. I am currently learning MongoDB which is the database that we will be using for our Capstone Project. I believe this project will help broaden my horizons and develop my skills for industry professionalism.
 </p>
 <a href="https://github.com/SilentNight000" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
@@ -76,12 +76,6 @@ Enter description
 </a>
 <br><br><br><br><br><br>
 </details>
-
-[![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
-
 
 <details><summary>Dharshan Pillay</summary><br>
 <img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
@@ -96,6 +90,11 @@ Enter description
 </a>
 <br><br><br><br><br><br>
 </details>
+
+[![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
 
 ## Contact us:
 Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
