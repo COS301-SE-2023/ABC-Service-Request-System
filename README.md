@@ -28,7 +28,7 @@ Enter description
 <details><summary>Ashir Butt</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imageAshir.jpeg" width=150>
 <p>
-👋 Welcome to my LinkedIn profile! I'm [Your Name], a final year BIS Multimedia student at the University of Pretoria. I am passionate about AI, game development, and all things technology-related. With a strong foundation in programming and a thirst for knowledge, I am constantly exploring new possibilities and seeking opportunities to contribute to innovative projects.
+👋 Hi! I'm Ashir, a final year BIS Multimedia student at the University of Pretoria. I am passionate about AI, game development, and all things technology-related. With a strong foundation in programming and a thirst for knowledge, I am constantly exploring new possibilities and seeking opportunities to contribute to innovative projects.
 
 💡 My skill set includes a diverse range of programming languages and technologies. I am proficient in Angular, Vue, JavaScript, HTML, CSS, TypeScript, Node.js, PHP, Python, Java, C#, C++, SQL, and MongoDB. This versatility allows me to adapt quickly to different development environments and contribute effectively to various aspects of software engineering.
 
