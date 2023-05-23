@@ -78,14 +78,20 @@ I am in my final year of BSc Computer Science at the University of Pretoria. My 
 </details>
 
 <details><summary>Dharshan Pillay</summary><br>
-<img align="right" src="https://avatars.githubusercontent.com/u/7061091?v=4" width=150>
+<img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/IMG-20220918-WA0008.jpg" width=150>
 <p>
-Enter description
+Hello, everyone! I'm Dharshan Pillay, a passionate data enthusiast currently pursuing a BSc in Information and Knowledge Systems with a major in data science at the University of Pretoria. My academic journey has allowed me to delve deep into the fascinating world of data science and statistics.
+
+I have developed a keen interest in leveraging data to derive meaningful insights and solve real-world problems. With a strong foundation in various programming languages including C++, Java, JavaScript, and Python, I am equipped with the necessary tools to manipulate and analyze data effectively. Additionally, my experience with SAS, Angular, Ionic, SQL, and MongoDB enhances my ability to work with diverse datasets and extract valuable information from them.
+
+Through my GitHub projects, I aim to showcase my proficiency in data science, statistical analysis, and programming. I enjoy exploring different methodologies, algorithms, and techniques that empower data-driven decision making. I am constantly learning and expanding my skill set, striving to stay up-to-date with the latest developments in the field.
+
+Feel free to explore my repositories and projects to get a glimpse of my work. I am always open to collaboration and knowledge sharing, so please don't hesitate to reach out if you have any questions or ideas. Let's harness the power of data together
 </p>
-<a href="https://github.com/Priyul" target="_blank">
+<a href="https://github.com/Jhindosh" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
 </a> 
-<a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
+<a href="https://www.linkedin.com/in/dharshan-pillay-ab4bb0267/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 <br><br><br><br><br><br>
