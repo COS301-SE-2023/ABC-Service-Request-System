@@ -10,6 +10,10 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 ![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
 
+## Demo 1
+View our [video](https://youtu.be/J1cRVKzwF0o)
+View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
+
 ## Team Members
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
