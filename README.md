@@ -83,10 +83,6 @@ I am in my final year of BSc Computer Science at the University of Pretoria. My 
 Hello, everyone! I'm Dharshan Pillay, a passionate data enthusiast currently pursuing a BSc in Information and Knowledge Systems with a major in data science at the University of Pretoria. My academic journey has allowed me to delve deep into the fascinating world of data science and statistics.
 
 I have developed a keen interest in leveraging data to derive meaningful insights and solve real-world problems. With a strong foundation in various programming languages including C++, Java, JavaScript, and Python, I am equipped with the necessary tools to manipulate and analyze data effectively. Additionally, my experience with SAS, Angular, Ionic, SQL, and MongoDB enhances my ability to work with diverse datasets and extract valuable information from them.
-
-Through my GitHub projects, I aim to showcase my proficiency in data science, statistical analysis, and programming. I enjoy exploring different methodologies, algorithms, and techniques that empower data-driven decision making. I am constantly learning and expanding my skill set, striving to stay up-to-date with the latest developments in the field.
-
-Feel free to explore my repositories and projects to get a glimpse of my work. I am always open to collaboration and knowledge sharing, so please don't hesitate to reach out if you have any questions or ideas. Let's harness the power of data together
 </p>
 <a href="https://github.com/Jhindosh" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
