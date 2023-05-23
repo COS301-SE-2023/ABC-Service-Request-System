@@ -1,4 +1,4 @@
-<h1 align="center">ABC Service Request System</h1>
+<h1 align="center">LUNA Service Request System</h1>
 
 The primary objective of this ticketing system is to streamline project management processes, enhance communication, and improve the overall efficiency of the organization.
 As companies grow it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress, and allocates work among the management, technical, and functional teams.
