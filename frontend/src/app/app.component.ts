@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tickets } from './data';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export interface Ticket {
   id: number;
@@ -24,11 +25,13 @@ export class AppComponent {
   title = 'Project';
 
   constructor(private http: HttpClient, private router: Router) {
-    // alert(this.fetchData());
+    this.getData().subscribe(data => {
+      alert(data.message);
+    })
   }
 
-  getData() {
-    return this.http.get<{ message: string }>('/api/data');
+  getData(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/data');
   }
 
   fetchData() {

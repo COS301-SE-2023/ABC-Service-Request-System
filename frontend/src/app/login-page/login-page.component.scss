@@ -126,9 +126,8 @@ body {
 }
 
 .illustration img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 75%;
-  height: 60%;
+  position: absolute;
+  width: 45%;
+  right: -2em;
+  top: 5em;
 }
