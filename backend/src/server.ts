@@ -3,10 +3,13 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import { dbConnection } from "./configs/database.config";
-dbConnection();
+import { dbConnection as ticketConnection } from "./configs/ticketDB.config";
+import { dbConnection as userConnection } from "./configs/userDB.config";
+ticketConnection();
+userConnection();
 
 import ticketRouter from './routers/ticket.router'
+import userRouter from './routers/user.router'
 
 const app = express();
 app.use(cors({
@@ -15,6 +18,7 @@ app.use(cors({
 }));
 
 app.use('/api/ticket', ticketRouter);
+app.use('api/user', userRouter);
 
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Hello from the backend!' });
