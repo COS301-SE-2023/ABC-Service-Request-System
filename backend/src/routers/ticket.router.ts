@@ -18,8 +18,12 @@ router.get('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the ticket router!' });
-});
+router.get('/', expressAsyncHandler(
+    async (req, res) => {
+        const tickets = await TicketModel.find();
+        res.send(tickets);
+    }
+    
+));
 
 export default router;
