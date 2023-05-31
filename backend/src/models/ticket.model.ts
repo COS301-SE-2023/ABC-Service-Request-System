@@ -1,5 +1,7 @@
-import { Schema, model } from "mongoose"
+import { Schema, connection, model } from "mongoose"
+import { dbConnection } from '../configs/ticketDB.config';
 
+// const ticketDb = dbConnection(); <- this breaks it
 export interface ticket{
     id: string,
     summary: string,
@@ -38,4 +40,5 @@ export const ticketSchema = new Schema<any>(
     }
 );
 
-export const TicketModel = model<any>('ticket', ticketSchema);
+const ticketDb = connection.useDb("TicketDB");
+export const TicketModel = ticketDb.model("ticket", ticketSchema);

@@ -3,10 +3,6 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import { dbConnection as ticketConnection } from "./configs/ticketDB.config";
-import { dbConnection as userConnection } from "./configs/userDB.config";
-ticketConnection();
-userConnection();
 
 import ticketRouter from './routers/ticket.router'
 import userRouter from './routers/user.router'
@@ -18,13 +14,30 @@ app.use(cors({
 }));
 
 app.use('/api/ticket', ticketRouter);
-app.use('api/user', userRouter);
+app.use('/api/user', userRouter);
 
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Hello from the backend!' });
 });
 
 const port = 3000;
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
+// async function startServer() {
+//   try {
+//     await ticketConnection();
+//     await userConnection();
+//     console.log('Database connections established');
+
+//     app.listen(port, () => {
+//       console.log(`Server running on http://localhost:${port}`);
+//     });
+//   } catch (error) {
+//     console.log('Error occurred while connecting to the database', error);
+//   }
+// }
+
+// startServer();

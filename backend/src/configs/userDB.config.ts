@@ -1,22 +1,24 @@
-import { ConnectOptions, createConnection } from "mongoose";
+import { ConnectOptions, connect, connection, Connection } from 'mongoose';
 
-let db: any;
+let db: Connection;
 
-export const dbConnection = () => {
-    if (!db) {
-        db = createConnection(process.env.MONGO_USER_URI!, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        } as ConnectOptions);
+export const dbConnection = async () => {
+  if (!db) {
+    await connect(process.env.MONGO_USER_URI!, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    } as ConnectOptions);
 
-        db.on('connected', () => {
-            console.log("Connected to userMongoDB");
-        });
+    db = connection.useDb('userDB'); 
 
-        db.on('error', (error:any) => {
-            console.error("An error occurred while connecting to MongoDB", error);
-        });
-    }
+    db.once('open', () => {
+      console.log('Connected to userMongoDB');
+    });
 
-    return db;
-}
+    db.on('error', (error: any) => {
+      console.error('An error occurred while connecting to MongoDB', error);
+    });
+  }
+
+  return db;
+};

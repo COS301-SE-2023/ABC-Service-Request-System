@@ -1,4 +1,8 @@
-import { Schema, model } from "mongoose"
+import { Schema, connection, model } from "mongoose"
+
+import { dbConnection } from '../configs/userDB.config';
+    
+const db = dbConnection();
 
 export interface user{
     name: string
@@ -33,4 +37,5 @@ export const userSchema = new Schema<any>(
     }
 );
 
-export const userModel = model<any>('user', userSchema);
+const userDb = connection.useDb("UserDB");
+export const UserModel = userDb.model("user", userSchema);
