@@ -7,6 +7,10 @@ import cors from "cors";
 import ticketRouter from './routers/ticket.router'
 import userRouter from './routers/user.router'
 
+import { dbConnection } from "./configs/ticketDB.config";
+    
+dbConnection();
+
 const app = express();
 app.use(cors({
     credentials: true,

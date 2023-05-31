@@ -1,9 +1,5 @@
 import { Schema, connection, model } from "mongoose"
 
-import { dbConnection } from '../configs/userDB.config';
-    
-const db = dbConnection();
-
 export interface user{
     name: string
     surname: string
