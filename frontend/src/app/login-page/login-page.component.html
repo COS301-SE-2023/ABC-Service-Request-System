@@ -1,37 +1,34 @@
 <body>
-<div class="sidelogin">
-  <!-- <div class="logoName">
-    <img class="img-fluid" alt="Logo">
-    <br>
-    <h3>Software Name</h3>
-  </div> -->
-
-  <div class="loginDescription">
-    <h1>Log in</h1>
-    <p>Welcome back! Effortlessly streamline your requests with "Software"</p>
+  <div class="sidelogin">  
+    <div class="loginDescription">
+      <img src="/assets/profile-icon.png" alt="Logo">
+      <h3>LUNA</h3>
+      <h1>Log in</h1>
+      <p>Welcome back! Effortlessly streamline your requests with LUNA</p>
+    </div>
+  
+    <form class="loginDetails">
+      <label for="email"><strong>Email</strong></label>
+      <input type="email" id="email" name="email" class="form-control" required><br>
+  
+      <label for="pwd"><strong>Password</strong></label>
+      <input type="password" id="pwd" name="pwd" class="form-control" required><br>
+  
+      <div class="form-check keepLogin">
+        <label for="kLogin"><input type="checkbox" class="form-check-input" id="kLogin" name="kLogin" value="kLogin"><strong> Keep me logged in</strong></label>
+      </div>
+  
+      <div class="loginButton">
+        <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
+      </div>
+    </form>
+  
+    <a class="center" href="">Forgot Password?</a>
   </div>
-
-  <form class="loginDetails">
-    <label for="email"><strong>Email</strong></label>
-    <input type="email" id="email" name="email" class="form-control" required><br>
-
-    <label for="pwd"><strong>Password</strong></label>
-    <input type="password" id="pwd" name="pwd" class="form-control" required><br>
-
-    <div class="form-check keepLogin">
-      <label for="kLogin"><input type="checkbox" class="form-check-input" id="kLogin" name="kLogin" value="kLogin"><strong> Keep me logged in</strong></label>
-    </div>
-
-    <div class="loginButton">
-      <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
-    </div>
-  </form>
-
-  <a class="center" href="">Forgot Password?</a>
-</div>
-
-<div class="illustration">
-  <img src="/assets/Frame 3.png" alt="Illustration">
-</div>
-
-</body>
+  
+  <div class="illustration">
+    <img src="/assets/Frame 3.png" alt="Illustration">
+  </div>
+  
+  </body>
+  
