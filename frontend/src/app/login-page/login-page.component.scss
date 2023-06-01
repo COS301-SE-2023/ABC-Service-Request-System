@@ -25,6 +25,12 @@ body {
   font-family: 'Montserrat'
 }
 
+.loginDescription img {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+
 .loginDescription h3 {
   display: inline-block;
   inline-size: min-content;
@@ -39,6 +45,7 @@ body {
 .loginDescription h1 {
   font-size: 45px;
   font-weight: 900;
+  margin: 0px;
 }
 
 .loginDetails {
