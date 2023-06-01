@@ -1,91 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 .ticket-container {
-  background-color: #f3f3f3;
-  padding: 20px;
-  width: 89%;
-  margin-left: 1em;
-  margin-bottom: 30px;
-  font-size: 1em;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-// .ticket {
-//   border: 2px solid black;
-//   border-radius: 15px;
-//   padding: 10px;
-//   background-color: white;
-//   width: 100%;
-//   box-sizing: border-box;
-// }
-
-.ticket {
-  border-bottom: 1px solid black;
-  margin-bottom: 30px;
-
-}
-
-// .indivudal-ticket a {
-//   border-bottom: 1px solid black;
-//   margin-top: 5px;
-//   margin-bottom: 11px;
-// }
-
-.ticket-item {
-  padding: 10px 0;
-  text-align: center;
-}
-
-.card {
-  all: unset;
-  display: inline-block;
-}
-
-.ticket-link {
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.assignee img {
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-// .priority-bubble {
-//   display: inline-block;
-//   padding: 5px 10px;
-//   border-radius: 15px;
-//   background-color: #d6d6d6;
-//   font-weight: bold;
-// }
-
-.high {
-  color: red;
-}
-
-.medium {
-  color: #FFA500;
-}
-
-.low {
-  color: green;
-}
-
-.card-status {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #eee;
-  border-radius: 5px;
-}
-
-.deadline {
-  font-weight: bold;
-}
-
-.ticket-container table {
-  width: 100%;
+table {
+  display: grid;
   border-collapse: collapse;
+  min-width: 100%;
+  /* These are just initial values which are overriden using JavaScript when a column is resized */
+  grid-template-columns: 
+    minmax(150px, 1fr)
+    minmax(150px, 1.67fr)
+    minmax(150px, 1.67fr)
+    minmax(150px, 1.67fr)
+    minmax(150px, 3.33fr)
+    minmax(150px, 1.67fr)
+    minmax(150px, 3.33fr)
+    minmax(150px, 1.67fr)
+    minmax(150px, 1.67fr);
 }
 
-.ticket-container td {
-  border: none;
+thead,
+tbody,
+tr {
+  display: contents;
+}
+
+th,
+td {
+  padding: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid #494945;
+  border-top: 1px solid #494945;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: white;
+  text-align: left;
+  font-weight: normal;
+  font-size: 1.1rem;
+  color: black;
+  position: relative;
+}
+
+th:last-child {
+  border: 0;
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: black;
+  opacity: 0;
+  width: 3px;
+  cursor: col-resize;
+}
+
+.resize-handle:hover,
+/* The following selector is needed so the handle is visible during resize even if the mouse isn't over the handle anymore */
+.header--being-resized .resize-handle {
+  opacity: 0.5;
+}
+
+th:hover .resize-handle {
+  opacity: 0.3;
+}
+
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #000;
+}
+
+tr:nth-child(even) td {
+  background: #CCC;
 }

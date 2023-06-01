@@ -94,3 +94,19 @@ select:hover {
 .page-number p {
   margin: 0;
 }
+
+@media (max-width: 900px) {
+  .ticket-header {
+    flex-wrap: wrap;
+  }
+
+  .ticket-header-right {
+    display: none;
+  }
+
+  .search-container {
+    flex: 1 0 100%;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
