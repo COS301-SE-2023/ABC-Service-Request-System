@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
 
 *, html, body{
   margin: 0;
@@ -30,6 +30,7 @@
 .logo-container h1 {
   display: inline-block;
   inline-size: min-content;
+  font-family: "Futura Pt", sans-serif;
   font-size: 40px;
   background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
   -webkit-background-clip: text;
@@ -64,7 +65,7 @@
 }
 
 .profile-photo:hover {
-  background: #79aec9;
+  background: #00A7DA;
   transition-duration: 0.5s;
 }
 
@@ -74,8 +75,7 @@
 }
 
 .log-out img{
-  width: 1.8em;
-  height: 1.8em;
-  margin-right: 1em;
+  width: 1.6em;
+  height: 1.6em;
   cursor: pointer;
 }

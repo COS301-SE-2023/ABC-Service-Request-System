@@ -1,12 +1,16 @@
 .search-container {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   width: fit-content;
+  height: 1.5em;
   margin-left: 1em;
   margin-bottom: 2em;
 }
 
 .search-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   font-size: 16px;
   border: 1px solid black;
@@ -17,6 +21,8 @@
 }
 
 .search-button {
+  display: flex;
+  align-items: center;
   padding: 20px;
   border: 1px solid black;
   border-left: none;
