@@ -1,7 +1,7 @@
 .dashboard-container {
 width: 70%;
 margin-left: 330px;
-margin-top: 70px;
+margin-top: 60px;
 }
 
 app-page-header{
@@ -15,6 +15,10 @@ app-dash-panel{
   top: 50px;
   left: 0;
   height: 100vh;
+}
+
+app-search-bar {
+  width: 100vw;
 }
 // .dashboard-container {
 //   display: flex;
