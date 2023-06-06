@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.1",
     "nodemailer": "^6.9.3",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "typescript": "^5.0.4"
   },
   "devDependencies": {
