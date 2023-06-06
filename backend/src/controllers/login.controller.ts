@@ -21,9 +21,12 @@ router.post(
         console.log("Request password:", req.body.password);
         console.log("User password:", user.password);
 
-        console.log("Hashed password from DB:", user.password);  // Add this line
+        console.log("Hashededed password from DB:", user.password);  // Add this line
 
+        console.log("Types:", typeof req.body.password, typeof user.password);  
         const validPassword = await bcrypt.compare(req.body.password, user.password);
+        console.log("Result of bcrypt compare:", validPassword);
+
 
         if (!validPassword) {
           console.log("Invalid password");

@@ -25,6 +25,13 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.get('/delete', expressAsyncHandler(
+    async (req, res) => {
+        await UserModel.deleteMany({});
+        res.send("Delete is done!");
+    }
+));
+
 export default router;
 
 // import { Router, Request, Response, NextFunction } from "express";

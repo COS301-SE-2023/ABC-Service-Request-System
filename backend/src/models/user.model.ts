@@ -35,24 +35,24 @@ export const userSchema = new Schema<any>(
     }
 );
 
-userSchema.pre('save', async function (next) {
-    let user = this;
+// userSchema.pre('save', async function (next) {
+//     let user = this;
     
-    console.log('Is password modified?', user.isModified('password'));
+//     console.log('Is password modified?', user.isModified('password'));
   
-    if (!user.isModified('password')) {
-      return next();
-    }
+//     if (!user.isModified('password')) {
+//       return next();
+//     }
   
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(user.password, salt);
+//     const salt = await bcrypt.genSalt(10);
+//     const hash = await bcrypt.hash(user.password, salt);
 
-    console.log('Original password:', user.password);
-    console.log('Hashed password:', hash);
+//     console.log('Original password:', user.password);
+//     console.log('Hasheded password:', hash);
 
-    user.password = hash;
-    next();
-});
+//     user.password = hash;
+//     next();
+// });
 
 
 const userDb = connection.useDb("UserDB");
