@@ -11,6 +11,7 @@ export interface user{
     password: string
     roles: string []
     groups: string []
+    inviteToken?: string; 
 
 }
 
@@ -21,9 +22,10 @@ export const userSchema = new Schema<any>(
         profilePhoto:{type: String, required: true},
         emailAddress: {type: String, unique: true, required: true},
         emailVerified: {type: Boolean, required: true, default: false},
-        password: {type: String, required: true, select: false},
+        password: {type: String, required: true, select: true},
         roles: {type: [String], required: true},
         groups: {type: [String], required: true},
+        inviteToken: { type: String }, // Add inviteToken field
 
         
     },{
