@@ -44,30 +44,30 @@ describe('/First test collection', () => {
     });
 
     it('should POST sample_tickets data...', async () => {
-        let tickets = [
-            {
-                id: "Test ID",
-                summary: "Test summary",
-                assignee: "Test assignee",
-                assigned: "Test assigned",
-                group: "Test group",
-                priority: "Test priority",
-                startDate: "Test start date",
-                endDate: "Test end date",
-                status: "Test status",
-            },
-            {
-                id: "Test ID",
-                summary: "Test summary",
-                assignee: "Test assignee",
-                assigned: "Test assigned",
-                group: "Test group",
-                priority: "Test priority",
-                startDate: "Test start date",
-                endDate: "Test end date",
-                status: "Test status",
-            }
-        ]
+        // let tickets = [
+        //     {
+        //         id: "Test ID",
+        //         summary: "Test summary",
+        //         assignee: "Test assignee",
+        //         assigned: "Test assigned",
+        //         group: "Test group",
+        //         priority: "Test priority",
+        //         startDate: "Test start date",
+        //         endDate: "Test end date",
+        //         status: "Test status",
+        //     },
+        //     {
+        //         id: "Test ID",
+        //         summary: "Test summary",
+        //         assignee: "Test assignee",
+        //         assigned: "Test assigned",
+        //         group: "Test group",
+        //         priority: "Test priority",
+        //         startDate: "Test start date",
+        //         endDate: "Test end date",
+        //         status: "Test status",
+        //     }
+        // ];
 
 
         const res = await chai.request(app)
@@ -76,7 +76,7 @@ describe('/First test collection', () => {
         
         res.should.have.status(201);
         res.body.should.be.a('array');
-        res.body.should.have.lengthOf(0);
+        res.body.should.have.lengthOf(3);
     });
 
 
