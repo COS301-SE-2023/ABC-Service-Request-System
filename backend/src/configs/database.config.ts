@@ -1,4 +1,5 @@
 import { ConnectOptions, connect } from "mongoose";
+require('dotenv').config()
 
 export const dbConnection = () => {
     console.log(process.env.MONGO_TICKET_URI);
