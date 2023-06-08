@@ -24,9 +24,13 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: backend
 
     - name: Run tests
       run: npm run test
+      env:
+        MONGO_TICKET_URI: ${{ secrets.MONGO_TICKET_URI }}
+      working-directory: backend
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
