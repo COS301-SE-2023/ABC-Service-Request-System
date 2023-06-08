@@ -1,10 +1,9 @@
-name: Node.js CI
+name: Backend Testing
 
 on:
   push:
-    branches: [ "*" ]
-  pull_request:
-    branches: [ "*" ]
+    branches:
+      - '*'
 
 jobs:
   build:
