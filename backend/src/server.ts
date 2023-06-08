@@ -7,8 +7,6 @@ import ticketRouter from './routers/ticket.router';
 import userRouter from './routers/user.router';
 import loginRouter from './routers/login.router';
 import signupRouter from './routers/signup.router'; 
-import createUserRouter from './routers/createUser.router';
-import accountActivationRouter from './routers/accountActivation.router';
 
 import { dbConnection } from "./configs/ticketDB.config";
 
@@ -26,8 +24,6 @@ app.use('/api/ticket', ticketRouter);
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter); 
-app.use('/api/user/createuser', createUserRouter);
-app.use('/api/user/activateAccount', accountActivationRouter);
 
 app.get('/api/data', (req, res) => {
     res.json({ message: 'Hello from the backend!' });
