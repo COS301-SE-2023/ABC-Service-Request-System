@@ -19,7 +19,6 @@ router.post('/seed', expressAsyncHandler(
         // res.status(200).send("Seed is done!");
     }
 ));
-
 router.get('/', expressAsyncHandler(
     async (req, res) => {
         const tickets = await TicketModel.find();
