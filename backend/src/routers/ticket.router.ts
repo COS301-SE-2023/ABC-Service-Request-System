@@ -17,13 +17,12 @@ router.get('/seed', expressAsyncHandler(
         res.json("Seed is done!");
     }
 ));
-
 router.get('/', expressAsyncHandler(
     async (req, res) => {
-        const tickets = await TicketModel.find();
+        const tickets = await TicketModel.find().catch(err => console.log(err));
         res.send(tickets);
     }
-    
-));
+  ));
+  
 
 export default router;
