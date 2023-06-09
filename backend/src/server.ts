@@ -25,7 +25,7 @@ app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter); 
 
-app.get('/api/welcome', (req: any, res: any) => {
+app.get('/api/welcome', (req:any, res:any) => {
     res.status(200).send({ message: 'Welcome to the server!' });
 });
 
