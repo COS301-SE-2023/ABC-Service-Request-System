@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,15 +18,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: List directory contents
+      run: ls -R
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: |
-        cd backend
+        cd ./backend
         npm ci
     - name: Run test
       run: |
-        cd backend
+        cd ./backend
         npm test
