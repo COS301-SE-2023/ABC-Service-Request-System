@@ -13,6 +13,7 @@ import { dbConnection } from "./configs/ticketDB.config";
 dbConnection();
 
 const app = express();
+
 app.use(cors({
     credentials: true,
     origin: ["http://localhost:4200"]
@@ -31,7 +32,7 @@ app.get('/api/welcome', (req:any, res:any) => {
 
 const port = 3000;
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
 
@@ -50,4 +51,5 @@ app.listen(port, () => {
 // }
 
 // startServer();
-export default app;
+
+export {app as default, server};

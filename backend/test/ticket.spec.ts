@@ -1,9 +1,9 @@
 import "mocha"
 import mongoose from 'mongoose';
-// import log from "why-is-node-running";
 import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/server";
+import { server } from "../src/server";
 
 import { TicketModel } from "../src/models/ticket.model";
 
@@ -20,6 +20,7 @@ before(async () => {
 after(async () => {
     // await TicketModel.deleteMany({});
     await mongoose.connection.close();
+    server.close();
 });
 
 describe('/First test collection', () => {
