@@ -33,3 +33,5 @@ jobs:
     - name: Run test
       run: npm test
       working-directory: backend
+      env:
+        MONGO_TICKET_URI: ${{ secrets.MONGO_TICKET_URI }}
