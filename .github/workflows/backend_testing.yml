@@ -3,10 +3,10 @@ name: Backend Testing
 on:
   push:
     branches:
-      - '*'
+      - 'feature/backend_testing'
   pull_request:
     branches:
-      - '*'
+      - 'feature/backend_testing'
 
 jobs:
   build:
