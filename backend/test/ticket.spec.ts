@@ -1,6 +1,6 @@
 import "mocha"
 import mongoose from 'mongoose';
-import log from "why-is-node-running";
+// import log from "why-is-node-running";
 import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/server";
@@ -13,9 +13,6 @@ const expect = chai.expect;
 
 //DELETE THE CONTENTS OF THE DATABASE BEFORE THE TEST (Remember, we are using a test DB, so this is OK) 
 before(async () => {
-    setTimeout(function() {
-        log();  // logs out active handles that are keeping node running
-    }, 10000);
     await TicketModel.deleteMany({});
 });
 
