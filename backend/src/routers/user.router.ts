@@ -2,7 +2,7 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { UserModel } from "../models/user.model";
 import { sample_users } from "../sampleUsers";  // Replace this with your actual sample user data
-import accountActivationRouter from './accountActivation.router';
+
 
 const router = Router();
 
