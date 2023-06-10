@@ -19,6 +19,7 @@ import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.compon
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-
     NewTicketFormComponent,
     SearchBarComponent,
     UpdateTicketModalComponent,
+    ActivateAccountComponent,
   ],
   imports: [
     BrowserModule,
