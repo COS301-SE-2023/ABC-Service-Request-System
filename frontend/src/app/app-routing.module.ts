@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
-  { path: 'activate/:token', component: ActivateAccountComponent },
+  { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: '**', redirectTo: '/login' } //fallback
 ];
 

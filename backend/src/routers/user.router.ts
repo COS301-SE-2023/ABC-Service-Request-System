@@ -97,9 +97,84 @@ router.post("/create_user", expressAsyncHandler(
             const mailOptions = {
                 from: process.env.EMAIL,
                 to: newUser.emailAddress,
-                subject: "Invitation to join our application",
-                html: `Please use this token to complete your signup process: <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}">Click Here</a>`
+                subject: "Invitation to join Luna",
+                html: `
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .email-container {
+                                max-width: 600px;
+                                margin: auto;
+                                background-color: #f7f7f7;
+                                padding: 20px;
+                            }
+                            .header {
+                                background-color: #04538E;
+                                color: #fff;
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .header h1 {
+                                margin: 0;
+                            }
+                            .logo {
+                                display: block;
+                                margin: 0 auto 20px;
+                                width: 100px;
+                                height: auto;
+                            }
+                            .greeting {
+                                font-size: 24px;
+                                color: #333;
+                                text-align: center;
+                            }
+                            .message {
+                                font-size: 18px;
+                                color: #777;
+                                text-align: center;
+                                margin: 20px 0;
+                            }
+                            .activation-link {
+                                display: block;
+                                width: 200px;
+                                margin: 20px auto;
+                                padding: 10px;
+                                background-color: #fff;
+                                color: #000000;
+                                text-align: center;
+                                text-decoration: none;
+                                border-radius: 4px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="header">
+                                <img src="cid:logo" alt="Luna Logo" class="logo">
+                                <h1>Welcome to Luna</h1>
+                            </div>
+                            <p class="greeting">Hello ${newUser.name},</p>
+                            <p class="message">To complete your signup process, please click the button below.</p>
+                            <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
+                        </div>
+                    </body>
+                    </html>
+                `,
+                attachments: [
+                    {
+                        filename: 'luna-logo.png',
+                        path: 'assets/luna-logo.png',
+                        cid: 'logo'
+                    }
+                ]
             };
+            
+            
             
 
             transporter.sendMail(mailOptions, function(error, info) {
@@ -155,5 +230,21 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
+
+  router.post('/get_user_by_token', async (req, res) => {
+    try {
+      const { token } = req.body;
+  
+      const user = await UserModel.findOne({ inviteToken: token });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.status(200).json({ email: user.emailAddress });
+    } catch (error) {
+      console.error('Error retrieving user by token:', error);
+      res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+    }
+  });
 
 export default router;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-activate-account',
@@ -7,28 +8,38 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./activate-account.component.scss']
 })
 export class ActivateAccountComponent implements OnInit {
+  token: string | null = '';
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   password: string = '';
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   confirmPassword: string = '';
-  user: { email: string } = { email: 'dummy@example.com' };
+  user: { email: string } = { email: '' };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit(): void {
-    const token = this.route.snapshot.paramMap.get('token');
-    if (!token) {
-      // Handle error, such as displaying an error message
+    this.token = this.route.snapshot.paramMap.get('token');
+    if (!this.token) {
+      console.log('Token is missing');
+    } else {
+      console.log(`Token is ${this.token}`);
+      this.userService.getUserByToken(this.token).subscribe((response: any) => {
+        this.user.email = response.email;
+      });
     }
   }
 
   resetPassword(): void {
     if (this.password === this.confirmPassword) {
-      // Implement the logic to reset the password
-      // Make API requests or perform necessary actions to reset the password
-      console.log('Password reset');
+      if (this.token) {
+        this.userService.activateAccount({ inviteToken: this.token, password: this.password }).subscribe({
+          next: (response: any) => console.log(response),
+          error: (error: any) => console.error(error),
+        });
+      } else {
+        console.log('Token is missing');
+      }
     } else {
-      // Passwords do not match, handle the error
       console.log('Passwords do not match');
     }
   }
