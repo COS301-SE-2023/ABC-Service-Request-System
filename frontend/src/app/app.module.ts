@@ -20,6 +20,8 @@ import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SettingsGeneralComponent } from './settings-general/settings-general.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { SettingsComponent } from './settings/settings.component';
     SearchBarComponent,
     UpdateTicketModalComponent,
     SettingsComponent,
+    SettingsGeneralComponent,
+    SettingsNotificationsComponent,
   ],
   imports: [
     BrowserModule,
