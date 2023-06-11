@@ -1,6 +1,31 @@
-<div class="search-container">
-  <input type="text" placeholder="Search by ID..." [(ngModel)]="searchTerm" class="search-input">
-  <button (click)="searchTicket()" class="search-button">
-      <img src="/assets/search-icon.png" alt="search" >
-  </button>
+<div class="ticket-header">
+  <div class="ticket-filter">
+    <select name="filter" id="filter">
+      <option value="all" selected>All</option>
+      <option value="open">Open</option>
+      <option value="closed">Closed</option>
+    </select>
+  </div>
+
+  <div class="ticket-header-right">
+    <div class="search-container">
+      <input type="text" placeholder="Search for ticket..." [(ngModel)]="searchTerm" class="search-input">
+      <button (click)="searchTicket()" class="search-button">
+          <img src="/assets/search-icon.png" alt="search" >
+      </button>
+    </div>
+
+    <div class="refresh">
+      <img src="/assets/refresh.png" alt="refresh">
+    </div>
+
+    <div class="page-number">
+      <p>Page <b>1</b> of <b>1</b></p>
+    </div>
+
+    <div class="page-redirect">
+      <img src="/assets/left-arrow.png" alt="previous page">
+      <img src="/assets/right-arrow.png" alt="next page">
+    </div>
+  </div>
 </div>

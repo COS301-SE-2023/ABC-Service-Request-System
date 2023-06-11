@@ -1,32 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.ticket-header {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  margin-left: 2em;
+  position: relative;
+  align-items: center;
+  margin-bottom: 0.5em;
+  justify-content: space-between;
+  width: 100%;
+}
+
+select {
+  border: none;
+  border-radius: 5px;
+  font-size: 2.5em;
+  font-weight: 500;
+  text-align: center;
+  width: fit-content;
+  position: relative;
+}
+
+select:hover {
+  background: #fff;
+}
+
+.ticket-header-right {
+  display: flex;
+  justify-content: center;
+}
+
 .search-container {
   display: flex;
   justify-content: center;
   width: fit-content;
-  margin-left: 1em;
-  margin-bottom: 2em;
+  height: 2em;
 }
 
 .search-input {
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 16px;
   border: 1px solid black;
   border-right: none;
-  border-radius: 10px 0 0 10px;
+  border-radius: 7px 0 0 7px;
   outline: none;
   width: 200px;
 }
 
 .search-button {
-  padding: 20px;
+  display: flex;
+  align-items: center;
   border: 1px solid black;
   border-left: none;
-  background: #f3f3f3;
+  background: #fff;
   border-radius: 0 10px 10px 0;
   cursor: pointer;
   outline: none;
 }
 
 .search-button img {
-  width: 20px;
+  background: #fff;
+  width: 18px;
+  height: 18px;
+}
+
+.refresh,
+.page-number,
+.page-redirect {
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+}
+
+.refresh img,
+.page-redirect img {
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.refresh img {
+  height: 25px;
+  width: 25px;
+}
+
+.page-redirect img {
+  margin-left: 0.5em;
   height: 20px;
+  width: 20px;
+}
+
+.page-number p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .ticket-header {
+    flex-wrap: wrap;
+  }
+
+  .ticket-header-right {
+    display: none;
+  }
+
+  .search-container {
+    flex: 1 0 100%;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 }

@@ -1,7 +1,7 @@
 .dashboard-container {
-width: 70%;
-margin-left: 330px;
-margin-top: 120px;
+  width: 70%;
+  padding-left: 330px;
+  margin-top: 60px;
 }
 
 app-page-header{
@@ -12,9 +12,17 @@ app-page-header{
 
 app-dash-panel{
   position: fixed;
-  top: 99px;
+  top: 50px;
   left: 0;
   height: 100vh;
+}
+
+app-search-bar {
+  width: 100vw;
+}
+
+app-ticket-item {
+  width: 100vw;
 }
 // .dashboard-container {
 //   display: flex;

@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
 
 body {
-  background-color: #494945;
+  background-color: #000;
   font-family: 'Montserrat';
 }
 
 .sidelogin {
-  height: 100%;
+  height: 100vh;
   width: 700px;
   position: fixed;
   z-index: 0;
@@ -14,12 +15,7 @@ body {
   left: 0;
   background-color: #fff;
   overflow-x: hidden;
-  padding-top: 30px;
-}
-
-.logoName {
-  text-align: center;
-  margin-bottom: 20px;
+  padding-top: 2px;
 }
 
 .loginDescription {
@@ -27,6 +23,29 @@ body {
   padding-left: 100px;
   padding-right: 100px;
   font-family: 'Montserrat'
+}
+
+.loginDescription img {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.loginDescription h3 {
+  display: inline-block;
+  inline-size: min-content;
+  font-size: 40px;
+  font-family: "Futura PT", sans-serif;
+  background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em;
+}
+
+.loginDescription h1 {
+  font-size: 45px;
+  font-weight: 900;
+  margin: 0px;
 }
 
 .loginDetails {
@@ -54,11 +73,11 @@ body {
 }
 
 .loginDetails input[type=email]:focus {
-  border: 2px solid #494945;
+  border: 2px solid #04538E;
 }
 
-.loginDetails input[type=email]:focus {
-  border: 2px solid #494945;
+.loginDetails input[type=password]:focus {
+  border: 2px solid #04538E;
 }
 
 .form-check.keepLogin {
@@ -84,11 +103,11 @@ body {
 }
 
 .form-check.keepLogin input[type="checkbox"]#kLogin:checked + span {
-  background-color: #494945;
+  background-color: #04538e;
 }
 
 .btn {
-  background: #494945;
+  background: #55a4cb;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -101,7 +120,7 @@ body {
 }
 
 .btn:hover {
-  background: #575752;
+  background: #79aec9;
   transition: background 0.3s ease;
 }
 
@@ -111,13 +130,41 @@ body {
   align-items: center;
 }
 
-.center {
+.loginDetails p {
   display: flex;
   justify-content: center;
 }
 
+.googleLogin img {
+  height: 1.5em;
+  width: 1.5em;
+  margin-right: 3px;
+}
+
+.gbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: 1px solid #CCC;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 500px;
+  border-radius: 8px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: center;
+  font-weight: 900;
+}
+
 .illustration {
-  background-color: #494945;
+  background: rgb(4,83,142);
+  background: linear-gradient(135deg, rgba(4,83,142,1) 35%, rgba(0,196,255,1) 85%);
   padding-left: 700px; //same length as the size of the side nav
   height: 100vh;
   display: flex;
@@ -126,8 +173,8 @@ body {
 }
 
 .illustration img {
-  position: absolute;
-  width: 45%;
-  right: -2em;
-  top: 5em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 450px;
 }
