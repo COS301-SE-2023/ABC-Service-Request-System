@@ -40,17 +40,17 @@ router.get('/delete', expressAsyncHandler(
 //JAIMENS ROUTES//
 
 //RESET PASSWORD TO ACTIVATE ACCOUNT//
-router.get('/activate_account', expressAsyncHandler(
-    async (req, res) => {
-      try{
-          const token = req.query.token;
-          res.status(200).send({ message: 'User created successfully', inviteToken: token });
-      }catch(error){
-        console.log(error);
-      }
+// router.get('/activate_account', expressAsyncHandler(
+//     async (req, res) => {
+//       try{
+//           const token = req.query.token;
+//           res.status(200).send({ message: 'User created successfully', inviteToken: token });
+//       }catch(error){
+//         console.log(error);
+//       }
       
-    })
-);
+//     })
+// );
 
 //CREATING A USER//
 router.post("/create_user", expressAsyncHandler(
@@ -110,7 +110,7 @@ router.post("/create_user", expressAsyncHandler(
                             .email-container {
                                 max-width: 600px;
                                 margin: auto;
-                                background-color: #f7f7f7;
+                                background-color: rgba(33, 33, 33, 1);
                                 padding: 20px;
                             }
                             .header {
@@ -130,12 +130,12 @@ router.post("/create_user", expressAsyncHandler(
                             }
                             .greeting {
                                 font-size: 24px;
-                                color: #333;
+                                color: #fff;
                                 text-align: center;
                             }
                             .message {
                                 font-size: 18px;
-                                color: #777;
+                                color: rgba(122 , 122 , 122 , 1);
                                 text-align: center;
                                 margin: 20px 0;
                             }
@@ -144,11 +144,14 @@ router.post("/create_user", expressAsyncHandler(
                                 width: 200px;
                                 margin: 20px auto;
                                 padding: 10px;
-                                background-color: #fff;
-                                color: #000000;
+                                background-color: rgba(18, 18, 18, 1);
+                                color: #fff;
                                 text-align: center;
                                 text-decoration: none;
                                 border-radius: 4px;
+                            }
+                            a {
+                                color: #fff;
                             }
                         </style>
                     </head>
@@ -194,6 +197,40 @@ router.post("/create_user", expressAsyncHandler(
     })
 );
 
+
+//const token = req.query.token;
+
+///create a router.get to display the component that is suppose to get the new password from the user
+router.get('/activate_account', expressAsyncHandler(
+    async (req, res) => {
+        try{
+            console.log('Account activation request received:', req.query.token);
+  
+            const inviteToken = req.query.token;
+    
+            const user = await UserModel.findOne({ inviteToken });
+            
+            console.log("When in here");
+
+            if (!user) {
+                console.log('Invalid token');
+                res.status(409).send('Invalid token.');
+                return;
+            }else{
+                res.redirect(`http://localhost:4200/activate_account/${inviteToken}`);
+                res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
+            }
+            
+
+            
+        }catch(error){
+            console.log(error);
+        }
+
+    }
+));
+
+
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
 router.post('/activate_account', expressAsyncHandler(
     async (req, res) => {
@@ -201,7 +238,6 @@ router.post('/activate_account', expressAsyncHandler(
         console.log('Account activation request received:', req.body);
   
         const { inviteToken, password } = req.body;
-        
   
         const user = await UserModel.findOne({ inviteToken });
   
