@@ -27,6 +27,13 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.get('/delete', expressAsyncHandler(
+    async (req, res) => {
+        await TicketModel.deleteMany({});
+        res.send("Delete is done!");
+    }
+));
+
 
 // Edwin's add ticket function
 
@@ -37,11 +44,11 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
 
         // for now, not checking on existing tickets
 
-        // logic for id incrementation
+        const ticketCount = await TicketModel.countDocuments();
 
-        const newTicket = new TicketModel ({
-            //id: req.body.id,
-            //summary: string,
+        const newTicket = new TicketModel({
+            id: String(ticketCount + 1), // Assign the auto-incremented ID
+            summary: req.body.summary,
             assignee: req.body.assignee,
             assigned: req.body.assigned,
             group: req.body.group,
@@ -54,7 +61,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
         await newTicket.save();
 
         console.log("New ticket created succesfully");
-        res.status(201).send({ message: "Ticket created succesfully", id });
+        res.status(201).send({ message: "Ticket created succesfully" });
     }
     catch (error) {
         console.error("Ticket creation error:", error);
