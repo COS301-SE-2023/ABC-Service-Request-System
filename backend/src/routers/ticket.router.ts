@@ -27,4 +27,39 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+
+// Edwin's add ticket function
+
+// Add ticket
+router.post('/addticket', expressAsyncHandler( async (req, res) => {
+    try {
+        console.log("New ticket request received: ", req.body);
+
+        // for now, not checking on existing tickets
+
+        // logic for id incrementation
+
+        const newTicket = new TicketModel ({
+            //id: req.body.id,
+            //summary: string,
+            assignee: req.body.assignee,
+            assigned: req.body.assigned,
+            group: req.body.group,
+            priority: req.body.priority,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
+            status: req.body.status
+        });
+
+        await newTicket.save();
+
+        console.log("New ticket created succesfully");
+        res.status(201).send({ message: "Ticket created succesfully", id });
+    }
+    catch (error) {
+        console.error("Ticket creation error:", error);
+        res.status(500).send("An error occurred during ticket creation.");
+    }
+}));
+
 export default router;
