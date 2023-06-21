@@ -1,3 +1,6 @@
+<app-page-header></app-page-header>
+<app-dash-panel></app-dash-panel>
+
 <div class="ticket-container" *ngIf="ticket">
   <table class="individual-ticket">
     <tr>
@@ -8,7 +11,7 @@
       </td>
       <td class="ticket-item">
         <div class="ticket">
-          <h2 class="card">{{ ticket.title }}</h2>
+          <h2 class="card">{{ ticket.summary }}</h2>
         </div>
       </td>
       <td class="ticket-item assignee">
@@ -19,12 +22,12 @@
       </td>
       <td class="ticket-item">
         <div class="ticket">
-          <p class="card">{{ ticket.reviewer }}</p>
+          <p class="card">{{ ticket.assigned }}</p>
         </div>
       </td>
       <td class="ticket-item">
         <div class="ticket">
-          <p class="card">{{ ticket.company }}</p>
+          <p class="card">{{ ticket.group }}</p>
         </div>
       </td>
       <td class="ticket-item">

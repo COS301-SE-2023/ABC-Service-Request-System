@@ -1,19 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { tickets } from '../data';
-
-
+import { Component, Input } from '@angular/core';
+import { ticket } from '../../../../backend/src/models/ticket.model';
 @Component({
   selector: 'app-ticket-item',
   templateUrl: './ticket-item.component.html',
   styleUrls: ['./ticket-item.component.scss']
 })
-
 export class TicketItemComponent {
-  @Input() tickets: any[] = [];
-  @Output() openForm = new EventEmitter<string>();
-
-  openUpdateForm(oldAssignee: string){
-    this.openForm.emit(oldAssignee);
-  }
+  @Input() ticket!: ticket;
 }
-

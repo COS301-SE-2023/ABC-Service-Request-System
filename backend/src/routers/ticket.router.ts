@@ -2,6 +2,7 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TicketModel } from "../models/ticket.model";
 import { sample_tickets } from "../data";
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -24,6 +25,25 @@ router.get('/', expressAsyncHandler(
     async (req, res) => {
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
+    }
+));
+
+router.get('/id', expressAsyncHandler(
+    async (req, res) => {
+        const id = String(req.query.id);
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send('Invalid ObjectId');
+            return;
+          }
+
+        const objectId = new mongoose.Types.ObjectId(id);
+        const ticket = await TicketModel.findOne({ _id: objectId });
+        if(ticket){
+            res.status(200).send(ticket);
+        }else{
+            res.status(404).send("Id not found");
+        }
     }
 ));
 

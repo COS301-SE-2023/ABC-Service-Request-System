@@ -24,11 +24,7 @@ export interface Ticket {
 export class AppComponent {
   title = 'Project';
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.getData().subscribe(data => {
-      alert(data.message);
-    })
-  }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getData(): Observable<any> {
     return this.http.get('http://localhost:3000/api/data');

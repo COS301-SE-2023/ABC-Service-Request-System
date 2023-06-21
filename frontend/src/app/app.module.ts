@@ -16,9 +16,11 @@ import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
 import { RouterModule } from '@angular/router';
 
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
-import { TicketItemComponent } from './ticket-item/ticket-item.component';
+import { TicketTableComponent } from './ticket-table/ticket-table.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
+
+import { TicketItemComponent } from './ticket-item/ticket-item.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-
     DashPanelComponent,
     PageHeaderComponent,
     DashboardComponent,
+    TicketTableComponent,
     TicketItemComponent,
     TicketDetailComponent,
     NewTicketFormComponent,
