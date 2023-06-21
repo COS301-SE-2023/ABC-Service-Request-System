@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class UserService {
   API_URL = 'http://localhost:3000/api/user'; // replace with your API URL
+  LOGIN_URL = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient, private router : Router) { }
 
@@ -30,6 +31,10 @@ export class UserService {
   createUser(userDetails: any) {
     return this.http.post(`${this.API_URL}/create_user`, userDetails);
   }
-  
+
+  loginUser(userDetails: { emailAddress: string, password: string }) {
+    return this.http.post(`${this.LOGIN_URL}/login`, userDetails);
+  }
+
   // other methods...
 }

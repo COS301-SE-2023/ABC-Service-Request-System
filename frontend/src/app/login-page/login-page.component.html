@@ -11,19 +11,20 @@
     <p>Welcome back! Effortlessly streamline your requests with "Software"</p>
   </div>
 
-  <form class="loginDetails">
+  <form (ngSubmit)="loginUser()" class="loginDetails">
     <label for="email"><strong>Email</strong></label>
-    <input type="email" id="email" name="email" class="form-control" required><br>
+    <input type="email" id="email" name="email" class="form-control" required [(ngModel)]="email"><br>
 
     <label for="pwd"><strong>Password</strong></label>
-    <input type="password" id="pwd" name="pwd" class="form-control" required><br>
+    <input type="password" id="pwd" name="pwd" class="form-control" required [(ngModel)]="password"><br>
 
     <div class="form-check keepLogin">
       <label for="kLogin"><input type="checkbox" class="form-check-input" id="kLogin" name="kLogin" value="kLogin"><strong> Keep me logged in</strong></label>
     </div>
 
     <div class="loginButton">
-      <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
+      <!-- <button type="submit" class="btn" (click)="navigateToDashboard($event)">Log in</button> -->
+      <button type="submit" class="btn">Log in</button>
     </div>
   </form>
 
