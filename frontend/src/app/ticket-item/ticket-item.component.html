@@ -1,52 +1,10 @@
-<div class="ticket-container">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Summary</th>
-        <th>Creator</th>
-        <th>Assignee</th>
-        <th>Group</th>
-        <th>Priority</th>
-        <th>Status</th>
-        <th>Created</th>
-        <th>Deadline</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Update UI for system</td>
-        <td>John</td>
-        <td>Liam</td>
-        <td>Lemur Squad</td>
-        <td>High</td>
-        <td>New</td>
-        <td>25/03/2023</td>
-        <td>01/04/2023</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Complete API calls</td>
-        <td>Chris</td>
-        <td>Simon</td>
-        <td>Lemur Squad</td>
-        <td>Medium</td>
-        <td>Active</td>
-        <td>25/03/2023</td>
-        <td>01/04/2023</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Complete Tests</td>
-        <td>Tash</td>
-        <td>Mike</td>
-        <td>Cat Team</td>
-        <td>Low</td>
-        <td>Done</td>
-        <td>25/03/2023</td>
-        <td>01/04/2023</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+ <td class="w-1 pt-3 pb-3 pl-4 font-bold text-blue-500 hover:underline text-left">{{ ticket.id[0] }}</td>
+<td class="w-44 text-left">{{ ticket.summary }}</td>
+<td class="w-6 text-left">{{ ticket.assignee }}</td>
+<td class="w-6 text-left">{{ ticket.assigned }}</td>
+<td class="w-16 text-left">{{ ticket.group }}</td>
+<td class="w-2 text-center"> <span class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">{{ ticket.priority }}</span> </td>
+<td class="w-2 text-left">{{ ticket.status }}</td>
+<td class="w-4 text-left">{{ ticket.startDate }}</td>
+<td class="w-4 text-left">{{ ticket.endDate }}</td>
+

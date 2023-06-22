@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
+
 html, body{
   // width: 100vw;
   // overflow: hidden;
 }
+
+*{
+  box-sizing: border-box
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body{
   margin: 0px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

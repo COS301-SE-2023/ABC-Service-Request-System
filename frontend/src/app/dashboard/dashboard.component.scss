@@ -1,7 +1,9 @@
 .dashboard-container {
-  width: 70%;
-  padding-left: 330px;
+  width: 100%;
+  // padding-left: 330px;
   margin-top: 60px;
+  width: 78%;
+  float: right;
 }
 
 app-page-header{
@@ -21,7 +23,7 @@ app-search-bar {
   width: 100vw;
 }
 
-app-ticket-item {
+app-ticket-table {
   width: 100vw;
 }
 // .dashboard-container {
