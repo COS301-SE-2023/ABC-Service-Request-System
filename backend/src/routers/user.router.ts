@@ -218,7 +218,7 @@ router.get('/activate_account', expressAsyncHandler(
                 return;
             }else{
                 res.redirect(`http://localhost:4200/activate_account/${inviteToken}`);
-                res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
+                // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
             }
             
 
