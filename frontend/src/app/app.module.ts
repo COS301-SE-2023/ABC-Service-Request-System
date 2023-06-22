@@ -22,6 +22,7 @@ import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsGeneralComponent } from './settings-general/settings-general.component';
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SettingsNotificationsComponent } from './settings-notifications/setting
     SettingsComponent,
     SettingsGeneralComponent,
     SettingsNotificationsComponent,
+    SettingsProfileComponent,
   ],
   imports: [
     BrowserModule,

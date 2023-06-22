@@ -8,6 +8,7 @@ import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsGeneralComponent } from './settings-general/settings-general.component';
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -17,7 +18,9 @@ const routes: Routes = [
   //{ path: '**', redirectTo: '/login' }, //fallback
   { path: 'settings', component: SettingsComponent },
   { path: 'settings-general', component: SettingsGeneralComponent},
-  { path: 'settings-notifications',component: SettingsNotificationsComponent}
+  { path: 'settings-notifications',component: SettingsNotificationsComponent},
+  { path: 'settings-profile',component: SettingsProfileComponent}
+
 
 ];
 
