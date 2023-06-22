@@ -155,5 +155,31 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
+//DASH"S ROUTES//
+//UPDATE USER PROFILE
 
+router.put('/update_user',expressAsyncHandler(
+    async (req, res) => {
+        const userID = req.params.email;
+        const { name, surname, email } = req.body;
+        try{
+            const user = await UserModel.findOne(email);
+
+            if(!user){
+                return res.status(404).send({ error: 'User not found' });
+            }
+
+            user.name = name;
+            user.surname = surname;
+            user.email = email;
+
+            await user.save();
+
+            res.status(200).send({ message: 'Profile updated successfully', user });
+        }catch(error){
+            console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
 export default router;
