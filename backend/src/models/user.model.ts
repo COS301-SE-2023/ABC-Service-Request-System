@@ -11,8 +11,7 @@ export interface user{
     password: string
     roles: string []
     groups: string []
-    inviteToken?: string; 
-
+    inviteToken?: string
 }
 
 export const userSchema = new Schema<any>(

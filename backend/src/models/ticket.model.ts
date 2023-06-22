@@ -17,7 +17,8 @@ export interface ticket{
     priority: "High" | "Medium" | "Low",
     startDate: string,
     endDate: string,
-    status: "Done" | "Pending" | "Active"
+    status: "Done" | "Pending" | "Active",
+    comments: string [],
 }
 
 export const ticketSchema = new Schema<any>(
@@ -29,6 +30,7 @@ export const ticketSchema = new Schema<any>(
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
         status: {type: String, required: true},
+        comments: {type: [String]}
     },{
         toJSON: {
             virtuals: true

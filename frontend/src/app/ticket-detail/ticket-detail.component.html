@@ -2,6 +2,78 @@
 <app-dash-panel></app-dash-panel>
 
 <div class="ticket-container" *ngIf="ticket">
+
+  <h1>{{ ticket.summary }}</h1>
+
+  <div class="ticket-summary-area">
+
+    <div class="summary-info">
+      <div class="summary-inner-info">
+        <div class="summary-header">
+          <div class="user-profile-img"></div>
+          <h2><span><b>{{ ticket.assignee }}</b></span> created this ticket on <span><b>{{ ticket.startDate }}</b></span></h2> <br>
+        </div>
+
+        <p>Description</p>
+        <p>As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.</p>
+      </div>
+
+      <div class="activity-area">
+        <h2>Activity</h2>
+
+        <button class="activity-filter-button selected">All</button>
+        <button class="activity-filter-button">Comments</button>
+        <button class="activity-filter-button">Internal Note</button>
+        <button class="activity-filter-button">History</button>
+        <button class="activity-filter-button">Work Logs</button>
+
+        <input type="text" [formControl]="commentInputControl">
+        <button (click)="onSave()">Save</button>
+
+      </div>
+    </div>
+
+    <div class="ticket-info-area">
+      <h1>Ticket Information</h1>
+      <div class="button-area">
+        <mat-expansion-panel (opened)="ticketPanelOpenState = true"
+                            (closed)="ticketPanelOpenState = false">
+          <mat-expansion-panel-header class="specific-class ticket-header">
+            <mat-panel-title class="ticket-title">
+              {{ ticket.status }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="sla-area">
+        <mat-expansion-panel (opened)="SLAPanelOpenState = true"
+                            (closed)="SLAPanelOpenState = false" [expanded]="SLAPanelOpenState">
+          <mat-expansion-panel-header class="specific-class">
+            <mat-panel-title class="mat-title">
+              SLA
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="details-area">
+        <mat-expansion-panel (opened)="detailsPanelOpenState = true"
+                            (closed)="detailsPanelOpenState = false" [expanded]="detailsPanelOpenState">
+          <mat-expansion-panel-header class="specific-class">
+            <mat-panel-title class="mat-title">
+              Details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+    </div>
+
+  </div>
+<!--
   <table class="individual-ticket">
     <tr>
       <td class="ticket-item">
@@ -56,4 +128,4 @@
       </td>
     </tr>
   </table>
-</div>
+</div> -->

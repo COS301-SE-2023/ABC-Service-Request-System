@@ -47,4 +47,24 @@ router.get('/id', expressAsyncHandler(
     }
 ));
 
+router.put('/comment', expressAsyncHandler(
+    async (req, res) => {
+        const ticketId = req.body.ticketId;
+        const comment = req.body.comment;
+
+        try{
+            const ticket = await TicketModel.findByIdAndUpdate(ticketId, { $push: { comments: comment } }, { new: true });
+
+            if (ticket) {
+                res.status(200).json({ message: 'Comment added successfully' });
+            } else {
+                res.status(404).json({ message: 'Ticket not found' });
+            }
+
+        }catch (error) {
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+));
+
 export default router;

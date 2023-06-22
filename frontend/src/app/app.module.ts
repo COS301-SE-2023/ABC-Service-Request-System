@@ -21,6 +21,11 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
 
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+//MATERIAL UI
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,9 @@ import { TicketItemComponent } from './ticket-item/ticket-item.component';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

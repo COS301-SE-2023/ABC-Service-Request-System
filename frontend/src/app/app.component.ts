@@ -14,6 +14,7 @@ export interface Ticket {
   startDate: string;
   endDate: string;
   status: string;
+  comments: string[];
 }
 
 @Component({

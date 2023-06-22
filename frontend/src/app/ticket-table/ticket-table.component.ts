@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { Router } from '@angular/router';
+import { tickets } from '../data';
 
 @Component({
   selector: 'app-ticket-table',
@@ -33,9 +34,8 @@ export class TicketTableComponent implements OnInit{
       this.getTicketsForTable();
   }
 
-  navigateToTicket(event: Event) {
-    event.preventDefault();
-    this.router.navigate(['/ticket/1']);
+  navigateToTicket(id: string) {
+    this.router.navigate([`/ticket/${id}`]);
   }
 }
 

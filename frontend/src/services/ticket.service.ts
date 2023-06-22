@@ -19,4 +19,9 @@ export class TicketsService {
   getTicketWithID(objectId: string){
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
+
+  makeAComment(ticketId: string, comment: string){
+    const body = {ticketId, comment};
+    return this.http.put(`${this.TICKET_URL}/comment`, body);
+  }
 }
