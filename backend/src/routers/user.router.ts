@@ -40,17 +40,17 @@ router.get('/delete', expressAsyncHandler(
 //JAIMENS ROUTES//
 
 //RESET PASSWORD TO ACTIVATE ACCOUNT//
-router.get('/activate_account', expressAsyncHandler(
-    async (req, res) => {
-      try{
-          const token = req.query.token;
-          res.status(200).send({ message: 'User created successfully', inviteToken: token });
-      }catch(error){
-        console.log(error);
-      }
+// router.get('/activate_account', expressAsyncHandler(
+//     async (req, res) => {
+//       try{
+//           const token = req.query.token;
+//           res.status(200).send({ message: 'User created successfully', inviteToken: token });
+//       }catch(error){
+//         console.log(error);
+//       }
       
-    })
-);
+//     })
+// );
 
 //CREATING A USER//
 router.post("/create_user", expressAsyncHandler(
@@ -97,9 +97,87 @@ router.post("/create_user", expressAsyncHandler(
             const mailOptions = {
                 from: process.env.EMAIL,
                 to: newUser.emailAddress,
-                subject: "Invitation to join our application",
-                html: `Please use this token to complete your signup process: <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}">Click Here</a>`
+                subject: "Invitation to join Luna",
+                html: `
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .email-container {
+                                max-width: 600px;
+                                margin: auto;
+                                background-color: rgba(33, 33, 33, 1);
+                                padding: 20px;
+                            }
+                            .header {
+                                background-color: #04538E;
+                                color: #fff;
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .header h1 {
+                                margin: 0;
+                            }
+                            .logo {
+                                display: block;
+                                margin: 0 auto 20px;
+                                width: 100px;
+                                height: auto;
+                            }
+                            .greeting {
+                                font-size: 24px;
+                                color: #fff;
+                                text-align: center;
+                            }
+                            .message {
+                                font-size: 18px;
+                                color: rgba(122 , 122 , 122 , 1);
+                                text-align: center;
+                                margin: 20px 0;
+                            }
+                            .activation-link {
+                                display: block;
+                                width: 200px;
+                                margin: 20px auto;
+                                padding: 10px;
+                                background-color: rgba(18, 18, 18, 1);
+                                color: #fff;
+                                text-align: center;
+                                text-decoration: none;
+                                border-radius: 4px;
+                            }
+                            a {
+                                color: #fff;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="header">
+                                <img src="cid:logo" alt="Luna Logo" class="logo">
+                                <h1>Welcome to Luna</h1>
+                            </div>
+                            <p class="greeting">Hello ${newUser.name},</p>
+                            <p class="message">To complete your signup process, please click the button below.</p>
+                            <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
+                        </div>
+                    </body>
+                    </html>
+                `,
+                attachments: [
+                    {
+                        filename: 'luna-logo.png',
+                        path: 'assets/luna-logo.png',
+                        cid: 'logo'
+                    }
+                ]
             };
+            
+            
             
 
             transporter.sendMail(mailOptions, function(error, info) {
@@ -119,6 +197,40 @@ router.post("/create_user", expressAsyncHandler(
     })
 );
 
+
+//const token = req.query.token;
+
+///create a router.get to display the component that is suppose to get the new password from the user
+router.get('/activate_account', expressAsyncHandler(
+    async (req, res) => {
+        try{
+            console.log('Account activation request received:', req.query.token);
+  
+            const inviteToken = req.query.token;
+    
+            const user = await UserModel.findOne({ inviteToken });
+            
+            console.log("When in here");
+
+            if (!user) {
+                console.log('Invalid token');
+                res.status(409).send('Invalid token.');
+                return;
+            }else{
+                res.redirect(`http://localhost:4200/activate_account/${inviteToken}`);
+                // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
+            }
+            
+
+            
+        }catch(error){
+            console.log(error);
+        }
+
+    }
+));
+
+
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
 router.post('/activate_account', expressAsyncHandler(
     async (req, res) => {
@@ -126,7 +238,6 @@ router.post('/activate_account', expressAsyncHandler(
         console.log('Account activation request received:', req.body);
   
         const { inviteToken, password } = req.body;
-        
   
         const user = await UserModel.findOne({ inviteToken });
   
@@ -155,5 +266,21 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
+
+  router.post('/get_user_by_token', async (req, res) => {
+    try {
+      const { token } = req.body;
+  
+      const user = await UserModel.findOne({ inviteToken: token });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.status(200).json({ email: user.emailAddress });
+    } catch (error) {
+      console.error('Error retrieving user by token:', error);
+      res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+    }
+  });
 
 export default router;

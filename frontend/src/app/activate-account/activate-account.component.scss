@@ -1,0 +1,95 @@
+.container {
+    max-width: 600px;
+    margin: 2em auto;
+    padding: 2em;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f2f2f2;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #04538E;
+    padding-bottom: 10px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+.app-name {
+    font-size: 2em;
+    color: #04538E;
+    font-weight: 600;
+}
+
+.title {
+    font-size: 1.5em;
+    color: #333;
+    margin: 1em 0;
+}
+
+.email {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 1em;
+}
+
+.content {
+    padding: 1em;
+}
+
+.form-group {
+    margin-bottom: 1.5em;
+}
+
+label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.requirements {
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 2em;
+}
+
+.warning {
+    color: #FF0000;
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+
+button.btn-reset {
+    padding: 0.5em 1em;
+    background-color: #04538E;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-reset:disabled {
+    background-color: #000000;
+    cursor: not-allowed;
+}
+
+button.btn-reset:hover {
+    background-color: #03396c;
+}

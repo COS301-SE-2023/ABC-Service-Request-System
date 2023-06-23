@@ -40,8 +40,24 @@ router.post("/", expressAsyncHandler(
             console.log("JWT Secret is not defined");
             throw new Error('JWT Secret is not defined');
           }
-  
-          const token = jwt.sign({ _id: user._id }, secretKey, {
+          
+          //loop through roles and add them to the token
+          
+          let setRoles : string = "Default";
+
+
+          for (let role of user.roles){
+            if(role == "Manager"){
+              setRoles = role;
+              break;
+            }else if(role == "Functional"){
+              setRoles = role;
+              break;
+            }else if(role == "Technical"){
+              setRoles = role;
+            }
+          }
+          const token = jwt.sign({ _id: user._id, role: setRoles }, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
   
