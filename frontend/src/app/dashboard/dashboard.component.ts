@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
-import { AuthService } from '../services/auth.service';  // Modify the path based on your actual file structure
+import { AuthService } from '../../services/auth.service';  // Modify the path based on your actual file structure
 
 @Component({
   selector: 'app-dashboard',
