@@ -9,7 +9,7 @@ export const dbConnection = async () => {
       useUnifiedTopology: true,
     } as ConnectOptions);
 
-    db = connection.useDb('ticketDB'); 
+    db = connection.useDb('test'); 
 
     db.once('open', () => {
       console.log('Connected to ticketMongoDB');

@@ -1,5 +1,4 @@
-import { Schema, connection, model } from "mongoose"
-import { dbConnection } from '../configs/ticketDB.config';
+import { Schema, connection } from "mongoose"
 
 // const ticketDb = dbConnection(); <- this breaks it
 export interface ticket{
@@ -43,5 +42,5 @@ export const ticketSchema = new Schema<any>(
     }
 );
 
-const ticketDb = connection.useDb("TicketDB");
-export const TicketModel = ticketDb.model("ticket", ticketSchema);
+const ticketDb = connection.useDb("test");
+export const TestTicketModel = ticketDb.model("ticket", ticketSchema);
