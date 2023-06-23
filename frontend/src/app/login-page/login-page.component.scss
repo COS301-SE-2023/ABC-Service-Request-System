@@ -1,180 +1,303 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+// @import url('https://fonts.googleapis.com/css?family=Montserrat');
+// @import url('https://fonts.cdnfonts.com/css/futura-pt');
+
+// body {
+//   background-color: #000;
+//   font-family: 'Montserrat';
+// }
+
+// .sidelogin {
+//   height: 100vh;
+//   width: 700px;
+//   position: fixed;
+//   z-index: 0;
+//   top: 0;
+//   left: 0;
+//   background-color: #fff;
+//   overflow-x: hidden;
+//   padding-top: 2px;
+// }
+
+// .loginDescription {
+//   margin-bottom: 30px;
+//   padding-left: 100px;
+//   padding-right: 100px;
+//   font-family: 'Montserrat'
+// }
+
+// .loginDescription img {
+//   height: 30px;
+//   width: 30px;
+//   margin-right: 10px;
+// }
+
+// .loginDescription h3 {
+//   display: inline-block;
+//   inline-size: min-content;
+//   font-size: 40px;
+//   font-family: "Futura PT", sans-serif;
+//   background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+//   letter-spacing: -0.01em;
+// }
+
+// .loginDescription h1 {
+//   font-size: 45px;
+//   font-weight: 900;
+//   margin: 0px;
+// }
+
+// .loginDetails {
+//   margin-bottom: 20px;
+//   padding-left: 100px;
+//   padding-right:100px;
+// }
+
+
+// .loginDetails label {
+//   display: block;
+//   font-size: 13px;
+// }
+
+// .loginDetails input {
+//   width: 465px;
+//   padding: 15px;
+//   border: 2px solid #CCC;
+//   margin: 10px 0 20px;
+//   -webkit-transition: 0.5s;
+//   transition: 0.5s;
+//   outline: none;
+//   border-radius: 8px;
+//   font-size: 13px;
+// }
+
+// .loginDetails input[type=email]:focus {
+//   border: 2px solid #04538E;
+// }
+
+// .loginDetails input[type=password]:focus {
+//   border: 2px solid #04538E;
+// }
+
+// .form-check.keepLogin {
+//   margin-bottom: 20px;
+// }
+
+// .form-check.keepLogin label {
+//   display: block;
+//   padding-left: 15px;
+//   text-indent: -15px;
+//   font-size: 13px;
+// }
+
+// .form-check.keepLogin input {
+//   width: 15px;
+//   height: 15px;
+//   padding: 0;
+//   margin: 0;
+//   vertical-align: bottom;
+//   position: relative;
+//   top: -1px;
+//   border-color: #494945;
+// }
+
+// .form-check.keepLogin input[type="checkbox"]#kLogin:checked + span {
+//   background-color: #04538e;
+// }
+
+// .btn {
+//   background: #55a4cb;
+//   color: #fff;
+//   border: none;
+//   padding: 10px 20px;
+//   cursor: pointer;
+//   font-weight: bold;
+//   width: 500px;
+//   border-radius: 8px;
+//   height: 50px;
+//   font-size: 20px;
+// }
+
+// .btn:hover {
+//   background: #79aec9;
+//   transition: background 0.3s ease;
+// }
+
+// .loginButton {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .loginDetails p {
+//   display: flex;
+//   justify-content: center;
+// }
+
+// .googleLogin img {
+//   height: 1.5em;
+//   width: 1.5em;
+//   margin-right: 3px;
+// }
+
+// .gbtn {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background: #fff;
+//   color: #000;
+//   border: 1px solid #CCC;
+//   padding: 10px 20px;
+//   cursor: pointer;
+//   width: 500px;
+//   border-radius: 8px;
+//   height: 50px;
+//   font-size: 20px;
+// }
+
+// .forgot-password {
+//   display: flex;
+//   justify-content: center;
+//   font-weight: 900;
+// }
+
+// .illustration {
+//   background: rgb(4,83,142);
+//   background: linear-gradient(135deg, rgba(4,83,142,1) 35%, rgba(0,196,255,1) 85%);
+//   padding-left: 700px; //same length as the size of the side nav
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .illustration img {
+//   display: block;
+//   margin-left: auto;
+//   margin-right: auto;
+//   height: 450px;
+// }
+
 @import url('https://fonts.cdnfonts.com/css/futura-pt');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-body {
-  background-color: #000;
-  font-family: 'Montserrat';
-}
-
-.sidelogin {
-  height: 100vh;
-  width: 700px;
+.background-img{
   position: fixed;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  background-color: #fff;
-  overflow-x: hidden;
-  padding-top: 2px;
+  bottom: 0em;
+  z-index: -1000;
 }
 
-.loginDescription {
-  margin-bottom: 30px;
-  padding-left: 100px;
-  padding-right: 100px;
-  font-family: 'Montserrat'
+.login-outer-container{
+  display: flex;
+  justify-content: center;
+  // background-color: red;
+
+  .login-inner-container{
+    width: 40%;
+    margin: 2em;
+    // background-color: green;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+
+    .logo-header {
+      display: flex;
+      // background-color: yellow;
+      align-items: center;
+      position: absolute;
+      top: 0;
+
+      img{
+        width: 10%;
+      }
+
+      h1{
+        font-family: "Futura PT", sans-serif;
+        background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.03em;
+        font-size: 3em;
+        margin: 0;
+        margin-left: 0.5em;
+        font-weight: 500;
+      }
+    }
+
+    .form-area{
+      // background-color: red;
+      h1{
+        font-size: 5em;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 900;
+        margin-bottom: 0.5em;
+        color: white;
+      }
+
+      p{
+        font-family: 'Montserrat';
+        font-size: 1.2em;
+        color: white;
+      }
+
+      label{
+        color: white;
+        font-family: 'Montserrat';
+      }
+
+      input[type="email"], input[type="password"]{
+        background-color: transparent;
+        border: 1px solid white;
+        padding: 1em;
+        border-radius: 1em;
+        width: 100%;
+        color: white;
+        outline: none;
+        margin-top: 0.5em;
+      }
+
+      ::placeholder{
+        color: rgba(255,255,255,0.8);
+      }
+
+      p{
+        width: 100%;
+        // text-align: center;
+        margin-top: 1em;
+      }
+    }
+  }
 }
 
-.loginDescription img {
-  height: 30px;
-  width: 30px;
-  margin-right: 10px;
+.slide-toggle-title{
+  color: white;
 }
 
-.loginDescription h3 {
-  display: inline-block;
-  inline-size: min-content;
-  font-size: 40px;
-  font-family: "Futura PT", sans-serif;
-  background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.01em;
+mat-slide-toggle{
+  margin-bottom: 2em;
 }
 
-.loginDescription h1 {
-  font-size: 45px;
-  font-weight: 900;
-  margin: 0px;
+.login-button{
+  background-color: green;
+  width: 100%;
 }
 
-.loginDetails {
-  margin-bottom: 20px;
-  padding-left: 100px;
-  padding-right:100px;
-}
-
-
-.loginDetails label {
-  display: block;
-  font-size: 13px;
-}
-
-.loginDetails input {
-  width: 465px;
-  padding: 15px;
-  border: 2px solid #CCC;
-  margin: 10px 0 20px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  outline: none;
-  border-radius: 8px;
-  font-size: 13px;
-}
-
-.loginDetails input[type=email]:focus {
-  border: 2px solid #04538E;
-}
-
-.loginDetails input[type=password]:focus {
-  border: 2px solid #04538E;
-}
-
-.form-check.keepLogin {
-  margin-bottom: 20px;
-}
-
-.form-check.keepLogin label {
-  display: block;
-  padding-left: 15px;
-  text-indent: -15px;
-  font-size: 13px;
-}
-
-.form-check.keepLogin input {
-  width: 15px;
-  height: 15px;
-  padding: 0;
-  margin: 0;
-  vertical-align: bottom;
-  position: relative;
-  top: -1px;
-  border-color: #494945;
-}
-
-.form-check.keepLogin input[type="checkbox"]#kLogin:checked + span {
-  background-color: #04538e;
-}
-
-.btn {
-  background: #55a4cb;
-  color: #fff;
+.btn{
+  background-color: white;
+  width: 100%;
+  padding: 0.8em;
+  border-radius: 0.5em;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 500px;
-  border-radius: 8px;
-  height: 50px;
-  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-size: 1.5em;
 }
 
-.btn:hover {
-  background: #79aec9;
-  transition: background 0.3s ease;
-}
-
-.loginButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loginDetails p {
-  display: flex;
-  justify-content: center;
-}
-
-.googleLogin img {
-  height: 1.5em;
-  width: 1.5em;
-  margin-right: 3px;
-}
-
-.gbtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  color: #000;
-  border: 1px solid #CCC;
-  padding: 10px 20px;
-  cursor: pointer;
-  width: 500px;
-  border-radius: 8px;
-  height: 50px;
-  font-size: 20px;
-}
-
-.forgot-password {
-  display: flex;
-  justify-content: center;
-  font-weight: 900;
-}
-
-.illustration {
-  background: rgb(4,83,142);
-  background: linear-gradient(135deg, rgba(4,83,142,1) 35%, rgba(0,196,255,1) 85%);
-  padding-left: 700px; //same length as the size of the side nav
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.illustration img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  height: 450px;
+.or{
+  width: 100%;
+  text-align: center;
 }

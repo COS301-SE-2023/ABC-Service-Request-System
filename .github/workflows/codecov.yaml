@@ -29,7 +29,7 @@ jobs:
     - name: Run tests
       run: npm run test
       env:
-        MONGO_TICKET_URI: ${{ secrets.MONGO_TICKET_URI }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
       working-directory: backend
 
     - name: Upload coverage to Codecov

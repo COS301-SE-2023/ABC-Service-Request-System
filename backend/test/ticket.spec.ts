@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TicketModel } from "../src/models/ticket.model";
+import { TestTicketModel } from "../src/models/testTicket.model";
 
 chai.use(chaiHttp);
 chai.should();
@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 //DELETE THE CONTENTS OF THE DATABASE BEFORE THE TEST (Remember, we are using a test DB, so this is OK) 
 before(async () => {
-    await TicketModel.deleteMany({});
+    await TestTicketModel.deleteMany({});
 });
 
 //DELETE THE CONTENTS OF THE DATABASE AFTER THE TEST (Remember, we are using a test DB, so this is OK) 
@@ -39,7 +39,7 @@ describe('/First test collection', () => {
 
     it('should verify that we have no tickets in the DB...', async () => {
         const res = await chai.request(app)
-            .get('/api/ticket');
+            .get('/api/test_ticket');
             // chai.expect(res.text).to.equal(`{"message":"Welcome to the server!"}`);
         
         res.should.have.status(200);
@@ -75,7 +75,7 @@ describe('/First test collection', () => {
 
 
         const res = await chai.request(app)
-            .post('/api/ticket/seed');
+            .post('/api/test_ticket/seed');
             // chai.expect(res.text).to.equal(`{"message":"Welcome to the server!"}`);
         
         res.should.have.status(201);
