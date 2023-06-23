@@ -37,7 +37,7 @@
       <h1>Ticket Information</h1>
       <div class="button-area">
         <mat-expansion-panel (opened)="ticketPanelOpenState = true"
-                            (closed)="ticketPanelOpenState = false">
+                            (closed)="ticketPanelOpenState = false" class="ticket-panel">
           <mat-expansion-panel-header class="specific-class ticket-header">
             <mat-panel-title class="ticket-title">
               {{ ticket.status }}

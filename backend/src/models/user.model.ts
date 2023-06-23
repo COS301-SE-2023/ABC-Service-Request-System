@@ -1,4 +1,4 @@
-import { Schema, connection, model } from "mongoose"
+import { Schema, connection } from "mongoose"
 import bcrypt from 'bcryptjs';
 
 

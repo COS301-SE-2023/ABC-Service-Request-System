@@ -61,6 +61,8 @@
         }
 
         h2{
+          margin: 0 !important;
+          font-weight: lighter;
           span{
             text-transform: capitalize;
             font-weight: bolder;
@@ -84,6 +86,15 @@
   }
 }
 
+.button-area{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.ticket-panel{
+  width: 100%;
+}
 
 mat-expansion-panel{
   // border: 1px solid rgba(227, 229, 232);
@@ -105,15 +116,16 @@ mat-expansion-panel-header{
 .ticket-header {
   background: rgb(4,83,142) !important;
   background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
-  color: white !important;
   padding: 0.7em;
   letter-spacing: 0.1em;
 
   .ticket-title{
     justify-content: center;
     font-size: 1em;
-    font-family: 'Montserrat';
+    // font-family: 'Montserrat';
     font-size: 1.3em;
+    color: white;
+    text-transform: uppercase;
   }
 }
 

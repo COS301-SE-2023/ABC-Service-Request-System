@@ -1,5 +1,4 @@
-import { Schema, connection, model } from "mongoose"
-import { dbConnection } from '../configs/ticketDB.config';
+import { Schema, connection } from "mongoose"
 
 // const ticketDb = dbConnection(); <- this breaks it
 export interface ticket{
@@ -23,6 +22,7 @@ export interface ticket{
 
 export const ticketSchema = new Schema<any>(
     {
+        summary: {type: String, required: true},
         assignee: {type: String, required: true},
         assigned: {type: String, required: true},
         group: {type: String, required: true},

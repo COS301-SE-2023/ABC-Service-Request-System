@@ -49,7 +49,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // Perform actions with the input value, e.g., save to database, send to API, etc.
     console.log('Input Value:', newComment);
     if(newComment){
-      this.ticketService.makeAComment("648714345eb666d3e7b5b215", newComment).subscribe(
+      alert(this.ticket.id);
+      this.ticketService.makeAComment(this.ticket.id, newComment).subscribe(
         res => {
           console.log('Comment added successfully', res);
         },
