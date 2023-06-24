@@ -2,11 +2,11 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { UserModel } from "../models/user.model";
 import { sample_users } from "../sampleUsers";  // Replace this with your actual sample user data
-
+import multer from "multer";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import bcrypt from 'bcryptjs';
-
+import {updateUserProfilePicture} from "../src/app/services/user.service.ts";
 const router = Router();
 
 router.get('/', expressAsyncHandler(
@@ -182,4 +182,13 @@ router.put('/update_user',expressAsyncHandler(
         }
     }
 ))
+
+//UPDATE USER PROFILE PICTURE
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+router.put(
+  '/:userId/profile-picture',
+  upload.single('profilePicture'),
+  updateUserProfilePicture
+);
 export default router;

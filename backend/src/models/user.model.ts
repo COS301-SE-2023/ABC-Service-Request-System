@@ -2,7 +2,7 @@ import { Schema, connection, model } from "mongoose"
 import bcrypt from 'bcryptjs';
 
 
-export interface user{
+export interface User{
     name: string
     surname: string
     profilePhoto: string
