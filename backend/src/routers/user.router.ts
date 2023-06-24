@@ -18,16 +18,21 @@ router.get('/', expressAsyncHandler(
 
 router.get('/seed', expressAsyncHandler(
     async (req, res) => {
-        const usersCount = await UserModel.countDocuments();
-        if(usersCount > 0){
-            res.send("Seed is already done");
-            return;
+        try {
+            const usersCount = await UserModel.countDocuments();
+            if(usersCount > 0){
+                res.send("Seed is already done");
+                return;
+            }
+            await UserModel.create(sample_users);
+            res.status(200).json("Seed is done!");
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error seeding database' });
         }
-
-        await UserModel.create(sample_users);
-        res.json("Seed is done!");
     }
 ));
+
 
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
@@ -89,8 +94,8 @@ router.post("/create_user", expressAsyncHandler(
             const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
-                    user: process.env.EMAIL,
-                    pass: process.env.EMAIL_PASSWORD
+                    user: "hyperiontech.capstone@gmail.com",
+                    pass: "zycjmbveivhamcgt"
                 }
             });
 

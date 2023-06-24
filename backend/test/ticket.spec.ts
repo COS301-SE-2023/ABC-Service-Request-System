@@ -4,6 +4,8 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 
 import { TicketModel } from "../src/models/ticket.model";
+import mongoose from "mongoose";
+import { server } from "../src/server";
 
 chai.use(chaiHttp);
 chai.should();
@@ -14,10 +16,11 @@ before(async () => {
     await TicketModel.deleteMany({});
 });
 
-//DELETE THE CONTENTS OF THE DATABASE AFTER THE TEST (Remember, we are using a test DB, so this is OK) 
-// after(async () => {
-//     await TicketModel.deleteMany({});
-// });
+after(async () => {
+    // await TicketModel.deleteMany({});
+    await mongoose.connection.close();
+    server.close();
+});
 
 describe('/First test collection', () => {
     it('test welcome route...', async () => {

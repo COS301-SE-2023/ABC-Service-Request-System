@@ -51,4 +51,4 @@ let server = app.listen(port, () => {
 // }
 
 // startServer();
-export default app;
+export {app as default, server};
