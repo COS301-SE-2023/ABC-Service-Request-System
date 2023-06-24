@@ -1,0 +1,40 @@
+<h2 class="form-heading">Create Account</h2>
+<div class="create-account-container">
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">
+    <div class="form-group">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" id="name" formControlName="name" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="surname" class="form-label">Surname</label>
+      <input type="text" id="surname" formControlName="surname" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="profilePhoto" class="form-label">Profile Photo</label>
+      <input type="text" id="profilePhoto" formControlName="profilePhoto" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="emailAddress" class="form-label">Email Address</label>
+      <input type="email" id="emailAddress" formControlName="emailAddress" class="form-input">
+    </div>
+    <div class="form-group">
+      <label for="roles" class="form-label">Roles</label>
+      <select id="roles" formControlName="roles" class="form-input">
+        <option value="Manager">Manager</option>
+        <option value="Admin">Admin</option>
+        <option value="Technical">Technical</option>
+        <option value="Functional">Functional</option>
+        <option value="User">User</option>
+        <!-- Add more roles as needed -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="groups" class="form-label">Groups</label>
+      <input type="text" id="groups" formControlName="groups" class="form-input">
+    </div>
+    <div class="button-container">
+      <button type="submit" class="submit-button">Create Account</button>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </form>
+</div>

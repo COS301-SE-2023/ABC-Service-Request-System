@@ -28,6 +28,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { CreateAccountComponent } from './create-account/create-account.component';
+
+
+import { AuthGuard } from '../services/auth.guard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +47,7 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     SearchBarComponent,
     UpdateTicketModalComponent,
     ActivateAccountComponent,
+    CreateAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,7 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     MatExpansionModule,
     MatSortModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
