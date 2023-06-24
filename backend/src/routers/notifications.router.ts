@@ -36,7 +36,26 @@ router.get('/delete', expressAsyncHandler(
 
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
-
+        try {
+            console.log("New notification request received: ", req.body);
+    
+            const newNotification = new NotificationsModel({
+                notificationType: req.body.notificationType,
+                creatorEmail: req.body.creatorEmail,
+                assignedEmail: req.body.assignedEmail,
+                ticketSummary: req.body.ticketSummary,
+                link: req.body.link
+            });
+    
+            await newNotification.save();
+    
+            console.log("New notification created succesfully");
+            res.status(201).send({ message: "Notification created succesfully" });
+        }
+        catch (error) {
+            console.error("Notification creation error:", error);
+            res.status(500).send("An error occurred during notification creation.");
+        }
     }
 ));
 

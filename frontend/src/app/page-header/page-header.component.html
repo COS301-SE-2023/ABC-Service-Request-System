@@ -6,7 +6,8 @@
 
   <div class="header-container-right">
     <div class="notifications">
-        <mat-icon matBadge="1" matBadgeColor="warn" matBadgeSize="small">mail_outline</mat-icon>
+        <mat-icon matBadge="1" matBadgeColor="primary" matBadgeSize="small" >mail_outline</mat-icon>  <!--(click)="openNotifications.emit()"-->
+        <!--<app-notifications-panel-form *ngIf="showForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeForm()"></app-notifications-panel-form>-->
     </div>
 
     <div class="profile-photo">
