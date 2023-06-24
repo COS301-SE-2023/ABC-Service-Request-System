@@ -29,6 +29,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { NotificationsPanelComponent } from './notifications-panel/notifications-panel.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     NewTicketFormComponent,
     SearchBarComponent,
     UpdateTicketModalComponent,
+    NotificationsPanelComponent,
   ],
   imports: [
     BrowserModule,
