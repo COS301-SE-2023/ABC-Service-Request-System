@@ -42,34 +42,34 @@ describe('User API routes', () => {
         });
     });
 
-    // describe('POST /api/user/activate_account', () => {
-    //     it('should activate a user account', async () => {
-    //         // Create a test user
-    //         const user = new UserModel(testUser);
-    //         await user.save();
+    describe('POST /api/user/activate_account', () => {
+        it('should activate a user account', async () => {
+            // Create a test user
+            const user = new UserModel(testUser);
+            await user.save();
 
-    //         const res = await chai.request(app)
-    //             .post('/api/user/activate_account')
-    //             .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
+            const res = await chai.request(app)
+                .post('/api/user/activate_account')
+                .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
 
-    //         expect(res).to.have.status(201);
-    //         expect(res.body.message).to.equal('Account activated successfully');
-    //     });
-    // });
+            expect(res).to.have.status(201);
+            expect(res.body.message).to.equal('Account activated successfully');
+        });
+    });
 
-    // describe("GET /api/user/seed", () => {
-    //   it("should seed the database with sample users", (done) => {
-    //     chai
-    //       .request(app)
-    //       .get("/api/user/seed")
-    //       .end((err, res) => {
-    //         res.should.have.status(200);
-    //         res.body.should.be.a("string");
-    //         res.body.should.equal("Seed is done!");
-    //         done();
-    //       });
-    //   });
-    // });
+    describe("GET /api/user/seed", () => {
+      it("should seed the database with sample users", (done) => {
+        chai
+          .request(app)
+          .get("/api/user/seed")
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("string");
+            res.body.should.equal("Seed is done!");
+            done();
+          });
+      });
+    });
     
     // describe("GET /api/user/activate_account", () => {
     //   it("should redirect to the password reset page with a valid token", (done) => {
@@ -120,201 +120,201 @@ describe('User API routes', () => {
     // });
     
 
-    // describe("User API", () => {
-    //   before(async () => {
-    //     // Run any setup tasks, such as connecting to the database or creating test data
-    //     // This will be executed once before all test cases
-    //     await UserModel.deleteMany({});
-    //   });
+    describe("User API", () => {
+      before(async () => {
+        // Run any setup tasks, such as connecting to the database or creating test data
+        // This will be executed once before all test cases
+        await UserModel.deleteMany({});
+      });
     
-    //   after(async () => {
-    //     // Run any teardown tasks, such as closing database connections
-    //     // This will be executed once after all test cases
-    //   });
+      after(async () => {
+        // Run any teardown tasks, such as closing database connections
+        // This will be executed once after all test cases
+      });
     
-    //   beforeEach(async () => {
-    //     // Prepare the test data or reset the database to a known state
-    //     // This will be executed before each test case
-    //     await UserModel.deleteMany({});
-    // });
+      beforeEach(async () => {
+        // Prepare the test data or reset the database to a known state
+        // This will be executed before each test case
+        await UserModel.deleteMany({});
+    });
     
     
-    //   afterEach(async () => {
-    //     // Clean up any resources created during the test case
-    //     // This will be executed after each test case
-    //   });
+      afterEach(async () => {
+        // Clean up any resources created during the test case
+        // This will be executed after each test case
+      });
     
-    //   describe("GET /api/user", () => {
-    //     it("should return an empty array when no users are present", (done) => {
-    //       chai
-    //         .request(app)
-    //         .get("/api/user")
-    //         .end((err, res) => {
-    //           res.should.have.status(200);
-    //           res.body.should.be.a("array");
-    //           res.body.length.should.be.eql(0); // Expecting no users
-    //           done();
-    //         });
-    //     });
-    //   });
+      describe("GET /api/user", () => {
+        it("should return an empty array when no users are present", (done) => {
+          chai
+            .request(app)
+            .get("/api/user")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.length.should.be.eql(0); // Expecting no users
+              done();
+            });
+        });
+      });
     
-    //   describe("POST /api/user/create_user", () => {
-    //     it("should create a new user", (done) => {
-    //       chai
-    //         .request(app)
-    //         .post("/api/user/create_user")
-    //         .send({
-    //           name: "John",
-    //           surname: "Doe",
-    //           profilePhoto: "photo.jpg",
-    //           emailAddress: "john.doe@example.com",
-    //           roles: ["Manager"],
-    //           groups: ["Group1"],
-    //           password: "password"
-    //         })
-    //         .end((err, res) => {
-    //           res.should.have.status(201);
-    //           res.body.should.be.a("object");
-    //           res.body.should.have.property("message").eql("User created successfully");
-    //           done();
-    //         });
-    //     });
-    //   });
+      describe("POST /api/user/create_user", () => {
+        it("should create a new user", (done) => {
+          chai
+            .request(app)
+            .post("/api/user/create_user")
+            .send({
+              name: "John",
+              surname: "Doe",
+              profilePhoto: "photo.jpg",
+              emailAddress: "john.doe@example.com",
+              roles: ["Manager"],
+              groups: ["Group1"],
+              password: "password"
+            })
+            .end((err, res) => {
+              res.should.have.status(201);
+              res.body.should.be.a("object");
+              res.body.should.have.property("message").eql("User created successfully");
+              done();
+            });
+        });
+      });
     
-    //   describe("GET /api/user", () => {
-    //     it("should get all users", (done) => {
-    //       const user1 = new UserModel({
-    //         name: "John",
-    //         surname: "Doe",
-    //         profilePhoto: "photo.jpg",
-    //         emailAddress: "john.doe@example.com",
-    //         roles: ["Manager"],
-    //         groups: ["Group1"],
-    //         password: "password" // Add the password field
-    //       });
+      describe("GET /api/user", () => {
+        it("should get all users", (done) => {
+          const user1 = new UserModel({
+            name: "John",
+            surname: "Doe",
+            profilePhoto: "photo.jpg",
+            emailAddress: "john.doe@example.com",
+            roles: ["Manager"],
+            groups: ["Group1"],
+            password: "password" // Add the password field
+          });
       
-    //       const user2 = new UserModel({
-    //         name: "Jane",
-    //         surname: "Doe",
-    //         profilePhoto: "photo2.jpg",
-    //         emailAddress: "jane.doe@example.com",
-    //         roles: ["Admin"],
-    //         groups: ["Group2"],
-    //         password: "password" // Add the password field
-    //       });
+          const user2 = new UserModel({
+            name: "Jane",
+            surname: "Doe",
+            profilePhoto: "photo2.jpg",
+            emailAddress: "jane.doe@example.com",
+            roles: ["Admin"],
+            groups: ["Group2"],
+            password: "password" // Add the password field
+          });
       
-    //       Promise.all([user1.save(), user2.save()])
-    //         .then(() => {
-    //           chai
-    //             .request(app)
-    //             .get("/api/user")
-    //             .end((err, res) => {
-    //               res.should.have.status(200);
-    //               res.body.should.be.a("array");
-    //               res.body.length.should.be.eql(2);
-    //               done();
-    //             });
-    //         })
-    //         .catch((err) => {
-    //           done(err);
-    //         });
-    //     });
-    //   });
+          Promise.all([user1.save(), user2.save()])
+            .then(() => {
+              chai
+                .request(app)
+                .get("/api/user")
+                .end((err, res) => {
+                  res.should.have.status(200);
+                  res.body.should.be.a("array");
+                  res.body.length.should.be.eql(2);
+                  done();
+                });
+            })
+            .catch((err) => {
+              done(err);
+            });
+        });
+      });
     
-    //   describe("GET /api/user/delete", () => {
-    //     it("should delete all users from the database", async () => {
-    //       const res = await chai.request(app).get("/api/user/delete");
-    //       console.log("Response:", res.body); // Log the response body
-    //       try {
-    //         await UserModel.deleteMany({});
-    //         console.log("Users deleted successfully");
-    //         expect(res).to.have.status(200);
-    //         expect(res.body).to.deep.equal({}); // Update the assertion
-    //         // Add additional assertions as needed
-    //       } catch (error) {
-    //         console.error("Error deleting users:", error);
-    //         throw error;
-    //       }
-    //     });
-    //   });
+      describe("GET /api/user/delete", () => {
+        it("should delete all users from the database", async () => {
+          const res = await chai.request(app).get("/api/user/delete");
+          console.log("Response:", res.body); // Log the response body
+          try {
+            await UserModel.deleteMany({});
+            console.log("Users deleted successfully");
+            expect(res).to.have.status(200);
+            expect(res.body).to.deep.equal({}); // Update the assertion
+            // Add additional assertions as needed
+          } catch (error) {
+            console.error("Error deleting users:", error);
+            throw error;
+          }
+        });
+      });
 
-    //   // Test for login
-    //   describe("POST /api/login", () => {
-    //     it("should Login, provide a token and return status 200", (done) => {
-    //       chai.request(app)
-    //         .post('/api/login')
-    //         .send({ emailAddress: 'test@gmail.com', password: 'password' })
-    //         .end((err, res) => {
-    //           if (res.status === 404) {
-    //             // User not found
-    //             console.log("User not found");
-    //             // Add appropriate assertions or response handling for user not found scenario
-    //             done();
-    //           } else {
-    //             // User found
-    //             res.should.have.status(200);
-    //             res.body.should.have.property('auth').eql(true);
-    //             res.body.should.have.property('token');
-    //             done();
-    //           }
-    //         });
-    //     });
-    //   });
+      // Test for login
+      describe("POST /api/login", () => {
+        it("should Login, provide a token and return status 200", (done) => {
+          chai.request(app)
+            .post('/api/login')
+            .send({ emailAddress: 'test@gmail.com', password: 'password' })
+            .end((err, res) => {
+              if (res.status === 404) {
+                // User not found
+                console.log("User not found");
+                // Add appropriate assertions or response handling for user not found scenario
+                done();
+              } else {
+                // User found
+                res.should.have.status(200);
+                res.body.should.have.property('auth').eql(true);
+                res.body.should.have.property('token');
+                done();
+              }
+            });
+        });
+      });
       
       
-    //   describe('POST /api/user/get_user_by_token', () => {
-    //     it('should retrieve user email by token', (done) => {
-    //       const token = '$2a$10$ybiL.zvlMsFKXdBoM.lMGuMFLn7qlz5Ow93wOSZYtCPI.lL/j8SWq'; // Replace with an actual token
+      describe('POST /api/user/get_user_by_token', () => {
+        it('should retrieve user email by token', (done) => {
+          const token = '$2a$10$ybiL.zvlMsFKXdBoM.lMGuMFLn7qlz5Ow93wOSZYtCPI.lL/j8SWq'; // Replace with an actual token
       
-    //       chai.request(app)
-    //         .post('/api/user/get_user_by_token')
-    //         .send({ token })
-    //         .end((err, res) => {
-    //           res.should.have.status(404); // Update the expected status code to 404
-    //           res.body.should.have.property('error').eql('User not found'); // Update the assertion
-    //           done();
-    //         });
-    //     });
-    //   });
-      
-      
-      
-    //   describe('GET /api/welcome', () => {
-    //     it('should return a welcome message', (done) => {
-    //       chai.request(app)
-    //         .get('/api/welcome')
-    //         .end((err, res) => {
-    //           res.should.have.status(200);
-    //           res.body.should.have.property('message').eql('Welcome to the server!');
-    //           done();
-    //         });
-    //     });
-    //   });
+          chai.request(app)
+            .post('/api/user/get_user_by_token')
+            .send({ token })
+            .end((err, res) => {
+              res.should.have.status(404); // Update the expected status code to 404
+              res.body.should.have.property('error').eql('User not found'); // Update the assertion
+              done();
+            });
+        });
+      });
       
       
-    //   describe('POST /api/signup', () => {
-    //     it('should create a new user', (done) => {
-    //       chai.request(app)
-    //         .post('/api/signup')
-    //         .send({
-    //           name: 'John',
-    //           surname: 'Doe',
-    //           profilePhoto: 'photo.jpg',
-    //           emailAddress: 'john.doe@example.com',
-    //           roles: ['Manager'],
-    //           groups: ['Group1'],
-    //           password: 'password'
-    //         })
-    //         .end((err, res) => {
-    //           res.should.have.status(201);
-    //           res.body.should.be.a('object');
-    //           res.body.should.have.property('message').eql('User created successfully');
-    //           done();
-    //         });
-    //     });
-    //   });
+      
+      describe('GET /api/welcome', () => {
+        it('should return a welcome message', (done) => {
+          chai.request(app)
+            .get('/api/welcome')
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.have.property('message').eql('Welcome to the server!');
+              done();
+            });
+        });
+      });
       
       
-  // });
+      describe('POST /api/signup', () => {
+        it('should create a new user', (done) => {
+          chai.request(app)
+            .post('/api/signup')
+            .send({
+              name: 'John',
+              surname: 'Doe',
+              profilePhoto: 'photo.jpg',
+              emailAddress: 'john.doe@example.com',
+              roles: ['Manager'],
+              groups: ['Group1'],
+              password: 'password'
+            })
+            .end((err, res) => {
+              res.should.have.status(201);
+              res.body.should.be.a('object');
+              res.body.should.have.property('message').eql('User created successfully');
+              done();
+            });
+        });
+      });
+      
+      
+  });
 });
   
