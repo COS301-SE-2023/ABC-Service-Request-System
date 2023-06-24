@@ -17,7 +17,7 @@ export interface ticket{
     startDate: string,
     endDate: string,
     status: "Done" | "Pending" | "Active",
-    comments: string [],
+    comments?: string [],
 }
 
 export const ticketSchema = new Schema<any>(
