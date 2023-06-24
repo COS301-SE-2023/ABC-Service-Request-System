@@ -39,7 +39,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   getTicketWithId(ticketId: string){
     this.ticketService.getTicketWithID(ticketId).subscribe((resonse: ticket) => {
-      console.log("haha ", resonse);
       this.ticket = resonse;
     })
   }

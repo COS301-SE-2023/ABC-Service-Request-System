@@ -30,7 +30,7 @@ export class NewTicketFormComponent {
   onSubmit() {
     if (this.ticketForm.valid) {
       const formValues = this.ticketForm.value;
-      
+
       const summary = formValues.summary;
       const assignee = formValues.assignee;
       const assigned = formValues.assigned;
@@ -39,8 +39,9 @@ export class NewTicketFormComponent {
       const startDate = formValues.startDate;
       const endDate = formValues.endDate;
       const status = formValues.status;
+      const comments = formValues.comment;
 
-      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status);
+      //this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments);
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -52,7 +53,8 @@ export class NewTicketFormComponent {
         priority: priority,
         startDate: startDate,
         endDate: endDate,
-        status: status
+        status: status,
+        comments: comments
       };
 
       this.newTicketEvent.emit(newTicket);
@@ -60,7 +62,7 @@ export class NewTicketFormComponent {
 
       // should navigate to ticket directly
       this.router.navigate(['/ticket/${id}']);
-    } 
+    }
     else {
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');
