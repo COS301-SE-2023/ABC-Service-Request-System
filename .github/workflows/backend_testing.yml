@@ -3,13 +3,14 @@ name: Backend Testing
 on:
   push:
     branches:
-      - 'feature/backend_testing'
+      - '*'
   pull_request:
     branches:
-      - 'feature/backend_testing'
+      - '*'
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,17 +19,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: List directory contents
-      run: ls -R
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: cd into backend
+      run: cd backend
+      
     - name: Install dependencies
-      run: |
-        cd ./backend
-        npm ci
+      run: npm install
+      working-directory: backend
+      
     - name: Run test
-      run: |
-        cd ./backend
-        npm test
+      run: npm test
+      working-directory: backend
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
