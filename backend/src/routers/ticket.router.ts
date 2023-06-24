@@ -72,15 +72,15 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
 
 router.get('/id', expressAsyncHandler(
     async (req, res) => {
-        // const id = String(req.query.id);
+        const id = String(req.query.id);
 
-        // if (!mongoose.Types.ObjectId.isValid(id)) {
-        //     res.status(400).send('Invalid ObjectId');
-        //     return;
-        //   }
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send('Invalid ObjectId');
+            return;
+          }
 
-        // const objectId = new mongoose.Types.ObjectId(id);
-        const ticket = await TicketModel.findOne({ id: req.query.id });
+        const objectId = new mongoose.Types.ObjectId(id);
+        const ticket = await TicketModel.findOne({ _id: objectId });
         if(ticket){
             res.status(200).send(ticket);
         }else{
@@ -95,7 +95,7 @@ router.put('/comment', expressAsyncHandler(
         const comment = req.body.comment;
 
         try{
-            const ticket = await TicketModel.findOneAndUpdate({ id: ticketId }, { $push: { comments: comment } }, { new: true });
+            const ticket = await TicketModel.findByIdAndUpdate(ticketId, { $push: { comments: comment } }, { new: true });
 
             if (ticket) {
                 res.status(200).json({ message: 'Comment added successfully' });
