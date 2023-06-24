@@ -16,7 +16,6 @@ before(async () => {
     await TestTicketModel.deleteMany({});
 });
 
-//DELETE THE CONTENTS OF THE DATABASE AFTER THE TEST (Remember, we are using a test DB, so this is OK) 
 after(async () => {
     // await TicketModel.deleteMany({});
     await mongoose.connection.close();

@@ -19,6 +19,7 @@ import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.compon
 import { TicketTableComponent } from './ticket-table/ticket-table.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
 
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +41,7 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     NewTicketFormComponent,
     SearchBarComponent,
     UpdateTicketModalComponent,
+    ActivateAccountComponent,
   ],
   imports: [
     BrowserModule,

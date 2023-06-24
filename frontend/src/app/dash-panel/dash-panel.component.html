@@ -8,7 +8,7 @@
       <button class="view-tickets"><img src="/assets/ticket.png" alt="ticket">Tickets</button>
       <button class="view-teams"><img src="/assets/follower.png" alt="teams">Teams</button>
       <button class="view-analytics"><img src="/assets/data-analytics.png" alt="analytics">Analytics</button>
-      <button class="creat-account"><img src="/assets/add-user.png" alt="createAccount">Create Account</button>
+      <button *ngIf="authService.isManager()" class="creat-account"><img src="/assets/add-user.png" alt="createAccount">Create Account</button>
       <button class="view-settings"><img src="/assets/settings.png" alt="settings">Settings</button>
       <button (click)="openNewTicketForm()" class="add-ticket-button">Add new ticket</button>
     </div>

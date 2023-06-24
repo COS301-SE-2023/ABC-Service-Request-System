@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
-
+import { AuthService } from '../../services/auth.service';  // Modify the path based on your actual file structure
 
 @Component({
   selector: 'app-dashboard',
@@ -17,10 +17,12 @@ export class DashboardComponent {
   showUpdateForm = false;
   oldAsignee = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
   openNewTicketForm() {
-    this.showForm = true;
+    if (this.authService.isAdmin() || this.authService.isManager()) {  // Only Admin and Manager can open a new ticket form
+      this.showForm = true;
+    }
   }
 
   ngOnChanges(): void {
@@ -49,17 +51,21 @@ export class DashboardComponent {
   }
 
   addNewTicket(newTicket: Ticket) {
-    newTicket.id = this.getNewId();
-    this.tickets.push(newTicket);
-    this.showForm = false;
+    if (this.authService.isAdmin() || this.authService.isManager()) {  // Only Admin and Manager can add a new ticket
+      newTicket.id = this.getNewId();
+      this.tickets.push(newTicket);
+      this.showForm = false;
+    }
   }
 
   updateTicket(newAssignee: string){
-    const ticket = this.tickets.find(ticket => ticket.assignee == this.oldAsignee);
-    if(ticket) {
-      ticket.assignee = newAssignee;
+    if (this.authService.isAdmin() || this.authService.isManager()) {  // Only Admin and Manager can update a ticket
+      const ticket = this.tickets.find(ticket => ticket.assignee == this.oldAsignee);
+      if(ticket) {
+        ticket.assignee = newAssignee;
+      }
+      this.showUpdateForm = false;
     }
-    this.showUpdateForm = false;
   }
 
   closeForm(): void {
@@ -69,8 +75,10 @@ export class DashboardComponent {
 
   //Update-ticket-modal
   openUpdateForm(oldAssignee: string){
-    this.oldAsignee = oldAssignee;
-    this.showUpdateForm = true;
+    if (this.authService.isAdmin() || this.authService.isManager()) {  // Only Admin and Manager can open the update form
+      this.oldAsignee = oldAssignee;
+      this.showUpdateForm = true;
+    }
   }
 
   closeUpdateForm(){
