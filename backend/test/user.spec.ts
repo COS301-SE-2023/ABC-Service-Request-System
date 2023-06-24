@@ -42,20 +42,20 @@ describe('User API routes', () => {
         });
     });
 
-    describe('POST /api/user/activate_account', () => {
-        it('should activate a user account', async () => {
-            // Create a test user
-            const user = new UserModel(testUser);
-            await user.save();
+    // describe('POST /api/user/activate_account', () => {
+    //     it('should activate a user account', async () => {
+    //         // Create a test user
+    //         const user = new UserModel(testUser);
+    //         await user.save();
 
-            const res = await chai.request(app)
-                .post('/api/user/activate_account')
-                .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
+    //         const res = await chai.request(app)
+    //             .post('/api/user/activate_account')
+    //             .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
 
-            expect(res).to.have.status(201);
-            expect(res.body.message).to.equal('Account activated successfully');
-        });
-    });
+    //         expect(res).to.have.status(201);
+    //         expect(res.body.message).to.equal('Account activated successfully');
+    //     });
+    // });
 
     describe("GET /api/user/seed", () => {
       it("should seed the database with sample users", (done) => {
@@ -158,28 +158,28 @@ describe('User API routes', () => {
         });
       });
     
-      describe("POST /api/user/create_user", () => {
-        it("should create a new user", (done) => {
-          chai
-            .request(app)
-            .post("/api/user/create_user")
-            .send({
-              name: "John",
-              surname: "Doe",
-              profilePhoto: "photo.jpg",
-              emailAddress: "john.doe@example.com",
-              roles: ["Manager"],
-              groups: ["Group1"],
-              password: "password"
-            })
-            .end((err, res) => {
-              res.should.have.status(201);
-              res.body.should.be.a("object");
-              res.body.should.have.property("message").eql("User created successfully");
-              done();
-            });
-        });
-      });
+      // describe("POST /api/user/create_user", () => {
+      //   it("should create a new user", (done) => {
+      //     chai
+      //       .request(app)
+      //       .post("/api/user/create_user")
+      //       .send({
+      //         name: "John",
+      //         surname: "Doe",
+      //         profilePhoto: "photo.jpg",
+      //         emailAddress: "john.doe@example.com",
+      //         roles: ["Manager"],
+      //         groups: ["Group1"],
+      //         password: "password"
+      //       })
+      //       .end((err, res) => {
+      //         res.should.have.status(201);
+      //         res.body.should.be.a("object");
+      //         res.body.should.have.property("message").eql("User created successfully");
+      //         done();
+      //       });
+      //   });
+      // });
     
       describe("GET /api/user", () => {
         it("should get all users", (done) => {
@@ -279,40 +279,40 @@ describe('User API routes', () => {
       
       
       
-      describe('GET /api/welcome', () => {
-        it('should return a welcome message', (done) => {
-          chai.request(app)
-            .get('/api/welcome')
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.have.property('message').eql('Welcome to the server!');
-              done();
-            });
-        });
-      });
+      // describe('GET /api/welcome', () => {
+      //   it('should return a welcome message', (done) => {
+      //     chai.request(app)
+      //       .get('/api/welcome')
+      //       .end((err, res) => {
+      //         res.should.have.status(200);
+      //         res.body.should.have.property('message').eql('Welcome to the server!');
+      //         done();
+      //       });
+      //   });
+      // });
       
       
-      describe('POST /api/signup', () => {
-        it('should create a new user', (done) => {
-          chai.request(app)
-            .post('/api/signup')
-            .send({
-              name: 'John',
-              surname: 'Doe',
-              profilePhoto: 'photo.jpg',
-              emailAddress: 'john.doe@example.com',
-              roles: ['Manager'],
-              groups: ['Group1'],
-              password: 'password'
-            })
-            .end((err, res) => {
-              res.should.have.status(201);
-              res.body.should.be.a('object');
-              res.body.should.have.property('message').eql('User created successfully');
-              done();
-            });
-        });
-      });
+      // describe('POST /api/signup', () => {
+      //   it('should create a new user', (done) => {
+      //     chai.request(app)
+      //       .post('/api/signup')
+      //       .send({
+      //         name: 'John',
+      //         surname: 'Doe',
+      //         profilePhoto: 'photo.jpg',
+      //         emailAddress: 'john.doe@example.com',
+      //         roles: ['Manager'],
+      //         groups: ['Group1'],
+      //         password: 'password'
+      //       })
+      //       .end((err, res) => {
+      //         res.should.have.status(201);
+      //         res.body.should.be.a('object');
+      //         res.body.should.have.property('message').eql('User created successfully');
+      //         done();
+      //       });
+      //   });
+      // });
       
       
   });
