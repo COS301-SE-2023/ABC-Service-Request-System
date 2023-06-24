@@ -4,7 +4,7 @@ let db: Connection;
 
 export const dbConnection = async () => {
   if (!db) {
-    await connect(process.env.MONGO_TICKET_URI!, {
+    await connect(process.env.MONGO_URI!, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     } as ConnectOptions);
