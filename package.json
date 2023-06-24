@@ -1,5 +1,9 @@
 {
   "devDependencies": {
+    "@types/babel__core": "^7.20.1",
     "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "@angular/forms": "^16.1.2"
   }
 }

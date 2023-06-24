@@ -20,7 +20,7 @@ export interface ticket{
     comments: string [],
 }
 
-export const ticketSchema = new Schema<any>(
+export const ticketSchema = new Schema<ticket>(
     {
         id: {type: String, required: true},
         summary: {type: String, required: true},
