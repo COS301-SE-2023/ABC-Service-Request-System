@@ -22,4 +22,4 @@ export const sample_notifications: notifications[] = [
         ticketSummary: "Documentation",
         link: "3"
     }
-]
+];
