@@ -45,6 +45,36 @@
           background-color: #545151;
           color: white;
         }
+
+        .note-button-area{
+          margin-top: 1em;
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          .user-profile-img{
+            width: 3em;
+            height: 3em;
+            background-color: gray;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+
+          .note-content {
+            height: 100%;
+            padding: 0.8em;
+            width: 90%;
+            max-width: 90%;
+            height: fit-content;
+            outline: none;
+            margin-left: 4em;
+            border-bottom: 2px solid black;
+            cursor: pointer;
+          }
+
+        }
       }
 
       .summary-header{
@@ -53,8 +83,8 @@
         margin-bottom: 1.5em;
 
         .user-profile-img{
-          width: 2em;
-          height: 2em;
+          width: 3em;
+          height: 3em;
           background-color: gray;
           border-radius: 50%;
           margin-right: 1em;

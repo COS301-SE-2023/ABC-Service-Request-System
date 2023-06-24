@@ -1,30 +1,38 @@
 <div class="ticket-container">
-  <table class="w-full">
+  <table class="w-full" matSort (matSortChange)="sortData($event)">
     <thead class="bg-gray border-b-2 border-gray-200">
 
       <tr>
-        <th class="w-1 pl-4 text-sm font-semibold tracking-wide text-left">ID</th>
-        <th class="w-44 text-sm font-semibold tracking-wide text-left">Summary</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Creator</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Assignee</th>
-        <th class="w-16 text-sm font-semibold tracking-wide text-left">Group</th>
-        <th class="w-2 text-sm font-semibold tracking-wide text-center">Priority</th>
-        <th class="w-2 text-sm font-semibold tracking-wide text-left">Status</th>
-        <th class="w-4 text-sm font-semibold tracking-wide text-left">Created</th>
-        <th class="w-4 text-sm font-semibold tracking-wide text-left">Deadline</th>
+        <th class="w-1 pl-4 text-sm font-semibold tracking-wide text-left" mat-sort-header="id">ID</th>
+        <th class="w-44 text-sm font-semibold tracking-wide text-left" mat-sort-header="summary">Summary</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left" mat-sort-header="assignee">Assignee</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left" mat-sort-header="assigned">Assigned</th>
+        <th class="w-16 text-sm font-semibold tracking-wide text-left" mat-sort-header="group">Group</th>
+        <th class="w-2 text-sm font-semibold tracking-wide text-center" mat-sort-header="priority">Priority</th>
+        <th class="w-2 text-sm font-semibold tracking-wide text-left" mat-sort-header="status">Status</th>
+        <th class="w-4 text-sm font-semibold tracking-wide text-left" mat-sort-header="created">Created</th>
+        <th class="w-4 text-sm font-semibold tracking-wide text-left" mat-sort-header="deadline">Deadline</th>
       </tr>
 
     </thead>
 
     <tbody>
 
-      <tr *ngFor="let ticket of allTicketsArray" class="odd:bg-white even:bg-slate-200" (click)="navigateToTicket(ticket.id)">
+      <tr *ngFor="let ticket of sortedTicketsArray" class="odd:bg-white even:bg-slate-200" (click)="navigateToTicket(ticket.id)">
         <td class="pt-3 pb-3 pl-4 font-bold text-blue-500 hover:underline text-left">{{ ticket.id[0] }}</td>
         <td class="text-left  text-blue-500 hover:underline">{{ ticket.summary }}</td>
         <td class="text-left">{{ ticket.assignee }}</td>
         <td class="text-left">{{ ticket.assigned }}</td>
         <td class="text-left">{{ ticket.group }}</td>
-        <td class="text-center"> <span class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">{{ ticket.priority }}</span> </td>
+        <td class="text-center">
+          <span class="p-1.5 text-xs font-medium uppercase tracking-wider
+            {{ ticket.priority === 'Low' ? 'text-green-800 bg-green-200' :
+               ticket.priority === 'Medium' ? 'text-yellow-800 bg-yellow-200' :
+               ticket.priority === 'High' ? 'text-red-800 bg-red-200' : '' }}
+            rounded-lg">
+            {{ ticket.priority }}
+          </span>
+        </td>
         <td class="text-left">{{ ticket.status }}</td>
         <td class="text-left">{{ ticket.startDate }}</td>
         <td class="text-left">{{ ticket.endDate }}</td>

@@ -183,6 +183,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+.login-container{
+  background: -webkit-linear-gradient(left, #00C4FF 10%, #04538E 100%, #fff 150%);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .background-img{
   position: fixed;
   bottom: 0em;
@@ -198,7 +207,7 @@
     width: 40%;
     margin: 2em;
     // background-color: green;
-    height: 85vh;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -217,7 +226,7 @@
 
       h1{
         font-family: "Futura PT", sans-serif;
-        background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
+        background: -webkit-linear-gradient(23deg, #04538E 10%, #00C4FF 190%, #fff 210%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         letter-spacing: 0.03em;
@@ -282,7 +291,6 @@ mat-slide-toggle{
 }
 
 .login-button{
-  background-color: green;
   width: 100%;
 }
 

@@ -27,7 +27,11 @@
         <button class="activity-filter-button">History</button>
         <button class="activity-filter-button">Work Logs</button>
 
-        <input type="text" [formControl]="commentInputControl">
+        <div class="note-button-area">
+          <div class="user-profile-img"></div>
+          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..."></textarea>
+        </div>
+
         <button (click)="onSave()">Save</button>
 
       </div>

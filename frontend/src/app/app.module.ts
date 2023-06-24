@@ -26,7 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //MATERIAL UI
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { Sort, MatSortModule } from '@angular/material/sort';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +50,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

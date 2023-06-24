@@ -35,12 +35,14 @@
   background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 80%, #fff 120%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.03em;
+  margin-bottom: 0;
+  font-weight: 500;
 }
 
 .logo-container img {
-  width: 2em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
   margin-right: 10px;
   margin-bottom: 0px;
 }

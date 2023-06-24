@@ -1,39 +1,41 @@
-<img src="/assets/background.svg" alt="background image" class="background-img">
+<div class="login-container">
+  <img src="/assets/background2.svg" alt="background image" class="background-img">
 
-<div class="login-outer-container">
-  <div class="login-inner-container">
-    <div class="logo-header">
-      <img src="/assets/app_logo.jpg" alt="app logo">
-      <h1>LUNA</h1>
-    </div>
+  <div class="login-outer-container">
+    <div class="login-inner-container">
+      <div class="logo-header">
+        <img src="/assets/app_logo_transparent.png" alt="app logo">
+        <h1>LUNA</h1>
+      </div>
 
-    <div class="form-area">
-      <h1>Log in</h1>
-      <p>Welcome back! Effortlessly streamline your service requests with Luna</p>
+      <div class="form-area">
+        <h1>Log in</h1>
+        <p>Welcome back! Effortlessly streamline your service requests with Luna</p>
 
-      <form class="loginDetails">
-        <label for="email"><strong>Email</strong></label> <br>
-        <input type="email" id="email" name="email" placeholder="example@domain.com" class="form-control" required><br>
-        <br>
+        <form class="loginDetails">
+          <label for="email"><strong>Email</strong></label> <br>
+          <input type="email" id="email" name="email" placeholder="example@domain.com" class="form-control" required><br>
+          <br>
 
-        <label for="pwd"><strong>Password</strong></label> <br>
-        <input type="password" id="pwd" name="pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" class="form-control" required><br>
-        <br>
+          <label for="pwd"><strong>Password</strong></label> <br>
+          <input type="password" id="pwd" name="pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" class="form-control" required><br>
+          <br>
 
 
 
-        <mat-slide-toggle color="primary"><span class="slide-toggle-title">Keep me logged in</span></mat-slide-toggle>
+          <mat-slide-toggle color="primary"><span class="slide-toggle-title">Keep me logged in</span></mat-slide-toggle>
 
-        <div class="loginButton">
-          <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
-        </div>
+          <div class="loginButton">
+            <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
+          </div>
 
-        <!-- <p class="or">OR</p> -->
+          <!-- <p class="or">OR</p> -->
 
-        <div class="googleLogin">
-          <!-- <button type="gbutton" class="gbtn"><img src="/assets/google-logo.png" alt="google">Continue with Google</button> -->
-        </div>
-      </form>
+          <div class="googleLogin">
+            <!-- <button type="gbutton" class="gbtn"><img src="/assets/google-logo.png" alt="google">Continue with Google</button> -->
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
