@@ -17,7 +17,7 @@ export class UserService {
   }
 
   updateProfile(userId: string, name: string,surname: string, email: string) {
-    const url = `${this.USER_URL}/${email}`;//`${this.USER_URL}/${userId}`
+    const url = `${this.USER_URL}/${userId}`;//`${this.USER_URL}/${userId}`
     const body = { name,surname, email };
     return this.http.put(url, body);
   }
