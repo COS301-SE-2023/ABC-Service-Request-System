@@ -4,7 +4,7 @@ export const sample_users: any[] = [
     surname: 'admin',
     profilePhoto: 'http://example.com/img/bob.jpg',
     emailAddress: 'admin@admin.com',
-    password: 'admin123',
+    password: '$2a$10$h//6x2WnHtx9pibRwqKRluhlI.A.uHTAAjpsCQX23DRWtcichXHhy',
     roles: ['Admin'],
     groups: ['group1', 'group2']
   },
