@@ -244,7 +244,9 @@ router.post('/activate_account', expressAsyncHandler(
   
         const { inviteToken, password } = req.body;
   
+        console.log('before find one');
         const user = await UserModel.findOne({ inviteToken });
+        console.log('after find one');
   
         if (!user) {
           console.log('Invalid token');
@@ -259,7 +261,9 @@ router.post('/activate_account', expressAsyncHandler(
         user.emailVerified = true; // Assuming the activation also verifies the email
         user.inviteToken = undefined;
   
+        console.log('before save');
         await user.save();
+        console.log('after save');
   
         console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });
