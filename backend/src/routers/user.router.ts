@@ -190,7 +190,6 @@ router.post("/create_user", expressAsyncHandler(
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
                     console.log(error);
-                    res.status(400).send("Email send error");
                 } else {
                     console.log("Email sent: " + info.response);
                 }
