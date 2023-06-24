@@ -158,27 +158,27 @@ describe('User API routes', () => {
         });
       });
     
-      // describe("POST /api/user/create_user", () => {
-      //   it("should create a new user", (done) => {
-      //     chai
-      //       .request(app)
-      //       .post("/api/user/create_user")
-      //       .send({
-      //         name: "John",
-      //         surname: "Doe",
-      //         profilePhoto: "photo.jpg",
-      //         emailAddress: "john.doe@example.com",
-      //         roles: ["Manager"],
-      //         groups: ["Group1"]
-      //       })
-      //       .end((err, res) => {
-      //         res.should.have.status(201);
-      //         res.body.should.be.a("object");
-      //         res.body.should.have.property("message").eql("User created successfully");
-      //         done();
-      //       });
-      //   });
-      // });
+      describe("POST /api/user/create_user", () => {
+        it("should create a new user", (done) => {
+          chai
+            .request(app)
+            .post("/api/user/create_user")
+            .send({
+              name: "John",
+              surname: "Doe",
+              profilePhoto: "photo.jpg",
+              emailAddress: "john.doe@example.com",
+              roles: ["Manager"],
+              groups: ["Group1"]
+            })
+            .end((err, res) => {
+              res.should.have.status(201);
+              res.body.should.be.a("object");
+              res.body.should.have.property("message").eql("User created successfully");
+              done();
+            });
+        });
+      });
     
       describe("GET /api/user", () => {
         it("should get all users", (done) => {
