@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgModule, Output, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 @Component({
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss']
 })
+
 export class PageHeaderComponent {
   tickets = tickets;
   searchTerm = '';
@@ -37,3 +39,14 @@ export class PageHeaderComponent {
     this.showForm = false;
   }
 }
+
+@NgModule({
+  imports: [
+    MatIconModule,
+    MatBadgeModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+
+export class PageHeaderModule {}
+
