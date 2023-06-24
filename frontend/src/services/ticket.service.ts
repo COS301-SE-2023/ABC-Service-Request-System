@@ -24,4 +24,10 @@ export class TicketsService {
     const body = {ticketId, comment};
     return this.http.put(`${this.TICKET_URL}/comment`, body);
   }
+
+  // Add Ticket Functionality
+  addTicket(summary: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string) {
+    const body = {summary, assignee, assigned, group, priority, startDate, endDate, status};
+    return this.http.post(`${this.TICKET_URL}/addticket`, body);
+  }
 }

@@ -7,6 +7,7 @@ import ticketRouter from './routers/ticket.router';
 import userRouter from './routers/user.router';
 import loginRouter from './routers/login.router';
 import signupRouter from './routers/signup.router'; 
+import notificationsRouter from './routers/notifications.router';
 
 //test routers
 import testTicketRouter from './routers/testTicket.router';
@@ -28,6 +29,7 @@ app.use('/api/ticket', ticketRouter);
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter); 
+app.use('/api/notifications', notificationsRouter);
 
 //test routers
 app.use('/api/test_ticket', testTicketRouter);

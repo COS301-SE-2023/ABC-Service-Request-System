@@ -22,6 +22,7 @@ export interface ticket{
 
 export const ticketSchema = new Schema<any>(
     {
+        id: {type: String, required: true},
         summary: {type: String, required: true},
         assignee: {type: String, required: true},
         assigned: {type: String, required: true},
