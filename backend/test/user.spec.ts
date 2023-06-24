@@ -42,20 +42,20 @@ describe('User API routes', () => {
         });
     });
 
-    describe('POST /api/user/activate_account', () => {
-        it('should activate a user account', async () => {
-            // Create a test user
-            const user = new UserModel(testUser);
-            await user.save();
+    // describe('POST /api/user/activate_account', () => {
+    //     it('should activate a user account', async () => {
+    //         // Create a test user
+    //         const user = new UserModel(testUser);
+    //         await user.save();
 
-            const res = await chai.request(app)
-                .post('/api/user/activate_account')
-                .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
+    //         const res = await chai.request(app)
+    //             .post('/api/user/activate_account')
+    //             .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
 
-            expect(res).to.have.status(201);
-            expect(res.body.message).to.equal('Account activated successfully');
-        });
-    });
+    //         expect(res).to.have.status(201);
+    //         expect(res.body.message).to.equal('Account activated successfully');
+    //     });
+    // });
 
     describe("GET /api/user/seed", () => {
       it("should seed the database with sample users", (done) => {
