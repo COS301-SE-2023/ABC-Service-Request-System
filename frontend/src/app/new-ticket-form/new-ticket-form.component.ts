@@ -20,7 +20,8 @@ export class NewTicketFormComponent {
       priority: '',
       startDate: '',
       endDate: '',
-      status: ''
+      status: '',
+      comments: ''
     });
   }
 
@@ -36,11 +37,14 @@ export class NewTicketFormComponent {
       const assigned = formValues.assigned;
       const group = formValues.group;
       const priority = formValues.priority;
-      const startDate = formValues.startDate;
-      const endDate = formValues.endDate;
+      const startDate = this.formatDate(formValues.startDate);
+      const endDate = this.formatDate(formValues.endDate);
       const status = formValues.status;
+      const comments = formValues.comments;
 
-      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status);
+      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+        console.log(response);
+      });
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -52,19 +56,26 @@ export class NewTicketFormComponent {
         priority: priority,
         startDate: startDate,
         endDate: endDate,
-        status: status
+        status: status,
+        comments: comments
       };
 
       this.newTicketEvent.emit(newTicket);
       this.ticketForm.reset();
 
       // should navigate to ticket directly
-      this.router.navigate(['/ticket/${id}']);
+     // this.router.navigate(['/ticket/${id}']);
     } 
     else {
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');
     }
+  }
+
+  private formatDate(date: string): string {
+    const parts = date.split('-');
+    const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    return formattedDate;
   }
 
  /* ticketForm = this.fb.group({
