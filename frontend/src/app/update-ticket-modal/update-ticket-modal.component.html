@@ -1,0 +1,12 @@
+<form [formGroup]="updateTicketForm" (ngSubmit)="onSubmit()" class="container">
+  <div class="inner-wrapper">
+    <div class="inner-content-wrapper">
+      <h1>Update name</h1>
+      <input type="text" placeholder="name" formControlName="newAssignee">
+      <br>
+      <button type="submit">Update details</button>
+      <br>
+      <button type="button" (click)='closeUpdateForm.emit()'>Close modal</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,32 @@
+.dashboard-container {
+  width: 100%;
+  // padding-left: 330px;
+  margin-top: 60px;
+  width: 78%;
+  float: right;
+}
+
+app-page-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+app-dash-panel{
+  position: fixed;
+  top: 50px;
+  left: 0;
+  height: 100vh;
+}
+
+app-search-bar {
+  width: 100vw;
+}
+
+app-ticket-table {
+  width: 100vw;
+}
+// .dashboard-container {
+//   display: flex;
+//   flex-direction: column;
+// }

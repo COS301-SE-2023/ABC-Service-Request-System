@@ -1,0 +1,30 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner-wrapper{
+  width: 30%;
+  height: 20%;
+  background-color: white;
+  border-radius: 1em;
+  padding: 1em;
+
+  .inner-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1, input{
+      width: 100%;
+    }
+  }
+}

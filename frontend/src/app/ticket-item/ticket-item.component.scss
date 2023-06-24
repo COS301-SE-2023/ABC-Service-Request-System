@@ -1,0 +1,84 @@
+// @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+// .ticket-container {
+//   font-family: "Poppins", sans-serif;
+// }
+
+// table {
+//   display: grid;
+//   border-collapse: collapse;
+//   min-width: 100%;
+//   /* These are just initial values which are overriden using JavaScript when a column is resized */
+//   grid-template-columns:
+//     minmax(150px, 1fr)
+//     minmax(150px, 1.67fr)
+//     minmax(150px, 1.67fr)
+//     minmax(150px, 1.67fr)
+//     minmax(150px, 3.33fr)
+//     minmax(150px, 1.67fr)
+//     minmax(150px, 3.33fr)
+//     minmax(150px, 1.67fr)
+//     minmax(150px, 1.67fr);
+// }
+
+// thead,
+// tbody,
+// tr {
+//   display: contents;
+// }
+
+// th,
+// td {
+//   padding: 15px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   border-bottom: 1px solid #494945;
+//   border-top: 1px solid #494945;
+// }
+
+// th {
+//   position: sticky;
+//   top: 0;
+//   background: white;
+//   text-align: left;
+//   font-weight: normal;
+//   font-size: 1.1rem;
+//   color: black;
+//   position: relative;
+// }
+
+// th:last-child {
+//   border: 0;
+// }
+
+// .resize-handle {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: black;
+//   opacity: 0;
+//   width: 3px;
+//   cursor: col-resize;
+// }
+
+// .resize-handle:hover,
+// /* The following selector is needed so the handle is visible during resize even if the mouse isn't over the handle anymore */
+// .header--being-resized .resize-handle {
+//   opacity: 0.5;
+// }
+
+// th:hover .resize-handle {
+//   opacity: 0.3;
+// }
+
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #000;
+}
+
+// tr:nth-child(even) td {
+//   background: #CCC;
+// }

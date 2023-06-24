@@ -1,0 +1,135 @@
+<app-page-header></app-page-header>
+<app-dash-panel></app-dash-panel>
+
+<div class="ticket-container" *ngIf="ticket">
+
+  <h1>{{ ticket.summary }}</h1>
+
+  <div class="ticket-summary-area">
+
+    <div class="summary-info">
+      <div class="summary-inner-info">
+        <div class="summary-header">
+          <div class="user-profile-img"></div>
+          <h2><span><b>{{ ticket.assignee }}</b></span> created this ticket on <span><b>{{ ticket.startDate }}</b></span></h2> <br>
+        </div>
+
+        <p>Description</p>
+        <p>As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.</p>
+      </div>
+
+      <div class="activity-area">
+        <h2>Activity</h2>
+
+        <button class="activity-filter-button selected">All</button>
+        <button class="activity-filter-button">Comments</button>
+        <button class="activity-filter-button">Internal Note</button>
+        <button class="activity-filter-button">History</button>
+        <button class="activity-filter-button">Work Logs</button>
+
+        <div class="note-button-area">
+          <div class="user-profile-img"></div>
+          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..."></textarea>
+        </div>
+
+        <button (click)="onSave()">Save</button>
+
+      </div>
+    </div>
+
+    <div class="ticket-info-area">
+      <h1>Ticket Information</h1>
+      <div class="button-area">
+        <mat-expansion-panel (opened)="ticketPanelOpenState = true"
+                            (closed)="ticketPanelOpenState = false" class="ticket-panel">
+          <mat-expansion-panel-header class="specific-class ticket-header">
+            <mat-panel-title class="ticket-title">
+              {{ ticket.status }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="sla-area">
+        <mat-expansion-panel (opened)="SLAPanelOpenState = true"
+                            (closed)="SLAPanelOpenState = false" [expanded]="SLAPanelOpenState">
+          <mat-expansion-panel-header class="specific-class">
+            <mat-panel-title class="mat-title">
+              SLA
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="details-area">
+        <mat-expansion-panel (opened)="detailsPanelOpenState = true"
+                            (closed)="detailsPanelOpenState = false" [expanded]="detailsPanelOpenState">
+          <mat-expansion-panel-header class="specific-class">
+            <mat-panel-title class="mat-title">
+              Details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </div>
+    </div>
+
+  </div>
+<!--
+  <table class="individual-ticket">
+    <tr>
+      <td class="ticket-item">
+        <div class="ticket">
+          <a class="card" [routerLink]="['/ticket', ticket.id]">{{ticket.id}}</a>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <h2 class="card">{{ ticket.summary }}</h2>
+        </div>
+      </td>
+      <td class="ticket-item assignee">
+        <div class="ticket">
+          <img src="assets/profile-icon.png" alt="Profile icon">
+          <p class="card">{{ ticket.assignee }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.assigned }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.group }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">
+            <span [ngClass]="{'high': ticket.priority === 'High', 'medium': ticket.priority === 'Medium', 'low': ticket.priority === 'Low'}" class="priority-bubble">
+              {{ticket.priority}}
+            </span>
+          </p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.startDate }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.endDate }}</p>
+        </div>
+      </td>
+      <td class="ticket-item">
+        <div class="ticket">
+          <p class="card">{{ ticket.status }}</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div> -->
