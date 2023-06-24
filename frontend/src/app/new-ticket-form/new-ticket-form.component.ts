@@ -24,7 +24,8 @@ export class NewTicketFormComponent {
     });
   }
 
-  @Output() newTicketEvent = new EventEmitter<ticket>();
+  @Output() newTicketEvent = new EventEmitter();
+  @Output() closeForm = new EventEmitter();
 
   onSubmit() {
     if (this.ticketForm.valid) {

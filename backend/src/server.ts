@@ -7,6 +7,7 @@ import ticketRouter from './routers/ticket.router';
 import userRouter from './routers/user.router';
 import loginRouter from './routers/login.router';
 import signupRouter from './routers/signup.router'; 
+import notificationsRouter from './routers/notifications.router';
 
 import { dbConnection } from "./configs/ticketDB.config";
 
@@ -25,6 +26,7 @@ app.use('/api/ticket', ticketRouter);
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter); 
+app.use('/api/notifications', notificationsRouter);
 
 app.get('/api/welcome', (req:any, res:any) => {
     res.status(200).send({ message: 'Welcome to the server!' });
