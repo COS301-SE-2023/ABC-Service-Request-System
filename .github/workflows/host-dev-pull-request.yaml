@@ -1,0 +1,40 @@
+name: Host Develop on PR (CD)
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build_and_deploy:
+    environment: Development
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create Temporary .env
+        run: |
+          touch .env
+          echo ${{ secrets.ENV_FILE }} >> .env
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular Application
+        run: npm run build  # assuming your Angular app build script is "build"
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: hyperiontech.capstone@gmail.com
+          healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
+

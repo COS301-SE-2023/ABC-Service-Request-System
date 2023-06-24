@@ -1,0 +1,37 @@
+form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f3f3f3;
+  padding: 40px; /*  padding */
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px rgba(0,0,0,0.2); /*  shadow */
+  font-size: 18px;
+  text-align: center; /* Center buttons and labels */
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px; /*  rounded edges */
+}
+
+#submit-button, #close-button {
+  display: block;
+  padding: 15px 30px; /*  padding */
+  font-size: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 10px auto; /* Center button */
+  cursor: pointer;
+}

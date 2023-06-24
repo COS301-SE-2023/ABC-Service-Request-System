@@ -1,0 +1,34 @@
+name: Backend Testing
+
+on:
+  push:
+    branches:
+      - 'feature/backend_testing'
+  pull_request:
+    branches:
+      - 'feature/backend_testing'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: List directory contents
+      run: ls -R
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: |
+        cd ./backend
+        npm ci
+    - name: Run test
+      run: |
+        cd ./backend
+        npm test
