@@ -8,4 +8,8 @@ import { comment } from '../../../../backend/src/models/ticket.model';
 })
 export class CommentPanelComponent {
   @Input() comment!: comment;
+
+  formatDate(){
+    alert(this.comment.createdAt);
+  }
 }

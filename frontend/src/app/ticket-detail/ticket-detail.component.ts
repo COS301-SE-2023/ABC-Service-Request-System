@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
+import { AuthService } from 'src/services/auth.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -15,7 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer) { }
+  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -117,8 +118,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  getCurrentUserName(){
+    return this.authService.getName();
+  }
+
   addComment(comment: string, attachmentUrl: string): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, 'User', 'comment', attachmentUrl).subscribe(
+    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), 'comment', attachmentUrl).subscribe(
       res => {
         console.log('Comment added successfully', res);
         location.reload();
