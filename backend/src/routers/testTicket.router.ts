@@ -38,7 +38,6 @@ router.get('/', expressAsyncHandler(
 
 router.get('/id', expressAsyncHandler(
     async (req, res) => {
-        console.log(req.query.id);
         const ticket = await TestTicketModel.findOne({ id: req.query.id });
         if(ticket){
             res.status(200).send(ticket);

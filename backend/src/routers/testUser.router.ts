@@ -1,6 +1,6 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { UserModel } from "../models/user.model";
+import { TestUserModel } from "../models/testUser.model";
 
 import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -12,7 +12,7 @@ const router = Router();
 
 router.get('/', expressAsyncHandler(
     async (req, res) => {
-        const users = await UserModel.find();
+        const users = await TestUserModel.find();
         res.send(users);
     }
 ));
@@ -20,7 +20,7 @@ router.get('/', expressAsyncHandler(
 router.get('/seed', expressAsyncHandler(
     async (req, res) => {
         try {
-            const usersCount = await UserModel.countDocuments();
+            const usersCount = await TestUserModel.countDocuments();
             if(usersCount > 0){
                 res.send("Seed is already done");
                 return;
@@ -40,7 +40,7 @@ router.get('/seed', expressAsyncHandler(
                 groups: ["group1", "group2"]
             };
 
-            const newUser = await UserModel.create(adminUser);
+            const newUser = await TestUserModel.create(adminUser);
             const secretKey = "Jetpad2023";
             // Generate JWT token here, make sure it is the same as the one generated in "activate_account"
             const token = jwt.sign(
@@ -65,8 +65,8 @@ router.get('/seed', expressAsyncHandler(
 
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
-        await UserModel.deleteMany({});
-        res.send("Delete is done!");
+        await TestUserModel.deleteMany({});
+        res.status(200).send({ message: 'Delete is done' });
     }
 ));
 
@@ -93,7 +93,7 @@ router.post("/create_user", expressAsyncHandler(
             console.log("User creation request received:", req.body);
 
             // check if a user with the provided email already exists
-            const existingUser = await UserModel.findOne({ emailAddress: req.body.emailAddress });
+            const existingUser = await TestUserModel.findOne({ emailAddress: req.body.emailAddress });
 
             if (existingUser) {
                 console.log("User with this email already exists");
@@ -105,7 +105,7 @@ router.post("/create_user", expressAsyncHandler(
             const inviteToken = crypto.randomBytes(32).toString("hex");
 
             // create new user with pending status
-            const newUser = new UserModel({
+            const newUser = new TestUserModel({
                 name: req.body.name,
                 surname: req.body.surname,
                 profilePhoto: req.body.profilePhoto || "http://example.com/img/default.jpg",
@@ -244,7 +244,7 @@ router.get('/activate_account', expressAsyncHandler(
   
             const inviteToken = req.query.token;
     
-            const user = await UserModel.findOne({ inviteToken });
+            const user = await TestUserModel.findOne({ inviteToken });
             
             console.log("When in here");
 
@@ -276,7 +276,7 @@ router.post('/activate_account', expressAsyncHandler(
         const { inviteToken, password } = req.body;
   
         console.log('before find one');
-        const user = await UserModel.findOne({ inviteToken });
+        const user = await TestUserModel.findOne({ inviteToken });
         console.log('after find one');
   
         if (!user) {
@@ -316,7 +316,7 @@ router.post('/activate_account', expressAsyncHandler(
     try {
       const { token } = req.body;
   
-      const user = await UserModel.findOne({ inviteToken: token });
+      const user = await TestUserModel.findOne({ inviteToken: token });
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
