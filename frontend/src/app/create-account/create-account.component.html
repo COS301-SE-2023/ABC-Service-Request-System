@@ -33,6 +33,7 @@
       <input type="text" id="groups" formControlName="groups" class="form-input">
     </div>
     <div class="button-container">
+      <button type="button" (click)="navigateToDashboard()" class="back-button">Back to Dashboard</button>
       <button type="submit" class="submit-button">Create Account</button>
     </div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>

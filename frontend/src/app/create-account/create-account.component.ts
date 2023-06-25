@@ -45,7 +45,8 @@ export class CreateAccountComponent {
 
       if (response && response.message === 'User created successfully') {
         // User creation was successful
-        this.router.navigate(['/success-page']);
+        window.alert('User created successfully'); // Alert the user
+        this.router.navigate(['/dashboard']);
       } else {
         // Handle other response scenarios, such as conflicts or server errors
         console.error('Error creating user:', response);
@@ -57,7 +58,12 @@ export class CreateAccountComponent {
     }
   }
 
+
   navigateToCreateAccount() {
     this.router.navigate(['/create-account']);
+  }
+
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 }
