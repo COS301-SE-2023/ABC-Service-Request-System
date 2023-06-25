@@ -17,7 +17,7 @@ export interface user{
     inviteToken?: string
 }
 
-export const userSchema = new Schema<any>(
+export const userSchema = new Schema<user>(
     {
         name: {type: String, required: true},
         surname:{type: String, required: true},
