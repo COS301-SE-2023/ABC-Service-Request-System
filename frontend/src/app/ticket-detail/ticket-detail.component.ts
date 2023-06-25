@@ -23,6 +23,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   commentInputControl = new FormControl('');
   textareaValue = '';
 
+  file: File | null = null;
+
+  onFileChange(event: any) {
+    const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
+    this.file = file as File | null;
+  }
+
+
+
+
   adjustTextareaHeight(textarea: any) {
     textarea.style.height = 'auto'; // Reset the height to auto to calculate the actual height
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
@@ -49,20 +59,70 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  addComment(): void {
+  // addComment(): void {
+  //   const newComment = this.commentInputControl.value;
+  //   // Perform actions with the input value, e.g., save to database, send to API, etc.
+  //   console.log('Input Value:', newComment);
+  //   if(newComment){
+  //     this.ticketService.makeAComment(this.ticket.id, newComment, 'kolo', 'comment').subscribe(
+  //       res => {
+  //         console.log('Comment added successfully', res);
+  //       },
+  //       err => {
+  //         console.log('Error while adding comment', err);
+  //       }
+  //     );
+  //   }
+
+  // }
+
+  saveData(): void {
     const newComment = this.commentInputControl.value;
     // Perform actions with the input value, e.g., save to database, send to API, etc.
     console.log('Input Value:', newComment);
-    if(newComment){
-      this.ticketService.makeAComment(this.ticket.id, newComment, 'kolo', 'comment').subscribe(
-        res => {
-          console.log('Comment added successfully', res);
+    console.log('Selected File:', this.file);
+
+    if (!newComment && !this.file) {
+      console.log('No comment or file selected');
+      return;
+    }
+
+    if (newComment && this.file) {
+      // Both comment and file are present, upload the file and add the comment
+      this.ticketService.uploadFile(this.file).subscribe(
+        (result: any) => {
+          const attachmentUrl = result.url;
+          this.addComment(newComment, attachmentUrl);
         },
-        err => {
-          console.log('Error while adding comment', err);
+        (error: any) => {
+          console.log('Error uploading file', error);
+        }
+      );
+    } else if (newComment) {
+      // Only comment is present, add the comment
+      this.addComment(newComment, '');
+    } else {
+      // Only file is present, upload the file
+      this.ticketService.uploadFile(this.file!).subscribe(
+        (result: any) => {
+          console.log('File uploaded successfully', result);
+        },
+        (error: any) => {
+          console.log('Error uploading file', error);
         }
       );
     }
+  }
 
+  addComment(comment: string, attachmentUrl: string): void {
+    this.ticketService.makeAComment(this.ticket.id, comment, 'kolo', 'comment', attachmentUrl).subscribe(
+      res => {
+        console.log('Comment added successfully', res);
+      },
+      err => {
+        console.log('Error while adding comment', err);
+      }
+    );
   }
 }
+

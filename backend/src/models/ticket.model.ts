@@ -7,6 +7,7 @@ export interface comment {
     content: string;
     createdAt: Date;
     type: string;
+    attachmentUrl?: string;
 }
 
 export interface ticket{
@@ -34,6 +35,7 @@ const commentSchema = new Schema<comment>(
       content: { type: String, required: true },
       createdAt: { type: Date, required: true },
       type: { type: String, required: true },
+      attachmentUrl: { type: String },
     },
     {
       _id: false,

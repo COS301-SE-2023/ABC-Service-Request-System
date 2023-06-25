@@ -4,8 +4,29 @@ import { TicketModel } from "../models/ticket.model";
 import { sample_tickets } from "../data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
+import multer from 'multer';
+import { cloudinary } from './cloudinary';
+
 
 const router = Router();
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ message: 'File upload error' });
+    }
+  });
+  
 
 router.post('/seed', expressAsyncHandler(
     async (req, res) => {
@@ -92,32 +113,36 @@ router.get('/id', expressAsyncHandler(
 
 router.put('/comment', expressAsyncHandler(
     async (req, res) => {
-        const ticketId = req.body.ticketId;
-        const comment = req.body.comment;
-        const author = req.body.author;
-        const type = req.body.type;
-        const createdAt = new Date();
-
-        const newComment: comment = {
-            author: author,
-            content: comment,
-            createdAt: createdAt,
-            type: type
-        };
-
-        try{
-            const ticket = await TicketModel.findOneAndUpdate({ id: ticketId }, { $push: { comments: newComment } }, { new: true });
-
-            if (ticket) {
-                res.status(200).json({ message: 'Comment added successfully' });
-            } else {
-                res.status(404).json({ message: 'Ticket not found' });
-            }
-
-        }catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+      const ticketId = req.body.ticketId;
+      const comment = req.body.comment;
+      const author = req.body.author;
+      const type = req.body.type;
+      const attachmentUrl = req.body.attachmentUrl; 
+      const newComment: comment = {
+        author: author,
+        content: comment,
+        createdAt: new Date(),
+        type: type,
+        attachmentUrl: attachmentUrl, 
+      };
+  
+      try {
+        const ticket = await TicketModel.findOneAndUpdate(
+          { id: ticketId },
+          { $push: { comments: newComment } },
+          { new: true }
+        );
+  
+        if (ticket) {
+          res.status(200).json({ message: 'Comment added successfully' });
+        } else {
+          res.status(404).json({ message: 'Ticket not found' });
         }
+      } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+      }
     }
-));
+  ));
+  
 
 export default router;

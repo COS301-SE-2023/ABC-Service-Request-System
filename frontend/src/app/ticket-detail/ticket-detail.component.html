@@ -30,10 +30,12 @@
         <div class="note-button-area">
           <div class="user-profile-img"></div>
           <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
+          <input type="file" (change)="onFileChange($event)" />
         </div>
 
         <div class="save-btn-container">
-        <button (click)="addComment()" class="save-btn">Save</button>
+        <!-- <button (click)="addComment()" class="save-btn">Save</button> -->
+          <button (click)="saveData()" class="save-btn">Save</button>
         </div>
 
         <div class="comments-area" *ngFor="let comment of ticket.comments">
