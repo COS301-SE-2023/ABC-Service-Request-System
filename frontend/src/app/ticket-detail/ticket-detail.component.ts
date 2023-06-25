@@ -83,7 +83,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   saveData(): void {
     const newComment = this.commentInputControl.value;
-    // Perform actions with the input value, e.g., save to database, send to API, etc.
     console.log('Input Value:', newComment);
     console.log('Selected File:', this.file);
 
@@ -93,7 +92,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
 
     if (newComment && this.file) {
-      // Both comment and file are present, upload the file and add the comment
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
           const attachmentUrl = result.url;
@@ -104,10 +102,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         }
       );
     } else if (newComment) {
-      // Only comment is present, add the comment
       this.addComment(newComment, '');
     } else {
-      // Only file is present, upload the file
       this.ticketService.uploadFile(this.file!).subscribe(
         (result: any) => {
           console.log('File uploaded successfully', result);
