@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-ticket-detail',
@@ -13,7 +15,7 @@ import { FormControl } from '@angular/forms';
 })
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private ticketService: TicketsService) { }
+  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -30,6 +32,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.file = file as File | null;
   }
 
+  getSanitizedUrl(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
 
 
 
