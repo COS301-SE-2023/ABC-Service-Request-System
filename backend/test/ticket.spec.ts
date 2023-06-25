@@ -39,7 +39,6 @@ describe('/First test collection', () => {
     it('should verify that we have no tickets in the DB...', async () => {
         const res = await chai.request(app)
             .get('/api/test_ticket');
-            // chai.expect(res.text).to.equal(`{"message":"Welcome to the server!"}`);
         
         res.should.have.status(200);
         res.body.should.be.a('array');
@@ -47,47 +46,72 @@ describe('/First test collection', () => {
     });
 
     it('should POST sample_tickets data...', async () => {
-        // let tickets = [
-        //     {
-        //         id: "Test ID",
-        //         summary: "Test summary",
-        //         assignee: "Test assignee",
-        //         assigned: "Test assigned",
-        //         group: "Test group",
-        //         priority: "Test priority",
-        //         startDate: "Test start date",
-        //         endDate: "Test end date",
-        //         status: "Test status",
-        //     },
-        //     {
-        //         id: "Test ID",
-        //         summary: "Test summary",
-        //         assignee: "Test assignee",
-        //         assigned: "Test assigned",
-        //         group: "Test group",
-        //         priority: "Test priority",
-        //         startDate: "Test start date",
-        //         endDate: "Test end date",
-        //         status: "Test status",
-        //     }
-        // ];
-
-
         const res = await chai.request(app)
             .post('/api/test_ticket/seed');
-            // chai.expect(res.text).to.equal(`{"message":"Welcome to the server!"}`);
         
         res.should.have.status(201);
         res.body.should.be.a('array');
         res.body.should.have.lengthOf(3);
     });
 
+    it('should check that comments for user 1 is empty at first...', async () => {
+        let userId = '1';
 
-    it('test two values...', () => {
-        //actual test content
-        let expectedValue = 10;
-        let actualValue = 10;
+        const res = await chai.request(app)
+            .get('/api/test_ticket/id')
+            .query({ id: userId});
 
-        expect(actualValue).to.be.equal(expectedValue);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('comments');
+        res.body.comments.should.be.a('array');
+        res.body.comments.should.have.lengthOf(0);
+    });
+
+    it('should add a comment to user 1...', async () => {
+
+        const toSend = {
+            ticketId: '1',
+            comment: 'hi',
+            author: 'John',
+            type: 'comment'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/comment')
+            .send(toSend);
+
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Comment added successfully');
+    });
+
+    it('should check that comments for user 1 is has a single item and the content of the message should be "hi"...', async () => {
+        let userId = '1';
+
+        const res = await chai.request(app)
+            .get('/api/test_ticket/id')
+            .query({ id: userId});
+
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('comments');
+        res.body.comments.should.be.a('array');
+        res.body.comments.should.have.lengthOf(1);
+        expect(res.body.comments[0]).to.have.property('content');
+        res.body.comments[0].content.should.be.a('string');
+        expect(res.body.comments[0].content).to.be.equal('hi');
+    });
+
+    it('should return 404 when an invalid ticket ID is being accessed...', async () => {
+        let userId = '20';
+
+        const res = await chai.request(app)
+            .get('/api/test_ticket/id')
+            .query({ id: userId});
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Id not found');
     });
 })
