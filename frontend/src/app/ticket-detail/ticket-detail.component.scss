@@ -3,6 +3,7 @@
   width: 78%;
   float: right;
   padding: 1.5em;
+  margin-top: 60px;
 
   h1{
     text-transform: capitalize;
@@ -349,3 +350,17 @@ mat-expansion-panel-header.mat-expanded,
   text-decoration: underline;
 }
 
+
+
+//done button
+.mat-mdc-form-field{
+  width: 100%;
+}
+
+.whiteText {
+  color: white;
+}
+
+// .mat-mdc-text-field-wrapper, .mdc-text-field, .ng-tns-c926814666-0, .mdc-text-field--filled{
+//   background-color: red;
+// }
