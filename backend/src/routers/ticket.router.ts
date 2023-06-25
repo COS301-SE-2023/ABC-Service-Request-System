@@ -84,7 +84,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
         await newTicket.save();
 
         console.log("New ticket created succesfully");
-        res.status(201).send({ message: "Ticket created succesfully" });
+        res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
     }
     catch (error) {
         console.error("Ticket creation error:", error);

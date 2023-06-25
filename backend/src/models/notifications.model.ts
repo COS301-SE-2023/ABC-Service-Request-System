@@ -15,7 +15,8 @@ export const notificationsSchema = new Schema<notifications> (
         assignedEmail: {type: String, required: true},
         ticketSummary: {type: String, required: true},
         link: {type: String, required: true}
-    },{
+    },
+    {
         toJSON: {
             virtuals: true
         },

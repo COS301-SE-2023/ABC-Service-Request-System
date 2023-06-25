@@ -28,6 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { NotificationsPanelComponent } from './notifications-panel/notifications-panel.component';
+import { NotificationItemComponent } from './notification-item/notification-item.component';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
@@ -47,6 +51,8 @@ import { MatOptionModule } from '@angular/material/core';
     NewTicketFormComponent,
     SearchBarComponent,
     UpdateTicketModalComponent,
+    NotificationsPanelComponent,
+    NotificationItemComponent,
     ActivateAccountComponent,
     CommentPanelComponent,
     CreateAccountComponent,
@@ -62,6 +68,8 @@ import { MatOptionModule } from '@angular/material/core';
     MatSlideToggleModule,
     MatExpansionModule,
     MatSortModule,
+    MatIconModule,
+    MatBadgeModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule

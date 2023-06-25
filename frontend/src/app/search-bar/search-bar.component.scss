@@ -28,6 +28,7 @@ select:hover {
 .ticket-header-right {
   display: flex;
   justify-content: center;
+  z-index: -1;
 }
 
 .search-container {
