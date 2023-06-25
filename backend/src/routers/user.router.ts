@@ -109,7 +109,7 @@ router.post("/create_user", expressAsyncHandler(
             const newUser = new UserModel({
                 name: req.body.name,
                 surname: req.body.surname,
-                profilePhoto: req.body.profilePhoto,
+                profilePhoto: req.body.profilePhoto || "http://example.com/img/default.jpg",
                 emailAddress: req.body.emailAddress,
                 inviteToken,
                 status: "pending",

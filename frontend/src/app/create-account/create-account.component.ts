@@ -20,7 +20,7 @@ export class CreateAccountComponent {
     this.createUserForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      profilePhoto: ['', Validators.required],
+      profilePhoto: [''],
       emailAddress: ['', [Validators.required, Validators.email]],
       roles: ['', Validators.required],
       groups: ['', Validators.required]

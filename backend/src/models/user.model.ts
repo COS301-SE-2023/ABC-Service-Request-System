@@ -21,7 +21,7 @@ export const userSchema = new Schema<any>(
     {
         name: {type: String, required: true},
         surname:{type: String, required: true},
-        profilePhoto:{type: String, required: true},
+        profilePhoto:{type: String, required: false},
         emailAddress: {type: String, unique: true, required: true},
         emailVerified: {type: Boolean, required: true, default: false},
         password: {type: String, required: true, select: true},

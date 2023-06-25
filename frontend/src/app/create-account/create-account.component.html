@@ -9,10 +9,7 @@
       <label for="surname" class="form-label">Surname</label>
       <input type="text" id="surname" formControlName="surname" class="form-input">
     </div>
-    <div class="form-group">
-      <label for="profilePhoto" class="form-label">Profile Photo</label>
-      <input type="text" id="profilePhoto" formControlName="profilePhoto" class="form-input">
-    </div>
+    <!-- Removed profile photo input -->
     <div class="form-group">
       <label for="emailAddress" class="form-label">Email Address</label>
       <input type="email" id="emailAddress" formControlName="emailAddress" class="form-input">
@@ -23,7 +20,6 @@
         <option [hidden]="!authService.isAdmin()" value="Manager">Manager</option>
         <option value="Technical">Technical</option>
         <option value="Functional">Functional</option>
-
         <!-- Add more roles as needed -->
       </select>
     </div>
