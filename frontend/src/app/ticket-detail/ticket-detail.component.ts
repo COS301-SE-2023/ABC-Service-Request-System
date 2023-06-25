@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tickets } from '../data';
@@ -26,6 +27,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   textareaValue = '';
 
   file: File | null = null;
+  selectedStatus = '';
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -132,6 +134,19 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   isPDF(url: string): boolean {
     return url.toLowerCase().endsWith('.pdf');
   }
+
+  updateTicketStatus(): void {
+    if(this.ticket && this.selectedStatus){
+      this.ticketService.updateTicketStatus(this.ticket.id, this.selectedStatus)
+        .subscribe(response => {
+          this.ticket.status = this.selectedStatus as "Done" | "Pending" | "Active";
+          location.reload();
+        }, error => {
+          console.error('Error updating status:', error);
+        });
+    }
+  }
+
 
 }
 

@@ -39,4 +39,10 @@ export class TicketsService {
     return this.http.post<{ url: string }>(`${this.TICKET_URL}/upload`, formData);
   }
 
+  updateTicketStatus(ticketId: string, status: string) {
+    const body = {ticketId, status};
+    return this.http.put(`${this.TICKET_URL}/updateStatus`, body);
+  }
+
+
 }
