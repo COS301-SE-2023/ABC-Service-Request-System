@@ -30,6 +30,7 @@ import { Sort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NotificationsPanelComponent } from './notifications-panel/notifications-panel.component';
+import { NotificationItemComponent } from './notification-item/notification-item.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { NotificationsPanelComponent } from './notifications-panel/notifications
     SearchBarComponent,
     UpdateTicketModalComponent,
     NotificationsPanelComponent,
+    NotificationItemComponent,
   ],
   imports: [
     BrowserModule,
