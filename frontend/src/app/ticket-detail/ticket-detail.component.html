@@ -30,7 +30,10 @@
         <div class="note-button-area">
           <div class="user-profile-img"></div>
           <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
-          <input type="file" (change)="onFileChange($event)" />
+          <!-- <input type="file" (change)="onFileChange($event)" /> -->
+          <label for="fileInput" class="file-input-label">
+            <input type="file" id="fileInput" class="file-input" (change)="onFileChange($event)" />
+          </label>
         </div>
 
         <div class="save-btn-container">
@@ -56,15 +59,16 @@
       <h1>Ticket Information</h1>
       <div class="button-area">
         <mat-form-field>
-          <mat-label>Status</mat-label>
+          <mat-label>{{ticket.status}}</mat-label>
           <mat-select [(value)]="selectedStatus">
             <mat-option *ngIf="ticket.status !== 'Pending'" [value]="'Pending'">Change to Pending</mat-option>
             <mat-option *ngIf="ticket.status !== 'Active'" [value]="'Active'">Change to Active</mat-option>
             <mat-option *ngIf="ticket.status !== 'Done'" [value]="'Done'">Change to Done</mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button>
+        <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button>
       </div>
+
 
       <div class="sla-area">
         <mat-expansion-panel (opened)="SLAPanelOpenState = true"

@@ -48,6 +48,29 @@
           color: white;
         }
 
+        .file-input {
+          visibility: hidden;
+          width: 0;
+          height: 0;
+        }
+
+        .file-input-label {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          background: url(../../assets/attachment.png) no-repeat center center;
+          background-size: contain;
+          cursor: pointer;
+          transition: background-color .3s ease-in-out;
+          margin-left: 20px;
+          margin-right: 10px;
+        }
+
+        .file-input-label:hover {
+          background-color: #b1b1b1;
+        }
+
+
 
         .note-button-area{
           margin-top: 1em;
@@ -141,6 +164,23 @@
       h1{
         font-size: 1.5em;
         margin-bottom: 1em;
+      }
+
+      .update-status-button {
+        background-color: blue;
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.3s;
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .update-status-button:hover {
+        background-color: deepskyblue;
       }
     }
   }
