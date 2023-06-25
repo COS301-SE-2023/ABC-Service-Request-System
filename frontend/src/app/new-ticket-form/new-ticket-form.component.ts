@@ -33,7 +33,7 @@ export class NewTicketFormComponent {
   onSubmit() {
     if (this.ticketForm.valid) {
       const ticketFormValues = this.ticketForm.value;
-      
+
       const summary = ticketFormValues.summary;
       const assignee = ticketFormValues.assignee;
       const assigned = ticketFormValues.assigned;
@@ -56,7 +56,7 @@ export class NewTicketFormComponent {
         const notificationType = "Alert";
         const creatorEmail = "test@example.com";
         const assignedEmail = "test@example.com";
-        const ticketSummary = "Testing";
+        const ticketSummary = summary;
         const link = newTicketId;
 
         this.notificationsService.newNotification(notificationType, creatorEmail, assignedEmail, ticketSummary, link).subscribe((response: any) => {
@@ -80,7 +80,7 @@ export class NewTicketFormComponent {
 
       this.newTicketEvent.emit(newTicket);
       this.ticketForm.reset();
-    } 
+    }
     else {
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');

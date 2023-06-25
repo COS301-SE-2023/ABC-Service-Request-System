@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
@@ -14,10 +14,19 @@ export class PageHeaderComponent {
   filteredTickets = this.tickets;
   showForm = false;
 
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    const clickedInside = this.elementRef.nativeElement.contains(targetElement);
+    if (!clickedInside) {
+      this.closeNotificationsForm();
+    }
+  }
+
   @Output() openForm = new EventEmitter<void>();
   // @Input() tickets: any[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private elementRef: ElementRef) {}
 
   openNewTicketForm() {
     this.openForm.emit();
