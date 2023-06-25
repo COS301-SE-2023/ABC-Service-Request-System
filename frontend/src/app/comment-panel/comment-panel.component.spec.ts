@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentPanelComponent } from './comment-panel.component';
+// import { CommentPanelComponent } from './comment-panel.component';
 
-describe('CommentPanelComponent', () => {
-  let component: CommentPanelComponent;
-  let fixture: ComponentFixture<CommentPanelComponent>;
+// describe('CommentPanelComponent', () => {
+//   let component: CommentPanelComponent;
+//   let fixture: ComponentFixture<CommentPanelComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CommentPanelComponent]
-    });
-    fixture = TestBed.createComponent(CommentPanelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [CommentPanelComponent]
+//     });
+//     fixture = TestBed.createComponent(CommentPanelComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

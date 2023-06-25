@@ -18,7 +18,7 @@
     "@angular/compiler": "^16.0.0",
     "@angular/core": "^16.0.0",
     "@angular/forms": "^16.0.0",
-    "@angular/material": "^16.1.1",
+    "@angular/material": "^16.1.2",
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
@@ -52,6 +52,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "postcss": "^8.4.24",
+    "sinon": "^15.2.0",
     "tailwindcss": "^3.3.2",
     "typescript": "~5.0.2"
   },
