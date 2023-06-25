@@ -31,6 +31,9 @@ import { Sort, MatSortModule } from '@angular/material/sort';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +62,9 @@ import { CreateAccountComponent } from './create-account/create-account.componen
     MatSlideToggleModule,
     MatExpansionModule,
     MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
