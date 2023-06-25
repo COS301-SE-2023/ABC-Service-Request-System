@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
+import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
+import { notifications } from '../../../../backend/src/models/notifications.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 @Component({
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 export class NewTicketFormComponent {
   ticketForm!: FormGroup;
 
-  constructor(private ticketService: TicketsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       assignee: '',
@@ -30,21 +32,34 @@ export class NewTicketFormComponent {
 
   onSubmit() {
     if (this.ticketForm.valid) {
-      const formValues = this.ticketForm.value;
+      const ticketFormValues = this.ticketForm.value;
       
-      const summary = formValues.summary;
-      const assignee = formValues.assignee;
-      const assigned = formValues.assigned;
-      const group = formValues.group;
-      const priority = formValues.priority;
-      const startDate = this.formatDate(formValues.startDate);
-      const endDate = this.formatDate(formValues.endDate);
-      const status = formValues.status;
-      const comments = formValues.comments;
+      const summary = ticketFormValues.summary;
+      const assignee = ticketFormValues.assignee;
+      const assigned = ticketFormValues.assigned;
+      const group = ticketFormValues.group;
+      const priority = ticketFormValues.priority;
+      const startDate = this.formatDate(ticketFormValues.startDate);
+      const endDate = this.formatDate(ticketFormValues.endDate);
+      const status = ticketFormValues.status;
+      const comments = ticketFormValues.comments;
 
+      // adding new ticket
       this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         console.log(response);
       });
+
+      // create a notification corresponding to the ticket
+      /*const notificationType = "Alert";
+      const creatorEmail = "test@example.com";
+      const assignedEmail = "test@example.com";
+      const ticketSummary = "Testing";
+      const link = "";
+
+      this.notificationsService.newNotification(notificationType, creatorEmail, assignedEmail, ticketSummary, link).subscribe((response: any) => {
+        console.log(response);
+      });*/
+
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -64,7 +79,7 @@ export class NewTicketFormComponent {
       this.ticketForm.reset();
 
       // should navigate to ticket directly
-     // this.router.navigate(['/ticket/${id}']);
+      //this.router.navigate([`/ticket/${id}`]);
     } 
     else {
       // Handle invalid form submission

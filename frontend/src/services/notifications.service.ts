@@ -8,17 +8,22 @@ import { notifications } from "../../../backend/src/models/notifications.model";
   providedIn: 'root'
 })
 
-export class TicketsService {
+export class NotificationsService {
   TICKET_URL = 'http://localhost:3000/api/ticket';
   NOTIFICATIONS_URL = 'http://localhost:3000/api/notifications';
 
   constructor(private http: HttpClient, private router: Router) { }
 
- /* getAllNotifications() {
-
+  getAllNotifications() {
+    return this.http.get<notifications[]>(this.NOTIFICATIONS_URL);
   }
 
-  getNotificationID() {
+  /*getNotificationID() {
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
-  }*/
+  }
+
+  newNotification(notificationType: string, creatorEmail: string, assignedEmail: string, ticketSummary: string, link: string) {
+    const body = {notificationType, creatorEmail, assignedEmail, ticketSummary, link};
+    return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body);
+  })*/
 }
