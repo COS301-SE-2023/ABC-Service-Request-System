@@ -19,7 +19,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         res.status(400).json({ message: 'No file uploaded' });
         return;
       }
-      
+      //check if pdf
       const result = await cloudinary.uploader.upload(req.file.path);
       res.status(200).json({ url: result.secure_url });
     } catch (error) {

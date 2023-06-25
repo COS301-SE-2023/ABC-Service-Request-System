@@ -107,6 +107,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.ticketService.uploadFile(this.file!).subscribe(
         (result: any) => {
           console.log('File uploaded successfully', result);
+          this.addComment('',result.url);
           location.reload();
         },
         (error: any) => {
@@ -117,7 +118,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   addComment(comment: string, attachmentUrl: string): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, 'kolo', 'comment', attachmentUrl).subscribe(
+    this.ticketService.makeAComment(this.ticket.id, comment, 'User', 'comment', attachmentUrl).subscribe(
       res => {
         console.log('Comment added successfully', res);
         location.reload();
@@ -127,5 +128,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  isPDF(url: string): boolean {
+    return url.toLowerCase().endsWith('.pdf');
+  }
+
 }
 

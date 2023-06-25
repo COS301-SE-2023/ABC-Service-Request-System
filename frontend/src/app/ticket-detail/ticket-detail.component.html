@@ -41,7 +41,11 @@
         <div class="comments-area" *ngFor="let comment of ticket.comments">
           <app-comment-panel [comment]="comment"></app-comment-panel>
           <div class = "ticket-attachment">
-            <img  *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment">
+            <!-- <img  *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment"> -->
+            <ng-container *ngIf="comment.attachmentUrl">
+              <a *ngIf="isPDF(comment.attachmentUrl)" [href]="comment.attachmentUrl" target="_blank">PDF Attachment</a>
+              <img *ngIf="!isPDF(comment.attachmentUrl)" [src]="comment.attachmentUrl" alt="Attachment">
+            </ng-container>
           </div>
         </div>
 
