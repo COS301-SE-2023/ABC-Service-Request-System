@@ -37,7 +37,11 @@ export class PageHeaderComponent {
     this.showForm = false;
   }
 
-  /*openNotifications(): void {
+  openNotifications() {
     this.showForm = true;
-  }*/
+  }
+
+  closeNotificationsForm(): void {
+    this.showForm = false;
+  }
 }
