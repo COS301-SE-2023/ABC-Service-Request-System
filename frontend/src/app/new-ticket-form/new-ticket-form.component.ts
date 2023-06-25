@@ -45,8 +45,14 @@ export class NewTicketFormComponent {
       const comments = ticketFormValues.comments;
 
       // adding new ticket
+
+
       this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+        const newTicketId = response.newTicketID;
         console.log(response);
+
+        // should navigate to ticket directly
+        this.router.navigate([`/ticket/${newTicketId}`]);
       });
 
       // create a notification corresponding to the ticket
@@ -77,9 +83,6 @@ export class NewTicketFormComponent {
 
       this.newTicketEvent.emit(newTicket);
       this.ticketForm.reset();
-
-      // should navigate to ticket directly
-      //this.router.navigate([`/ticket/${id}`]);
     } 
     else {
       // Handle invalid form submission
