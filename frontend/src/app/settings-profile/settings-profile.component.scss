@@ -4,13 +4,23 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    float: right;
+    float: center;
     display: grid;
   
     h2 {
       margin-bottom: 20px;
       text-align: center;
     }
+
+    img {
+      display: inline-block;
+      vertical-align: middle;
+      width: 10px; /* Adjust the width as needed */
+      height: auto; /* Maintain aspect ratio */
+      margin-right: 10px; /* Adjust the margin as needed */
+      margin-left: 10px;
+    }
+    
   
     .profile-picture {
       display: flex;

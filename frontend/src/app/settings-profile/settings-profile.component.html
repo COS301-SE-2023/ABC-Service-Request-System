@@ -4,27 +4,24 @@
 <div class ="profile">
     <h2>Profile</h2>
     <div class="profile-picture">
-        <img src="#" alt="profile-picture">
-        <input type="file">
+        <img src="url" alt="profile-picture">
+        <input type="file" (change)="onFileChange($event)" name="profilePicture" [(ngModel)]="editedPicture">
     </div>
     <form>
 
         <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
+                <label for="name">Name:</label>
+                <span id="name" name="name" *ngIf="!editingName" contenteditable="true" (input)="onNameChange($event)">{{ this.editedName }}</span>
+                <img src="./assets/pencil.png" alt="pencil">
         </div>
 
         <div class="form-group">
-            <label for="surname">surname:</label>
-            <input type="text" id="surname" name="surname" required>
+            <label for="surname">Surname:</label>
+            <span id="surname" name="surname" *ngIf="!editingSurname" contenteditable="true" (input)="onSurnameChange($event)">{{ this.editedSurname }}</span>
+            <img src="./assets/pencil.png" alt="pencil">
         </div>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-
-        <button type="submit">Update Profile</button>
+        <button [disabled]="!isDirty" (click)="saveChanges()">Save</button>
 </form>
 
 </div>

@@ -13,21 +13,35 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) { }
   getUser(userID: string)
   {
-    return this.http.get<User>(`${this.USER_URL}/${userID}`);
+    //alert(userID);
+    return this.http.get<User>(`${this.USER_URL}/id?id=${userID}`);
   }
 
-  updateProfile(userId: string, data: FormData) {
-    const url = `${this.USER_URL}/${userId}`;//`${this.USER_URL}/${userId}`
-    const body = { data };
+  updateProfileName(name: string, email: string) {
+    const url = `${this.USER_URL}/update_user_name`;
+    const body = { name, email };
     return this.http.put(url, body);
   }
 
-  updateUserProfilePicture(userId: string, profilePicture: File): Observable<User> {
-    const url = `${this.USER_URL}/${userId}/profile-picture`;
+  updateProfileSurname(surname: string,email: string) {
+    const url = `${this.USER_URL}/update_user_surname`;
+    const body = { surname,email };
+    return this.http.put<User>(url, body);
+  }
 
+  updateProfilePassword(password: string,email: string) {
+    const url = `${this.USER_URL}/update_user_password`;
+    const body = { password,email };
+    return this.http.put<User>(url, body);
+  }
+
+  updateUserProfilePicture(profilePicture: File, email: string): Observable<User> {
+    const url = `${this.USER_URL}/update_profile_picture`;
     const formData = new FormData();
-    formData.append('profilePicture', profilePicture);
+    formData.append('profilePicture',profilePicture);
+    const body = { profilePicture, email}
 
     return this.http.put<User>(url, formData);
+    
   }
 }

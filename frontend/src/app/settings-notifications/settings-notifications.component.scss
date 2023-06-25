@@ -1,6 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 h1{
     display: grid;
+    position: relative;
+    align-items: center;
     float: center;
+    margin-right: 100px;
 }
 
 .slider.round {
@@ -16,7 +31,7 @@ h1{
     display: inline-block;
     width: 60px;
     height: 34px;
-    float: right;
+    //float: right;
   }
   
   .switch input { 

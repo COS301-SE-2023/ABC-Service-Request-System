@@ -1,15 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .sidenav {
-  height: 100%;
-  width: 330px;
-  background-color: #494545;
+  height: 100vh;
+  width: 22%;
+  background: rgb(4,83,142);
+  background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
   padding-top: 20px;
   font-family: 'Poppins', sans-serif;
-
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: fixed;
 }
 
 .project-header {

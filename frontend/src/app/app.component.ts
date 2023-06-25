@@ -25,9 +25,9 @@ export class AppComponent {
   title = 'Project';
 
   constructor(private http: HttpClient, private router: Router) {
-    this.getData().subscribe(data => {
-      alert(data.message);
-    })
+    // this.getData().subscribe(data => {
+    //   alert(data.message);
+    // })
   }
 
   getData(): Observable<any> {

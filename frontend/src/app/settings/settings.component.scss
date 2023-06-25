@@ -1,100 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-.sidenav{
-  height: 100%;
-  width: 20%;
-  float: left;
-  background-color: #494545;
-  padding-top: 318px;
-
-
-  -webkit-box-shadow: inset -11px 4px 29px -16px rgba(0,0,0,0.75);
-  -moz-box-shadow: inset -11px 4px 29px -16px rgba(0,0,0,0.75);
-  box-shadow: inset -11px 4px 29px -16px rgba(0,0,0,0.75);
-
+.sidenav1 {
+  height: 100vh;
+  width: 22%;
+  background: rgb(4,83,142);
+  background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
+  padding-top: 20px;
   font-family: 'Poppins', sans-serif;
-
-  display: grid;
-  
-  //flex-direction: column;
-  //align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  float: right;
 }
 
-.project-header{
+.project-header {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.project-icon{
+.project-icon {
   width: 25px;
   height: 25px;
   background-color: white;
   margin: 2em;
 }
 
-.sidenav a {
-  padding: 15px;
-  text-decoration: none;
-  font-size: 1.2em;
-  color: #818181;
-  display: block;
-  background-color: #545151;
-  border-radius: 0.3em;
-  width: 80%;
-  margin: 0.5em
+h2 {
+  color:#f1f1f1;
 }
 
-
-
-// .add-ticket-button  {
-//   padding: 15px;
-//   text-decoration: none;
-//   font-size: 25px;
-//   color: #818181;
-//   display: block;
-//   background-color: #545151;
-//   margin: 0.5em;
-//   border-radius: 0.3em;
-//   font-family: 'Poppins', sans-serif;
-// }
-
-// .add-ticket-button a {
-//   padding: 15px;
-//   text-decoration: none;
-//   font-size: 25px;
-//   color: #818181;
-//   display: block;
-//   background-color: #545151;
-//   margin: 0.5em;
-//   border-radius: 0.3em;
-// }
-
-// .add-ticket-button a:hover{
-//   color: #f1f1f1;
-
-// }
-
-.sidenav a:hover {
-  color: #f1f1f1;
-}
-h2{
-color:#f1f1f1;
+.nav-items img {
+  margin-right: 1em;
+  height: 1em;
+  width: 1em;
 }
 
-button{
+button {
   border: 0;
   width: 90%;
   margin: 0.5em;
   padding: 15px;
   font-size: 1.2em;
-  color: #818181;
-  background-color: #545151;
+  color: #04538e;
+  background-color: #fff;
   border-radius: 0.3em;
   text-align: start;
+  box-shadow: 3px 3px #04538e;
+  cursor: pointer;
 }
 
-button:hover{
+button:hover {
   color: white;
+  background-color: #04538e;
+  box-shadow: 3px 3px #032f52;
+  transition-duration: 0.2s;
+}
+
+button:active {
+  color: white;
+  background-color: #04538e;
+  box-shadow: 0px 2px #032f52;
+  transform: translateY(3px);
 }
