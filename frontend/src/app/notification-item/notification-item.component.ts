@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { notifications } from '../../../../backend/src/models/notifications.model';
 
 @Component({
   selector: 'app-notification-item',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./notification-item.component.scss']
 })
 export class NotificationItemComponent {
-
+  @Input() notifications!:notifications;
 }
