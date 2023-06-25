@@ -107,6 +107,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.ticketService.uploadFile(this.file!).subscribe(
         (result: any) => {
           console.log('File uploaded successfully', result);
+          location.reload();
         },
         (error: any) => {
           console.log('Error uploading file', error);
@@ -119,6 +120,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.ticketService.makeAComment(this.ticket.id, comment, 'kolo', 'comment', attachmentUrl).subscribe(
       res => {
         console.log('Comment added successfully', res);
+        location.reload();
       },
       err => {
         console.log('Error while adding comment', err);

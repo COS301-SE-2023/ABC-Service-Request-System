@@ -40,7 +40,9 @@
 
         <div class="comments-area" *ngFor="let comment of ticket.comments">
           <app-comment-panel [comment]="comment"></app-comment-panel>
-          <img *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment">
+          <div class = "ticket-attachment">
+            <img  *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment">
+          </div>
         </div>
 
       </div>
