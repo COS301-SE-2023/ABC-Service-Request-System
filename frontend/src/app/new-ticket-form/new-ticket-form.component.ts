@@ -45,27 +45,24 @@ export class NewTicketFormComponent {
       const comments = ticketFormValues.comments;
 
       // adding new ticket
-
-
       this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
         // should navigate to ticket directly
         this.router.navigate([`/ticket/${newTicketId}`]);
+
+        // create a notification corresponding to the ticket
+        const notificationType = "Alert";
+        const creatorEmail = "test@example.com";
+        const assignedEmail = "test@example.com";
+        const ticketSummary = "Testing";
+        const link = newTicketId;
+
+        this.notificationsService.newNotification(notificationType, creatorEmail, assignedEmail, ticketSummary, link).subscribe((response: any) => {
+          console.log(response);
+        });
       });
-
-      // create a notification corresponding to the ticket
-      /*const notificationType = "Alert";
-      const creatorEmail = "test@example.com";
-      const assignedEmail = "test@example.com";
-      const ticketSummary = "Testing";
-      const link = "";
-
-      this.notificationsService.newNotification(notificationType, creatorEmail, assignedEmail, ticketSummary, link).subscribe((response: any) => {
-        console.log(response);
-      });*/
-
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {

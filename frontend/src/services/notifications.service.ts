@@ -20,10 +20,10 @@ export class NotificationsService {
 
   /*getNotificationID() {
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
-  }
+  }*/
 
   newNotification(notificationType: string, creatorEmail: string, assignedEmail: string, ticketSummary: string, link: string) {
     const body = {notificationType, creatorEmail, assignedEmail, ticketSummary, link};
     return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body);
-  })*/
+  }
 }
