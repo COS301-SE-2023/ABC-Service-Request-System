@@ -13,7 +13,7 @@ export class CreateAccountComponent {
   errorMessage!: string; // Add definite assignment assertion (!)
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder
   ) {

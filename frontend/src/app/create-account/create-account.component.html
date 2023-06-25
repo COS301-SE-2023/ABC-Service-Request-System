@@ -20,11 +20,10 @@
     <div class="form-group">
       <label for="roles" class="form-label">Roles</label>
       <select id="roles" formControlName="roles" class="form-input">
-        <option value="Manager">Manager</option>
-        <option value="Admin">Admin</option>
+        <option *ngIf="authService.isAdmin()" value="Manager">Manager</option>
         <option value="Technical">Technical</option>
         <option value="Functional">Functional</option>
-        <option value="User">User</option>
+
         <!-- Add more roles as needed -->
       </select>
     </div>
