@@ -21,6 +21,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   detailsPanelOpenState = true;
   private routeSubscription: Subscription = new Subscription();
   commentInputControl = new FormControl('');
+  textareaValue = '';
+
+  adjustTextareaHeight(textarea: any) {
+    textarea.style.height = 'auto'; // Reset the height to auto to calculate the actual height
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
+  }
 
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
@@ -43,13 +49,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  onSave(): void {
+  addComment(): void {
     const newComment = this.commentInputControl.value;
     // Perform actions with the input value, e.g., save to database, send to API, etc.
     console.log('Input Value:', newComment);
     if(newComment){
-      alert(this.ticket.id);
-      this.ticketService.makeAComment(this.ticket.id, newComment).subscribe(
+      this.ticketService.makeAComment(this.ticket.id, newComment, 'kolo', 'comment').subscribe(
         res => {
           console.log('Comment added successfully', res);
         },

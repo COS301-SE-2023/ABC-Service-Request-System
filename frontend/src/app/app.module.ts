@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     SearchBarComponent,
     UpdateTicketModalComponent,
     ActivateAccountComponent,
+    CommentPanelComponent,
   ],
   imports: [
     BrowserModule,

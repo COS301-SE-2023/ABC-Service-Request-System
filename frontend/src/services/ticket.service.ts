@@ -20,8 +20,8 @@ export class TicketsService {
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
 
-  makeAComment(ticketId: string, comment: string){
-    const body = {ticketId, comment};
+  makeAComment(ticketId: string, comment: string, author: string, type: string){
+    const body = {ticketId, comment, author, type};
     return this.http.put(`${this.TICKET_URL}/comment`, body);
   }
 

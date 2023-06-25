@@ -3,6 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import { TicketModel } from "../models/ticket.model";
 import { sample_tickets } from "../data";
 import mongoose from "mongoose";
+import { comment } from "../models/ticket.model";
 
 const router = Router();
 
@@ -93,9 +94,19 @@ router.put('/comment', expressAsyncHandler(
     async (req, res) => {
         const ticketId = req.body.ticketId;
         const comment = req.body.comment;
+        const author = req.body.author;
+        const type = req.body.type;
+        const createdAt = new Date();
+
+        const newComment: comment = {
+            author: author,
+            content: comment,
+            createdAt: createdAt,
+            type: type
+        };
 
         try{
-            const ticket = await TicketModel.findByIdAndUpdate(ticketId, { $push: { comments: comment } }, { new: true });
+            const ticket = await TicketModel.findOneAndUpdate({ id: ticketId }, { $push: { comments: newComment } }, { new: true });
 
             if (ticket) {
                 res.status(200).json({ message: 'Comment added successfully' });

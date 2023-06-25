@@ -29,10 +29,16 @@
 
         <div class="note-button-area">
           <div class="user-profile-img"></div>
-          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..."></textarea>
+          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
         </div>
 
-        <button (click)="onSave()">Save</button>
+        <div class="save-btn-container">
+        <button (click)="addComment()" class="save-btn">Save</button>
+        </div>
+
+        <div class="comments-area" *ngFor="let comment of ticket.comments">
+          <app-comment-panel [comment]="comment"></app-comment-panel>
+        </div>
 
       </div>
     </div>
