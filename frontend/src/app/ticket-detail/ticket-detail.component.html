@@ -60,13 +60,13 @@
       <div class="button-area">
         <mat-form-field>
           <mat-label>{{ticket.status}}</mat-label>
-          <mat-select [(value)]="selectedStatus">
+          <mat-select [(value)]="selectedStatus" (valueChange)="updateTicketStatus()">
             <mat-option *ngIf="ticket.status !== 'Pending'" [value]="'Pending'">Change to Pending</mat-option>
             <mat-option *ngIf="ticket.status !== 'Active'" [value]="'Active'">Change to Active</mat-option>
             <mat-option *ngIf="ticket.status !== 'Done'" [value]="'Done'">Change to Done</mat-option>
           </mat-select>
         </mat-form-field>
-        <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button>
+        <!-- <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button> -->
       </div>
 
 

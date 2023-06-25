@@ -34,6 +34,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.file = file as File | null;
   }
 
+  alerted() {
+    alert('hi');
+  }
+
   getSanitizedUrl(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
