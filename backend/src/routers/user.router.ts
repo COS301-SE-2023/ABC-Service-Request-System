@@ -290,6 +290,12 @@ router.post('/activate_account', expressAsyncHandler(
         user.inviteToken = undefined;
   
         await user.save();
+        const secretKey = "Jetpad2023";
+        const token = jwt.sign(
+            { _id: user._id, role: user.roles },
+            secretKey,
+            { expiresIn: '1d' }
+        );
   
         console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });

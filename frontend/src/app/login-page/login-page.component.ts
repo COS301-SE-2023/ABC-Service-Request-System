@@ -25,7 +25,7 @@ export class LoginPageComponent {
       next: (response: any) => {
         console.log('Login response:', response);
         const token = response.token;
-        this.authService.decodeToken(token);
+        this.authService.setToken(token); // set and decode the token
         console.log('Role:', this.authService.getRole());
   
         // Navigate to dashboard

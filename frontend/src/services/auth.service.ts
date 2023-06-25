@@ -5,25 +5,48 @@ import { UserService } from './user.service';
 
 interface DecodedToken {
   role: string;
+  name: string;
   // other properties...
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private role: string;
+  private name: string;
+  private token: string | null;
 
   constructor(private http: HttpClient, private userService: UserService) { 
     this.role = '';
+    this.name = '';
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+
+    if (this.token) {
+      this.decodeToken(); // decode token if it exists
+    }
   }
 
-  decodeToken(token: string): void {
-    const decodedToken = jwt_decode(token) as DecodedToken;
+  setToken(token: string): void {
+    this.token = token; // Set the token
+    localStorage.setItem('token', token); // Also store it in local storage
+    this.decodeToken(); // Decode the token
+  }
+
+  decodeToken(): void {
+    if (!this.token) return; // if token is not set, do nothing
+
+    const decodedToken = jwt_decode(this.token) as DecodedToken;
     this.role = decodedToken.role;
+    this.name = decodedToken.name;
     console.log('Decoded role:', this.role);
+    console.log('Decoded name:', this.name);
   }
 
   getRole(): string {
     return this.role;
+  }
+
+  getName(): string {
+    return this.name;
   }
 
   isAdmin(): boolean {
@@ -50,5 +73,4 @@ export class AuthService {
     const API_URL = 'http://localhost:3000/api/user'; // Replace with your API URL
     return this.http.post(`${API_URL}/create_user`, userDetails);
   }
-  
 }
