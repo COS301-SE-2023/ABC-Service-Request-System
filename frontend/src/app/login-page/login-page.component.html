@@ -22,9 +22,10 @@
           <br>
 
 
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 
           <mat-slide-toggle color="primary"><span class="slide-toggle-title">Keep me logged in</span></mat-slide-toggle>
-
           <div class="loginButton">
             <button type="button" class="btn" (click)="loginUser()">Log in</button>
           </div>

@@ -6,6 +6,8 @@ import { PageHeaderComponent } from './page-header/page-header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+// import { AuthGuard } from 'src/services/auth.guard';
 
 
 const routes: Routes = [
@@ -14,7 +16,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
-  { path: '**', redirectTo: '/login' } //fallback
+  { path: 'create-account', component: CreateAccountComponent },
+  { path: '**', redirectTo: '/login' }, //fallback
+  
 ];
 
 @NgModule({

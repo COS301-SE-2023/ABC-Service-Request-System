@@ -6,6 +6,8 @@ import { sample_users } from "../sampleUsers";  // Replace this with your actual
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
 
 const router = Router();
 
@@ -24,14 +26,42 @@ router.get('/seed', expressAsyncHandler(
                 res.send("Seed is already done");
                 return;
             }
-            await UserModel.create(sample_users);
-            res.status(200).json("Seed is done!");
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash("admin123", salt);
+
+            const adminUser = {
+                name: "Admin",
+                surname: "admin",
+                profilePhoto: "http://example.com/img/bob.jpg",
+                emailAddress: "admin@admin.com",
+                emailVerified: true,
+                password: hashedPassword,
+                roles: ["Admin"],
+                groups: ["group1", "group2"]
+            };
+
+            const newUser = await UserModel.create(adminUser);
+            const secretKey = "Jetpad2023";
+            // Generate JWT token here, make sure it is the same as the one generated in "activate_account"
+            const token = jwt.sign(
+                { _id: newUser._id, role: 'Admin' },
+                
+                secretKey,
+                { expiresIn: '1d' }
+            );
+
+            console.log("Token:", token);
+
+            // Send the token back to the client
+            res.status(200).json({ message: "Seed is done!", token });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error seeding database' });
         }
     }
 ));
+
 
 
 router.get('/delete', expressAsyncHandler(
@@ -79,7 +109,7 @@ router.post("/create_user", expressAsyncHandler(
             const newUser = new UserModel({
                 name: req.body.name,
                 surname: req.body.surname,
-                profilePhoto: req.body.profilePhoto,
+                profilePhoto: req.body.profilePhoto || "http://example.com/img/default.jpg",
                 emailAddress: req.body.emailAddress,
                 inviteToken,
                 status: "pending",
@@ -265,7 +295,12 @@ router.post('/activate_account', expressAsyncHandler(
   
         console.log('before save');
         await user.save();
-        console.log('after save');
+        const secretKey = "Jetpad2023";
+        const token = jwt.sign(
+            { _id: user._id, role: user.roles },
+            secretKey,
+            { expiresIn: '1d' }
+        );
   
         console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });

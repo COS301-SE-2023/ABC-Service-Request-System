@@ -29,6 +29,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +46,7 @@ import { CommentPanelComponent } from './comment-panel/comment-panel.component';
     UpdateTicketModalComponent,
     ActivateAccountComponent,
     CommentPanelComponent,
+    CreateAccountComponent,
   ],
   imports: [
     BrowserModule,
