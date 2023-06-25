@@ -48,6 +48,7 @@
           color: white;
         }
 
+
         .note-button-area{
           margin-top: 1em;
           display: flex;
@@ -293,3 +294,18 @@ mat-expansion-panel-header.mat-expanded,
 .ticket-container td {
   border: none;
 }
+
+.comments-area img {
+  max-width: 100%;
+  max-height: 200px;
+  margin: 20px;
+  margin-left: 80px;
+}
+
+.comments-area a {
+  margin: 0px;
+  margin-left: 55px;
+  color: blue;
+  text-decoration: underline;
+}
+
