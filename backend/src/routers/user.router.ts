@@ -338,6 +338,7 @@ router.put('/update_user_name',expressAsyncHandler(
         try{
             const { name, email } = req.body;
             console.log("email: " + email);
+            console.log("name: " + name);
 
             const user = await UserModel.findOneAndUpdate(
                 { emailAddress: email },
@@ -348,6 +349,8 @@ router.put('/update_user_name',expressAsyncHandler(
                 },
                 { new: true }
             );
+
+            console.log("user: ", user);
         
             if (user) {
                 res.status(200).json({ message: 'User name updated successfuly' });

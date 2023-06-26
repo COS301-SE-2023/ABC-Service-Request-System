@@ -19,6 +19,7 @@ export class SettingsProfileComponent implements OnInit{
   editingPicture= false;
   editingSurname = false;
   isDirty = false;
+  userPic!: string;
   //file: File | null = null;
 
    constructor(private userService: UserService, private authService: AuthService) {}
@@ -31,8 +32,10 @@ export class SettingsProfileComponent implements OnInit{
     this.user = user;
     this.editedName = user.name;
     //this.editedPicture = user.profilePhoto;
-    this.editedSurname = user.surname;
+      this.editedSurname = user.surname;
     });
+
+    this.userPic = this.getUsersProfilePicture();
   }
 
   toggleEditing(field: string) {
@@ -69,11 +72,13 @@ export class SettingsProfileComponent implements OnInit{
       this.editedSurname = this.user.surname;
       this.isDirty = false;
     });
-    this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
-      console.log('service response: ', response);
-    }, (error: any) => {
-      console.log('Error uploading profile photo', error);
-    })
+    if(this.profilePicture){
+      this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
+        console.log('service response: ', response);
+      }, (error: any) => {
+        console.log('Error uploading profile photo', error);
+      })
+    }
 
   }
 
@@ -109,7 +114,7 @@ export class SettingsProfileComponent implements OnInit{
   }
 
   onFieldChange() {
-      this.isDirty = true;
+    this.isDirty = true;
   }
 
   // onSurnameChange(event: any) {
@@ -137,6 +142,7 @@ export class SettingsProfileComponent implements OnInit{
 
   getUsersProfilePicture(){
     const user = this.authService.getUser();
+    console.log("userrr", user);
     console.log("profile photo: " + user.profilePhoto);
     return this.user.profilePhoto;
   }
