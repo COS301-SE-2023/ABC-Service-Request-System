@@ -34,10 +34,6 @@ The ticketing system will enable seamless collaboration between teams by facilit
     <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
 </a>
 
-## Demo 1
-View our [video](https://youtu.be/J1cRVKzwF0o)
-View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
-
 ## Team Members
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
@@ -120,6 +116,11 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 </a>
 <br><br><br><br><br><br>
 </details>
+
+
+## Demo 1
+View our [video](https://youtu.be/J1cRVKzwF0o)
+View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
 
 [![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
 
