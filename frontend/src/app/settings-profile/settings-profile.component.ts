@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { UserService } from 'src/services/user.service';
 import { user } from '../../../../backend/src/models/user.model';
+import { AuthService } from 'src/services/auth.service';
 @Component({
   selector: 'app-settings-profile',
   templateUrl: './settings-profile.component.html',
@@ -20,7 +21,7 @@ export class SettingsProfileComponent implements OnInit{
   isDirty = false;
   //file: File | null = null;
 
-   constructor(private userService: UserService) {}
+   constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit() {
      const userId = '64997e4b7255cf145c05809f'; // Replace with the actual user ID
@@ -142,6 +143,12 @@ export class SettingsProfileComponent implements OnInit{
       // Call your function or perform any desired actions with the selected file
     }
     this.isDirty = true;
+  }
+
+  getUsersProfilePicture(){
+    const user = this.authService.getUser();
+    console.log("profile photo: " + user.profilePhoto);
+    return this.user.profilePhoto;
   }
 
 //   updateUser() {

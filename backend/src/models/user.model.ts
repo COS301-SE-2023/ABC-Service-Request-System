@@ -1,10 +1,10 @@
-import { Schema, connection, model } from "mongoose"
+import { ObjectId, Schema, connection, model } from "mongoose"
 //import bcrypt from 'bcryptjs';
 type Role = "Manager" | "Functional" | "Technical" | "Admin";
 let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
 
-
 export interface user{
+    id: ObjectId
     name: string
     surname: string
     profilePhoto: string
@@ -27,8 +27,6 @@ export const userSchema = new Schema<user>(
         roles: {type: [String], required: true, enum: roles},
         groups: {type: [String], required: true},
         inviteToken: { type: String }, // Add inviteToken field
-
-        
     },{
         toJSON: {
             virtuals: true

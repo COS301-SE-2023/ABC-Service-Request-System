@@ -4,7 +4,7 @@
 <div class ="profile">
     <h2>Profile</h2>
     <div class="profile-picture">
-        <img src="https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png" alt="profile-picture">
+        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
         <input type="file" name="profilePicture" (change)="onFileChanged($event)">
     </div>
     <form>
