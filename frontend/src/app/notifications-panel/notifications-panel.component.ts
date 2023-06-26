@@ -13,7 +13,9 @@ export class NotificationsPanelComponent implements OnInit {
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
+  sortedUnreadNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
+  sortedReadNotificationsArray: notifications[] = [];
 
   @Input() notifications: notifications[] = [];
 
@@ -21,7 +23,9 @@ export class NotificationsPanelComponent implements OnInit {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
-      return this.unreadNotificationsArray;
+      this.sortedUnreadNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
+        return this.compareDates(a.notificationTime, b.notificationTime, false);
+      });
     });
   }
 
@@ -29,8 +33,20 @@ export class NotificationsPanelComponent implements OnInit {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
       this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
-      return this.readNotificationsArray;
+      this.sortedReadNotificationsArray = this.readNotificationsArray.sort((a, b) => {
+        return this.compareDates(a.notificationTime, b.notificationTime, false);
+      });
     });
+  }
+
+  compareDates(a: Date, b: Date, isAsc: boolean) {
+    if (a < b) {
+      return isAsc ? -1 : 1;
+    } else if (a > b) {
+      return isAsc ? 1 : -1;
+    } else {
+      return 0;
+    }
   }
 
   ngOnInit(): void {
