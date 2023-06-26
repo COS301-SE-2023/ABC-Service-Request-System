@@ -1,7 +1,7 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { TestNotificationsModel } from "../models/testNotifications.model";
 import { sample_notifications } from "../sampleNotifications";
+import { TestNotificationsModel } from "../models/testNotifications.model";
 
 const router = Router();
 
@@ -37,23 +37,26 @@ router.get('/delete', expressAsyncHandler(
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
         try {
-           // console.log("New notification request received: ", req.body);
+            //console.log("New notification request received: ", req.body);
     
             const newNotification = new TestNotificationsModel({
-                notificationType: req.body.notificationType,
+                profilePhotoLink: req.body.profilePhotoLink,
+                notificationMessage: req.body.notificationMessage,
                 creatorEmail: req.body.creatorEmail,
                 assignedEmail: req.body.assignedEmail,
                 ticketSummary: req.body.ticketSummary,
+                ticketStatus: req.body.ticketStatus,
+                notificationTime: req.body.notificationTime,
                 link: req.body.link
             });
     
             await newNotification.save();
     
-           // console.log("New notification created succesfully");
+            //console.log("New notification created succesfully");
             res.status(201).send({ message: "Notification created succesfully" });
         }
         catch (error) {
-           // console.error("Notification creation error:", error);
+            //console.error("Notification creation error:", error);
             res.status(500).send("An error occurred during notification creation.");
         }
     }

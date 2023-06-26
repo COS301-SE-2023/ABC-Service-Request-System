@@ -5,7 +5,6 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TestTicketModel } from "../src/models/testTicket.model";
 import { TestNotificationsModel } from "../src/models/testNotifications.model";
 
 chai.use(chaiHttp);
@@ -44,10 +43,13 @@ describe('/First test collection', () => {
 
     it('Should add a new notification...', async () => {
         const toSend = {
-            notificationType: 'message',
+            profilePhotoLink: 'https://i.imgur.com/zYxDCQT.jpg',
+            notificationMessage: ' assigned an issue to you',
             creatorEmail: 'jesse@example.com',
             assignedEmail: 'dash@example.com',
             ticketSummary: 'Integration',
+            ticketStatus: 'Pending',
+            notificationTime: new Date(),
             link: '4'
         }
 
