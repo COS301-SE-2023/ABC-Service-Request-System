@@ -5,15 +5,21 @@ As companies grow it becomes increasingly challenging to manage numerous project
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
 ## 🏛️ Basic Structure 🏛️
-<a href="https://angular.io/">
-    <img alt="Ang" src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
-</a>
-<a href="https://ionicframework.com/">
-    <img alt="ion" src="https://img.shields.io/badge/Ionic-3880FF?style=for-the-badge&logo=ionic&logoColor=white" />
-</a>
+
 <a href="https://www.mongodb.com/">
     <img alt="ion" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
 </a>
+<a href="https://expressjs.com/">
+    <img alt="Express" src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" />
+</a>
+<a href="https://angular.io/">
+    <img alt="Ang" src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
+</a>
+
+<a href="https://nodejs.org/">
+    <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+</a>
+
 
 ## 📌 Project Board 📌
 - <a href="https://github.com/COS301-SE-2023/ABC-Service-Request-System/projects?query=is%3Aopen">
