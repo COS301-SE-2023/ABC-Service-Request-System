@@ -1,5 +1,4 @@
-
-name: Backend Testing
+name: Testing
 
 on:
   push:
@@ -24,15 +23,24 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: cd into backend
       run: cd backend
-      
-    - name: Install dependencies
+
+    - name: Install Backend Dependencies
       run: npm install
       working-directory: backend
       
-    - name: Run test
+    - name: Run Backend Tests
       run: npm test
       working-directory: backend
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
+
+    - name: Install Frontend Dependencies
+      run: npm install
+      working-directory: frontend
+
+    - name: Run Frontend Tests
+      run: ng test --watch=false --browsers=ChromeHeadless
+      working-directory: frontend
