@@ -155,7 +155,7 @@ describe('/Ticket Status and Comment APIs', () => {
             comment: 'This is a test comment',
             author: 'Test Author',
             type: 'comment',
-            attachmentUrl: 'https://test.com/test.pdf' 
+            attachment: { name: '', url: '' },
         }
 
         const res = await chai.request(app)
@@ -173,7 +173,7 @@ describe('/Ticket Status and Comment APIs', () => {
             comment: 'This is a test comment',
             author: 'Test Author',
             type: 'comment',
-            attachmentUrl: 'https://test.com/test.pdf' 
+            attachment: { name: '', url: '' },
         }
 
         const res = await chai.request(app)
