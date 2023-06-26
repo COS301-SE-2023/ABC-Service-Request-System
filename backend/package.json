@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd src && nodemon server.ts",
+    "build": "tsc -p .",
     "test": "mocha -r ts-node/register --timeout 500000000 test/**/*.spec.ts"
   },
   "keywords": [],
