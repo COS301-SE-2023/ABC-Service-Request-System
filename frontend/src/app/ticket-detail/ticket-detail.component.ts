@@ -8,16 +8,17 @@ import { AuthService } from 'src/services/auth.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.scss']
+  styleUrls: ['./ticket-detail.component.scss'],
 })
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService, private _snackBar: MatSnackBar) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -33,6 +34,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
     this.file = file as File | null;
+    this.openSnackBar("Attachment has been added", "OK");
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000, // milliseconds
+      panelClass: ['custom-snackbar']
+    });
   }
 
   alerted() {
