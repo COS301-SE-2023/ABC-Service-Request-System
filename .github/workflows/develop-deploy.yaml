@@ -1,4 +1,4 @@
-name: Development Continuous Deployment (CD)
+name: Continuous Intergration (CI)
 
 on:
   push:
