@@ -14,19 +14,20 @@
 
         <form class="loginDetails">
           <label for="email"><strong>Email</strong></label> <br>
-          <input type="email" id="email" name="email" placeholder="example@domain.com" class="form-control" required><br>
+          <input type="email" id="email" name="email" placeholder="example@domain.com" class="form-control" [(ngModel)]="email" required><br>
           <br>
 
           <label for="pwd"><strong>Password</strong></label> <br>
-          <input type="password" id="pwd" name="pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" class="form-control" required><br>
+          <input type="password" id="pwd" name="pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" class="form-control" [(ngModel)]="password" required><br>
           <br>
 
 
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 
           <mat-slide-toggle color="primary"><span class="slide-toggle-title">Keep me logged in</span></mat-slide-toggle>
-
           <div class="loginButton">
-            <button type="button" class="btn" (click)="navigateToDashboard($event)">Log in</button>
+          <button type="button" class="btn" (click)="loginUser()">Log in <mat-spinner style="margin:0em 0.6em;" [diameter]="20" *ngIf="logInClicked"></mat-spinner></button>
           </div>
 
           <!-- <p class="or">OR</p> -->

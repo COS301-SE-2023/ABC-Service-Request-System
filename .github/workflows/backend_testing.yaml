@@ -46,3 +46,14 @@ jobs:
       working-directory: backend
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
+        
+    - name: Install Frontend Dependencies
+      run: npm install
+      working-directory: frontend
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
+    - name: Run Unit Tests
+      run: ng test --watch=false --browsers=ChromeHeadless
+      working-directory: frontend

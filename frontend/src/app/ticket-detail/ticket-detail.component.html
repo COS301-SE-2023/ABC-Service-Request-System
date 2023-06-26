@@ -29,10 +29,28 @@
 
         <div class="note-button-area">
           <div class="user-profile-img"></div>
-          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..."></textarea>
+          <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
+          <!-- <input type="file" (change)="onFileChange($event)" /> -->
+          <label for="fileInput" class="file-input-label">
+            <input type="file" id="fileInput" class="file-input" (change)="onFileChange($event)" />
+          </label>
         </div>
 
-        <button (click)="onSave()">Save</button>
+        <div class="save-btn-container">
+        <!-- <button (click)="addComment()" class="save-btn">Save</button> -->
+          <button (click)="saveData()" class="save-btn">Save</button>
+        </div>
+
+        <div class="comments-area" *ngFor="let comment of ticket.comments">
+          <app-comment-panel [comment]="comment"></app-comment-panel>
+          <div class = "ticket-attachment">
+            <!-- <img  *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment"> -->
+            <ng-container *ngIf="comment.attachmentUrl">
+              <a *ngIf="isPDF(comment.attachmentUrl)" [href]="comment.attachmentUrl" target="_blank">PDF Attachment</a>
+              <img *ngIf="!isPDF(comment.attachmentUrl)" [src]="comment.attachmentUrl" alt="Attachment">
+            </ng-container>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -40,16 +58,17 @@
     <div class="ticket-info-area">
       <h1>Ticket Information</h1>
       <div class="button-area">
-        <mat-expansion-panel (opened)="ticketPanelOpenState = true"
-                            (closed)="ticketPanelOpenState = false" class="ticket-panel">
-          <mat-expansion-panel-header class="specific-class ticket-header">
-            <mat-panel-title class="ticket-title">
-              {{ ticket.status }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>I'm visible because I am open</p>
-        </mat-expansion-panel>
+        <mat-form-field color="primary">
+          <mat-label><span class="whiteText">{{ticket.status}}</span></mat-label>
+          <mat-select [(value)]="selectedStatus" (valueChange)="updateTicketStatus()">
+            <mat-option *ngIf="ticket.status !== 'Pending'" [value]="'Pending'">Change to Pending</mat-option>
+            <mat-option *ngIf="ticket.status !== 'Active'" [value]="'Active'">Change to Active</mat-option>
+            <mat-option *ngIf="ticket.status !== 'Done'" [value]="'Done'">Change to Done</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button> -->
       </div>
+
 
       <div class="sla-area">
         <mat-expansion-panel (opened)="SLAPanelOpenState = true"

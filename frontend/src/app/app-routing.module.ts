@@ -5,13 +5,29 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { PageHeaderComponent } from './page-header/page-header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TicketDetailComponent } from './ticket-detail/ticket-detail.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+// import { AuthGuard } from 'src/services/auth.guard';
+
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsGeneralComponent } from './settings-general/settings-general.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+ // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
-  { path: '**', redirectTo: '/login' } //fallback
+  { path: 'activate_account/:token', component: ActivateAccountComponent },
+  { path: 'create-account', component: CreateAccountComponent },
+  { path: 'settings', component: SettingsGeneralComponent },
+  { path: 'settings-notifications',component: SettingsNotificationsComponent},
+  { path: 'settings-profile',component: SettingsProfileComponent},
+  { path: '**', redirectTo: '/login' }, //fallback
+  // { path: 'settings-general', component: SettingsGeneralComponent},
+
+
 ];
 
 @NgModule({
@@ -19,3 +35,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
+import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
+import { notifications } from '../../../../backend/src/models/notifications.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 @Component({
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 export class NewTicketFormComponent {
   ticketForm!: FormGroup;
 
-  constructor(private ticketService: TicketsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       assignee: '',
@@ -20,7 +22,8 @@ export class NewTicketFormComponent {
       priority: '',
       startDate: '',
       endDate: '',
-      status: ''
+      status: '',
+      comments: ''
     });
   }
 
@@ -29,19 +32,41 @@ export class NewTicketFormComponent {
 
   onSubmit() {
     if (this.ticketForm.valid) {
-      const formValues = this.ticketForm.value;
+      const ticketFormValues = this.ticketForm.value;
 
-      const summary = formValues.summary;
-      const assignee = formValues.assignee;
-      const assigned = formValues.assigned;
-      const group = formValues.group;
-      const priority = formValues.priority;
-      const startDate = formValues.startDate;
-      const endDate = formValues.endDate;
-      const status = formValues.status;
-      const comments = formValues.comment;
+      const summary = ticketFormValues.summary;
+      const assignee = ticketFormValues.assignee;
+      const assigned = ticketFormValues.assigned;
+      const group = ticketFormValues.group;
+      const priority = ticketFormValues.priority;
+      const startDate = this.formatDate(ticketFormValues.startDate);
+      const endDate = this.formatDate(ticketFormValues.endDate);
+      const status = ticketFormValues.status;
+      const comments = ticketFormValues.comments;
 
-      //this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments);
+      // adding new ticket
+      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+        const newTicketId = response.newTicketID;
+        console.log(response);
+
+        // should navigate to ticket directly
+        this.router.navigate([`/ticket/${newTicketId}`]);
+
+        // create a notification corresponding to the ticket
+        const profilePhotoLink = "https://i.imgur.com/zYxDCQT.jpg";
+        const notificationMessage = " assigned an issue to you";
+        const creatorEmail = "test@example.com";
+        const assignedEmail = "test@example.com";
+        const ticketSummary = summary;
+        const ticketStatus = "Done";
+        const notificationTime = new Date();
+        const link = newTicketId;
+        const readStatus = "Unread"
+
+        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+          console.log(response);
+        });
+      });
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -67,6 +92,12 @@ export class NewTicketFormComponent {
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');
     }
+  }
+
+  private formatDate(date: string): string {
+    const parts = date.split('-');
+    const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    return formattedDate;
   }
 
  /* ticketForm = this.fb.group({

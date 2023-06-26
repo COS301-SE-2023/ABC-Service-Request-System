@@ -11,6 +11,8 @@ import notificationsRouter from './routers/notifications.router';
 
 //test routers
 import testTicketRouter from './routers/testTicket.router';
+import testUserRouter from './routers/testUser.router';
+import testNotificationsRouter from './routers/testNotifications.router';
 
 import { dbConnection } from "./configs/ticketDB.config";
 
@@ -33,8 +35,10 @@ app.use('/api/notifications', notificationsRouter);
 
 //test routers
 app.use('/api/test_ticket', testTicketRouter);
+app.use('/api/test_user', testUserRouter);
+app.use('/api/test_notifications', testNotificationsRouter);
 
-app.get('/api/welcome', (req:any, res:any) => {
+app.get('/api/welcome', (req: any, res :any) => {
     res.status(200).send({ message: 'Welcome to the server!' });
 });
 

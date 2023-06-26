@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@angular/forms": "^16.1.2",
+    "cloudinary": "^1.37.2",
+    "dotenv": "^16.3.1",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.1",
+    "tailwindcss": "^3.3.2"
+  }
+}

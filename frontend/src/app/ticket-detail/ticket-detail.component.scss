@@ -3,6 +3,7 @@
   width: 78%;
   float: right;
   padding: 1.5em;
+  margin-top: 60px;
 
   h1{
     text-transform: capitalize;
@@ -15,6 +16,7 @@
     margin-top: 1em;
     font-family: 'Montserrat';
     display: flex;
+    position: relative;
 
     .summary-info{
       width: 65%;
@@ -33,6 +35,7 @@
         border-radius: 0.7em;
         padding: 1em;
         width: 100%;
+        position: relative;
 
         .activity-filter-button{
           margin: 0.5em;
@@ -46,11 +49,41 @@
           color: white;
         }
 
+        .file-input {
+          visibility: hidden;
+          width: 0;
+          height: 0;
+        }
+
+        .file-input-label {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          background: url(../../assets/attachment.png) no-repeat center center;
+          background-size: contain;
+          cursor: pointer;
+          transition: background-color .3s ease-in-out;
+          margin-left: 20px;
+          margin-right: 10px;
+        }
+
+        .file-input-label:hover {
+          background-color: #d0d0d0;
+        }
+
+
+
         .note-button-area{
           margin-top: 1em;
           display: flex;
           align-items: center;
           position: relative;
+
+          textarea{
+            resize: none; /* Disable manual resizing */
+            overflow: hidden; /* Hide scrollbars */
+            height: 2em;
+          }
 
           .user-profile-img{
             width: 3em;
@@ -73,7 +106,24 @@
             border-bottom: 2px solid black;
             cursor: pointer;
           }
+        }
 
+        .save-btn-container{
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 2em;
+        }
+
+        .save-btn{
+          background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+          padding: 0.5em 1em;
+          border-radius: 1em;
+          color: white;
+          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+          -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+          -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+          margin: 1em;
         }
       }
 
@@ -105,12 +155,33 @@
       border: 1px solid black;
       padding: 1em;
       border-radius: 1em;
-      width: 35%;
+      width: 30%;
       height: fit-content;
+      position: sticky;
+      right: 0;
+      top: 7em;
+
 
       h1{
         font-size: 1.5em;
         margin-bottom: 1em;
+      }
+
+      .update-status-button {
+        background-color: rgb(20, 122, 190);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.3s;
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .update-status-button:hover {
+        background-color: deepskyblue;
       }
     }
   }
@@ -264,3 +335,32 @@ mat-expansion-panel-header.mat-expanded,
 .ticket-container td {
   border: none;
 }
+
+.comments-area img {
+  max-width: 100%;
+  max-height: 200px;
+  margin: 20px;
+  margin-left: 80px;
+}
+
+.comments-area a {
+  margin: 0px;
+  margin-left: 55px;
+  color: blue;
+  text-decoration: underline;
+}
+
+
+
+//done button
+.mat-mdc-form-field{
+  width: 100%;
+}
+
+.whiteText {
+  color: white;
+}
+
+// .mat-mdc-text-field-wrapper, .mdc-text-field, .ng-tns-c926814666-0, .mdc-text-field--filled{
+//   background-color: red;
+// }

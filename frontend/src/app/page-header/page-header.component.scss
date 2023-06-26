@@ -15,6 +15,10 @@
   align-items: center;
   border-bottom: 0.5px solid rgba(0,0,0,0.5);
   margin-bottom: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
 }
 
 .logo-container{
@@ -81,3 +85,8 @@
   height: 1.6em;
   cursor: pointer;
 }
+
+/*.mat-badge-content-0 .mat-badge-content .mat-badge-active {
+  background-color: #00A7DA !important;
+  color: #00A7DA !important;
+}*/

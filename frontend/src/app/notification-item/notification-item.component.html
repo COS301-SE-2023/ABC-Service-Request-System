@@ -1,0 +1,7 @@
+<div class="notification-list_img">
+    <img [src]="notifications.profilePhotoLink" alt="user">
+</div>
+<div class="notification-list_detail">
+    <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
+    <p><small>{{ getNotificationTime(notifications) }}</small></p>
+</div>

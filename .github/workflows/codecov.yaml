@@ -12,6 +12,10 @@ jobs:
   codecov:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x, 17.x ,18.x]
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -34,3 +38,4 @@ jobs:
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./backend/coverage/lcov.info

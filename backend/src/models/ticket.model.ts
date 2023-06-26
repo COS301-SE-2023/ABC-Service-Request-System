@@ -1,6 +1,15 @@
 import { Schema, connection } from "mongoose"
 
 // const ticketDb = dbConnection(); <- this breaks it
+
+export interface comment {
+    author: string;
+    content: string;
+    createdAt: Date;
+    type: string;
+    attachmentUrl?: string;
+}
+
 export interface ticket{
     id: string,
     summary: string,
@@ -17,10 +26,23 @@ export interface ticket{
     startDate: string,
     endDate: string,
     status: "Done" | "Pending" | "Active",
-    comments: string [],
+    comments?: comment [],
 }
 
-export const ticketSchema = new Schema<any>(
+const commentSchema = new Schema<comment>(
+    {
+      author: { type: String, required: true },
+      content: { type: String, required: true },
+      createdAt: { type: Date, required: true },
+      type: { type: String, required: true },
+      attachmentUrl: { type: String },
+    },
+    {
+      _id: false,
+    }
+);
+
+export const ticketSchema = new Schema<ticket>(
     {
         id: {type: String, required: true},
         summary: {type: String, required: true},
@@ -31,7 +53,7 @@ export const ticketSchema = new Schema<any>(
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
         status: {type: String, required: true},
-        comments: {type: [String]}
+        comments: {type: [commentSchema]}
     },{
         toJSON: {
             virtuals: true

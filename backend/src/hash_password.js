@@ -1,6 +1,12 @@
 const bcrypt = require('bcryptjs');
 
-const salt = bcrypt.genSaltSync(10);
-const hashedPassword = bcrypt.hashSync('alicepassword', salt);
+const plainTextPassword = 'admin123';
+const saltRounds = 10;
 
-console.log(hashedPassword); // Outputs the hashed password
+const hashedPassword = bcrypt.hashSync(plainTextPassword, saltRounds);
+// or for asynchronous hashing
+// bcrypt.hash(plainTextPassword, saltRounds, function(err, hashedPassword) {
+//   // Handle the hashed password here
+// });
+
+console.log('Hashed password:', hashedPassword);

@@ -1,0 +1,45 @@
+<div class="container">
+  <header class="header">
+    <img src="assets/luna-logo.png" alt="Luna Logo" class="logo">
+    <h1 class="app-name">Luna</h1>
+  </header>
+  <section class="header-content">
+    <h1 class="title">Account Activation</h1>
+    <p class="email">{{ user.email }}</p>
+    <p class="requirements">
+      Password must be at least 8 characters long, contain at least one number, and one special characters.
+    </p>
+  </section>
+  <main class="content">
+    <form (ngSubmit)="resetPassword()" #resetPasswordForm="ngForm">
+      <div class="form-group">
+        <label for="password">New Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required minlength="8"
+          pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$">
+        <div class="warning" *ngIf="resetPasswordForm.controls['password']?.errors && resetPasswordForm.controls['password'].touched">
+          <div *ngIf="resetPasswordForm.controls['password'].hasError('required')">
+            Password is required.
+          </div>
+          <div *ngIf="resetPasswordForm.controls['password'].hasError('minlength')">
+            Password must be at least 8 characters long.
+          </div>
+          <div *ngIf="resetPasswordForm.controls['password'].hasError('pattern')">
+            Password must contain at least one number and one special characters.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+        <div class="warning" *ngIf="password !== confirmPassword && resetPasswordForm.controls['confirmPassword'].touched">
+          Passwords do not match.
+        </div>
+      </div>
+      <div class="warning" *ngIf="resetPasswordForm.invalid && resetPasswordForm.touched">
+        Please fill in all fields correctly.
+      </div>
+      <button type="submit" class="btn-reset"
+        [disabled]="!resetPasswordForm.valid || password !== confirmPassword">Reset Password</button>
+    </form>
+  </main>
+</div>

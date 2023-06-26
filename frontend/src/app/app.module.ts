@@ -19,6 +19,11 @@ import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.compon
 import { TicketTableComponent } from './ticket-table/ticket-table.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsGeneralComponent } from './settings-general/settings-general.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +32,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { NotificationsPanelComponent } from './notifications-panel/notifications-panel.component';
+import { NotificationItemComponent } from './notification-item/notification-item.component';
+import { CommentPanelComponent } from './comment-panel/comment-panel.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +56,15 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     NewTicketFormComponent,
     SearchBarComponent,
     UpdateTicketModalComponent,
+    NotificationsPanelComponent,
+    NotificationItemComponent,
+    ActivateAccountComponent,
+    CommentPanelComponent,
+    CreateAccountComponent,
+    SettingsComponent,
+    SettingsGeneralComponent,
+    SettingsNotificationsComponent,
+    SettingsProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +77,12 @@ import { Sort, MatSortModule } from '@angular/material/sort';
     MatSlideToggleModule,
     MatExpansionModule,
     MatSortModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
