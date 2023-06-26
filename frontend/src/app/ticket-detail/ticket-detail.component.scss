@@ -49,6 +49,8 @@
           color: white;
         }
 
+
+
         .file-input {
           visibility: hidden;
           width: 0;
@@ -64,7 +66,7 @@
           cursor: pointer;
           transition: background-color .3s ease-in-out;
           margin-left: 20px;
-          margin-right: 10px;
+          margin-right: 20px;
         }
 
         .file-input-label:hover {
@@ -93,6 +95,39 @@
             position: absolute;
             top: 0;
             left: 0;
+          }
+
+          .attachment-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1em;
+          }
+
+          .attachment-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 0.5em;
+          }
+
+          .attachment-filename {
+            width: 200px;
+            padding: 0.5em;
+            box-sizing: border-box;
+          }
+
+          // .pdf-preview {
+          //   // display: flex;
+          //   max-width: 400px;
+          //   max-height: 400px;
+          //   margin-bottom: 120px;
+          //   margin-right: 130px;
+          // }
+
+
+
+          .file-input-label {
+            margin-right: 18px;
           }
 
           .note-content {
@@ -340,15 +375,16 @@ mat-expansion-panel-header.mat-expanded,
   max-width: 100%;
   max-height: 200px;
   margin: 20px;
-  margin-left: 80px;
+  margin-left: 20px;
 }
 
 .comments-area a {
   margin: 0px;
-  margin-left: 55px;
+  margin-left: 20px;
   color: blue;
   text-decoration: underline;
 }
+
 
 
 
@@ -364,3 +400,5 @@ mat-expansion-panel-header.mat-expanded,
 // .mat-mdc-text-field-wrapper, .mdc-text-field, .ng-tns-c926814666-0, .mdc-text-field--filled{
 //   background-color: red;
 // }
+
+

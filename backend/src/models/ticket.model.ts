@@ -7,7 +7,12 @@ export interface comment {
     content: string;
     createdAt: Date;
     type: string;
-    attachmentUrl?: string;
+    attachment?: attachment,
+}
+
+export interface attachment {
+    name: string,
+    url: string
 }
 
 export interface ticket{
@@ -15,12 +20,6 @@ export interface ticket{
     summary: string,
     assignee: string,
     assigned: string,
-    // group: {
-    //     name: string,
-    //     code: string,
-    //     region: string,
-    //     country: string
-    // },
     group: string,
     priority: "High" | "Medium" | "Low",
     startDate: string,
@@ -29,13 +28,20 @@ export interface ticket{
     comments?: comment [],
 }
 
+const attachmentSchema = new Schema<attachment>(
+    {
+        name: {type: String},
+        url: {type:String},
+    }
+)
+
 const commentSchema = new Schema<comment>(
     {
       author: { type: String, required: true },
       content: { type: String, required: true },
       createdAt: { type: Date, required: true },
       type: { type: String, required: true },
-      attachmentUrl: { type: String },
+      attachment: { type: attachmentSchema },
     },
     {
       _id: false,
