@@ -1,13 +1,13 @@
 import { Component, OnInit} from '@angular/core';
 import { UserService } from 'src/services/user.service';
-import { User } from '../../../../backend/src/models/user.model';
+import { user } from '../../../../backend/src/models/user.model';
 @Component({
   selector: 'app-settings-profile',
   templateUrl: './settings-profile.component.html',
   styleUrls: ['./settings-profile.component.scss']
 })
 export class SettingsProfileComponent implements OnInit{
-  user!: User;
+  user!: user;
   profilePicture!: File;
   editedName!: string;
   firstTimeName!: string;
@@ -26,7 +26,7 @@ export class SettingsProfileComponent implements OnInit{
      const userId = '649877e514fc566f585c9330'; // Replace with the actual user ID
      this.getUser(userId);
     console.log("hi");
-    this.userService.getUser(userId).subscribe((user:User)=>{
+    this.userService.getUser(userId).subscribe((user: user)=>{
     this.user = user;
     this.editedName = user.name;
     //this.editedPicture = user.profilePhoto;
@@ -41,7 +41,7 @@ export class SettingsProfileComponent implements OnInit{
     if (field === 'name') {
       this.editingName = !this.editingName;
       this.isDirty = this.editingName; // Set isDirty to true only if editingName is true
-  
+
       if (!this.editingName) {
         this.saveChanges();
       }
@@ -83,9 +83,9 @@ export class SettingsProfileComponent implements OnInit{
   }
 
   getUser(userId: string) {
-    
+
     this.userService.getUser(userId).subscribe(
-      (user: User) => {
+      (user: user) => {
         this.user = user;
         //console.log(this.user);
         this.editedName = user.name;
@@ -93,12 +93,12 @@ export class SettingsProfileComponent implements OnInit{
         this.editedSurname = user.surname;
         this.firstTimeSurname = user.surname;
       },
-  
+
       (error: any) => {
         console.error(error);
       }
     );
-    
+
   }
 
   checkDirtyState() {
