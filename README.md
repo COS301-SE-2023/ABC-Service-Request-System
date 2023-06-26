@@ -34,7 +34,7 @@ The ticketing system will enable seamless collaboration between teams by facilit
     <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
 </a>
 
-## 📄 Documentation
+## 📄 Documentation and Users Manual
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
