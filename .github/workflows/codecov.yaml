@@ -44,13 +44,6 @@ jobs:
       run: npm install
       working-directory: frontend
 
-    - name: Setup Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libxss1 libappindicator1 libindicator7 xvfb libasound2 libx11-xcb1 libxkbfile1
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome*.deb
-
     - name: Run frontend tests
       run: npm run test:coverage
       working-directory: frontend
