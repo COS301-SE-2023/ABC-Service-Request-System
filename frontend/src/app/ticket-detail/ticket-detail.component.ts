@@ -150,6 +150,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         .subscribe(response => {
           this.ticket.status = this.selectedStatus as "Done" | "Pending" | "Active";
           location.reload();
+          console.log('ticket status is ' + this.ticket.status);
+          console.log('ticket id is ' + this.ticket.id);
         }, error => {
           console.error('Error updating status:', error);
         });

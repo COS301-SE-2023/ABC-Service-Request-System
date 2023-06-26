@@ -149,6 +149,8 @@ router.put('/comment', expressAsyncHandler(
       try {
         const ticketId = req.body.ticketId;
         const status = req.body.status;
+        console.log('status is ' +  status);
+        console.log('ticket id is ' + ticketId);
   
         const ticket = await TicketModel.findOneAndUpdate(
           { id: ticketId },

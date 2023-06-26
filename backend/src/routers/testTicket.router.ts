@@ -77,4 +77,29 @@ router.put('/comment', expressAsyncHandler(
     }
 ));
 
+    router.put('/updateStatus', expressAsyncHandler(
+        async (req, res) => {
+        try {
+            const ticketId = req.body.ticketId;
+            const status = req.body.status;
+            console.log('status is ' +  status);
+            console.log('ticket id is ' + ticketId);
+    
+            const ticket = await TestTicketModel.findOneAndUpdate(
+            { id: ticketId },
+            { status: status },
+            { new: true }
+            );
+    
+            if (ticket) {
+            res.status(200).json({ message: 'Ticket status updated successfully' });
+            } else {
+            res.status(404).json({ message: 'Ticket not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' });
+        }
+        }
+    ));
+
 export default router;
