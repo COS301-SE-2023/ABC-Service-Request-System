@@ -4,6 +4,22 @@ The primary objective of this ticketing system is to streamline project manageme
 As companies grow it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress, and allocates work among the management, technical, and functional teams.
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
+## 🏛️ Basic Structure 🏛️
+<a href="https://angular.io/">
+    <img alt="Ang" src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
+</a>
+<a href="https://ionicframework.com/">
+    <img alt="ion" src="https://img.shields.io/badge/Ionic-3880FF?style=for-the-badge&logo=ionic&logoColor=white" />
+</a>
+<a href="https://www.mongodb.com/">
+    <img alt="ion" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
+</a>
+
+## 📌 Project Board 📌
+- <a href="https://github.com/orgs/COS301-SE-2023/projects/7">
+    <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
+</a>
+
 ## Visit our deployed app at: [https://infinite-reaches-07482.herokuapp.com](https://infinite-reaches-07482.herokuapp.com)
 [![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
