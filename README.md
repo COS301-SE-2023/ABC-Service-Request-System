@@ -34,7 +34,7 @@ The ticketing system will enable seamless collaboration between teams by facilit
     <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
 </a>
 
-## Team Members
+## :busts_in_silhouette: Team Members
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
 <p>
@@ -117,6 +117,9 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 <br><br><br><br><br><br>
 </details>
 
+## ✉️ Contact us:
+Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
+
 
 ## Demo 1
 View our [video](https://youtu.be/J1cRVKzwF0o)
@@ -127,8 +130,7 @@ View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-
 [![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
 
-## Contact us:
-Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
+
 
 # Project
 
