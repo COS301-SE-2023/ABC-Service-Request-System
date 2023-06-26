@@ -1,6 +1,5 @@
-import { Schema, connection } from "mongoose"
-
-
+import { Schema, connection, model } from "mongoose"
+//import bcrypt from 'bcryptjs';
 type Role = "Manager" | "Functional" | "Technical" | "Admin";
 let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
 

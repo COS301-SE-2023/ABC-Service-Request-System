@@ -1,12 +1,13 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { UserModel } from "../models/user.model";
-
+import { sample_users } from "../sampleUsers";  
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import bcrypt from 'bcryptjs';
+import mongoose from "mongoose";        
+import multer, {Multer} from "multer"
 import jwt from 'jsonwebtoken';
-
 
 const router = Router();
 
@@ -311,21 +312,160 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
+//DASH"S ROUTES//
+//UPDATE USER NAME - WORKING
 
-  router.post('/get_user_by_token', async (req, res) => {
-    try {
-      const { token } = req.body;
-  
-      const user = await UserModel.findOne({ inviteToken: token });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      res.status(200).json({ email: user.emailAddress });
-    } catch (error) {
-      console.error('Error retrieving user by token:', error);
-      res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+router.post('/get_user_by_token', async (req, res) => {
+try {
+    const { token } = req.body;
+
+    const user = await UserModel.findOne({ inviteToken: token });
+    if (!user) {
+    return res.status(404).json({ error: 'User not found' });
     }
-  });
 
+    res.status(200).json({ email: user.emailAddress });
+} catch (error) {
+    console.error('Error retrieving user by token:', error);
+    res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+}
+});
+
+router.put('/update_user_name',expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const { name, email } = req.body;
+            console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    name: name
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User name updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+//UPDATE USER PASSWORD - WORKING
+router.put('/update_user_password',expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const { password, email } = req.body;
+            console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    password: password,
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User password updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+//UPDATE USER SURNAME - WORKING
+router.put('/update_user_surname',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { surname, email } = req.body;
+            console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    surname: surname
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User surname updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//GET USER
+router.get('/id', expressAsyncHandler(
+    async (req, res) => {
+        const id = String(req.query.id);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).send('Invalid ObjectId');
+            return;
+        }
+
+        const objectId = new mongoose.Types.ObjectId(id);
+
+        const user = await UserModel.findOne({ _id: objectId });
+        if(user){
+            res.status(200).send(user);
+        }else{
+            res.status(404).send("Id not found");
+        }
+    }
+));
+
+//UPDATE USER PROFILE PICTURE - WORKS
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+router.put('/update_profile_picture',upload.single('file'),expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const { profilePicture, email } = req.body;
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    profilePhoto: profilePicture,
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User photo updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
 export default router;
