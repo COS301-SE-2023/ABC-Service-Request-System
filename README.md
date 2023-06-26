@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/assets/85990372/4c760014-22b9-4776-a474-39275e090f55" alt="App Logo" />
+    <img src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/assets/85990372/4c760014-22b9-4776-a474-39275e090f55" alt="App Logo" width="200" height="200" />
 </p>
 
 <h1 align="center">LUNA Service Request System</h1>
