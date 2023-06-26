@@ -6,16 +6,13 @@
         <div class="notification-ui_dd-content">
             <div *ngFor="let notifications of allNotificationsArray" class="notification-list notification-list--unread" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
                 <div class="notification-list_img">
-                    <img src="https://i.imgur.com/zYxDCQT.jpg" alt="user">
+                    <img [src]="notifications.profilePhotoLink" alt="user">
                 </div>
                 <div class="notification-list_detail">
                     <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
-                    <p><small>10 mins ago</small></p>
+                    <p><small>{{ getNotificationTime(notifications) }}</small></p>
                 </div>
             </div>
-        </div>
-        <div class="notification-ui_dd-footer">
-            <a href="#!" class="btn btn-success btn-block">View All</a>
         </div>
 </form>
 </div>

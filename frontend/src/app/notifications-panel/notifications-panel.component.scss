@@ -17,24 +17,24 @@
     z-index: 9999; /* Ensure a high z-index value */
 }
 
-.notification-ui a:after {
-    display: none;
-}
+// .notification-ui a:after {
+//     display: none;
+// }
 
-.notification-ui_icon {
-    position: relative;
-}
+// .notification-ui_icon {
+//     position: relative;
+// }
 
-.notification-ui_icon .unread-notification {
-    display: inline-block;
-    height: 7px;
-    width: 7px;
-    border-radius: 7px;
-    background-color: #66BB6A;
-    position: absolute;
-    top: 7px;
-    left: 12px;
-}
+// .notification-ui_icon .unread-notification {
+//     display: inline-block;
+//     height: 7px;
+//     width: 7px;
+//     border-radius: 7px;
+//     background-color: #66BB6A;
+//     position: absolute;
+//     top: 7px;
+//     left: 12px;
+// }
 
 @media (min-width: 900px) {
     .notification-ui_icon .unread-notification {

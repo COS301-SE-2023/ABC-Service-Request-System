@@ -12,6 +12,7 @@ export class LoginPageComponent {
   password = '';
   email = '';
   errorMessage: string | null = null;
+  logInClicked = false;
 
   constructor(private router: Router, private userService: UserService, private authService: AuthService) { }
 
@@ -21,6 +22,7 @@ export class LoginPageComponent {
   }
 
   loginUser(): void {
+    this.logInClicked = true;
     this.userService.loginUser({ emailAddress: this.email, password: this.password }).subscribe({
       next: (response: any) => {
         console.log('Login response:', response);
@@ -29,6 +31,7 @@ export class LoginPageComponent {
         console.log('Role:', this.authService.getRole());
         console.log('User:', this.authService.getUser());
 
+        this.logInClicked = true;
         // Navigate to dashboard
         this.router.navigate(['/dashboard']);
       },
@@ -38,9 +41,11 @@ export class LoginPageComponent {
         if (error.status === 401) {
           // Unauthorized error (invalid email or password)
           this.errorMessage = "Invalid email or password";
+          this.logInClicked = false;
         } else {
           // Other error occurred
           this.errorMessage = "User not found.";
+          this.logInClicked = false;
         }
       },
     });

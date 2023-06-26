@@ -1,0 +1,25 @@
+app-ticket-detail {
+  --mdc-theme-primary: white;
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: yellow;
+  }
+  mat-form-field.mat-primary
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+      background: rgb(4,83,142) !important;
+      background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+      border-radius: 0.7em;
+  }
+  .mat-mdc-form-field-focus-overlay {
+    background-color: black;
+    // top: 1rem;
+  }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-line-ripple::before {
+    border-bottom-color: green;
+  }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled):hover
+    .mdc-line-ripple::before {
+    border-bottom-color: black;
+    border-bottom-width: 1px;
+  }
+}
