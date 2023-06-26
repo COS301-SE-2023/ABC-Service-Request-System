@@ -115,31 +115,7 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Id not found');
     });
 })
-
-//DELETE THE CONTENTS OF THE DATABASE BEFORE THE TEST (Remember, we are using a test DB, so this is OK) 
-before(async () => {
-    await TestTicketModel.deleteMany({});
-});
-
 describe('/Ticket Status and Comment APIs', () => {
-
-    it('should verify that we have no tickets in the DB...', async () => {
-                const res = await chai.request(app)
-                    .get('/api/test_ticket');
-                
-                res.should.have.status(200);
-                res.body.should.be.a('array');
-                res.body.should.have.lengthOf(0);
-            });
-        
-            it('should POST sample_tickets data...', async () => {
-                const res = await chai.request(app)
-                    .post('/api/test_ticket/seed');
-                
-                res.should.have.status(201);
-                res.body.should.be.a('array');
-                res.body.should.have.lengthOf(3);
-            });
 
     it('should update the status of a ticket...', async () => {
         const toSend = {
@@ -208,23 +184,19 @@ describe('/Ticket Status and Comment APIs', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Ticket not found');
     });
-
-    // it('should upload an image and return a url...', async () => {
-    //     const toSend = {
-    //         ticketId: '1',
-    //         comment: 'This is a test comment',
-    //         author: 'Test Author',
-    //         type: 'comment',
-    //         attachmentUrl: 'https://test.com/test.pdf' 
-    //     }
-
-    //     const res = await chai.request(app)
-    //         .post('/api/test_ticket/upload')
-    //         .send(toSend);
-
-    //     res.should.have.status(200);
-    //     res.body.should.be.a('object');
-    //     expect(res.body.message).to.be.equal('Comment added successfully');
-    // });
-
 });
+
+const fs = require('fs');
+const path = require('path');
+
+describe('/Upload File API', () => {
+    it('should fail when no file is attached', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_ticket/upload');
+
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('No file uploaded');
+    });
+});
+

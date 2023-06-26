@@ -4,8 +4,27 @@ import { TestTicketModel } from "../models/testTicket.model";
 import { sample_tickets } from "../data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
+import multer from 'multer';
+import { cloudinary } from './cloudinary';
 
 const router = Router();
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      //check if pdf
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  });
 
 router.post('/seed', expressAsyncHandler(
     async (req, res) => {
