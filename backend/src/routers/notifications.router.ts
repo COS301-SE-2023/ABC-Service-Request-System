@@ -66,10 +66,9 @@ router.post('/newnotif', expressAsyncHandler(
     }
 ));
 
-router.post('/changeToRead', expressAsyncHandler(
+router.put('/changeToRead', expressAsyncHandler(
     async (req, res) => {
         const notificationsId = req.body.id;
-        const readStatus = req.body.readStatus;
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
@@ -89,10 +88,9 @@ router.post('/changeToRead', expressAsyncHandler(
     }
 ));
 
-router.post('/changeToUnread', expressAsyncHandler(
+router.put('/changeToUnread', expressAsyncHandler(
     async (req, res) => {
         const notificationsId = req.body.id;
-        const readStatus = req.body.readStatus;
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
