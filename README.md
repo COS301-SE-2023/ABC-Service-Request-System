@@ -12,6 +12,8 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 [![Continuous Intergration (CI)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml/badge.svg?branch=develop)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml)
 
+[![Testing](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml/badge.svg)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml)
+
 [![Contributors](https://img.shields.io/github/contributors/COS301-SE-2023/ABC-Service-Request-System?style=for-the-badge)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/graphs/contributors)
 
 ## :rocket: Technologies 
