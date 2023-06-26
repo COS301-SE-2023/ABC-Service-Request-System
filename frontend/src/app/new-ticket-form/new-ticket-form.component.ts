@@ -16,6 +16,7 @@ export class NewTicketFormComponent {
   constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
+      description: '',
       assignee: '',
       assigned: '',
       group: '',
@@ -23,7 +24,7 @@ export class NewTicketFormComponent {
       startDate: '',
       endDate: '',
       status: '',
-      comments: ''
+      comments: '',
     });
   }
 
@@ -43,9 +44,10 @@ export class NewTicketFormComponent {
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
+      const description = ticketFormValues.description;
 
       // adding new ticket
-      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -79,7 +81,8 @@ export class NewTicketFormComponent {
         startDate: startDate,
         endDate: endDate,
         status: status,
-        comments: comments
+        comments: comments,
+        description: description
       };
 
       this.newTicketEvent.emit(newTicket);

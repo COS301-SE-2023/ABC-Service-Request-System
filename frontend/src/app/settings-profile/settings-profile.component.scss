@@ -45,6 +45,8 @@
     form {
       .form-group {
         margin-bottom: 20px;
+        width: 100%;
+        position: relative;
 
         label {
           display: block;
@@ -85,4 +87,23 @@
   .save-profile:disabled {
     background-color: gray;
     cursor: not-allowed;
+  }
+
+  #name, #surname{
+    border-bottom: 1px solid black;
+    outline: none;
+    padding: 1em;
+    max-width: 100%;
+    position: relative;
+
+    img{
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(0, -50%);
+    }
+  }
+
+  #name:hover, #surname:hover {
+    background-color: rgba(0,0,0,0.2);
   }

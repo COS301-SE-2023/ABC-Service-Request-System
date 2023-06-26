@@ -11,14 +11,18 @@
 
         <div class="form-group">
                 <label for="name">Name:</label>
-                <span id="name" name="name" *ngIf="!editingName" contenteditable="true" (input)="onNameChange($event)">{{ this.editedName }}</span>
-                <img src="./assets/pencil.png" alt="pencil">
+                <p id="name" name="name" *ngIf="!editingName" contenteditable="true" (keydown)="onFieldChange()">
+                  {{ this.editedName }}
+                  <img src="./assets/pencil.png" alt="pencil">
+                </p>
         </div>
 
         <div class="form-group">
             <label for="surname">Surname:</label>
-            <span id="surname" name="surname" *ngIf="!editingSurname" contenteditable="true" (input)="onSurnameChange($event)">{{ this.editedSurname }}</span>
-            <img src="./assets/pencil.png" alt="pencil">
+            <p id="surname" name="surname" *ngIf="!editingSurname" contenteditable="true" (input)="onFieldChange()">
+              {{ this.editedSurname }}
+              <img src="./assets/pencil.png" alt="pencil">
+            </p>
         </div>
 
         <button [disabled]="!isDirty" (click)="saveChanges()" class="save-profile">Save</button>

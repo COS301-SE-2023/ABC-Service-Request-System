@@ -128,8 +128,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     return this.authService.getName();
   }
 
+  getCurrentUserImage(){
+    return this.authService.getUser().profilePhoto;
+  }
+
   addComment(comment: string, attachmentUrl: string): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), 'comment', attachmentUrl).subscribe(
+    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.getCurrentUserImage(), 'Internal Note', attachmentUrl).subscribe(
       res => {
         console.log('Comment added successfully', res);
         location.reload();

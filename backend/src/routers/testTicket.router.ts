@@ -76,6 +76,7 @@ router.put('/comment', expressAsyncHandler(
 
         const newComment: comment = {
             author: author,
+            authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
             content: comment,
             createdAt: createdAt,
             type: type

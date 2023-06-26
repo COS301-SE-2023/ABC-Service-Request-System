@@ -4,6 +4,7 @@ import { Schema, connection } from "mongoose"
 
 export interface comment {
     author: string;
+    authorPhoto: string;
     content: string;
     createdAt: Date;
     type: string;
@@ -27,11 +28,13 @@ export interface ticket{
     endDate: string,
     status: "Done" | "Pending" | "Active",
     comments?: comment [],
+    description: string,
 }
 
 const commentSchema = new Schema<comment>(
     {
       author: { type: String, required: true },
+      authorPhoto: { type: String, required: true},
       content: { type: String, required: true },
       createdAt: { type: Date, required: true },
       type: { type: String, required: true },
@@ -53,7 +56,8 @@ export const ticketSchema = new Schema<ticket>(
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
         status: {type: String, required: true},
-        comments: {type: [commentSchema]}
+        comments: {type: [commentSchema]},
+        description: {type: String, required: true},
     },{
         toJSON: {
             virtuals: true
