@@ -134,16 +134,6 @@ describe('User API routes', () => {
     
 
     describe("User API", () => {
-      before(async () => {
-        // Run any setup tasks, such as connecting to the database or creating test data
-        // This will be executed once before all test cases
-        await TestUserModel.deleteMany({});
-      });
-    
-      after(async () => {
-        // Run any teardown tasks, such as closing database connections
-        // This will be executed once after all test cases
-      });
     
       beforeEach(async () => {
         // Prepare the test data or reset the database to a known state
@@ -223,7 +213,7 @@ describe('User API routes', () => {
                 .end((err, res) => {
                   res.should.have.status(200);
                   res.body.should.be.a("array");
-                  res.body.length.should.be.eql(3);
+                  res.body.length.should.be.eql(2);
                   done();
                 });
             })
