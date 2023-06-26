@@ -3,7 +3,9 @@ import { PageHeaderComponent } from './page-header.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 describe('PageHeaderComponent', () => {
   let component: PageHeaderComponent;
@@ -12,7 +14,7 @@ describe('PageHeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PageHeaderComponent],
-      imports: [RouterTestingModule, MatIconModule]
+      imports: [RouterTestingModule, HttpClientTestingModule, MatIconModule, MatBadgeModule]
     }).compileComponents();
   });
 

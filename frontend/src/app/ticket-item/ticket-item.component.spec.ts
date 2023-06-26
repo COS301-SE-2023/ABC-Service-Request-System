@@ -32,6 +32,7 @@ describe('TicketItemComponent', () => {
       startDate: 'Test start date',
       endDate: 'Test end date',
       status: 'Done',
+      description: 'Test description'
     };
     component.ticket = dummyTicket;
     fixture.detectChanges();
