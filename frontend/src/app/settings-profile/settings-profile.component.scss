@@ -1,13 +1,15 @@
 .profile {
     width: 30%;
     margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
+    padding: 50px;
+    border: 1px solid rgb(4,83,142);
     border-radius: 5px;
-    float: center;
+    //float: center;
     display: grid;
-    margin-top: 50px;
-
+}
+.panel{
+  margin-top: 50px;
+}
     h2 {
       margin-bottom: 20px;
       text-align: center;
@@ -20,6 +22,7 @@
       height: auto; /* Maintain aspect ratio */
       margin-right: 10px; /* Adjust the margin as needed */
       margin-left: 10px;
+      border: 2px solid white;
     }
 
 
@@ -28,12 +31,13 @@
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
-
+    
       img {
         width: 150px;
         height: 150px;
         object-fit: cover;
         border-radius: 50%;
+        border-color: rgb(4,83,142);
         margin-bottom: 10px;
       }
 
@@ -72,7 +76,6 @@
         cursor: pointer;
       }
     }
-  }
 
   .save-profile{
     background-color: #007bff;
