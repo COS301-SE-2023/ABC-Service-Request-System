@@ -50,14 +50,22 @@ export const sample_tickets: ticket[] = [
               content: 'Initial commit.',
               createdAt: new Date('2023-08-24'),
               type: 'status',
-              attachmentUrl: 'http://example.com/commit1',
+              attachment: 
+                {
+                    name: 'attachment2',
+                    url: 'attachment2.pdf'
+                }
           },
           {
               author: 'Priyul',
               content: 'Code review comments added.',
               createdAt: new Date('2023-08-26'),
               type: 'review',
-              attachmentUrl: 'http://example.com/review1',
+              attachment: 
+                {
+                    name: 'attachment2',
+                    url: 'attachment2.pdf'
+                }
           },
       ],
   },

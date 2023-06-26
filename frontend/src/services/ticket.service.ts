@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket } from "../../../backend/src/models/ticket.model";
+import { ticket, attachment } from "../../../backend/src/models/ticket.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +20,10 @@ export class TicketsService {
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
 
-  makeAComment(ticketId: string, comment: string, author: string, type: string, attachmentUrl: string){
-    const body = {ticketId, comment, author, type, attachmentUrl};
+  makeAComment(ticketId: string, comment: string, author: string, type: string, attachment: attachment){
+    const body = {ticketId, comment, author, type, attachment};
     return this.http.put(`${this.TICKET_URL}/comment`, body);
   }
-
 
   // Add Ticket Functionality
   addTicket(summary: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[]) {

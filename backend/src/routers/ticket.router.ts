@@ -112,37 +112,37 @@ router.get('/id', expressAsyncHandler(
 ));
 
 router.put('/comment', expressAsyncHandler(
-    async (req, res) => {
-      const ticketId = req.body.ticketId;
-      const comment = req.body.comment;
-      const author = req.body.author;
-      const type = req.body.type;
-      const attachmentUrl = req.body.attachmentUrl; 
-      const newComment: comment = {
-        author: author,
-        content: comment,
-        createdAt: new Date(),
-        type: type,
-        attachmentUrl: attachmentUrl, 
-      };
-  
-      try {
-        const ticket = await TicketModel.findOneAndUpdate(
-          { id: ticketId },
-          { $push: { comments: newComment } },
-          { new: true }
-        );
-  
-        if (ticket) {
-          res.status(200).json({ message: 'Comment added successfully' });
-        } else {
-          res.status(404).json({ message: 'Ticket not found' });
-        }
-      } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+  async (req, res) => {
+    const ticketId = req.body.ticketId;
+    const comment = req.body.comment;
+    const author = req.body.author;
+    const type = req.body.type;
+    const attachment = req.body.attachment; 
+    const newComment: comment = {
+      author: author,
+      content: comment,
+      createdAt: new Date(),
+      type: type,
+      attachment: attachment, 
+    };
+
+    try {
+      const ticket = await TicketModel.findOneAndUpdate(
+        { id: ticketId },
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+
+      if (ticket) {
+        res.status(200).json({ message: 'Comment added successfully' });
+      } else {
+        res.status(404).json({ message: 'Ticket not found' });
       }
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' });
     }
-  ));
+  }
+));
 
   router.put('/updateStatus', expressAsyncHandler(
     async (req, res) => {
