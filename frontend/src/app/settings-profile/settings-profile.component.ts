@@ -23,7 +23,7 @@ export class SettingsProfileComponent implements OnInit{
    constructor(private userService: UserService) {}
 
   ngOnInit() {
-     const userId = '649877e514fc566f585c9330'; // Replace with the actual user ID
+     const userId = '64997e4b7255cf145c05809f'; // Replace with the actual user ID
      this.getUser(userId);
     console.log("hi");
     this.userService.getUser(userId).subscribe((user: user)=>{
@@ -68,19 +68,20 @@ export class SettingsProfileComponent implements OnInit{
       this.editedSurname = this.user.surname;
       this.isDirty = false;
     });
-    this.userService.updateUserProfilePicture(this.profilePicture,this.user.emailAddress).subscribe(()=>{
-      this.editedPicture = this.profilePicture;
-      this.isDirty = false;
+    this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
+      console.log('service response: ', response);
+    }, (error: any) => {
+      console.log('Error uploading profile photo', error);
     })
 
   }
 
   url = "./assets/App Logo.jpg";
 
-  onFileChange(event: any) {
-    const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
-    this.profilePicture = file as File;
-  }
+  // onFileChange(event: any) {
+  //   const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
+  //   this.profilePicture = file as File;
+  // }
 
   getUser(userId: string) {
 
@@ -120,19 +121,28 @@ export class SettingsProfileComponent implements OnInit{
       selection?.addRange(range);
     }
 
-    onSurnameChange(event: any) {
-      const span = event.target;
-      const inputValue = event.target.textContent.trim();
-      this.editedSurname = inputValue;
-      this.isDirty = true;
+  onSurnameChange(event: any) {
+    const span = event.target;
+    const inputValue = event.target.textContent.trim();
+    this.editedSurname = inputValue;
+    this.isDirty = true;
 
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(span);
-      range.collapse(false);
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(span);
+    range.collapse(false);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+  }
+
+  onFileChanged(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files.length > 0) {
+      this.profilePicture = inputElement.files[0];
+      // Call your function or perform any desired actions with the selected file
     }
+    this.isDirty = true;
+  }
 
 //   updateUser() {
 //     const userId = '123'; // Replace with the actual user ID

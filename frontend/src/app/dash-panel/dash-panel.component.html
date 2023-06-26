@@ -5,7 +5,7 @@
   </div>
 
   <div class="nav-items">
-    <button class="view-tickets"><img src="/assets/ticket.png" alt="ticket">Tickets</button>
+    <button (click)="openDashboard()" class="view-tickets"><img src="/assets/ticket.png" alt="ticket">Tickets</button>
     <button class="view-teams"><img src="/assets/follower.png" alt="teams">Teams</button>
     <button class="view-analytics"><img src="/assets/data-analytics.png" alt="analytics">Analytics</button>
     <button *ngIf="authService.isAdmin() || authService.isManager()" class="creat-account" (click)="openCreateAccount()"><img src="/assets/add-user.png" alt="createAccount">Create Account</button>

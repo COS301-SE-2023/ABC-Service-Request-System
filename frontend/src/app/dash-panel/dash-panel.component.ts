@@ -29,4 +29,9 @@ export class DashPanelComponent {
     console.log("settings page called");
     this.router.navigate(['/settings']);
   }
+
+  openDashboard(){
+    console.log("dashboard page called");
+    this.router.navigate(['/dashboard']);
+  }
 }

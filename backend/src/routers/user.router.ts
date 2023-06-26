@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 import mongoose from "mongoose";        
 import multer, {Multer} from "multer"
 import jwt from 'jsonwebtoken';
+import { cloudinary } from '../configs/cloudinary';
 
 const router = Router();
 
@@ -33,7 +34,7 @@ router.get('/seed', expressAsyncHandler(
             const adminUser = {
                 name: "Admin",
                 surname: "admin",
-                profilePhoto: "http://example.com/img/bob.jpg",
+                profilePhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
                 emailAddress: "admin@admin.com",
                 emailVerified: true,
                 password: hashedPassword,
@@ -46,7 +47,6 @@ router.get('/seed', expressAsyncHandler(
             // Generate JWT token here, make sure it is the same as the one generated in "activate_account"
             const token = jwt.sign(
                 { _id: newUser._id, role: 'Admin' },
-                
                 secretKey,
                 { expiresIn: '1d' }
             );
@@ -441,23 +441,30 @@ router.get('/id', expressAsyncHandler(
 //UPDATE USER PROFILE PICTURE - WORKS
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
-router.put('/update_profile_picture',upload.single('file'),expressAsyncHandler(
+router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler(
     async (req, res) => {
         try{
-            const { profilePicture, email } = req.body;
+            if (!req.file) {
+                res.status(400).json({ message: 'No file uploaded' });
+                return;
+            }
+
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            const { email } = req.body;
 
             const user = await UserModel.findOneAndUpdate(
                 { emailAddress: email },
                 {
                   $set: {
-                    profilePhoto: profilePicture,
+                    profilePhoto: result.secure_url,
                   }
                 },
                 { new: true }
             );
         
             if (user) {
-                res.status(200).json({ message: 'User photo updated successfuly' });
+                res.status(200).json({ message: 'User photo updated successfuly', url: result.secure_url });
             } else {
                 res.status(404).json({ message: 'User not found' });
             }
@@ -467,5 +474,5 @@ router.put('/update_profile_picture',upload.single('file'),expressAsyncHandler(
             res.status(500).send({ error: 'Internal server error' });
         }
     }
-))
+));
 export default router;

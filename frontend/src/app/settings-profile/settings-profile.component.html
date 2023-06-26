@@ -4,8 +4,8 @@
 <div class ="profile">
     <h2>Profile</h2>
     <div class="profile-picture">
-        <img src="url" alt="profile-picture">
-        <input type="file" (change)="onFileChange($event)" name="profilePicture" [(ngModel)]="editedPicture">
+        <img src="https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png" alt="profile-picture">
+        <input type="file" name="profilePicture" (change)="onFileChanged($event)">
     </div>
     <form>
 
@@ -21,7 +21,7 @@
             <img src="./assets/pencil.png" alt="pencil">
         </div>
 
-        <button [disabled]="!isDirty" (click)="saveChanges()">Save</button>
+        <button [disabled]="!isDirty" (click)="saveChanges()" class="save-profile">Save</button>
 </form>
 
 </div>

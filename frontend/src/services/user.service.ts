@@ -38,11 +38,12 @@ export class UserService {
     return this.http.put<user>(url, body);
   }
 
-  updateUserProfilePicture(profilePicture: File, email: string): Observable<user> {
+  updateUserProfilePicture(file: File, email: string): Observable<user> {
+    alert(file.name);
     const url = `${this.API_URL}/update_profile_picture`;
     const formData = new FormData();
-    formData.append('profilePicture',profilePicture);
-    const body = { profilePicture, email}
+    formData.append('file', file);
+    formData.append('email', email);
 
     return this.http.put<user>(url, formData);
   }
