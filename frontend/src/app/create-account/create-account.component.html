@@ -1,3 +1,6 @@
+<app-page-header></app-page-header>
+<app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
+<div class="dashboard-container adjusted-container">
 <h2 class="form-heading">Create Account</h2>
 <div class="create-account-container">
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">
@@ -38,7 +41,7 @@
       <input type="text" id="groups" formControlName="groups" class="form-input">
     </div>
     <div class="button-container">
-      <button type="button" (click)="navigateToDashboard()" class="back-button">Back to Dashboard</button>
+      <!-- <button type="button" (click)="navigateToDashboard()" class="back-button">Back to Dashboard</button> -->
       <button type="submit" class="submit-button">Create Account</button>
     </div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>

@@ -1,10 +1,20 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
 .form-heading {
   text-align: center;
+  color: #4A4A4A;
+  font-size: 24px;
 }
 
 .create-account-container {
   width: 400px;
   margin: 0 auto;
+  background-color: #F6F8FA;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -14,11 +24,12 @@
 .form-label {
   display: block;
   font-weight: bold;
+  color: #4A4A4A;
 }
 
 .form-input {
   width: 100%;
-  padding: 5px;
+  padding: 10px;
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -29,8 +40,8 @@
 }
 
 .submit-button {
-  background-color: #42cbff;
-  color: black;
+  background-color: #3498DB;
+  color: white;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -53,4 +64,8 @@
 .error-message {
   color: red;
   margin-top: 10px;
+}
+
+.adjusted-container {
+  padding-top: 100px;  /* adjust this value as needed */
 }

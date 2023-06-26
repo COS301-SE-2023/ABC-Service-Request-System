@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { tickets } from '../data';
+import { Ticket } from '../app.component';
 
 @Component({
   selector: 'app-create-account',
@@ -9,6 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./create-account.component.scss']
 })
 export class CreateAccountComponent {
+  
+  tickets = tickets; // declare tickets
+  showForm = false; // To control the ticket form visibility
   createUserForm: FormGroup;
   errorMessage!: string; // Add definite assignment assertion (!)
 
@@ -25,6 +30,16 @@ export class CreateAccountComponent {
       roles: ['', Validators.required],
       groups: ['', Validators.required]
     });
+  }
+
+  openNewTicketForm() {
+    // Open new ticket form
+    this.showForm = true;
+  }
+
+  closeForm() {
+    // Close new ticket form
+    this.showForm = false;
   }
 
   async onSubmit() {
@@ -57,7 +72,6 @@ export class CreateAccountComponent {
       this.errorMessage = 'Error creating user. Please try again.';
     }
   }
-
 
   navigateToCreateAccount() {
     this.router.navigate(['/create-account']);
