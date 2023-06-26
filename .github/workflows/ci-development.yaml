@@ -1,60 +1,50 @@
-name: Development Continuous Integration (CI)
+
+name: Continuous Intergration (CI)
 
 on:
   push:
-    branches:
+    branches: 
       - '*'
 
 jobs:
-  build_and_test:
+  build_and_deploy:
     environment: Development
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Create Temporary .env
         run: |
           touch .env
           echo ${{ secrets.ENV_FILE }} >> .env
-
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-      
+
       - name: Install Frontend Dependencies
         run: npm install
-        working-directory: frontend # replace with your actual path
+        working-directory: frontend
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Run Frontend Tests
+        run: ng test --watch=false --browsers=ChromeHeadless
+        working-directory: frontend
+        
       - name: Install Backend Dependencies
         run: npm install
         working-directory: backend
-      - name: Install xvfb
-        run: sudo apt-get install xvfb -y
-
-      - name: Start xvfb
-        run: |
-          Xvfb :99 -screen 0 1024x768x24 &
-          echo "DISPLAY=:99.0" >> $GITHUB_ENV
-
-      - name: Create Coverage Report
-        run: npm run test
-        env:
-          MONGO_TICKET_URI: ${{ secrets.MONGO_TICKET_URI }}
-        working-directory: backend
-
-      - name: Build Angular Application
+        
+      - name: Start Backend
         run: npm run build
         working-directory: backend
-
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: hyperiontech.capstone@gmail.com
-          healthcheck: "https://infinite-reaches-07482.herokuapp.com/"
+      
+      - name: Run test
+        run: npm test
+        working-directory: backend
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
