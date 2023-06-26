@@ -1,18 +1,25 @@
 .profile {
     width: 30%;
-    margin: 0 auto;
+    //margin: 0 auto;
     padding: 50px;
-    border: 1px solid rgb(4,83,142);
+    border: 1px solid white;
     border-radius: 5px;
-    //float: center;
+    margin-left: 500px;
+    background-color: rgb(4,83,142); 
+    float: center;
     display: grid;
 }
+label{
+  color: white;
+}
+
 .panel{
   margin-top: 50px;
 }
     h2 {
       margin-bottom: 20px;
       text-align: center;
+      color: white;
     }
 
     img {
@@ -22,7 +29,7 @@
       height: auto; /* Maintain aspect ratio */
       margin-right: 10px; /* Adjust the margin as needed */
       margin-left: 10px;
-      border: 2px solid white;
+      border: 2px solid rgb(4,83,142);
     }
 
 
@@ -37,7 +44,7 @@
         height: 150px;
         object-fit: cover;
         border-radius: 50%;
-        border-color: rgb(4,83,142);
+        border-color:  white;
         margin-bottom: 10px;
       }
 
