@@ -216,5 +216,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  isCommentValid(comment: any):boolean {
+    return comment?.attachment?.name && this.isPDF(comment.attachment.url);
+  }
 
 }
