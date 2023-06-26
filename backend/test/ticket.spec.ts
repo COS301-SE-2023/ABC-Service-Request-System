@@ -45,6 +45,117 @@ describe('/First test collection', () => {
         res.body.should.have.lengthOf(0);
     });
 
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+    it('should verify that we have no tickets in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
     it('should POST sample_tickets data...', async () => {
         const res = await chai.request(app)
             .post('/api/test_ticket/seed');
