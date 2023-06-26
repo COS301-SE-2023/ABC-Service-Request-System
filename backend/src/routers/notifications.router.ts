@@ -47,7 +47,8 @@ router.post('/newnotif', expressAsyncHandler(
                 ticketSummary: req.body.ticketSummary,
                 ticketStatus: req.body.ticketStatus,
                 notificationTime: req.body.notificationTime,
-                link: req.body.link
+                link: req.body.link,
+                readStatus: req.body.readStatus
             });
     
             await newNotification.save();

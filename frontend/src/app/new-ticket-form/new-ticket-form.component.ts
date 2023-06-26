@@ -61,8 +61,9 @@ export class NewTicketFormComponent {
         const ticketStatus = "Done";
         const notificationTime = new Date();
         const link = newTicketId;
+        const readStatus = "Unread"
 
-        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link).subscribe((response: any) => {
+        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
           console.log(response);
         });
       });

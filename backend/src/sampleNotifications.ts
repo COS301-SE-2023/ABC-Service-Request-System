@@ -21,7 +21,8 @@ export const sample_notifications: notifications[] = [
         ticketSummary: "Update UI and bug fixes",
         ticketStatus: "Done",
         notificationTime: oneDayBefore,
-        link: "1"
+        link: "1",
+        readStatus: "Unread"
     },
     {
         profilePhotoLink: "https://i.imgur.com/zYxDCQT.jpg",
@@ -31,7 +32,8 @@ export const sample_notifications: notifications[] = [
         ticketSummary: "testing tickets",
         ticketStatus: "Pending",
         notificationTime: oneWeekBefore,
-        link: "2"
+        link: "2",
+        readStatus: "Unread"
     },
     {
         profilePhotoLink: "https://i.imgur.com/zYxDCQT.jpg",
@@ -41,6 +43,7 @@ export const sample_notifications: notifications[] = [
         ticketSummary: "Epiuse frontend ticket",
         ticketStatus: "Done",
         notificationTime: oneMonthBefore,
-        link: "3"
+        link: "3",
+        readStatus: "Read"
     }
 ];

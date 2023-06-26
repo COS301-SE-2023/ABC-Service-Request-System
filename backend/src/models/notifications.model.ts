@@ -9,6 +9,7 @@ export interface notifications {
     ticketStatus: string;
     notificationTime: Date;
     link: string;
+    readStatus: string;
 }
 
 export const notificationsSchema = new Schema<notifications> (
@@ -20,7 +21,8 @@ export const notificationsSchema = new Schema<notifications> (
         ticketSummary: {type: String, required: true},
         ticketStatus: {type: String, required: true},
         notificationTime: {type: Date, required: true},
-        link: {type: String, required: true}
+        link: {type: String, required: true},
+        readStatus: {type: String, required: true}
     },
     {
         toJSON: {
