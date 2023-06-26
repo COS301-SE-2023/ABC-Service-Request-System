@@ -20,15 +20,15 @@ export class TicketsService {
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
 
-  makeAComment(ticketId: string, comment: string, author: string, type: string, attachment: attachment){
-    const body = {ticketId, comment, author, type, attachment};
+  makeAComment(ticketId: string, comment: string, author: string, authorPhoto: string, type: string, attachment: attachment){
+    const body = {ticketId, comment, author, authorPhoto, type, attachment};
     return this.http.put(`${this.TICKET_URL}/comment`, body);
   }
 
   // Add Ticket Functionality
-  addTicket(summary: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[]) {
-    const body = {summary, assignee, assigned, group, priority, startDate, endDate, status, comments};
-   // console.log('Ticket is added:' + body);
+  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[]) {
+    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments};
+   console.log('Ticket is added service:', body);
     return this.http.post(`${this.TICKET_URL}/addticket`, body);
   }
 

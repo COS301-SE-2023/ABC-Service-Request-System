@@ -32,6 +32,7 @@ router.get('/seed', expressAsyncHandler(
             const hashedPassword = await bcrypt.hash("admin123", salt);
 
             const adminUser = {
+                id: "1",
                 name: "Admin",
                 surname: "admin",
                 profilePhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
@@ -105,11 +106,14 @@ router.post("/create_user", expressAsyncHandler(
             // generate invite token
             const inviteToken = crypto.randomBytes(32).toString("hex");
 
+            const userCount = await UserModel.countDocuments();
+
             // create new user with pending status
             const newUser = new UserModel({
+                id: String(userCount + 1), // Assign the auto-incremented ID
                 name: req.body.name,
                 surname: req.body.surname,
-                profilePhoto: req.body.profilePhoto || "http://example.com/img/default.jpg",
+                profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
                 emailAddress: req.body.emailAddress,
                 inviteToken,
                 status: "pending",
@@ -213,8 +217,6 @@ router.post("/create_user", expressAsyncHandler(
                     }
                 ]
             };
-            
-            
             
 
             transporter.sendMail(mailOptions, function(error, info) {
@@ -421,15 +423,15 @@ router.put('/update_user_surname',expressAsyncHandler(
 //GET USER
 router.get('/id', expressAsyncHandler(
     async (req, res) => {
-        const id = String(req.query.id);
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(400).send('Invalid ObjectId');
-            return;
-        }
+        // const id = String(req.query.id);
+        // if (!mongoose.Types.ObjectId.isValid(id)) {
+        //     res.status(400).send('Invalid ObjectId');
+        //     return;
+        // }
 
-        const objectId = new mongoose.Types.ObjectId(id);
+        // const objectId = new mongoose.Types.ObjectId(id);
 
-        const user = await UserModel.findOne({ _id: objectId });
+        const user = await UserModel.findOne({ id: req.query.id });
         if(user){
             res.status(200).send(user);
         }else{
