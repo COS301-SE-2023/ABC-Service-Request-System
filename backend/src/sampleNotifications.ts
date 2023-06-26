@@ -4,22 +4,22 @@ export const sample_notifications: notifications[] = [
     {
         notificationType: "Message",
         creatorEmail: "jesse@example.com",
-        assignedEmail: "edwin@example.com",
-        ticketSummary: "Work on Notifications",
+        assignedEmail: "jaimen@example.com",
+        ticketSummary: "Update UI and bug fixes",
         link: "1"
     },
     {
-        notificationType: "Alert",
-        creatorEmail: "jesse@example.com",
+        notificationType: "Completed",
+        creatorEmail: "john@example.com",
         assignedEmail: "ashir@example.com",
-        ticketSummary: "CSS not using libraries :P",
+        ticketSummary: "testing tickets",
         link: "2"
     },
     {
         notificationType: "Completed",
-        creatorEmail: "jesse@example.com",
+        creatorEmail: "mark@example.com",
         assignedEmail: "priyul@example.com",
-        ticketSummary: "Documentation",
+        ticketSummary: "Epiuse frontend ticket",
         link: "3"
     }
 ];

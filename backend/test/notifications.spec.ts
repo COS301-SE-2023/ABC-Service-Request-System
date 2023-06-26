@@ -1,4 +1,4 @@
-/*import "mocha"
+import "mocha"
 import mongoose from 'mongoose';
 import chai from "chai";
 import chaiHttp from "chai-http";
@@ -6,7 +6,69 @@ import app from "../src/server";
 import { server } from "../src/server";
 
 import { TestTicketModel } from "../src/models/testTicket.model";
+import { TestNotificationsModel } from "../src/models/testNotifications.model";
 
 chai.use(chaiHttp);
 chai.should();
-const expect = chai.expect;*/
+const expect = chai.expect;
+
+// First delete contents of the testNotifications database
+before(async() => {
+    await TestNotificationsModel.deleteMany({});
+});
+
+// ensure we close the database connection after we are done testing
+after(async() => {
+    await mongoose.connection.close();
+    server.close();
+});
+
+describe('/First test collection', () => {
+    it('Should verify that we have no notifications in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_notifications');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('Should POST sample_notifications data...', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_notifications/seed');
+        
+        res.should.have.status(201);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(3);
+    });
+
+    it('Should add a new notification...', async () => {
+        const toSend = {
+            notificationType: 'message',
+            creatorEmail: 'jesse@example.com',
+            assignedEmail: 'dash@example.com',
+            ticketSummary: 'Integration',
+            link: '4'
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_notifications/newnotif')
+            .send(toSend);
+
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification created succesfully');
+    });
+
+    it('should check that notification 4 has ticketSummary = "Integration"...', async () => {    
+        const res = await chai.request(app)
+            .get('/api/test_notifications');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(4);
+        expect(res.body[3]).to.have.property('ticketSummary');
+        res.body[3].ticketSummary.should.be.a('string');
+        expect(res.body[3].ticketSummary).to.be.equal('Integration');
+    });
+});
