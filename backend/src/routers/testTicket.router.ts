@@ -5,7 +5,7 @@ import { sample_tickets } from "../data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
-import { cloudinary } from './cloudinary';
+import { cloudinary } from '../configs/cloudinary';
 
 const router = Router();
 
