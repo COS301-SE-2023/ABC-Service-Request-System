@@ -30,7 +30,6 @@ export class LoginPageComponent {
         const token = response.token;
         this.authService.setToken(token); // set and decode the token
         console.log('Role:', this.authService.getRole());
-        console.log('User:', this.authService.getUser());
 
         this.logInClicked = true;
         // Navigate to dashboard

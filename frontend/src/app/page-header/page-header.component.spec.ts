@@ -3,6 +3,7 @@ import { PageHeaderComponent } from './page-header.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('PageHeaderComponent', () => {
   let component: PageHeaderComponent;
@@ -11,7 +12,7 @@ describe('PageHeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PageHeaderComponent],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule, MatIconModule]
     }).compileComponents();
   });
 
@@ -42,7 +43,7 @@ describe('PageHeaderComponent', () => {
 
   it('should add a new ticket correctly when addNewTicket is called', () => {
     component.tickets = [];
-  
+
     const newTicket: Ticket = {
       id: 1,
       title: 'New Ticket',
@@ -55,17 +56,17 @@ describe('PageHeaderComponent', () => {
       status: 'Open',
       comments: []
     };
-  
+
     component.addNewTicket(newTicket);
-  
+
     expect(component.tickets).toEqual([newTicket]);
     expect(component.showForm).toBeFalse();
   });
-  
+
 
   it('should add a new ticket correctly when addNewTicket is called', () => {
     component.tickets = [];
-  
+
     const newTicket: Ticket = {
       id: 1,
       title: 'New Ticket',
@@ -78,13 +79,13 @@ describe('PageHeaderComponent', () => {
       status: '',
       comments: []
     };
-  
+
     component.addNewTicket(newTicket);
-  
+
     expect(component.tickets).toEqual([newTicket]);
     expect(component.showForm).toBeFalse();
   });
-  
+
 
   it('should set showForm to false when closeForm is called', () => {
     component.showForm = true;
