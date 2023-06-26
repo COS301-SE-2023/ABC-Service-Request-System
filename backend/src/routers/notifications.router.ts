@@ -40,10 +40,13 @@ router.post('/newnotif', expressAsyncHandler(
             console.log("New notification request received: ", req.body);
     
             const newNotification = new NotificationsModel({
-                notificationType: req.body.notificationType,
+                pPLink: req.body.pPLink,
+                notificationMessage: req.body.notificationMessage,
                 creatorEmail: req.body.creatorEmail,
                 assignedEmail: req.body.assignedEmail,
                 ticketSummary: req.body.ticketSummary,
+                ticketStatus: req.body.ticketStatus,
+                notificationTime: req.body.notificationTime,
                 link: req.body.link
             });
     
