@@ -1,38 +1,33 @@
-name: Running Code Coverage
+name: Codecov
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-  build:
-
+  codecov:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [15.x,16.x,17.x,18.x]
-
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
 
-    - name: Set up Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: npm install
-      working-directory: backend
 
-    - name: Run tests
-      run: npm run test
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-      working-directory: backend
+    - name: Run Tests and Generate Code Coverage
+      run: npm test
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
