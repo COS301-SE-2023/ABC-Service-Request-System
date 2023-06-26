@@ -424,4 +424,11 @@ mat-expansion-panel-header.mat-expanded,
 //   background-color: red;
 // }
 
+::ng-deep .custom-snackbar {
+  background-color: #333; /* Set the background color */
+  color: #fff; /* Set the text color */
+}
 
+::ng-deep .custom-snackbar .mat-snack-bar-action {
+  color: #479abb; /* Set the action color */
+}

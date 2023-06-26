@@ -4,7 +4,7 @@
             <h2 class="text-center">Notifications</h2>
         </div>
         <div class="notification-ui_dd-content">
-            <div *ngFor="let notifications of allNotificationsArray" class="notification-list notification-list--unread" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
+            <div *ngFor="let notifications of sortedUnreadNotificationsArray" class="notification-list notification-list--unread" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
                 <div class="notification-list_img">
                     <img [src]="notifications.profilePhotoLink" alt="user">
                 </div>
@@ -14,5 +14,16 @@
                 </div>
             </div>
         </div>
+
+            <div *ngFor="let notifications of sortedReadNotificationsArray" class="notification-list" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
+                <div class="notification-list_img">
+                    <img [src]="notifications.profilePhotoLink" alt="user">
+                </div>
+                <div class="notification-list_detail">
+                    <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
+                    <p><small>{{ getNotificationTime(notifications) }}</small></p>
+                </div>
+            </div>
+
 </form>
 </div>

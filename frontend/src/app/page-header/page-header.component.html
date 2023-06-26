@@ -6,7 +6,7 @@
 
   <div class="header-container-right">
     <div class="notifications">
-        <mat-icon matBadge="1" matBadgeColor="primary" matBadgeSize="small" (click)="openNotifications()">mail_outline</mat-icon>  <!--(click)="openNotifications.emit()"-->
+        <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small" (click)="openNotifications()">mail_outline</mat-icon>  <!--(click)="openNotifications.emit()"-->
         <app-notifications-panel *ngIf="showForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeNotificationsForm()"></app-notifications-panel>
     </div>
 

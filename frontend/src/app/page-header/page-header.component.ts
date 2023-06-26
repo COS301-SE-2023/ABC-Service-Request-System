@@ -1,7 +1,9 @@
-import { Component, EventEmitter, HostListener, Input, Output, ElementRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
+import { notifications } from '../../../../backend/src/models/notifications.model'; 
+import { NotificationsService } from 'src/services/notifications.service';
 
 @Component({
   selector: 'app-page-header',
@@ -13,6 +15,7 @@ export class PageHeaderComponent {
   searchTerm = '';
   filteredTickets = this.tickets;
   showForm = false;
+  unreadNotificationsCount = 0;
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -26,7 +29,10 @@ export class PageHeaderComponent {
   @Output() openForm = new EventEmitter<void>();
   // @Input() tickets: any[] = [];
 
-  constructor(private router: Router, private elementRef: ElementRef) {}
+  constructor(private notificationsService: NotificationsService, private router: Router, private elementRef: ElementRef) {}
+
+  allNotificationsArray: notifications[] = [];
+  unreadNotificationsArray: notifications[] = [];
 
   openNewTicketForm() {
     this.openForm.emit();
@@ -52,5 +58,17 @@ export class PageHeaderComponent {
 
   closeNotificationsForm(): void {
     this.showForm = false;
+  }
+
+  getNumOfUnreadNotifications() {
+    this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
+      this.allNotificationsArray = response;
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      this.unreadNotificationsCount = this.unreadNotificationsArray.length;
+    });
+  }
+
+  ngOnInit() {
+    this.getNumOfUnreadNotifications();
   }
 }
