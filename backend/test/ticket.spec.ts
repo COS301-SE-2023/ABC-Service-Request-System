@@ -116,6 +116,11 @@ describe('/First test collection', () => {
     });
 })
 
+//DELETE THE CONTENTS OF THE DATABASE BEFORE THE TEST (Remember, we are using a test DB, so this is OK) 
+before(async () => {
+    await TestTicketModel.deleteMany({});
+});
+
 describe('/Ticket Status and Comment APIs', () => {
 
     it('should verify that we have no tickets in the DB...', async () => {
@@ -138,7 +143,7 @@ describe('/Ticket Status and Comment APIs', () => {
 
     it('should update the status of a ticket...', async () => {
         const toSend = {
-            ticketId: 1,
+            ticketId: '1',
             status: 'Pending'
         }
 
@@ -151,6 +156,21 @@ describe('/Ticket Status and Comment APIs', () => {
         // responseBody.should.be.a('object');
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Ticket status updated successfully');
+    });
+
+    it('should not update the status of a ticket that doesnt exist...', async () => {
+        const toSend = {
+            ticketId: '99999',
+            status: 'Pending'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/updateStatus')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Ticket not found');
     });
 
     it('should add a comment to a ticket...', async () => {
@@ -170,5 +190,41 @@ describe('/Ticket Status and Comment APIs', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Comment added successfully');
     });
+
+    it('should not add a comment to a ticket that doesnt exist...', async () => {
+        const toSend = {
+            ticketId: '99999',
+            comment: 'This is a test comment',
+            author: 'Test Author',
+            type: 'comment',
+            attachmentUrl: 'https://test.com/test.pdf' 
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/comment')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Ticket not found');
+    });
+
+    // it('should upload an image and return a url...', async () => {
+    //     const toSend = {
+    //         ticketId: '1',
+    //         comment: 'This is a test comment',
+    //         author: 'Test Author',
+    //         type: 'comment',
+    //         attachmentUrl: 'https://test.com/test.pdf' 
+    //     }
+
+    //     const res = await chai.request(app)
+    //         .post('/api/test_ticket/upload')
+    //         .send(toSend);
+
+    //     res.should.have.status(200);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('Comment added successfully');
+    // });
 
 });

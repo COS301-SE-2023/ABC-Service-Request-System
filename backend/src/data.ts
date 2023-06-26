@@ -12,18 +12,7 @@ export const sample_tickets: ticket[] = [
       endDate: '23/05/2023',
       status: 'Done',
       comments: [
-          {
-              author: 'Jesse',
-              content: 'Started working on this ticket.',
-              createdAt: new Date('2023-05-19'),
-              type: 'status',
-          },
-          {
-              author: 'Jaimen',
-              content: 'This ticket is now done.',
-              createdAt: new Date('2023-05-23'),
-              type: 'status',
-          },
+
       ],
   },
   {
