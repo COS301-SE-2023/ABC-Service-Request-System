@@ -20,13 +20,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.x
-    
+
     - name: Install Backend Dependencies
       run: npm install
       working-directory: backend
       
     - name: Run Tests and Generate Code Coverage
-      run: npm test
+      run: |
+        cd backend
+        npm test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
