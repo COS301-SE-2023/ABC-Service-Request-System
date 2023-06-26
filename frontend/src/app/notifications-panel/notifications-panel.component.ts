@@ -13,20 +13,29 @@ export class NotificationsPanelComponent implements OnInit {
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
+  readNotificationsArray: notifications[] = [];
 
   @Input() notifications: notifications[] = [];
 
-  getNotifications() {
+  getUnreadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      console.log(this.allNotificationsArray);
-      return this.allNotificationsArray;
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      return this.unreadNotificationsArray;
+    });
+  }
+
+  getReadNotifications() {
+    this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
+      this.allNotificationsArray = response;
+      this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
+      return this.readNotificationsArray;
     });
   }
 
   ngOnInit(): void {
-    this.getNotifications();
-    console.log("Notifications works")
+    this.getUnreadNotifications();
+    this.getReadNotifications();
   }
 
   handleKeyup(event: KeyboardEvent, link: string) {
@@ -34,9 +43,16 @@ export class NotificationsPanelComponent implements OnInit {
       this.navigateToTicket(link);
     }
   }
+
+  /*updateReadStatusNotifications(id: string) {
+
+  }*/
   
   navigateToTicket(id: string) {
     this.router.navigate([`/ticket/${id}`]);
+
+    // update the notification so that it is read
+    //this.updateReadStatusNotifications(id);
   }
 
   getNotificationTime(notification: notifications): string {

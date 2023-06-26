@@ -37,8 +37,8 @@ export class AuthService {
     const decodedToken = jwt_decode(this.token) as DecodedToken;
     this.role = decodedToken.role;
     this.name = decodedToken.name;
-    console.log('Decoded role:', this.role);
-    console.log('Decoded name:', this.name);
+    //console.log('Decoded role:', this.role);
+    //console.log('Decoded name:', this.name);
   }
 
   getRole(): string {
@@ -50,22 +50,22 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    console.log('Role:', this.role);
+    //console.log('Role:', this.role);
     return this.role === 'Admin';
   }
 
   isManager(): boolean {
-    console.log('Role:', this.role);
+    //console.log('Role:', this.role);
     return this.role === 'Manager';
   }
 
   isTechnical(): boolean {
-    console.log('Role:', this.role);
+    //console.log('Role:', this.role);
     return this.role === 'Technical';
   }
 
   isFunctional(): boolean {
-    console.log('Role:', this.role);
+    //console.log('Role:', this.role);
     return this.role === 'Functional';
   }
 
