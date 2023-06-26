@@ -14,7 +14,7 @@ oneMonthBefore.setMonth(lastmonthsDate.getMonth() - 1);
 
 export const sample_notifications: notifications[] = [
     {
-        pPLink: "https://i.imgur.com/zYxDCQT.jpg",
+        profilePhotoLink: "https://i.imgur.com/zYxDCQT.jpg",
         notificationMessage: " has closed an issue",
         creatorEmail: "jesse@example.com",
         assignedEmail: "jaimen@example.com",
@@ -24,7 +24,7 @@ export const sample_notifications: notifications[] = [
         link: "1"
     },
     {
-        pPLink: "https://i.imgur.com/zYxDCQT.jpg",
+        profilePhotoLink: "https://i.imgur.com/zYxDCQT.jpg",
         notificationMessage: " assigned an issue to you",
         creatorEmail: "john@example.com",
         assignedEmail: "ashir@example.com",
@@ -34,7 +34,7 @@ export const sample_notifications: notifications[] = [
         link: "2"
     },
     {
-        pPLink: "https://i.imgur.com/zYxDCQT.jpg",
+        profilePhotoLink: "https://i.imgur.com/zYxDCQT.jpg",
         notificationMessage: " has closed an issue",
         creatorEmail: "mark@example.com",
         assignedEmail: "priyul@example.com",

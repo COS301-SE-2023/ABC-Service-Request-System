@@ -1,7 +1,7 @@
 import { Schema, connection, model } from "mongoose"
 
 export interface notifications {
-    pPLink: string;
+    profilePhotoLink: string;
     notificationMessage: string;
     creatorEmail: string;
     assignedEmail: string;
@@ -13,7 +13,7 @@ export interface notifications {
 
 export const notificationsSchema = new Schema<notifications> (
     {
-        pPLink: {type: String, required: true},
+        profilePhotoLink: {type: String, required: true},
         notificationMessage: {type: String, required: true},
         creatorEmail: {type: String, required: true},
         assignedEmail: {type: String, required: true},
