@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cd src && nodemon server.ts",
     "build": "tsc -p .",
-    "test": "mocha -r ts-node/register --timeout 500000000 test/**/*.spec.ts"
+    "test": "nyc mocha -r ts-node/register --timeout 500000000 test/**/*.spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -47,7 +47,30 @@
     "chai-http": "^4.4.0",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
+    "nyc": "^15.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.spec.ts",
+      "src/**/test-utils/*"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sourceMap": true,
+    "instrument": true
   }
 }
