@@ -27,13 +27,14 @@ export class LoginPageComponent {
         const token = response.token;
         this.authService.setToken(token); // set and decode the token
         console.log('Role:', this.authService.getRole());
-  
+        console.log('User:', this.authService.getUser());
+
         // Navigate to dashboard
         this.router.navigate(['/dashboard']);
       },
       error: (error: any) => {
         console.error(error);
-  
+
         if (error.status === 401) {
           // Unauthorized error (invalid email or password)
           this.errorMessage = "Invalid email or password";

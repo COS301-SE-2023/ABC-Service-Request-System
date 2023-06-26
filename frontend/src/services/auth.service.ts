@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
+import { user } from '../../../backend/src/models/user.model';
 
 interface DecodedToken {
+  user: user;
   role: string;
   name: string;
   // other properties...
@@ -14,8 +16,9 @@ export class AuthService {
   private role: string;
   private name: string;
   private token: string | null;
+  private user!: user;
 
-  constructor(private http: HttpClient, private userService: UserService) { 
+  constructor(private http: HttpClient, private userService: UserService) {
     this.role = '';
     this.name = '';
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
@@ -37,6 +40,7 @@ export class AuthService {
     const decodedToken = jwt_decode(this.token) as DecodedToken;
     this.role = decodedToken.role;
     this.name = decodedToken.name;
+    this.user = decodedToken.user;
     console.log('Decoded role:', this.role);
     console.log('Decoded name:', this.name);
   }
@@ -47,6 +51,10 @@ export class AuthService {
 
   getName(): string {
     return this.name;
+  }
+
+  getUser(): user {
+    return this.user;
   }
 
   isAdmin(): boolean {

@@ -60,7 +60,7 @@ router.post("/", expressAsyncHandler(
               setRoles = role;
             }
           }
-          const token = jwt.sign({ _id: user._id, role: setRoles , name: user.name  }, secretKey, {
+          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
   
