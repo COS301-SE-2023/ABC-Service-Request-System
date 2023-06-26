@@ -25,11 +25,14 @@ jobs:
           path: |
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      
+      - name: Install Frontend Dependencies
+        run: npm install
+        working-directory: frontend # replace with your actual path
 
-      - name: Install Dependencies
+      - name: Install Backend Dependencies
         run: npm install
         working-directory: backend
-
       - name: Install xvfb
         run: sudo apt-get install xvfb -y
 
