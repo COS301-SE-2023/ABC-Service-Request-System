@@ -20,10 +20,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.x
-
-    - name: Install Dependencies
+    
+    - name: Install Backend Dependencies
       run: npm install
-
+      working-directory: backend
+      
     - name: Run Tests and Generate Code Coverage
       run: npm test
 
