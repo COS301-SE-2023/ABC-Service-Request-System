@@ -4,6 +4,8 @@ The primary objective of this ticketing system is to streamline project manageme
 As companies grow it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress, and allocates work among the management, technical, and functional teams.
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
+![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
+
 ## :rocket: Technologies 
 
 <a href="https://www.mongodb.com/">
@@ -28,12 +30,6 @@ The ticketing system will enable seamless collaboration between teams by facilit
 - <a href="https://github.com/COS301-SE-2023/ABC-Service-Request-System/projects?query=is%3Aopen">
     <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
 </a>
-
-## Visit our deployed app at: [https://infinite-reaches-07482.herokuapp.com](https://infinite-reaches-07482.herokuapp.com)
-[![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
-
-
-![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
 
 ## Demo 1
 View our [video](https://youtu.be/J1cRVKzwF0o)
