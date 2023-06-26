@@ -20,6 +20,10 @@ import { TicketTableComponent } from './ticket-table/ticket-table.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { UpdateTicketModalComponent } from './update-ticket-modal/update-ticket-modal.component';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsGeneralComponent } from './settings-general/settings-general.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 import { TicketItemComponent } from './ticket-item/ticket-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,6 +60,10 @@ import { MatOptionModule } from '@angular/material/core';
     ActivateAccountComponent,
     CommentPanelComponent,
     CreateAccountComponent,
+    SettingsComponent,
+    SettingsGeneralComponent,
+    SettingsNotificationsComponent,
+    SettingsProfileComponent,
   ],
   imports: [
     BrowserModule,

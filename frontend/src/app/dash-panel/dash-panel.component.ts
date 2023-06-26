@@ -24,4 +24,9 @@ export class DashPanelComponent {
     console.log("openCreateAccount called");
     this.router.navigate(['/create-account']);
   }
+
+  openSettings(){
+    console.log("settings page called");
+    this.router.navigate(['/settings']);
+  }
 }

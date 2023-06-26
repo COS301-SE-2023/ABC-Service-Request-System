@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { user } from "../../../backend/src/models/user.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,41 @@ export class UserService {
   LOGIN_URL = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient, private router : Router) { }
+
+  //DASHES FUNCTIONS
+  getUser(userID: string)
+  {
+    //alert(userID);
+    return this.http.get<user>(`${this.API_URL}/id?id=${userID}`);
+  }
+
+  updateProfileName(name: string, email: string) {
+    const url = `${this.API_URL}/update_user_name`;
+    const body = { name, email };
+    return this.http.put(url, body);
+  }
+
+  updateProfileSurname(surname: string,email: string) {
+    const url = `${this.API_URL}/update_user_surname`;
+    const body = { surname,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateProfilePassword(password: string,email: string) {
+    const url = `${this.API_URL}/update_user_password`;
+    const body = { password,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateUserProfilePicture(profilePicture: File, email: string): Observable<user> {
+    const url = `${this.API_URL}/update_profile_picture`;
+    const formData = new FormData();
+    formData.append('profilePicture',profilePicture);
+    const body = { profilePicture, email}
+
+    return this.http.put<user>(url, formData);
+  }
+  //END DASH
 
   getUserByToken(token: string) {
     return this.http.post(`${this.API_URL}/get_user_by_token`, { token });

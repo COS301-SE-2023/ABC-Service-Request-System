@@ -9,16 +9,25 @@ import { ActivateAccountComponent } from './activate-account/activate-account.co
 import { CreateAccountComponent } from './create-account/create-account.component';
 // import { AuthGuard } from 'src/services/auth.guard';
 
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsGeneralComponent } from './settings-general/settings-general.component';
+import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+ // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'settings', component: SettingsGeneralComponent },
+  { path: 'settings-notifications',component: SettingsNotificationsComponent},
+  { path: 'settings-profile',component: SettingsProfileComponent},
   { path: '**', redirectTo: '/login' }, //fallback
-  
+  // { path: 'settings-general', component: SettingsGeneralComponent},
+
+
 ];
 
 @NgModule({
