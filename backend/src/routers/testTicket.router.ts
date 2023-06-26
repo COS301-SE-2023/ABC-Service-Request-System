@@ -4,8 +4,27 @@ import { TestTicketModel } from "../models/testTicket.model";
 import { sample_tickets } from "../data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
+import multer from 'multer';
+import { cloudinary } from './cloudinary';
 
 const router = Router();
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      //check if pdf
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  });
 
 router.post('/seed', expressAsyncHandler(
     async (req, res) => {
@@ -76,5 +95,30 @@ router.put('/comment', expressAsyncHandler(
         }
     }
 ));
+
+    router.put('/updateStatus', expressAsyncHandler(
+        async (req, res) => {
+        try {
+            const ticketId = req.body.ticketId;
+            const status = req.body.status;
+            console.log('status is ' +  status);
+            console.log('ticket id is ' + ticketId);
+    
+            const ticket = await TestTicketModel.findOneAndUpdate(
+            { id: ticketId },
+            { status: status },
+            { new: true }
+            );
+    
+            if (ticket) {
+            res.status(200).json({ message: 'Ticket status updated successfully' });
+            } else {
+            res.status(404).json({ message: 'Ticket not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' });
+        }
+        }
+    ));
 
 export default router;

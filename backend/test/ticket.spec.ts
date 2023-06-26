@@ -115,3 +115,88 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Id not found');
     });
 })
+describe('/Ticket Status and Comment APIs', () => {
+
+    it('should update the status of a ticket...', async () => {
+        const toSend = {
+            ticketId: '1',
+            status: 'Pending'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/updateStatus')
+            .send(toSend);
+
+        res.should.have.status(200);
+        // const responseBody = JSON.parse(res.body);
+        // responseBody.should.be.a('object');
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Ticket status updated successfully');
+    });
+
+    it('should not update the status of a ticket that doesnt exist...', async () => {
+        const toSend = {
+            ticketId: '99999',
+            status: 'Pending'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/updateStatus')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Ticket not found');
+    });
+
+    it('should add a comment to a ticket...', async () => {
+        const toSend = {
+            ticketId: '1',
+            comment: 'This is a test comment',
+            author: 'Test Author',
+            type: 'comment',
+            attachmentUrl: 'https://test.com/test.pdf' 
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/comment')
+            .send(toSend);
+
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Comment added successfully');
+    });
+
+    it('should not add a comment to a ticket that doesnt exist...', async () => {
+        const toSend = {
+            ticketId: '99999',
+            comment: 'This is a test comment',
+            author: 'Test Author',
+            type: 'comment',
+            attachmentUrl: 'https://test.com/test.pdf' 
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_ticket/comment')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Ticket not found');
+    });
+});
+
+const fs = require('fs');
+const path = require('path');
+
+describe('/Upload File API', () => {
+    it('should fail when no file is attached', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_ticket/upload');
+
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('No file uploaded');
+    });
+});
+
