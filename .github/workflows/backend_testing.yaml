@@ -41,6 +41,9 @@ jobs:
       run: npm install
       working-directory: frontend
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
     - name: Run Frontend Tests
       run: ng test --watch=false --browsers=ChromeHeadless
       working-directory: frontend
