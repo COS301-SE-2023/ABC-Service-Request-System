@@ -1,4 +1,4 @@
-name: Backend Testing
+name: Unit and Integration Testing
 
 on:
   push:
