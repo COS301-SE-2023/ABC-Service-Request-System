@@ -53,16 +53,16 @@ export class NewTicketFormComponent {
         this.router.navigate([`/ticket/${newTicketId}`]);
 
         // create a notification corresponding to the ticket
-        //const profilePhotoLink = "https://i.imgur.com/zYxDCQT.jpg";
-        const notificationType = " assigned an issue to you";
+        const profilePhotoLink = "https://i.imgur.com/zYxDCQT.jpg";
+        const notificationMessage = " assigned an issue to you";
         const creatorEmail = "test@example.com";
         const assignedEmail = "test@example.com";
         const ticketSummary = summary;
-        /*const ticketStatus = "done";
-        const notificationTime = new Date();*/
+        const ticketStatus = "Done";
+        const notificationTime = new Date();
         const link = newTicketId;
 
-        this.notificationsService.newNotification(notificationType, creatorEmail, assignedEmail, ticketSummary, link).subscribe((response: any) => {
+        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link).subscribe((response: any) => {
           console.log(response);
         });
       });

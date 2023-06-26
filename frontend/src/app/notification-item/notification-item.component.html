@@ -1,9 +1,7 @@
-
-    <div class="notification-list_img">
-        <img src="https://i.imgur.com/zYxDCQT.jpg" alt="user">
-    </div>
-    <div class="notification-list_detail">
-        <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.notificationType }}</p>
-        <p><small>10 mins ago</small></p>
-    </div>
-
+<div class="notification-list_img">
+    <img [src]="notifications.profilePhotoLink" alt="user">
+</div>
+<div class="notification-list_detail">
+    <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
+    <p><small>{{ getNotificationTime(notifications) }}</small></p>
+</div>
