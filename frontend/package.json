@@ -7,6 +7,7 @@
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "jest --coverage",
+    "test:coverage": "ng test --no-watch --code-coverage",
     "lint": "eslint \"src/**/*.ts\"",
     "e2e": "ng e2e"
   },

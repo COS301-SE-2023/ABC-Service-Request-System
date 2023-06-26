@@ -22,18 +22,34 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
+    # Backend
+    - name: Install backend dependencies
       run: npm install
       working-directory: backend
 
-    - name: Run tests
+    - name: Run backend tests
       run: npm run test
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       working-directory: backend
 
-    - name: Upload coverage to Codecov
+    - name: Upload backend coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./backend/coverage/lcov.info
+
+    # Frontend
+    - name: Install frontend dependencies
+      run: npm install
+      working-directory: frontend
+
+    - name: Run frontend tests
+      run: npm run test:coverage
+      working-directory: frontend
+
+    - name: Upload frontend coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./frontend/coverage/lcov.info
