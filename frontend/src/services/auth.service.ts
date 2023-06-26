@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
+import { user } from '../../../backend/src/models/user.model';
 
 interface DecodedToken {
+  user: user;
   role: string;
   // other properties...
 }
@@ -9,6 +11,7 @@ interface DecodedToken {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private role: string;
+  private user!: user;
 
   constructor() { 
     this.role = '';
@@ -17,11 +20,16 @@ export class AuthService {
   decodeToken(token: string): void {
     const decodedToken = jwt_decode(token) as DecodedToken;
     this.role = decodedToken.role;
+    this.user = decodedToken.user;
     console.log('Decoded role:', this.role);
   }
 
   getRole(): string {
     return this.role;
+  }
+
+  getUser(): user {
+    return this.user;
   }
 
   isAdmin(): boolean {

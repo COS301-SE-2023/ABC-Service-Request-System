@@ -26,6 +26,7 @@ export class LoginPageComponent {
         console.log('Login response:', response); // Log the response for debugging
         const token = response.token; // Assuming the token is returned in the response
         this.authService.decodeToken(token);
+        console.log('User:', this.authService.getUser()); // Log the token for debugging
         console.log('Role:', this.authService.getRole()); // Log the role for debugging
         
         // Navigate to dashboard
