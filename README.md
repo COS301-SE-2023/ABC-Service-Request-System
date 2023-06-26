@@ -1,10 +1,13 @@
+<p align="center">
+    <img src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/assets/85990372/4c760014-22b9-4776-a474-39275e090f55" alt="App Logo" />
+</p>
+
 <h1 align="center">LUNA Service Request System</h1>
 
 The primary objective of this ticketing system is to streamline project management processes, enhance communication, and improve the overall efficiency of the organization.
 As companies grow it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress, and allocates work among the management, technical, and functional teams.
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
-![Sunburst Graph](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graphs/sunburst.svg?token=8DEVQ31GUY)
 
 ## :rocket: Technologies 
 
