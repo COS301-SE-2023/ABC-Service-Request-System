@@ -86,7 +86,7 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Comment added successfully');
     });
 
-    it('should check that comments for user 1 is has a single item and the content of the message should be "hi"...', async () => {
+    it('should check that comments for user 1 has a single item and the content of the message should be "hi"...', async () => {
         let userId = '1';
 
         const res = await chai.request(app)

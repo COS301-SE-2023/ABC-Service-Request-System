@@ -6,7 +6,7 @@
     border-radius: 5px;
     float: center;
     display: grid;
-  
+
     h2 {
       margin-bottom: 20px;
       text-align: center;
@@ -20,14 +20,14 @@
       margin-right: 10px; /* Adjust the margin as needed */
       margin-left: 10px;
     }
-    
-  
+
+
     .profile-picture {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
-  
+
       img {
         width: 150px;
         height: 150px;
@@ -35,22 +35,22 @@
         border-radius: 50%;
         margin-bottom: 10px;
       }
-  
+
       input[type="file"] {
         margin-top: 10px;
       }
     }
-  
+
     form {
       .form-group {
         margin-bottom: 20px;
-  
+
         label {
           display: block;
           margin-bottom: 5px;
           font-weight: bold;
         }
-  
+
         input[type="text"],
         input[type="email"] {
           width: 100%;
@@ -59,7 +59,7 @@
           border-radius: 3px;
         }
       }
-  
+
       button[type="submit"] {
         display: block;
         margin-top: 10px;
@@ -72,4 +72,16 @@
       }
     }
   }
-  
+
+  .save-profile{
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 0.7em;
+  }
+
+  .save-profile:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }

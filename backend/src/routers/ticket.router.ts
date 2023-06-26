@@ -5,7 +5,7 @@ import { sample_tickets } from "../data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
-import { cloudinary } from './cloudinary';
+import { cloudinary } from '../configs/cloudinary';
 
 
 const router = Router();
@@ -25,7 +25,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: 'File upload error' });
     }
-  });
+});
   
 
 router.post('/seed', expressAsyncHandler(
