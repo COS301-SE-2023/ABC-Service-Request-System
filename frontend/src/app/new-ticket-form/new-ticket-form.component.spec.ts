@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TicketsService } from 'src/services/ticket.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DashPanelComponent } from '../dash-panel/dash-panel.component';
 
 describe('NewTicketFormComponent', () => {
   let component: NewTicketFormComponent;

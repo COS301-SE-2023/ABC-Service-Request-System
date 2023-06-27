@@ -71,6 +71,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
 
         const newTicket = new TicketModel({
             id: String(ticketCount + 1), // Assign the auto-incremented ID
+            description: req.body.description,
             summary: req.body.summary,
             assignee: req.body.assignee,
             assigned: req.body.assigned,
@@ -80,6 +81,8 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             endDate: req.body.endDate,
             status: req.body.status
         });
+
+        console.log("new ticket: ", newTicket);
 
         await newTicket.save();
 

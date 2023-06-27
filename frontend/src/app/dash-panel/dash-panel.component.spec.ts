@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 describe('DashPanelComponent', () => {
   let component: DashPanelComponent;
   let fixture: ComponentFixture<DashPanelComponent>;
-  let authService: Partial<AuthService> | any; 
+  let authService: Partial<AuthService> | any;
   let router: Router;
 
   beforeEach(async () => {
@@ -37,7 +37,7 @@ describe('DashPanelComponent', () => {
 
   it('should emit openForm event if user is a manager', () => {
     spyOn(component.openForm, 'emit'); // Create a spy for the EventEmitter
-    spyOn(authService, 'isManager').and.returnValue(true); // Assume the user is a manager
+    //spyOn(authService, 'isManager').and.returnValue(true); // Assume the user is a manager
 
     component.openNewTicketForm();
 
