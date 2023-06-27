@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -29,7 +30,6 @@ export class LoginPageComponent {
         const token = response.token;
         this.authService.setToken(token); // set and decode the token
         console.log('Role:', this.authService.getRole());
-        console.log('User:', this.authService.getUser());
 
         this.logInClicked = true;
         // Navigate to dashboard

@@ -22,9 +22,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       const result = await cloudinary.uploader.upload(req.file.path);
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
-      res.status(500).json({ error });
+      res.status(500).json({ message: 'File upload error' });
     }
-  });
+});
 
 router.post('/seed', expressAsyncHandler(
     async (req, res) => {
@@ -68,41 +68,46 @@ router.get('/id', expressAsyncHandler(
 
 router.put('/comment', expressAsyncHandler(
     async (req, res) => {
-        const ticketId = req.body.ticketId;
-        const comment = req.body.comment;
-        const author = req.body.author;
-        const type = req.body.type;
-        const createdAt = new Date();
+      const ticketId = req.body.ticketId;
+      const comment = req.body.comment;
+      const author = req.body.author;
+      const type = req.body.type;
+      const attachment = req.body.attachment; 
 
-        const newComment: comment = {
-            author: author,
-            content: comment,
-            createdAt: createdAt,
-            type: type
-        };
-
-        try{
-            const ticket = await TestTicketModel.findOneAndUpdate({ id: ticketId }, { $push: { comments: newComment } }, { new: true });
-
-            if (ticket) {
-                res.status(200).json({ message: 'Comment added successfully' });
-            } else {
-                res.status(404).json({ message: 'Ticket not found' });
-            }
-
-        }catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+      const newComment: comment = {
+        author: author,
+        authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
+        content: comment,
+        createdAt: new Date(),
+        type: type,
+        attachment: attachment, 
+      };
+  
+      try {
+        const ticket = await TestTicketModel.findOneAndUpdate(
+          { id: ticketId },
+          { $push: { comments: newComment } },
+          { new: true }
+        );
+  
+        if (ticket) {
+          res.status(200).json({ message: 'Comment added successfully' });
+        } else {
+          res.status(404).json({ message: 'Ticket not found' });
         }
+      } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+      }
     }
-));
+  ));
 
     router.put('/updateStatus', expressAsyncHandler(
         async (req, res) => {
         try {
             const ticketId = req.body.ticketId;
             const status = req.body.status;
-            console.log('status is ' +  status);
-            console.log('ticket id is ' + ticketId);
+            // console.log('status is ' +  status);
+            // console.log('ticket id is ' + ticketId);
     
             const ticket = await TestTicketModel.findOneAndUpdate(
             { id: ticketId },

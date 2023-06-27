@@ -39,6 +39,7 @@ export class AppComponent {
         return message;
       },
       error: () => {
+        alert('Error fetching data');
         return 'Error fetching data';
       }
     });

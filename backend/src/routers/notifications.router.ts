@@ -37,9 +37,12 @@ router.get('/delete', expressAsyncHandler(
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
         try {
-            console.log("New notification request received: ", req.body);
+            // console.log("New notification request received: ", req.body);
+
+            const notificationsCount = await NotificationsModel.countDocuments();
     
             const newNotification = new NotificationsModel({
+                id: String(notificationsCount + 1),
                 profilePhotoLink: req.body.profilePhotoLink,
                 notificationMessage: req.body.notificationMessage,
                 creatorEmail: req.body.creatorEmail,
@@ -53,12 +56,56 @@ router.post('/newnotif', expressAsyncHandler(
     
             await newNotification.save();
     
-            console.log("New notification created succesfully");
+            // console.log("New notification created succesfully");
             res.status(201).send({ message: "Notification created succesfully" });
         }
         catch (error) {
-            console.error("Notification creation error:", error);
+            // console.error("Notification creation error:", error);
             res.status(500).send("An error occurred during notification creation.");
+        }
+    }
+));
+
+router.put('/changeToRead', expressAsyncHandler(
+    async (req, res) => {
+        const notificationsId = req.body.id;
+    
+        try {
+            const notification = await NotificationsModel.findOneAndUpdate(
+              { id: notificationsId },
+              { $set: { readStatus: 'Read' } },
+              { new: true }
+            );
+
+            if (notification) {
+                res.status(204).json({ message: 'Read Status changed successfully' });
+            } else {
+                res.status(404).json({ message: 'Notification not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+));
+
+router.put('/changeToUnread', expressAsyncHandler(
+    async (req, res) => {
+        const notificationsId = req.body.id;
+    
+        try {
+            const notification = await NotificationsModel.findOneAndUpdate(
+              { id: notificationsId },
+              { $set: { readStatus: 'Unread' } },
+              { new: true }
+            );
+
+            if (notification) {
+                res.status(204).json({ message: 'Read Status changed successfully' });
+            } else {
+                res.status(404).json({ message: 'Notification not found' });
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' });
         }
     }
 ));

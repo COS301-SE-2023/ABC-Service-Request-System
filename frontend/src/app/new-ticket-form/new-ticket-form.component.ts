@@ -1,21 +1,27 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { notifications } from '../../../../backend/src/models/notifications.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/services/auth.service';
+import { user } from '../../../../backend/src/models/user.model';
+import { UserService } from 'src/services/user.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
   styleUrls: ['./new-ticket-form.component.scss']
 })
-export class NewTicketFormComponent {
+export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
+  assigneeName: string;
+  allUsers: user[] = [];
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
+      description: '',
       assignee: '',
       assigned: '',
       group: '',
@@ -23,19 +29,42 @@ export class NewTicketFormComponent {
       startDate: '',
       endDate: '',
       status: '',
-      comments: ''
+      comments: '',
     });
+
+    this.assigneeName = ''; 
   }
 
   @Output() newTicketEvent = new EventEmitter();
   @Output() closeForm = new EventEmitter();
+
+
+  ngOnInit(): void {
+    this.getAssigneeName();
+    this.getAllAssignable();
+  }
+
+  getAssigneeName() {
+    this.assigneeName = this.authService.getName();
+
+    console.log("Assignee Name: ", this.assigneeName);
+
+    return this.assigneeName;
+  }
+
+  getAllAssignable() {
+    const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
+      this.allUsers = response;
+      return this.allUsers;
+    });
+  }
 
   onSubmit() {
     if (this.ticketForm.valid) {
       const ticketFormValues = this.ticketForm.value;
 
       const summary = ticketFormValues.summary;
-      const assignee = ticketFormValues.assignee;
+      const assignee = this.authService.getName();
       const assigned = ticketFormValues.assigned;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
@@ -43,9 +72,10 @@ export class NewTicketFormComponent {
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
+      const description = ticketFormValues.description;
 
       // adding new ticket
-      this.ticketService.addTicket(summary, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -79,7 +109,8 @@ export class NewTicketFormComponent {
         startDate: startDate,
         endDate: endDate,
         status: status,
-        comments: comments
+        comments: comments,
+        description: description
       };
 
       this.newTicketEvent.emit(newTicket);
@@ -89,9 +120,21 @@ export class NewTicketFormComponent {
       this.router.navigate(['/ticket/${id}']);
     }
     else {
+      this.markFormControlsAsTouched(this.ticketForm);
+
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');
     }
+  }
+  
+  markFormControlsAsTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+  
+      if (control instanceof FormGroup) {
+        this.markFormControlsAsTouched(control);
+      }
+    });
   }
 
   private formatDate(date: string): string {

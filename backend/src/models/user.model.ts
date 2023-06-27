@@ -1,10 +1,10 @@
-import { ObjectId, Schema, connection, model } from "mongoose"
+import { Schema, connection, model } from "mongoose"
 //import bcrypt from 'bcryptjs';
 type Role = "Manager" | "Functional" | "Technical" | "Admin";
 let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
 
 export interface user{
-    id: ObjectId
+    id: string
     name: string
     surname: string
     profilePhoto: string
@@ -18,6 +18,7 @@ export interface user{
 
 export const userSchema = new Schema<user>(
     {
+        id: {type: String, required: true},
         name: {type: String, required: true},
         surname:{type: String, required: true},
         profilePhoto:{type: String, required: false},

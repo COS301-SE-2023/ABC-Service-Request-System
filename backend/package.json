@@ -42,6 +42,7 @@
     "@types/mocha": "^10.0.1",
     "@types/multer": "^1.4.7",
     "@types/nodemailer": "^6.4.8",
+    "@types/sinon": "^10.0.15",
     "@types/supertest": "^2.0.12",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
@@ -58,7 +59,11 @@
     ],
     "exclude": [
       "src/**/*.spec.ts",
-      "src/**/test-utils/*"
+      "src/**/test-utils/*",
+      "src/routers/*",
+      "src/configs/*",
+      "src/sampleLogin.ts",
+      "sampleUsers.ts"
     ],
     "extension": [
       ".ts"

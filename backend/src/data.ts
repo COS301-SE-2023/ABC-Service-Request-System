@@ -14,6 +14,7 @@ export const sample_tickets: ticket[] = [
       comments: [
 
       ],
+      description: "You need to update the UI to support the new angular material UI library and also fix the typescript bug with the header."
   },
   {
       id: "2",
@@ -28,11 +29,13 @@ export const sample_tickets: ticket[] = [
       comments: [
           {
               author: 'John',
+              authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
               content: 'Will begin testing soon.',
               createdAt: new Date('2023-11-09'),
               type: 'status',
           },
       ],
+      description: "You need to test the tickets before the client has a chance to access their portal."
   },
   {
       id: "3",
@@ -47,18 +50,29 @@ export const sample_tickets: ticket[] = [
       comments: [
           {
               author: 'Mark',
+              authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
               content: 'Initial commit.',
               createdAt: new Date('2023-08-24'),
               type: 'status',
-              attachmentUrl: 'http://example.com/commit1',
+              attachment: 
+                {
+                    name: 'attachment2',
+                    url: 'attachment2.pdf'
+                }
           },
           {
               author: 'Priyul',
+              authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
               content: 'Code review comments added.',
               createdAt: new Date('2023-08-26'),
               type: 'review',
-              attachmentUrl: 'http://example.com/review1',
+              attachment: 
+                {
+                    name: 'attachment2',
+                    url: 'attachment2.pdf'
+                }
           },
       ],
+      description: 'Update the front end ticket schema so that it conforms to new legislation.'
   },
 ];

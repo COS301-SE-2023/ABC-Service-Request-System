@@ -49,6 +49,8 @@
           color: white;
         }
 
+
+
         .file-input {
           visibility: hidden;
           width: 0;
@@ -64,7 +66,7 @@
           cursor: pointer;
           transition: background-color .3s ease-in-out;
           margin-left: 20px;
-          margin-right: 10px;
+          margin-right: 20px;
         }
 
         .file-input-label:hover {
@@ -86,23 +88,67 @@
           }
 
           .user-profile-img{
-            width: 3em;
-            height: 3em;
+            width: 4em;
+            height: 4em;
             background-color: gray;
             border-radius: 50%;
             position: absolute;
             top: 0;
             left: 0;
+            overflow: hidden;
+
+            img{
+              position: absolute;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: 55%;
+              transform: scale(1) translate(0, 0%);
+            }
+          }
+
+          .attachment-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1em;
+          }
+
+          .attachment-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 0.5em;
+          }
+
+          .attachment-filename {
+            width: 200px;
+            padding: 0.5em;
+            box-sizing: border-box;
+          }
+
+          // .pdf-preview {
+          //   // display: flex;
+          //   max-width: 400px;
+          //   max-height: 400px;
+          //   margin-bottom: 120px;
+          //   margin-right: 130px;
+          // }
+
+
+
+          .file-input-label {
+            margin-right: 18px;
           }
 
           .note-content {
             height: 100%;
             padding: 0.8em;
-            width: 90%;
-            max-width: 90%;
+            width: 80%;
+            max-width: 80%;
             height: fit-content;
             outline: none;
-            margin-left: 4em;
+            margin-left: 5em;
             border-bottom: 2px solid black;
             cursor: pointer;
           }
@@ -133,11 +179,23 @@
         margin-bottom: 1.5em;
 
         .user-profile-img{
-          width: 3em;
-          height: 3em;
+          width: 4em;
+          height: 4em;
           background-color: gray;
           border-radius: 50%;
           margin-right: 1em;
+          overflow: hidden;
+          position: relative;
+
+          img{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 55%;
+            transform: scale(1) translate(0, 0%);
+          }
         }
 
         h2{
@@ -340,16 +398,15 @@ mat-expansion-panel-header.mat-expanded,
   max-width: 100%;
   max-height: 200px;
   margin: 20px;
-  margin-left: 80px;
+  margin-left: 20px;
 }
 
 .comments-area a {
   margin: 0px;
-  margin-left: 55px;
+  margin-left: 20px;
   color: blue;
   text-decoration: underline;
 }
-
 
 
 //done button
@@ -364,3 +421,12 @@ mat-expansion-panel-header.mat-expanded,
 // .mat-mdc-text-field-wrapper, .mdc-text-field, .ng-tns-c926814666-0, .mdc-text-field--filled{
 //   background-color: red;
 // }
+
+::ng-deep .custom-snackbar {
+  background-color: #333; /* Set the background color */
+  color: #fff; /* Set the text color */
+}
+
+::ng-deep .custom-snackbar .mat-snack-bar-action {
+  color: #479abb; /* Set the action color */
+}

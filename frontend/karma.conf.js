@@ -1,7 +1,8 @@
 module.exports = function (config) {
     config.set({
       basePath: '',
-      frameworks: ['jasmine', '@angular-devkit/build-angular'],
+      frameworks: ['jasmine', '@angular-devkit/build-angular', 'sinon'],
+
       plugins: [
         require('karma-jasmine'),
         require('karma-chrome-launcher'),
@@ -22,9 +23,14 @@ module.exports = function (config) {
       colors: true,
       logLevel: config.LOG_INFO,
       autoWatch: true,
-      browsers: ['ChromeHeadless'], // Use ChromeHeadless instead of Chrome
+      browsers: ['ChromeHeadless', 'ChromeHeadlessNoSandbox'], // Use ChromeHeadless instead of Chrome
       singleRun: false,
       restartOnFileChange: true,
+      customLaunchers: {
+        ChromeHeadlessNoSandbox: {
+          base: 'ChromeHeadless',
+          flags: ['--no-sandbox']
+        }
+      },
     });
   };
-  

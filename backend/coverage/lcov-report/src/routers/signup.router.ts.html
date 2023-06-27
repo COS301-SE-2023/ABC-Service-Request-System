@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/25</span>
+                <span class='fraction'>7/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">38.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/22</span>
+                <span class='fraction'>7/18</span>
             </div>
         
             
@@ -119,35 +119,35 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,12 +164,12 @@ const router = Router();
 router.post("/", expressAsyncHandler(
 <span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
       try {
-<span class="cstat-no" title="statement not covered" >        console.log("Signup request received:", req.body); </span>
+        // console.log("Signup request received:", req.body); 
   
         const <span class="cstat-no" title="statement not covered" >user = <span class="cstat-no" title="statement not covered" >await UserModel.findOne({ emailAddress: req.body.emailAddress });</span></span>
   
 <span class="cstat-no" title="statement not covered" >        if (user) {</span>
-<span class="cstat-no" title="statement not covered" >          console.log("User with this email already exists");</span>
+          // console.log("User with this email already exists");
 <span class="cstat-no" title="statement not covered" >          res.status(409).send("User with this email already exists.");</span>
 <span class="cstat-no" title="statement not covered" >          return;</span>
         }
@@ -189,10 +189,10 @@ router.post("/", expressAsyncHandler(
   
 <span class="cstat-no" title="statement not covered" >        await newUser.save();</span>
   
-<span class="cstat-no" title="statement not covered" >        console.log("Signup successful");</span>
+        // console.log("Signup successful");
 <span class="cstat-no" title="statement not covered" >        res.status(201).send({ message: 'User created successfully' });</span>
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error("Signup error:", error);</span>
+        // console.error("Signup error:", error);
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("An error occurred during signup.");</span>
       }
     })
@@ -205,7 +205,7 @@ export default router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-26T15:55:05.782Z
+                at 2023-06-27T08:28:56.841Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

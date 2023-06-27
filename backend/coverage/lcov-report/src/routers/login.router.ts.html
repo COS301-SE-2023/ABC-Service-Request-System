@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32% </span>
+                <span class="strong">34.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/50</span>
+                <span class='fraction'>13/38</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.91% </span>
+                <span class="strong">34.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/47</span>
+                <span class='fraction'>12/35</span>
             </div>
         
             
@@ -155,34 +155,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,6 +171,25 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -208,14 +208,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,25 +234,25 @@ const router = Router();
 router.post("/", expressAsyncHandler(
     async (req, res) =&gt; {
       try {
-        console.log("Login request received:", req.body); // Log the request body
+        // console.log("Login request received:", req.body); // Log the request body
   
         const user = await UserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
   
-        console.log("User found:", user); // Log the user object
+        // console.log("User found:", user); // Log the user object
   
         if (<span class="missing-if-branch" title="else path not taken" >E</span>user) {
-<span class="cstat-no" title="statement not covered" >          console.log("Request password:", req.body.password);</span>
-<span class="cstat-no" title="statement not covered" >          console.log("User password:", user.password);</span>
+          // console.log("Request password:", req.body.password);
+          // console.log("User password:", user.password);
   
-<span class="cstat-no" title="statement not covered" >          console.log("Hashededed password from DB:", user.password); </span> // Add this line
+          // console.log("Hashededed password from DB:", user.password);  // Add this line
   
-<span class="cstat-no" title="statement not covered" >          console.log("Types:", typeof req.body.password, typeof user.password);  </span>
+          // console.log("Types:", typeof req.body.password, typeof user.password);  
           const <span class="cstat-no" title="statement not covered" >validPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.compare(req.body.password, user.password);</span></span>
-<span class="cstat-no" title="statement not covered" >          console.log("Result of bcrypt compare:", validPassword);</span>
+          // console.log("Result of bcrypt compare:", validPassword);
   
   
 <span class="cstat-no" title="statement not covered" >          if (!validPassword) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log("Invalid password");</span>
+            // console.log("Invalid password");
 <span class="cstat-no" title="statement not covered" >            res.status(401).send({ auth: false, token: null });</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
           }
@@ -260,7 +260,7 @@ router.post("/", expressAsyncHandler(
           const <span class="cstat-no" title="statement not covered" >secretKey = process.env.JWT_SECRET;</span>
   
 <span class="cstat-no" title="statement not covered" >          if (!secretKey) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log("JWT Secret is not defined");</span>
+            // console.log("JWT Secret is not defined");
 <span class="cstat-no" title="statement not covered" >            throw new Error('JWT Secret is not defined');</span>
           }
           
@@ -287,14 +287,14 @@ router.post("/", expressAsyncHandler(
             expiresIn: 86400, // expires in 24 hours
           });
   
-<span class="cstat-no" title="statement not covered" >          console.log("Login successful");</span>
+          // console.log("Login successful");
 <span class="cstat-no" title="statement not covered" >          res.status(200).send({ auth: true, token });</span>
         } else {
-          console.log("User not found");
+          // console.log("User not found");
           res.status(404).send("No user found.");
         }
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error("Login error:", error);</span>
+        // console.error("Login error:", error);
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("An error occurred during login.");</span>
       }
     })
@@ -307,7 +307,7 @@ export default router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-26T15:55:05.782Z
+                at 2023-06-27T08:28:56.841Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

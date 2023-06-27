@@ -13,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { SettingsGeneralComponent } from './settings-general/settings-general.component';
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
+import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'new-ticket-form', component: NewTicketFormComponent},
   { path: 'settings', component: SettingsGeneralComponent },
   { path: 'settings-notifications',component: SettingsNotificationsComponent},
   { path: 'settings-profile',component: SettingsProfileComponent},

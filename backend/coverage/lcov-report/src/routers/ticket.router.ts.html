@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.95% </span>
+                <span class="strong">23.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/82</span>
+                <span class='fraction'>18/77</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.65% </span>
+                <span class="strong">26.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/73</span>
+                <span class='fraction'>18/68</span>
             </div>
         
             
@@ -237,7 +237,8 @@
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
 <a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -302,20 +303,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -323,10 +310,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -366,6 +367,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -388,8 +390,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -466,7 +468,7 @@ router.get('/', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
 <span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        await TicketModel.deleteMany({});</span></span>
-<span class="cstat-no" title="statement not covered" >        res.send("Delete is done!");</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).send("Delete is done!");</span>
     }
 ));
 &nbsp;
@@ -476,7 +478,7 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( <span class="fstat-no" title="function not covered" >async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
     try {
-<span class="cstat-no" title="statement not covered" >        console.log("New ticket request received: ", req.body);</span>
+        // console.log("New ticket request received: ", req.body);
 &nbsp;
         // for now, not checking on existing tickets
 &nbsp;
@@ -496,11 +498,11 @@ router.post('/addticket', expressAsyncHandler( <span class="fstat-no" title="fun
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        await newTicket.save();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        console.log("New ticket created succesfully");</span>
+        // console.log("New ticket created succesfully");
 <span class="cstat-no" title="statement not covered" >        res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});</span>
     }
     catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error("Ticket creation error:", error);</span>
+        // console.error("Ticket creation error:", error);
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("An error occurred during ticket creation.");</span>
     }
 }));
@@ -525,45 +527,46 @@ router.get('/id', expressAsyncHandler(
 ));
 &nbsp;
 router.put('/comment', expressAsyncHandler(
-<span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
-      const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
-      const <span class="cstat-no" title="statement not covered" >comment = req.body.comment;</span>
-      const <span class="cstat-no" title="statement not covered" >author = req.body.author;</span>
-      const <span class="cstat-no" title="statement not covered" >type = req.body.type;</span>
-      const <span class="cstat-no" title="statement not covered" >attachmentUrl = req.body.attachmentUrl; </span>
-      const <span class="cstat-no" title="statement not covered" >newComment: comment = {</span>
-        author: author,
-        content: comment,
-        createdAt: new Date(),
-        type: type,
-        attachmentUrl: attachmentUrl, 
-      };
-  
-      try {
-        const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
-          { id: ticketId },
-          { $push: { comments: newComment } },
-          { new: true }
-        );
-  
-<span class="cstat-no" title="statement not covered" >        if (ticket) {</span>
-<span class="cstat-no" title="statement not covered" >          res.status(200).json({ message: 'Comment added successfully' });</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          res.status(404).json({ message: 'Ticket not found' });</span>
-        }
-      } catch (error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).json({ message: 'Internal server error' });</span>
+<span class="fstat-no" title="function not covered" >  async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
+    const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
+    const <span class="cstat-no" title="statement not covered" >comment = req.body.comment;</span>
+    const <span class="cstat-no" title="statement not covered" >author = req.body.author;</span>
+    const <span class="cstat-no" title="statement not covered" >type = req.body.type;</span>
+    const <span class="cstat-no" title="statement not covered" >attachment = req.body.attachment; </span>
+    const <span class="cstat-no" title="statement not covered" >newComment: comment = {</span>
+      author: author,
+      content: comment,
+      createdAt: new Date(),
+      type: type,
+      attachment: attachment,
+      authorPhoto: ""
+    };
+&nbsp;
+    try {
+      const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
+        { id: ticketId },
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (ticket) {</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).json({ message: 'Comment added successfully' });</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        res.status(404).json({ message: 'Ticket not found' });</span>
       }
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      res.status(500).json({ message: 'Internal server error' });</span>
     }
-  ));
+  }
+));
 &nbsp;
   router.put('/updateStatus', expressAsyncHandler(
 <span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
       try {
         const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
         const <span class="cstat-no" title="statement not covered" >status = req.body.status;</span>
-<span class="cstat-no" title="statement not covered" >        console.log('status is ' +  status);</span>
-<span class="cstat-no" title="statement not covered" >        console.log('ticket id is ' + ticketId);</span>
+        // console.log('status is ' +  status);
+        // console.log('ticket id is ' + ticketId);
   
         const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
           { id: ticketId },
@@ -592,7 +595,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-26T15:55:05.782Z
+                at 2023-06-27T08:28:56.841Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

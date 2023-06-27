@@ -50,7 +50,8 @@ describe('/First test collection', () => {
             ticketSummary: 'Integration',
             ticketStatus: 'Pending',
             notificationTime: new Date(),
-            link: '4'
+            link: '4',
+            readStatus: "Unread"
         }
 
         const res = await chai.request(app)
@@ -62,7 +63,7 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Notification created succesfully');
     });
 
-    it('should check that notification 4 has ticketSummary = "Integration"...', async () => {    
+    it('Should check that notification 4 has ticketSummary = "Integration"...', async () => {    
         const res = await chai.request(app)
             .get('/api/test_notifications');
         
@@ -72,5 +73,33 @@ describe('/First test collection', () => {
         expect(res.body[3]).to.have.property('ticketSummary');
         res.body[3].ticketSummary.should.be.a('string');
         expect(res.body[3].ticketSummary).to.be.equal('Integration');
+    });
+
+    it('Should make notification 1 readStatus = "Read"...', async () => {
+
+        const toSend = {
+            id: '1'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToRead')
+            .send(toSend);
+
+        res.should.have.status(204);
+        res.body.should.be.a('object');
+    });
+
+    it('Should make notification 3 readStatus = "Unread"...', async () => {
+
+        const toSend = {
+            id: '3'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToUnread')
+            .send(toSend);
+
+        res.should.have.status(204);
+        res.body.should.be.a('object');
     });
 });

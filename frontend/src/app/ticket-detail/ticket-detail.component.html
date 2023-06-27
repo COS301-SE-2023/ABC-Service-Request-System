@@ -10,12 +10,17 @@
     <div class="summary-info">
       <div class="summary-inner-info">
         <div class="summary-header">
-          <div class="user-profile-img"></div>
+          <div class="user-profile-img">
+            <!-- <img src="{{getCurrentUserImage()}}" alt="user profile image"> -->
+          </div>
           <h2><span><b>{{ ticket.assignee }}</b></span> created this ticket on <span><b>{{ ticket.startDate }}</b></span></h2> <br>
         </div>
 
         <p>Description</p>
-        <p>As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.</p>
+        <p *ngIf="ticket.description"> {{ ticket.description }} </p>
+        <p *ngIf="!ticket.description">
+          As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.
+        </p>
       </div>
 
       <div class="activity-area">
@@ -28,12 +33,26 @@
         <button class="activity-filter-button">Work Logs</button>
 
         <div class="note-button-area">
-          <div class="user-profile-img"></div>
+          <div class="user-profile-img">
+            <img src="{{userProfilePic}}" alt="user profile image">
+          </div>
           <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
-          <!-- <input type="file" (change)="onFileChange($event)" /> -->
           <label for="fileInput" class="file-input-label">
             <input type="file" id="fileInput" class="file-input" (change)="onFileChange($event)" />
           </label>
+
+          <div class="attachment-preview" *ngIf="preview">
+            <ng-container *ngIf="isPDF(file!.name)">
+              <div class = "pdf-preview">
+                <img src="../../assets/pdf.png" style = "max-width: 100px;" style = "max-height: 100px;" alt="PDF Attachment Preview" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!isPDF(file!.name)">
+              <img [src]="preview" alt="Image Attachment Preview" />
+            </ng-container>
+            <input type="text" class="attachment-filename" [(ngModel)]="editedAttachmentName" (input)="updateEditedAttachmentName($event)" [placeholder]="file?.name" />
+          </div>
+
         </div>
 
         <div class="save-btn-container">
@@ -41,15 +60,47 @@
           <button (click)="saveData()" class="save-btn">Save</button>
         </div>
 
-        <div class="comments-area" *ngFor="let comment of ticket.comments">
+        <!-- <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar> -->
+
+        <!-- <div class="comments-area" *ngFor="let comment of ticket.comments">
           <app-comment-panel [comment]="comment"></app-comment-panel>
           <div class = "ticket-attachment">
-            <!-- <img  *ngIf="comment.attachmentUrl" [src]="comment.attachmentUrl" alt="Attachment"> -->
-            <ng-container *ngIf="comment.attachmentUrl">
-              <a *ngIf="isPDF(comment.attachmentUrl)" [href]="comment.attachmentUrl" target="_blank">PDF Attachment</a>
-              <img *ngIf="!isPDF(comment.attachmentUrl)" [src]="comment.attachmentUrl" alt="Attachment">
+            <ng-container *ngIf="comment.attachment?.url">
+              <a *ngIf="isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" target="_blank">'{{comment.attachment!.name}}'</a>
+              <img *ngIf="!isPDF(comment.attachment!.url)" [src]="comment.attachment?.url" alt="Attachment">
+              <a *ngIf="!isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" download>'{{comment.attachment!.name}}'</a>
             </ng-container>
           </div>
+        </div> -->
+        <div class = "comments-area" *ngFor="let comment of ticket.comments">
+          <app-comment-panel [comment]="comment"></app-comment-panel>
+          <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>{{ comment.content }} <br>
+                  <a [href] = "comment.attachment!.url">{{comment.attachment?.name}}</a>
+
+                </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="ticket-attachment">
+              <ng-container *ngIf="comment?.attachment?.name; ">
+                <!-- <a *ngIf="isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" target="_blank" >'{{comment.attachment!.name}}'</a> -->
+                <img *ngIf="!isPDF(comment.attachment!.url)" [src]="comment.attachment?.url" alt="Attachment">
+                <!-- <a *ngIf="!isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" download>{{ comment.attachment!.name }}</a> -->
+              </ng-container>
+              <ng-template #noAttachments>
+                No attachments
+              </ng-template>
+            </div>
+          </mat-expansion-panel>
+          <p *ngIf="!comment?.attachment?.name" style = "margin-left: 60px;">
+            {{comment.content}}
+          </p>
+          <!-- <p *ngIf="isPDF(comment?.attachment!.url)">
+            {{comment.content}} <br>
+            <a [href] = "comment.attachment?.url"> {{comment.attachment?.name}}</a>
+          </p> -->
         </div>
 
       </div>

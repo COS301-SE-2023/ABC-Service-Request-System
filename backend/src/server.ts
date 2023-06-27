@@ -10,9 +10,9 @@ import signupRouter from './routers/signup.router';
 import notificationsRouter from './routers/notifications.router';
 
 //test routers
-import testTicketRouter from './routers/testTicket.router';
-import testUserRouter from './routers/testUser.router';
-import testNotificationsRouter from './routers/testNotifications.router';
+import testTicketRouter from './test_routers/testTicket.router';
+import testUserRouter from './test_routers/testUser.router';
+import testNotificationsRouter from './test_routers/testNotifications.router';
 
 import { dbConnection } from "./configs/ticketDB.config";
 

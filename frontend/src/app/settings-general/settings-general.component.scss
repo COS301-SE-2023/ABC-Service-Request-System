@@ -1,29 +1,14 @@
-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  h1 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: lightgray;
-  }
-  
-  .app-settings {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-  
-    /* Adjust the width and height as needed */
-    width: 200px;
-    height: 40px;
-    background-color: lightblue;
-    color: white;
-    cursor: pointer;
-  }
+.options {
+  width: 30%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  float: center;
+  display: grid;
+  margin-top: 50px;
+}
+.panel{
+  margin-top: 50px;
+}
   

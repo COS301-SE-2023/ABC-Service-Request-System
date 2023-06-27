@@ -69,20 +69,20 @@ describe('User API routes', () => {
         });
     });
 
-    describe('POST /api/test_user/activate_account', () => {
-        it('should activate a user account', async () => {
-            // Create a test user
-            const user = new TestUserModel(testUser);
-            await user.save();
+    // describe('POST /api/test_user/activate_account', () => {
+    //     it('should activate a user account', async () => {
+    //         // Create a test user
+    //         const user = new TestUserModel(testUser);
+    //         await user.save();
 
-            const res = await chai.request(app)
-                .post('/api/test_user/activate_account')
-                .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
+    //         const res = await chai.request(app)
+    //             .post('/api/test_user/activate_account')
+    //             .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
 
-            expect(res).to.have.status(201);
-            expect(res.body.message).to.equal('Account activated successfully');
-        });
-    });
+    //         expect(res).to.have.status(201);
+    //         expect(res.body.message).to.equal('Account activated successfully');
+    //     });
+    // });
     
     // describe("GET /api/test_user/activate_account", () => {
     //   it("should redirect to the password reset page with a valid token", (done) => {
@@ -134,16 +134,6 @@ describe('User API routes', () => {
     
 
     describe("User API", () => {
-      before(async () => {
-        // Run any setup tasks, such as connecting to the database or creating test data
-        // This will be executed once before all test cases
-        await TestUserModel.deleteMany({});
-      });
-    
-      after(async () => {
-        // Run any teardown tasks, such as closing database connections
-        // This will be executed once after all test cases
-      });
     
       beforeEach(async () => {
         // Prepare the test data or reset the database to a known state

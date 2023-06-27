@@ -22,8 +22,19 @@ after(async () => {
     server.close();
 });
 
+// describe('/Deleting database'), () => {
+//     it('should delete the database...'), async() => {
+//         const res = await chai.request(app)
+//             .get('/api/test_ticket/delete');
+        
+//         res.should.have.status(200);
+//         res.body.should.be.a('array');
+//         res.body.should.have.lengthOf(0);
+//     }
+// }
+
 describe('/First test collection', () => {
-    it('test welcome route...', async () => {
+    it('should test welcome route...', async () => {
         const res = await chai.request(app)
             .get('/api/welcome');
             chai.expect(res.text).to.equal(`{"message":"Welcome to the server!"}`);
@@ -53,6 +64,15 @@ describe('/First test collection', () => {
         res.body.should.be.a('array');
         res.body.should.have.lengthOf(3);
     });
+
+    // it('should not seed an already seeded database...', async () => {
+    //     const res = await chai.request(app)
+    //         .post('/api/test_ticket/seed');
+        
+    //     res.should.have.status(400);
+    //     // res.body.should.be.a('object');
+    //     // expect(res.body.message).to.be.equal('Seed is already done');
+    // });
 
     it('should check that comments for user 1 is empty at first...', async () => {
         let userId = '1';
@@ -155,7 +175,7 @@ describe('/Ticket Status and Comment APIs', () => {
             comment: 'This is a test comment',
             author: 'Test Author',
             type: 'comment',
-            attachmentUrl: 'https://test.com/test.pdf' 
+            attachment: { name: '', url: '' },
         }
 
         const res = await chai.request(app)
@@ -173,7 +193,7 @@ describe('/Ticket Status and Comment APIs', () => {
             comment: 'This is a test comment',
             author: 'Test Author',
             type: 'comment',
-            attachmentUrl: 'https://test.com/test.pdf' 
+            attachment: { name: '', url: '' },
         }
 
         const res = await chai.request(app)
@@ -199,4 +219,15 @@ describe('/Upload File API', () => {
         expect(res.body.message).to.be.equal('No file uploaded');
     });
 });
+
+// describe('/Deleting database'), () => {
+//     it('should delete the database...'), async() => {
+//         const res = await chai.request(app)
+//             .get('/api/test_ticket/delete');
+        
+//         res.should.have.status(200);
+//         // res.body.should.be.a('array');
+//         // res.body.should.have.lengthOf(0);
+//     }
+// }
 

@@ -4,10 +4,16 @@ import { Schema, connection } from "mongoose"
 
 export interface comment {
     author: string;
+    authorPhoto: string;
     content: string;
     createdAt: Date;
     type: string;
-    attachmentUrl?: string;
+    attachment?: attachment,
+}
+
+export interface attachment {
+    name: string,
+    url: string
 }
 
 export interface ticket{
@@ -15,27 +21,30 @@ export interface ticket{
     summary: string,
     assignee: string,
     assigned: string,
-    // group: {
-    //     name: string,
-    //     code: string,
-    //     region: string,
-    //     country: string
-    // },
     group: string,
     priority: "High" | "Medium" | "Low",
     startDate: string,
     endDate: string,
     status: "Done" | "Pending" | "Active",
     comments?: comment [],
+    description: string,
 }
+
+const attachmentSchema = new Schema<attachment>(
+    {
+        name: {type: String},
+        url: {type:String},
+    }
+)
 
 const commentSchema = new Schema<comment>(
     {
       author: { type: String, required: true },
+      authorPhoto: { type: String, required: true},
       content: { type: String, required: true },
       createdAt: { type: Date, required: true },
       type: { type: String, required: true },
-      attachmentUrl: { type: String },
+      attachment: { type: attachmentSchema },
     },
     {
       _id: false,
@@ -53,7 +62,8 @@ export const ticketSchema = new Schema<ticket>(
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
         status: {type: String, required: true},
-        comments: {type: [commentSchema]}
+        comments: {type: [commentSchema]},
+        description: {type: String, required: true},
     },{
         toJSON: {
             virtuals: true

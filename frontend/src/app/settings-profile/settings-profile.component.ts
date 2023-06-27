@@ -19,20 +19,23 @@ export class SettingsProfileComponent implements OnInit{
   editingPicture= false;
   editingSurname = false;
   isDirty = false;
+  userPic!: string;
   //file: File | null = null;
 
    constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit() {
-     const userId = '64997e4b7255cf145c05809f'; // Replace with the actual user ID
+     const userId = this.getUserObject().id; // Replace with the actual user ID
      this.getUser(userId);
     console.log("hi");
     this.userService.getUser(userId).subscribe((user: user)=>{
     this.user = user;
     this.editedName = user.name;
     //this.editedPicture = user.profilePhoto;
-    this.editedSurname = user.surname;
+      this.editedSurname = user.surname;
     });
+
+    this.userPic = this.getUsersProfilePicture();
   }
 
   toggleEditing(field: string) {
@@ -69,11 +72,13 @@ export class SettingsProfileComponent implements OnInit{
       this.editedSurname = this.user.surname;
       this.isDirty = false;
     });
-    this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
-      console.log('service response: ', response);
-    }, (error: any) => {
-      console.log('Error uploading profile photo', error);
-    })
+    if(this.profilePicture){
+      this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
+        console.log('service response: ', response);
+      }, (error: any) => {
+        console.log('Error uploading profile photo', error);
+      })
+    }
 
   }
 
@@ -108,33 +113,23 @@ export class SettingsProfileComponent implements OnInit{
     this.isDirty = this.user.name !== this.editedName ||  this.user.surname !== this.editedSurname;
   }
 
-  onNameChange(event: any) {
-      const span = event.target;
-      const inputValue = event.target.textContent.trim();
-      this.editedName = inputValue;
-      this.isDirty = true;
-
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(span);
-      range.collapse(false);
-      selection?.removeAllRanges();
-      selection?.addRange(range);
-    }
-
-  onSurnameChange(event: any) {
-    const span = event.target;
-    const inputValue = event.target.textContent.trim();
-    this.editedSurname = inputValue;
+  onFieldChange() {
     this.isDirty = true;
-
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(span);
-    range.collapse(false);
-    selection?.removeAllRanges();
-    selection?.addRange(range);
   }
+
+  // onSurnameChange(event: any) {
+  //   const span = event.target;
+  //   const inputValue = event.target.textContent.trim();
+  //   this.editedSurname = inputValue;
+  //   this.isDirty = true;
+
+  //   const selection = window.getSelection();
+  //   const range = document.createRange();
+  //   range.selectNodeContents(span);
+  //   range.collapse(false);
+  //   selection?.removeAllRanges();
+  //   selection?.addRange(range);
+  // }
 
   onFileChanged(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -147,10 +142,14 @@ export class SettingsProfileComponent implements OnInit{
 
   getUsersProfilePicture(){
     const user = this.authService.getUser();
+    console.log("userrr", user);
     console.log("profile photo: " + user.profilePhoto);
     return this.user.profilePhoto;
   }
 
+  getUserObject(){
+    return this.authService.getUser();
+  }
 //   updateUser() {
 //     const userId = '123'; // Replace with the actual user ID
 //     const userData: FormData = new FormData();

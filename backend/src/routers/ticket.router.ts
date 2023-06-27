@@ -53,7 +53,7 @@ router.get('/', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TicketModel.deleteMany({});
-        res.send("Delete is done!");
+        res.status(200).send("Delete is done!");
     }
 ));
 
@@ -63,7 +63,7 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        console.log("New ticket request received: ", req.body);
+        // console.log("New ticket request received: ", req.body);
 
         // for now, not checking on existing tickets
 
@@ -71,6 +71,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
 
         const newTicket = new TicketModel({
             id: String(ticketCount + 1), // Assign the auto-incremented ID
+            description: req.body.description,
             summary: req.body.summary,
             assignee: req.body.assignee,
             assigned: req.body.assigned,
@@ -81,13 +82,15 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             status: req.body.status
         });
 
+        console.log("new ticket: ", newTicket);
+
         await newTicket.save();
 
-        console.log("New ticket created succesfully");
+        // console.log("New ticket created succesfully");
         res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
     }
     catch (error) {
-        console.error("Ticket creation error:", error);
+        // console.error("Ticket creation error:", error);
         res.status(500).send("An error occurred during ticket creation.");
     }
 }));
@@ -112,45 +115,46 @@ router.get('/id', expressAsyncHandler(
 ));
 
 router.put('/comment', expressAsyncHandler(
-    async (req, res) => {
-      const ticketId = req.body.ticketId;
-      const comment = req.body.comment;
-      const author = req.body.author;
-      const type = req.body.type;
-      const attachmentUrl = req.body.attachmentUrl; 
-      const newComment: comment = {
-        author: author,
-        content: comment,
-        createdAt: new Date(),
-        type: type,
-        attachmentUrl: attachmentUrl, 
-      };
-  
-      try {
-        const ticket = await TicketModel.findOneAndUpdate(
-          { id: ticketId },
-          { $push: { comments: newComment } },
-          { new: true }
-        );
-  
-        if (ticket) {
-          res.status(200).json({ message: 'Comment added successfully' });
-        } else {
-          res.status(404).json({ message: 'Ticket not found' });
-        }
-      } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+  async (req, res) => {
+    const ticketId = req.body.ticketId;
+    const comment = req.body.comment;
+    const author = req.body.author;
+    const type = req.body.type;
+    const attachment = req.body.attachment; 
+    const newComment: comment = {
+      author: author,
+      content: comment,
+      createdAt: new Date(),
+      type: type,
+      attachment: attachment,
+      authorPhoto: ""
+    };
+
+    try {
+      const ticket = await TicketModel.findOneAndUpdate(
+        { id: ticketId },
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+
+      if (ticket) {
+        res.status(200).json({ message: 'Comment added successfully' });
+      } else {
+        res.status(404).json({ message: 'Ticket not found' });
       }
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' });
     }
-  ));
+  }
+));
 
   router.put('/updateStatus', expressAsyncHandler(
     async (req, res) => {
       try {
         const ticketId = req.body.ticketId;
         const status = req.body.status;
-        console.log('status is ' +  status);
-        console.log('ticket id is ' + ticketId);
+        // console.log('status is ' +  status);
+        // console.log('ticket id is ' + ticketId);
   
         const ticket = await TicketModel.findOneAndUpdate(
           { id: ticketId },

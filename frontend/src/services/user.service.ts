@@ -13,6 +13,11 @@ export class UserService {
 
   constructor(private http: HttpClient, private router : Router) { }
 
+  //get all users
+  getAllUsers(): Observable<user[]> {
+    return this.http.get<user[]>(this.API_URL);
+  }
+  
   //DASHES FUNCTIONS
   getUser(userID: string)
   {

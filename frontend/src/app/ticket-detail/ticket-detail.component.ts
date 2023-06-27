@@ -5,19 +5,21 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
+import { ticket, attachment } from '../../../../backend/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { user } from '../../../../backend/src/models/user.model';
 
 
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.scss']
+  styleUrls: ['./ticket-detail.component.scss'],
 })
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService, private _snackBar: MatSnackBar) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -27,12 +29,43 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   commentInputControl = new FormControl('');
   textareaValue = '';
 
+  userProfilePic!: string;
+
   file: File | null = null;
   selectedStatus = '';
+  preview: SafeUrl | null = null;
+  attachment: attachment | null = null;
+  editedAttachmentName: string | null = null;
+
+  uploadProgress = 0;
+
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
     this.file = file as File | null;
+
+    console.log('file name' + file.name);
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      this.preview = this.getSanitizedUrl(url);
+
+      this.attachment = {
+        name: file.name,
+        url: url!
+      };
+    } else {
+      this.preview = null;
+      this.attachment = null;
+    }
+    this.openSnackBar("Attachment has been added", "OK");
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000, // milliseconds
+      panelClass: ['custom-snackbar']
+    });
   }
 
   alerted() {
@@ -53,11 +86,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      // this.ticket = tickets.find(ticket => ticket.id === Number(id));
-      if(id)
+      if(id) {
         this.getTicketWithId(id);
+      }
     });
+
+    this.getCurrentUserImage();
   }
+
 
   ngOnDestroy() {
     if (this.routeSubscription) {
@@ -65,11 +101,27 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  getTicketWithId(ticketId: string){
-    this.ticketService.getTicketWithID(ticketId).subscribe((resonse: ticket) => {
-      this.ticket = resonse;
-    })
-  }
+  getTicketWithId(ticketId: string) {
+    this.ticketService.getTicketWithID(ticketId).subscribe((response: ticket) => {
+      this.ticket = response;
+      // console.log(this.ticket.id);
+      if (!this.ticket.comments) {
+        this.ticket.comments = [];
+      }
+
+      this.ticket.comments.reverse();
+
+      console.log(this.ticket.comments);
+      if (this.ticket.comments) {
+        for (const comment of this.ticket.comments) {
+          if (comment.attachment && comment.attachment.url) {
+            console.log('Attachment URL:', comment.attachment.url);
+          }
+        }
+      }
+    });
+  }//hellooooo
+
 
   // addComment(): void {
   //   const newComment = this.commentInputControl.value;
@@ -98,23 +150,36 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.uploadProgress = 0;
+
     if (newComment && this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
-          const attachmentUrl = result.url;
-          this.addComment(newComment, attachmentUrl);
+          const attachmentData: attachment = {
+            name: this.editedAttachmentName || this.file?.name || '',
+            url: result.url
+          };
+          this.addComment(newComment, attachmentData);
         },
         (error: any) => {
           console.log('Error uploading file', error);
         }
       );
     } else if (newComment) {
-      this.addComment(newComment, '');
-    } else {
-      this.ticketService.uploadFile(this.file!).subscribe(
+      const emptyAttachment: attachment = {
+        name: '',
+        url: ''
+      };
+      this.addComment(newComment, emptyAttachment);
+    } else if (this.file) {
+      this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
           console.log('File uploaded successfully', result);
-          this.addComment('',result.url);
+          const attachmentData: attachment = {
+            name: this.editedAttachmentName || this.file?.name || '',
+            url: result.url
+          };
+          this.addComment('', attachmentData);
           location.reload();
         },
         (error: any) => {
@@ -124,12 +189,25 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  updateEditedAttachmentName(event: any): void {
+    this.editedAttachmentName = event.target.value;
+  }
+
+
   getCurrentUserName(){
     return this.authService.getName();
   }
 
-  addComment(comment: string, attachmentUrl: string): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), 'comment', attachmentUrl).subscribe(
+  getCurrentUserImage(){
+    return this.authService.getUserObject().subscribe((result: user) => {
+      this.userProfilePic = result.profilePhoto;
+    });
+  }
+
+  addComment(comment: string, attachment: attachment): void {
+    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+
       res => {
         console.log('Comment added successfully', res);
         location.reload();
@@ -158,6 +236,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  isCommentValid(comment: any):boolean {
+    return comment?.attachment?.name && this.isPDF(comment.attachment.url);
+  }
 
 }
-
