@@ -134,10 +134,6 @@ Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
 View our [video](https://youtu.be/J1cRVKzwF0o)
 View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
 
-[![Build Status](https://travis-ci.com/username/repo.svg?branch=master)](https://travis-ci.com/username/repo)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/a12345cdedfg56789/maintainability)](https://codeclimate.com/github/username/repo/maintainability)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
 
 ## Demo 2
 View our [documentation](https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=sharing)
