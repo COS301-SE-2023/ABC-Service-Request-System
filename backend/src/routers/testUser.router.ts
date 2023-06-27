@@ -50,7 +50,7 @@ router.get('/seed', expressAsyncHandler(
                 { expiresIn: '1d' }
             );
 
-            console.log("Token:", token);
+            // console.log("Token:", token);
 
             // Send the token back to the client
             res.status(200).json({ message: "Seed is done!", token });
@@ -90,13 +90,13 @@ router.get('/delete', expressAsyncHandler(
 router.post("/create_user", expressAsyncHandler(
     async (req, res) => {
         try {
-            console.log("User creation request received:", req.body);
+            // console.log("User creation request received:", req.body);
 
             // check if a user with the provided email already exists
             const existingUser = await TestUserModel.findOne({ emailAddress: req.body.emailAddress });
 
             if (existingUser) {
-                console.log("User with this email already exists");
+                // console.log("User with this email already exists");
                 res.status(409).send("User with this email already exists.");
                 return;
             }
@@ -117,9 +117,9 @@ router.post("/create_user", expressAsyncHandler(
                 password: "Admin"
             });
 
-            console.log("before save");
+            // console.log("before save");
             await newUser.save();
-            console.log("after save");
+            // console.log("after save");
 
             // Send the invitation email here, inside the same function where newUser and inviteToken are available
             const transporter = nodemailer.createTransport({
@@ -218,16 +218,16 @@ router.post("/create_user", expressAsyncHandler(
 
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
                 } else {
-                    console.log("Email sent: " + info.response);
+                    // console.log("Email sent: " + info.response);
                 }
             });
 
-            console.log("User created successfully");
+            // console.log("User created successfully");
             res.status(201).send({ message: 'User created successfully', inviteToken });
         } catch (error) {
-            console.error("User creation error:", error);
+            // console.error("User creation error:", error);
             res.status(500).send("An error occurred during user creation.");
         }
     })
@@ -240,16 +240,16 @@ router.post("/create_user", expressAsyncHandler(
 router.get('/activate_account', expressAsyncHandler(
     async (req, res) => {
         try{
-            console.log('Account activation request received:', req.query.token);
+            // console.log('Account activation request received:', req.query.token);
   
             const inviteToken = req.query.token;
     
             const user = await TestUserModel.findOne({ inviteToken });
             
-            console.log("When in here");
+            // console.log("When in here");
 
             if (!user) {
-                console.log('Invalid token');
+                // console.log('Invalid token');
                 res.status(409).send('Invalid token.');
                 return;
             }else{
@@ -260,7 +260,7 @@ router.get('/activate_account', expressAsyncHandler(
 
             
         }catch(error){
-            console.log(error);
+            // console.log(error);
         }
 
     }
@@ -271,16 +271,16 @@ router.get('/activate_account', expressAsyncHandler(
 router.post('/activate_account', expressAsyncHandler(
     async (req, res) => {
       try {
-        console.log('Account activation request received:', req.body);
+        // console.log('Account activation request received:', req.body);
   
         const { inviteToken, password } = req.body;
   
-        console.log('before find one');
+        // console.log('before find one');
         const user = await TestUserModel.findOne({ inviteToken });
-        console.log('after find one');
+        // console.log('after find one');
   
         if (!user) {
-          console.log('Invalid token');
+        //   console.log('Invalid token');
           res.status(409).send('Invalid token.');
           return;
         }
@@ -292,7 +292,7 @@ router.post('/activate_account', expressAsyncHandler(
         user.emailVerified = true; // Assuming the activation also verifies the email
         user.inviteToken = undefined;
   
-        console.log('before save');
+        // console.log('before save');
         await user.save();
         const secretKey = "Jetpad2023";
         const token = jwt.sign(
@@ -301,13 +301,13 @@ router.post('/activate_account', expressAsyncHandler(
             { expiresIn: '1d' }
         );
   
-        console.log('Account activated successfully');
+        // console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });
       } catch (error) {
         console.error('Account activation error:', error);
         res.status(500).send('An error occurred during account activation.');
       }
-      console.log(req.body);
+    //   console.log(req.body);
     })
   );
 

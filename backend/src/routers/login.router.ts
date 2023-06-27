@@ -29,7 +29,7 @@ router.post("/", expressAsyncHandler(
   
   
           if (!validPassword) {
-            console.log("Invalid password");
+            // console.log("Invalid password");
             res.status(401).send({ auth: false, token: null });
             return;
           }
@@ -37,7 +37,7 @@ router.post("/", expressAsyncHandler(
           const secretKey = process.env.JWT_SECRET;
   
           if (!secretKey) {
-            console.log("JWT Secret is not defined");
+            // console.log("JWT Secret is not defined");
             throw new Error('JWT Secret is not defined');
           }
           
@@ -67,7 +67,7 @@ router.post("/", expressAsyncHandler(
           // console.log("Login successful");
           res.status(200).send({ auth: true, token });
         } else {
-          console.log("User not found");
+          // console.log("User not found");
           res.status(404).send("No user found.");
         }
       } catch (error) {

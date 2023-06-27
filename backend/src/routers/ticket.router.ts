@@ -63,7 +63,7 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        console.log("New ticket request received: ", req.body);
+        // console.log("New ticket request received: ", req.body);
 
         // for now, not checking on existing tickets
 
@@ -83,11 +83,11 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
 
         await newTicket.save();
 
-        console.log("New ticket created succesfully");
+        // console.log("New ticket created succesfully");
         res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
     }
     catch (error) {
-        console.error("Ticket creation error:", error);
+        // console.error("Ticket creation error:", error);
         res.status(500).send("An error occurred during ticket creation.");
     }
 }));
@@ -150,8 +150,8 @@ router.put('/comment', expressAsyncHandler(
       try {
         const ticketId = req.body.ticketId;
         const status = req.body.status;
-        console.log('status is ' +  status);
-        console.log('ticket id is ' + ticketId);
+        // console.log('status is ' +  status);
+        // console.log('ticket id is ' + ticketId);
   
         const ticket = await TicketModel.findOneAndUpdate(
           { id: ticketId },
