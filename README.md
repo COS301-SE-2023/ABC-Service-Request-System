@@ -14,9 +14,6 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 [![Testing](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml/badge.svg)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml)
 
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/exampleuser/examplerepo.svg)](https://github.com/COS301-SE-2023/ABC-Service-Request-System)
-
-
 [![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
 [![Contributors](https://img.shields.io/github/contributors/COS301-SE-2023/ABC-Service-Request-System?style=for-the-badge)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/graphs/contributors)
