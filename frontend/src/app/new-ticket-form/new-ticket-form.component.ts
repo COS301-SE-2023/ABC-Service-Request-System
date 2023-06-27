@@ -6,6 +6,8 @@ import { notifications } from '../../../../backend/src/models/notifications.mode
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
+import { user } from '../../../../backend/src/models/user.model';
+import { UserService } from 'src/services/user.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -14,8 +16,9 @@ import { AuthService } from 'src/services/auth.service';
 export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
   assigneeName: string;
+  allUsers: user[] = [];
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -38,7 +41,7 @@ export class NewTicketFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssigneeName();
-    //this.getAllUsers();
+    this.getAllAssignable();
   }
 
   getAssigneeName() {
@@ -49,9 +52,12 @@ export class NewTicketFormComponent implements OnInit {
     return this.assigneeName;
   }
 
- /* getAllUsers() {
-
-  }*/
+  getAllAssignable() {
+    const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
+      this.allUsers = response;
+      return this.allUsers;
+    });
+  }
 
   onSubmit() {
     if (this.ticketForm.valid) {

@@ -26,15 +26,12 @@
 
     
 
-    <div class="form-column">
-      <label>
-        Assigned:<span class="required">*</span>
-        <input type="text" formControlName="assigned">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('assigned').invalid && ticketForm.get('assigned').touched">
-        Assigned is required.
-      </span> -->
-    </div>
+    <label>
+          Assigned:<span class="required">*</span>
+          <select formControlName="assigned" required>
+            <option *ngFor="let user of allUsers">{{ user.name }}</option>
+          </select>
+        </label>
 
     <div class="form-column">
       <label>
