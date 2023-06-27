@@ -1,19 +1,21 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { notifications } from '../../../../backend/src/models/notifications.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/services/auth.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
   styleUrls: ['./new-ticket-form.component.scss']
 })
-export class NewTicketFormComponent {
+export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
+  assigneeName: string;
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -26,17 +28,37 @@ export class NewTicketFormComponent {
       status: '',
       comments: '',
     });
+
+    this.assigneeName = ''; 
   }
 
   @Output() newTicketEvent = new EventEmitter();
   @Output() closeForm = new EventEmitter();
+
+
+  ngOnInit(): void {
+    this.getAssigneeName();
+    //this.getAllUsers();
+  }
+
+  getAssigneeName() {
+    this.assigneeName = this.authService.getName();
+
+    console.log("Assignee Name: ", this.assigneeName);
+
+    return this.assigneeName;
+  }
+
+ /* getAllUsers() {
+
+  }*/
 
   onSubmit() {
     if (this.ticketForm.valid) {
       const ticketFormValues = this.ticketForm.value;
 
       const summary = ticketFormValues.summary;
-      const assignee = ticketFormValues.assignee;
+      const assignee = this.authService.getName();
       const assigned = ticketFormValues.assigned;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
@@ -89,9 +111,21 @@ export class NewTicketFormComponent {
       this.ticketForm.reset();
     }
     else {
+      this.markFormControlsAsTouched(this.ticketForm);
+
       // Handle invalid form submission
       console.log('Form is invalid. Please fill in all required fields.');
     }
+  }
+  
+  markFormControlsAsTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+  
+      if (control instanceof FormGroup) {
+        this.markFormControlsAsTouched(control);
+      }
+    });
   }
 
   private formatDate(date: string): string {
