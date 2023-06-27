@@ -30,7 +30,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./backend/coverage/lcov.info
           flags: backend
-          exclude: './backend/src/routers/**'
+          exclude: '*/backend/src/routers/**'
       # Frontend
       - name: Install frontend dependencies
         run: npm install
