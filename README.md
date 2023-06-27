@@ -140,7 +140,7 @@ View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=username/repo)](https://dependabot.com)
 
 ## Demo 2
-View our documentation https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=sharing
+View our [documentation](https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=sharing)
 
 # Project
 
