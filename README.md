@@ -38,7 +38,7 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
-## 📌 Project Board 📌
+## 📌 Project Board 
 - <a href="https://github.com/COS301-SE-2023/ABC-Service-Request-System/projects?query=is%3Aopen">
     <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
 </a>
