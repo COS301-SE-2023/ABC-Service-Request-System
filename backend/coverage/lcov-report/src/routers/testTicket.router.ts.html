@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.09% </span>
+                <span class="strong">85.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>59/71</span>
+                <span class='fraction'>59/69</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.57% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/14</span>
+                <span class='fraction'>12/14</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.81% </span>
+                <span class="strong">85.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>53/64</span>
+                <span class='fraction'>53/62</span>
             </div>
         
             
@@ -187,7 +187,12 @@
 <a name='L122'></a><a href='#L122'>122</a>
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -216,11 +221,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -271,13 +276,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -290,8 +300,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -335,16 +345,16 @@ router.post('/upload', upload.single('file'), async (req, res) =&gt; {
       const <span class="cstat-no" title="statement not covered" >result = <span class="cstat-no" title="statement not covered" >await cloudinary.uploader.upload(req.file.path);</span></span>
 <span class="cstat-no" title="statement not covered" >      res.status(200).json({ url: result.secure_url });</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      res.status(500).json({ error });</span>
+<span class="cstat-no" title="statement not covered" >      res.status(500).json({ message: 'File upload error' });</span>
     }
-  });
+});
 &nbsp;
 router.post('/seed', expressAsyncHandler(
     async (req, res) =&gt; {
         const ticketsCount = await TestTicketModel.countDocuments();
-        <span class="missing-if-branch" title="if path not taken" >I</span>if(ticketsCount &gt; 0){
-<span class="cstat-no" title="statement not covered" >            res.status(400).send("Seed is already done");</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
+        if(ticketsCount &gt; 0){
+            res.status(400).send("Seed is already done");
+            return;
         }
 &nbsp;
         TestTicketModel.create(sample_tickets)
@@ -381,41 +391,46 @@ router.get('/id', expressAsyncHandler(
 &nbsp;
 router.put('/comment', expressAsyncHandler(
     async (req, res) =&gt; {
-        const ticketId = req.body.ticketId;
-        const comment = req.body.comment;
-        const author = req.body.author;
-        const type = req.body.type;
-        const createdAt = new Date();
+      const ticketId = req.body.ticketId;
+      const comment = req.body.comment;
+      const author = req.body.author;
+      const type = req.body.type;
+      const attachment = req.body.attachment; 
 &nbsp;
-        const newComment: comment = {
-            author: author,
-            content: comment,
-            createdAt: createdAt,
-            type: type
-        };
-&nbsp;
-        try{
-            const ticket = await TestTicketModel.findOneAndUpdate({ id: ticketId }, { $push: { comments: newComment } }, { new: true });
-&nbsp;
-            if (ticket) {
-                res.status(200).json({ message: 'Comment added successfully' });
-            } else {
-                res.status(404).json({ message: 'Ticket not found' });
-            }
-&nbsp;
-        }catch (error) {
-<span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: 'Internal server error' });</span>
+      const newComment: comment = {
+        author: author,
+        authorPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png',
+        content: comment,
+        createdAt: new Date(),
+        type: type,
+        attachment: attachment, 
+      };
+  
+      try {
+        const ticket = await TestTicketModel.findOneAndUpdate(
+          { id: ticketId },
+          { $push: { comments: newComment } },
+          { new: true }
+        );
+  
+        if (ticket) {
+          res.status(200).json({ message: 'Comment added successfully' });
+        } else {
+          res.status(404).json({ message: 'Ticket not found' });
         }
+      } catch (error) {
+<span class="cstat-no" title="statement not covered" >        res.status(500).json({ message: 'Internal server error' });</span>
+      }
     }
-));
+  ));
 &nbsp;
     router.put('/updateStatus', expressAsyncHandler(
         async (req, res) =&gt; {
         try {
             const ticketId = req.body.ticketId;
             const status = req.body.status;
-            console.log('status is ' +  status);
-            console.log('ticket id is ' + ticketId);
+            // console.log('status is ' +  status);
+            // console.log('ticket id is ' + ticketId);
     
             const ticket = await TestTicketModel.findOneAndUpdate(
             { id: ticketId },
@@ -442,7 +457,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-26T15:55:05.782Z
+                at 2023-06-27T06:47:55.887Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

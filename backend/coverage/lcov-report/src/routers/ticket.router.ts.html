@@ -237,7 +237,8 @@
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
 <a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -358,6 +359,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -466,7 +468,7 @@ router.get('/', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
 <span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        await TicketModel.deleteMany({});</span></span>
-<span class="cstat-no" title="statement not covered" >        res.send("Delete is done!");</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).send("Delete is done!");</span>
     }
 ));
 &nbsp;
@@ -525,37 +527,38 @@ router.get('/id', expressAsyncHandler(
 ));
 &nbsp;
 router.put('/comment', expressAsyncHandler(
-<span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
-      const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
-      const <span class="cstat-no" title="statement not covered" >comment = req.body.comment;</span>
-      const <span class="cstat-no" title="statement not covered" >author = req.body.author;</span>
-      const <span class="cstat-no" title="statement not covered" >type = req.body.type;</span>
-      const <span class="cstat-no" title="statement not covered" >attachmentUrl = req.body.attachmentUrl; </span>
-      const <span class="cstat-no" title="statement not covered" >newComment: comment = {</span>
-        author: author,
-        content: comment,
-        createdAt: new Date(),
-        type: type,
-        attachmentUrl: attachmentUrl, 
-      };
-  
-      try {
-        const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
-          { id: ticketId },
-          { $push: { comments: newComment } },
-          { new: true }
-        );
-  
-<span class="cstat-no" title="statement not covered" >        if (ticket) {</span>
-<span class="cstat-no" title="statement not covered" >          res.status(200).json({ message: 'Comment added successfully' });</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          res.status(404).json({ message: 'Ticket not found' });</span>
-        }
-      } catch (error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).json({ message: 'Internal server error' });</span>
+<span class="fstat-no" title="function not covered" >  async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
+    const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
+    const <span class="cstat-no" title="statement not covered" >comment = req.body.comment;</span>
+    const <span class="cstat-no" title="statement not covered" >author = req.body.author;</span>
+    const <span class="cstat-no" title="statement not covered" >type = req.body.type;</span>
+    const <span class="cstat-no" title="statement not covered" >attachment = req.body.attachment; </span>
+    const <span class="cstat-no" title="statement not covered" >newComment: comment = {</span>
+      author: author,
+      content: comment,
+      createdAt: new Date(),
+      type: type,
+      attachment: attachment,
+      authorPhoto: ""
+    };
+&nbsp;
+    try {
+      const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
+        { id: ticketId },
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (ticket) {</span>
+<span class="cstat-no" title="statement not covered" >        res.status(200).json({ message: 'Comment added successfully' });</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        res.status(404).json({ message: 'Ticket not found' });</span>
       }
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      res.status(500).json({ message: 'Internal server error' });</span>
     }
-  ));
+  }
+));
 &nbsp;
   router.put('/updateStatus', expressAsyncHandler(
 <span class="fstat-no" title="function not covered" >    async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
@@ -592,7 +595,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-26T15:55:05.782Z
+                at 2023-06-27T06:47:55.887Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

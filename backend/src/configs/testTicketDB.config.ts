@@ -12,11 +12,11 @@ export const dbConnection = async () => {
     db = connection.useDb('test'); 
 
     db.once('open', () => {
-      console.log('Connected to testTicketMongoDB');
+      // console.log('Connected to testTicketMongoDB');
     });
 
     db.on('error', (error: any) => {
-      console.error('An error occurred while connecting to MongoDB', error);
+      // console.error('An error occurred while connecting to MongoDB', error);
     });
   }
 

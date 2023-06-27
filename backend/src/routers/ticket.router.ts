@@ -53,7 +53,7 @@ router.get('/', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TicketModel.deleteMany({});
-        res.send("Delete is done!");
+        res.status(200).send("Delete is done!");
     }
 ));
 
