@@ -72,7 +72,6 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
         const newTicket = new TicketModel({
             id: String(ticketCount + 1), // Assign the auto-incremented ID
             summary: req.body.summary,
-            description: req.body.description,
             assignee: req.body.assignee,
             assigned: req.body.assigned,
             group: req.body.group,
@@ -117,17 +116,15 @@ router.put('/comment', expressAsyncHandler(
     const ticketId = req.body.ticketId;
     const comment = req.body.comment;
     const author = req.body.author;
-    const authorPhoto = req.body.authorPhoto;
     const type = req.body.type;
     const attachment = req.body.attachment; 
-
     const newComment: comment = {
       author: author,
-      authorPhoto: authorPhoto,
       content: comment,
       createdAt: new Date(),
       type: type,
-      attachment: attachment, 
+      attachment: attachment,
+      authorPhoto: ""
     };
 
     try {

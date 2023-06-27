@@ -9,12 +9,12 @@ const router = Router();
 router.post("/", expressAsyncHandler(
     async (req, res) => {
       try {
-        console.log("Signup request received:", req.body); 
+        // console.log("Signup request received:", req.body); 
   
         const user = await UserModel.findOne({ emailAddress: req.body.emailAddress });
   
         if (user) {
-          console.log("User with this email already exists");
+          // console.log("User with this email already exists");
           res.status(409).send("User with this email already exists.");
           return;
         }
@@ -34,10 +34,10 @@ router.post("/", expressAsyncHandler(
   
         await newUser.save();
   
-        console.log("Signup successful");
+        // console.log("Signup successful");
         res.status(201).send({ message: 'User created successfully' });
       } catch (error) {
-        console.error("Signup error:", error);
+        // console.error("Signup error:", error);
         res.status(500).send("An error occurred during signup.");
       }
     })
