@@ -1,56 +1,46 @@
 name: Running Code Coverage
-
 on: [push, pull_request]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x, 17.x]
-
-    ignore:
-    - "./backend/src/routers"
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    # Backend
-    - name: Install backend dependencies
-      run: npm install
-      working-directory: backend
-    - name: Run backend tests
-      run: npm run test
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-      working-directory: backend
-    - name: Upload backend coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./backend/coverage/lcov.info
-
-    # Frontend
-    - name: Install frontend dependencies
-      run: npm install
-      working-directory: frontend
-
-    - name: Run frontend tests
-      run: npm run test:coverage
-      working-directory: frontend
-
-    - name: Upload frontend coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./frontend/coverage/lcov.info
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # Backend
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: backend
+      - name: Run backend tests
+        run: npm run test
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        working-directory: backend
+      - name: Upload backend coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./backend/coverage/lcov.info
+          flags: backend
+          exclude: './backend/src/routers/**'
+      # Frontend
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: frontend
+      - name: Run frontend tests
+        run: npm run test:coverage
+        working-directory: frontend
+      - name: Upload frontend coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./frontend/coverage/lcov.info
+          flags: frontend
