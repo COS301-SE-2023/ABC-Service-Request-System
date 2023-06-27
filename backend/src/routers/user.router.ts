@@ -443,6 +443,17 @@ router.get('/id', expressAsyncHandler(
     }
 ));
 
+router.get('/email', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findOne({ emailAddress: req.query.email });
+        if(user){
+            res.status(200).send(user);
+        }else{
+            res.status(404).send("Id not found");
+        }
+    }
+));
+
 //UPDATE USER PROFILE PICTURE - WORKS
 const storage = multer.diskStorage({});
 const upload = multer({ storage });

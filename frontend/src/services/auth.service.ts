@@ -57,6 +57,11 @@ export class AuthService {
     return this.user;
   }
 
+  getUserObject() {
+    const API_URL = 'http://localhost:3000/api/user/email'; // Replace with your API URL
+    return this.http.get<user>(`${API_URL}?email=${this.getUser().emailAddress}`);
+  }
+
   isAdmin(): boolean {
     //console.log('Role:', this.role);
     return this.role === 'Admin';

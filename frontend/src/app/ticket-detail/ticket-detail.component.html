@@ -34,7 +34,7 @@
 
         <div class="note-button-area">
           <div class="user-profile-img">
-            <img src="{{getCurrentUserImage()}}" alt="user profile image">
+            <img src="{{userProfilePic}}" alt="user profile image">
           </div>
           <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
           <label for="fileInput" class="file-input-label">

@@ -9,6 +9,7 @@ import { ticket, attachment } from '../../../../backend/src/models/ticket.model'
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { user } from '../../../../backend/src/models/user.model';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription = new Subscription();
   commentInputControl = new FormControl('');
   textareaValue = '';
+
+  userProfilePic!: string;
 
   file: File | null = null;
   selectedStatus = '';
@@ -87,6 +90,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.getTicketWithId(id);
       }
     });
+
+    this.getCurrentUserImage();
   }
 
 
@@ -195,11 +200,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   getCurrentUserImage(){
-    return this.authService.getUser().profilePhoto;
+    return this.authService.getUserObject().subscribe((result: user) => {
+      this.userProfilePic = result.profilePhoto;
+    });
   }
 
   addComment(comment: string, attachment: attachment): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.getCurrentUserImage(), 'Internal Note', attachment).subscribe(
+    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
 
       res => {
         console.log('Comment added successfully', res);
