@@ -4,6 +4,21 @@
   align-items: center;
   height: 15vh;
 }
+.panel{
+  margin-top: 50px;
+}
+
+.options {
+  width: 30%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  float: center;
+  display: grid;
+  margin-top: 50px;
+  margin-right: 350px;
+}
 
 .item {
   display: flex;
