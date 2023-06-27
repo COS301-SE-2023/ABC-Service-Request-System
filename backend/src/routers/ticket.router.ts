@@ -121,13 +121,14 @@ router.put('/comment', expressAsyncHandler(
     const author = req.body.author;
     const type = req.body.type;
     const attachment = req.body.attachment; 
+    const authorPhoto = req.body.authorPhoto;
     const newComment: comment = {
       author: author,
       content: comment,
       createdAt: new Date(),
       type: type,
       attachment: attachment,
-      authorPhoto: ""
+      authorPhoto: authorPhoto
     };
 
     try {
