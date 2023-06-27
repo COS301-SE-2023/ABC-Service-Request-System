@@ -11,9 +11,6 @@ jobs:
       matrix:
         node-version: [16.x, 17.x]
 
-    ignore:
-    - "./backend/src/routers"
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
