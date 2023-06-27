@@ -1,58 +1,117 @@
-<form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<div class="page-container">
+  <h1>Add Ticket</h1>
 
-  <label>
-    Summary:
-    <input type="text" formControlName="summary">
-  </label>
+<div class="form-container">
+  <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+    <div class="form-column">
+      <label>
+        Assignee:
+        <p>{{ assigneeName }}</p>
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('assignee').invalid && ticketForm.get('assignee').touched">
+        Assignee is required.
+      </span> -->
+    </div>
 
-  <label>
-    Description:
-    <input type="text" formControlName="description">
-  </label>
+    <div class="form-column">
+      <label>
+        Summary:<span class="required">*</span>
+        <input type="text" formControlName="summary" required>
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('summary').invalid && ticketForm.get('summary').touched">
+        Summary is required.
+      </span> -->
+    </div>
 
-  <label>
-    Assignee:
-    <input type="text" formControlName="assignee">
-  </label>
+    
 
-  <label>
-    Assigned:
-    <input type="text" formControlName="assigned">
-  </label>
+    <div class="form-column">
+      <label>
+        Assigned:<span class="required">*</span>
+        <input type="text" formControlName="assigned">
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('assigned').invalid && ticketForm.get('assigned').touched">
+        Assigned is required.
+      </span> -->
+    </div>
 
-  <label>
-    Group:
-    <input type="text" formControlName="group">
-  </label>
+    <div class="form-column">
+      <label>
+        Group:<span class="required">*</span>
+        <input type="text" formControlName="group">
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('group').invalid && ticketForm.get('group').touched">
+        Group is required.
+      </span> -->
+    </div>
 
-  <label>
-    Priority:
-    <select formControlName="priority">
-      <option value="High">High</option>
-      <option value="Medium">Medium</option>
-      <option value="Low">Low</option>
-    </select>
-  </label>
+    <div class="form-column">
+      <label>
+        Priority:<span class="required">*</span>
+        <select formControlName="priority" required>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('priority').invalid && ticketForm.get('priority').touched">
+        Priority is required.
+      </span> -->
+    </div>
 
-  <label>
-    Start Date:
-    <input type="date" formControlName="startDate">
-  </label>
+    <div class="form-column">
+      <label>
+        Start Date:<span class="required">*</span>
+        <input type="date" formControlName="startDate" required>
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('startDate').invalid && ticketForm.get('startDate').touched">
+        Start Date is required.
+      </span> -->
+    </div>
 
-  <label>
-    End Date:
-    <input type="date" formControlName="endDate">
-  </label>
+    <div class="form-column">
+      <label>
+        End Date:<span class="required">*</span>
+        <input type="date" formControlName="endDate">
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('endDate').invalid && ticketForm.get('endDate').touched">
+        End Date is required.
+      </span> -->
+    </div>
 
-  <label>
-    Status:
-    <select formControlName="status">
-      <option value="Active">Active</option>
-      <option value="Pending">Pending</option>
-    </select>
-  </label>
+    <div class="form-column">
+      <label>
+        Status:<span class="required">*</span>
+        <select formControlName="status" required>
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </label>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('status').invalid && ticketForm.get('status').touched">
+        Status is required.
+      </span> -->
+    </div>
 
-  <button id="submit-button" type="submit">Submit</button>
-  <button id="close-button" type="button" (click)="closeForm.emit()">Close</button>
+    <div class="form-column">
+      <label>
+        Description:<span class="required">*</span>
+      </label>
+      <div class="textarea-container">
+        <textarea formControlName="description" required></textarea>
+      </div>
+      <!-- <span class="error-message" *ngIf="ticketForm.get('description').invalid && ticketForm.get('description').touched">
+        Description is required.
+      </span> -->
+    </div>    
 
-</form>
+    <div class="form-buttons">
+      <button id="submit-button" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+
+
+<app-dash-panel></app-dash-panel>
+<app-page-header></app-page-header>
