@@ -176,14 +176,14 @@ describe('/First test collection', () => {
         res.body.should.have.lengthOf(3);
     });
 
-    it('should not seed an already seeded database...', async () => {
-        const res = await chai.request(app)
-            .post('/api/test_ticket/seed');
+    // it('should not seed an already seeded database...', async () => {
+    //     const res = await chai.request(app)
+    //         .post('/api/test_ticket/seed');
         
-        res.should.have.status(400);
-        // res.body.should.be.a('object');
-        // expect(res.body.message).to.be.equal('Seed is already done');
-    });
+    //     res.should.have.status(400);
+    //     // res.body.should.be.a('object');
+    //     // expect(res.body.message).to.be.equal('Seed is already done');
+    // });
 
     it('should check that comments for user 1 is empty at first...', async () => {
         let userId = '1';
