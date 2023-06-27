@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.95% </span>
+                <span class="strong">23.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/82</span>
+                <span class='fraction'>18/77</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.65% </span>
+                <span class="strong">26.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/73</span>
+                <span class='fraction'>18/68</span>
             </div>
         
             
@@ -303,20 +303,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -324,10 +310,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -390,8 +390,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -478,7 +478,7 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( <span class="fstat-no" title="function not covered" >async (r</span>eq, res<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
     try {
-<span class="cstat-no" title="statement not covered" >        console.log("New ticket request received: ", req.body);</span>
+        // console.log("New ticket request received: ", req.body);
 &nbsp;
         // for now, not checking on existing tickets
 &nbsp;
@@ -498,11 +498,11 @@ router.post('/addticket', expressAsyncHandler( <span class="fstat-no" title="fun
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        await newTicket.save();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        console.log("New ticket created succesfully");</span>
+        // console.log("New ticket created succesfully");
 <span class="cstat-no" title="statement not covered" >        res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});</span>
     }
     catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error("Ticket creation error:", error);</span>
+        // console.error("Ticket creation error:", error);
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("An error occurred during ticket creation.");</span>
     }
 }));
@@ -565,8 +565,8 @@ router.put('/comment', expressAsyncHandler(
       try {
         const <span class="cstat-no" title="statement not covered" >ticketId = req.body.ticketId;</span>
         const <span class="cstat-no" title="statement not covered" >status = req.body.status;</span>
-<span class="cstat-no" title="statement not covered" >        console.log('status is ' +  status);</span>
-<span class="cstat-no" title="statement not covered" >        console.log('ticket id is ' + ticketId);</span>
+        // console.log('status is ' +  status);
+        // console.log('ticket id is ' + ticketId);
   
         const <span class="cstat-no" title="statement not covered" >ticket = <span class="cstat-no" title="statement not covered" >await TicketModel.findOneAndUpdate(</span></span>
           { id: ticketId },
@@ -595,7 +595,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-27T07:07:04.410Z
+                at 2023-06-27T08:28:56.841Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

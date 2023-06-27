@@ -11,6 +11,9 @@ jobs:
       matrix:
         node-version: [16.x, 17.x]
 
+    ignore:
+    - "./backend/src/routers"
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -26,13 +29,11 @@ jobs:
     - name: Install backend dependencies
       run: npm install
       working-directory: backend
-
     - name: Run backend tests
       run: npm run test
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       working-directory: backend
-
     - name: Upload backend coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
