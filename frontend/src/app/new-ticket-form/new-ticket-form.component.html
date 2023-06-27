@@ -1,58 +1,77 @@
-<form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+<div class="page-container">
+  <h1>Add Ticket</h1>
 
-  <label>
-    Summary:
-    <input type="text" formControlName="summary">
-  </label>
+  <div class="form-container">
+    <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()" class="ticket-form">
+      <div class="form-column">
+        <label>
+          Summary:
+          <input type="text" formControlName="summary">
+        </label>
 
-  <label>
-    Description:
-    <input type="text" formControlName="description">
-  </label>
+        <label>
+          Assignee:
+          <input type="text" formControlName="assignee">
+        </label>
 
-  <label>
-    Assignee:
-    <input type="text" formControlName="assignee">
-  </label>
+        <label>
+          Group:
+          <input type="text" formControlName="group">
+        </label>
 
-  <label>
-    Assigned:
-    <input type="text" formControlName="assigned">
-  </label>
+        <label>
+          Start Date:
+          <input type="date" formControlName="startDate">
+        </label>
 
-  <label>
-    Group:
-    <input type="text" formControlName="group">
-  </label>
+      </div>
 
-  <label>
-    Priority:
-    <select formControlName="priority">
-      <option value="High">High</option>
-      <option value="Medium">Medium</option>
-      <option value="Low">Low</option>
-    </select>
-  </label>
+      <div class="form-column">
+        <label>
+          Assigned:
+          <input type="text" formControlName="assigned">
+        </label>
 
-  <label>
-    Start Date:
-    <input type="date" formControlName="startDate">
-  </label>
+        <label>
+          Priority:
+          <select formControlName="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
 
-  <label>
-    End Date:
-    <input type="date" formControlName="endDate">
-  </label>
+        <label>
+          End Date:
+          <input type="date" formControlName="endDate">
+        </label>
 
-  <label>
-    Status:
-    <select formControlName="status">
-      <option value="Active">Active</option>
-      <option value="Pending">Pending</option>
-    </select>
-  </label>
+        <label>
+          Status:
+          <select formControlName="status">
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </label>
 
-  <button id="submit-button" type="submit">Submit</button>
-  <button id="close-button" type="button" (click)="closeForm.emit()">Close</button>
+        <label>
+          Description:
+        </label>
+      </div>
 
-</form>
+      <div class="form-column">
+        <div class="textarea-container">
+          <textarea formControlName="description"></textarea>
+        </div>
+      </div>
+
+      <div class="form-buttons">
+        <button id="submit-button" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-dash-panel></app-dash-panel>
+<app-page-header></app-page-header>
+

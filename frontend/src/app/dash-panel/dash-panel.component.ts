@@ -14,10 +14,8 @@ export class DashPanelComponent {
   constructor(public authService: AuthService, private router: Router) {}
 
   openNewTicketForm() {
-    // Check if the user is a manager before emitting the event
-    if (this.authService.isManager()) {
-      this.openForm.emit();
-    }
+    console.log("openNewTicketForm called");
+    this.router.navigate(['/new-ticket-form']);
   }
 
   openCreateAccount() {
