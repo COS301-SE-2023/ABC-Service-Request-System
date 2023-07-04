@@ -1,21 +1,24 @@
+.panel{
+  position: absolute;
+  top: 0;
+ }
 .profile {
-    width: 30%;
-    //margin: 0 auto;
-    padding: 50px;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-left: 500px;
-    background-color: white;
-    float: center;
-    display: grid;
+     width: 30%;
+    // position: relative;
+    // //margin: 0 auto;
+     padding: 50px;
+     border: 1px solid black;
+    // border-radius: 5px;
+     margin-left: 500px;
+     background-color: white;
+     margin-top: 100px;
+    // float: center;
+     display: grid;
 }
 label{
   color: white;
 }
 
-.panel{
-  margin-top: 50px;
-}
     h2 {
       margin-bottom: 20px;
       text-align: center;
