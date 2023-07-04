@@ -23,9 +23,9 @@ const routes: Routes = [
   { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
-  { path: 'settings', component: SettingsGeneralComponent },
-  { path: 'settings-notifications',component: SettingsNotificationsComponent},
-  { path: 'settings-profile',component: SettingsProfileComponent},
+  { path: 'settings', component: SettingsProfileComponent },
+  //{ path: 'settings-notifications',component: SettingsNotificationsComponent},
+  //{ path: 'settings-profile',component: SettingsProfileComponent},
   { path: '**', redirectTo: '/login' }, //fallback
   // { path: 'settings-general', component: SettingsGeneralComponent},
 
