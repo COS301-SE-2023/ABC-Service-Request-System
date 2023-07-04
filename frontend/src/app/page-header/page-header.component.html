@@ -5,6 +5,10 @@
   </div>
 
   <div class="header-container-right">
+    <div class="privilege" style="display: contents">
+      <p>Account: <b>Management</b></p>
+    </div>
+
     <div class="notifications">
         <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small" (click)="openNotifications()">mail_outline</mat-icon>  <!--(click)="openNotifications.emit()"-->
         <app-notifications-panel *ngIf="showForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeNotificationsForm()"></app-notifications-panel>
