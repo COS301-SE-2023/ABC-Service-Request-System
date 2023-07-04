@@ -32,4 +32,8 @@ export class DashPanelComponent {
     console.log("dashboard page called");
     this.router.navigate(['/dashboard']);
   }
+
+  openTeams() {
+    this.router.navigate(['/teams']);
+  }
 }
