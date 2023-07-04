@@ -1,0 +1,20 @@
+.user-card {
+  width: calc(100% - 40px);
+  height: 180px;
+  margin: 20px;
+  border-radius: 15px;
+
+  img {
+    display: block;
+    margin: auto;
+  }
+
+  .user-details {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .view-profile {
+    border-radius: 15px;
+  }
+}

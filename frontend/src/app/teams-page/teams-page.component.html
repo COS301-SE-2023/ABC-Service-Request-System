@@ -1,6 +1,41 @@
-<div class = "teams-page-container">
-  <app-dash-panel> </app-dash-panel>
-  <app-page-header></app-page-header>
-  <p> hello </p>
-</div>
+<app-dash-panel> </app-dash-panel>
 
+<div class="teams-page-container">
+  <app-page-header></app-page-header>
+  <mat-accordion multi="true">
+    <mat-expansion-panel expanded="true" hideToggle="true">
+      <mat-expansion-panel-header>
+        My Groups
+      </mat-expansion-panel-header>
+      <div class="group-row">
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+        <app-group-tablet></app-group-tablet>
+
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel expanded="true" hideToggle="true">
+      <mat-expansion-panel-header>
+        Team Members
+      </mat-expansion-panel-header>
+      <div class="user-row">
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+        <app-user-tablet></app-user-tablet>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

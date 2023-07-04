@@ -1,0 +1,18 @@
+.group-card {
+  width: calc(100% - 40px);
+  height: 200px;
+  margin: 20px;
+  border-radius: 15px;
+
+  img {
+    width: 180px;
+    height: 80px;
+    display: block;
+    object-fit: cover;
+  }
+
+  .group-details {
+    text-align: center;
+    padding-top: 10px;
+  }
+}

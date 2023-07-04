@@ -45,6 +45,11 @@ import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TeamsPageComponent } from './teams-page/teams-page.component';
+
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import { GroupTabletComponent } from './group-tablet/group-tablet.component';
+import { UserTabletComponent } from './user-tablet/user-tablet.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +73,8 @@ import { TeamsPageComponent } from './teams-page/teams-page.component';
     SettingsNotificationsComponent,
     SettingsProfileComponent,
     TeamsPageComponent,
+    GroupTabletComponent,
+    UserTabletComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +94,8 @@ import { TeamsPageComponent } from './teams-page/teams-page.component';
     MatOptionModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

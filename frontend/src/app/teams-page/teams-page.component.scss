@@ -1,0 +1,17 @@
+.teams-page-container {
+  width: 100%;
+  margin-top: 60px;
+  width: 78%;
+  float: right;
+  padding: 0 15px;
+
+  .group-row, .user-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  mat-accordion {
+    margin: 0 -15px;
+  }
+}
