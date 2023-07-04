@@ -44,6 +44,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TeamsPageComponent } from './teams-page/teams-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +67,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SettingsGeneralComponent,
     SettingsNotificationsComponent,
     SettingsProfileComponent,
+    TeamsPageComponent,
   ],
   imports: [
     BrowserModule,
