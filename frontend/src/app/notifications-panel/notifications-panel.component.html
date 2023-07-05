@@ -3,6 +3,12 @@
         <div class="notification-ui_dd-header">
             <h2 class="text-center">Notifications</h2>
         </div>
+
+        <div class="notification-filter">
+            <h3 class="unreadNotifications">Unread</h3>
+            <h3 class="readNotifications">Read</h3>
+        </div>
+
         <div class="notification-ui_dd-content">
             <div *ngFor="let notifications of sortedUnreadNotificationsArray" class="notification-list notification-list--unread" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
                 <div class="notification-list_img">

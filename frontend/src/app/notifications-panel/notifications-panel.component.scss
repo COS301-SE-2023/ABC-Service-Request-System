@@ -41,17 +41,38 @@
 // }
 
 .notification-ui_dd-header {
-    border-bottom: 1px solid #ddd;
-    padding: 0.1em;
+    padding-bottom: 1em;
 }
 
 .notification-ui_dd-header h2 {
-    margin-bottom: 0;
+    margin-bottom: 0.3em;
 }
 
 .notification-ui_dd-content {
     max-height: 40vh;
     overflow: auto;
+}
+
+.notification-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    height: 1em;
+}
+
+.notification-filter h3 {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.notification-filter h3 .unreadNotifications{
+    left: 1em;
+}
+
+.notification-filter .active {
+    color: #04538E; /* Active tab text color */
+    border-bottom: 1px solid #04538E;
 }
 
 .notification-list {
@@ -76,7 +97,7 @@
     top: 0;
     left: -25px;
     height: calc(100% + 1px);
-    border-left: 2px solid #29B6F6;
+    border-left: 2px solid #0e80b5;
 }
 
 .notification-list .notification-list_img img {

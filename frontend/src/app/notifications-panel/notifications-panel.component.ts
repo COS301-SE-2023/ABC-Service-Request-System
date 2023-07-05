@@ -52,6 +52,16 @@ export class NotificationsPanelComponent implements OnInit {
   ngOnInit(): void {
     this.getUnreadNotifications();
     this.getReadNotifications();
+
+    const unreadTab = document.querySelector('.unreadNotifications');
+    unreadTab?.classList.add('active');
+  }
+
+  handleTabClick(event: MouseEvent): void {
+    const clickedTab = event.target as HTMLElement;
+    const tabHeaders = document.querySelectorAll('.notification-filter h3');
+    tabHeaders.forEach(header => header.classList.remove('active'));
+    clickedTab.classList.add('active');
   }
 
   handleKeyup(event: KeyboardEvent, link: string) {
