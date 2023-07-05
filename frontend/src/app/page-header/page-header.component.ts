@@ -14,7 +14,8 @@ export class PageHeaderComponent {
   tickets = tickets;
   searchTerm = '';
   filteredTickets = this.tickets;
-  showForm = false;
+  showNotificationsForm = false;
+  showProfileForm = false;
   unreadNotificationsCount = 0;
 
   @HostListener('document:click', ['$event'])
@@ -22,7 +23,7 @@ export class PageHeaderComponent {
     const targetElement = event.target as HTMLElement;
     const clickedInside = this.elementRef.nativeElement.contains(targetElement);
     if (!clickedInside) {
-      this.closeNotificationsForm();
+      this.closeForms();
     }
   }
 
@@ -45,19 +46,34 @@ export class PageHeaderComponent {
   addNewTicket(newTicket: Ticket) {
     newTicket.id = this.getNewId();
     this.tickets.push(newTicket);
-    this.showForm = false;
+    this.closeForms();
   }
 
   closeForm(): void {
-    this.showForm = false;
+    this.closeForms();
   }
 
   openNotifications() {
-    this.showForm = true;
+    this.showNotificationsForm = true;
+    this.showProfileForm = false;
   }
 
   closeNotificationsForm(): void {
-    this.showForm = false;
+    this.showNotificationsForm = false;
+  }
+
+  openProfile() {
+    this.showProfileForm = true;
+    this.showNotificationsForm = false;
+  }
+
+  closeProfile() {
+    this.showProfileForm = false;
+  }
+
+  closeForms() {
+    this.showNotificationsForm = false;
+    this.showProfileForm = false;
   }
 
   getNumOfUnreadNotifications() {
