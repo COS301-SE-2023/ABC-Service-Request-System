@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.groups-header {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  margin-left: 1em;
+  position: relative;
+  align-items: center;
+  margin-bottom: 0.5em;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.groups-header select {
+  border: none;
+  border-radius: 5px;
+  font-size: 2.5em;
+  font-weight: 500;
+  text-align: left;
+  width: fit-content;
+  position: relative;
+
+  // appearance: none;
+  // background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+  // background-size: 13px 13px;
+}
+
+select:hover {
+  background: #fff;
+}
+
+.groups-filter {
+  flex-grow: 1;
+  margin-left: 70px;
+}
+
+mat-select {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 5px;
+}
+
+.create-group-button {
+  display: flex;
+  border-radius: 10px;
+  background: #808080;
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.create-group-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.add-people-button {
+  display: flex;
+  border-radius: 10px;
+  background: #808080;
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+mat-select .mat-select-trigger {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+.add-people-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.filter-button {
+  min-width: auto;
+}
+
+.filter-button img {
+  width: 27px;
+  height: 27px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1em;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.606);
+}
+
+.groups-filter select {
+  width: 180px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  font-size: 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  padding-right: 25px;
+    background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+    background-size: 13px 13px;
+  outline: none;
+}
+
+#filterDialog, #addPeopleDialog, #createGroupDialog {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.filter-dialog {
+  background-color: #fefefe;
+  margin: 8% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 345px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.input-field {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field select option.placeholder {
+  display: none;
+}
+
+.input-field select option[disabled].placeholder {
+  display: block;
+  color: #999;
+}
+
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+
+.dialog-buttons button {
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 140px;
+}
+
+.dialog-buttons button:hover {
+  opacity: 0.8;
+}
+
+.dialog-buttons button:first-child {
+  background-color: rgb(1, 128, 218);
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 28px;
+  height: 28px;
+}
+
+.or-label {
+  display: flex;
+  justify-content: center;
+  // margin-top: 1em;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-group-button,
+.add-people-button {
+  border: 1px solid grey;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 180px;
+  height: 40px;
+}
+
+.create-group-button:hover,
+.add-people-button:hover {
+  opacity: 0.8;
+}
+
+.create-group-button .button-content,
+.add-people-button .button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-group-button .button-content span,
+.add-people-button .button-content span {
+  margin-left: 8px;
+}
+
+.dialog-buttons-internal {
+  display: flex;
+  justify-content: center;
+  width: 250px;
+}
+
+.create-user-button {
+  // padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(1, 128, 218);;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 800px;
+  margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+}
+
+.create-user-button:hover {
+  opacity: 0.8;
+}

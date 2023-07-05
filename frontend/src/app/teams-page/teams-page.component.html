@@ -1,41 +1,98 @@
 <app-dash-panel> </app-dash-panel>
 
-<div class="teams-page-container">
+<!-- <div class="teams-page-container">
   <app-page-header></app-page-header>
-  <mat-accordion multi="true">
-    <mat-expansion-panel expanded="true" hideToggle="true">
-      <mat-expansion-panel-header>
-        My Groups
-      </mat-expansion-panel-header>
-      <div class="group-row">
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
 
-      </div>
-    </mat-expansion-panel>
+  <h2 class="section-header">My Groups</h2>
+  <div class="bubble-container">
+    <div class="group-row">
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+      <app-group-tablet></app-group-tablet>
+    </div>
+  </div>
 
-    <mat-expansion-panel expanded="true" hideToggle="true">
-      <mat-expansion-panel-header>
-        Team Members
-      </mat-expansion-panel-header>
-      <div class="user-row">
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-        <app-user-tablet></app-user-tablet>
-      </div>
-    </mat-expansion-panel>
-  </mat-accordion>
+  <h2 class="section-header">Team Members</h2>
+  <div class="bubble-container">
+    <div class="user-row">
+      <app-user-tablet></app-user-tablet>
+      <app-user-tablet></app-user-tablet>
+      <app-user-tablet></app-user-tablet>
+      <app-user-tablet></app-user-tablet>
+      <app-user-tablet></app-user-tablet>
+      <app-user-tablet></app-user-tablet>
+    </div>
+  </div>
+</div> -->
+
+<div class = "management-teams-page-container">
+  <app-groups-search-bar></app-groups-search-bar>
+  <app-page-header></app-page-header>
+  <table class="w-full">
+    <thead class="bg-gray border-b-2 border-gray-200">
+      <tr>
+        <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Surname</th>
+        <th class="w-44 text-sm font-semibold tracking-wide text-left">Email</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Role</th>
+        <th class="w-4 text-sm font-semibold tracking-wide text-left">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">John</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">johndoe@example.com</td>
+        <td class="text-left">Technical</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+      <tr class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
+        <td class="text-left">Doe</td>
+        <td class="text-left">janedoe@example.com</td>
+        <td class="text-left">Functional</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

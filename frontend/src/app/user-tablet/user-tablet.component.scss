@@ -1,12 +1,15 @@
 .user-card {
   width: calc(100% - 40px);
-  height: 180px;
+  height: 190px;
   margin: 20px;
   border-radius: 15px;
 
   img {
     display: block;
     margin: auto;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
   }
 
   .user-details {

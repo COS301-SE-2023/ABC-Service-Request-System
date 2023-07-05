@@ -50,6 +50,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { GroupTabletComponent } from './group-tablet/group-tablet.component';
 import { UserTabletComponent } from './user-tablet/user-tablet.component';
+import { GroupsSearchBarComponent } from './groups-search-bar/groups-search-bar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +77,7 @@ import { UserTabletComponent } from './user-tablet/user-tablet.component';
     TeamsPageComponent,
     GroupTabletComponent,
     UserTabletComponent,
+    GroupsSearchBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ import { UserTabletComponent } from './user-tablet/user-tablet.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
