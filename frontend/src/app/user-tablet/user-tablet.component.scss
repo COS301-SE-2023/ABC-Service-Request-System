@@ -1,23 +1,54 @@
 .user-card {
   width: calc(100% - 40px);
-  height: 190px;
+  height: 200px;
   margin: 20px;
   border-radius: 15px;
-
-  img {
-    display: block;
-    margin: auto;
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-  }
-
-  .user-details {
-    padding-top: 10px;
-    text-align: center;
-  }
-
-  .view-profile {
-    border-radius: 15px;
-  }
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 200px;
 }
+
+.user-image {
+  display: block;
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.user-content {
+  padding: 10px;
+}
+
+.user-details {
+  margin-top: 15px;
+  // padding-top: 10px;
+  text-align: center;
+}
+
+.user-details h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.user-details p {
+  margin: 5px 0;
+}
+
+.view-profile {
+  margin-top: 20px;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: rgb(6, 120, 250);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.view-profile:hover {
+  opacity: 0.8;
+}
+

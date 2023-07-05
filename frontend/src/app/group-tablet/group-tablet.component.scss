@@ -3,19 +3,31 @@
   height: 200px;
   margin: 20px;
   border-radius: 15px;
-
-  img {
-    width: 180px;
-    height: 80px;
-    display: block;
-    object-fit: cover;
-  }
-
-  .group-details {
-    text-align: center;
-    padding-top: 10px;
-  }
-
-
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 200px;
 }
 
+.group-image {
+  width: 100%;
+  // height: 10px;
+  object-fit: cover;
+}
+
+.group-details {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.group-details h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.group-details a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: blue;
+}

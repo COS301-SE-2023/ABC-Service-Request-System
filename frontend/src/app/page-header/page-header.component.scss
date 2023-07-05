@@ -78,6 +78,10 @@
 .profile-photo{
   width: 2em;
   height: 2em;
+  img {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .log-out img{
