@@ -1,0 +1,45 @@
+.teams-page-container {
+  width: 100%;
+  margin-top: 60px;
+  width: 78%;
+  float: right;
+  padding: 0 15px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+
+  .section-header {
+    // padding: 1em;
+    border-radius: 15px;
+    // background-color: #494545;
+    // color: white;
+  }
+
+  .bubble-container {
+    border: 1px solid #494545;
+    border-radius: 15px;
+    margin: 20px 0;
+    padding: 20px;
+  }
+
+  .group-row, .user-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border-radius: 15px;
+    overflow: hidden;
+    padding-bottom: 20px;
+    border-color: #494545;
+  }
+}
+
+.management-teams-page-container {
+  width: 100%;
+  margin-top: 60px;
+  width: 78%;
+  float: right;
+  // padding: 0 15px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+
+
+}

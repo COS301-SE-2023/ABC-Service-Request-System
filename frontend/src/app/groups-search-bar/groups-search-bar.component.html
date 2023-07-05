@@ -1,0 +1,131 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<div class = "groups-header">
+  <div class = "type-filter">
+    <select name="filter" id="filter">
+      <option value="all" selected>All</option>
+      <option value="active">Group</option>
+    </select>
+    <div class="groups-filter-arrow"></div>
+  </div>
+
+  <div class="groups-filter">
+    <select>
+        <option>Group 0</option>
+        <option>Group 1</option>
+        <option>Group 2</option>
+        <option>Group 3</option>
+    </select>
+    <div class="groups-filter-arrow"></div>
+  </div>
+
+
+
+  <button class="create-group-button" (click) = "openCreateGroupDialog()">
+    <div class="button-content">
+      <img src="../../assets/create-group.png" alt="create group icon">
+      <span>Create Group</span>
+    </div>
+  </button>
+
+  <button class="add-people-button"  (click) = "openAddPeopleDialog()">
+    <div class="button-content">
+      <img src="../../assets/add-people.png" alt="add people icon">
+      <span>Add People</span>
+    </div>
+  </button>
+
+  <button class="filter-button" (click)="openFilterDialog()">
+    <img src="../../assets/filter.png" alt="filter icon">
+  </button>
+
+</div>
+
+<div id="filterDialog" [ngStyle]="{'display': isFilterDialogOpen ? 'block' : 'none'}">
+  <div class="filter-dialog">
+    <div class="close-button" tabindex="0" (click)="closeFilterDialog()" (keyup.enter)="closeFilterDialog()" (keyup.space)="closeFilterDialog()">
+      <img src="../../assets/close.png" alt="Close icon">
+    </div>
+    <h2>Filter</h2>
+
+    <form [formGroup]="filterForm">
+      <div class="input-field">
+        <label>Name</label>
+        <input type="text" formControlName="name" placeholder="Enter Name">
+      </div>
+
+      <div class="input-field">
+        <label>Surname</label>
+        <input type="text" formControlName="surname" placeholder="Enter Surname">
+      </div>
+
+      <div class="input-field">
+        <label>Role</label>
+        <select formControlName="role">
+          <option value="functional" selected>Functional</option>
+          <option value="technical">Technical</option>
+          <option value="management">Management</option>
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label>Email</label>
+        <input type="text" formControlName="email" placeholder="Enter email">
+      </div>
+
+      <div class="dialog-buttons">
+        <button (click)="closeFilterDialog()">Apply</button>
+        <button (click)="resetFields()">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="addPeopleDialog" [ngStyle]="{'display': isAddPeopleDialogOpen ? 'block' : 'none'}">
+  <div class="filter-dialog">
+    <div class="close-button" tabindex="0" (click)="closeAddPeopleDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
+      <img src="../../assets/close.png" alt="Close icon">
+    </div>
+    <h2>Add people to Luna</h2>
+
+    <div class="input-field">
+      <label>Name</label>
+      <input type="text" placeholder="e.g., John, johndoe@company.com">
+    </div>
+
+    <div class="or-label">
+      <label>or</label>
+    </div>
+
+    <div class="dialog-buttons-internal">
+      <button class="create-user-button">Create a new user</button>
+    </div>
+  </div>
+</div>
+
+<div id="createGroupDialog" [ngStyle]="{'display': isCreateGroupDialogOpen ? 'block' : 'none'}">
+  <div class="filter-dialog">
+    <div class="close-button" tabindex="0" (click)="closeCreateGroupDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
+      <img src="../../assets/close.png" alt="Close icon">
+    </div>
+    <h2>Create a new group</h2>
+    <label>Get everyone working in one place by adding them to a group.
+      Stay connected with comments, collaborate on work together, and efficiently
+      manage everything from the group profile page.
+    </label> <br><br>
+
+    <div class="input-field">
+      <label>Group Name</label>
+      <input type="text" placeholder="What's your group called?">
+    </div>
+
+    <h2>Add people to group</h2>
+    <div class="input-field">
+      <label>Name</label>
+      <input type="text" placeholder="e.g., John, johndoe@company.com">
+    </div>
+
+    <div class="dialog-buttons-internal">
+      <button class="create-user-button">Create group</button>
+    </div>
+  </div>
+</div>
