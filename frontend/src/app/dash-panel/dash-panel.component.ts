@@ -32,4 +32,9 @@ export class DashPanelComponent {
     console.log("dashboard page called");
     this.router.navigate(['/dashboard']);
   }
+
+  openAnalytics(){
+    console.log("analytics page called");
+    this.router.navigate(['/analytics-page']);
+  }
 }

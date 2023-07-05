@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+.app-container {
+  display: flex;
+}
+
+.app-dash-panel {
+  /* Add your styles for the sidebar here */
+  /* Example: */
+  width: 250px;
+  height: 100vh;
+  background-color: #e8e8e8;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-page-header {
+  /* Add your styles for the header here */
+  /* Example: */
+  height: 50px;
+  background-color: #e8e8e8;
+}
+
+.analytics-page {
+  flex-grow: 1;
+}
+
+.dropdown-container {
+  margin-left: 23%;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dropdown-container label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.dropdown-container select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.group-dropdown {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.group-dropdown label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+.grid-container {
+  display: grid;
+  margin-left: 22%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+
+.grid-item {
+  position: relative; /* Add position relative */
+  background-color: #e8e8e8;
+  border: 1px solid #333;
+  padding: 1rem;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.grid-item-1,
+.grid-item-2,
+.grid-item-3,
+.grid-item-4 {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.grid-item-5 {
+  grid-column: span 2;
+  grid-row: span 6;
+}
+
+.grid-item-6,
+.grid-item-7 {
+  grid-column: span 2;
+  grid-row: span 3;
+}
+
+.grid-item-8 {
+  grid-column: span 4;
+  grid-row: span 5;
+}
+
+.grid-item-9,
+.grid-item-10 {
+  grid-column: span 2;
+  grid-row: span 5;
+}
+
+.grid-item-11{
+  grid-column: span 4;
+  grid-row: span 5;
+}
+
+h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.count {
+  position: absolute; /* Add position absolute */
+  font-family: 'Poppins', sans-serif;
+  bottom: 50px; /* Adjust the value as per your preference */
+  right: 50px; /* Adjust the value as per your preference */
+  font-size: 100px;
+  color: #b95652;
+  font-weight: bold;
+}
+
+.count2 {
+  position: absolute; /* Add position absolute */
+  font-family: 'Poppins', sans-serif;
+  bottom: 50px; /* Adjust the value as per your preference */
+  right: 50px; /* Adjust the value as per your preference */
+  font-size: 100px;
+  color: hsl(0, 0%, 46%);
+  font-weight: bold;
+}
+
+
+//hours logged table
+.table-container {
+  margin-top: 20px;
+}
+
+.logged-hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logged-hours-table th,
+.logged-hours-table td {
+  padding: 10px;
+  text-align: left;
+  // border-bottom: 1px solid #ccc;
+}
+
+.logged-hours-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logged-hours-table td {
+  font-size: 24px;
+}
+
+.logged-hours-table .hours {
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.logged-hours-table .number {
+  font-size: 24px;
+}
+
+.logged-hours-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.logged-hours-table tbody tr:hover {
+  background-color: #e6e6e6;
+}
+
+.logged-hours-table tbody tr + tr {
+  margin-top: 20px; /* Adjust the margin value to control the spacing between entries */
+}

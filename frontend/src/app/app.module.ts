@@ -38,15 +38,19 @@ import { NotificationsPanelComponent } from './notifications-panel/notifications
 import { NotificationItemComponent } from './notification-item/notification-item.component';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
+    AnalyticsPageComponent,
     LoginPageComponent,
     DashPanelComponent,
     PageHeaderComponent,
@@ -66,9 +70,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SettingsGeneralComponent,
     SettingsNotificationsComponent,
     SettingsProfileComponent,
+    AnalyticsPageComponent,
   ],
   imports: [
     BrowserModule,
+    NgChartsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
