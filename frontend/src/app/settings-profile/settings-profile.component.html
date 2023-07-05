@@ -16,7 +16,7 @@
 
         <div class="form-group">
                 <label for="name">Name:</label>
-                <input id="name" name="name" *ngIf="!editingName"
+                <input type="text" id="name" name="name" *ngIf="!editingName"
                       [(ngModel)]="editedName"
                       (keydown)="onFieldChange()">
                 <img src="./assets/pencil.png" alt="pencil">
@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="surname">Surname:</label>
-            <input id="surname" name="surname" *ngIf="!editingSurname"
+            <input type="text" id="surname" name="surname" *ngIf="!editingSurname"
                   [(ngModel)]="editedSurname"
                   (keydown)="onFieldChange()">
             <img src="./assets/pencil.png" alt="pencil">

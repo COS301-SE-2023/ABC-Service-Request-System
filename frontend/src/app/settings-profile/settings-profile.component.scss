@@ -69,7 +69,7 @@ input:checked + .slider:before {
    border: 1px solid black;
    border-radius: 20px;
    margin-left: 800px;
-   background: gainsboro;
+   background: white;
    //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
    margin-top: 75px;
   // float: center;
@@ -79,11 +79,11 @@ input:checked + .slider:before {
      width: 30%;
      position: fixed;
     // //margin: 0 auto;
-     padding: 50px;
+     padding: 30px;
      border: 1px solid black;
      border-radius: 20px;
      margin-left: 350px;
-     background: gainsboro;
+     background: white;
      //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
      margin-top: 75px;
     // float: center;
@@ -91,12 +91,14 @@ input:checked + .slider:before {
 }
 label{
   color: black;
+  font-family: 'Poppins', sans-serif;
 }
 
     h2 {
       margin-bottom: 20px;
       text-align: center;
       color: black;
+      font-family: 'Poppins', sans-serif;
     }
 
     img {
@@ -142,12 +144,12 @@ label{
           font-weight: bold;
         }
 
-        input[type="text"],
-        input[type="email"] {
-          width: 100%;
-          padding: 8px;
+        input[type="text"] {
+          padding: 10px;
           border: 1px solid #ccc;
-          border-radius: 3px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          font-size: 14px;
         }
       }
 
