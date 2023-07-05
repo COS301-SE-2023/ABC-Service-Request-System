@@ -11,19 +11,14 @@
       <p>Account: <b>Management</b></p>
     </div>
 
-    <div class="notifications">
-      <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small" (click)="openNotifications()">mail_outline</mat-icon>
+    <div class="notifications" (click)="openNotifications()">
+      <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small">mail_outline</mat-icon>
       <app-notifications-panel *ngIf="showNotificationsForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeForms()"></app-notifications-panel>
     </div>
     
-    <div class="profile-photo">
-      <img src="/assets/profile-icon.png" alt="ProfilePic" (click)="openProfile()">
+    <div class="profile-photo" (click)="openProfile()">
+      <img src="/assets/profile-icon.png" alt="ProfilePic">
       <app-profile-overlay *ngIf="showProfileForm" (profileOverlayEvent)="openProfile()" (closeform)="closeForms()"></app-profile-overlay>
-    </div>
-    
-
-    <div class="log-out">
-      <img routerLink="/" src="/assets/Logout.png" alt="Logout">
     </div>
   </div>
 </div>

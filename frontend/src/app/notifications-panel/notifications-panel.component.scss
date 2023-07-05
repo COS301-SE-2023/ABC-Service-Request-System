@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 .overlay-container {
     position: relative;
   }
@@ -16,6 +18,7 @@
     z-index: 9999; /* Ensure a high z-index value */
     max-height: 50vh;
     overflow-y: hidden;
+    font-family: 'Poppins', sans-serif;
 }
 
 // .notification-ui a:after {
@@ -42,7 +45,7 @@
     padding: 0.1em;
 }
 
-.notification-ui_dd-header h3 {
+.notification-ui_dd-header h2 {
     margin-bottom: 0;
 }
 

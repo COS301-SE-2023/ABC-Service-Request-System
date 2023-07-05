@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 .overlay-container {
     position: relative;
   }
@@ -8,13 +10,15 @@
     top: 3em;
     right: 2em;
     background-color: #f3f3f3;
-    padding: 2em;
+    padding: 1em;
     border-radius: 1em;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
     font-size: 18px;
     text-align: center;
     z-index: 9999; /* Ensure a high z-index value */
-    max-height: 50vh;
+    max-height: 40vh;
+    max-width: 30vw;
+    font-family: 'Poppins', sans-serif;
 }
 
 // .notification-ui a:after {
@@ -38,45 +42,113 @@
 
 .profileOverlayHeader {
     border-bottom: 1px solid #ddd;
-    padding: 15px;
 }
 
-.profileOverlayHeader h3 {
+.profileOverlayHeader h2 {
     margin-bottom: 0;
 }
 
 .profileOverlayContent {
-    max-height: 500px;
+    max-height: 30vh;
+    width: 18vw;
     overflow: auto;
 }
 
-.notification-list {
-    display: -webkit-box;
-    display: -ms-flexbox;
+// Account========================================================================================
+.Account {
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    padding: 20px 0;
-    margin: 0 25px;
-    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    padding-left: 0.8em;
+    height: 4em;
 }
 
-.notification-list .notification-list_img img {
-    height: 48px;
-    width: 48px;
-    border-radius: 50px;
-    margin-right: 20px;
+.Account img {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 2em;
+    height: 2em;
 }
 
-.notification-list .notification-list_detail p {
-    margin-bottom: 5px;
-    line-height: 1.2;
+.accountDetail {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2em;
+    justify-content: center;
+    align-items: center;
 }
 
-.notification-list .notification-list_feature-img img {
-    height: 48px;
-    width: 48px;
-    border-radius: 5px;
-    margin-left: 20px;
+.accountDetail p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.Account:hover {
+    background-color: #d7d7d7;
+    transition-duration: 0.2s;
+}
+
+// Settings========================================================================================
+.Settings {
+    display: flex;
+    cursor: pointer;
+    padding-left: 0.8em;
+    height: 2em;
+}
+
+.Settings img{
+    display: flex;
+    position: absolute;
+    right: 1.5em;
+    justify-content: center;
+    align-self: center;
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.Settings p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.Settings:hover {
+    background-color: #d7d7d7;
+    transition-duration: 0.2s;
+}
+
+// Logout========================================================================================
+.Logout {
+    display: flex;
+    cursor: pointer;
+    padding-left: 0.8em;
+    height: 2em;
+}
+
+.Logout img{
+    display: flex;
+    position: absolute;
+    right: 1.5em;
+    justify-content: center;
+    float: right;
+    align-self: center;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.Logout p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: red;
+}
+
+.Logout:hover {
+    background-color: #d7d7d7;
+    transition-duration: 0.2s;
 }

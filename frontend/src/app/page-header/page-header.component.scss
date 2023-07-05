@@ -57,27 +57,27 @@
   align-items: center;
   justify-content: center;
   height: 50px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .header-container-right div {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 1em;
   flex-direction: column;
   height: 50px;
   width: 3em;
 }
 
+.header-container-right div:hover {
+  background-color: #d7d7d7;
+  transition-duration: 0.2s;
+}
+
 .profile-photo{
   width: 2em;
   height: 2em;
-  cursor: pointer;
-}
-
-.log-out img{
-  width: 1.6em;
-  height: 1.6em;
+  margin-right: 2em;
   cursor: pointer;
 }
 
