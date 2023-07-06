@@ -52,17 +52,17 @@ export class GroupsSearchBarComponent implements OnInit {
       this.groups = groups;
     });
 
-    this.groupId = '11';
+    // this.groupId = '11';
 
-    this.groupService.getUsersByGroupId(this.groupId).subscribe(
-      (response) => {
-        this.users = response;
-        console.log(this.users);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    // this.groupService.getUsersByGroupId(this.groupId).subscribe(
+    //   (response) => {
+    //     this.users = response;
+    //     console.log(this.users);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();

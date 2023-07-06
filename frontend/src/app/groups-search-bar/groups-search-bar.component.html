@@ -124,7 +124,7 @@
         <label>Select people</label>
         <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-            {{ item.name }} {{ item.surname }}, {{item.roles[0]}}
+            {{ item.name }} {{ item.surname }}, {{item.roles}}
           </ng-template>
         </ng-select>
       </div>
