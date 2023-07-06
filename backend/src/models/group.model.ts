@@ -5,7 +5,7 @@ export interface group {
     id: string
     groupName: string
     backgroundPhoto: string
-    people?: user[]
+    people?: string[]
 
 }
 

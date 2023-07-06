@@ -7,12 +7,14 @@ import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
+import { UserModel } from "../models/user.model";
 
 const router = Router();
 
+
 router.get('/', expressAsyncHandler(
     async (req, res) => {
-        const groups = await groupModel.find().populate('people');
+        const groups = await groupModel.find();
         res.send(groups);
     }
 ));

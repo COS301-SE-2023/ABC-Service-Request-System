@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
+import { group } from '../../../../backend/src/models/group.model'
+import { user } from '../../../../backend/src/models/user.model'
 
 @Component({
   selector: 'app-groups-search-bar',
@@ -16,8 +18,9 @@ export class GroupsSearchBarComponent implements OnInit {
   public isAddPeopleDialogOpen = false;
   public isCreateGroupDialogOpen = false;
 
-  users: any[] = [];
-
+  users: user[] = [];
+  groups: group[] = [];
+  @Output() groupSelected = new EventEmitter<user[]>();
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService) {
     this.filterForm = this.formBuilder.group({
@@ -43,6 +46,16 @@ export class GroupsSearchBarComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.groupService.getGroups().subscribe((groups: group[]) => {
+      this.groups = groups;
+    });
+  }
+
+  onGroupSelected(groupId: string) {
+    this.groupService.getUsersByGroupId(groupId).subscribe((users: user[]) => {
+      this.groupSelected.emit(users);
+    });
   }
 
   onSubmit(): void {

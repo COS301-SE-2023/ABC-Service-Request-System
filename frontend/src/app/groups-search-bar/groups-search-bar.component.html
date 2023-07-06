@@ -9,14 +9,14 @@
   </div>
 
   <div class="groups-filter">
-    <select>
-        <option>Group 0</option>
-        <option>Group 1</option>
-        <option>Group 2</option>
-        <option>Group 3</option>
+    <select #selectElement (change)="onGroupSelected(selectElement.value)">
+      <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
     </select>
+
+
     <div class="groups-filter-arrow"></div>
   </div>
+
 
 
 

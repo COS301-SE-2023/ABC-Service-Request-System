@@ -28,7 +28,7 @@
 </div>
 
 <div class = "management-teams-page-container" *ngIf="authService.isManager()">
-  <app-groups-search-bar></app-groups-search-bar>
+  <app-groups-search-bar (groupSelected)="onGroupSelected($event)"></app-groups-search-bar>
   <app-page-header></app-page-header>
   <table class="w-full">
     <thead class="bg-gray border-b-2 border-gray-200">
@@ -41,53 +41,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">John</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">johndoe@example.com</td>
-        <td class="text-left">Technical</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
-      </tr>
-      <tr class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">Jane</td>
-        <td class="text-left">Doe</td>
-        <td class="text-left">janedoe@example.com</td>
-        <td class="text-left">Functional</td>
+      <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
+        <td class="text-left">{{user.surname}}</td>
+        <td class="text-left">{{user.emailAddress}}</td>
+        <td class="text-left">{{user.roles[0]}}</td>
         <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
       </tr>
     </tbody>

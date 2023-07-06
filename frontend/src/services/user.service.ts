@@ -17,7 +17,12 @@ export class UserService {
   getAllUsers(): Observable<user[]> {
     return this.http.get<user[]>(this.API_URL);
   }
-  
+
+  getUserById(id: string): Observable<user> {
+    return this.http.get<user>(`${this.API_URL}/${id}`);
+}
+
+
   //DASHES FUNCTIONS
   getUser(userID: string)
   {
