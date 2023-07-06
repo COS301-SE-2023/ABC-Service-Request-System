@@ -20,7 +20,8 @@ export class GroupsSearchBarComponent implements OnInit {
 
   users: user[] = [];
   groups: group[] = [];
-  @Output() groupSelected = new EventEmitter<user[]>();
+  groupId! : string;
+
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService) {
     this.filterForm = this.formBuilder.group({
@@ -50,12 +51,24 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
+
+    this.groupId = '11';
+
+    this.groupService.getUsersByGroupId(this.groupId).subscribe(
+      (response) => {
+        this.users = response;
+        console.log(this.users);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  onGroupSelected(groupId: string) {
-    this.groupService.getUsersByGroupId(groupId).subscribe((users: user[]) => {
-      this.groupSelected.emit(users);
-    });
+  @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();
+
+  onGroupSelected(groupId: string): void {
+    this.groupSelected.emit(groupId);
   }
 
   onSubmit(): void {
@@ -67,7 +80,7 @@ export class GroupsSearchBarComponent implements OnInit {
       this.groupService.createGroup(groupData)
         .subscribe(
           response => {
-            console.log(response);
+            // console.log(response);
             this.closeCreateGroupDialog();
           },
           error => {

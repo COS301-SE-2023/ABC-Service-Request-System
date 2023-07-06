@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { user } from  '../../../../backend/src/models/user.model'
+import { GroupService } from '../../services/group.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-teams-page',
@@ -9,11 +11,21 @@ import { user } from  '../../../../backend/src/models/user.model'
   styleUrls: ['./teams-page.component.scss']
 })
 export class TeamsPageComponent {
-  users!: user[];
+  groupId!: string;
+  users: user[] = [];
 
-  constructor(private router: Router, public authService: AuthService) {}
+  constructor(private router: Router, public authService: AuthService,
+    private groupService: GroupService, private userService: UserService) {}
 
-  onGroupSelected(users: user[]): void {
-    this.users = users;
+  onGroupSelected(groupId: string): void {
+    this.groupService.getUsersByGroupId(groupId).subscribe(
+      (response) => {
+        this.users = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
+
 }

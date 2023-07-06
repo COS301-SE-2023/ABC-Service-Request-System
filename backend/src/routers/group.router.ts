@@ -53,10 +53,29 @@ router.post('/add', expressAsyncHandler(
               res.status(201).send(group);
         }
         catch (error) {
+            console.log(error);
             res.status(500).send("An error occured during group creation");
         }
     }  
   ));
+
+  router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const group = await groupModel.findOne({ id: groupId });
+    console.log(group?.people)
+    if (!group) {
+      res.status(404).send({ message: "Group not found" });
+      return;
+    }
+  
+    const userIds = group.people; 
+    const users = await UserModel.find({ _id: { $in: userIds } });
+    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles[0] })); 
+    console.log(userArray);
+    res.send(userArray);
+    // res.send(group.people);
+  }));
+  
   
 
 export default router;

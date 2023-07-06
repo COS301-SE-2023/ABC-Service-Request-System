@@ -23,6 +23,6 @@ export class GroupService {
   }
 
   getUsersByGroupId(groupId: string): Observable<user[]> {
-    return this.http.get<user[]>(`/api/groups/${groupId}/users`);
+    return this.http.get<user[]>(`${this.GROUPS_URL}/${groupId}/users`);
   }
 }
