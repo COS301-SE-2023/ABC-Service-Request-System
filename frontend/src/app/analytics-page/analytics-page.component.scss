@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 .app-container {
   display: flex;
 }
@@ -100,6 +99,7 @@
 .grid-item-7 {
   grid-column: span 2;
   grid-row: span 3;
+  flex-direction: column;
 }
 
 .grid-item-8 {
@@ -144,8 +144,6 @@ h2 {
   font-weight: bold;
 }
 
-
-//hours logged table
 .table-container {
   margin-top: 20px;
 }
@@ -160,7 +158,6 @@ h2 {
 .logged-hours-table td {
   padding: 10px;
   text-align: left;
-  // border-bottom: 1px solid #ccc;
 }
 
 .logged-hours-table th {
@@ -193,3 +190,45 @@ h2 {
 .logged-hours-table tbody tr + tr {
   margin-top: 20px; /* Adjust the margin value to control the spacing between entries */
 }
+
+.graph-and-average-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.average-container {
+  margin-right: 40px;
+}
+
+.line-chart-container {
+  flex-grow: 1;
+  margin-left: 60px;
+}
+
+.line-chart {
+  width: 500px;
+  height: 450px; /* Adjust the height as desired */
+}
+
+.average-container h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 40px;
+  color: hsl(0, 0%, 46%);
+  margin-bottom: 10px; /* Add margin bottom */
+}
+
+.average {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 100px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 50px; /* Add margin top */
+}
+
+.average-unit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  color: #333;
+  margin-top: 35px; /* Adjust margin as needed */
+}
+
