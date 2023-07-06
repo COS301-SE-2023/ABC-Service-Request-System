@@ -88,8 +88,22 @@
     <h2>Add people to Luna</h2>
 
     <div class="input-field">
+      <label>Group</label>
+      <ng-select formControlName="group" [items]="groups" bindLabel="groupName" bindValue="_id" [searchable]="true">
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+          {{ item.groupName }}
+        </ng-template>
+      </ng-select>
+    </div>
+
+
+    <div class="input-field">
       <label>Name</label>
       <input type="text" placeholder="e.g., John, johndoe@company.com">
+    </div>
+
+    <div class = 'add-new-user-button'>
+      <button class="add-new-user-button">Add to group</button>
     </div>
 
     <div class="or-label">

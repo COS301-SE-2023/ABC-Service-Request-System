@@ -370,6 +370,21 @@ mat-select .mat-select-trigger {
   height: 40px;
 }
 
+.add-new-user-button {
+  background-color: rgb(206, 206, 206);
+  border: none;
+  border-radius: 4px;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 150px;
+  // margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
 .create-group-button-2:hover {
   opacity: 0.8;
 }
