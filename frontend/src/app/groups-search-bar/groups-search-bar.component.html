@@ -97,9 +97,13 @@
     </div>
 
 
-    <div class="input-field">
-      <label>Name</label>
-      <input type="text" placeholder="e.g., John, johndoe@company.com">
+    <div class="input-field-group-people">
+      <label>Select people</label>
+      <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+          {{ item.name }} {{ item.surname }}, {{item.roles}}
+        </ng-template>
+      </ng-select>
     </div>
 
     <div class = 'add-new-user-button'>
@@ -114,6 +118,7 @@
       <button class="create-user-button">Create a new user</button>
     </div>
   </div>
+
 </div>
 
 <div id="createGroupDialog" [ngStyle]="{'display': isCreateGroupDialogOpen ? 'block' : 'none'}">
