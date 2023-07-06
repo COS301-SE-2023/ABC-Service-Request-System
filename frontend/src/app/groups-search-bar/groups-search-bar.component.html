@@ -121,10 +121,10 @@
 
       <h2>Add people to group</h2>
       <div class="input-field-group-people">
-        <label>Name</label>
+        <label>Select people</label>
         <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-            {{ item.name }}
+            {{ item.name }} {{ item.surname }}, {{item.roles[0]}}
           </ng-template>
         </ng-select>
       </div>

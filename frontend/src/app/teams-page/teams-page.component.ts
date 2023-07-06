@@ -9,4 +9,6 @@ import { Router } from '@angular/router';
 })
 export class TeamsPageComponent {
   constructor(private router: Router, public authService: AuthService) {}
+
+
 }
