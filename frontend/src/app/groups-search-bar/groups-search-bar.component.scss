@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import 'node_modules/@ng-select/ng-select/themes/default.theme.css';
 
 .groups-header {
   font-family: "Poppins", sans-serif;
@@ -378,8 +379,75 @@ mat-select .mat-select-trigger {
   opacity: 0.8;
 }
 
-.mat-form-field {
+
+.input-field-group-people {
+  margin-bottom: 1em;
+  border-color: black;
+  border: 5px;
+}
+
+.input-field-group-people label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.ng-select {
   width: 100%;
-  border: 1px solid grey;
-  border-radius: 8px;
+  max-width: 300px;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px;
+  padding: 0.5em;
+
+  .ng-select-container {
+    border: none; /* Remove default container border */
+    background-color: #f8f8f8;
+  }
+
+  .ng-dropdown-panel {
+    background-color: #d61010; /* Set background color */
+    border: 1px solid #ccc; /* Add border */
+  }
+}
+
+.ng-select-container {
+  .ng-option {
+    background-color: #f8f8f8;
+    border: none;
+  }
+  .ng-option.selected {
+    background-color: #ddd;
+  }
+  .ng-option.highlighted {
+    background-color: #ccc;
+  }
+}
+
+::ng-deep .ng-dropdown-panel {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-left: -6px;
+}
+
+::ng-deep .ng-option {
+  background-color: #ffffff;
+  width: 300px;
+  margin-left: 5px;
+  margin-top: 5px;
+  font-size: medium;
+}
+
+::ng-deep .ng-option:hover {
+  background: #ade7ff;
+  opacity: 0.8;
+  font-size: large;
+}
+
+::ng-deep .ng-option.selected {
+  background-color: #920c0c;
+}
+
+::ng-deep .ng-option.highlighted {
+  background-color: #710b0b;
 }
