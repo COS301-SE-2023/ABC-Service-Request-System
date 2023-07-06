@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from '../../../../backend/src/models/user.model';
+import { NavbarService } from 'src/services/navbar.service';
 
 
 @Component({
@@ -19,7 +20,14 @@ import { user } from '../../../../backend/src/models/user.model';
 })
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private ticketService: TicketsService, private sanitizer: DomSanitizer, private authService: AuthService, private _snackBar: MatSnackBar) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private ticketService: TicketsService,
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar,
+    private navbarService: NavbarService) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -28,6 +36,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription = new Subscription();
   commentInputControl = new FormControl('');
   textareaValue = '';
+  navbarIsCollapsed!: boolean;
 
   userProfilePic!: string;
 
@@ -84,6 +93,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if(id) {

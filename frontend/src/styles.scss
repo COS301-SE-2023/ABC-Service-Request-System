@@ -61,3 +61,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+div.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.widen {
+  width: 94% !important;
+}

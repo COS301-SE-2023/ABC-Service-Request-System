@@ -1,6 +1,6 @@
 <app-page-header></app-page-header>
 <app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
-<div class="dashboard-container adjusted-container">
+<div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 <h2 class="form-heading">Create Account</h2>
 <div class="create-account-container">
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">

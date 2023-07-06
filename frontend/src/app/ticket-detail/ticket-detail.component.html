@@ -1,7 +1,7 @@
 <app-page-header></app-page-header>
 <app-dash-panel></app-dash-panel>
 
-<div class="ticket-container" *ngIf="ticket">
+<div class="ticket-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}" *ngIf="ticket">
 
   <h1>{{ ticket.summary }}</h1>
 
@@ -40,24 +40,23 @@
           <label for="fileInput" class="file-input-label">
             <input type="file" id="fileInput" class="file-input" (change)="onFileChange($event)" />
           </label>
-
-          <div class="attachment-preview" *ngIf="preview">
-            <ng-container *ngIf="isPDF(file!.name)">
-              <div class = "pdf-preview">
-                <img src="../../assets/pdf.png" style = "max-width: 100px;" style = "max-height: 100px;" alt="PDF Attachment Preview" />
-              </div>
-            </ng-container>
-            <ng-container *ngIf="!isPDF(file!.name)">
-              <img [src]="preview" alt="Image Attachment Preview" />
-            </ng-container>
-            <input type="text" class="attachment-filename" [(ngModel)]="editedAttachmentName" (input)="updateEditedAttachmentName($event)" [placeholder]="file?.name" />
-          </div>
-
         </div>
 
         <div class="save-btn-container">
         <!-- <button (click)="addComment()" class="save-btn">Save</button> -->
           <button (click)="saveData()" class="save-btn">Save</button>
+        </div>
+
+        <div class="attachment-preview" *ngIf="preview">
+          <ng-container *ngIf="isPDF(file!.name)">
+            <div class = "pdf-preview">
+              <img src="../../assets/pdf.png" style = "max-width: 100px;" style = "max-height: 100px;" alt="PDF Attachment Preview" />
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!isPDF(file!.name)">
+            <img [src]="preview" alt="Image Attachment Preview" />
+          </ng-container>
+          <input type="text" class="attachment-filename" [(ngModel)]="editedAttachmentName" (input)="updateEditedAttachmentName($event)" [placeholder]="file?.name" />
         </div>
 
         <!-- <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar> -->
@@ -129,7 +128,16 @@
               SLA
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <p>I'm visible because I am open</p>
+
+          <div class="expansion-item">
+            <p class="bold-label">Time to first response </p>
+            <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">Today 14:00 <i class="fa-regular fa-clock"></i></p>
+          </div>
+
+          <div class="expansion-item">
+            <p class="bold-label">Time to resolution </p>
+            <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">9 May 16:00  <i class="fa-regular fa-clock"></i></p>
+          </div>
         </mat-expansion-panel>
       </div>
 
@@ -141,7 +149,14 @@
               Details
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <p>I'm visible because I am open</p>
+
+          <div class="expansion-item">
+            <p class="bold-label">Assignee </p>
+          </div>
+
+          <p>Assigned </p>
+          <p>Priority </p>
+          <p>Created </p>
         </mat-expansion-panel>
       </div>
     </div>
