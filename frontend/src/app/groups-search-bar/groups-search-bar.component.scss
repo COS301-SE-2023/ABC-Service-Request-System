@@ -378,18 +378,8 @@ mat-select .mat-select-trigger {
   opacity: 0.8;
 }
 
-.ng-select.custom {
-  width: 300px;
-}
-
-.ng-select.custom .ng-select-container {
-  padding: 0.5em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.ng-select.custom .ng-option[role=option]:hover,
-.ng-select.custom .ng-option[role=option].selected {
-  background-color: #ccc;
+.mat-form-field {
+  width: 100%;
+  border: 1px solid grey;
+  border-radius: 8px;
 }

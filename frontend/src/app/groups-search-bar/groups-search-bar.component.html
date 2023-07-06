@@ -122,8 +122,12 @@
       <h2>Add people to group</h2>
       <div class="input-field-group-people">
         <label>Name</label>
-        <ng-select [items]="users" bindLabel="name" bindValue="_id" placeholder="e.g., John, johndoe@company.com" formControlName="people" class="custom" [multiple]="true"></ng-select>
-
+        <mat-form-field appearance="fill">
+          <mat-label>e.g., John, johndoe@company.com</mat-label>
+          <mat-select formControlName="people" multiple>
+            <mat-option *ngFor="let user of users" [value]="user._id">{{ user.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="dialog-buttons-internal">

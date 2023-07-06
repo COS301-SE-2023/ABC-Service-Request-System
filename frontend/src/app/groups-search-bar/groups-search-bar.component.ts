@@ -31,6 +31,7 @@ export class GroupsSearchBarComponent implements OnInit {
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: '',
+      // people: this.formBuilder.array([]),
       people: '',
     });
 
