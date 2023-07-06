@@ -8,6 +8,7 @@ import userRouter from './routers/user.router';
 import loginRouter from './routers/login.router';
 import signupRouter from './routers/signup.router'; 
 import notificationsRouter from './routers/notifications.router';
+import groupRouter from './routers/group.router'
 
 //test routers
 import testTicketRouter from './test_routers/testTicket.router';
@@ -32,6 +33,7 @@ app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter); 
 app.use('/api/notifications', notificationsRouter);
+app.use('/api/group', groupRouter);
 
 //test routers
 app.use('/api/test_ticket', testTicketRouter);

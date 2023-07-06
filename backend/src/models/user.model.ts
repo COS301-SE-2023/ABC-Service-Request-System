@@ -61,3 +61,5 @@ export const userSchema = new Schema<user>(
 
 const userDb = connection.useDb("UserDB");
 export const UserModel = userDb.model("user", userSchema);
+
+// export const UserModel2 = model<user>('User', userSchema);
