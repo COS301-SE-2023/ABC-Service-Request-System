@@ -12,7 +12,7 @@ const router = Router();
 
 router.get('/', expressAsyncHandler(
     async (req, res) => {
-        const groups = await groupModel.find();
+        const groups = await groupModel.find().populate('people');
         res.send(groups);
     }
 ));
@@ -31,5 +31,30 @@ router.get('/seed', expressAsyncHandler(
         // res.status(200).send("Seed is done!");
     }
 ));
+
+router.post('/add', expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const groupCount = await groupModel.countDocuments();
+            console.log(req.body.people);
+            const group = new groupModel({
+                id: String(groupCount+1),
+                groupName: req.body.groupName,
+                people: req.body.people
+                // people: req.body.people.map((id: number) => String(id))
+
+
+              });
+              console.log(group.groupName);
+
+              groupModel.create(group);
+              res.status(201).send(group);
+        }
+        catch (error) {
+            res.status(500).send("An error occured during group creation");
+        }
+    }  
+  ));
+  
 
 export default router;

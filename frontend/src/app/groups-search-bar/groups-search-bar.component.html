@@ -103,29 +103,32 @@
 </div>
 
 <div id="createGroupDialog" [ngStyle]="{'display': isCreateGroupDialogOpen ? 'block' : 'none'}">
-  <div class="filter-dialog">
-    <div class="close-button" tabindex="0" (click)="closeCreateGroupDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
-      <img src="../../assets/close.png" alt="Close icon">
-    </div>
-    <h2>Create a new group</h2>
-    <label>Get everyone working in one place by adding them to a group.
-      Stay connected with comments, collaborate on work together, and efficiently
-      manage everything from the group profile page.
-    </label> <br><br>
+  <form [formGroup]="createGroupForm" (ngSubmit)="onSubmit()">
+    <div class="filter-dialog">
+      <div class="close-button" tabindex="0" (click)="closeCreateGroupDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
+        <img src="../../assets/close.png" alt="Close icon">
+      </div>
+      <h2>Create a new group</h2>
+      <label>Get everyone working in one place by adding them to a group.
+        Stay connected with comments, collaborate on work together, and efficiently
+        manage everything from the group profile page.
+      </label> <br><br>
 
-    <div class="input-field">
-      <label>Group Name</label>
-      <input type="text" placeholder="What's your group called?">
-    </div>
+      <div class="input-field-group-name">
+        <label>Group Name</label>
+        <input formControlName="groupName" type="text" placeholder="What's your group called?">
+      </div>
 
-    <h2>Add people to group</h2>
-    <div class="input-field">
-      <label>Name</label>
-      <input type="text" placeholder="e.g., John, johndoe@company.com">
-    </div>
+      <h2>Add people to group</h2>
+      <div class="input-field-group-people">
+        <label>Name</label>
+        <ng-select [items]="users" bindLabel="name" bindValue="_id" placeholder="e.g., John, johndoe@company.com" formControlName="people" class="custom" [multiple]="true"></ng-select>
 
-    <div class="dialog-buttons-internal">
-      <button class="create-user-button">Create group</button>
+      </div>
+
+      <div class="dialog-buttons-internal">
+        <button class="create-group-button-2">Create group</button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>

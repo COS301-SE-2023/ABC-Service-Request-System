@@ -1,6 +1,6 @@
 <app-dash-panel> </app-dash-panel>
 
-<!-- <div class="teams-page-container">
+<div class="teams-page-container" *ngIf="!authService.isManager()">
   <app-page-header></app-page-header>
 
   <h2 class="section-header">My Groups</h2>
@@ -25,9 +25,9 @@
       <app-user-tablet></app-user-tablet>
     </div>
   </div>
-</div> -->
+</div>
 
-<div class = "management-teams-page-container">
+<div class = "management-teams-page-container" *ngIf="authService.isManager()">
   <app-groups-search-bar></app-groups-search-bar>
   <app-page-header></app-page-header>
   <table class="w-full">

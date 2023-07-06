@@ -38,16 +38,19 @@ const user1 = new UserModel({
 
 export const sample_groups: any[] = [
     {
+        id: '1',
         groupName: 'Frontend',
         backgroundPhoto: '',
         people: [user1, user2],
     },
     {
+        id: '2',
         groupName: 'Backend',
         backgroundPhoto: '',
         people: [user2, user3],
     },
     {
+        id: '3',
         groupName: 'Integration',
         backgroundPhoto: '',
         people: [user1, user3],

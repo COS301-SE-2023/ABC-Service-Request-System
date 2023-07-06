@@ -52,6 +52,9 @@ import { GroupTabletComponent } from './group-tablet/group-tablet.component';
 import { UserTabletComponent } from './user-tablet/user-tablet.component';
 import { GroupsSearchBarComponent } from './groups-search-bar/groups-search-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,6 +103,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
