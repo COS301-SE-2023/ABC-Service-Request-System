@@ -27,6 +27,8 @@ export class GroupsSearchBarComponent implements OnInit {
   groups: group[] = [];
   groupId! : string;
   filterValue = 'all';
+  selectedGroup = '';
+
 
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService
@@ -37,12 +39,6 @@ export class GroupsSearchBarComponent implements OnInit {
       role: 'functional',
       email: ''
     });
-
-    this.addPeopleForm = this.formBuilder.group({
-      group: [null],
-      people: [null],
-    });
-
   }
 
   @Input() openAddPeopleDialogEvent!: EventEmitter<void>;
@@ -51,8 +47,10 @@ export class GroupsSearchBarComponent implements OnInit {
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: ['', Validators.required],
+      groupImage: ['../../assets/default.png'],
       people: ['', Validators.required],
     });
+
 
     this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
 
@@ -96,6 +94,7 @@ export class GroupsSearchBarComponent implements OnInit {
 
   onGroupSelected(groupId: string): void {
     this.groupSelected.emit(groupId);
+    this.selectedGroup = groupId;
   }
 
 
@@ -168,6 +167,9 @@ export class GroupsSearchBarComponent implements OnInit {
   handleFilterChange(filterValue: string): void {
     this.filterChanged.emit(filterValue);
     this.filterValue = filterValue;
+    if (filterValue === 'all') {
+      this.selectedGroup = '';
+    }
   }
 
   openFilterDialog() {
@@ -202,4 +204,18 @@ export class GroupsSearchBarComponent implements OnInit {
       this.filterForm.get(key)?.markAsUntouched();
     });
   }
+
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.createGroupForm.patchValue({
+          groupImage: reader.result as string
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
 }

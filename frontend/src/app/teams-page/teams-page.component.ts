@@ -17,6 +17,7 @@ export class TeamsPageComponent implements OnInit{
   users: user[] = [];
   filterValue = 'all';
 
+
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private userService: UserService,
     private changeDetector: ChangeDetectorRef) {}
@@ -59,7 +60,7 @@ export class TeamsPageComponent implements OnInit{
 
   @Output() openAddPeopleDialog: EventEmitter<void> = new EventEmitter<void>();
   onOpenAddPeopleDialog(): void {
-    console.log('[][][]');
+
     this.openAddPeopleDialog.emit();
   }
 

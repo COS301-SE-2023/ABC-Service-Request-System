@@ -10,13 +10,14 @@
   </div>
 
   <div class="groups-filter" [hidden]="filterValue === 'all'">
-    <select #selectElement (change)="onGroupSelected(selectElement.value)">
+    <select #selectElement (change)="onGroupSelected(selectElement.value)" [value]="selectedGroup">
+      <option value="" disabled selected>Select group</option>
       <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
     </select>
-
-
     <div class="groups-filter-arrow"></div>
   </div>
+
+
 
   <div class="groups-filter-2" [hidden]="filterValue === 'group'">
     <select>
@@ -143,6 +144,15 @@
       <div class="input-field-group-name">
         <label>Group Name</label>
         <input formControlName="groupName" type="text" placeholder="What's your group called?">
+      </div>
+
+      <div class="input-field-group-image">
+        <label>Group Image</label>
+        <input type="file" (change)="onImageSelected($event)" accept="image/*">
+      </div>
+
+      <div class="group-image-preview" *ngIf="createGroupForm.get('groupImage')?.value">
+        <img [src]="createGroupForm.get('groupImage')?.value" alt="Group Image Preview">
       </div>
 
       <h2>Add people to group</h2>

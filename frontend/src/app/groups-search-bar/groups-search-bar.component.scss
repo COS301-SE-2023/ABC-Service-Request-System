@@ -63,7 +63,18 @@ mat-select {
   justify-content: space-between;
 }
 
+.group-image-preview {
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
 
+.group-image-preview img {
+  max-width: 100%;
+  height: auto;
+}
 
 
 .create-group-button {
