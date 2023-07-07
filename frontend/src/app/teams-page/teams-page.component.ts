@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { user } from  '../../../../backend/src/models/user.model'
@@ -41,6 +41,12 @@ export class TeamsPageComponent implements OnInit{
     );
   }
 
+  @Output() openAddPeopleDialog: EventEmitter<void> = new EventEmitter<void>();
+  onOpenAddPeopleDialog(): void {
+    this.openAddPeopleDialog.emit();
+  }
+
+
   handleFilterChange(filterValue: string): void {
     if (filterValue === 'all') {
       this.filterValue = filterValue;
@@ -67,7 +73,9 @@ export class TeamsPageComponent implements OnInit{
 
   removeUser(user: user): void {
     console.log('from frontend ' + user.emailAddress);
-
+    // if (!this.groupId) {
+    //   this.userService
+    // }
     this.groupService.removeUserFromGroup(this.groupId, user).subscribe(
       (response) => {
         // Remove the user from the local users array

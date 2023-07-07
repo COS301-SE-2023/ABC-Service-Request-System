@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
@@ -12,6 +12,7 @@ import { user } from '../../../../backend/src/models/user.model'
 })
 export class GroupsSearchBarComponent implements OnInit {
   public createGroupForm!: FormGroup;
+  public addPeopleForm!: FormGroup;
 
   public filterForm!: FormGroup;
   public isFilterDialogOpen = false;
@@ -31,12 +32,22 @@ export class GroupsSearchBarComponent implements OnInit {
       role: 'functional',
       email: ''
     });
-
   }
+
+  @Input() openAddPeopleDialogEvent!: EventEmitter<void>;
+
+
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: '',
       // people: this.formBuilder.array([]),
+      people: '',
+    });
+
+    this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
+
+    this.addPeopleForm = this.formBuilder.group({
+      group: '',
       people: '',
     });
 
@@ -52,6 +63,10 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
+  }
+
+  onOpenAddPeopleDialog(): void {
+    this.isAddPeopleDialogOpen = true;
   }
 
   @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();
@@ -76,6 +91,7 @@ export class GroupsSearchBarComponent implements OnInit {
             console.log(error);
           });
     }
+
   }
 
   @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
