@@ -58,22 +58,36 @@
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #ddd;
-    height: 1em;
-}
-
-.notification-filter h3 {
+    height: 2em;
+  }
+  
+  .notification-filter button {
+    background: none;
+    border: none;
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .notification-filter .unreadNotifications {
     padding-left: 1em;
     padding-right: 1em;
-}
+    padding-bottom: 0.5em;
+  }
+  
+  .notification-filter .readNotifications {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+  }
 
-.notification-filter h3 .unreadNotifications{
-    left: 1em;
-}
-
-.notification-filter .active {
-    color: #04538E; /* Active tab text color */
-    border-bottom: 1px solid #04538E;
-}
+  .notification-filter button.active {
+    cursor: initial;
+    border-bottom: 2px solid #0e80b5;
+    color: #0e80b5;
+  }
+  
 
 .notification-list {
     display: -webkit-box;
