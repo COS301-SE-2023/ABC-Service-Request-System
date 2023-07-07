@@ -13,9 +13,8 @@ export class NotificationsPanelComponent implements OnInit {
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
-  sortedUnreadNotificationsArray: notifications[] = [];
+  sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
-  sortedReadNotificationsArray: notifications[] = [];
 
   activeTab: "unread" | "read" = "unread";
 
@@ -25,7 +24,7 @@ export class NotificationsPanelComponent implements OnInit {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
-      this.sortedUnreadNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
+      this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
@@ -36,7 +35,7 @@ export class NotificationsPanelComponent implements OnInit {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
       this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
-      this.sortedReadNotificationsArray = this.readNotificationsArray.sort((a, b) => {
+      this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
         console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
