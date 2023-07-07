@@ -45,7 +45,7 @@
       <tr *ngIf="users.length === 0">
         <td colspan="5" class="text-center py-4">
           <div class="empty-state">
-            <p>No users in this group</p>
+            <p>No users in {{groupName}}</p>
             <img src="../../assets/add.png" alt="Plus icon" (click)="onOpenAddPeopleDialog()" (keyup.enter)="onOpenAddPeopleDialog()" tabindex="0" class="cursor-pointer">
 
           </div>

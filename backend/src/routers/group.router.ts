@@ -125,7 +125,25 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   }));
   
+  router.get("/:groupId/name", expressAsyncHandler(async(req,res) => {
+    const groupId = req.params.groupId;
 
+    const group = await groupModel.findOne({id: groupId});
+    if (!group) {
+      res.status(404).send({message:"Group not found"});
+      return;
+    }
+
+    const groupName = group.groupName;
+    if (groupName) {
+      console.log(groupName);
+      // res.status(200).send({message: 'Group name found'});
+      res.status(200).send(groupName);
+    } else {
+      res.status(404).send({ message: 'Group name not found' });
+    }
+
+  }));
   
 
 export default router;

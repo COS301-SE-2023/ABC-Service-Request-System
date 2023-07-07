@@ -29,4 +29,8 @@ export class GroupService {
   removeUserFromGroup(groupId: string, user: user): Observable<any> {
     return this.http.delete(`${this.GROUPS_URL}/${groupId}/user/${encodeURIComponent(user.emailAddress)}`);
   }
+
+  getGroupNameById(groupId: string): Observable<string> {
+    return this.http.get<string>(`${this.GROUPS_URL}/${groupId}/name`)
+  }
 }

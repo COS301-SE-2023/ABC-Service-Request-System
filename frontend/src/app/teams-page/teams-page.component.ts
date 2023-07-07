@@ -12,6 +12,7 @@ import { UserService } from 'src/services/user.service';
 })
 export class TeamsPageComponent implements OnInit{
   groupId!: string;
+  groupName!: string;
   users: user[] = [];
   filterValue = 'all';
 
@@ -23,6 +24,16 @@ export class TeamsPageComponent implements OnInit{
     this.groupService.getUsersByGroupId(groupId).subscribe(
       (response) => {
         this.users = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.groupService.getGroupNameById(groupId).subscribe(
+      (response) => {
+        console.log(response);
+        this.groupName = response;
       },
       (error) => {
         console.log(error);
