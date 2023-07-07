@@ -1,110 +1,99 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
 <div class="page-container">
-  <h1>Add Ticket</h1>
+  <h1>Create Ticket</h1>
 
-<div class="form-container">
-  <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
-    <div class="form-column">
-      <label>
-        Assignee:
-        <p>{{ assigneeName }}</p>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('assignee').invalid && ticketForm.get('assignee').touched">
-        Assignee is required.
-      </span> -->
-    </div>
+  <div class="form-container">
+    <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+      <div class="form-header">
+        <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
+      </div>
 
-    <div class="form-column">
-      <label>
-        Summary:<span class="required">*</span>
+      <div class="project-details">
+        <label>Project <span class="required">*</span></label>
+        <select formControlName="project" required>
+          <option value="Nedbank">Nedbank Mobile App</option>
+          <option value="SB">Standard Bank Website</option>
+          <option value="FNB">FNB Cash Withdrawal</option>
+        </select>
+      </div>
+
+      <div class="ticket-details">
+        <label>Summary <span class="required">*</span></label>
         <input type="text" formControlName="summary" required>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('summary').invalid && ticketForm.get('summary').touched">
-        Summary is required.
-      </span> -->
-    </div>
 
-    <label>
-          Assigned:<span class="required">*</span>
-          <select formControlName="assigned" required>
-            <option *ngFor="let user of allUsers">{{ user.name }}</option>
-          </select>
-        </label>
+        <label class="descriptionLabel">Description:<span class="required">*</span></label>
+        <input type="text" formControlName="description" required>
+        <!-- <quill-editor>
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button class="ql-bold" [title]="'Bold'"></button>
+            </span>
+            <span class="ql-formats">
+              <select class="ql-align" [title]="'Aligment'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+              <select class="ql-align" [title]="'Aligment2'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+            </span>
+          </div>
+        </quill-editor> -->
+      </div>
 
-    <div class="form-column">
-      <label>
-        Group:<span class="required">*</span>
-        <input type="text" formControlName="group">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('group').invalid && ticketForm.get('group').touched">
-        Group is required.
-      </span> -->
-    </div>
+      <div class="ticket-information">
+        <label>Start Date <span class="required">*</span></label>
+        <input type="date" formControlName="startDate" required>
 
-    <div class="form-column">
-      <label>
-        Priority:<span class="required">*</span>
+        <label>End Date <span class="required">*</span></label>
+        <input type="date" formControlName="endDate" required>
+
+        <label>Priority <span class="required">*</span></label>
         <select formControlName="priority" required>
           <option value="High">High</option>
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('priority').invalid && ticketForm.get('priority').touched">
-        Priority is required.
-      </span> -->
-    </div>
 
-    <div class="form-column">
-      <label>
-        Start Date:<span class="required">*</span>
-        <input type="date" formControlName="startDate" required>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('startDate').invalid && ticketForm.get('startDate').touched">
-        Start Date is required.
-      </span> -->
-    </div>
-
-    <div class="form-column">
-      <label>
-        End Date:<span class="required">*</span>
-        <input type="date" formControlName="endDate">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('endDate').invalid && ticketForm.get('endDate').touched">
-        End Date is required.
-      </span> -->
-    </div>
-
-    <div class="form-column">
-      <label>
-        Status:<span class="required">*</span>
+        <label>Status <span class="required">*</span></label>
         <select formControlName="status" required>
           <option value="Active">Active</option>
           <option value="Pending">Pending</option>
         </select>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('status').invalid && ticketForm.get('status').touched">
-        Status is required.
-      </span> -->
-    </div>
-
-    <div class="form-column">
-      <label>
-        Description:<span class="required">*</span>
-      </label>
-      <div class="textarea-container">
-        <textarea formControlName="description" required></textarea>
       </div>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('description').invalid && ticketForm.get('description').touched">
-        Description is required.
-      </span> -->
-    </div>    
 
-    <div class="form-buttons">
-      <button id="submit-button" type="submit">Submit</button>
-    </div>
-  </form>
-</div>
+      <div class="todos">
+        <label>Todo's</label>
+        <input type="text" formControlName="todo" required>
+
+        <!-- AI GENERATION HERE -->
+      </div>
+
+      <div class="assignedInformation">
+        <label>Assigned <span class="required">*</span></label>
+        <select formControlName="assigned" required>
+          <option *ngFor="let user of allUsers">{{ user.name }}</option>
+        </select>
+
+        <label>Group <span class="required">*</span></label>
+        <select formControlName="group" required>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <div class="submitButton">
+        <button id="submit-button" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
 </div>
 
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 .page-container {
   display: flex;
   flex-direction: column;
@@ -6,16 +8,18 @@
   left: 23%;
   right: 1%;
   bottom: 1%;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-container h1 {
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-container {
   width: 100%;
   border: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  border-radius: 4px;
+  padding: 2em;
+  border-radius: 8px;
   margin-bottom: 1%;
   overflow: auto;
 }
@@ -26,7 +30,7 @@
 }
 
 .form-container::-webkit-scrollbar-thumb {
-  background-color: #888;
+  background-color: #74ACCD;
   border-radius: 4px;
 }
 
@@ -34,66 +38,111 @@
   background-color: #f2f2f2;
 }
 
+.form-container::-webkit-scrollbar-thumb:vertical:hover {
+  background-color: #0e80b5;
+}
+
 .form-container input[type="text"],
 .form-container select,
 .form-container input[type="date"] {
   border: 1px solid #ccc;
   padding: 8px;
-  width: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
-.textarea-container textarea {
-  width: 100%;
-  min-width: 300px; /* Adjust the width as per your requirement */
-  height: 200px; /* Set the desired height */
-  border: 1px solid #ccc; /* Add border */
-  padding: 10px; /* Add padding inside the textarea */
-  border-radius: 4px; /* Add rounded corners */
+.form-container label {
+  font-size: 1.2em;
 }
 
-.text-tools {
-  padding: 10px;
-  background-color: #f2f2f2;
-  margin-top: 10px;
-}
-
-.text-tools button,
-.text-tools select {
-  margin-right: 10px;
-}
-
-.ticket-form {
+// form header for assignee
+.form-header {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  height: 4em;
+  margin-bottom: 1.2em;
 }
 
-.form-column {
-  width: 100%;
+.form-header h1 {
+  font-size: 3em;
+  background: -webkit-linear-gradient(left, #04538E 30%, #00C4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
-.form-column label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.form-buttons {
+// project details for selection
+.project-details {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+  flex-direction: column;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #ccc;
 }
 
+.project-details select {
+  margin-top: 0.5em;
+  width: 30vw;
+}
+
+.project-details select option {
+  font-size: 1.2em;
+}
+
+// ticket summary and description 
+.ticket-details {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.ticket-details input {
+  margin-top: 0.5em;
+  width: 30vw;
+}
+
+.ticket-details .descriptionLabel {
+  margin-top: 1em;
+}
+
+// ticket information for status and dates of ticket
+.ticket-information {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+// todo
+.todos {
+  display: flex;
+  padding: 2em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+// assigned Information
+.assignedInformation {
+  display: flex;
+  padding: 2em 0;
+  border-bottom: 1px solid #ccc;
+}
+
+// css to make asterisk red
 .required {
   color: red;
   margin-left: 5px;
 }
 
-
-#submit-button,
-#close-button {
-  margin-left: 10px;
-  border: 1px solid #ccc;
-
+#submit-button {
+  display: flex;
+  float: right;
+  background: linear-gradient(180deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 100%);
+  height: 3em;
+  width: 8em;
+  border: 0px none;
+  border-radius: 8px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  color: white;
+  justify-content: center;
+  align-content: center;
 }
