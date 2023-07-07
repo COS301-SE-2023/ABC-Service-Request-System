@@ -158,6 +158,7 @@ export class GroupsSearchBarComponent implements OnInit {
           this.closeAddPeopleDialog();
           this.fetchGroupsAndUsers();
           this.addPeopleForm.reset();
+          location.reload();
         },
         error => {
           console.log(error);
