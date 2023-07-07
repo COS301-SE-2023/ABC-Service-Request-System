@@ -107,7 +107,38 @@ mat-select {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
 
+.remove-group-button {
+  display: flex;
+  border-radius: 10px;
+  border-color: red;
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-group-image-button {
+  display: flex;
+  border-radius: 10px;
+
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -124,6 +155,16 @@ mat-select .mat-select-trigger {
 }
 
 .add-people-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.remove-group-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.update-group-image-button img {
   width: 24px;
   height: 24px;
 }
@@ -181,7 +222,20 @@ mat-select .mat-select-trigger {
   outline: none;
 }
 
-#filterDialog, #addPeopleDialog, #createGroupDialog {
+#filterDialog {
+  display: none;
+  position: fixed;
+  // z-index: 1;
+  left:0;
+  top:0;
+  // margin-left: 600px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+ #addPeopleDialog, #createGroupDialog {
   display: none;
   position: fixed;
   z-index: 1;
@@ -362,7 +416,9 @@ mat-select .mat-select-trigger {
 }
 
 .create-group-button,
-.add-people-button {
+.add-people-button,
+.remove-group-button,
+.update-group-image-button {
   border: 1px solid grey;
   border-radius: 4px;
   background-color: white;
@@ -374,19 +430,25 @@ mat-select .mat-select-trigger {
 }
 
 .create-group-button:hover,
-.add-people-button:hover {
+.add-people-button:hover,
+.remove-group-button:hover,
+.update-group-image-button:hover {
   opacity: 0.8;
 }
 
 .create-group-button .button-content,
-.add-people-button .button-content {
+.add-people-button .button-content,
+.remove-group-button .button-content,
+.update-group-image-button .button-content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .create-group-button .button-content span,
-.add-people-button .button-content span {
+.add-people-button .button-content span,
+.remove-group-button .button-content span,
+.update-group-image-button .button-content span{
   margin-left: 8px;
 }
 

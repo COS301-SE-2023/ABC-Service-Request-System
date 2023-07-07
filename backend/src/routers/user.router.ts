@@ -502,4 +502,19 @@ router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler
         }
     }
 ));
+
+router.post('/:id/add-group', expressAsyncHandler(
+    async (req, res) => {
+        const groupId = req.body.groupId;
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            user.groups.push(groupId);
+            const updatedUser = await user.save();
+            res.send(updatedUser);
+        } else {
+            res.status(404).send({ message: 'User Not Found' });
+        }
+    }
+));
+
 export default router;

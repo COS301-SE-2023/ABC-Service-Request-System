@@ -26,7 +26,7 @@ export const userSchema = new Schema<user>(
         emailVerified: {type: Boolean, required: true, default: false},
         password: {type: String, required: true, select: true},
         roles: {type: [String], required: true, enum: roles},
-        groups: {type: [String], required: false},
+        groups: {type: [String], required: false, default:[]},
         inviteToken: { type: String }, // Add inviteToken field
     },{
         toJSON: {

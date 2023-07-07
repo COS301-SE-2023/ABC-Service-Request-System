@@ -137,8 +137,18 @@ export class GroupsSearchBarComponent implements OnInit {
   addGroup(groupData: any, backgroundPhoto: string): void {
     groupData.backgroundPhoto = backgroundPhoto;
     console.log('in add group function, ' + groupData.backgroundPhoto);
-    this.groupService.createGroup(groupData);
+    this.groupService.createGroup(groupData).subscribe(
+      group => {
+        groupData.people.forEach((userId: string) => {
+          this.groupService.addGroupToUser(userId, group.id).subscribe({
+            next: () => console.log('Group added to user successfully'),
+            error: error => console.error('Failed to add group to user', error),
+          });
+        });
+      }
+    );
   }
+
 
   showValidationAlert(): void {
     alert('Please fill out all fields before submitting the form.');

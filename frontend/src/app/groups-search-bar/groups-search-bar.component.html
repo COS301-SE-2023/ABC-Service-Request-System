@@ -17,25 +17,37 @@
     <div class="groups-filter-arrow"></div>
   </div>
 
-
-
   <div class="groups-filter-2" [hidden]="filterValue === 'group'">
     <select>
       <!-- <option> test</option> -->
     </select>
   </div>
 
-    <button class="create-group-button" (click) = "openCreateGroupDialog()">
+    <!-- <button class="remove-group-button" style = "border-color: red;">
       <div class="button-content">
-        <img src="../../assets/create-group.png" alt="create group icon">
-        <span>Create Group</span>
+        <img src="../../assets/group.png" alt="add people icon">
+        <span style = "color:red">Remove Group</span>
       </div>
     </button>
+
+    <button class="update-group-image-button">
+      <div class="button-content">
+        <img src="../../assets/update-image-2.png" alt="add people icon">
+        <span>Update Header</span>
+      </div>
+    </button> -->
 
     <button class="add-people-button"  (click) = "openAddPeopleDialog()">
       <div class="button-content">
         <img src="../../assets/add-people.png" alt="add people icon">
-        <span>Add People</span>
+        <span >Add People</span>
+      </div>
+    </button>
+
+    <button class="create-group-button" (click) = "openCreateGroupDialog()">
+      <div class="button-content">
+        <img src="../../assets/create-group.png" alt="create group icon">
+        <span>Create Group</span>
       </div>
     </button>
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { group } from  '../../../backend/src/models/group.model'
 import { user } from  '../../../backend/src/models/user.model'
 import { Router } from '@angular/router';
@@ -23,9 +23,8 @@ export class GroupService {
     return this.http.post<{ url: string }>(`${this.GROUPS_URL}/upload`, formData);
   }
 
-  createGroup(group1: group) {
+  createGroup(group1: group): Observable<group> {
     console.log('in service, group object:');
-    // console.log(group1);
 
     const groupName = group1.groupName;
     const backgroundPhoto = group1.backgroundPhoto;
@@ -34,17 +33,18 @@ export class GroupService {
     const group2 = {groupName, backgroundPhoto, people};
     console.log(group2);
 
-    return this.http.post<group>(`${this.GROUPS_URL}/add`, group2)
-    .subscribe(
-      () => {
-        console.log('Group created successfully');
-        // this.router.navigate(['/teams']);
-      },
-      error => {
-        console.error('Failed to create group', error);
-      }
+    return this.http.post<group>(`${this.GROUPS_URL}/add`, group2).pipe(
+      tap({
+        next: () => console.log('Group created successfully'),
+        error: (error) => console.error('Failed to create group', error),
+      })
     );
   }
+
+  addGroupToUser(userId: string, groupId: string): Observable<any> {
+    return this.http.post<any>(`http://localhost:3000/api/user/${userId}/add-group`, { groupId });
+  }
+
 
 
   getGroups(): Observable<group[]> {
