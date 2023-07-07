@@ -5,6 +5,8 @@ import { UserService } from 'src/services/user.service';
 import { group } from '../../../../backend/src/models/group.model'
 import { user } from '../../../../backend/src/models/user.model'
 
+
+
 @Component({
   selector: 'app-groups-search-bar',
   templateUrl: './groups-search-bar.component.html',
@@ -81,7 +83,8 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupSelected.emit(groupId);
   }
 
-  onSubmit(): void {
+
+  onCreateGroupSubmit(): void {
     if (this.createGroupForm.valid) {
       const groupData = {
         ...this.createGroupForm.value,
@@ -97,8 +100,26 @@ export class GroupsSearchBarComponent implements OnInit {
             console.log(error);
           });
     }
+  }
 
-
+  onAddPeopleSubmit():void {
+    if (this.addPeopleForm.valid) {
+      const groupData = {
+        ...this.addPeopleForm.value,
+        people: Array.isArray(this.addPeopleForm.value.people) ? this.addPeopleForm.value.people : [this.addPeopleForm.value.people],
+      };
+      console.log('hello from frontend' + groupData);
+      const group = groupData.group;
+      const people = groupData.people;
+      this.groupService.addPeopleToGroup(group,people).subscribe(
+        response => {
+          this.closeAddPeopleDialog();
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }
 
   @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();

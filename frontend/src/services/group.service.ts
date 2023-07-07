@@ -31,9 +31,15 @@ export class GroupService {
   }
 
   getGroupNameById(groupId: string): Observable<string> {
-    return this.http.get<string>(`${this.GROUPS_URL}/${groupId}/name`)
+    return this.http.get<string>(`${this.GROUPS_URL}/${groupId}/name`);
   }
 
-
+  addPeopleToGroup(group: group, people: user) {
+    const body = {group, people};
+    const url = `${this.GROUPS_URL}/add-people`
+    console.log('hello from service');
+    console.log(body);
+    return this.http.put<any>(url, body)
+  }
 
 }

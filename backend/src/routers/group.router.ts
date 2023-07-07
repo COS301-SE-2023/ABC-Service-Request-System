@@ -145,35 +145,6 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
 
   }));
 
-  router.put('/:groupId/add-users', expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const usersToAdd = req.body.usersToAdd;
-  
-    console.log('users to add:', usersToAdd);
-  
-    if (!usersToAdd || usersToAdd.length === 0) {
-      res.status(400).send({ message: 'No users provided to be added' });
-      return;
-    }
-  
-    const group = await groupModel.findOne({ id: groupId });
-    if (!group) {
-      res.status(404).send({ message: 'Group not found' });
-      return;
-    }
-  
-    const existingPeople = group.people || [];
-    const updatedPeople = [...existingPeople, ...usersToAdd.map((userId: string | number | mongoose.mongo.BSON.ObjectId | Uint8Array | mongoose.mongo.BSON.ObjectIdLike | undefined) => new Types.ObjectId(userId))];
-  
-    await groupModel.findOneAndUpdate(
-      { id: groupId },
-      { people: updatedPeople },
-      { new: true }
-    );
-  
-    res.status(200).send({ message: 'Users added successfully' });
-  }));
-
   router.delete("/:groupId/delete", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
   
@@ -187,7 +158,35 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     res.status(200).send({ message: "Group deleted successfully" });
   }));
 
+  router.put('/add-people', expressAsyncHandler(async(req,res)=>{
+    try {
+      const { group, people } = req.body;
+      console.log('hello from backend');
+      console.log(group);
+      console.log(people);
 
+      const newGroup = await groupModel.findOneAndUpdate(
+        {_id: group},
+        {
+          $push: {
+            people: people,
+          }
+        },
+        {new: true}
+      );
+
+      console.log(newGroup);
+
+      if (newGroup) {
+        res.status(200).json({message: 'users added to group'});
+      } else {
+        res.status(404).json({message: 'Group not found'});
+      }
+    }
+    catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
+    }
+  }))
 
 
 export default router;
