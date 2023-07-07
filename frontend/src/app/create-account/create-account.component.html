@@ -1,6 +1,28 @@
 <app-page-header></app-page-header>
 <app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
-<div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+
+<div class="create-account-container">
+
+  <mat-form-field>
+    <mat-select [(value)]="selected" class="header-label">
+      <mat-option value="client">Client</mat-option>
+      <mat-option value="Internal">Internal</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="content-area">
+    <div class="content">
+      <app-client-account-page1 (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
+      <app-client-account-page2 (backClicked)="decrementClientStage()" *ngIf="clientStage === 1"></app-client-account-page2>
+    </div>
+
+    <div class="img">
+      <img src="../../assets/client_background.png" alt="background">
+    </div>
+  </div>
+</div>
+
+<!-- <div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 <h2 class="form-heading">Create Account</h2>
 <div class="create-account-container">
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">
@@ -12,7 +34,7 @@
       <label for="surname" class="form-label">Surname</label>
       <input type="text" id="surname" formControlName="surname" class="form-input">
     </div>
-    <!-- Removed profile photo input -->
+
     <div class="form-group">
       <label for="emailAddress" class="form-label">Email Address</label>
       <input type="email" id="emailAddress" formControlName="emailAddress" class="form-input">
@@ -41,9 +63,8 @@
       <input type="text" id="groups" formControlName="groups" class="form-input">
     </div>
     <div class="button-container">
-      <!-- <button type="button" (click)="navigateToDashboard()" class="back-button">Back to Dashboard</button> -->
       <button type="submit" class="submit-button">Create Account</button>
     </div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </form>
-</div>
+</div> -->

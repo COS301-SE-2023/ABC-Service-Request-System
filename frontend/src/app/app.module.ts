@@ -44,6 +44,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { ClientAccountPage1Component } from './client-account-page1/client-account-page1.component';
+import { ClientAccountPage2Component } from './client-account-page2/client-account-page2.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +69,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SettingsGeneralComponent,
     SettingsNotificationsComponent,
     SettingsProfileComponent,
+    UserDropdownComponent,
+    ClientAccountPage1Component,
+    ClientAccountPage2Component,
   ],
   imports: [
     BrowserModule,

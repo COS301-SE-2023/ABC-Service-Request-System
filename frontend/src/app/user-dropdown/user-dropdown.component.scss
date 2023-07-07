@@ -1,0 +1,78 @@
+.select-menu {
+  width: 100%;
+  position: relative;
+
+  .select-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    background-color: green;
+    padding: 1em;
+    border-radius: 0.3em;
+    cursor: pointer;
+
+    i{
+      font-size: 0.5em;
+    }
+  }
+
+  .options::-webkit-scrollbar {
+    display: none;
+  }
+
+  .close-options{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    // pointer-events: none;
+  }
+
+  .options{
+    padding: 0.5em;
+    border-radius: 0.3em;
+    background-color: rgb(249, 251, 252);
+    margin-top: 0.5em;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    width: 100%;
+    max-height: 135px;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    .option {
+      display: flex;
+      height: 55px;
+      cursor: pointer;
+      align-items: center;
+      padding: 0 0.5em;
+      border-radius: 0.3em;
+      background-color: rgb(249, 251, 252);
+
+      button {
+        display: flex;
+        align-items: center;
+
+        .option-text {
+          font-size: 1.1em;
+        }
+      }
+    }
+
+    .option:hover{
+      background-color: rgb(219, 221, 223);
+    }
+  }
+}
+
+.user-img {
+  width: 2em;
+  height: 2em;
+  background-color: gray;
+  border-radius: 50%;
+  margin-right: 1em;
+}

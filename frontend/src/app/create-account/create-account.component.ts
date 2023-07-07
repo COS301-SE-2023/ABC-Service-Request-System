@@ -19,6 +19,9 @@ export class CreateAccountComponent implements OnInit{
   createUserForm: FormGroup;
   errorMessage!: string; // Add definite assignment assertion (!)
   navbarIsCollapsed!: boolean;
+  selected = 'client';
+
+  clientStage = 0;
 
   constructor(
     public authService: AuthService,
@@ -89,5 +92,13 @@ export class CreateAccountComponent implements OnInit{
 
   navigateToDashboard() {
     this.router.navigate(['/dashboard']);
+  }
+
+  incrementClientStage(){
+    this.clientStage++;
+  }
+
+  decrementClientStage(){
+    this.clientStage--;
   }
 }
