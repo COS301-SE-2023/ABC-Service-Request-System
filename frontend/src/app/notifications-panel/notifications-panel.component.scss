@@ -16,6 +16,7 @@
     font-size: 18px;
     text-align: center;
     z-index: 9999; /* Ensure a high z-index value */
+    height: 50vh;
     max-height: 50vh;
     overflow-y: hidden;
     font-family: 'Poppins', sans-serif;
@@ -49,9 +50,18 @@
 }
 
 .notification-ui_dd-content {
-    max-height: 40vh;
+    max-height: 35vh;
     overflow: auto;
+    //transition: opacity 0.3s ease-in-out;
 }
+
+// .notification-ui_dd-content.transition-active {
+//     opacity: 1;
+// }
+
+// .notification-ui_dd-content:not(.transition-active) {
+//     opacity: 0;
+// }
 
 .notification-filter {
     display: flex;
@@ -68,7 +78,8 @@
     padding-bottom: 1em;
     cursor: pointer;
     outline: none;
-  }
+    transition: color 0.3s ease-in-out;
+}
   
   .notification-filter .unreadNotifications {
     padding-left: 1em;
@@ -87,6 +98,11 @@
     border-bottom: 2px solid #0e80b5;
     color: #0e80b5;
   }
+
+.notification-filter button:not(.active) {
+    border-bottom: none;
+    color: #000; /* Adjust the color for non-active buttons */
+}
   
 
 .notification-list {

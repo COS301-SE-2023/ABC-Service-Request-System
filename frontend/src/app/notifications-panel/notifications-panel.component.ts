@@ -17,6 +17,8 @@ export class NotificationsPanelComponent implements OnInit {
   readNotificationsArray: notifications[] = [];
   sortedReadNotificationsArray: notifications[] = [];
 
+  activeTab: "unread" | "read" = "unread";
+
   @Input() notifications: notifications[] = [];
 
   getUnreadNotifications() {
@@ -24,6 +26,7 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
       this.sortedUnreadNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
+        console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
     });
@@ -34,6 +37,7 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
       this.sortedReadNotificationsArray = this.readNotificationsArray.sort((a, b) => {
+        console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
     });
@@ -50,18 +54,20 @@ export class NotificationsPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("Notifications Initialising");
     this.getUnreadNotifications();
-    this.getReadNotifications();
-
-    const unreadTab = document.querySelector('.unreadNotifications');
-    unreadTab?.classList.add('active');
   }
 
-  handleTabClick(event: MouseEvent): void {
-    const clickedTab = event.target as HTMLElement;
-    const tabHeaders = document.querySelectorAll('.notification-filter h3');
-    tabHeaders.forEach(header => header.classList.remove('active'));
-    clickedTab.classList.add('active');
+  handleTabClick(tab: 'unread' | 'read') {
+    this.activeTab = tab;
+
+    if (this.activeTab === "unread") {
+      this.getUnreadNotifications();
+    }
+    
+    if (this.activeTab === "read") {
+      this.getReadNotifications();
+    }
   }
 
   handleKeyup(event: KeyboardEvent, link: string) {
