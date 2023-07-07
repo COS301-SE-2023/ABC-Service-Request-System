@@ -38,12 +38,10 @@ export class GroupService {
     .subscribe(
       () => {
         console.log('Group created successfully');
-        // Perform any routing-related operations here
-        this.router.navigate(['/dashboard']); // Example navigation
+        // this.router.navigate(['/teams']);
       },
       error => {
         console.error('Failed to create group', error);
-        // Handle error scenarios
       }
     );
   }

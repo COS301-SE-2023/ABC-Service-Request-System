@@ -42,11 +42,11 @@ export class GroupsSearchBarComponent implements OnInit {
 
   @Input() openAddPeopleDialogEvent!: EventEmitter<void>;
 
-
+  defaultImage = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: ['', Validators.required],
-      fileInput: [''],
+      fileInput: ['https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg'],
       people: ['', Validators.required],
     });
 
@@ -106,17 +106,29 @@ export class GroupsSearchBarComponent implements OnInit {
       console.log(groupData);
       // console.log('Selected File:', this.file);
 
-      this.groupService.uploadFile(this.file!).subscribe(
-        (result:any) => {
-          const backgroundPhoto = result.url;
-          console.log('background photo link:' + backgroundPhoto);
-          this.addGroup(groupData, backgroundPhoto);
-        },
-        (error: any) => {
-          console.log('Error uploading file', error);
-        }
-      )
-
+      if (this.file) {
+        this.groupService.uploadFile(this.file!).subscribe(
+          (result:any) => {
+            const backgroundPhoto = result.url;
+            console.log('background photo link:' + backgroundPhoto);
+            this.addGroup(groupData, backgroundPhoto);
+            this.closeCreateGroupDialog();
+            this.fetchGroupsAndUsers();
+            this.createGroupForm.reset();
+          },
+          (error: any) => {
+            console.log('Error uploading file', error);
+          }
+        )
+      }
+      else if (!this.file) {
+        const backgroundPhoto = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
+        console.log('background photo link:' + backgroundPhoto);
+        this.addGroup(groupData, backgroundPhoto);
+        this.closeCreateGroupDialog();
+        this.fetchGroupsAndUsers();
+        this.createGroupForm.reset();
+      }
     } else {
       this.showValidationAlert();
     }
@@ -165,10 +177,13 @@ export class GroupsSearchBarComponent implements OnInit {
     console.log('file name' + file.name);
 
     if (file) {
-      const url = URL.createObjectURL(file);
-
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.preview = reader.result as SafeUrl;
+      };
+      reader.readAsDataURL(file);
     } else {
-      this.preview = null;
+      this.preview = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
     }
   }
 

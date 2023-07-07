@@ -152,9 +152,10 @@
         </label>
       </div>
 
-      <div class="group-image-preview" *ngIf="preview">
-        <img [src]="preview" alt="Image Attachment Preview" />
+      <div class="group-image-preview">
+        <img [src]="preview || defaultImage" alt="Image Attachment Preview" />
       </div>
+
 
       <h2>Add people to group</h2>
       <div class="input-field-group-people">
