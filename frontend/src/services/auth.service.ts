@@ -8,7 +8,6 @@ interface DecodedToken {
   user: user;
   role: string;
   name: string;
-  // other properties...
 }
 
 @Injectable({ providedIn: 'root' })

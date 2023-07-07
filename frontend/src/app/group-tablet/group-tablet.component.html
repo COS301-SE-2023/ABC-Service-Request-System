@@ -1,11 +1,11 @@
-<div class="group-card">
+<div class="group-card" [ngClass]="{'group-card-selected': isSelected()}">
   <div class = "group-image">
-    <img  src="../../assets/background3.jpeg" alt="Group image">
+    <img [src]="group?.backgroundPhoto" alt="Group image">
   </div>
 
   <div class="group-content">
     <div class="group-details">
-      <h2>Group Name</h2>
+      <h2>{{group?.groupName}}</h2>
       <a href="">View Statistics</a>
     </div>
   </div>

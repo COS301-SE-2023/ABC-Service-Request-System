@@ -9,12 +9,10 @@
   width: 200px;
 }
 
-.group-image {
-  img {
-    width: 100%;
-    object-fit: cover;
-    height: 100px;
-  }
+.group-image img {
+  width: 100%;
+  object-fit: cover;
+  height: 100px;
 }
 
 .group-details {
@@ -33,3 +31,8 @@
   text-decoration: none;
   color: blue;
 }
+
+.group-card-selected {
+  border: 1px solid blue;
+}
+

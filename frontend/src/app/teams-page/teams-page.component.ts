@@ -5,6 +5,7 @@ import { user } from  '../../../../backend/src/models/user.model'
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { group } from '../../../../backend/src/models/group.model'
 
 @Component({
   selector: 'app-teams-page',
@@ -16,7 +17,10 @@ export class TeamsPageComponent implements OnInit{
   groupName!: string;
   users: user[] = [];
   filterValue = 'all';
+  groups: group[] = [];
+  selectedGroup!: group;
 
+  userImages: Map<string, string> = new Map();
 
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private userService: UserService,
@@ -27,6 +31,10 @@ export class TeamsPageComponent implements OnInit{
     this.groupService.getUsersByGroupId(groupId).subscribe(
       (response) => {
         this.users = response;
+        this.users.forEach(user => {
+          console.log(user.profilePhoto);
+          this.userImages.set(user.id, user.profilePhoto);
+        });
       },
       (error) => {
         console.log(error);
@@ -47,6 +55,8 @@ export class TeamsPageComponent implements OnInit{
 
   }
 
+
+
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(
       (response) => {
@@ -56,7 +66,26 @@ export class TeamsPageComponent implements OnInit{
         console.log(error);
       }
     );
+
+    const user = this.authService.getUser();
+    if (user) {
+      user.groups.forEach(groupId => {
+        this.groupService.getGroupById(groupId).subscribe(group => {
+          this.groups.push(group);
+        });
+      });
+    } else {
+      this.authService.getUserObject().subscribe(user => {
+        user.groups.forEach(groupId => {
+          this.groupService.getGroupById(groupId).subscribe(group => {
+            this.groups.push(group);
+          });
+        });
+      });
+    }
+
   }
+
 
   @Output() openAddPeopleDialog: EventEmitter<void> = new EventEmitter<void>();
   onOpenAddPeopleDialog(): void {
@@ -119,6 +148,11 @@ export class TeamsPageComponent implements OnInit{
         console.log(error);
       }
     );
+  }
+
+  selectGroup(group: group): void {
+    this.selectedGroup = group;
+    this.onGroupSelected(group.id);
   }
 
 }

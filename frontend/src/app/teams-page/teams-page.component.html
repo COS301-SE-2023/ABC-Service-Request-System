@@ -6,23 +6,14 @@
   <h2 class="section-header">My Groups</h2>
   <div class="bubble-container">
     <div class="group-row">
-      <app-group-tablet></app-group-tablet>
-      <app-group-tablet></app-group-tablet>
-      <app-group-tablet></app-group-tablet>
-      <app-group-tablet></app-group-tablet>
-      <app-group-tablet></app-group-tablet>
+      <app-group-tablet *ngFor="let group of groups" [group]="group" [selectedGroup]="selectedGroup" (click)="selectGroup(group)"></app-group-tablet>
     </div>
   </div>
 
   <h2 class="section-header">Team Members</h2>
   <div class="bubble-container">
     <div class="user-row">
-      <app-user-tablet></app-user-tablet>
-      <app-user-tablet></app-user-tablet>
-      <app-user-tablet></app-user-tablet>
-      <app-user-tablet></app-user-tablet>
-      <app-user-tablet></app-user-tablet>
-      <app-user-tablet></app-user-tablet>
+      <app-user-tablet *ngFor="let user of users" [user]="user" [userImages]="userImages"></app-user-tablet>
     </div>
   </div>
 </div>

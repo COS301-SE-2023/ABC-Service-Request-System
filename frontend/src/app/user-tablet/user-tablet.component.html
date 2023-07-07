@@ -1,17 +1,14 @@
 <div class="user-card">
-
-  <div class = "group-image">
-    <img  src="../../assets/background2.jpeg" alt="Group image">
+  <div class = "user-image">
+    <img [src]="getProfilePhoto() || '../../assets/default-user.png'" alt="User image">
   </div>
 
   <div class="user-content">
-    <img class="user-image" src="../../assets/default-user.png" alt="User image">
     <div class="user-details">
-      <p>Name Surname</p>
+      <p>{{user?.name}} {{user?.surname}}</p>
     </div>
     <div class = "user-role">
-      <p>Functional</p>
+      <p>{{user?.roles}}</p>
     </div>
-      <!-- <button class="view-profile">View Profile</button> -->
   </div>
 </div>
