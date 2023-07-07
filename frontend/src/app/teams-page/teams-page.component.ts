@@ -59,6 +59,7 @@ export class TeamsPageComponent implements OnInit{
 
   @Output() openAddPeopleDialog: EventEmitter<void> = new EventEmitter<void>();
   onOpenAddPeopleDialog(): void {
+    console.log('[][][]');
     this.openAddPeopleDialog.emit();
   }
 

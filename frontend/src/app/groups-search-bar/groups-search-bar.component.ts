@@ -77,14 +77,6 @@ export class GroupsSearchBarComponent implements OnInit {
     this.fetchGroupsAndUsers();
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const clickedInside = this.eRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
-      this.closeAllDialogs();
-    }
-  }
-
   closeAllDialogs() {
     this.isFilterDialogOpen = false;
     this.isAddPeopleDialogOpen = false;
@@ -96,7 +88,8 @@ export class GroupsSearchBarComponent implements OnInit {
   }
 
   onOpenAddPeopleDialog(): void {
-    this.isAddPeopleDialogOpen = true;
+    console.log('[][][]2');
+    this.openAddPeopleDialog();
   }
 
   @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();
@@ -186,7 +179,9 @@ export class GroupsSearchBarComponent implements OnInit {
   }
 
   openAddPeopleDialog() {
+    console.log('[][][]3');
     this.isAddPeopleDialogOpen = true;
+    console.log('[][][]4');
   }
 
   closeAddPeopleDialog() {

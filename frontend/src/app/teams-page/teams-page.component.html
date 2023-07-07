@@ -52,9 +52,8 @@
       <tr *ngIf="users.length === 0 && groupId">
         <td colspan="5" class="text-center py-4">
           <div class="empty-state">
-            <p>No users in {{groupName}}</p>
-            <img src="../../assets/add.png" alt="Plus icon" (click)="onOpenAddPeopleDialog()" (keyup.enter)="onOpenAddPeopleDialog()" tabindex="0" class="cursor-pointer">
-
+            <p>No users in this group</p>
+            <img src="../../assets/add.png" alt="plus-icon" (click)="onOpenAddPeopleDialog()" (keyup.enter)="onOpenAddPeopleDialog()" tabindex="0" class="cursor-pointer">
           </div>
         </td>
       </tr>
