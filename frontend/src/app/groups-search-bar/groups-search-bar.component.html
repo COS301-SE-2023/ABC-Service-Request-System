@@ -94,7 +94,7 @@
       <h2>Add people to Luna</h2>
 
       <div class="input-field">
-        <label>Group</label>
+        <label>Select a group</label>
         <ng-select formControlName="group" [items]="groups" bindLabel="groupName" bindValue="_id" [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
             {{ item.groupName }}
@@ -104,7 +104,7 @@
 
 
       <div class="input-field-group-people">
-        <label>Select people</label>
+        <label>Select people to add to group</label>
         <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
             {{ item.name }} {{ item.surname }}, {{item.roles}}
@@ -147,8 +147,9 @@
       </div>
 
       <div class="input-field-group-image">
+        <label>Group Header</label>
         <label for="backgroundPhoto" class="backgroundPhoto-input-label">
-          <input type="file" id="backgroundPhoto" class="backgroundPhoto" (change)="onFileChange($event)" />
+          <input style = "margin-top: 5px;" type="file" id="backgroundPhoto" class="backgroundPhoto" (change)="onFileChange($event)" />
         </label>
       </div>
 
@@ -156,10 +157,9 @@
         <img [src]="preview || defaultImage" alt="Image Attachment Preview" />
       </div>
 
-
-      <h2>Add people to group</h2>
       <div class="input-field-group-people">
-        <label>Select people</label>
+        <h2>Add people to group</h2>
+        <label>Choose a list of group members</label>
         <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
             {{ item.name }} {{ item.surname }}, {{item.roles}}

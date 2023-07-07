@@ -173,6 +173,7 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   
     await groupModel.deleteOne({ id: groupId });
+    console.log('group deleted');
     res.status(200).send({ message: "Group deleted successfully" });
   }));
 
@@ -202,6 +203,23 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       }
     }
     catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
+    }
+  }))
+
+  router.get('/:groupId', expressAsyncHandler(async(req,res) => {
+    try {
+      const groupId = req.params.groupId;
+      const group = await groupModel.findOne({id: groupId});
+      if (!group) {
+        res.status(404).send({message:"Group not found"});
+        return;
+      } else {
+        // console.log('hiii');
+        res.status(200).send(group);
+      }
+
+    } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
     }
   }))

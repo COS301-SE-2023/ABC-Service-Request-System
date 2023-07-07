@@ -111,9 +111,9 @@ export class TeamsPageComponent implements OnInit{
     // }
     this.groupService.removeUserFromGroup(this.groupId, user).subscribe(
       (response) => {
-        // Remove the user from the local users array
         // this.users = this.users.filter(u => u.id !== user.id);
         this.onGroupSelected(this.groupId);
+        location.reload();
       },
       (error) => {
         console.log(error);
