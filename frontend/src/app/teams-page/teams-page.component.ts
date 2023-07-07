@@ -69,7 +69,7 @@ export class TeamsPageComponent implements OnInit{
           console.log(error);
         }
       );
-    } else if (filterValue === 'active') {
+    } else if (filterValue === 'group') {
       this.filterValue = filterValue;
       this.userService.getAllUsers().subscribe(
         (response) => {
