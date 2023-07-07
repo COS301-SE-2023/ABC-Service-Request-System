@@ -67,11 +67,12 @@
   flex-direction: column;
   height: 50px;
   width: 3em;
+  border-radius: 0.3em;
 }
 
 .header-container-right div:hover {
-  background-color: #d7d7d7;
-  transition-duration: 0.2s;
+  background-color: rgba(116, 172, 205, 0.3);
+  transition: 0.3s ease-in-out;
 }
 
 .profile-photo{

@@ -60,6 +60,7 @@
     cursor: pointer;
     padding-left: 0.8em;
     height: 4em;
+    border-radius: 0.5em;
 }
 
 .Account img {
@@ -87,8 +88,8 @@
 }
 
 .Account:hover {
-    background-color: #d7d7d7;
-    transition-duration: 0.2s;
+    background-color: rgba(116, 172, 205, 0.3);
+    transition: 0.3s ease-in-out;
 }
 
 // Settings========================================================================================
@@ -97,6 +98,7 @@
     cursor: pointer;
     padding-left: 0.8em;
     height: 2em;
+    border-radius: 0.5em;
 }
 
 .Settings img{
@@ -117,8 +119,8 @@
 }
 
 .Settings:hover {
-    background-color: #d7d7d7;
-    transition-duration: 0.2s;
+    background-color: rgba(116, 172, 205, 0.3);
+    transition: 0.3s ease-in-out;
 }
 
 // Logout========================================================================================
@@ -127,6 +129,7 @@
     cursor: pointer;
     padding-left: 0.8em;
     height: 2em;
+    border-radius: 0.5em;
 }
 
 .Logout img{
@@ -149,6 +152,6 @@
 }
 
 .Logout:hover {
-    background-color: #d7d7d7;
-    transition-duration: 0.2s;
+    background-color: rgba(116, 172, 205, 0.3);
+    transition: 0.3s ease-in-out;
 }
