@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { user } from  '../../../../backend/src/models/user.model'
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-teams-page',
@@ -17,7 +18,8 @@ export class TeamsPageComponent implements OnInit{
   filterValue = 'all';
 
   constructor(private router: Router, public authService: AuthService,
-    private groupService: GroupService, private userService: UserService) {}
+    private groupService: GroupService, private userService: UserService,
+    private changeDetector: ChangeDetectorRef) {}
 
   onGroupSelected(groupId: string): void {
     this.groupId = groupId;
@@ -57,8 +59,22 @@ export class TeamsPageComponent implements OnInit{
     this.openAddPeopleDialog.emit();
   }
 
+  getActionText(): string {
+    return this.filterValue === 'all' ? 'View profile' : 'Remove';
+  }
+
+  getActionClasses(): string {
+    return this.filterValue === 'all' ? 'text-blue-500 underline cursor-pointer' : 'text-red-500 hover:underline cursor-pointer text-left';
+  }
+
+  viewProfile(user: user): void {
+    // this.router.navigate(['/user-profile', user.id]);
+  }
 
   handleFilterChange(filterValue: string): void {
+    this.users = [];
+    this.changeDetector.detectChanges();
+
     if (filterValue === 'all') {
       this.filterValue = filterValue;
       this.userService.getAllUsers().subscribe(
@@ -73,12 +89,13 @@ export class TeamsPageComponent implements OnInit{
       this.filterValue = filterValue;
       this.userService.getAllUsers().subscribe(
         (response) => {
-          this.users = response;
+          this.users = [];
         },
         (error) => {
           console.log(error);
         }
       );
+
     }
   }
 

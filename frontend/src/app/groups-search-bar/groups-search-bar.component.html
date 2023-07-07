@@ -114,7 +114,8 @@
       </div>
 
       <div class="dialog-buttons-internal">
-        <button class="create-user-button">Create a new user</button>
+        <button class="create-user-button" (click)="navigateToCreateAccount()">Create a new user</button>
+
       </div>
     </div>
   </form>
@@ -123,7 +124,7 @@
 
 <div id="createGroupDialog" [ngStyle]="{'display': isCreateGroupDialogOpen ? 'block' : 'none'}">
   <form [formGroup]="createGroupForm" (ngSubmit)="onCreateGroupSubmit()">
-    <div class="filter-dialog">
+    <div class="filter-dialog" >
       <div class="close-button" tabindex="0" (click)="closeCreateGroupDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
         <img src="../../assets/close.png" alt="Close icon">
       </div>

@@ -36,13 +36,20 @@
       <tr>
         <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
         <th class="w-6 text-sm font-semibold tracking-wide text-left">Surname</th>
-        <th class="w-44 text-sm font-semibold tracking-wide text-left">Email</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Email</th>
         <th class="w-6 text-sm font-semibold tracking-wide text-left">Role</th>
-        <th class="w-4 text-sm font-semibold tracking-wide text-left">Action</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="users.length === 0">
+      <tr *ngIf="filterValue === 'group' && !groupId">
+        <td colspan="5" class="text-center py-4">
+          <div class="empty-state">
+            <p>Please select a group</p>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="users.length === 0 && groupId">
         <td colspan="5" class="text-center py-4">
           <div class="empty-state">
             <p>No users in {{groupName}}</p>
@@ -51,15 +58,21 @@
           </div>
         </td>
       </tr>
-      <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
-        <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
-        <td class="text-left">{{user.surname}}</td>
-        <td class="text-left">{{user.emailAddress}}</td>
-        <td class="text-left">{{user.roles}}</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer" tabindex="0"
-  (click)="removeUser(user)" (keyup.enter)="removeUser(user)">Remove</td>
 
-      </tr>
+        <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
+          <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
+          <td class="text-left">{{user.surname}}</td>
+          <td class="text-left">{{user.emailAddress}}</td>
+          <td class="text-left">{{user.roles}}</td>
+          <td
+            class="{{ getActionClasses() }}"
+            tabindex="0"
+            (click)="filterValue === 'all' ? viewProfile(user) : removeUser(user)"
+            (keyup.enter)="filterValue === 'all' ? viewProfile(user) : removeUser(user)"
+            >
+            {{ getActionText() }}
+          </td>
+        </tr>
     </tbody>
   </table>
 </div>

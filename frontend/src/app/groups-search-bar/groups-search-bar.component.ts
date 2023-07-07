@@ -1,9 +1,11 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output, Input, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { group } from '../../../../backend/src/models/group.model'
 import { user } from '../../../../backend/src/models/user.model'
+import { HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 
@@ -27,7 +29,8 @@ export class GroupsSearchBarComponent implements OnInit {
   filterValue = 'all';
 
 
-  constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService
+    , private eRef: ElementRef, private router: Router) {
     this.filterForm = this.formBuilder.group({
       name: '',
       surname: '',
@@ -47,16 +50,15 @@ export class GroupsSearchBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
-      groupName: '',
-      // people: this.formBuilder.array([]),
-      people: '',
+      groupName: ['', Validators.required],
+      people: ['', Validators.required],
     });
 
     this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
 
     this.addPeopleForm = this.formBuilder.group({
-      group: '',
-      people: '',
+      group: ['', Validators.required],
+      people: ['', Validators.required],
     });
 
     this.userService.getAllUsers().subscribe(
@@ -71,6 +73,26 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
+
+    this.fetchGroupsAndUsers();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const clickedInside = this.eRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.closeAllDialogs();
+    }
+  }
+
+  closeAllDialogs() {
+    this.isFilterDialogOpen = false;
+    this.isAddPeopleDialogOpen = false;
+    this.isCreateGroupDialogOpen = false;
+  }
+
+  navigateToCreateAccount() {
+    this.router.navigateByUrl('/create-account');
   }
 
   onOpenAddPeopleDialog(): void {
@@ -95,11 +117,18 @@ export class GroupsSearchBarComponent implements OnInit {
           response => {
             // console.log(response);
             this.closeCreateGroupDialog();
+            this.createGroupForm.reset();
           },
           error => {
             console.log(error);
           });
+    } else {
+      this.showValidationAlert();
     }
+  }
+
+  showValidationAlert(): void {
+    alert('Please fill out all fields before submitting the form.');
   }
 
   onAddPeopleSubmit():void {
@@ -114,13 +143,32 @@ export class GroupsSearchBarComponent implements OnInit {
       this.groupService.addPeopleToGroup(group,people).subscribe(
         response => {
           this.closeAddPeopleDialog();
+          this.fetchGroupsAndUsers();
+          this.addPeopleForm.reset();
         },
         error => {
           console.log(error);
         }
       )
+    } else {
+      this.showValidationAlert();
     }
   }
+
+  fetchGroupsAndUsers(): void {
+  this.userService.getAllUsers().subscribe(
+    response => {
+      this.users = response;
+    },
+    error => {
+      console.log(error);
+    }
+  );
+
+  this.groupService.getGroups().subscribe((groups: group[]) => {
+    this.groups = groups;
+  });
+}
 
   @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
 
