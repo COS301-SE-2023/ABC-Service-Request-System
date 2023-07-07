@@ -8,12 +8,18 @@
 
 <div class ="profile">
     <div class="background_img">
-        <button class="image-button"><img class src="./assets/pencil.png" alt="buttonpng" /></button>
+        <label for="fileInput" class="file-input-label">
+            <input type="file" id="fileInput" class="file-input" (change)="onFileChanged($event)" />
+          </label>
     </div>
     <div class="profile-picture">
-        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
+        <label for="fileInput" class="profilePicture-input">
+            <input type="file" id="profilePicture" class="profile-input" (change)="onFileChanged($event)">
+            <img src="{{ getUsersProfilePicture() }}" class="profile-picture" alt="profile-picture">
+        </label>
+        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
     </div>
-    <input type="file" name="profilePicture" (change)="onFileChanged($event)">
+
     <form>
 
         <div class="form-group">
