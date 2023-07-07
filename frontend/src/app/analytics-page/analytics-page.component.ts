@@ -70,7 +70,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
     labels: ['Low', 'Medium', 'High'],
     datasets: [{
       data: [20, 30, 50], // Replace with your actual data
-      backgroundColor: ['green', 'yellow', 'red'], // Set colors for each priority level
+      backgroundColor: [], // Set colors for each priority level
     }]
   };
   
@@ -79,7 +79,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
     labels: ['Open', 'Pending', 'Closed'],
     datasets: [{
       data: [0, 0, 0], // Initialize with no data
-      backgroundColor: ['green', 'yellow', 'red'], // Set colors for each status
+      borderWidth: 0,
     }]
   };
 
@@ -102,7 +102,6 @@ export class AnalyticsPageComponent implements AfterViewInit {
     this.group2AverageTimeToFirstResponse = '45';
     this.group3AverageTimeToFirstResponse = '40';
     this.personalTimeToFirstResponseData = [30, 40, 35, 45, 50, 38, 42];
-    this.timeToTicketResolutionData = [20, 25, 30, 35, 40, 45, 50]; // Mock data for personal "Time to Ticket Resolution"
 
     this.personalLoggedHoursData = [
       { ticketDescription: 'Update personal tasks', timeTaken: '2 hours' },
@@ -128,6 +127,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
       ]
     };
 
+    
     this.setPersonalData();
   }
 
@@ -142,10 +142,12 @@ export class AnalyticsPageComponent implements AfterViewInit {
     this.timeToFirstResponseData = this.personalTimeToFirstResponseData;
     this.loggedHoursData = this.personalLoggedHoursData; // Use personalLoggedHoursData
 
-    this.averageTimeHours = "2";
+    this.averageTimeHours = "02";
     this.averageTimeMinutes = "30";
 
     this.createLineChart();
+
+    this.timeToTicketResolutionData = [20, 25, 30, 35, 40, 45, 50]; // Mock data for personal "Time to Ticket Resolution"
     this.createTimeToTicketResolutionChart();
 
     this.ticketVolumeData = this.personalTicketVolumeData;
@@ -154,6 +156,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
 
     this.createTicketVolumeChart();
     this.createPolarChart();
+    this.createDoughnutChart();
 
   }
 
@@ -284,179 +287,328 @@ export class AnalyticsPageComponent implements AfterViewInit {
   }
 
   createLineChart() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    if (this.lineChart && this.lineChart.nativeElement) {
-      const ctx: CanvasRenderingContext2D = this.lineChart.nativeElement.getContext('2d')!;
-      const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        datasets: [
-          {
-            label: 'Time to First Response',
-            data: this.timeToFirstResponseData,
-            fill: true,
-            backgroundColor: 'rgba(100, 11, 192, 0.2)',
-            borderColor: 'rgba(192, 75, 192, 1)',
-            tension: 0.4
-          }
-        ]
-      };
-      const options = {
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          x: {
-            display: false
-          },
-          y: {
-            display: false
-          }
-        }
-      };
-
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-      });
-    }
+  if (this.chart) {
+    this.chart.destroy();
   }
 
-  createTimeToTicketResolutionChart() {
-    if (this.resolutionChart) {
-      this.resolutionChart.destroy();
-    }
-
-    if (this.timeToTicketResolutionChart && this.timeToTicketResolutionChart.nativeElement) {
-      const ctx: CanvasRenderingContext2D = this.timeToTicketResolutionChart.nativeElement.getContext('2d')!;
-      const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        datasets: [
-          {
-            label: 'Time to Ticket Resolution',
-            data: this.timeToTicketResolutionData,
-            fill: true,
-            backgroundColor: 'rgba(0, 123, 255, 0.5)',
-            borderColor: 'rgba(0, 123, 255, 1)',
-            tension: 0.4
-          }
-        ]
-      };
-      const options = {
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          x: {
-            display: false
-          },
-          y: {
-            display: false
-          }
+  if (this.lineChart && this.lineChart.nativeElement) {
+    const ctx: CanvasRenderingContext2D = this.lineChart.nativeElement.getContext('2d')!;
+    
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(199, 245, 211, 0)'); // Light Green
+    gradient.addColorStop(0.7, 'rgba(199, 245, 211, 0)'); // Light Green
+    
+    const data = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          fillColor : gradient,
+          label: 'Time to First Response',
+          data: this.timeToFirstResponseData,
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: 'rgba(26, 188, 156, 1)', // Solid Green
+          tension: 0.2, // A bit smoother line
+          pointRadius: 5, // Larger points
+          pointHoverRadius: 7, // Even larger points on hover
+          pointBorderColor: '#fff', // White points
+          pointBackgroundColor: 'rgba(26, 188, 156, 1)' // Green points
         }
-      };
-
-      this.resolutionChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-      });
-    }
-  
-  }
-
-  createTicketVolumeChart() {
-    if (this.ticketVolumeChart) {
-      this.ticketVolumeChart.destroy();
-    }
-  
-    if (this.ticketVolumeChartElement && this.ticketVolumeChartElement.nativeElement) {
-      const ctx: CanvasRenderingContext2D = this.ticketVolumeChartElement.nativeElement.getContext('2d')!;
-      const data = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        datasets: [
-          {
-            label: 'Ticket Volume Trend',
-            data: this.ticketVolumeData,
-            fill: true,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            tension: 0.4
-          }
-        ]
-      };
-      const options = {
-        plugins: {
-          legend: {
-            display: true
-          }
-        },
-        scales: {
-          x: {
-            display: true
-          },
-          y: {
-            display: true
-          }
+      ]
+    };
+    const options = {
+      plugins: {
+        legend: {
+          display: false
         }
-      };
-  
-      this.ticketVolumeChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-      });
-    }
-  }
-
-  createDoughnutChart() {
-    const canvas = this.doughnutChartCanvas.nativeElement;
-    const ctx = canvas.getContext('2d');
-
-    this.doughnutChart = new Chart<"doughnut", (number | null)[], string>(ctx, {
-      type: 'doughnut',
-      data: this.doughnutChartData,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-        },
       },
+      scales: {
+        x: {
+          display: false
+        },
+        y: {
+          display: false
+        }
+      }
+    };
+
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
     });
   }
+}
 
-  createPolarChart() {
-    if (this.polarChart) { // If the chart has already been created, update it instead of creating a new one
-      this.polarChart.data = this.polarChartData; // Update the chart's data
-      this.polarChart.update(); // Trigger a re-render of the chart
-    } else { // If the chart hasn't been created yet, create it
-      if (this.polarChartCanvas) {
-        const canvas = this.polarChartCanvas.nativeElement;
-        const ctx = canvas.getContext('2d');
-  
-        this.polarChart = new Chart<"polarArea", (number | null)[], string>(ctx, {
-          type: 'polarArea',
-          data: this.polarChartData,
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'bottom',
-              },
-            },
-          },
-        });
-      }
-    }
+
+createTimeToTicketResolutionChart() {
+  if (this.resolutionChart) {
+    this.resolutionChart.destroy();
   }
 
+  if (this.timeToTicketResolutionChart && this.timeToTicketResolutionChart.nativeElement) {
+    const ctx: CanvasRenderingContext2D = this.timeToTicketResolutionChart.nativeElement.getContext('2d')!;
+    
+    // Create gradient for background
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, 300);
+    bgGradient.addColorStop(0, 'rgba(246, 204, 203, 0)'); // Lighter orange
+    bgGradient.addColorStop(1, 'rgba(246, 204, 203, 0)'); // Darker orange
+
+
+    const data = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Time to Ticket Resolution',
+          data: this.timeToTicketResolutionData,
+          fill: true,
+          backgroundColor: bgGradient, // Gradient background
+          borderColor: 'rgba(255, 91, 91, 0.66)',
+          tension: 0.4,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBorderColor: '#fff',
+          pointBackgroundColor: 'rgba(255, 91, 91, 1)'
+        }
+      ]
+    };
+
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          display: false,
+          grid: {
+            drawBorder: false,
+            display: false
+          },
+          ticks: {
+            display: false
+          }
+        },
+        y: {
+          display: false,
+          grid: {
+            drawBorder: false,
+            color: 'rgba(0,0,0,0.1)',
+            borderDash: [5, 5]
+          },
+          ticks: {
+            display: false
+          }
+        }
+      }
+    };
+
+    this.resolutionChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+  }
+}
+
+
+createTicketVolumeChart() {
+  if (this.ticketVolumeChart) {
+    this.ticketVolumeChart.destroy();
+  }
+
+  if (this.ticketVolumeChartElement && this.ticketVolumeChartElement.nativeElement) {
+    const ctx: CanvasRenderingContext2D = this.ticketVolumeChartElement.nativeElement.getContext('2d')!;
+
+    // Create gradient for background
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    bgGradient.addColorStop(0, 'rgba(123, 64, 242, 0.2)'); // Lighter Purple
+    bgGradient.addColorStop(1, 'rgba(67, 30, 139, 0.2)'); // Darker Purple
+
+    // Create gradient for border
+    const borderGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    borderGradient.addColorStop(0, 'rgba(123, 64, 242, 1)'); // Lighter Purple
+    borderGradient.addColorStop(1, 'rgba(67, 30, 139, 1)'); // Darker Purple
+
+    const data = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Ticket Volume Trend',
+          data: this.ticketVolumeData,
+          fill: true,
+          backgroundColor: bgGradient, // Gradient background
+          borderColor: borderGradient, // Gradient border
+          tension: 0.4,
+          borderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: 'rgba(67, 30, 139, 1)'
+        }
+      ]
+    };
+    
+    const options = {
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            font: {
+              size: 14,
+              weight: 'bold',
+              family: 'Arial'
+            },
+            color: '#666'
+          }
+        }
+      },
+      scales: {
+        x: {
+          display: true,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)',
+            drawBorder: false
+          },
+          ticks: {
+            color: '#666',
+            font: {
+              size: 12
+            }
+          }
+        },
+        y: {
+          display: true,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.05)',
+            drawBorder: false
+          },
+          ticks: {
+            color: '#666',
+            font: {
+              size: 12
+            }
+          }
+        }
+      }
+    };
+
+    this.ticketVolumeChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+  }
+}
+
+
+createDoughnutChart() {
+  if (this.doughnutChart) {
+    this.doughnutChart.data = this.doughnutChartData;
+    this.doughnutChart.update();
+  } else {
+    if (this.doughnutChartCanvas) {
+      const canvas = this.doughnutChartCanvas.nativeElement;
+      const ctx = canvas.getContext('2d');
+
+      // Create three gradient colors
+      const gradientLow = ctx.createLinearGradient(0, 0, 0, 400);
+      gradientLow.addColorStop(0, 'rgba(26, 188, 156, 1)');
+      gradientLow.addColorStop(1, 'rgba(22, 160, 133, 0.4)');
+      
+      const gradientMedium = ctx.createLinearGradient(0, 0, 0, 400);
+      gradientMedium.addColorStop(0, 'rgba(241, 196, 15, 1)');
+      gradientMedium.addColorStop(1, 'rgba(243, 156, 18, 0.4)');
+      
+      const gradientHigh = ctx.createLinearGradient(0, 0, 0, 400);
+      gradientHigh.addColorStop(0, 'rgba(231, 76, 60, 0.8)');
+      gradientHigh.addColorStop(1, 'rgba(192, 57, 43, 0.4)');
+      
+      this.doughnutChartData.datasets[0].backgroundColor = [gradientLow, gradientMedium, gradientHigh];
+
+      this.doughnutChart = new Chart<"doughnut", (number | null)[], string>(ctx, {
+        type: 'doughnut',
+        data: this.doughnutChartData,
+        options: {
+          responsive: true,
+          cutout: '50%', // You can adjust this value to decrease the thickness
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+            }
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          }
+        },
+      });
+    }
+  }
+}
+
+  createPolarChart() {
+      if (this.polarChart) { 
+          this.polarChart.data = this.polarChartData; 
+          this.polarChart.update(); 
+      } else { 
+          if (this.polarChartCanvas) {
+              const canvas = this.polarChartCanvas.nativeElement;
+              const ctx = canvas.getContext('2d');
+
+              const openGradient = ctx.createLinearGradient(0, 0, 0, 400);
+              openGradient.addColorStop(0, 'rgba(46, 204, 113, 0.8)'); // Light Green
+              openGradient.addColorStop(1, 'rgba(39, 174, 96, 0.4)'); // Darker Green
+
+              const pendingGradient = ctx.createLinearGradient(0, 0, 0, 400);
+              pendingGradient.addColorStop(0, 'rgba(241, 196, 15, 0.8)'); // Light Yellow
+              pendingGradient.addColorStop(1, 'rgba(243, 156, 18, 0.4)'); // Darker Yellow
+
+              const closedGradient = ctx.createLinearGradient(0, 0, 0, 400);
+              closedGradient.addColorStop(0, 'rgba(231, 76, 60, 0.8)'); // Light Red
+              closedGradient.addColorStop(1, 'rgba(192, 57, 43, 0.4)'); // Darker Red
+
+              this.polarChartData.datasets[0].backgroundColor = [openGradient, pendingGradient, closedGradient];
+
+              this.polarChart = new Chart<"polarArea", (number | null)[], string>(ctx, {
+                  type: 'polarArea',
+                  data: this.polarChartData,
+                  options: {
+                      responsive: true,
+                      plugins: {
+                          legend: {
+                              position: 'bottom',
+                          },
+                          tooltip: {
+                              backgroundColor: 'rgba(0,0,0,0.7)', // Dark tooltips for contrast
+                              titleColor: 'white',
+                              bodyColor: 'white',
+                          },
+                      },
+                      scales: {
+                          r: {
+                              beginAtZero: true,
+                              grid: {
+                                  color: 'rgba(0, 0, 0, 0.1)', // Dark grid lines for a sleek look
+                              },
+                              ticks: {
+                                  backdropColor: 'rgba(0, 0, 0, 0)', // Hide radial scale backdrop
+                                  color: 'white', // White tick labels for contrast
+                              },
+                          },
+                      },
+                  },
+              });
+          }
+      }
+  }
 }
