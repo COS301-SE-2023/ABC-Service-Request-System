@@ -18,6 +18,12 @@
     <div class="groups-filter-arrow"></div>
   </div>
 
+  <div class="groups-filter-2" [hidden]="filterValue === 'group'">
+    <select>
+      <!-- <option> test</option> -->
+    </select>
+  </div>
+
     <button class="create-group-button" (click) = "openCreateGroupDialog()">
       <div class="button-content">
         <img src="../../assets/create-group.png" alt="create group icon">

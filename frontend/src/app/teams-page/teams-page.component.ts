@@ -35,12 +35,15 @@ export class TeamsPageComponent implements OnInit{
     this.groupService.getGroupNameById(groupId).subscribe(
       (response) => {
         console.log(response);
-        this.groupName = response;
+        console.log(response);
+        console.log(typeof response); // check the type of response
+        // this.groupName = response.groupName;
       },
       (error) => {
         console.log(error);
       }
     );
+
   }
 
   ngOnInit(): void {

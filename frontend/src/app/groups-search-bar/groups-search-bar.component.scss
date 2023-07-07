@@ -36,6 +36,12 @@ select:hover {
   margin-left: 70px;
 }
 
+.groups-filter-2 {
+  flex-grow: 1;
+  margin-left: 70px;
+  opacity: 0;
+}
+
 mat-select {
   width: 100%;
   max-width: 200px;
@@ -128,6 +134,23 @@ mat-select .mat-select-trigger {
 
 .cdk-overlay-dark-backdrop {
   background: rgba(0, 0, 0, 0.606);
+}
+
+.groups-filter-2 select {
+  width: 180px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  font-size: 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  padding-right: 25px;
+    background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+    background-size: 13px 13px;
+  outline: none;
 }
 
 .groups-filter select {
