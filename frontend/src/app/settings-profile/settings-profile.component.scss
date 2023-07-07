@@ -3,8 +3,46 @@
   top: 0;
  }
 
+ .file-input-label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../../assets/pencil.png) no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  margin-left: 880px;
+  margin-top: 10px;
+}
+
+.file-input-label:hover {
+  background-color: #d0d0d0;
+}
+
+
+.file-input {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.profilePicture-input{
+  display: inline;
+  width: 150px;
+  height: 10px;
+  margin-left: 110px;
+  margin-top: 20px;
+ // background: url(../../assets/pencil.png) no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+}
+.profile-input{
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
  .background_img {
-  width: 103.35%;
+  width: 65.35em;
   margin-top: -15px;
   margin-left: -15px;
   height: 180px;
@@ -58,6 +96,8 @@
 label{
   color: black;
   font-family: 'Poppins', sans-serif;
+  margin-top: 0px;
+  font-weight: bold;
 }
 
     h2 {
@@ -79,11 +119,13 @@ label{
 
 
     .profile-picture {
+      width:150px;
+      height:150px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 0px;
-      margin-left: -650px;
+      margin-bottom: -100px;
+      margin-left: -10px;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -91,7 +133,7 @@ label{
     
 
       img {
-        width: 150px;
+        width:  150px;
         height: 150px;
         object-fit: cover;
         border-radius: 50%;
@@ -111,6 +153,7 @@ label{
         position: relative;
 
         label {
+          margin-top: 60px;
           display: block;
           margin-bottom: 5px;
           font-weight: bold;
