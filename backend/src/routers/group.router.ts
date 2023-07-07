@@ -223,6 +223,4 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(500).send({ error: 'Internal server error' });
     }
   }))
-
-
 export default router;

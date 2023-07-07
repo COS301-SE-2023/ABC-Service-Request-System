@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import multer, {Multer} from "multer"
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
+import { groupModel } from "../models/group.model";
 
 const router = Router();
 
@@ -516,5 +517,34 @@ router.post('/:id/add-group', expressAsyncHandler(
         }
     }
 ));
+/* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
+router.post('/add-group-to-users', expressAsyncHandler(
+    async (req, res) => {
+      const groupId = req.body.groupId; // This is actually group._id
+      const userIds = req.body.userIds;
+
+      try {
+        // Find the group using its _id
+        const group = await groupModel.findOne({ _id: groupId });
+
+        if (!group) {
+          res.status(404).send('Group not found');
+          return;
+        }
+        const actualGroupId = group.id;
+        const users = await UserModel.updateMany(
+          { _id: { $in: userIds } },
+          { $push: { groups: actualGroupId } }
+        );
+
+        res.status(201).send(users);
+      }
+      catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred while adding the group to the users");
+      }
+    }  
+));
+
 
 export default router;

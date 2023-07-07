@@ -44,7 +44,10 @@ export class GroupService {
   addGroupToUser(userId: string, groupId: string): Observable<any> {
     return this.http.post<any>(`http://localhost:3000/api/user/${userId}/add-group`, { groupId });
   }
-
+/* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
+  addGroupToUsers(groupId: string, userIds: Array<string>): Observable<any> {
+    return this.http.post<any>(`http://localhost:3000/api/user/add-group-to-users`, { groupId, userIds });
+  }
 
 
   getGroups(): Observable<group[]> {

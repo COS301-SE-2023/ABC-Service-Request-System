@@ -160,11 +160,14 @@ export class GroupsSearchBarComponent implements OnInit {
         ...this.addPeopleForm.value,
         people: Array.isArray(this.addPeopleForm.value.people) ? this.addPeopleForm.value.people : [this.addPeopleForm.value.people],
       };
-      console.log('hello from frontend' + groupData);
       const group = groupData.group;
       const people = groupData.people;
-      this.groupService.addPeopleToGroup(group,people).subscribe(
+      this.groupService.addPeopleToGroup(group, people).subscribe(
         response => {
+          this.groupService.addGroupToUsers(group, people).subscribe({
+            next: () => console.log('Group added to users successfully'),
+            error: error => console.error('Failed to add group to users', error),
+          });
           this.closeAddPeopleDialog();
           this.fetchGroupsAndUsers();
           this.addPeopleForm.reset();
@@ -177,7 +180,8 @@ export class GroupsSearchBarComponent implements OnInit {
     } else {
       this.showValidationAlert();
     }
-  }
+}
+
 
   file: File | null = null;
   preview: SafeUrl | null = null;
