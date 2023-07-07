@@ -55,7 +55,16 @@
           <div class="grid-item grid-item-5">
             <h2>Hours Logged</h2>
             <div class="table-container">
-              <table class="logged-hours-table">
+              <div class="table-item">
+                <div class="item-description">
+                  <p>Update user interface for sy...<p>
+                </div>
+                <div class="line-seperator"></div>
+                <div class="item-duration">
+                  <p>3 <span>HOURS</span><p>
+                </div>
+              </div>
+              <!-- <table class="logged-hours-table">
                 <thead>
                   <tr>
                     <th>Ticket Description</th>
@@ -68,7 +77,7 @@
                     <td>{{ entry.timeTaken }}</td>
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
             </div>
           </div>
 
@@ -78,9 +87,13 @@
             <h2>Time to First Response</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>Average</h3>
+                <h3>AVERAGE</h3>
                 <p class="average">{{ averageTimeToFirstResponse }}</p>
                 <p class="average-unit">MINUTES</p>
+                <div class="graph-badge-green">
+                  <i class="fa-solid fa-arrow-trend-up"></i>
+                  <p id="imp">20.1%</p>
+                </div>
               </div>
               <div class="line-chart-container">
                 <canvas #lineChart class="line-chart"></canvas>
@@ -92,12 +105,19 @@
             <h2>Time to Ticket Resolution</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>Average</h3>
+                <h3>AVERAGE</h3>
                 <div class="average-time">
-                  <p class="average-hours">{{ averageTimeHours }}</p>
+                  <p class="average-hours">24</p>
                   <p class="average-minutes">{{ averageTimeMinutes }}</p>
                 </div>
-                <p class="average-unit">MINUTES</p>
+                <div class="average-units">
+                  <p class="average-unit hour-unit">HOURS</p>
+                  <p class="average-unit minute-unit">MINUTES</p>
+                </div>
+                <div class="graph-badge-red">
+                  <i class="fa-solid fa-arrow-trend-down"></i>
+                  <p id="imp">11.91%</p>
+                </div>
               </div>
               <div class="line-chart-container">
                 <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
@@ -109,7 +129,7 @@
           <!-- Add remaining items -->
           <div class="grid-item grid-item-8">
             <h2>Ticket Volume Trend</h2>
-            <div style="height: 500px; width: 200%;">
+            <div id="chart-wrapper">
               <canvas #ticketVolumeChart></canvas>
             </div>
           </div>

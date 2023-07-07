@@ -2,25 +2,11 @@
   display: flex;
 }
 
-.app-dash-panel {
-  /* Add your styles for the sidebar here */
-  /* Example: */
-  width: 250px;
-  height: 100vh;
-  background-color: #e8e8e8;
-}
 
 .main-content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-}
-
-.app-page-header {
-  /* Add your styles for the header here */
-  /* Example: */
-  height: 50px;
-  background-color: #e8e8e8;
 }
 
 .analytics-page {
@@ -75,11 +61,10 @@
 
 .grid-item {
   position: relative; /* Add position relative */
-  background-color: #e8e8e8;
-  border: 1px solid #333;
+  border: 2px solid rgba(0, 0, 0, 0.2);
   padding: 1rem;
-  border: 1px solid grey;
-  border-radius: 10px;
+  border-radius: 0.7em;
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.24);
 }
 
 .grid-item-1,
@@ -92,55 +77,55 @@
 
 .grid-item-5 {
   grid-column: span 2;
-  grid-row: span 6;
+  grid-row: span 4;
 }
 
 .grid-item-6,
 .grid-item-7 {
   grid-column: span 2;
-  grid-row: span 3;
+  grid-row: span 2;
   flex-direction: column;
 }
 
 .grid-item-8 {
   grid-column: span 4;
-  grid-row: span 5;
+  grid-row: span 3;
 }
 
 .grid-item-9,
 .grid-item-10 {
   grid-column: span 2;
-  grid-row: span 5;
+  grid-row: span 2;
 }
 
 .grid-item-11{
   grid-column: span 4;
-  grid-row: span 5;
+  grid-row: span 2;
 }
 
 h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 2em;
+  margin-bottom: 0 !important;
 }
 
 .count {
   position: absolute; /* Add position absolute */
   font-family: 'Poppins', sans-serif;
-  bottom: 50px; /* Adjust the value as per your preference */
-  right: 50px; /* Adjust the value as per your preference */
-  font-size: 100px;
-  color: #b95652;
+  bottom: 0.5em;
+  right: 0.5em;
+  font-size: 6em;
+  color: rgba(255, 91, 91, 0.66);
   font-weight: bold;
 }
 
 .count2 {
   position: absolute; /* Add position absolute */
   font-family: 'Poppins', sans-serif;
-  bottom: 50px; /* Adjust the value as per your preference */
-  right: 50px; /* Adjust the value as per your preference */
-  font-size: 100px;
-  color: hsl(0, 0%, 46%);
+  bottom: 0.5em;
+  right: 0.5em;
+  font-size: 6em;
+  color: rgba(0, 0, 0, 0.66);
   font-weight: bold;
 }
 
@@ -193,42 +178,199 @@ h2 {
 
 .graph-and-average-container {
   display: flex;
-  align-items: flex-start;
+  height: 90%;
 }
 
 .average-container {
-  margin-right: 40px;
+  margin-right: 1em;
+  position: relative;
+  width: 60%;
+  height: fit-content;
+}
+
+.graph-badge-green {
+  background-color: #C7F5D3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 40%;
+  margin-left: 0.5em;
+  transform: translateY(-50%);
+  color: #33663D;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
+.graph-badge-red {
+  background-color: #F6CCCB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  color: #8C2822;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
 }
 
 .line-chart-container {
-  flex-grow: 1;
-  margin-left: 60px;
+  width: 40%;
+  display: flex;
+  align-items: flex-end;
 }
 
 .line-chart {
-  width: 500px;
+  width: 100px;
   height: 450px; /* Adjust the height as desired */
 }
 
 .average-container h3 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 40px;
-  color: hsl(0, 0%, 46%);
-  margin-bottom: 10px; /* Add margin bottom */
+  font-size: 1.7em;
+  color: rgba(0,0,0,0.5);
+  margin-bottom: 0.2em;
 }
 
 .average {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 100px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 6em;
   font-weight: bold;
-  color: #333;
-  margin-top: 50px; /* Add margin top */
+  color: rgba(0,0,0,0.66);
+  margin-top: 0.5em;
 }
 
 .average-unit {
   font-family: 'Montserrat', sans-serif;
-  font-size: 20px;
-  color: #333;
-  margin-top: 35px; /* Adjust margin as needed */
+  font-size: 1.7em;
+  color: rgba(0,0,0,0.5);
+  margin-top: 1.8em;
 }
 
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+
+.table-container {
+  // background-color: pink;
+  height: 90%;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.table-item {
+  background-color: rgba(227, 232, 239, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em;
+  // padding: 2em;
+  border-radius: 0.8em;
+  height: fit-content;
+  position: relative;
+}
+
+.line-seperator {
+  height: 100%;
+  width: 1em;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.item-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5em;
+  color: rgba(0,0,0,0.66);
+  max-width: 70%;
+  
+  p{
+    margin-bottom: 0 !important;
+  }
+}
+
+.item-duration {
+  min-height: fit-content;
+  max-width: 30%;
+
+  p{
+    margin-bottom: 0 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em;
+    color: rgba(0,0,0,0.66);
+    padding: 0.5em;
+    padding-bottom: 0em;
+  }
+
+
+  span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.4em;
+    color: rgba(0,0,0,0.55);
+    text-transform: uppercase;
+  }
+}
+
+.average-time {
+  display: flex;
+  max-width: 70%;
+
+  .average-hours {
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 6em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 50%;
+  }
+
+  .average-minutes {  
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 6em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 40%;
+  }
+}
+
+.average-units{
+  display: flex;
+  max-width: 70%;
+
+  .hour-unit {
+    min-width: 50%;
+  }
+
+  .minute-unit {
+    min-width: 40%;
+  }
+}
+
+#chart-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
