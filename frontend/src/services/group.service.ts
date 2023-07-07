@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { group } from  '../../../backend/src/models/group.model'
 import { user } from  '../../../backend/src/models/user.model'
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +14,40 @@ export class GroupService {
 
   GROUPS_URL = 'http://localhost:3000/api/group';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  createGroup(group: any): Observable<any> {
-    return this.http.post(`${this.GROUPS_URL}/add`, group, { headers: { 'Content-Type': 'application/json' } });
+  uploadFile(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<{ url: string }>(`${this.GROUPS_URL}/upload`, formData);
   }
+
+  createGroup(group1: group) {
+    console.log('in service, group object:');
+    // console.log(group1);
+
+    const groupName = group1.groupName;
+    const backgroundPhoto = group1.backgroundPhoto;
+    const people = group1.people;
+
+    const group2 = {groupName, backgroundPhoto, people};
+    console.log(group2);
+
+    return this.http.post<group>(`${this.GROUPS_URL}/add`, group2)
+    .subscribe(
+      () => {
+        console.log('Group created successfully');
+        // Perform any routing-related operations here
+        this.router.navigate(['/dashboard']); // Example navigation
+      },
+      error => {
+        console.error('Failed to create group', error);
+        // Handle error scenarios
+      }
+    );
+  }
+
 
   getGroups(): Observable<group[]> {
     return this.http.get<group[]>(`${this.GROUPS_URL}`);

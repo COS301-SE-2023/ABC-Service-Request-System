@@ -147,12 +147,13 @@
       </div>
 
       <div class="input-field-group-image">
-        <label>Group Image</label>
-        <input type="file" (change)="onImageSelected($event)" accept="image/*">
+        <label for="backgroundPhoto" class="backgroundPhoto-input-label">
+          <input type="file" id="backgroundPhoto" class="backgroundPhoto" (change)="onFileChange($event)" />
+        </label>
       </div>
 
-      <div class="group-image-preview" *ngIf="createGroupForm.get('groupImage')?.value">
-        <img [src]="createGroupForm.get('groupImage')?.value" alt="Group Image Preview">
+      <div class="group-image-preview" *ngIf="preview">
+        <img [src]="preview" alt="Image Attachment Preview" />
       </div>
 
       <h2>Add people to group</h2>

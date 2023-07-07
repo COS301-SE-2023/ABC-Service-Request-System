@@ -6,8 +6,7 @@ import { group } from '../../../../backend/src/models/group.model'
 import { user } from '../../../../backend/src/models/user.model'
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
-
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-groups-search-bar',
@@ -47,7 +46,7 @@ export class GroupsSearchBarComponent implements OnInit {
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: ['', Validators.required],
-      groupImage: ['../../assets/default.png'],
+      fileInput: [''],
       people: ['', Validators.required],
     });
 
@@ -104,19 +103,29 @@ export class GroupsSearchBarComponent implements OnInit {
         ...this.createGroupForm.value,
         people: Array.isArray(this.createGroupForm.value.people) ? this.createGroupForm.value.people : [this.createGroupForm.value.people],
       };
-      this.groupService.createGroup(groupData)
-        .subscribe(
-          response => {
-            // console.log(response);
-            this.closeCreateGroupDialog();
-            this.createGroupForm.reset();
-          },
-          error => {
-            console.log(error);
-          });
+      console.log(groupData);
+      // console.log('Selected File:', this.file);
+
+      this.groupService.uploadFile(this.file!).subscribe(
+        (result:any) => {
+          const backgroundPhoto = result.url;
+          console.log('background photo link:' + backgroundPhoto);
+          this.addGroup(groupData, backgroundPhoto);
+        },
+        (error: any) => {
+          console.log('Error uploading file', error);
+        }
+      )
+
     } else {
       this.showValidationAlert();
     }
+  }
+
+  addGroup(groupData: any, backgroundPhoto: string): void {
+    groupData.backgroundPhoto = backgroundPhoto;
+    console.log('in add group function, ' + groupData.backgroundPhoto);
+    this.groupService.createGroup(groupData);
   }
 
   showValidationAlert(): void {
@@ -144,6 +153,22 @@ export class GroupsSearchBarComponent implements OnInit {
       )
     } else {
       this.showValidationAlert();
+    }
+  }
+
+  file: File | null = null;
+  preview: SafeUrl | null = null;
+  onFileChange(event: any) {
+    const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
+    this.file = file as File | null;
+
+    console.log('file name' + file.name);
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+
+    } else {
+      this.preview = null;
     }
   }
 

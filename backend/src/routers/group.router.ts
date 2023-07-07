@@ -11,6 +11,23 @@ import { UserModel, user } from "../models/user.model";
 
 const router = Router();
 
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      console.log('in upload router');
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ message: 'File upload error' });
+    }
+});
+
 
 router.get('/', expressAsyncHandler(
     async (req, res) => {
@@ -36,26 +53,28 @@ router.get('/seed', expressAsyncHandler(
 
 router.post('/add', expressAsyncHandler(
     async (req, res) => {
-        try {
-            const groupCount = await groupModel.countDocuments();
-            console.log(req.body.people);
-            const group = new groupModel({
-                id: String(groupCount+1),
-                groupName: req.body.groupName,
-                people: req.body.people
-                // people: req.body.people.map((id: number) => String(id))
+      console.log('in add  router');
 
+      const groupCount = await groupModel.countDocuments();
+      console.log(req.body.people);
+      const group = new groupModel({
+        id: String(groupCount+1),
+        backgroundPhoto: req.body.backgroundPhoto,
+        groupName: req.body.groupName,
+        people: req.body.people
 
-              });
-              console.log(group.groupName);
+      });
 
-              groupModel.create(group);
-              res.status(201).send(group);
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).send("An error occured during group creation");
-        }
+      console.log(group);
+      // console.log(group.groupName);
+      try {
+          groupModel.create(group);
+          res.status(201).send(group);
+      }
+      catch (error) {
+          console.log(error);
+          res.status(500).send("An error occured during group creation");
+      }
     }  
   ));
 
