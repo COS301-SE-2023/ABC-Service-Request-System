@@ -79,7 +79,7 @@
 </div>
 
 <div id="addPeopleDialog" [ngStyle]="{'display': isAddPeopleDialogOpen ? 'block' : 'none'}">
-  <form [formGroup]="createGroupForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="addPeopleForm" (ngSubmit)="onSubmit()">
     <div class="filter-dialog">
       <div class="close-button" tabindex="0" (click)="closeAddPeopleDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
         <img src="../../assets/close.png" alt="Close icon">
@@ -88,7 +88,7 @@
 
       <div class="input-field">
         <label>Group</label>
-        <ng-select formControlName="group" [items]="groups" bindLabel="group" bindValue="id" [searchable]="true">
+        <ng-select formControlName="group" [items]="groups" bindLabel="groupName" bindValue="id" [searchable]="true">
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
             {{ item.groupName }}
           </ng-template>

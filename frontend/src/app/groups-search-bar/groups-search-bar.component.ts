@@ -32,6 +32,12 @@ export class GroupsSearchBarComponent implements OnInit {
       role: 'functional',
       email: ''
     });
+
+    this.addPeopleForm = this.formBuilder.group({
+      group: [null],
+      people: [null],
+    });
+
   }
 
   @Input() openAddPeopleDialogEvent!: EventEmitter<void>;
@@ -92,6 +98,21 @@ export class GroupsSearchBarComponent implements OnInit {
           });
     }
 
+    if (this.addPeopleForm.valid) {
+      const groupData = {
+          group: this.addPeopleForm.value.group,
+          people: Array.isArray(this.addPeopleForm.value.people) ? this.addPeopleForm.value.people : [this.addPeopleForm.value.people],
+      };
+      console.log(groupData);
+      this.groupService.addUsersToGroup(groupData.group, groupData.people)
+          .subscribe(
+              response => {
+                  this.closeAddPeopleDialog();
+              },
+              error => {
+                  console.log(error);
+              });
+    }
   }
 
   @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();

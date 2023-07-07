@@ -2,12 +2,12 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TicketModel } from "../models/ticket.model";
 import { sample_groups } from "../sampleGroups";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-import { UserModel } from "../models/user.model";
+import { UserModel, user } from "../models/user.model";
 
 const router = Router();
 
@@ -144,6 +144,48 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
 
   }));
+
+  router.put('/:groupId/add-users', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const usersToAdd = req.body.usersToAdd;
   
+    console.log('users to add:', usersToAdd);
+  
+    if (!usersToAdd || usersToAdd.length === 0) {
+      res.status(400).send({ message: 'No users provided to be added' });
+      return;
+    }
+  
+    const group = await groupModel.findOne({ id: groupId });
+    if (!group) {
+      res.status(404).send({ message: 'Group not found' });
+      return;
+    }
+  
+    const existingPeople = group.people || [];
+    const updatedPeople = [...existingPeople, ...usersToAdd.map((userId: string | number | mongoose.mongo.BSON.ObjectId | Uint8Array | mongoose.mongo.BSON.ObjectIdLike | undefined) => new Types.ObjectId(userId))];
+  
+    await groupModel.findOneAndUpdate(
+      { id: groupId },
+      { people: updatedPeople },
+      { new: true }
+    );
+  
+    res.status(200).send({ message: 'Users added successfully' });
+  }));
+
+  router.delete("/:groupId/delete", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+  
+    const group = await groupModel.findOne({ id: groupId });
+    if (!group) {
+      res.status(404).send({ message: "Group not found" });
+      return;
+    }
+  
+    await groupModel.deleteOne({ id: groupId });
+    res.status(200).send({ message: "Group deleted successfully" });
+  }));
+
 
 export default router;
