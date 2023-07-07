@@ -19,6 +19,7 @@
     max-height: 40vh;
     max-width: 30vw;
     font-family: 'Poppins', sans-serif;
+    cursor: initial;
 }
 
 // .notification-ui a:after {
@@ -52,12 +53,12 @@
     max-height: 30vh;
     width: 18vw;
     overflow: auto;
+    cursor: pointer;
 }
 
 // Account========================================================================================
 .Account {
     display: flex;
-    cursor: pointer;
     padding-left: 0.8em;
     height: 4em;
     border-radius: 0.5em;
@@ -95,7 +96,6 @@
 // Settings========================================================================================
 .Settings {
     display: flex;
-    cursor: pointer;
     padding-left: 0.8em;
     height: 2em;
     border-radius: 0.5em;
@@ -126,7 +126,6 @@
 // Logout========================================================================================
 .Logout {
     display: flex;
-    cursor: pointer;
     padding-left: 0.8em;
     height: 2em;
     border-radius: 0.5em;
