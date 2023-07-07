@@ -41,6 +41,24 @@ mat-select {
   border-radius: 5px;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+#header-grid {
+  display: flex;
+  grid-template-columns: auto auto auto;
+  grid-gap: 3px;
+  justify-content: space-between;
+}
+
+
+
+
 .create-group-button {
   display: flex;
   border-radius: 10px;

@@ -1,14 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<div class = "groups-header">
+<div class = "groups-header" id="header-grid">
   <div class = "type-filter">
-    <select name="filter" id="filter">
+    <select name="filter" id="filter" #filterElement (change)="handleFilterChange(filterElement.value)">
       <option value="all" selected>All</option>
-      <option value="active">Group</option>
+      <option value="group">Group</option>
     </select>
+
     <div class="groups-filter-arrow"></div>
   </div>
 
-  <div class="groups-filter">
+  <div class="groups-filter" [hidden]="filterValue === 'all'">
     <select #selectElement (change)="onGroupSelected(selectElement.value)">
       <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
     </select>
@@ -17,26 +18,23 @@
     <div class="groups-filter-arrow"></div>
   </div>
 
+    <button class="create-group-button" (click) = "openCreateGroupDialog()">
+      <div class="button-content">
+        <img src="../../assets/create-group.png" alt="create group icon">
+        <span>Create Group</span>
+      </div>
+    </button>
 
+    <button class="add-people-button"  (click) = "openAddPeopleDialog()">
+      <div class="button-content">
+        <img src="../../assets/add-people.png" alt="add people icon">
+        <span>Add People</span>
+      </div>
+    </button>
 
-
-  <button class="create-group-button" (click) = "openCreateGroupDialog()">
-    <div class="button-content">
-      <img src="../../assets/create-group.png" alt="create group icon">
-      <span>Create Group</span>
-    </div>
-  </button>
-
-  <button class="add-people-button"  (click) = "openAddPeopleDialog()">
-    <div class="button-content">
-      <img src="../../assets/add-people.png" alt="add people icon">
-      <span>Add People</span>
-    </div>
-  </button>
-
-  <button class="filter-button" (click)="openFilterDialog()">
-    <img src="../../assets/filter.png" alt="filter icon">
-  </button>
+    <button class="filter-button" (click)="openFilterDialog()">
+      <img src="../../assets/filter.png" alt="filter icon">
+    </button>
 
 </div>
 

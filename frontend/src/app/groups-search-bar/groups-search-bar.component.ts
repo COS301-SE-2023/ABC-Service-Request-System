@@ -21,6 +21,7 @@ export class GroupsSearchBarComponent implements OnInit {
   users: user[] = [];
   groups: group[] = [];
   groupId! : string;
+  filterValue = 'all';
 
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService,private userService: UserService) {
@@ -51,18 +52,6 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
-
-    // this.groupId = '11';
-
-    // this.groupService.getUsersByGroupId(this.groupId).subscribe(
-    //   (response) => {
-    //     this.users = response;
-    //     console.log(this.users);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();
@@ -89,6 +78,12 @@ export class GroupsSearchBarComponent implements OnInit {
     }
   }
 
+  @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
+
+  handleFilterChange(filterValue: string): void {
+    this.filterChanged.emit(filterValue);
+    this.filterValue = filterValue;
+  }
 
   openFilterDialog() {
     this.isFilterDialogOpen = true;

@@ -28,7 +28,7 @@
 </div>
 
 <div class = "management-teams-page-container" *ngIf="authService.isManager()">
-  <app-groups-search-bar (groupSelected)="onGroupSelected($event)"></app-groups-search-bar>
+  <app-groups-search-bar (groupSelected)="onGroupSelected($event)" (filterChanged)="handleFilterChange($event)"></app-groups-search-bar>
   <app-page-header></app-page-header>
   <table class="w-full">
     <thead class="bg-gray border-b-2 border-gray-200">
@@ -46,7 +46,9 @@
         <td class="text-left">{{user.surname}}</td>
         <td class="text-left">{{user.emailAddress}}</td>
         <td class="text-left">{{user.roles}}</td>
-        <td class="text-left text-red-500 hover:underline cursor-pointer">Remove</td>
+        <td class="text-left text-red-500 hover:underline cursor-pointer" tabindex="0"
+  (click)="removeUser(user)" (keyup.enter)="removeUser(user)">Remove</td>
+
       </tr>
     </tbody>
   </table>

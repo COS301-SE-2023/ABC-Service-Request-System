@@ -75,7 +75,57 @@ router.post('/add', expressAsyncHandler(
     res.send(userArray);
     // res.send(group.people);
   }));
+
+  router.get("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const userId = req.params.userId;
+
+    const group = await groupModel.findOne({ id: groupId });
+
+    console.log(group?.people)
+    if (!group) {
+      res.status(404).send({ message: "Group not found" });
+      return;
+    }
+
+    const users = await UserModel.find({ _id: { $in: userId } });
+    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles })); 
+    console.log(userArray);
+    res.send(userArray);
+    // res.send(group.people);
+  }));
+
+
+router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const userEmail = decodeURIComponent(req.params.userEmail); 
+    console.log('user email decoded: ' + userEmail);
+    
+    const group = await groupModel.findOne({ id: groupId });
+    if (!group) {
+      res.status(404).send({ message: "Group not found" });
+      return;
+    }
+    
+    const userToRemove = await UserModel.findOne({ emailAddress: userEmail });
+    if (!userToRemove) {
+      res.status(404).send({ message: 'User not found' });
+      return;
+    }
   
+    const userIndex = group.people!.indexOf(userToRemove._id.toString());
+    console.log('user index ' + userIndex)
+  
+    if (userIndex !== -1) {
+      group.people!.splice(userIndex, 1);
+      await group.save();
+      res.status(200).send({ message: 'User removed successfully' });
+    } else {
+      res.status(404).send({ message: 'User not found in the group' });
+    }
+  }));
+  
+
   
 
 export default router;
