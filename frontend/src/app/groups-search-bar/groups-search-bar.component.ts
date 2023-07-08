@@ -71,7 +71,7 @@ export class GroupsSearchBarComponent implements OnInit {
       this.groups = groups;
     });
 
-    this.fetchGroupsAndUsers();
+    // this.fetchGroupsAndUsers();
   }
 
   closeAllDialogs() {
@@ -87,6 +87,10 @@ export class GroupsSearchBarComponent implements OnInit {
   onOpenAddPeopleDialog(): void {
     console.log('[][][]2');
     this.openAddPeopleDialog();
+  }
+
+  onCreateGroupDialog(): void {
+    this.openCreateGroupDialog();
   }
 
   @Output() groupSelected: EventEmitter<string> = new EventEmitter<string>();
@@ -115,6 +119,7 @@ export class GroupsSearchBarComponent implements OnInit {
             this.closeCreateGroupDialog();
             this.fetchGroupsAndUsers();
             this.createGroupForm.reset();
+            location.reload();
           },
           (error: any) => {
             console.log('Error uploading file', error);
@@ -128,6 +133,7 @@ export class GroupsSearchBarComponent implements OnInit {
         this.closeCreateGroupDialog();
         this.fetchGroupsAndUsers();
         this.createGroupForm.reset();
+        location.reload();
       }
     } else {
       this.showValidationAlert();

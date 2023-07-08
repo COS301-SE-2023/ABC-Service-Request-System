@@ -22,6 +22,10 @@ export class TeamsPageComponent implements OnInit{
 
   userImages: Map<string, string> = new Map();
 
+  isModalVisible = false;
+  // selectedGroup: any = null;
+
+
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private userService: UserService,
     private changeDetector: ChangeDetectorRef) {}
@@ -55,8 +59,6 @@ export class TeamsPageComponent implements OnInit{
 
   }
 
-
-
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(
       (response) => {
@@ -84,6 +86,14 @@ export class TeamsPageComponent implements OnInit{
       });
     }
 
+    this.groupService.getGroups().subscribe(
+      (response) => {
+        this.groups = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 
@@ -107,13 +117,15 @@ export class TeamsPageComponent implements OnInit{
 
   handleFilterChange(filterValue: string): void {
     this.users = [];
+    this.groups = [];
     this.changeDetector.detectChanges();
+    console.log(filterValue);
 
     if (filterValue === 'all') {
       this.filterValue = filterValue;
-      this.userService.getAllUsers().subscribe(
+      this.groupService.getGroups().subscribe(
         (response) => {
-          this.users = response;
+          this.groups = response;
         },
         (error) => {
           console.log(error);
@@ -121,17 +133,43 @@ export class TeamsPageComponent implements OnInit{
       );
     } else if (filterValue === 'group') {
       this.filterValue = filterValue;
-      this.userService.getAllUsers().subscribe(
+      this.groupService.getGroups().subscribe(
         (response) => {
-          this.users = [];
+          this.groups = response;
         },
         (error) => {
           console.log(error);
         }
       );
-
     }
   }
+
+  openDialog(group: group) {
+    this.isModalVisible = true;
+    this.selectedGroup = group;
+  }
+
+
+  removeGroup(group: group): void {
+    this.groupService.deleteGroup(group.id).subscribe(
+      (response) => {
+        this.groups = this.groups.filter(g => g.id !== group.id);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.isModalVisible = false;
+    // this.selectedGroup = null;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+    // this.selectedGroup = null;
+  }
+
+
 
   removeUser(user: user): void {
     console.log('from frontend ' + user.emailAddress);

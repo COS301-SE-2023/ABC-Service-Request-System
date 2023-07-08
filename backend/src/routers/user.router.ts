@@ -73,18 +73,6 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
-router.get('/:id', expressAsyncHandler(
-    async (req, res) => {
-        const user = await UserModel.findById(req.params.id);
-        if (user) {
-            res.send(user);
-        } else {
-            res.status(404).send("User not found");
-        }
-    }
-));
-
-
 //JAIMENS ROUTES//
 
 //RESET PASSWORD TO ACTIVATE ACCOUNT//
@@ -325,6 +313,18 @@ router.post('/activate_account', expressAsyncHandler(
     //   console.log(req.body);
     })
   );
+
+  router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+));
+
 
 //DASH"S ROUTES//
 //UPDATE USER NAME - WORKING
