@@ -22,7 +22,40 @@
   <app-groups-search-bar (groupSelected)="onGroupSelected($event)" (filterChanged)="handleFilterChange($event)" [openAddPeopleDialogEvent]="openAddPeopleDialog"></app-groups-search-bar>
 
   <app-page-header></app-page-header>
-  <table class="w-full">
+  <table class="w-full" *ngIf="filterValue === 'all'">
+    <thead class="bg-gray border-b-2 border-gray-200">
+      <tr>
+        <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Group Name</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Number of Group Members</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Action</th>
+        <th class="w-6 text-sm font-semibold tracking-wide text-left">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of groups" class="odd:bg-white even:bg-slate-200">
+        <td class="pt-3 pb-3 pl-4 text-left">{{group.groupName}}</td>
+        <td class="text-left">{{group.people?.length}}</td>
+        <td class="text-red-500 hover:underline cursor-pointer text-left" tabindex="0"
+          (click)="removeGroup(group)"
+          (keyup.enter)="removeGroup(group)">
+          Remove Group
+        </td>
+        <td class="text-blue-500 hover:underline cursor-pointer text-left" tabindex="0">
+          View analytics
+        </td>
+      </tr>
+      <tr *ngIf="groups.length === 0">
+        <td colspan="5" class="text-center py-4">
+          <div class="empty-state">
+            <p>No groups</p>
+            <!-- <img src="../../assets/add.png" alt="plus-icon" (click)="onCreateGroupDialog()" (keyup.enter)="onCreateGroupDialog()" tabindex="0" class="cursor-pointer"> -->
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="w-full" *ngIf="filterValue === 'group'">
     <thead class="bg-gray border-b-2 border-gray-200">
       <tr>
         <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
@@ -57,8 +90,8 @@
           <td
             class="{{ getActionClasses() }}"
             tabindex="0"
-            (click)="filterValue === 'all' ? viewProfile(user) : removeUser(user)"
-            (keyup.enter)="filterValue === 'all' ? viewProfile(user) : removeUser(user)"
+            (click)="removeUser(user)"
+            (keyup.enter)="removeUser(user)"
             >
             {{ getActionText() }}
           </td>
@@ -66,3 +99,12 @@
     </tbody>
   </table>
 </div>
+
+<!-- <div class="modal" *ngIf="isModalVisible">
+  <div class="modal-content">
+    <h2>Remove Group</h2>
+    <p>Are you sure you want to remove the group '{{selectedGroup?.groupName}}'?</p>
+    <button (click)="removeGroup(selectedGroup)">Yes</button>
+    <button (click)="closeModal()">No</button>
+  </div>
+</div> -->
