@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class = "management-teams-page-container" *ngIf="authService.isManager()">
+<div class = "management-teams-page-container" *ngIf="authService.isManager() || authService.isAdmin()">
   <app-groups-search-bar (groupSelected)="onGroupSelected($event)" (filterChanged)="handleFilterChange($event)" [openAddPeopleDialogEvent]="openAddPeopleDialog"></app-groups-search-bar>
 
   <app-page-header></app-page-header>
