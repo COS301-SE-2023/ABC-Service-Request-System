@@ -65,3 +65,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-color: grey;
   border-radius: 8px;
 }
+
+div.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.widen {
+  width: 94% !important;
+}

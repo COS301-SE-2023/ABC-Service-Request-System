@@ -1,9 +1,10 @@
 .ticket-container {
   background-color: white;
-  width: 78%;
+  width: 82%;
   float: right;
   padding: 1.5em;
   margin-top: 60px;
+  transition: all 300ms;
 
   h1{
     text-transform: capitalize;
@@ -73,6 +74,29 @@
           background-color: #d0d0d0;
         }
 
+        .attachment-preview {
+          display: flex;
+          flex-direction: column;
+          // align-items: center;
+          margin-top: 1em;
+          border-radius: 1em;
+          border: 2px dashed black;
+          padding: 2em;
+          margin-bottom: 2em;
+        }
+
+        .attachment-preview img {
+          max-width: 200px;
+          max-height: 200px;
+          margin-bottom: 0.5em;
+        }
+
+        .attachment-filename {
+          width: 200px;
+          padding: 0.5em;
+          box-sizing: border-box;
+        }
+
 
 
         .note-button-area{
@@ -108,25 +132,6 @@
             }
           }
 
-          .attachment-preview {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 1em;
-          }
-
-          .attachment-preview img {
-            max-width: 200px;
-            max-height: 200px;
-            margin-bottom: 0.5em;
-          }
-
-          .attachment-filename {
-            width: 200px;
-            padding: 0.5em;
-            box-sizing: border-box;
-          }
-
           // .pdf-preview {
           //   // display: flex;
           //   max-width: 400px;
@@ -158,7 +163,7 @@
           width: 100%;
           display: flex;
           justify-content: flex-end;
-          margin-bottom: 2em;
+          margin-bottom: 0.5em;
         }
 
         .save-btn{
@@ -213,7 +218,7 @@
       border: 1px solid black;
       padding: 1em;
       border-radius: 1em;
-      width: 30%;
+      width: 35%;
       height: fit-content;
       position: sticky;
       right: 0;
@@ -240,6 +245,12 @@
 
       .update-status-button:hover {
         background-color: deepskyblue;
+      }
+
+      .sla-area {
+        .expansion-item {
+          font-family: 'Poppins';
+        }
       }
     }
   }
@@ -429,4 +440,42 @@ mat-expansion-panel-header.mat-expanded,
 
 ::ng-deep .custom-snackbar .mat-snack-bar-action {
   color: #479abb; /* Set the action color */
+}
+
+.expansion-item{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  font-family: 'Poppins';
+  padding-bottom: 0.2em;
+
+  p{
+    margin: 0;
+  }
+}
+
+.expansion-item:nth-last-child(1){
+  margin-bottom: 0.7em;
+}
+
+.expansion-item p:nth-last-child(1){
+  min-width: 50%;
+  padding: 0.7em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i{
+    margin-left: 0.5em;
+  }
+}
+
+.bold-label{
+  font-weight: 500;
+}
+
+app-user-dropdown{
+  width: 80%;
+  margin-left: 2em;
 }

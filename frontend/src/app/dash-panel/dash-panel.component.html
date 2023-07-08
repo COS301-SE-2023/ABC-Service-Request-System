@@ -1,15 +1,70 @@
-<div class = "sidenav">
+<div class = "sidenav {{isCollapsed === true ? 'collapsed-menu' : ''}}">
   <div class="project-header">
     <!-- <div class="project-icon"></div>
     <h2>Nedbank Mobile Application</h2> -->
   </div>
 
   <div class="nav-items">
-    <button (click)="openDashboard()" class="view-tickets"><img src="/assets/ticket.png" alt="ticket">Tickets</button>
-    <button class="view-teams" (click) = "openTeams()"><img src="/assets/follower.png" alt="teams">Teams</button>
-    <button class="view-analytics" (click)="openAnalytics()"><img src="/assets/data-analytics.png" alt="analytics">Analytics</button>
-    <button *ngIf="authService.isAdmin() || authService.isManager()" class="creat-account" (click)="openCreateAccount()"><img src="/assets/add-user.png" alt="createAccount">Create Account</button>
-    <button class="view-settings" (click)="openSettings()"><img src="/assets/settings.png" alt="settings">Settings</button>
-    <button *ngIf="authService.isAdmin() || authService.isManager()" (click)="openNewTicketForm()" class="add-ticket-button">Add new ticket</button>
+    <div class="collapse-button">
+      <div class="inner-collapse-button">
+        <button (click)="toggleCollapse()">
+          <i *ngIf="isCollapsed === false" class="fa-solid fa-angles-left"></i>
+          <i *ngIf="isCollapsed === true" class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="project-header">
+      <div class="project-logo"></div>
+      <!-- <p>Nedbank Mobile Application</p> -->
+    </div>
+
+    <div class="button-wrapper active">
+      <button (click)="openDashboard()" class="view-tickets">
+        <i class="fa-regular fa-ticket"></i>
+        <span>Tickets</span>
+      </button>
+      <div class="active-background"></div>
+    </div>
+
+    <div class="button-wrapper">
+      <button (click) = "openTeams()" class="view-teams">
+        <i class="fa-solid fa-user-group"></i>
+        <span>Groups</span>
+      </button>
+      <div class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper">
+      <button (click)="openAnalytics()" class="view-analytics">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>Analytics</span>
+      </button>
+      <div class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper">
+      <button *ngIf="authService.isAdmin() || authService.isManager()" class="creat-account" (click)="openCreateAccount()">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>Create Account</span>
+      </button>
+      <div class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper">
+      <button *ngIf="authService.isAdmin() || authService.isManager()" (click)="openNewTicketForm()" class="add-ticket-button">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>Add Ticket</span>
+      </button>
+      <div class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper">
+      <button class="view-settings" (click)="openSettings()">
+        <i class="fa-solid fa-gear"></i>
+        <span>Profile</span>
+      </button>
+      <div class="inactive-background"></div>
+    </div>
   </div>
 </div>

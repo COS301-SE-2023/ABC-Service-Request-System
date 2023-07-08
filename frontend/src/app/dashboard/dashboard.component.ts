@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
 import { AuthService } from '../../services/auth.service';  // Modify the path based on your actual file structure
+import { NavbarService } from 'src/services/navbar.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   tickets = tickets;
   searchTerm = '';
   filteredTickets = this.tickets;
@@ -17,7 +18,15 @@ export class DashboardComponent {
   showUpdateForm = false;
   oldAsignee = '';
 
-  constructor(private router: Router, public authService: AuthService) {}
+  navbarIsCollapsed!: boolean;
+
+  constructor(private router: Router, public authService: AuthService, public navbarService: NavbarService) {}
+
+  ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+  }
 
   openNewTicketForm() {
     if (this.authService.isAdmin() || this.authService.isManager()) {  // Only Admin and Manager can open a new ticket form

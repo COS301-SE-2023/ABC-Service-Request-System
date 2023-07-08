@@ -1,26 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
+import { NavbarService } from 'src/services/navbar.service';
+
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
   styleUrls: ['./create-account.component.scss']
 })
-export class CreateAccountComponent {
-  
+export class CreateAccountComponent implements OnInit{
+
   tickets = tickets; // declare tickets
   showForm = false; // To control the ticket form visibility
   createUserForm: FormGroup;
   errorMessage!: string; // Add definite assignment assertion (!)
+  navbarIsCollapsed!: boolean;
+  selected = 'client';
+
+  clientStage = 0;
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public navbarService: NavbarService
   ) {
     this.createUserForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -29,6 +36,12 @@ export class CreateAccountComponent {
       emailAddress: ['', [Validators.required, Validators.email]],
       roles: ['', Validators.required],
       groups: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
     });
   }
 
@@ -79,5 +92,13 @@ export class CreateAccountComponent {
 
   navigateToDashboard() {
     this.router.navigate(['/dashboard']);
+  }
+
+  incrementClientStage(){
+    this.clientStage++;
+  }
+
+  decrementClientStage(){
+    this.clientStage--;
   }
 }
