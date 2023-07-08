@@ -15,6 +15,7 @@ import { SettingsNotificationsComponent } from './settings-notifications/setting
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
 import { TeamsPageComponent } from './teams-page/teams-page.component';
+import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
  // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
+  { path: 'analytics-page', component: AnalyticsPageComponent},
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
   { path: 'settings', component: SettingsGeneralComponent },

@@ -36,4 +36,9 @@ export class DashPanelComponent {
   openTeams() {
     this.router.navigate(['/teams']);
   }
+
+  openAnalytics(){
+    console.log("analytics page called");
+    this.router.navigate(['/analytics-page']);
+  }
 }

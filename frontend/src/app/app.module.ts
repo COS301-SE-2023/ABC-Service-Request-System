@@ -38,6 +38,7 @@ import { NotificationsPanelComponent } from './notifications-panel/notifications
 import { NotificationItemComponent } from './notification-item/notification-item.component';
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -52,9 +53,12 @@ import { GroupTabletComponent } from './group-tablet/group-tablet.component';
 import { UserTabletComponent } from './user-tablet/user-tablet.component';
 import { GroupsSearchBarComponent } from './groups-search-bar/groups-search-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
+    AnalyticsPageComponent,
     LoginPageComponent,
     DashPanelComponent,
     PageHeaderComponent,
@@ -78,9 +82,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     GroupTabletComponent,
     UserTabletComponent,
     GroupsSearchBarComponent,
+    AnalyticsPageComponent,
   ],
   imports: [
     BrowserModule,
+    NgChartsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

@@ -1,0 +1,154 @@
+<div class="app-container">
+  <app-dash-panel></app-dash-panel>
+  <div class="main-content">
+    <app-page-header></app-page-header>
+    <div class="analytics-page">
+      <div class="analytics-content">
+        <h1 class="page-title">Analytics</h1>
+
+        <div class="dropdown-container">
+          <label for="analytics-type">Select Analytics:</label>
+          <select id="analytics-type" [(ngModel)]="selectedAnalyticsType" (change)="onAnalyticsTypeChange()">
+            <option value="personal">Personal</option>
+            <option value="group">Group</option>
+          </select>
+
+          <div *ngIf="selectedAnalyticsType === 'group'" class="group-dropdown">
+            <label for="group-analytics">Select Group:</label>
+            <select id="group-analytics" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+              <option value="group1">Group 1</option>
+              <option value="group2">Group 2</option>
+              <option value="group3">Group 3</option>
+              <!-- Add more group options as needed -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <!-- Total Tickets -->
+          <div class="grid-item grid-item-1">
+            <h2>Overdue Tickets</h2>
+            <p class="count">{{ overdueTicketsCount }}</p>
+          </div>
+
+          <!-- Tickets by Priority -->
+          <div class="grid-item grid-item-2">
+            <h2>Tickets Due Today</h2>
+            <p class="count2">{{ ticketsDueTodayCount }}</p>
+            <!-- Contents... -->
+          </div>
+
+          <!-- Tickets by Status -->
+          <div class="grid-item grid-item-3">
+            <h2>Open Tickets</h2>
+            <p class="count2">{{ openTicketsCount }}</p>
+          </div>
+
+          <!-- Distribution of Tickets -->
+          <div class="grid-item grid-item-4">
+            <h2>Pending Tickets</h2>
+            <p class="count">{{ pendingTicketsCount }}</p>
+            <!-- Contents... -->
+          </div>
+
+          <!-- Time and Expenses -->
+          <div class="grid-item grid-item-5">
+            <h2>Hours Logged</h2>
+            <div class="table-container">
+              <div class="table-item">
+                <div class="item-description">
+                  <p>Update user interface for sy...<p>
+                </div>
+                <div class="line-seperator"></div>
+                <div class="item-duration">
+                  <p>3 <span>HOURS</span><p>
+                </div>
+              </div>
+              <!-- <table class="logged-hours-table">
+                <thead>
+                  <tr>
+                    <th>Ticket Description</th>
+                    <th>Time Taken</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let entry of loggedHoursData">
+                    <td>{{ entry.ticketDescription }}</td>
+                    <td>{{ entry.timeTaken }}</td>
+                  </tr>
+                </tbody>
+              </table> -->
+            </div>
+          </div>
+
+          <!-- Ticket Lifecycle -->
+          <!-- Time to First Response -->
+          <div class="grid-item grid-item-6">
+            <h2>Time to First Response</h2>
+            <div class="graph-and-average-container">
+              <div class="average-container">
+                <h3>AVERAGE</h3>
+                <p class="average">{{ averageTimeToFirstResponse }}</p>
+                <p class="average-unit">MINUTES</p>
+                <div class="graph-badge-green">
+                  <i class="fa-solid fa-arrow-trend-up"></i>
+                  <p id="imp">20.1%</p>
+                </div>
+              </div>
+              <div class="line-chart-container">
+                <canvas #lineChart class="line-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- Participation -->
+          <div class="grid-item grid-item-7">
+            <h2>Time to Ticket Resolution</h2>
+            <div class="graph-and-average-container">
+              <div class="average-container">
+                <h3>AVERAGE</h3>
+                <div class="average-time">
+                  <p class="average-hours">{{averageTimeHours}}</p>
+                  <p class="average-minutes">{{ averageTimeMinutes }}</p>
+                </div>
+                <div class="average-units">
+                  <p class="average-unit hour-unit">HOURS</p>
+                  <p class="average-unit minute-unit">MINUTES</p>
+                </div>
+                <div class="graph-badge-red">
+                  <i class="fa-solid fa-arrow-trend-down"></i>
+                  <p id="imp">11.91%</p>
+                </div>
+              </div>
+              <div class="line-chart-container">
+                <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+
+          <!-- Add remaining items -->
+          <div class="grid-item grid-item-8">
+            <h2>Ticket Volume Trend</h2>
+            <div id="chart-wrapper">
+              <canvas #ticketVolumeChart></canvas>
+            </div>
+          </div>
+
+          <div class="grid-item grid-item-9">
+            <h2>Tickets by Priority</h2>
+            <div style="display: flex; justify-content: center;">
+              <canvas #doughnutChartByPriorityCanvas></canvas>
+            </div>
+          </div>
+          <div class="grid-item grid-item-10">
+            <h2>Tickets by Status</h2>
+            <div style="display: flex; justify-content: center;">
+              <canvas #polarChartCanvas></canvas>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
