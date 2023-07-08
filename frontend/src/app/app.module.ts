@@ -55,6 +55,9 @@ import { GroupsSearchBarComponent } from './groups-search-bar/groups-search-bar.
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgChartsModule } from 'ng2-charts';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,6 +109,8 @@ import { NgChartsModule } from 'ng2-charts';
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
+    NgSelectModule,
+    NgxMatSelectSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

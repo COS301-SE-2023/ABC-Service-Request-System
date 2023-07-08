@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import multer, {Multer} from "multer"
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
+import { groupModel } from "../models/group.model";
 
 const router = Router();
 
@@ -69,6 +70,17 @@ router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await UserModel.deleteMany({});
         res.send("Delete is done!");
+    }
+));
+
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
     }
 ));
 
@@ -491,4 +503,48 @@ router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler
         }
     }
 ));
+
+router.post('/:id/add-group', expressAsyncHandler(
+    async (req, res) => {
+        const groupId = req.body.groupId;
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            user.groups.push(groupId);
+            const updatedUser = await user.save();
+            res.send(updatedUser);
+        } else {
+            res.status(404).send({ message: 'User Not Found' });
+        }
+    }
+));
+/* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
+router.post('/add-group-to-users', expressAsyncHandler(
+    async (req, res) => {
+      const groupId = req.body.groupId; // This is actually group._id
+      const userIds = req.body.userIds;
+
+      try {
+        // Find the group using its _id
+        const group = await groupModel.findOne({ _id: groupId });
+
+        if (!group) {
+          res.status(404).send('Group not found');
+          return;
+        }
+        const actualGroupId = group.id;
+        const users = await UserModel.updateMany(
+          { _id: { $in: userIds } },
+          { $push: { groups: actualGroupId } }
+        );
+
+        res.status(201).send(users);
+      }
+      catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred while adding the group to the users");
+      }
+    }  
+));
+
+
 export default router;

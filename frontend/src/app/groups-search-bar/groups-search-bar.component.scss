@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import 'node_modules/@ng-select/ng-select/themes/default.theme.css';
 
 .groups-header {
   font-family: "Poppins", sans-serif;
@@ -10,6 +11,7 @@
   justify-content: space-between;
   width: 95%;
 }
+
 
 .groups-header select {
   border: none;
@@ -34,11 +36,46 @@ select:hover {
   margin-left: 70px;
 }
 
+.groups-filter-2 {
+  flex-grow: 1;
+  margin-left: 70px;
+  opacity: 0;
+}
+
 mat-select {
   width: 100%;
   max-width: 200px;
   border-radius: 5px;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+#header-grid {
+  display: flex;
+  grid-template-columns: auto auto auto;
+  grid-gap: 3px;
+  justify-content: space-between;
+}
+
+.group-image-preview {
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.group-image-preview img {
+  max-width: 100%;
+  height: auto;
+}
+
 
 .create-group-button {
   display: flex;
@@ -70,7 +107,38 @@ mat-select {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
 
+.remove-group-button {
+  display: flex;
+  border-radius: 10px;
+  border-color: red;
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-group-image-button {
+  display: flex;
+  border-radius: 10px;
+
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -87,6 +155,16 @@ mat-select .mat-select-trigger {
 }
 
 .add-people-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.remove-group-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.update-group-image-button img {
   width: 24px;
   height: 24px;
 }
@@ -110,6 +188,23 @@ mat-select .mat-select-trigger {
   background: rgba(0, 0, 0, 0.606);
 }
 
+.groups-filter-2 select {
+  width: 180px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  font-size: 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  padding-right: 25px;
+    background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+    background-size: 13px 13px;
+  outline: none;
+}
+
 .groups-filter select {
   width: 180px;
   height: 40px;
@@ -127,7 +222,20 @@ mat-select .mat-select-trigger {
   outline: none;
 }
 
-#filterDialog, #addPeopleDialog, #createGroupDialog {
+#filterDialog {
+  display: none;
+  position: fixed;
+  // z-index: 1;
+  left:0;
+  top:0;
+  // margin-left: 600px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+ #addPeopleDialog, #createGroupDialog {
   display: none;
   position: fixed;
   z-index: 1;
@@ -148,6 +256,78 @@ mat-select .mat-select-trigger {
   max-width: 345px;
   border-radius: 10px;
   position: relative;
+}
+
+.input-field-group-people {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field-group-people label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field-group-people input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-people select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-people select option.placeholder {
+  display: none;
+}
+
+.input-field-group-people select option[disabled].placeholder {
+  display: block;
+  color: #999;
+}
+
+.input-field-group-name {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field-group-name label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field-group-name input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-name select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-name select option.placeholder {
+  display: none;
+}
+
+.input-field-group-name select option[disabled].placeholder {
+  display: block;
+  color: #999;
 }
 
 .input-field {
@@ -236,7 +416,9 @@ mat-select .mat-select-trigger {
 }
 
 .create-group-button,
-.add-people-button {
+.add-people-button,
+.remove-group-button,
+.update-group-image-button {
   border: 1px solid grey;
   border-radius: 4px;
   background-color: white;
@@ -248,19 +430,25 @@ mat-select .mat-select-trigger {
 }
 
 .create-group-button:hover,
-.add-people-button:hover {
+.add-people-button:hover,
+.remove-group-button:hover,
+.update-group-image-button:hover {
   opacity: 0.8;
 }
 
 .create-group-button .button-content,
-.add-people-button .button-content {
+.add-people-button .button-content,
+.remove-group-button .button-content,
+.update-group-image-button .button-content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .create-group-button .button-content span,
-.add-people-button .button-content span {
+.add-people-button .button-content span,
+.remove-group-button .button-content span,
+.update-group-image-button .button-content span{
   margin-left: 8px;
 }
 
@@ -274,7 +462,7 @@ mat-select .mat-select-trigger {
   // padding: 0.5em 1em;
   border: none;
   border-radius: 4px;
-  background-color: rgb(1, 128, 218);;
+  background-color: rgb(1, 128, 218);
   color: white;
   cursor: pointer;
   transition: all 0.3s;
@@ -284,6 +472,112 @@ mat-select .mat-select-trigger {
   height: 40px;
 }
 
+.create-group-button-2 {
+  background-color: rgb(1, 128, 218);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 800px;
+  margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+}
+
+.add-new-user-button {
+  background-color: rgb(206, 206, 206);
+  border: none;
+  border-radius: 4px;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 150px;
+  // margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.create-group-button-2:hover {
+  opacity: 0.8;
+}
+
+
 .create-user-button:hover {
   opacity: 0.8;
+}
+
+
+.input-field-group-people {
+  margin-bottom: 1em;
+  border-color: black;
+  border: 5px;
+}
+
+.input-field-group-people label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.ng-select {
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px;
+  padding: 0.5em;
+
+  .ng-select-container {
+    border: none; /* Remove default container border */
+    background-color: #f8f8f8;
+  }
+
+  .ng-dropdown-panel {
+    background-color: #d61010; /* Set background color */
+    border: 1px solid #ccc; /* Add border */
+  }
+}
+
+.ng-select-container {
+  .ng-option {
+    background-color: #f8f8f8;
+    border: none;
+  }
+  .ng-option.selected {
+    background-color: #ddd;
+  }
+  .ng-option.highlighted {
+    background-color: #ccc;
+  }
+}
+
+::ng-deep .ng-dropdown-panel {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-left: -6px;
+}
+
+::ng-deep .ng-option {
+  background-color: #ffffff;
+  width: 300px;
+  margin-left: 5px;
+  margin-top: 5px;
+  font-size: medium;
+}
+
+::ng-deep .ng-option:hover {
+  background: #ade7ff;
+  opacity: 0.8;
+  font-size: large;
+}
+
+::ng-deep .ng-option.selected {
+  background-color: #920c0c;
+}
+
+::ng-deep .ng-option.highlighted {
+  background-color: #710b0b;
 }
