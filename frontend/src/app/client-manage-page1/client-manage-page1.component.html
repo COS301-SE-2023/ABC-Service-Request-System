@@ -2,25 +2,35 @@
   <h1>Edit Client Information</h1> <br>
   <p>Choose a client to edit their information.</p>
 
-  <div class="select-btn">
-    <span class="sBtn-text">Select your options</span>
+  <label for="">Organisation</label>
+  <div class="select-btn" class="select-btn" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()">
+    <span *ngIf="!selectedOption" class="sBtn-text"></span>
+    <span *ngIf="selectedOption" class="sBtn-text">{{ selectedOption }}</span>
     <i class="fa-solid fa-chevron-down"></i>
   </div>
 
-  <ul class="options">
-    <li class="option">
+  <ul class="options" *ngIf="isDropDownOpen">
+    <li class="option"  tabindex="1" (click)="selectOption(optionText1.textContent)" (keyup)="selectOption(optionText1.textContent)">
         <div class="user-img"></div>
         <span class="option-text" #optionText1>Epi-Use Africa</span>
     </li>
 
-    <li class="option">
+    <li class="option" tabindex="2" (click)="selectOption(optionText2.textContent)" (keyup)="selectOption(optionText2.textContent)">
       <div class="user-img"></div>
       <span class="option-text" #optionText2>Johns Carpets</span>
     </li>
 
-    <li class="option" tabindex="3">
+    <li class="option" tabindex="3" (click)="selectOption(optionText3.textContent)" (keyup)="selectOption(optionText3.textContent)">
       <div class="user-img"></div>
       <span class="option-text" #optionText3>Sam's Works</span>
     </li>
+
+    <li class="option" tabindex="3" (click)="selectOption(optionText4.textContent)" (keyup)="selectOption(optionText4.textContent)">
+      <div class="user-img"></div>
+      <span class="option-text" #optionText4>Nedbank</span>
+    </li>
   </ul>
+
+  <button class="continue-btn" (click)="onContinueClicked()">Continue</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
 </div>

@@ -1,0 +1,99 @@
+<div class="container">
+  <h1>Client Accounts</h1> <br>
+
+  <table class="w-full table-fixed">
+    <thead>
+      <tr>
+        <th class="w-1/5 py-2 text-left">Name</th>
+        <th class="w-1/5 py-2 text-left">Surname</th>
+        <th class="w-2/5 py-2 text-left">Email</th>
+        <th class="w-1/5 py-2 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="py-2">Ashir</td>
+        <td class="py-2">Butt</td>
+        <td class="py-2">ashirb@gmail.com</td>
+        <td class="py-2 text-red-600 text-right">
+          <button class="underline">Remove</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="py-2">Priyul</td>
+        <td class="py-2">Mahabeer</td>
+        <td class="py-2">priyul20@gmail.com</td>
+        <td class="py-2 text-red-600 text-right">
+          <button class="underline">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="add-btn">Add</button> <br>
+
+  <h2>Projects</h2>
+
+  <table class="w-full table-fixed">
+    <thead>
+      <tr>
+        <th class="w-1/5 py-2 text-left"></th>
+        <th class="w-3/5 py-2 text-left">Project Name</th>
+        <th class="w-1/5 py-2 text-center">Action</th>
+        <th class="w-1/5 py-2 text-right">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="py-2">
+          <div class="project-logo"></div>
+        </td>
+        <td class="py-2">Nedbank Mobile Application</td>
+        <td class="py-2 text-sky-600 text-center">
+          <button class="underline" (click)="onEditClicked()">Edit</button>
+        </td>
+        <td class="py-2 text-red-600 text-right">
+          <button class="underline">Remove</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="py-2">
+          <div class="project-logo"></div>
+        </td>
+        <td class="py-2">Nedbank Online Portal</td>
+        <td class="py-2 text-sky-600 text-center">
+          <button class="underline" (click)="onEditClicked()">Edit</button>
+        </td>
+        <td class="py-2 text-red-600 text-right">
+          <button class="underline">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="add-btn">Add</button> <br>
+
+  <h2>Assigned Groups</h2>
+
+  <div class="all-groups">
+    <div class="group-tab">
+      <p>Backend</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+
+    <div class="group-tab">
+      <p>Epiuse</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+
+    <div class="group-tab">
+      <p>Service Engineering</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+  </div>
+
+  <button class="add-btn">Add</button> <br>
+
+  <button class="complete-btn" (click)="onCompleteClicked()">Complete</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
+</div>

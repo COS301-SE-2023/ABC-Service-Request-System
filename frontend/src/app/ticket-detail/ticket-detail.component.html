@@ -152,19 +152,33 @@
 
           <div class="expansion-item">
             <p class="bold-label">Assignee </p>
-            <app-user-dropdown></app-user-dropdown>
+            <div class="content">
+              <div class="user-img"></div>
+              <p class="assigned-text">John</p>
+            </div>
           </div>
 
           <div class="expansion-item">
             <p>Assigned </p>
+            <app-user-dropdown></app-user-dropdown>
           </div>
 
-          <div class="expansion-item">
+          <div class="expansion-item flex-start">
             <p>Priority </p>
+            <p class="text-center">
+              <span class="font-medium uppercase tracking-wider ml-8 text-lg priority
+                {{ ticket.priority === 'Low' ? 'text-green-800 bg-green-200' :
+                   ticket.priority === 'Medium' ? 'text-yellow-800 bg-yellow-200' :
+                   ticket.priority === 'High' ? 'text-red-800 bg-red-200' : '' }}
+                rounded-lg">
+                {{ ticket.priority }}
+              </span>
+            </p>
           </div>
 
-          <div class="expansion-item">
+          <div class="expansion-item flex-start">
             <p>Created </p>
+            <p class="left-margin">27 May 2023 &#x2022; 19:28</p>
           </div>
         </mat-expansion-panel>
       </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-client-manage-page1',
@@ -6,10 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./client-manage-page1.component.scss']
 })
 export class ClientManagePage1Component {
-  // selectedOption!: string | null;
-  // isDropDownOpen = false;
+  @Output() backClicked = new EventEmitter<void>();
+  @Output() continueClicked = new EventEmitter<void>();
 
-  // selectOption(text: string | null){
-  //   this.selectedOption = text;
-  // }
+  selectedOption!: string | null;
+  isDropDownOpen = false;
+
+  selectOption(text: string | null){
+    this.selectedOption = text;
+  }
+
+  toggleDropDown(){
+    this.isDropDownOpen = !this.isDropDownOpen;
+  }
+
+  onBackClicked(): void{
+    this.backClicked.emit();
+  }
+
+  onContinueClicked(): void{
+    this.continueClicked.emit();
+  }
 }

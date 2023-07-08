@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>Edit Project</h1> <br>
+
+  <div class="project-information">
+    <div class="project-logo">
+      <div class="hover-bg" [style.opacity]="hovered ? '1' : '0'" (mouseenter)="toggleHover()" (mouseleave)="toggleHover()"></div>
+    </div>
+    <h2>Nedbank Online Portal</h2>
+  </div>
+
+  <table class="w-full table-fixed">
+    <thead>
+      <tr>
+        <th class="w-1/12 py-2 text-left">ID</th>
+        <th class="w-5/12 py-2 text-left">Summary</th>
+        <th class="w-3/12 py-2 text-center">Action</th>
+        <th class="w-3/12 py-2 text-right">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="py-2">2</td>
+        <td class="py-2">Update user interface for system</td>
+        <td class="py-2 underline text-sky-600 text-center">View Details</td>
+        <td class="py-2 underline text-red-600 text-right">Remove</td>
+      </tr>
+      <tr>
+        <td class="py-2">71</td>
+        <td class="py-2">Complete tests</td>
+        <td class="py-2 underline text-sky-600 text-center">View Details</td>
+        <td class="py-2 underline text-red-600 text-right">Remove</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="add-btn">Add</button> <br>
+
+  <button class="complete-btn" (click)="navigateToDashboard()">Dashboard</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
+</div>
