@@ -17,27 +17,29 @@
 
     </div>
   </div> -->
-  <table class="w-full">
-    <thead class="bg-gray border-b-2 border-gray-200">
-      <tr>
-        <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Surname</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Email</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Role</th>
-        <th class="w-6 text-sm font-semibold tracking-wide text-left">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
-          <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
-          <td class="text-left">{{user.surname}}</td>
-          <td class="text-left">{{user.emailAddress}}</td>
-          <td class="text-left">{{user.roles}}</td>
-          <td class="text-left">Test</td>
-
+  <div class = "functional-table">
+    <table class="w-full">
+      <thead class="bg-gray border-b-2 border-gray-200">
+        <tr>
+          <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
+          <th class="w-6 text-sm font-semibold tracking-wide text-left">Surname</th>
+          <th class="w-6 text-sm font-semibold tracking-wide text-left">Email</th>
+          <th class="w-6 text-sm font-semibold tracking-wide text-left">Role</th>
+          <th class="w-6 text-sm font-semibold tracking-wide text-left">Action</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
+            <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
+            <td class="text-left">{{user.surname}}</td>
+            <td class="text-left">{{user.emailAddress}}</td>
+            <td class="text-left">{{user.roles}}</td>
+            <td class="text-blue-500 hover:underline cursor-pointer text-left">View profile</td>
+
+          </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class = "management-teams-page-container" *ngIf="authService.isManager()">
