@@ -92,7 +92,7 @@
   .active-background{
     width: 0.3em;
     height: 60%;
-    background-color: rgb(65, 145, 201);
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
     // background-color: white;
     position: absolute;
     left: 0;
@@ -108,7 +108,7 @@
   .inactive-background{
     width: 0.3em;
     height: 60%;
-    background-color: rgb(65, 145, 201);
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
     // background-color: white;
     position: absolute;
     left: -0.3em;
