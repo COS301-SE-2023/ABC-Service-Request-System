@@ -43,16 +43,16 @@
       <div class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper">
-      <button *ngIf="authService.isAdmin() || authService.isManager()" class="creat-account" (click)="openCreateAccount()">
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" >
+      <button class="creat-account" (click)="openCreateAccount()">
         <i class="fa-solid fa-user-plus"></i>
         <span>Create Account</span>
       </button>
       <div class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper">
-      <button *ngIf="authService.isAdmin() || authService.isManager()" (click)="openNewTicketForm()" class="add-ticket-button">
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()">
+      <button (click)="openNewTicketForm()" class="add-ticket-button">
         <i class="fa-solid fa-circle-plus"></i>
         <span>Add Ticket</span>
       </button>

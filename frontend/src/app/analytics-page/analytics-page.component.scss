@@ -51,7 +51,7 @@
 
 .grid-container {
   display: grid;
-  margin-left: 22%;
+  margin-left: 18%;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: minmax(100px, auto);
   grid-gap: 20px;
@@ -305,7 +305,7 @@ h2 {
   font-size: 1.5em;
   color: rgba(0,0,0,0.66);
   max-width: 70%;
-  
+
   p{
     margin-bottom: 0 !important;
   }
@@ -346,7 +346,7 @@ h2 {
     min-width: 50%;
   }
 
-  .average-minutes {  
+  .average-minutes {
     margin-top: 0.5em;
     font-family: 'Poppins', sans-serif;
     font-size: 6em;
