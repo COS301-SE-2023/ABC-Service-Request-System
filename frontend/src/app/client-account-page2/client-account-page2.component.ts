@@ -7,8 +7,13 @@ import { Component, Output, EventEmitter} from '@angular/core';
 })
 export class ClientAccountPage2Component {
   @Output() backClicked = new EventEmitter<void>();
+  @Output() continueClicked = new EventEmitter<void>();
 
   onBackClicked(): void{
     this.backClicked.emit();
+  }
+
+  onContinueClicked(): void{
+    this.continueClicked.emit();
   }
 }

@@ -47,6 +47,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { ClientAccountPage1Component } from './client-account-page1/client-account-page1.component';
 import { ClientAccountPage2Component } from './client-account-page2/client-account-page2.component';
+import { ClientAccountPage3Component } from './client-account-page3/client-account-page3.component';
+import { ClientAccountPage4Component } from './client-account-page4/client-account-page4.component';
+import { ClientManagePage1Component } from './client-manage-page1/client-manage-page1.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +75,9 @@ import { ClientAccountPage2Component } from './client-account-page2/client-accou
     UserDropdownComponent,
     ClientAccountPage1Component,
     ClientAccountPage2Component,
+    ClientAccountPage3Component,
+    ClientAccountPage4Component,
+    ClientManagePage1Component,
   ],
   imports: [
     BrowserModule,

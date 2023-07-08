@@ -12,8 +12,12 @@
 
   <div class="content-area">
     <div class="content">
-      <app-client-account-page1 (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
-      <app-client-account-page2 (backClicked)="decrementClientStage()" *ngIf="clientStage === 1"></app-client-account-page2>
+      <app-client-account-page1 (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 5"></app-client-account-page1>
+      <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" *ngIf="clientStage === 1"></app-client-account-page2>
+      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" *ngIf="clientStage === 2"></app-client-account-page3>
+      <app-client-account-page4 *ngIf="clientStage === 3"></app-client-account-page4>
+
+      <app-client-manage-page1  *ngIf="clientStage === 0"></app-client-manage-page1>
     </div>
 
     <div class="img">
@@ -21,8 +25,8 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+<!--
+<div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 <h2 class="form-heading">Create Account</h2>
 <div class="create-account-container">
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">
