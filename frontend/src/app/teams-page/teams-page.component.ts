@@ -153,6 +153,7 @@ export class TeamsPageComponent implements OnInit{
   selectGroup(group: group): void {
     this.selectedGroup = group;
     this.onGroupSelected(group.id);
+    // location.reload();
   }
 
 }
