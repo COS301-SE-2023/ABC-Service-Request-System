@@ -14,6 +14,7 @@ import { SettingsGeneralComponent } from './settings-general/settings-general.co
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
   { path: 'settings', component: SettingsProfileComponent },
-  //{ path: 'settings-notifications',component: SettingsNotificationsComponent},
+  { path: 'view-profile',component: ViewProfileComponent},
   //{ path: 'settings-profile',component: SettingsProfileComponent},
   { path: '**', redirectTo: '/login' }, //fallback
   // { path: 'settings-general', component: SettingsGeneralComponent},
