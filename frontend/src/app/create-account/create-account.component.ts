@@ -86,6 +86,10 @@ export class CreateAccountComponent implements OnInit{
     }
   }
 
+  onSelectionChange() {
+    this.clientStage = 0;
+  }
+
   navigateToCreateAccount() {
     this.router.navigate(['/create-account']);
   }
