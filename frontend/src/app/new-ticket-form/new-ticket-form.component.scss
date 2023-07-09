@@ -96,8 +96,19 @@
 }
 
 .ticket-details input {
+  padding: 8px;
   margin-top: 0.5em;
   width: 30vw;
+}
+
+.ticket-details quill-editor {
+  margin-top: 0.5em;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  height: 30vh;
+  width: 30vw;
+  overflow-y: auto;
 }
 
 .ticket-details .descriptionLabel {
@@ -107,23 +118,120 @@
 // ticket information for status and dates of ticket
 .ticket-information {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start;
   padding: 2em 0;
   border-bottom: 1px solid #ccc;
+}
+
+.ticket-information-col1 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+}
+
+.ticket-information-col1 .priorityLabel {
+  margin-top: 1em;
+}
+
+.ticket-information-col1 select,
+.ticket-information-col1 input[type="date"] {
+  margin-top: 0.5em;
+  width: 20vw;
+}
+
+.ticket-information-col1 select option {
+  font-size: 1.2em;
+}
+
+.ticket-information-col2 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+}
+
+.ticket-information-col2 .statusLabel {
+  margin-top: 1em;
+}
+
+.ticket-information-col2 select,
+.ticket-information-col2 input[type="date"] {
+  margin-top: 0.5em;
+  width: 20vw;
+}
+
+.ticket-information-col2 select option {
+  font-size: 1.2em;
 }
 
 // todo
 .todos {
   display: flex;
+  justify-content: flex-start;
   padding: 2em 0;
   border-bottom: 1px solid #ccc;
+}
+
+.todos-col1 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+}
+
+.todos-col2 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+}
+.todos input {
+  margin-top: 0.5em;
+  width: 30vw;
+  height: 30vh;
 }
 
 // assigned Information
 .assignedInformation {
   display: flex;
+  justify-content: flex-start;
   padding: 2em 0;
   border-bottom: 1px solid #ccc;
+}
+
+.assignedInformation .assignedInformation-col1 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+}
+
+.assignedInformation .assignedInformation-col1 select {
+  margin-top: 0.5em;
+  width: 20vw;
+}
+
+.assignedInformation .assignedInformation-col1 option {
+  font-size: 1.2em;
+}
+
+.assignedInformation .groupLabel {
+  margin-top: 1em;
+}
+
+.assignedInformation .assignedInformation-col2 {
+  display: flex;
+  flex-basis: 50%;
+  flex-direction: column;
+  border-left: 1px solid #ccc;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock {
+  margin-left: 1em;
+  padding: 1em;
+  background: rgb(4,83,142);
+  background: linear-gradient(146deg, rgba(4,83,142,1) 0%, rgba(0,196,255,1) 100%);
+  background-clip: padding-box;
+  color: white;
+  height: 40vh;
+  max-height: 40vh;
+  border-radius: 8px;
 }
 
 // css to make asterisk red
@@ -144,5 +252,5 @@
   margin-bottom: 2em;
   color: white;
   justify-content: center;
-  align-content: center;
+  align-items: center;
 }
