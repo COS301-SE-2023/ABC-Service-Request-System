@@ -1,0 +1,143 @@
+.panel{
+    position: absolute;
+    top: 0;
+   }
+  .profilePicture-input{
+    display: inline;
+    width: 10em;
+    height: 0.625em;
+    margin-left: 6.875em;
+    margin-top: 3em;
+   // background: url(../../assets/pencil.png) no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    transition: background-color .3s ease-in-out;
+  }
+   .background_img {
+    width: 66.15em;
+    margin-top: -1.1em;
+    margin-left: -1.1em;
+    height: 11.25em;
+    background-color: #e1e7ed;
+    background: url("https://source.unsplash.com/9wg5jCEPBsw");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-top-left-radius: 1.0625em;
+    border-top-right-radius: 1.0625em;
+  
+    border-color: black;
+  }
+  
+  .image-button {
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    width: 6.25em;
+    height: 6.25em;
+    margin-left: 50em;
+    border: none;
+    cursor: pointer;
+  }
+  
+   .role{
+    display: fixed;
+    width: 9%;
+    padding: 0.3125em 0.625em;
+    border: 0.0625em solid #ccc;
+    background-color: #f2f2f2;
+    border-radius: 0.625em;
+    font-size: 0.875em;
+    border-color: black;
+    margin-right: 1em;
+    margin-top: 1em;
+   }
+  
+  .profile {
+       width: 70%;
+       position: absolute;
+      // //margin: 0 auto;
+       padding: 1.1em;
+       border: 1px solid black;
+       border-radius: 1.25em;
+       margin-left: 25em;
+       background: white;
+       //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
+       margin-top: 4.6875em;
+      // float: center;
+       display: grid;
+  }
+  label{
+    display: inline-block;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+   // margin-top: -5.0em;
+    font-weight: bold;
+  }
+  
+      h2 {
+        margin-bottom: 1.25em;
+        text-align: center;
+        color: black;
+        font-family: 'Poppins', sans-serif;
+      }
+  
+      img {
+        display: inline-block;
+        vertical-align: middle;
+        width: 0.625em; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 0.625em; /* Adjust the margin as needed */
+        margin-left: 0.625em;
+        // border: 0.125em solid white;
+      }
+  
+  
+      .profile-picture {
+        width: 9em;
+        height: 9em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1em;
+        margin-left: -0.625em;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        margin-top: -4em;
+      
+  
+        img {
+          width:  9.375em;
+          height: 9.375em;
+          object-fit: cover;
+          border-radius: 50%;
+          border-color:  white;
+          margin-bottom: 0.625em;
+        }
+
+      }
+  
+      form {
+        .form-group {
+          margin-bottom: 5em;
+          margin-top: -1em;
+          width: 100%;
+          position: relative;
+  
+          label {
+            margin-top: 3.75em;
+            display: inline-block;
+            margin-bottom: 0.3125em;
+            font-weight: bold;
+          }
+  
+        }
+    }
+
+  
+  
+
+
+  
+  
