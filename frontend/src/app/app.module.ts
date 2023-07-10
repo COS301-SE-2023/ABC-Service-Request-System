@@ -39,9 +39,6 @@ import { NotificationItemComponent } from './notification-item/notification-item
 import { CommentPanelComponent } from './comment-panel/comment-panel.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
-// QUILL EDITOR
-import { QuillModule } from 'ngx-quill';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -90,7 +87,6 @@ import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.compo
     MatOptionModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    QuillModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

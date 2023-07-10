@@ -11,24 +11,9 @@ import { UserService } from 'src/services/user.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
-  styleUrls: ['./new-ticket-form.component.scss'],
-  template: 
-    `<quill-editor [(ngModel)]="editorContent" formControlName="description" required></quill-editor>`
+  styleUrls: ['./new-ticket-form.component.scss']
 })
 export class NewTicketFormComponent implements OnInit {
-  editorContent = '';
-  quillConfig = {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strike'],        // formatting buttons
-      ['link', 'blockquote', 'code-block'],              // extra buttons
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'align': [] }],
-      ['clean']                                         // remove formatting button
-    ]
-  };
-
   ticketForm!: FormGroup;
   assigneeName: string;
   allUsers: user[] = [];
