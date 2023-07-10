@@ -1,6 +1,9 @@
 <div class="dashboard-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
-  <app-search-bar (searchEvent)="searchTicket($event)"></app-search-bar>
-  <app-ticket-table (openForm)="openUpdateForm($event)" [tickets]="tickets"></app-ticket-table>
+  <app-search-bar
+  (searchEvent)="searchTicket($event)"
+  (filterChangeEvent)="filterTicketsByStatus($event)"
+></app-search-bar>
+  <app-ticket-table (openForm)="openUpdateForm($event)" [tickets]="filteredTickets"></app-ticket-table>
   <app-update-ticket-modal *ngIf="showUpdateForm" (closeUpdateForm)="closeUpdateForm()" (updateTicketEvent)="updateTicket($event)"></app-update-ticket-modal>
   <app-page-header></app-page-header>
   <app-new-ticket-form *ngIf="showForm" (newTicketEvent)="addNewTicket($event)" (closeForm)="closeForm()"></app-new-ticket-form>

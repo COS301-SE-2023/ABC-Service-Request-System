@@ -6,7 +6,7 @@ export const sample_users: any[] = [
     emailAddress: 'admin@admin.com',
     password: '$2a$10$h//6x2WnHtx9pibRwqKRluhlI.A.uHTAAjpsCQX23DRWtcichXHhy',
     roles: ['Admin'],
-    groups: ['group1', 'group2']
+    groups: ['1', '2']
   },
   // Add more users as needed
 ];

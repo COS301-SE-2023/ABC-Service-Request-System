@@ -4,6 +4,7 @@ import { tickets } from '../data'
 import { Ticket } from '../app.component';
 import { AuthService } from '../../services/auth.service';  // Modify the path based on your actual file structure
 import { NavbarService } from 'src/services/navbar.service';
+import { TicketsService } from 'src/services/ticket.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,14 +18,21 @@ export class DashboardComponent implements OnInit{
   showForm = false;
   showUpdateForm = false;
   oldAsignee = '';
+  allTickets!: any[];
 
   navbarIsCollapsed!: boolean;
 
-  constructor(private router: Router, public authService: AuthService, public navbarService: NavbarService) {}
+  constructor(private router: Router, public authService: AuthService,
+    public navbarService: NavbarService, public ticketService: TicketsService) {}
 
   ngOnInit(): void {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
+    });
+    this.ticketService.getAllTickets().subscribe((tickets) => {
+      this.allTickets = tickets;
+      // Perform filtering here after tickets are fetched
+      this.filterTicketsByStatus(this.currentStatus);
     });
   }
 
@@ -93,4 +101,18 @@ export class DashboardComponent implements OnInit{
   closeUpdateForm(){
     this.showUpdateForm = false;
   }
+
+  currentStatus = 'all';
+  filterTicketsByStatus(status: string): void {
+    this.currentStatus = status;
+    console.log('in function... '+ status);
+    if (status === 'all') {
+      this.filteredTickets = this.allTickets;
+    } else {
+      console.log(this.allTickets);
+      this.filteredTickets = this.allTickets.filter(ticket => ticket.status.toLowerCase() === status);
+      console.log(this.filteredTickets);
+    }
+  }
+
 }

@@ -11,6 +11,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from '../../../../backend/src/models/user.model';
 import { NavbarService } from 'src/services/navbar.service';
+import { comment } from '../../../../backend/src/models/ticket.model';
 
 
 @Component({
@@ -47,7 +48,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   editedAttachmentName: string | null = null;
 
   uploadProgress = 0;
-
+  attachmentsOnly = false;
+  commentsOnly = false;
+  allComments = false;
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -85,8 +88,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-
-
   adjustTextareaHeight(textarea: any) {
     textarea.style.height = 'auto'; // Reset the height to auto to calculate the actual height
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
@@ -105,6 +106,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentUserImage();
+    this.showAll();
+    this.attachmentsOnly = false;
   }
 
 
@@ -123,6 +126,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       }
 
       this.ticket.comments.reverse();
+      this.showAll();
 
       console.log(this.ticket.comments);
       if (this.ticket.comments) {
@@ -252,5 +256,39 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   isCommentValid(comment: any):boolean {
     return comment?.attachment?.name && this.isPDF(comment.attachment.url);
   }
+
+  viewAttachments(): void {
+    this.attachmentsOnly = true;
+  }
+
+  viewAllComments(): void {
+    this.attachmentsOnly = false;
+  }
+
+  displayedComments?: comment[] = [];
+  showAll(): void {
+    this.displayedComments = this.ticket.comments;
+    console.log(this.displayedComments);
+  }
+
+  showAttachmentsOnly(): void {
+    this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
+    console.log(this.displayedComments);
+  }
+
+  showCommentsOnly(): void {
+    this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
+    console.log(this.displayedComments);
+  }
+
+  highlightButton(event: any) {
+
+    const buttons = document.getElementsByClassName('activity-filter-button');
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('selected');
+    }
+    event.target.classList.add('selected');
+  }
+
 
 }

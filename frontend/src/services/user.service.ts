@@ -84,7 +84,9 @@ export class UserService {
     return this.http.post(`${this.LOGIN_URL}/login`, userDetails);
   }
 
-  // other methods...
-}
+  deleteUserGroup(userId: string, groupId: string): Observable<any> {
+    console.log(userId);
+    return this.http.delete(`${this.API_URL}/${userId}/group/${groupId}`);
+  }
 
-//ignore
+}

@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 // import { tickets } from '../data';
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { Router } from '@angular/router';
 
 import { Sort } from '@angular/material/sort';
+import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-ticket-table',
@@ -27,9 +28,7 @@ export class TicketTableComponent implements OnInit{
 
   getTicketsForTable(){
     this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-      this.allTicketsArray = response.sort((a, b) => {
-        return this.comparePriority(a.priority, b.priority, false);
-      });
+      this.allTicketsArray = this.sortTickets(response);
       this.sortedTicketsArray = this.allTicketsArray.slice();
     })
   }
@@ -111,6 +110,17 @@ export class TicketTableComponent implements OnInit{
     const month = parseInt(parts[1], 10) - 1; // Month is zero-based in JavaScript Date
     const year = parseInt(parts[2], 10);
     return new Date(year, month, day);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['tickets']) {
+      this.sortedTicketsArray = this.sortTickets(changes['tickets'].currentValue);
+    }
+  }
+
+  sortTickets(tickets: ticket[]): ticket[] {
+    console.log(tickets);
+    return tickets;
   }
 }
 

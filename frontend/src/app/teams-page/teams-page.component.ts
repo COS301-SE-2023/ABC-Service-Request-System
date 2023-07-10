@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { user } from  '../../../../backend/src/models/user.model'
+import { UserModel, user } from  '../../../../backend/src/models/user.model'
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -151,6 +151,33 @@ export class TeamsPageComponent implements OnInit{
 
 
   removeGroup(group: group): void {
+
+    // if (group.people) {
+    //   for (const user of group.people) {
+    //     const user1 = this.userService.getUserById(user);
+    //     console.log(user1);
+    //     // this.userService.deleteUserGroup(user1.id, group.id).subscribe(
+    //     //   (response) => {
+    //     //     console.log(response);
+    //     //   },
+    //     //   (error:Error) => {
+    //     //     console.log(error);
+    //     //   }
+    //     // );
+    //   }
+    // }
+
+    group.people?.forEach(userId => {
+      this.userService.deleteUserGroup(userId, group.id).subscribe(
+        (response) => {
+          // Handle response
+        },
+        (error: Error) => {
+          console.log(error);
+        }
+      );
+    });
+
     this.groupService.deleteGroup(group.id).subscribe(
       (response) => {
         this.groups = this.groups.filter(g => g.id !== group.id);

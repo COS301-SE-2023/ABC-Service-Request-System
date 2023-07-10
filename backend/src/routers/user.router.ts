@@ -314,18 +314,6 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
-  router.get('/:id', expressAsyncHandler(
-    async (req, res) => {
-        const user = await UserModel.findById(req.params.id);
-        if (user) {
-            res.send(user);
-        } else {
-            res.status(404).send("User not found");
-        }
-    }
-));
-
-
 //DASH"S ROUTES//
 //UPDATE USER NAME - WORKING
 
@@ -520,11 +508,11 @@ router.post('/:id/add-group', expressAsyncHandler(
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
 router.post('/add-group-to-users', expressAsyncHandler(
     async (req, res) => {
-      const groupId = req.body.groupId; // This is actually group._id
+      const groupId = req.body.groupId; // this is actually group._id
       const userIds = req.body.userIds;
 
       try {
-        // Find the group using its _id
+        // find the group using its _id
         const group = await groupModel.findOne({ _id: groupId });
 
         if (!group) {
@@ -534,7 +522,7 @@ router.post('/add-group-to-users', expressAsyncHandler(
         const actualGroupId = group.id;
         const users = await UserModel.updateMany(
           { _id: { $in: userIds } },
-          { $push: { groups: actualGroupId } }
+          { $addToSet: { groups: actualGroupId } }
         );
 
         res.status(201).send(users);
@@ -546,5 +534,33 @@ router.post('/add-group-to-users', expressAsyncHandler(
     }  
 ));
 
+router.delete('/:userId/group/:groupId', expressAsyncHandler(
+    async(req,res) => {
+        const user = await UserModel.findById(req.params.userId);
+        if (user) {
+            const groupIndex = user.groups.indexOf(req.params.groupId);
+            if (groupIndex !== -1) {
+                user.groups.splice(groupIndex,1);
+                const updatedUser = await user.save();
+                res.status(200).send({message: "Group removed from user's groups", user:updatedUser});
+            } else {
+                res.status(404).send({ message: "Group not found in user's groups" });
+            }
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+))
+
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+));
 
 export default router;
