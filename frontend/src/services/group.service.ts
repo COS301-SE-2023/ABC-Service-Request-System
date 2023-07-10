@@ -82,4 +82,10 @@ export class GroupService {
     return this.http.delete(`${this.GROUPS_URL}/${groupId}/delete`)
   }
 
+  getGroupsByUserId( groupId: string): Observable<group> {
+    return this.http.get<group>(`${this.GROUPS_URL}/${groupId}`);
+  }
+  
+  
+  
 }

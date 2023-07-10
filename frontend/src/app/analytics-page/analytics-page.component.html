@@ -8,46 +8,46 @@
 
         <div class="dropdown-container">
           <label for="analytics-type">Select Analytics:</label>
-          <select id="analytics-type" [(ngModel)]="selectedAnalyticsType" (change)="onAnalyticsTypeChange()">
+          <select id="analytics-type" [(ngModel)]="filterValue" (change)="handleFilterChange(filterValue)">
             <option value="personal">Personal</option>
             <option value="group">Group</option>
           </select>
-
-          <div *ngIf="selectedAnalyticsType === 'group'" class="group-dropdown">
+        
+          <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
-            <select id="group-analytics" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
-              <option value="group1">Group 1</option>
-              <option value="group2">Group 2</option>
-              <option value="group3">Group 3</option>
-              <!-- Add more group options as needed -->
+            <select #selectElement (change)="onGroupSelected(selectElement.value)" [value]="selectedGroup">
+              <option value="" disabled selected>Select group</option>
+              <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
             </select>
           </div>
         </div>
+        
+        
 
         <div class="grid-container">
           <!-- Total Tickets -->
           <div class="grid-item grid-item-1">
             <h2>Overdue Tickets</h2>
-            <p class="count">{{ overdueTicketsCount }}</p>
+            <!-- <p class="count">{{ overdueTicketsCount }}</p> -->
           </div>
 
           <!-- Tickets by Priority -->
           <div class="grid-item grid-item-2">
             <h2>Tickets Due Today</h2>
-            <p class="count2">{{ ticketsDueTodayCount }}</p>
+            <!-- <p class="count2">{{ ticketsDueTodayCount }}</p> -->
             <!-- Contents... -->
           </div>
 
           <!-- Tickets by Status -->
           <div class="grid-item grid-item-3">
             <h2>Open Tickets</h2>
-            <p class="count2">{{ openTicketsCount }}</p>
+            <!-- <p class="count2">{{ openTicketsCount }}</p> -->
           </div>
 
           <!-- Distribution of Tickets -->
           <div class="grid-item grid-item-4">
             <h2>Pending Tickets</h2>
-            <p class="count">{{ pendingTicketsCount }}</p>
+            <!-- <p class="count">{{ pendingTicketsCount }}</p> -->
             <!-- Contents... -->
           </div>
 
@@ -88,7 +88,7 @@
             <div class="graph-and-average-container">
               <div class="average-container">
                 <h3>AVERAGE</h3>
-                <p class="average">{{ averageTimeToFirstResponse }}</p>
+                <!-- <p class="average">{{ averageTimeToFirstResponse }}</p> -->
                 <p class="average-unit">MINUTES</p>
                 <div class="graph-badge-green">
                   <i class="fa-solid fa-arrow-trend-up"></i>
@@ -107,8 +107,8 @@
               <div class="average-container">
                 <h3>AVERAGE</h3>
                 <div class="average-time">
-                  <p class="average-hours">{{averageTimeHours}}</p>
-                  <p class="average-minutes">{{ averageTimeMinutes }}</p>
+                  <!-- <p class="average-hours">{{averageTimeHours}}</p>
+                  <p class="average-minutes">{{ averageTimeMinutes }}</p> -->
                 </div>
                 <div class="average-units">
                   <p class="average-unit hour-unit">HOURS</p>

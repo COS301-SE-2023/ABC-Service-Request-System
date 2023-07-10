@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket, attachment } from "../../../backend/src/models/ticket.model";
+import { ticket, attachment, TicketModel } from "../../../backend/src/models/ticket.model";
+import { UserModel } from "../../../backend/src/models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { ticket, attachment } from "../../../backend/src/models/ticket.model";
 
 export class TicketsService {
   TICKET_URL = 'http://localhost:3000/api/ticket';
+  USER_URL: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -44,5 +46,9 @@ export class TicketsService {
     return this.http.put(`${this.TICKET_URL}/updateStatus`, body);
   }
 
-
+  //get pending tickets by userid
+  getPendingTicketsByUserId(userId: string) {
+    return this.http.get(`${this.USER_URL}/pendingTickets/${userId}`);
+  }
+  
 }

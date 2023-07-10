@@ -6,7 +6,10 @@ import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
+import { UserModel } from "../models/user.model";
 
+
+const axios = require('axios');
 
 const router = Router();
 
@@ -174,6 +177,119 @@ router.put('/comment', expressAsyncHandler(
     }
   ));
   
+  router.get('/overdueTickets/:userId', expressAsyncHandler(
+    async (req, res) => {
+        // getting the current date
+        const currentDate = new Date();
+
+        // finding all tickets assigned to the user
+        const assignedTickets = await TicketModel.find({
+            assigned: req.params.userId,
+            status: {$ne: "Done"}
+        });
+
+        // filter the tickets to find which are overdue
+        const overdueTickets = assignedTickets.filter(ticket => {
+            const [day, month, year] = ticket.endDate.split("/");
+            const ticketEndDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+            return ticketEndDate < currentDate;
+        });
+
+        // sending the response
+        if (overdueTickets.length) {
+            res.status(200).send(overdueTickets);
+        } else {
+            res.status(404).send("No overdue tickets found for the user");
+        }
+    }
+));
+
+router.get('/dueToday/:userId', expressAsyncHandler(
+  async (req, res) => {
+      // getting the current date
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0); // set to start of the day
+
+      // finding all tickets assigned to the user
+      const assignedTickets = await TicketModel.find({
+          assigned: req.params.userId,
+          status: {$ne: "Done"}
+      });
+
+      // filter the tickets to find which are due today
+      const dueTodayTickets = assignedTickets.filter(ticket => {
+          const [day, month, year] = ticket.endDate.split("/");
+          const ticketEndDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+          ticketEndDate.setHours(0, 0, 0, 0); // set to start of the day
+          return ticketEndDate.getTime() === currentDate.getTime();
+      });
+
+      // sending the response
+      if (dueTodayTickets.length) {
+          res.status(200).send(dueTodayTickets);
+      } else {
+          res.status(404).send("No tickets due today found for the user");
+      }
+  }
+));
+
+router.get('/pendingTickets/:userId', async (req, res, next) => {
+  try {
+      // Fetching user's name from the User Service
+      const userResponse = await axios.get(`http://localhost:3000/api/user/${req.params.userId}`);
+      console.log("userResponse: ", userResponse);
+      
+      const user = userResponse.data;
+      if (!user) {
+          return res.status(404).send("User not found");
+      }
+
+      // Finding all tickets assigned to the user that are not done
+      const pendingTickets = await TicketModel.find({
+          assigned: user.name,
+          status: { $in: ["Pending"] }
+      });
+
+      // Sending the response
+      if (pendingTickets.length) {
+          res.status(200).send({ totalPendingTickets: pendingTickets.length });
+      } else {
+          res.status(404).send("No pending tickets found for the user");
+      }
+  } catch (err) {
+      next(err);
+  }
+});
+
+router.get('/activeTickets/:userId', async (req, res, next) => {
+  try {
+      // Fetching user's name from the User Service
+      const userResponse = await axios.get(`http://localhost:3000/api/user/${req.params.userId}`);
+      console.log("userResponse: ", userResponse);
+      
+      const user = userResponse.data;
+      if (!user) {
+          return res.status(404).send("User not found");
+      }
+
+      // Finding all tickets assigned to the user that are not done
+      const pendingTickets = await TicketModel.find({
+          assigned: user.name,
+          status: { $in: ["Active"] }
+      });
+
+      // Sending the response
+      if (pendingTickets.length) {
+          res.status(200).send({ totalPendingTickets: pendingTickets.length });
+      } else {
+          res.status(404).send("No pending tickets found for the user");
+      }
+  } catch (err) {
+      next(err);
+  }
+});
+
+
   
 
 export default router;
