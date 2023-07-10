@@ -201,7 +201,7 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       const newGroup = await groupModel.findOneAndUpdate(
         {_id: group},
         {
-          $push: {
+          $addToSet: {
             people: people,
           }
         },

@@ -85,6 +85,7 @@ export class UserService {
   }
 
   deleteUserGroup(userId: string, groupId: string): Observable<any> {
+    console.log(userId);
     return this.http.delete(`${this.API_URL}/${userId}/group/${groupId}`);
   }
 
