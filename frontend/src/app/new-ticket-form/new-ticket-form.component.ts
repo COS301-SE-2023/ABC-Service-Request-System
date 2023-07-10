@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
+import { NavbarService } from 'src/services/navbar.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -16,9 +17,10 @@ import { UserService } from 'src/services/user.service';
 export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
   assigneeName: string;
+  navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, public navbarService: NavbarService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -42,6 +44,10 @@ export class NewTicketFormComponent implements OnInit {
   ngOnInit(): void {
     this.getAssigneeName();
     this.getAllAssignable();
+
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
   }
 
   getAssigneeName() {
