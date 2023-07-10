@@ -49,6 +49,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   uploadProgress = 0;
   attachmentsOnly = false;
+  commentsOnly = false;
+  allComments = false;
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -259,7 +261,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.attachmentsOnly = true;
   }
 
-  viewComments(): void {
+  viewAllComments(): void {
     this.attachmentsOnly = false;
   }
 
@@ -271,6 +273,11 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   showAttachmentsOnly(): void {
     this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
+    console.log(this.displayedComments);
+  }
+
+  showCommentsOnly(): void {
+    this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
 

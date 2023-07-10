@@ -27,8 +27,8 @@
         <h2>Activity</h2>
 
         <button class="activity-filter-button selected" (click)="highlightButton($event); showAll()">All</button>
-        <button class="activity-filter-button" (click)="highlightButton($event);">Comments</button>
-        <button class="activity-filter-button" (click)="highlightButton($event);">Internal Note</button>
+        <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
+        <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
         <button class="activity-filter-button" (click)="highlightButton($event);">History</button>
         <button class="activity-filter-button" (click)="highlightButton($event);">Work Logs</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showAttachmentsOnly()">Attachments</button>
@@ -106,6 +106,35 @@
         </div>
 
         <div class = "attachments-only" *ngIf="attachmentsOnly">
+          <div class = "comments-area" *ngFor="let comment of displayedComments">
+            <app-comment-panel [comment]="comment"></app-comment-panel>
+            <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span>{{ comment.content }} <br>
+                    <a [href] = "comment.attachment!.url">{{comment.attachment?.name}}</a>
+
+                  </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="ticket-attachment">
+                <ng-container *ngIf="comment?.attachment?.name; ">
+                  <!-- <a *ngIf="isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" target="_blank" >'{{comment.attachment!.name}}'</a> -->
+                  <img *ngIf="!isPDF(comment.attachment!.url)" [src]="comment.attachment?.url" alt="Attachment">
+                  <!-- <a *ngIf="!isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" download>{{ comment.attachment!.name }}</a> -->
+                </ng-container>
+                <ng-template #noAttachments>
+                  No attachments
+                </ng-template>
+              </div>
+            </mat-expansion-panel>
+            <!-- <p *ngIf="!comment?.attachment?.name" style = "margin-left: 60px;">
+              {{comment.content}}
+            </p> -->
+          </div>
+        </div>
+
+        <div class = "comments-only" *ngIf="attachmentsOnly">
           <div class = "comments-area" *ngFor="let comment of displayedComments">
             <app-comment-panel [comment]="comment"></app-comment-panel>
             <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
