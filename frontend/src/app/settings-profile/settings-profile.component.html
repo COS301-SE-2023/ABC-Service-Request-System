@@ -1,17 +1,30 @@
-<div class="panel">
-    <app-settings></app-settings>
+<div class = "header">
+    <app-page-header></app-page-header>
 </div>
+
+<div class="panel">
+    <app-dash-panel></app-dash-panel>
+</div>
+
 <div class ="profile">
-    <h2>Profile</h2>
-    <div class="profile-picture">
-        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
-        <input type="file" name="profilePicture" (change)="onFileChanged($event)">
+    <div class="background_img">
+        <label for="fileInput" class="file-input-label">
+            <input type="file" id="fileInput" class="file-input" (change)="onFileChanged($event)" />
+          </label>
     </div>
+    <div class="profile-picture">
+        <label for="fileInput" class="profilePicture-input">
+            <input type="file" id="profilePicture" class="profile-input" (change)="onFileChanged($event)">
+            <img src="{{ getUsersProfilePicture() }}" class="profile-picture" alt="profile-picture">
+        </label>
+        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
+    </div>
+
     <form>
 
         <div class="form-group">
                 <label for="name">Name:</label>
-                <input id="name" name="name" *ngIf="!editingName"
+                <input type="text" id="name" name="name" *ngIf="!editingName"
                       [(ngModel)]="editedName"
                       (keydown)="onFieldChange()">
                 <img src="./assets/pencil.png" alt="pencil">
@@ -19,9 +32,17 @@
 
         <div class="form-group">
             <label for="surname">Surname:</label>
-            <input id="surname" name="surname" *ngIf="!editingSurname"
+            <input type="text" id="surname" name="surname" *ngIf="!editingSurname"
                   [(ngModel)]="editedSurname"
                   (keydown)="onFieldChange()">
+            <img src="./assets/pencil.png" alt="pencil">
+        </div>
+        <div class ="role">
+            Functional
+        </div>
+        <div class= "form-group">
+            <label for="bio">Bio:</label>
+            <textarea id="bio" class="input-field" style="height:50px;resize:vertical;" name="bio" placeholder="Tell us about yourself..."></textarea>
             <img src="./assets/pencil.png" alt="pencil">
         </div>
 
@@ -29,3 +50,4 @@
 </form>
 
 </div>
+

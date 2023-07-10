@@ -73,6 +73,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { QuillModule } from 'ngx-quill'
 import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -111,6 +112,7 @@ import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.compo
     ClientManagePage3Component,
     InternalAccountPage1Component,
     ProfileOverlayComponent,
+    ViewProfileComponent,
   ],
   imports: [
     BrowserModule,

@@ -140,13 +140,14 @@ export class SettingsProfileComponent implements OnInit{
     this.isDirty = true;
   }
 
+
   getUsersProfilePicture(){
     const user = this.authService.getUser();
     console.log("userrr", user);
     console.log("profile photo: " + user.profilePhoto);
     return this.user.profilePhoto;
   }
-
+  
   getUserObject(){
     return this.authService.getUser();
   }

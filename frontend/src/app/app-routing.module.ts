@@ -16,6 +16,7 @@ import { SettingsProfileComponent } from './settings-profile/settings-profile.co
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
 import { TeamsPageComponent } from './teams-page/teams-page.component';
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -26,10 +27,12 @@ const routes: Routes = [
   { path: 'analytics-page', component: AnalyticsPageComponent},
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
-  { path: 'settings', component: SettingsGeneralComponent },
   { path: 'settings-notifications',component: SettingsNotificationsComponent},
   { path: 'settings-profile',component: SettingsProfileComponent},
   { path: 'teams', component: TeamsPageComponent},
+  { path: 'settings', component: SettingsProfileComponent },
+  { path: 'view-profile',component: ViewProfileComponent},
+  //{ path: 'settings-profile',component: SettingsProfileComponent},
   { path: '**', redirectTo: '/login' }, //fallback
   // { path: 'settings-general', component: SettingsGeneralComponent},
 
