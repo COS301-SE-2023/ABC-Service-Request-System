@@ -314,18 +314,6 @@ router.post('/activate_account', expressAsyncHandler(
     })
   );
 
-  router.get('/:id', expressAsyncHandler(
-    async (req, res) => {
-        const user = await UserModel.findById(req.params.id);
-        if (user) {
-            res.send(user);
-        } else {
-            res.status(404).send("User not found");
-        }
-    }
-));
-
-
 //DASH"S ROUTES//
 //UPDATE USER NAME - WORKING
 
@@ -544,6 +532,17 @@ router.post('/add-group-to-users', expressAsyncHandler(
         res.status(500).send("An error occurred while adding the group to the users");
       }
     }  
+));
+
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
 ));
 
 
