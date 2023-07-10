@@ -70,6 +70,8 @@ import { InternalAccountPage1Component } from './internal-account-page1/internal
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
+
+import { QuillModule } from 'ngx-quill'
 @NgModule({
   declarations: [
     AppComponent,
@@ -133,7 +135,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NgSelectModule,
     NgxMatSelectSearchModule,
     MatCheckboxModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    QuillModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
