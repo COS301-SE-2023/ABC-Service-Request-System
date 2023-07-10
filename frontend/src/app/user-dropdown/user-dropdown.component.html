@@ -1,7 +1,10 @@
 <div class="select-menu">
   <div class="select-btn" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()">
-    <span *ngIf="!selectedOption" class="sBtn-text">Select your options</span>
-    <span *ngIf="selectedOption" class="sBtn-text">{{ selectedOption }}</span>
+    <div class="content">
+      <div *ngIf="selectedOption" class="user-img"></div>
+      <span *ngIf="!selectedOption" class="sBtn-text">Select your options</span>
+      <span *ngIf="selectedOption" class="sBtn-text">{{ selectedOption }}</span>
+    </div>
     <i class="fa-solid fa-chevron-down"></i>
   </div>
 

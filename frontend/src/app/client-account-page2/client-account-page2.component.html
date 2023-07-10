@@ -1,8 +1,7 @@
 <div class="container">
   <h1>Client Details</h1> <br>
 
-  <form>
-
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
     <div class="input half-inputs">
       <div class="name-input">
         <label for="name">Name </label>

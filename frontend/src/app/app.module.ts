@@ -64,6 +64,12 @@ import { ClientAccountPage2Component } from './client-account-page2/client-accou
 import { ClientAccountPage3Component } from './client-account-page3/client-account-page3.component';
 import { ClientAccountPage4Component } from './client-account-page4/client-account-page4.component';
 import { ClientManagePage1Component } from './client-manage-page1/client-manage-page1.component';
+import { ClientManagePage2Component } from './client-manage-page2/client-manage-page2.component';
+import { ClientManagePage3Component } from './client-manage-page3/client-manage-page3.component';
+import { InternalAccountPage1Component } from './internal-account-page1/internal-account-page1.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -98,6 +104,9 @@ import { ClientManagePage1Component } from './client-manage-page1/client-manage-
     ClientAccountPage3Component,
     ClientAccountPage4Component,
     ClientManagePage1Component,
+    ClientManagePage2Component,
+    ClientManagePage3Component,
+    InternalAccountPage1Component,
   ],
   imports: [
     BrowserModule,
@@ -122,7 +131,9 @@ import { ClientManagePage1Component } from './client-manage-page1/client-manage-
     MatButtonModule,
     MatDialogModule,
     NgSelectModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    MatCheckboxModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

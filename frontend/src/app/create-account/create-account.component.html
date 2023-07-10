@@ -1,30 +1,37 @@
-<app-page-header></app-page-header>
 <app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
 
-<div class="create-account-container">
+<div class="create-account-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 
   <mat-form-field>
-    <mat-select [(value)]="selected" class="header-label">
+    <mat-select [(value)]="selected" class="header-label" (selectionChange)="onSelectionChange()">
       <mat-option value="client">Client</mat-option>
-      <mat-option value="Internal">Internal</mat-option>
+      <mat-option value="internal">Internal</mat-option>
     </mat-select>
   </mat-form-field>
 
   <div class="content-area">
-    <div class="content">
-      <app-client-account-page1 (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 5"></app-client-account-page1>
+    <div class="img">
+      <img src="../../assets/client_background.png" alt="background">
+    </div>
+
+    <div class="content" *ngIf="selected === 'client'">
+      <app-client-account-page1 (manageAccountClicked)="incrementClientStageManage()" (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
       <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" *ngIf="clientStage === 1"></app-client-account-page2>
       <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" *ngIf="clientStage === 2"></app-client-account-page3>
       <app-client-account-page4 *ngIf="clientStage === 3"></app-client-account-page4>
 
-      <app-client-manage-page1  *ngIf="clientStage === 0"></app-client-manage-page1>
+      <app-client-manage-page1 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStageManage()" *ngIf="clientStage === 4"></app-client-manage-page1>
+      <app-client-manage-page2 (completeClicked)="decrementClientStageManage()" (backClicked)="decrementClientStage()" (editClicked)="incrementClientStage()" *ngIf="clientStage === 5"></app-client-manage-page2>
+      <app-client-manage-page3 (backClicked)="decrementClientStage()" *ngIf="clientStage === 6"></app-client-manage-page3>
     </div>
 
-    <div class="img">
-      <img src="../../assets/client_background.png" alt="background">
+    <div class="content" *ngIf="selected === 'internal'">
+      <app-internal-account-page1></app-internal-account-page1>
     </div>
   </div>
 </div>
+
+<app-page-header></app-page-header>
 <!--
 <div class="dashboard-container adjusted-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 <h2 class="form-heading">Create Account</h2>

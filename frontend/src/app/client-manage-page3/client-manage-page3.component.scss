@@ -5,8 +5,14 @@
 
 .container{
   margin-top: 2em;
-
   animation: fadeIn 2s;
+
+  table {
+    font-family: 'Montserrat';
+    font-size: 1em;
+    font-weight: 100;
+    color: rgba(0,0,0,1);
+  }
 
   h1{
     font-family: 'Poppins';
@@ -18,6 +24,19 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  // h2{
+  //   font-family: 'Poppins';
+  //   font-size: 40px;
+  //   line-height: 1.2em;
+  //   font-weight: bold;
+
+  //   background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+  //   -webkit-background-clip: text;
+  //   -webkit-text-fill-color: transparent;
+
+  //   margin-top: 1em;
+  // }
 
   p {
     font-family: 'Montserrat';
@@ -47,36 +66,11 @@
       cursor: pointer;
     }
 
-    input {
-      width: 80%;
+    h2 {
       padding: 0.5em;
-      border-radius: 0.5em;
-      border: 1px solid rgba(73, 69, 69, 0.2);
-
-      font-size: 2em;
+      font-size: 2.4em;
       font-family: 'Poppins';
-
-      display: flex;
-      align-items: center;
     }
-
-    ::placeholder{
-      font-size: 1.3em;
-      font-family: 'Poppins';
-      color: rgba(0,0,0,0.8);
-      transform: translateY(5%);
-    }
-  }
-
-  h2{
-    font-family: 'Poppins';
-    font-size: 40px;
-    line-height: 1.2em;
-    font-weight: bold;
-
-    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
 
   .all-groups{
@@ -95,7 +89,6 @@
 
       p{
         margin: 0 !important;
-        font-size: 1em !important;
       }
 
       i {
@@ -135,8 +128,19 @@
 
   .add-btn {
     margin-left: 0;
-    margin-top: 1em;
+    margin-top: 1.5em;
     font-size: 18px;
     border-bottom: 2px solid rgb(72, 160, 205);
   }
+
+  .project-logo {
+    width: 3em;
+    height: 3em;
+    background-color: red;
+    border-radius: 0.3em;
+  }
+}
+
+thead {
+  border-bottom: 2px solid #C8D3D8;
 }

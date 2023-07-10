@@ -54,4 +54,29 @@ export class DashPanelComponent implements OnInit{
     console.log("analytics page called");
     this.router.navigate(['/analytics-page']);
   }
+
+    //checking active route
+  checkIfDashboardRoute(): boolean {
+    return this.router.url.includes('dashboard') || /^\/ticket\/\d+$/.test(this.router.url);
+  }
+
+  checkIfGroupsRoute(): boolean {
+    return this.router.url.includes('group');
+  }
+
+  checkIfAnalyticsRoute(): boolean {
+    return this.router.url.includes('analytics');
+  }
+
+  checkIfCreateAccountRoute(): boolean {
+    return this.router.url.includes('create-account');
+  }
+
+  checkIfCreateTicketRoute(): boolean {
+    return this.router.url.endsWith('/new-ticket-form');
+  }
+
+  checkIfProfileRoute(): boolean {
+    return this.router.url.includes('settings');
+  }
 }

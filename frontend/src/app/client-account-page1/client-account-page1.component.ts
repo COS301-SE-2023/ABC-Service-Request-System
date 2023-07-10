@@ -7,8 +7,13 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class ClientAccountPage1Component {
   @Output() createAccountClicked = new EventEmitter<void>();
+  @Output() manageAccountClicked = new EventEmitter<void>();
 
   onCreateAccount(): void {
     this.createAccountClicked.emit();
+  }
+
+  onManageAccount(): void {
+    this.manageAccountClicked.emit();
   }
 }

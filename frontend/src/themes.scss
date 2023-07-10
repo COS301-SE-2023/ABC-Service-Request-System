@@ -35,6 +35,7 @@ app-create-account {
   }
   .mat-mdc-form-field-focus-overlay {
     background-color: black;
+    opacity: 0;
     // top: 1rem;
   }
   .mdc-text-field--filled:not(.mdc-text-field--disabled)

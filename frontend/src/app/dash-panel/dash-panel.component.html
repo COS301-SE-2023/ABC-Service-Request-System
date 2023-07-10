@@ -19,12 +19,13 @@
       <!-- <p>Nedbank Mobile Application</p> -->
     </div>
 
-    <div class="button-wrapper active">
+    <div class="button-wrapper">
       <button (click)="openDashboard()" class="view-tickets">
         <i class="fa-regular fa-ticket"></i>
         <span>Tickets</span>
       </button>
-      <div class="active-background"></div>
+      <div *ngIf="checkIfDashboardRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfDashboardRoute()" class="inactive-background"></div>
     </div>
 
     <div class="button-wrapper">
@@ -32,7 +33,8 @@
         <i class="fa-solid fa-user-group"></i>
         <span>Groups</span>
       </button>
-      <div class="inactive-background"></div>
+      <div *ngIf="checkIfGroupsRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfGroupsRoute()" class="inactive-background"></div>
     </div>
 
     <div class="button-wrapper">
@@ -40,7 +42,8 @@
         <i class="fa-solid fa-chart-simple"></i>
         <span>Analytics</span>
       </button>
-      <div class="inactive-background"></div>
+      <div *ngIf="checkIfAnalyticsRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfAnalyticsRoute()" class="inactive-background"></div>
     </div>
 
     <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" >
@@ -48,7 +51,8 @@
         <i class="fa-solid fa-user-plus"></i>
         <span>Create Account</span>
       </button>
-      <div class="inactive-background"></div>
+      <div *ngIf="checkIfCreateAccountRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfCreateAccountRoute()" class="inactive-background"></div>
     </div>
 
     <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()">
@@ -56,7 +60,8 @@
         <i class="fa-solid fa-circle-plus"></i>
         <span>Add Ticket</span>
       </button>
-      <div class="inactive-background"></div>
+      <div *ngIf="checkIfCreateTicketRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfCreateTicketRoute()" class="inactive-background"></div>
     </div>
 
     <div class="button-wrapper">
@@ -64,7 +69,8 @@
         <i class="fa-solid fa-gear"></i>
         <span>Profile</span>
       </button>
-      <div class="inactive-background"></div>
+      <div *ngIf="checkIfProfileRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
     </div>
   </div>
 </div>
