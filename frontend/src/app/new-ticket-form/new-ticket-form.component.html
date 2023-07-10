@@ -9,7 +9,7 @@
       </div>
 
       <div class="project-details">
-        <label>Project <span class="required">*</span></label>
+        <label>Project<span class="required">*</span></label>
         <select formControlName="project" required>
           <option value="Nedbank">Nedbank Mobile App</option>
           <option value="SB">Standard Bank Website</option>
@@ -18,11 +18,33 @@
       </div>
 
       <div class="ticket-details">
-        <label>Summary <span class="required">*</span></label>
+        <label>Summary<span class="required">*</span></label>
         <input type="text" formControlName="summary" required>
 
-        <label class="descriptionLabel">Description:<span class="required">*</span></label>
+        <label class="descriptionLabel">Description<span class="required">*</span></label>
+        <!-- <quill-editor [(ngModel)]="editorContent">
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button class="ql-bold" [title]="'Bold'"></button>
+            </span>
+            <span class="ql-formats">
+              <select class="ql-align" [title]="'Aligment'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+              <select class="ql-align" [title]="'Aligment2'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+            </span>
+          </div>
+        </quill-editor> -->
         <input type="text" formControlName="description" required>
+
         <!-- <quill-editor>
           <div quill-editor-toolbar>
             <span class="ql-formats">
@@ -47,45 +69,70 @@
       </div>
 
       <div class="ticket-information">
-        <label>Start Date <span class="required">*</span></label>
-        <input type="date" formControlName="startDate" required>
+        <div class="ticket-information-col1">
+          <label>Start Date<span class="required">*</span></label>
+          <input type="date" formControlName="startDate" required>
 
-        <label>End Date <span class="required">*</span></label>
-        <input type="date" formControlName="endDate" required>
+          <label class="priorityLabel">Priority<span class="required">*</span></label>
+          <select formControlName="priority" required>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
 
-        <label>Priority <span class="required">*</span></label>
-        <select formControlName="priority" required>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
+        <div class="ticket-information-col2">
+          <label>End Date<span class="required">*</span></label>
+          <input type="date" formControlName="endDate" required>
 
-        <label>Status <span class="required">*</span></label>
-        <select formControlName="status" required>
-          <option value="Active">Active</option>
-          <option value="Pending">Pending</option>
-        </select>
+          <label class="statusLabel">Status<span class="required">*</span></label>
+          <select formControlName="status" required>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
       </div>
 
       <div class="todos">
-        <label>Todo's</label>
-        <input type="text" formControlName="todo" required>
+        <div class="todos-col1">
+          <label>Todo's</label>
+          <input type="text" formControlName="todo" required>
+        </div>
 
-        <!-- AI GENERATION HERE -->
+        <div class="todos=col2">
+          <label>AI Generated Todo's</label>
+
+          <!-- AI GENERATION HERE -->
+          <p>Work in Progress</p>
+          
+          <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
+        </div>
       </div>
 
       <div class="assignedInformation">
-        <label>Assigned <span class="required">*</span></label>
-        <select formControlName="assigned" required>
-          <option *ngFor="let user of allUsers">{{ user.name }}</option>
-        </select>
+        <div class="assignedInformation-col1">
+          <label>Assigned<span class="required">*</span></label>
+          <select formControlName="assigned" required>
+            <option *ngFor="let user of allUsers">{{ user.name }}</option>
+          </select>
 
-        <label>Group <span class="required">*</span></label>
-        <select formControlName="group" required>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
+          <label class="groupLabel">Group<span class="required">*</span></label>
+          <select formControlName="group" required>
+            <option value="Lemur">Lemur Squad</option>
+            <option value="Hyperion">Hyperion Tech</option>
+            <option value="Delta">Delta Backend</option>
+          </select>
+        </div>
+
+        <div class="assignedInformation-col2">
+          <div class="memberAIBlock">
+            <label>Suggested Technical Members</label>
+
+            <div class="memberAIContent">
+              
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="submitButton">
