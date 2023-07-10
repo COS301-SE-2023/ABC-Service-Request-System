@@ -151,6 +151,19 @@ export class TeamsPageComponent implements OnInit{
 
 
   removeGroup(group: group): void {
+    const user = this.authService.getUser();
+    const userId = user.id;
+    console.log('in remove group, userID: ' + userId);
+
+    this.userService.deleteUserGroup(userId, group.id).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error:Error) => {
+        console.log(error);
+      }
+    );
+
     this.groupService.deleteGroup(group.id).subscribe(
       (response) => {
         this.groups = this.groups.filter(g => g.id !== group.id);

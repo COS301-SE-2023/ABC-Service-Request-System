@@ -66,17 +66,31 @@ router.post('/add', expressAsyncHandler(
       });
 
       console.log(group);
-      // console.log(group.groupName);
+
       try {
-          groupModel.create(group);
-          res.status(201).send(group);
-      }
-      catch (error) {
-          console.log(error);
-          res.status(500).send("An error occured during group creation");
-      }
-    }  
-  ));
+        const createdGroup = await groupModel.create(group); 
+        const users = createdGroup.people;
+        // console.log(users);
+        if (users) {
+          for (let user of users) { 
+            const userFromDb = await UserModel.findById(user);
+            // console.log('userfromdb: ' + userFromDb);
+            if (userFromDb) {
+              userFromDb.groups.push(createdGroup.id); 
+              await userFromDb.save(); 
+            }
+          }
+        }
+
+        res.status(201).send(createdGroup); 
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred during group creation");
+    }
+  }  
+
+));
 
   router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;

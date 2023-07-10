@@ -545,5 +545,22 @@ router.get('/:id', expressAsyncHandler(
     }
 ));
 
+router.delete('/:userId/group/:groupId', expressAsyncHandler(
+    async(req,res) => {
+        const user = await UserModel.findOne({ id: req.params.userId });
+        if (user) {
+            const groupIndex = user.groups.indexOf(req.params.groupId);
+            if (groupIndex !== -1) {
+                user.groups.splice(groupIndex,1);
+                const updatedUser = await user.save();
+                res.status(200).send({message: "Group removed from user's groups", user:updatedUser});
+            } else {
+                res.status(404).send({ message: "Group not found in user's groups" });
+            }
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+))
 
 export default router;
