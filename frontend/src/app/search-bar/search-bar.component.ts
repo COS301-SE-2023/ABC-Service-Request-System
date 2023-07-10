@@ -12,4 +12,10 @@ export class SearchBarComponent {
   searchTicket(): void {
     this.searchEvent.emit(this.searchTerm);
   }
+
+  @Output() filterChangeEvent = new EventEmitter<string>();
+  filterChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.filterChangeEvent.emit(selectElement.value);
+  }
 }

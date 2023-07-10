@@ -1,6 +1,6 @@
 <div class="ticket-header">
   <div class="ticket-filter">
-    <select name="filter" id="filter">
+    <select name="filter" id="filter" (change)="filterChange($event)">
       <option value="all" selected>All</option>
       <option value="active">Active</option>
       <option value="pending">Pending</option>
