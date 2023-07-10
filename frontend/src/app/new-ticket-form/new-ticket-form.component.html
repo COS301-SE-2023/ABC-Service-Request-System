@@ -1,12 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<div class="page-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+<div class="page-container">
   <h1>Create Ticket</h1>
 
   <div class="form-container">
     <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
       <div class="form-header">
         <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
-        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
       </div>
 
       <div class="project-details">
@@ -23,7 +22,50 @@
         <input type="text" formControlName="summary" required>
 
         <label class="descriptionLabel">Description<span class="required">*</span></label>
-        <quill-editor formControlName="description"></quill-editor>
+        <!-- <quill-editor [(ngModel)]="editorContent">
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button class="ql-bold" [title]="'Bold'"></button>
+            </span>
+            <span class="ql-formats">
+              <select class="ql-align" [title]="'Aligment'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+              <select class="ql-align" [title]="'Aligment2'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+            </span>
+          </div>
+        </quill-editor> -->
+        <input type="text" formControlName="description" required>
+
+        <!-- <quill-editor>
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button class="ql-bold" [title]="'Bold'"></button>
+            </span>
+            <span class="ql-formats">
+              <select class="ql-align" [title]="'Aligment'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+              <select class="ql-align" [title]="'Aligment2'">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+              </select>
+            </span>
+          </div>
+        </quill-editor> -->
       </div>
 
       <div class="ticket-information">
@@ -101,7 +143,7 @@
     </div>
   </form>
 
-  
+  <quill-editor></quill-editor>
 </div>
 </div>
 

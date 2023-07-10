@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .page-container {
-  width: 82%;
-  float: right;
-  padding: 1.5em;
-  margin-top: 60px;
-  transition: all 300ms;
-  margin-left: 1em;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px;
+  left: 23%;
+  right: 1%;
+  bottom: 1%;
+  font-family: 'Poppins', sans-serif;
 }
 
 .page-container h1 {
@@ -15,6 +17,8 @@
 
 .form-container {
   width: 100%;
+  border: 1px solid #ccc;
+  padding: 2em;
   border-radius: 8px;
   margin-bottom: 1%;
   overflow: auto;
@@ -87,7 +91,7 @@
 .ticket-details {
   display: flex;
   flex-direction: column;
-  padding: 2em 0 5em;
+  padding: 2em 0;
   border-bottom: 1px solid #ccc;
 }
 
@@ -97,11 +101,12 @@
   width: 30vw;
 }
 
-.ticket-details quill-editor {
-  margin-top: 0.5em;
-  border-radius: 8px;
-  height: 30vh;
-}
+// .ticket-details quill-editor {
+//   margin-top: 0.5em;
+//   border: 1px solid #ccc;
+//   padding: 8px;
+//   border-radius: 8px;
+// }
 
 .ticket-details .descriptionLabel {
   margin-top: 1em;
