@@ -1,12 +1,13 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { NavbarService } from 'src/services/navbar.service';
 
 @Component({
   selector: 'app-analytics-page',
   templateUrl: './analytics-page.component.html',
   styleUrls: ['./analytics-page.component.scss']
 })
-export class AnalyticsPageComponent implements AfterViewInit {
+export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   selectedAnalyticsType = 'personal';
   selectedGroup = 'group1';
   overdueTicketsCount!: number;
@@ -19,6 +20,8 @@ export class AnalyticsPageComponent implements AfterViewInit {
   loggedHoursData!: any[];
   personalLoggedHoursData!: any[];
   groupLoggedHoursData: { [key: string]: any[] } = {};
+
+  navbarIsCollapsed!: boolean;
 
   chart!: Chart;
   resolutionChart!: Chart;
@@ -65,6 +68,12 @@ export class AnalyticsPageComponent implements AfterViewInit {
 
   ticketVolumeData!: number[];
 
+  ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+  }
+
   //Mock data for Ticket Priority
   doughnutChartData: ChartData<'doughnut', (number | null)[], string> = {
     labels: ['Low', 'Medium', 'High'],
@@ -73,7 +82,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
       backgroundColor: [], // Set colors for each priority level
     }]
   };
-  
+
 
   polarChartData: ChartData<'polarArea', (number | null)[], string> = {
     labels: ['Open', 'Pending', 'Closed'],
@@ -91,7 +100,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
   @ViewChild('doughnutChartByPriorityCanvas', { static: true }) doughnutChartCanvas!: ElementRef;
   @ViewChild('polarChartCanvas', { static: true }) polarChartCanvas!: ElementRef;
 
-  constructor() {
+  constructor(public navbarService: NavbarService) {
     // Mock data for personal analytics
     this.personalOverdueTicketsCount = 10;
     this.personalTicketsDueTodayCount = 5;
@@ -127,7 +136,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
       ]
     };
 
-    
+
     this.setPersonalData();
   }
 
@@ -186,7 +195,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
       this.averageTimeHours = "01";
       this.averageTimeMinutes = "15";
       this.doughnutChartData.datasets[0].data = [10, 35, 55];
-      this.polarChartData.datasets[0].data = [15, 25, 60]; 
+      this.polarChartData.datasets[0].data = [15, 25, 60];
       // this.ticketVolumeData = this.group1TicketVolumeData;
     } else if (this.selectedGroup === 'group2') {
       this.averageTimeToFirstResponse = this.group2AverageTimeToFirstResponse;
@@ -282,7 +291,7 @@ export class AnalyticsPageComponent implements AfterViewInit {
     } else {
       this.ticketVolumeData = this.personalTicketVolumeData;
     }
-  
+
     this.createTicketVolumeChart();
   }
 
@@ -293,11 +302,11 @@ export class AnalyticsPageComponent implements AfterViewInit {
 
   if (this.lineChart && this.lineChart.nativeElement) {
     const ctx: CanvasRenderingContext2D = this.lineChart.nativeElement.getContext('2d')!;
-    
+
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(199, 245, 211, 0)'); // Light Green
     gradient.addColorStop(0.7, 'rgba(199, 245, 211, 0)'); // Light Green
-    
+
     const data = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
       datasets: [
@@ -348,7 +357,7 @@ createTimeToTicketResolutionChart() {
 
   if (this.timeToTicketResolutionChart && this.timeToTicketResolutionChart.nativeElement) {
     const ctx: CanvasRenderingContext2D = this.timeToTicketResolutionChart.nativeElement.getContext('2d')!;
-    
+
     // Create gradient for background
     const bgGradient = ctx.createLinearGradient(0, 0, 0, 300);
     bgGradient.addColorStop(0, 'rgba(246, 204, 203, 0)'); // Lighter orange
@@ -449,7 +458,7 @@ createTicketVolumeChart() {
         }
       ]
     };
-    
+
     const options = {
       plugins: {
         legend: {
@@ -516,15 +525,15 @@ createDoughnutChart() {
       const gradientLow = ctx.createLinearGradient(0, 0, 0, 400);
       gradientLow.addColorStop(0, 'rgba(26, 188, 156, 1)');
       gradientLow.addColorStop(1, 'rgba(22, 160, 133, 0.4)');
-      
+
       const gradientMedium = ctx.createLinearGradient(0, 0, 0, 400);
       gradientMedium.addColorStop(0, 'rgba(241, 196, 15, 1)');
       gradientMedium.addColorStop(1, 'rgba(243, 156, 18, 0.4)');
-      
+
       const gradientHigh = ctx.createLinearGradient(0, 0, 0, 400);
       gradientHigh.addColorStop(0, 'rgba(231, 76, 60, 0.8)');
       gradientHigh.addColorStop(1, 'rgba(192, 57, 43, 0.4)');
-      
+
       this.doughnutChartData.datasets[0].backgroundColor = [gradientLow, gradientMedium, gradientHigh];
 
       this.doughnutChart = new Chart<"doughnut", (number | null)[], string>(ctx, {
@@ -557,10 +566,10 @@ createDoughnutChart() {
 }
 
   createPolarChart() {
-      if (this.polarChart) { 
-          this.polarChart.data = this.polarChartData; 
-          this.polarChart.update(); 
-      } else { 
+      if (this.polarChart) {
+          this.polarChart.data = this.polarChartData;
+          this.polarChart.update();
+      } else {
           if (this.polarChartCanvas) {
               const canvas = this.polarChartCanvas.nativeElement;
               const ctx = canvas.getContext('2d');

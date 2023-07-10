@@ -61,7 +61,7 @@ export class DashPanelComponent implements OnInit{
   }
 
   checkIfGroupsRoute(): boolean {
-    return this.router.url.includes('group');
+    return this.router.url.includes('teams');
   }
 
   checkIfAnalyticsRoute(): boolean {

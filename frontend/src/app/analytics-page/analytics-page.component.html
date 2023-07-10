@@ -1,7 +1,5 @@
-<div class="app-container">
-  <app-dash-panel></app-dash-panel>
+<div class="app-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
   <div class="main-content">
-    <app-page-header></app-page-header>
     <div class="analytics-page">
       <div class="analytics-content">
         <h1 class="page-title">Analytics</h1>
@@ -124,7 +122,7 @@
               </div>
             </div>
           </div>
-          
+
 
           <!-- Add remaining items -->
           <div class="grid-item grid-item-8">
@@ -146,9 +144,12 @@
               <canvas #polarChartCanvas></canvas>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<app-dash-panel></app-dash-panel>
+<app-page-header></app-page-header>
