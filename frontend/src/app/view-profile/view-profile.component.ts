@@ -2,7 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { UserService } from 'src/services/user.service';
 import { user } from '../../../../backend/src/models/user.model';
 import { AuthService } from 'src/services/auth.service';
-
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 @Component({
   selector: 'app-view-profile',
   templateUrl: './view-profile.component.html',
@@ -13,6 +14,7 @@ export class ViewProfileComponent implements OnInit {
   firstTimeSurname!:string;
   user!: user;
   profilePicture!: File;
+  backgroundPicture!: File;
   userPic!: string;
 
   constructor(private userService: UserService, private authService: AuthService) {}
@@ -38,11 +40,9 @@ export class ViewProfileComponent implements OnInit {
     const userId = this.getUserObject().id; // Replace with the actual user ID
     this.getUser(userId);
    console.log("hi");
+   this.RenderChart();
    this.userService.getUser(userId).subscribe((user: user)=>{
    this.user = user;
-   //this.editedName = user.name;
-   //this.editedPicture = user.profilePhoto;
-    // this.editedSurname = user.surname;
    });
 
    this.userPic = this.getUsersProfilePicture();
@@ -55,8 +55,45 @@ export class ViewProfileComponent implements OnInit {
   return this.user.profilePhoto;
 }
 
+getUsersBackgroundPicture(){
+  // const user = this.authService.getUser();
+  // console.log("userrr", user);
+  // console.log("background photo: " + user.backgroundPhoto);
+  // return this.user.BackgroundPhoto;
+}
+
+getUsersBio(){
+  // const user = this.authService.getUser();
+  // console.log("userrr", user);
+  // console.log("bio: " + user.bio);
+  // return this.user.bio;
+}
+
 getUserObject(){
   return this.authService.getUser();
 }
 
+
+
+RenderChart() {
+  const myChart = new Chart("piechart", {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'April', 'May'],
+      datasets: [{
+        label: '# of tickets completed',
+        data: [12, 10, 17, 20, 5],
+        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Optional: Add a background color to the bars
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+}
 }
