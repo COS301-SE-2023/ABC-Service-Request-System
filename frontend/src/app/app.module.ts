@@ -72,6 +72,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { QuillModule } from 'ngx-quill'
+import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -109,6 +110,7 @@ import { QuillModule } from 'ngx-quill'
     ClientManagePage2Component,
     ClientManagePage3Component,
     InternalAccountPage1Component,
+    ProfileOverlayComponent,
   ],
   imports: [
     BrowserModule,
