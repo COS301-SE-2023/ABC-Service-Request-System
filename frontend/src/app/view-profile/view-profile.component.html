@@ -29,10 +29,48 @@
                 John's journey in programming began during his early years in high school when he developed a keen interest in computers and logical thinking. He went on to pursue a Bachelor's degree in Computer Science, where he deepened his understanding of algorithms, data structures, and software development principles.</p>
         </div>
 </form>
-<div class ="row">
-    <div class="col-lg-6">
-        <canvas id="piechart"></canvas>
+<div class="grid-item grid-item-6">
+  <div class="header2">
+    <h2>First Response</h2>
+  </div>  
+    <div class="graph-and-average-container">
+      <div class="average-container">
+        <h3>AVERAGE</h3>
+        <p class="average">{{ averageTimeToFirstResponse }}</p>
+        <p class="average-unit">MINUTES</p>
+        <div class="graph-badge-green">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+          <p id="imp">20.1%</p>
+        </div>
+      </div>
+      <div class="line-chart-container">
+        <canvas #lineChart class="line-chart"></canvas>
+      </div>
     </div>
-</div>
+  </div>
+  
+  <div class="grid-item grid-item-7">
+    <h2>Ticket Resolution</h2>
+    <div class="graph-and-average-container">
+      <div class="average-container">
+        <h3>AVERAGE</h3>
+        <div class="average-time">
+          <p class="average-hours">{{averageTimeHours}}</p>
+          <p class="average-minutes">{{ averageTimeMinutes }}</p>
+        </div>
+        <div class="average-units">
+          <p class="average-unit hour-unit">HOURS</p>
+          <p class="average-unit minute-unit">MINUTES</p>
+        </div>
+        <div class="graph-badge-red">
+          <i class="fa-solid fa-arrow-trend-down"></i>
+          <p id="imp">11.91%</p>
+        </div>
+      </div>
+      <div class="line-chart-container">
+        <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
+      </div>
+    </div>
+  </div>
 </div>
 

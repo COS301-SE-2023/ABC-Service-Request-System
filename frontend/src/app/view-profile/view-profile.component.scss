@@ -1,5 +1,5 @@
-.col-lg-6{
-  width: 60em;
+.p{
+  font-family: 'Montserrat', sans-serif;
 }
 .panel{
     position: absolute;
@@ -17,7 +17,7 @@
     transition: background-color .3s ease-in-out;
   }
    .background_img {
-    width: 66.15em;
+    width: 66em;
     margin-top: -1.1em;
     margin-left: -1.1em;
     height: 11.25em;
@@ -26,8 +26,8 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    border-top-left-radius: 1.0625em;
-    border-top-right-radius: 1.0625em;
+    border-top-left-radius: 0.7em;
+    border-top-right-radius: 0.7em;
   
     border-color: black;
   }
@@ -58,11 +58,13 @@
   
   .profile {
        width: 70.85%;
+       height:120%;
        position: absolute;
+       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
       // //margin: 0 auto;
        padding: 1.1em;
-       border: 1px solid black;
-       border-radius: 1.25em;
+       border: 2px solid rgba(0, 0, 0, 0.2);
+       border-radius: 0.7em;
        margin-left: 25em;
        background: white;
        //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
@@ -137,6 +139,181 @@
   
         }
     }
+
+.grid-item {
+  position: relative; /* Add position relative */
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 1em;
+  width: 50%;
+  border-radius: 0.7em;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
+}
+.grid-item-6{
+  //grid-column: span 2;
+  grid-row: span 2;
+  height: 108%;
+  right:1%;
+  bottom:8%;
+  flex-direction: column;
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2em;
+    margin-bottom: 0 !important;
+    margin-right:2.5em;
+  }
+  .header2{
+    margin-right: 0em;
+  }
+  
+}
+.grid-item-7{
+  //grid-column: span 2;
+  grid-row: span 2;
+  flex-direction: column;
+  bottom:95.9%;
+  height: 96%;
+  left: 49%;
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2em;
+    margin-bottom: 0 !important;
+    margin-right:2.5em;
+  }
+  .header2{
+    margin-right: 0em;
+  }
+  
+}
+
+
+.graph-and-average-container {
+  display: flex;
+  height: 90%;
+}
+
+.average-container {
+  margin-right: 1em;
+  position: relative;
+  width: 60%;
+  height: fit-content;
+}
+.average-unit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.7em;
+  color: rgba(0,0,0,0.5);
+  margin-top: 1.8em;
+}
+.average {
+  font-family: 'Poppins', sans-serif;
+  font-size: 6em;
+  font-weight: bold;
+  color: rgba(0,0,0,0.66);
+  margin-top: 0.5em;
+}
+.average-time {
+  display: flex;
+  max-width: 70%;
+
+  .average-hours {
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 6em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 50%;
+    margin-left: -0.1em;
+  }
+
+  .average-minutes {  
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 6em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 40%;
+    margin-left: 0.5em;
+  }
+}
+
+.graph-badge-green {
+  background-color: #C7F5D3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 20%;
+  //margin-left: 3.0em;
+  transform: translateY(-50%);
+  color: #33663D;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
+.line-chart-container {
+  width: 30%;
+  display: fixed;
+  //align-items: flex-end;
+  //margin-bottom: 5em;
+}
+
+.line-chart {
+  width: 50px;
+  height: 450px; /* Adjust the height as desired */
+  margin-bottom: 5em;
+  //margin-right: 10em;
+  right: 10%;
+}
+
+.average-units{
+  display: flex;
+  max-width: 70%;
+
+  .hour-unit {
+    min-width: 50%;
+  }
+
+  .minute-unit {
+    min-width: 40%;
+    margin-left: 2em;
+  }
+}
+
+.graph-badge-red {
+  background-color: #F6CCCB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: -30%;
+  transform: translateY(-50%);
+  color: #8C2822;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
+
 
   
   
