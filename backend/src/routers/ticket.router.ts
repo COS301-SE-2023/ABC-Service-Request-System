@@ -261,6 +261,7 @@ router.get('/pendingTickets/:userId', async (req, res, next) => {
   }
 });
 
+
 router.get('/activeTickets/:userId', async (req, res, next) => {
   try {
       // Fetching user's name from the User Service
@@ -273,14 +274,14 @@ router.get('/activeTickets/:userId', async (req, res, next) => {
       }
 
       // Finding all tickets assigned to the user that are not done
-      const pendingTickets = await TicketModel.find({
+      const activeTickets = await TicketModel.find({
           assigned: user.name,
           status: { $in: ["Active"] }
       });
 
       // Sending the response
-      if (pendingTickets.length) {
-          res.status(200).send({ totalPendingTickets: pendingTickets.length });
+      if (activeTickets.length) {
+          res.status(200).send({ totalActiveTickets: activeTickets.length });
       } else {
           res.status(404).send("No pending tickets found for the user");
       }

@@ -22,6 +22,9 @@ export class AnalyticsPageComponent implements OnInit {
 
 
   overdueTicketsCount = 0;
+  ticketsDueTodayCount = 0;
+  ActiveTicketsCount = 0;
+  PendingTicketsCount = 0;
 
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private ticketsService: TicketsService, private userService: UserService,
@@ -32,6 +35,44 @@ export class AnalyticsPageComponent implements OnInit {
   
     const userId = this.authService.getUser().id;
     const userGroups: any [] = this.authService.getUser().groups;
+
+    
+    this.ticketsService.getActiveTicketsByUserId(userId).subscribe(
+      activeTickets => {
+        this.ActiveTicketsCount = activeTickets.length; // assuming activeTickets is an array
+        console.log(activeTickets);
+        this.changeDetector.detectChanges(); // trigger change detection manually, if needed
+      },
+      err => console.error(err)
+    );
+
+    this.ticketsService.getPendingTicketsByUserId(userId).subscribe(
+      pendingTickets => {
+        this.PendingTicketsCount = pendingTickets.length; // assuming pendingTickets is an array
+        console.log(pendingTickets);
+        this.changeDetector.detectChanges(); // trigger change detection manually, if needed
+      },
+      err => console.error(err)
+    );
+
+    this.ticketsService.getOverdueTicketsByUserId(userId).subscribe(
+      overdueTickets => {
+        this.overdueTicketsCount = overdueTickets.length;
+        console.log(overdueTickets);
+        this.changeDetector.detectChanges();
+      },
+      err => console.error(err)
+    );
+  
+    // Get tickets due today count
+    this.ticketsService.getDueTodayTicketsByUserId(userId).subscribe(
+      dueTodayTickets => {
+        this.ticketsDueTodayCount = dueTodayTickets.length;
+        console.log(dueTodayTickets);
+        this.changeDetector.detectChanges();
+      },
+      err => console.error(err)
+    );
 
     for(let i = 0; i < userGroups.length; i++){
       this.groupService.getGroupsByUserId(userGroups[i]).subscribe(
@@ -111,38 +152,5 @@ export class AnalyticsPageComponent implements OnInit {
     this.onGroupSelected(group.id);
   }
 
-  // async checkPendingTickets() {
-  //   try {
-  //     const userId = "2"; // Replace with the actual user ID
-  //     const pendingTickets = await this.ticketsService.getPendingTickets(userId);
-  //     console.log("Total pending tickets:", pendingTickets);
-  //   } catch (error) {
-  //     console.error("Error retrieving pending tickets:", error);
-  //   }
-  // }
-
-  // getPersonalOverdueTickets(userId: string): void {
-  //   this.ticketService.getTicketsByUserId(userId).subscribe(
-  //     (tickets: any[]) => {
-  //       const overdueTickets = tickets.filter(ticket => new Date(ticket.endDate) < new Date());
-  //       console.log(overdueTickets);
-  //     },
-  //     (error: any) => {
-  //       console.error(error);
-  //     }
-  //   );
-  // }
-  
-  // getGroupOverdueTickets(groupId: string): void {
-  //   this.ticketService.getTicketsByGroupId(groupId).subscribe(
-  //     (tickets: any[]) => {
-  //       const overdueTickets = tickets.filter((ticket: { endDate: string | number | Date; }) => new Date(ticket.endDate) < new Date());
-  //       console.log(overdueTickets);
-  //     },
-  //     (error: any) => {
-  //       console.error(error);
-  //     }
-  //   );
-  // }
   
 }
