@@ -69,11 +69,17 @@ export class TeamsPageComponent implements OnInit{
       }
     );
 
+    let i = 1;
     const user = this.authService.getUser();
     if (user) {
       user.groups.forEach(groupId => {
         this.groupService.getGroupById(groupId).subscribe(group => {
           this.groups.push(group);
+          if (i == 1) {
+            // this.selectedGroup = group;
+            this.selectGroup(group)
+            i++;
+          }
         });
       });
     } else {
@@ -81,6 +87,11 @@ export class TeamsPageComponent implements OnInit{
         user.groups.forEach(groupId => {
           this.groupService.getGroupById(groupId).subscribe(group => {
             this.groups.push(group);
+            if (i == 1) {
+              // this.selectedGroup = group;
+              this.selectGroup(group)
+              i++;
+            }
           });
         });
       });
