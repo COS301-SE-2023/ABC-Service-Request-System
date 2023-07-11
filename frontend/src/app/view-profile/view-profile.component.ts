@@ -273,7 +273,7 @@ export class ViewProfileComponent implements OnInit {
         datasets: [
           {
             fillColor : gradient,
-            label: 'Time to First Response',
+            label: 'First Response',
             data: this.timeToFirstResponseData,
             fill: true,
             backgroundColor: gradient,
