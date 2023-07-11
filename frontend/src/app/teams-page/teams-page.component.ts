@@ -60,14 +60,6 @@ export class TeamsPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(
-      (response) => {
-        this.users = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
 
     let i = 1;
     const user = this.authService.getUser();
