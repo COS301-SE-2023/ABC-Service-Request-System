@@ -86,14 +86,17 @@ export class TeamsPageComponent implements OnInit{
       });
     }
 
-    this.groupService.getGroups().subscribe(
-      (response) => {
-        this.groups = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    if (this.authService.isManager() || this.authService.isAdmin()) {
+      this.groupService.getGroups().subscribe(
+        (response) => {
+          this.groups = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
   }
 
 
