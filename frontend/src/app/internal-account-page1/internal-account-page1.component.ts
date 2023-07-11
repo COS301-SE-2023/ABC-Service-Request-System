@@ -1,9 +1,11 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/services/auth.service';
+import { GroupService } from 'src/services/group.service';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { group } from '../../../../backend/src/models/group.model';
 
 @Component({
   selector: 'app-internal-account-page1',
@@ -16,22 +18,41 @@ export class InternalAccountPage1Component implements OnInit{
   createUserForm: FormGroup;
   errorMessage!: string;
   groupControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
+  allGroups: group[] = [];
+  selectedGroups: group[] = [];
+  allGroupIds: string[] = [];
+  selectedGroupsForm: FormArray;
   filteredOptions!: Observable<string[]>;
   isAddGroupOverlayOpened = false;
 
-  constructor(public authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(public authService: AuthService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService) {
+    this.selectedGroupsForm = this.formBuilder.array([]);
+
     this.createUserForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      profilePhoto: [''],
       email: ['', [Validators.required, Validators.email]],
-      roles: ['', Validators.required],
-      groups: ['', Validators.required]
+      manager: false,
+      technical: false,
+      functional: false,
+      selectedGroups: this.selectedGroupsForm,
     });
   }
 
   ngOnInit() {
+    //GETTING ALL THE GROUPS
+    this.groupService.getGroups().subscribe(
+      (result: group[]) => {
+        result.forEach(item => {
+          this.allGroups.push(item);
+          // this.allGroupIds.push(item.id);
+        });
+      },
+      (error: any) => {
+        console.log('Error fetching all groups', error);
+      }
+    );
+
     this.filteredOptions = this.groupControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -41,11 +62,12 @@ export class InternalAccountPage1Component implements OnInit{
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.allGroups
+    .filter(option => option.groupName.toLowerCase().includes(filterValue))
+    .map(option => option.groupName);
   }
 
   async onSubmit() {
-    console.log('Form submitted!');
     console.log('Form value:', this.createUserForm.value);
 
     if (!this.createUserForm.valid) {
@@ -73,12 +95,40 @@ export class InternalAccountPage1Component implements OnInit{
     }
   }
 
-  removeGroupTab(event: MouseEvent): void {
-    const targetElement = event.target as HTMLElement;
-    const groupTabElement = targetElement.closest('.group-tab');
-    if (groupTabElement) {
-      groupTabElement.remove();
+  addGroup() {
+    const selectedGroupName = this.groupControl.value;
+    console.log("selected group name", selectedGroupName);
+    if(selectedGroupName){
+        const selectedGroup: group | undefined = this.allGroups.find(group => group.groupName === selectedGroupName);
+        if (selectedGroup && !this.selectedGroups.some(group => group.id === selectedGroup.id)) {
+          this.selectedGroups.push(selectedGroup);
+          this.selectedGroupsForm.push(this.formBuilder.control(selectedGroup.id));
+          this.allGroups = this.allGroups.filter(group => group.id !== selectedGroup.id);
+        }
+      }
+    this.groupControl.reset();
+    this.toggleAddGroupOverlay();
+  }
+
+  removeGroupTab(event: MouseEvent, index: number): void {
+  const targetElement = event.target as HTMLElement;
+  const groupTabElement = targetElement.closest('.group-tab');
+  if (groupTabElement) {
+    const groupNameElement = groupTabElement.querySelector('p');
+    if (groupNameElement) {
+      const groupName = groupNameElement.textContent;
+      if (groupName) {
+        const selectedGroupIndex = this.selectedGroups.findIndex(group => group.groupName === groupName);
+        if (selectedGroupIndex !== -1) {
+          const selectedGroup = this.selectedGroups[selectedGroupIndex];
+          this.selectedGroups.splice(selectedGroupIndex, 1);
+          this.selectedGroupsForm.removeAt(index);
+          this.allGroups.push(selectedGroup);
+        }
+      }
     }
+    groupTabElement.remove();
+  }
   }
 
   handleKeyupEvent(event: KeyboardEvent): void {

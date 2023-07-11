@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { user } from "../../../backend/src/models/user.model";
 import { Observable } from "rxjs";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,7 @@ export class UserService {
 
   getUserById(id: string): Observable<user> {
     return this.http.get<user>(`${this.API_URL}/${id}`);
-}
+  }
 
 
   //DASHES FUNCTIONS

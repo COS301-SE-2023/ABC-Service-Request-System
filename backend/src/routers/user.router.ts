@@ -95,12 +95,26 @@ router.post("/create_user", expressAsyncHandler(
             // console.log("User creation request received:", req.body);
 
             // check if a user with the provided email already exists
-            const existingUser = await UserModel.findOne({ emailAddress: req.body.emailAddress });
+            const existingUser = await UserModel.findOne({ emailAddress: req.body.email });
 
             if (existingUser) {
                 // console.log("User with this email already exists");
                 res.status(409).send("User with this email already exists.");
                 return;
+            }
+
+            let roles: string[] = [];
+
+            if(req.body.manager){
+                roles.push("Manager");
+            }
+
+            if(req.body.technical){
+                roles.push("Technical");
+            }
+
+            if(req.body.Functional){
+                roles.push("Functional");
             }
 
             // generate invite token
@@ -114,11 +128,11 @@ router.post("/create_user", expressAsyncHandler(
                 name: req.body.name,
                 surname: req.body.surname,
                 profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
-                emailAddress: req.body.emailAddress,
+                emailAddress: req.body.email,
                 inviteToken,
                 status: "pending",
-                roles: req.body.roles,
-                groups: req.body.groups,
+                roles: roles,
+                groups: req.body.selectedGroups,
                 password: "Admin"
             });
 
