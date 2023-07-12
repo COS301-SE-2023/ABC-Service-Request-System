@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { group } from '../../../../backend/src/models/group.model';
+import { user } from '../../../../backend/src/models/user.model';
 
 @Component({
   selector: 'app-internal-account-page1',
@@ -84,7 +85,20 @@ export class InternalAccountPage1Component implements OnInit{
 
       if (response && response.message === 'User created successfully') {
         window.alert('User created successfully');
-        this.router.navigate(['/dashboard']);
+        console.log("user: ", response.user);
+
+        this.selectedGroups.forEach(group => {
+          console.log('printing');
+          this.groupService.addPeopleToGroup(group, response.user).subscribe(
+            (responded: any) => {
+              console.log('subscribe', responded);
+            },
+            (errors: any) => {
+              console.log("Failed to add people", errors);
+            }
+          );
+        });
+        //this.router.navigate(['/dashboard']);
       } else {
         console.error('Error creating user:', response);
         this.errorMessage = 'Error creating user. Please try again.';

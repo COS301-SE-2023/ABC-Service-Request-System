@@ -242,7 +242,7 @@ router.post("/create_user", expressAsyncHandler(
             });
 
             // console.log("User created successfully");
-            res.status(201).send({ message: 'User created successfully', inviteToken });
+            res.status(201).send({ message: 'User created successfully', inviteToken, user: newUser});
         } catch (error) {
             // console.error("User creation error:", error);
             res.status(500).send("An error occurred during user creation.");
