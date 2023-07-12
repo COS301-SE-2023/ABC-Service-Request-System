@@ -149,6 +149,43 @@ export class NewTicketFormComponent implements OnInit {
     return formattedDate;
   }
 
+  handleKeyDown(event: any) {
+    if (event.key === 'Enter') {
+      const textBox = event.target as HTMLDivElement;
+      const selection = window.getSelection();
+  
+      if (!selection) {
+        return;
+      }
+  
+      const range = selection.getRangeAt(0);
+      const listItem = document.createElement('li');
+      const textNode = document.createTextNode('\u00A0'); // Non-breaking space
+  
+      event.preventDefault();
+  
+      range.deleteContents();
+      listItem.appendChild(textNode);
+      range.insertNode(listItem);
+      range.setStart(listItem, 0);
+      range.setEnd(listItem, 0);
+  
+      selection.removeAllRanges();
+      selection.addRange(range);
+  
+      textBox.focus();
+    }
+  }
+  
+  handleInput(event: any) {
+    const textBox = event.target as HTMLDivElement;
+    const lines = textBox.innerText.split('\n').filter(line => line.trim() !== '');
+  
+    const listItems = lines.map(line => `<li>${line}</li>`).join('');
+    textBox.innerHTML = listItems !== '' ? `<ul>${listItems}</ul>` : '';
+    textBox.normalize(); // Normalize the HTML structure to remove any nested elements
+  }
+  
  /* ticketForm = this.fb.group({
     id: [''], //automatic incrr
     summary: [''],
