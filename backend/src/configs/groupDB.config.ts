@@ -9,7 +9,7 @@ export const dbConnection = async () => {
       useUnifiedTopology: true,
     } as ConnectOptions);
 
-    db = connection.useDb('mongoDB'); 
+    db = connection.useDb('groupDB'); 
 
     db.once('open', () => {
       

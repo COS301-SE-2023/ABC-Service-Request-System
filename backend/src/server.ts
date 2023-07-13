@@ -14,8 +14,10 @@ import groupRouter from './routers/group.router'
 import testTicketRouter from './test_routers/testTicket.router';
 import testUserRouter from './test_routers/testUser.router';
 import testNotificationsRouter from './test_routers/testNotifications.router';
+import testGroupRouter from './test_routers/testGroup.router'
 
 import { dbConnection } from "./configs/ticketDB.config";
+import { testGroupModel } from "./models/testGroup.model";
 
 dbConnection();
 
@@ -39,6 +41,7 @@ app.use('/api/group', groupRouter);
 app.use('/api/test_ticket', testTicketRouter);
 app.use('/api/test_user', testUserRouter);
 app.use('/api/test_notifications', testNotificationsRouter);
+app.use('/api/test_group', testGroupRouter);
 
 app.get('/api/welcome', (req: any, res :any) => {
     res.status(200).send({ message: 'Welcome to the server!' });
