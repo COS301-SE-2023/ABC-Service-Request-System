@@ -1,13 +1,17 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-client-account-page3',
   templateUrl: './client-account-page3.component.html',
   styleUrls: ['./client-account-page3.component.scss']
 })
-export class ClientAccountPage3Component {
+export class ClientAccountPage3Component implements OnInit{
   @Output() backClicked = new EventEmitter<void>();
   @Output() completeClicked = new EventEmitter<void>();
+
+  @Input() formData: any;
+
+  projectImageUrl!: string;
 
   hovered = false;
 
@@ -24,6 +28,10 @@ export class ClientAccountPage3Component {
     }
   }
 
+  ngOnInit(): void {
+    this.setRandomImage();
+  }
+
   handleKeyupEvent(event: KeyboardEvent): void {
     console.log("nothing");
   }
@@ -34,5 +42,15 @@ export class ClientAccountPage3Component {
 
   onCompleteClicked(): void{
     this.completeClicked.emit();
+  }
+
+  setRandomImage(): void {
+    const imageFolder = '../../assets/project-logos/';
+    const imageNames = ['camera.png', 'coffee-cup.png', 'computer.png', 'eight.png', 'flask.png', 'hotdog.png', 'laptop.png', 'notebook.png', 'smartphone.png', 'vynil.png', 'wallet.png', 'web-design.png'];
+
+    const randomIndex = Math.floor(Math.random() * imageNames.length);
+    const randomImageName = imageNames[randomIndex];
+
+    this.projectImageUrl = imageFolder + randomImageName;
   }
 }

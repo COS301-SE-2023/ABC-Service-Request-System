@@ -5,8 +5,72 @@
   <div class="project-information">
     <div class="project-logo">
       <div class="hover-bg" [style.opacity]="hovered ? '1' : '0'" (mouseenter)="toggleHover()" (mouseleave)="toggleHover()"></div>
+      <img [src]="projectImageUrl" alt="projectLogo">
+
+      <div class="image-select-outer-wrapper grid grid-cols-3 gap-4">
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/camera.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/coffee-cup.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/computer.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/eight.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/flask.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/hotdog.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/laptop.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/notebook.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/smartphone.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/vynil.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/wallet.png" alt="select-logo">
+          </button>
+        </div>
+        <div class="image-select">
+          <button>
+            <img src="../../assets/project-logos/web-design.png" alt="select-logo">
+          </button>
+        </div>
+      </div>
     </div>
-    <input type="text" placeholder="Untitled">
+    <input type="text" placeholder="Untitled" [(ngModel)]="formData.projectName">
   </div>
 
   <h2>Assigned Groups</h2> <br>
