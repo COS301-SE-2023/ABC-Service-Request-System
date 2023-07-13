@@ -1,4 +1,5 @@
 import { UserModel } from "./models/user.model";
+import { sample_users } from "./sampleUsers";
 
 const user1 = new UserModel({ 
     id: "1",
