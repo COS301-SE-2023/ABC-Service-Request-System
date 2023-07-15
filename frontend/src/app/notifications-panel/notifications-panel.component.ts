@@ -25,7 +25,7 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
-        console.log("Unread: ", this.unreadNotificationsArray);
+        // console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
     });
@@ -36,7 +36,7 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
       this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
-        console.log("Read: ", this.readNotificationsArray);
+        // console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
       });
     });
@@ -53,7 +53,7 @@ export class NotificationsPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Notifications Initialising");
+    //console.log("Notifications Initialising");
     this.getUnreadNotifications();
   }
 
@@ -75,15 +75,18 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }
 
-  /*updateReadStatusNotifications(id: string) {
-
-  }*/
+  updateReadStatusNotifications(id: string) {
+    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
+      console.log("");
+    });
+  }
   
   navigateToTicket(id: string) {
     this.router.navigate([`/ticket/${id}`]);
+    location.replace(`/ticket/${id}`);
 
     // update the notification so that it is read
-    //this.updateReadStatusNotifications(id);
+    this.updateReadStatusNotifications(id);
   }
 
   getNotificationTime(notification: notifications): string {

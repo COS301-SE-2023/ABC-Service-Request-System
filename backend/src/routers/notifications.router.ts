@@ -72,7 +72,7 @@ router.put('/changeToRead', expressAsyncHandler(
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
-              { id: notificationsId },
+              { link: notificationsId },
               { $set: { readStatus: 'Read' } },
               { new: true }
             );
@@ -94,7 +94,7 @@ router.put('/changeToUnread', expressAsyncHandler(
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
-              { id: notificationsId },
+              { link: notificationsId },
               { $set: { readStatus: 'Unread' } },
               { new: true }
             );

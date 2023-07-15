@@ -21,7 +21,7 @@ export class NotificationsService {
     return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body);
   }
 
- /* changeNotificationToRead(id: string) {
+  changeNotificationToRead(id: string) {
     const body = {id};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToRead`, body);
   }
@@ -29,5 +29,5 @@ export class NotificationsService {
   changeNotificationToUnread(id: string) {
     const body = {id};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToUnread`, body);
-  }*/
+  }
 }
