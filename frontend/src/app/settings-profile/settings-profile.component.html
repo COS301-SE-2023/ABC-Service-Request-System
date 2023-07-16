@@ -10,7 +10,9 @@
     <div class="background_img">
         <label for="fileInput" class="file-input-label">
             <input type="file" id="fileInput" class="file-input" (change)="onFileChanged($event)" />
+            <!-- <img src = "{{getUsersBackgroundPicture()}}" class = background_img alt = "background-piture"> -->
           </label>
+          <img src="./assets/Draven_2.jpg" alt="background_img" class="b_img">
     </div>
     <div class="profile-picture">
         <label for="fileInput" class="profilePicture-input">
@@ -19,38 +21,92 @@
         </label>
         <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
     </div>
-        <label for="notifications">Notifications</label>
-            <div class="notifications-switch">
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider round"></span>
-                </label>
-            </div>
+    <div class="labels">
+        <div class="name-surname">
+            <label for="name" class ="labelName">{{getUserName()}}</label>
+            <label for="surname" class = "labelSurname">{{getUserSurname()}}</label>
+        </div>
+        <div class="email">
+            <label for="email" class="labelEmail">{{getUserEmail()}}</label>
+        </div>
+    </div>
     <form>
-
         <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" *ngIf="!editingName"
-                      [(ngModel)]="editedName"
+                <label for="name">Location</label>
+                <input type="text" id="name" name="name" *ngIf="!editingLocation"
+                      [(ngModel)]="editedLocation"
                       (keydown)="onFieldChange()">
                 <img src="./assets/pencil.png" alt="pencil">
         </div>
-
-        <div class="form-group">
-            <label for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" *ngIf="!editingSurname"
-                  [(ngModel)]="editedSurname"
+        <div class= "form-group">
+            <label for="bio">Bio:</label>
+            <input type="text" id="bio" name="bio" *ngIf="!editingBio"
+                  [(ngModel)]="editedBio"
                   (keydown)="onFieldChange()">
             <img src="./assets/pencil.png" alt="pencil">
         </div>
-        <div class ="role">
-            Functional
-        </div>
+        <!-- <h3>Socials</h3> -->
         <div class= "form-group">
-            <label for="bio">Bio:</label>
-            <textarea id="bio" class="input-field" style="height:50px;resize:vertical;" name="bio" placeholder="Tell us about yourself..."></textarea>
+            <label for="facebook">Facebook</label>
+            <input type="text" id="fb" name="fb" *ngIf="!editingFB"
+                  [(ngModel)]="editedFB"
+                  (keydown)="onFieldChange()">
             <img src="./assets/pencil.png" alt="pencil">
         </div>
+
+        <div class= "form-group">
+            <label for="github">Github</label>
+            <input type="text" id="gh-link" name="gh-link" *ngIf="!editingGH"
+                  [(ngModel)]="editedGH"
+                  (keydown)="onFieldChange()">
+            <img src="./assets/pencil.png" alt="pencil">
+        </div>
+
+        <div class= "form-group-1">
+            <label for="linkedin">Linkedin</label>
+            <input type="text" id="li-link" name="li-link" *ngIf="!editingLI"
+                  [(ngModel)]="editedLI"
+                  (keydown)="onFieldChange()">
+            <img src="./assets/pencil.png" alt="pencil">
+        </div>
+
+        <div class= "form-group-2">
+            <label for="instagram">Instagram</label>
+            <input type="text" id="ig-link" name="ig-link" *ngIf="!editingIG"
+                  [(ngModel)]="editedIG"
+                  (keydown)="onFieldChange()">
+            <img src="./assets/pencil.png" alt="pencil">
+        </div>
+        <div class="notifications-div">
+            <label for="notifications" class="notifications-label"><u>Notifications</u></label>
+            <div>
+                <label for="notification" class="notifications-label">Ticket Creation</label>
+                <div class="notifications-switch">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="notifications-item">
+                <label for="notification" class="notifications-label">Ticket Comments</label>
+                <div class="notifications-switch">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="notifications-item">
+                <label for="notification" class="notifications-label">Added to Group</label>
+                <div class="notifications-switch">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+         </div>
 
         <button [disabled]="!isDirty" (click)="saveChanges()" class="save-profile">Save</button>
 </form>
