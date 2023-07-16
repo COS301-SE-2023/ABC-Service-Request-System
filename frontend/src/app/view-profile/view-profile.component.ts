@@ -498,10 +498,10 @@ export class ViewProfileComponent implements OnInit {
    this.user = user;
    });
 
-   this.userPic = this.getUsersProfilePicture();
+   this.userPic = this.getUserProfilePicture();
  }
 
- getUsersProfilePicture(){
+ getUserProfilePicture(){
   const user = this.authService.getUser();
   console.log("userrr", user);
   console.log("profile photo: " + user.profilePhoto);
@@ -515,11 +515,51 @@ getUsersBackgroundPicture(){
   // return this.user.BackgroundPhoto;
 }
 
-getUsersBio(){
-  // const user = this.authService.getUser();
-  // console.log("userrr", user);
-  // console.log("bio: " + user.bio);
-  // return this.user.bio;
+getUserBio(){
+   const user = this.authService.getUser();
+   console.log("userrr", user);
+   console.log("bio: " + user.bio);
+   return this.user.bio;
+}
+
+getUserName(){
+  const user = this.authService.getUser();
+  return this.user.name;
+}
+
+getUserSurname(){
+ const user = this.authService.getUser();
+ return this.user.surname;
+}
+
+getUserEmail(){
+  const user = this.authService.getUser();
+  return this.user.emailAddress;
+}
+
+getUserRole(){
+  const user = this.authService.getUser();
+  return this.user.roles;
+}
+
+getUserFB(){
+  const user = this.authService.getUser();
+  return this.user.facebook;
+}
+
+getUserIG(){
+  const user = this.authService.getUser();
+  return this.user.instagram;
+}
+
+getUserLI(){
+  const user = this.authService.getUser();
+  return this.user.linkedin;
+}
+
+getUserGH(){
+  const user = this.authService.getUser();
+  return this.user.github;
 }
 
 getUserObject(){

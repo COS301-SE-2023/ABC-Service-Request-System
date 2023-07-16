@@ -8,28 +8,33 @@
 
 <div class ="profile">
     <div class="background_img">
+      <img src="./assets/Draven_2.jpg" alt="background_img" class="b_img">
     </div>
     <div class="profile-picture">
         <label for="fileInput" class="profilePicture-input">
-            <img src="{{ getUsersProfilePicture() }}" class="profile-picture" alt="profile-picture">
+            <img src="{{ getUserProfilePicture() }}" class="profile-picture" alt="profile-picture">
         </label>
     </div>
-
-    <form>
-
-        <label for="name">John &nbsp;</label>
-        <label for="surname">Smith &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
-        <label for="email">johnsmith@gmail.com</label>
-        <div class ="role">
-            Functional
+    <div class="labels">
+        <div class="name-surname">
+            <label for="name" class ="labelName">{{ getUserName() }}</label>
+            <label for="surname" class = "labelSurname">{{ getUserSurname() }}</label>
         </div>
+        <div class="email">
+            <label for="email" class="labelEmail">{{ getUserEmail()}}</label>
+        </div>
+        <div  class="location">
+            <label for="location" class="labelLocation">Sandton, South Africa</label>
+        </div>
+    </div>
         <div class= "form-group">
-            <label for="bio">Bio:</label>
-            <p>John Smith is an experienced software engineer with a passion for crafting innovative solutions to complex problems. With over 10 years of professional experience in the field, John has honed his skills across various programming languages and technologies.
-                John's journey in programming began during his early years in high school when he developed a keen interest in computers and logical thinking. He went on to pursue a Bachelor's degree in Computer Science, where he deepened his understanding of algorithms, data structures, and software development principles.</p>
+            <h3>Bio</h3>
+            <div class = "bio-p">
+              <p>{{ getUserBio() }}</p>
+            </div>
         </div>
-</form>
-<div class="grid-item grid-item-6">
+  <h3>Analytics</h3>
+  <div class="grid-item grid-item-6">
   <div class="header2">
     <h2>First Response</h2>
   </div>  
@@ -48,7 +53,6 @@
       </div>
     </div>
   </div>
-  
   <div class="grid-item grid-item-7">
     <h2>Ticket Resolution</h2>
     <div class="graph-and-average-container">
@@ -71,6 +75,26 @@
         <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
       </div>
     </div>
+  </div>
+  <a href="" class="VDR"><u>View Detailed Report</u></a>
+  <div class="socials">
+      <h3 class="socials-header">Socials</h3>
+      <div class="social-item-1">
+        <img src="./assets/facebook_logo.png" alt="facebook_logo.png" class="fb-logo">
+        <a href=" {{ getUserFB() }}">Visit Facebook</a>
+      </div>
+      <div class="social-item-2">
+        <img src="./assets/github-logo.png" alt="github_logo.png" class="gh-logo">
+        <a href="{{ getUserGH() }}">Visit Github</a>
+      </div>
+      <div class="social-item-3">
+        <img src="./assets/linkedin_logo.png" alt="linkedin_logo.png" class="li-logo">
+        <a href="{{ getUserLI() }}">    Visit Linkedin</a>
+      </div>
+      <div class="social-item-4">
+        <img src="./assets/instagram_logo.png" alt="instagram_logo.png" class="ig-logo">
+        <a href="{{ getUserIG() }}"> Visit Instagram</a>
+      </div>
   </div>
 </div>
 

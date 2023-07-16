@@ -2,7 +2,7 @@
   font-family: 'Montserrat', sans-serif;
 }
 .panel{
-    position: absolute;
+    position: fixed;
     top: 0;
    }
   .profilePicture-input{
@@ -17,19 +17,27 @@
     transition: background-color .3s ease-in-out;
   }
    .background_img {
-    width: 66em;
-    margin-top: -1.1em;
-    margin-left: -1.1em;
-    height: 11.25em;
-    background-color: #e1e7ed;
-    background: url("https://source.unsplash.com/9wg5jCEPBsw");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    border-top-left-radius: 0.7em;
-    border-top-right-radius: 0.7em;
+     width: 103.4%;
+    // margin-top: -1.1em;
+    // margin-left: -1.1em;
+    // height: 11.25em;
+    // background-color: #33663D;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // background-position: center;
   
-    border-color: black;
+    // border-color: black;
+
+    .b_img{
+      width: 103.1%;
+      margin-top: -1.1em;
+      margin-left: -1.1em;
+      height: 11.25em;
+      //background-color: #33663D;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
   }
   
   .image-button {
@@ -58,7 +66,7 @@
   
   .profile {
        width: 70.85%;
-       height:120%;
+       height:175%;
        position: absolute;
        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
       // //margin: 0 auto;
@@ -76,9 +84,115 @@
     display: inline-block;
     color: black;
     font-family: 'Poppins', sans-serif;
-   // margin-top: -5.0em;
-    font-weight: bold;
+    margin-left: 20%;
+    font-weight: 500;
+    line-height: 114%;
   }
+  .labels{
+    margin-top: -7.5%;
+  .labelName{
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    margin-left: 20%;
+    //background-color: #33663D;
+    font-weight: 500;
+    // line-height: 114%;
+    font-size: 36px;
+    //margin-top: -40%;
+  }
+  .labelSurname{
+    //display: relative;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    //background-color: yellow;
+    margin-left: 2%;
+    font-weight: 500;
+    // line-height: 114%;
+    font-size: 36px;
+  }
+  .labelEmail{
+    //display: relative;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    //background-color: #8C2822;
+    margin-left: 20%;
+    margin-top: -5%;
+    font-weight: 500;
+    // line-height: 114%;
+  }
+}
+.bio-p{
+  border: 1px solid black;
+  border-color: black;
+  padding: 0.5%;
+}
+.VDR{
+  margin-top: 5%;
+  text-align: center;
+  margin-left: -10%;
+  //left:100px;
+}
+.socials-header{
+  margin-bottom: 10%;
+  margin-left: 0%;
+}
+
+     h3{
+      margin-top: 5%;
+      font-family: 'Poppins', sans-serif;
+      color: gray;
+     }
+.fb-logo{
+  width:10%;
+  height:100%;
+}
+
+.social-item-1{
+  margin-left: 0%;
+  margin-top: -10%;
+  margin-right: 50%;
+  margin-bottom: 10%;
+ // background-color: #8C2822;
+
+  .fb-link{
+    border: 1px solid black;
+    border-radius: 5px;
+    }
+}
+.social-item-2{
+  margin-left:50%;
+  margin-top: -15%;
+  margin-bottom: 15%;
+  //background-color: #33663D;
+
+  .gh-logo{
+    width: 10%;
+    height:99%;
+  }
+}
+
+.social-item-3{
+  margin-left:0.25%;
+  margin-top: -15%;
+  margin-bottom: 11%;
+  margin-right: 50%;
+  //background-color: purple;
+  .li-logo{
+    width:9%;
+    height: 100%;
+  }
+}
+.social-item-4{
+  margin-left: 50.25%;
+  margin-top: -15.4%;
+  margin-bottom: 15%;
+  //background-color: purple;
+  .ig-logo{
+    width:9%;
+    height: 100%;
+  }
+}
+
   
       h2 {
         margin-bottom: 1.25em;
@@ -104,7 +218,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 1em;
+        margin-bottom: 0%;
         margin-left: -0.625em;
         background-repeat: no-repeat;
         background-size: cover;
@@ -118,7 +232,7 @@
           object-fit: cover;
           border-radius: 50%;
           border-color:  white;
-          margin-bottom: 0.625em;
+          margin-bottom: 0%;
         }
 
       }
@@ -150,6 +264,7 @@
 }
 .grid-item-6{
   //grid-column: span 2;
+  //background-color: yellow;
   grid-row: span 2;
   height: 108%;
   right:1%;
@@ -166,12 +281,15 @@
   }  
 }
 .grid-item-7{
-  //grid-column: span 2;
+   //grid-column: span 2;
+  //background-color: yellow;
   grid-row: span 2;
+  //height: 108%;
+  left:50%;
+  bottom:7%;
+  margin-top: -31%;
+  //margin-bottom: 31%;
   flex-direction: column;
-  bottom:95.9%;
-  height: 96%;
-  left: 49%;
   h2 {
     font-family: 'Poppins', sans-serif;
     font-size: 2em;
@@ -180,7 +298,7 @@
   }
   .header2{
     margin-right: 0em;
-  }
+  }  
 }
 
 
