@@ -225,8 +225,8 @@ router.post("/create_user", expressAsyncHandler(
                 `,
                 attachments: [
                     {
-                        filename: 'app_logo_transparent.png',
-                        path: 'assets/app_logo_transparent.png',
+                        filename: 'luna-logo.png',
+                        path: 'assets/luna-logo.png',
                         cid: 'logo'
                     }
                 ]

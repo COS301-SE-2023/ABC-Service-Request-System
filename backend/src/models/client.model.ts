@@ -1,11 +1,14 @@
 import { Schema, connection } from "mongoose"
 import { ticket, ticketSchema } from "./ticket.model"
+import { group, groupSchema } from "./group.model"
 
 export interface project {
     id: string,
     name: string,
     logo: string,
-    tickets: ticket []
+    color: string,
+    tickets?: ticket [],
+    assignedGroups?: group [],
 }
 
 export interface client {
@@ -14,7 +17,10 @@ export interface client {
     surname: string,
     organisation: string,
     email: string,
+    emailVerified: boolean,
+    password: string,
     industry: string,
+    inviteToken?: string,
     projects: project []
 }
 
@@ -23,11 +29,9 @@ const projectSchema = new Schema<project>(
         id: { type: String, required: true},
         name: { type: String, required: true},
         logo: { type: String, required: true},
-        tickets: { type: [ticketSchema], required: true},
-
-    },
-    {
-        _id : false
+        color: { type: String, required: true},
+        tickets: { type: [ticketSchema], required: false},
+        assignedGroups: { type: [groupSchema], required: false},
     }
 )
 
@@ -38,7 +42,10 @@ const clientSchema = new Schema<client>(
         surname: { type: String, required: true},
         organisation: { type: String, required: true},
         email: { type: String, required: true},
+        emailVerified: {type: Boolean, required: true, default: false},
+        password: {type: String, required: true, select: true},
         industry: { type: String, required: true},
+        inviteToken: { type: String }, // Add inviteToken field
         projects: { type: [projectSchema], required: true},
     },{
         toJSON: {

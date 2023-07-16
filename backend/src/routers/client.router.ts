@@ -1,11 +1,102 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { ClientModel } from "../models/client.model";
+import { project } from "../models/client.model";
 
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import { group } from "../models/group.model";
 
 const router = Router();
+
+router.get('/', expressAsyncHandler(
+    async (req, res) => {
+        const clients = await ClientModel.find();
+        res.status(200).send(clients);
+    }
+));
+
+//fetch all clients belonging to a specific organisation
+router.get('/organisation', expressAsyncHandler(
+    async (req, res) => {
+        const organisation = req.query.organisation
+
+        const clients = await ClientModel.find({organisation: organisation});
+
+        if(clients) {
+            res.status(200).send(clients);
+        } else {
+            res.status(404).send({message: 'No clients found by that organisation name'});
+        }
+    }
+));
+
+//remove a group from a project given the project id, group id and client id
+router.put("/remove_group", expressAsyncHandler(
+    async (req, res) => {
+        const projectId = req.body.projectId;
+        const groupId = req.body.groupId;
+        const clientId = req.body.clientId;
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client){
+                const project = client.projects.find((project) => {
+                    return project.id == projectId;
+                });
+
+                if(project){
+                    project.assignedGroups = project.assignedGroups?.filter((group) => {
+                        return group.id !== groupId;
+                    });
+                    await client.save();
+                    res.status(200).send(project);
+                } else {
+                    res.status(404).send("Project not found");
+                }
+            } else {
+                res.status(404).send("Client not found");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error removing group from clients project");
+        }
+    }
+));
+
+//add a group to a project given the client id and project id
+router.post("/add_group", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+        const projectId = req.body.projectId;
+        const newGroup: group = req.body.newGroup;
+
+        try{
+            const client = await ClientModel.findOne({ id: clientId });
+
+            if(client) {
+                const project = client.projects.find((project) => {
+                    return project.id == projectId;
+                });
+
+                if(project) {
+                    project.assignedGroups?.push(newGroup);
+                    await client.save();
+
+                    res.status(201).send(project);
+                } else {
+                    res.status(404).send("Project not found");
+                }
+    
+            } else {
+                res.status(404).send("Client not found")
+            }
+
+        } catch (error) {
+            res.status(500).send("Internal server error adding group to clients project");
+        }
+    } 
+));
 
 router.post("/create_client", expressAsyncHandler(
     async (req, res) => {
@@ -20,15 +111,24 @@ router.post("/create_client", expressAsyncHandler(
         const inviteToken = crypto.randomBytes(32).toString("hex");
         const clientCount = await ClientModel.countDocuments();
 
+        const newProject: project = {
+            id: '1',
+            name: req.body.projectName,
+            logo: req.body.logo,
+            color: req.body.color,
+            assignedGroups: req.body.groups
+        }
+
         // create new client
         const newClient = new ClientModel({
             id: String(clientCount + 1), // Assign the auto-incremented ID
             name: req.body.name,
             surname: req.body.surname,
             email: req.body.email,
+            inviteToken,
             organisation: req.body.organisation,
             industry: req.body.industry,
-            projects: req.body.projects,
+            projects: newProject,
             password: "Admin"
         });
 
@@ -119,8 +219,8 @@ router.post("/create_client", expressAsyncHandler(
             `,
             attachments: [
                 {
-                    filename: 'app_logo_transparent.png',
-                    path: 'assets/app_logo_transparent.png',
+                    filename: 'luna-logo.png',
+                    path: 'assets/luna-logo.png',
                     cid: 'logo'
                 }
             ]

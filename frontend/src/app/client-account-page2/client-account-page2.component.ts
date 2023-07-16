@@ -53,21 +53,18 @@ export class ClientAccountPage2Component {
     console.log('Form value:', this.createUserForm.value);
     if (!this.createUserForm.valid) {
       console.log('Form is not valid');
-      //return;
+      return;
     }
 
     const formData = this.createUserForm.value;
 
-    // try {
-    //   console.log('Creating user:', formData);
-    //   this.formSubmitted.emit(formData); // Emit the form values
-    // } catch (error) {
-    //   console.error('Error creating user:', error);
-    //   this.errorMessage = 'Error creating user. Please try again.';
-    // }
-
-    this.formSubmitted.emit(formData); // remove this
-
+    try {
+      console.log('Creating user:', formData);
+      this.formSubmitted.emit(formData); // Emit the form values
+    } catch (error) {
+      console.error('Error creating user:', error);
+      this.errorMessage = 'Error creating user. Please try again.';
+    }
 
     this.continueClicked.emit();
   }

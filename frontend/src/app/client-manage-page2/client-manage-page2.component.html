@@ -11,18 +11,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="py-2">Ashir</td>
-        <td class="py-2">Butt</td>
-        <td class="py-2">ashirb@gmail.com</td>
-        <td class="py-2 text-red-600 text-right">
-          <button class="underline">Remove</button>
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2">Priyul</td>
-        <td class="py-2">Mahabeer</td>
-        <td class="py-2">priyul20@gmail.com</td>
+      <tr *ngFor="let client of allClients">
+        <td class="py-2">{{ client.name }}</td>
+        <td class="py-2">{{ client.surname }}</td>
+        <td class="py-2">{{ client.email }}</td>
         <td class="py-2 text-red-600 text-right">
           <button class="underline">Remove</button>
         </td>
@@ -44,25 +36,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let project of allProjects" (click)="showAssignedGroups(project)" class="project-row">
         <td class="py-2">
-          <div class="project-logo"></div>
+          <div class="project-logo" [class]="project.color">
+            <img [src]="project.logo" alt="poject-logo">
+          </div>
         </td>
-        <td class="py-2">Nedbank Mobile Application</td>
+        <td class="py-2">{{ project.name }}</td>
         <td class="py-2 text-sky-600 text-center">
-          <button class="underline" (click)="onEditClicked()">Edit</button>
-        </td>
-        <td class="py-2 text-red-600 text-right">
-          <button class="underline">Remove</button>
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2">
-          <div class="project-logo"></div>
-        </td>
-        <td class="py-2">Nedbank Online Portal</td>
-        <td class="py-2 text-sky-600 text-center">
-          <button class="underline" (click)="onEditClicked()">Edit</button>
+          <button class="underline" (click)="onEditClicked(this.selectedClient, project)">Edit</button>
         </td>
         <td class="py-2 text-red-600 text-right">
           <button class="underline">Remove</button>
@@ -70,27 +52,6 @@
       </tr>
     </tbody>
   </table>
-
-  <button class="add-btn">Add</button> <br>
-
-  <h2>Assigned Groups</h2>
-
-  <div class="all-groups">
-    <div class="group-tab">
-      <p>Backend</p>
-      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
-    </div>
-
-    <div class="group-tab">
-      <p>Epiuse</p>
-      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
-    </div>
-
-    <div class="group-tab">
-      <p>Service Engineering</p>
-      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
-    </div>
-  </div>
 
   <button class="add-btn">Add</button> <br>
 

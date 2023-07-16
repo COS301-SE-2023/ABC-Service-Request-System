@@ -38,7 +38,15 @@
         <p>{{ selectedGroup.groupName }}</p>
         <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
       </div>
-      <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button">
+
+      <div class="no-groups-selected" *ngIf="!groupSelected">
+        <p>No Groups Selected</p>
+        <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>

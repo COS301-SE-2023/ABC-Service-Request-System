@@ -51,6 +51,10 @@
     }
   }
 
+  .options::-webkit-scrollbar {
+    display: none;
+  }
+
   .options{
     padding: 0.5em;
     border-radius: 0.3em;

@@ -37,17 +37,20 @@
       max-width: 5em;
       max-height: 5em;
       border-radius: 0.5em;
-      background-color: #0384BF;
+     // background-color: #0384BF;
       margin-right: 1em;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
-      z-index: 999;
 
       img {
         width: 60%;
       }
+    }
+
+    .project-logo:hover {
+      cursor: pointer;
     }
 
     .image-select-outer-wrapper {
@@ -57,12 +60,35 @@
       left: 50%;
       width: 400%;
       background-color: rgb(249, 251, 252);
-      padding: 1em;
-      padding-left: 1.3em;
-      padding-right: 0.2em;
       border-radius: 0.5em;
       border: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
+      padding: 0.5em;
+
+      .image-select {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+
+        button {
+          max-width: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        button:hover {
+          cursor: auto;
+        }
+
+        img {
+          padding: 0.8em;
+          border-radius: 0.3em;
+          cursor: pointer;
+        }
+      }
     }
 
     .image-select-outer-wrapper::before {
@@ -147,6 +173,10 @@
         cursor: pointer;
       }
     }
+
+    .group-tab:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
   }
 
   .complete-btn{
@@ -160,7 +190,7 @@
     min-width: 10em;
   }
 
-  .add-btn, .back-btn{
+ .back-btn{
     background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -172,11 +202,159 @@
     border-bottom: 3px solid rgba(72, 160, 205);
     margin-top: 2em;
   }
+}
 
-  .add-btn {
-    margin-left: 0;
+
+.orange-cl {
+  background-color: rgb(236, 98, 64);
+}
+
+.orange-cl:hover {
+  background-color: rgb(167, 72, 48);
+}
+
+.cyan-cl {
+  background-color: rgb(90, 196, 226);
+}
+
+.cyan-cl:hover {
+  background-color: rgb(72, 156, 179);
+}
+
+.yellow-cl {
+  background-color: rgb(246, 198, 68);
+}
+
+.yellow-cl:hover {
+  background-color: rgb(194, 156, 53);
+}
+
+.purple-cl {
+  background-color: rgb(98, 86, 186);
+}
+
+.purple-cl:hover {
+  background-color: rgb(72, 63, 138);
+}
+
+.grey-cl {
+  background-color: #565656;
+}
+
+.grey-cl:hover {
+  background-color: #373737;
+}
+
+.pink-cl {
+  background-color: #D64769;
+}
+
+.pink-cl:hover {
+  background-color: #9e354d;
+}
+
+.green-cl {
+  background-color: #56DB8B;
+}
+
+.green-cl:hover {
+  background-color: #3f9e65;
+}
+
+.blue-cl {
+  background-color: rgb(58, 130, 186);
+}
+
+.blue-cl:hover {
+  background-color: rgb(37, 84, 120);
+}
+
+.no-groups-selected{
+  width: 100%;
+  border: 2px dashed rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8em;
+  border-radius: 0.3em;
+  flex-direction: column;
+}
+
+.add-btn {
+  width: 3em;
+  height: 3em;
+  background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+  border-radius: 50%;
+  color: white;
+}
+
+.group-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+
+  h1{
+    font-family: 'Poppins';
+    font-size: 60px;
+    line-height: 1.2em;
+    font-weight: bolder;
+
+    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .group-overlay-inner-wrapper {
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(249, 251, 252);
+    padding: 2em;
+    border-radius: 0.3em;
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    .add-group-btn, .cancel-btn {
+      font-size: 1em;
+    }
+  }
+
+  input {
+    padding: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid #494545;
+    width: 100%;
+    font-family: 'Montserrat';
+  }
+
+  .add-group-btn{
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 20px;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
     margin-top: 1em;
-    font-size: 18px;
-    border-bottom: 2px solid rgb(72, 160, 205);
+    min-width: 10em;
+  }
+
+  .cancel-btn{
+    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Poppins';
+    font-size: 20px;
+    padding-bottom: 0.3em;
+    margin-left: 1.5em;
+    position: relative;
+    border-bottom: 3px solid rgba(72, 160, 205);
+    margin-top: 2em;
   }
 }

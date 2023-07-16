@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
 import { NavbarService } from 'src/services/navbar.service';
-
+import { client, project } from '../../../../backend/src/models/client.model';
 
 @Component({
   selector: 'app-create-account',
@@ -23,6 +23,12 @@ export class CreateAccountComponent implements OnInit{
   clientStage = 0;
 
   recievedFormData: any;
+  recievedCreatedClient!: client;
+
+  managingClient!: client;
+
+  clientToEdit!: client;
+  projectToEdit!: project;
 
   constructor(
     public authService: AuthService,
@@ -74,13 +80,28 @@ export class CreateAccountComponent implements OnInit{
     this.clientStage = 0;
   }
 
+  incrementClientStageAndReceiveEmit(event: { selectedClient: client, projectToEdit: project}){
+    this.clientToEdit = event.selectedClient;
+    this.projectToEdit = event.projectToEdit;
+    this.clientStage++;
+  }
+
   getFormValues(formData: any): void {
     console.log('Received form data: ', formData);
     this.recievedFormData = {
       ...formData,
       projectName: '',
       logo: '',
+      color: '',
       groups: []
     }
+  }
+
+  getCreatedClient(client: client): void {
+    this.recievedCreatedClient = client;
+  }
+
+  getSelectedClient(client: client): void {
+    this.managingClient = client;
   }
 }

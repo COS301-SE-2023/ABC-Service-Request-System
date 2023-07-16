@@ -53,9 +53,72 @@
     .project-logo {
       min-width: 5em;
       min-height: 5em;
+      max-width: 5em;
+      max-height: 5em;
       border-radius: 0.5em;
-      background-color: #0384BF;
+     // background-color: #0384BF;
       margin-right: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      img {
+        width: 60%;
+      }
+    }
+
+    .project-logo:hover {
+      cursor: pointer;
+    }
+
+    .image-select-outer-wrapper {
+      position: absolute;
+      top: 100%;
+      transform: translate(-50%, 0.7em);
+      left: 50%;
+      width: 400%;
+      background-color: rgb(249, 251, 252);
+      border-radius: 0.5em;
+      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
+      padding: 0.5em;
+
+      .image-select {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+
+        button {
+          max-width: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        button:hover {
+          cursor: auto;
+        }
+
+        img {
+          padding: 0.8em;
+          border-radius: 0.3em;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .image-select-outer-wrapper::before {
+      content: "";
+      position: absolute;
+      top: -1.3em;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0.7em;
+      border-style: solid;
+      border-color: transparent transparent rgba(255, 255, 255, 0.8) transparent;
     }
 
     .hover-bg {
@@ -64,6 +127,9 @@
       height: 100%;
       border-radius: 0.5em;
       cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     h2 {
@@ -132,15 +198,83 @@
     font-size: 18px;
     border-bottom: 2px solid rgb(72, 160, 205);
   }
-
-  .project-logo {
-    width: 3em;
-    height: 3em;
-    background-color: red;
-    border-radius: 0.3em;
-  }
 }
 
 thead {
   border-bottom: 2px solid #C8D3D8;
+}
+
+.orange-cl {
+  background-color: rgb(236, 98, 64);
+}
+
+.orange-cl:hover {
+  background-color: rgb(167, 72, 48);
+}
+
+.cyan-cl {
+  background-color: rgb(90, 196, 226);
+}
+
+.cyan-cl:hover {
+  background-color: rgb(72, 156, 179);
+}
+
+.yellow-cl {
+  background-color: rgb(246, 198, 68);
+}
+
+.yellow-cl:hover {
+  background-color: rgb(194, 156, 53);
+}
+
+.purple-cl {
+  background-color: rgb(98, 86, 186);
+}
+
+.purple-cl:hover {
+  background-color: rgb(72, 63, 138);
+}
+
+.grey-cl {
+  background-color: #565656;
+}
+
+.grey-cl:hover {
+  background-color: #373737;
+}
+
+.pink-cl {
+  background-color: #D64769;
+}
+
+.pink-cl:hover {
+  background-color: #9e354d;
+}
+
+.green-cl {
+  background-color: #56DB8B;
+}
+
+.green-cl:hover {
+  background-color: #3f9e65;
+}
+
+.blue-cl {
+  background-color: rgb(58, 130, 186);
+}
+
+.blue-cl:hover {
+  background-color: rgb(37, 84, 120);
+}
+
+h2{
+  font-family: 'Poppins';
+  font-size: 40px;
+  line-height: 1.2em;
+  font-weight: bold;
+
+  background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

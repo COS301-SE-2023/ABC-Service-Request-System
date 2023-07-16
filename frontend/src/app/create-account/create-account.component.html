@@ -17,12 +17,12 @@
     <div class="content" *ngIf="selected === 'client'">
       <app-client-account-page1 (manageAccountClicked)="incrementClientStageManage()" (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
       <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" (formSubmitted)="getFormValues($event)" *ngIf="clientStage === 1"></app-client-account-page2>
-      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" [formData]="recievedFormData" *ngIf="clientStage === 2"></app-client-account-page3>
-      <app-client-account-page4 *ngIf="clientStage === 3"></app-client-account-page4>
+      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" (clientCreated)="getCreatedClient($event)" [formData]="recievedFormData" *ngIf="clientStage === 2"></app-client-account-page3>
+      <app-client-account-page4 *ngIf="clientStage === 3" [createdClient]="recievedCreatedClient"></app-client-account-page4>
 
-      <app-client-manage-page1 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStageManage()" *ngIf="clientStage === 4"></app-client-manage-page1>
-      <app-client-manage-page2 (completeClicked)="decrementClientStageManage()" (backClicked)="decrementClientStage()" (editClicked)="incrementClientStage()" *ngIf="clientStage === 5"></app-client-manage-page2>
-      <app-client-manage-page3 (backClicked)="decrementClientStage()" *ngIf="clientStage === 6"></app-client-manage-page3>
+      <app-client-manage-page1 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStageManage()" (selectedClient)="getSelectedClient($event)" *ngIf="clientStage === 4"></app-client-manage-page1>
+      <app-client-manage-page2 (completeClicked)="decrementClientStageManage()" (backClicked)="decrementClientStage()" (editClicked)="incrementClientStageAndReceiveEmit($event)" [selectedClient]="managingClient" *ngIf="clientStage === 5"></app-client-manage-page2>
+      <app-client-manage-page3 (backClicked)="decrementClientStage()" *ngIf="clientStage === 6" [clientToEdit]="clientToEdit" [projectToEdit]="projectToEdit"></app-client-manage-page3>
     </div>
 
     <div class="content" *ngIf="selected === 'internal'">
