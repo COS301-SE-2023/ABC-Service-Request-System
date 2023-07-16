@@ -40,7 +40,15 @@ router.get('/seed', expressAsyncHandler(
                 emailVerified: true,
                 password: hashedPassword,
                 roles: ["Admin"],
-                groups: ["group1", "group2"]
+                groups: ["group1", "group2"],
+                bio: "I am the admin",
+                backgroundPhoto:"https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                linkedin: "https://www.linkedin.com",
+                facebook: "https://www.facebook.com",
+                github: "https://www.Github.com",
+                instagram: "https://www.instagram.com",
+                location: "Home"
+
             };
 
             const newUser = await UserModel.create(adminUser);
@@ -92,7 +100,7 @@ router.get('/delete', expressAsyncHandler(
 router.post("/create_user", expressAsyncHandler(
     async (req, res) => {
         try {
-            // console.log("User creation request received:", req.body);
+             console.log("User creation request received:", req.body);
 
             // check if a user with the provided email already exists
             const existingUser = await UserModel.findOne({ emailAddress: req.body.emailAddress });
@@ -107,7 +115,6 @@ router.post("/create_user", expressAsyncHandler(
             const inviteToken = crypto.randomBytes(32).toString("hex");
 
             const userCount = await UserModel.countDocuments();
-
             // create new user with pending status
             const newUser = new UserModel({
                 id: String(userCount + 1), // Assign the auto-incremented ID
@@ -119,7 +126,14 @@ router.post("/create_user", expressAsyncHandler(
                 status: "pending",
                 roles: req.body.roles,
                 groups: req.body.groups,
-                password: "Admin"
+                password: "Admin",
+                bio:"Tell us about yourself",
+                backgroundPhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                linkedin: "https://www.linkedin.com",
+                facebook: "https://www.facebook.com",
+                github: "https://www.Github.com",
+                instagram: "https://www.instagram.com",
+                location: "Home"
             });
 
             // console.log("before save");
@@ -393,25 +407,145 @@ router.put('/update_user_password',expressAsyncHandler(
         }
     }
 ))
-//UPDATE USER SURNAME - WORKING
-router.put('/update_user_surname',expressAsyncHandler(
+//UPDATE USER Location - WORKING
+router.put('/update_user_location',expressAsyncHandler(
     async (req, res,next) => {
         try{
-            const { surname, email } = req.body;
+            const { location, email } = req.body;
             // console.log("email: " + email);
 
             const user = await UserModel.findOneAndUpdate(
                 { emailAddress: email },
                 {
                   $set: {
-                    surname: surname
+                    location: location
                   }
                 },
                 { new: true }
             );
         
             if (user) {
-                res.status(200).json({ message: 'User surname updated successfuly' });
+                res.status(200).json({ message: 'User location updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER Facebook - 
+router.put('/update_user_facebook',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { facebook, email } = req.body;
+            console.log("email: " + email);
+            console.log("Facebook:"+ facebook)
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    facebook: facebook
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User facebook updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER INSTAGRAM - 
+router.put('/update_user_instagram',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { instagram, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    instagram: instagram
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User instagram updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER GITHUB - 
+router.put('/update_user_github',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { github, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    github: github
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User Github updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER GITHUB - 
+router.put('/update_user_linkedin',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { linkedin, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    linkedin: linkedin
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User Linkedin updated successfuly' });
             } else {
                 res.status(404).json({ message: 'User not found' });
             }
@@ -491,4 +625,67 @@ router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler
         }
     }
 ));
+
+//UPDATE USER BACKGROUND PICTURE -
+router.put('/update_background_photo',upload.single('file'),expressAsyncHandler(
+    async (req,res)=> {
+        try{
+            if (!req.file) {
+                res.status(400).json({ message: 'No file uploaded' });
+                return;
+            }
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const { email } = req.body;
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    backgroundPhoto: result.secure_url,
+                  }
+                },
+                { new: true }
+            );
+            if (user) {
+                res.status(200).json({ message: 'User background photo updated successfuly', url: result.secure_url });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+));
+
+//UPDATE USER BIO - WORKING
+router.put('/update_user_bio',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { bio, email } = req.body;
+            // console.log("email: " + email);
+            console.log("bio:"+bio);
+            const user = await UserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    bio: bio
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User bio updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+));
+
+
 export default router;
