@@ -99,7 +99,7 @@
 
   <button class="add-btn">Add</button> <br>
 
-  <h2>Assigned Groups</h2>
+  <h3>Assigned Groups</h3>
 
   <div class="all-groups">
     <div class="group-tab" *ngFor="let group of projectToEdit.assignedGroups; let i = index">
@@ -120,7 +120,7 @@
     </button>
   </div>
 
-  <button class="complete-btn" (click)="navigateToDashboard()">Dashboard</button>
+  <button class="complete-btn" (click)="navigateToDashboard()">Update</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>
 
   <div class="group-overlay" *ngIf="isAddGroupOverlayOpened">

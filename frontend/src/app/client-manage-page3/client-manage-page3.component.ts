@@ -6,6 +6,8 @@ import { group } from '../../../../backend/src/models/group.model';
 import { GroupService } from 'src/services/group.service';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { ticket } from '../../../../backend/src/models/ticket.model';
+import { ClientService } from 'src/services/client.service';
 
 
 @Component({
@@ -34,7 +36,13 @@ export class ClientManagePage3Component implements OnInit{
   selectedGroupsForm: FormArray;
   filteredOptions!: Observable<string[]>;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private groupService: GroupService) {
+  allTickets: ticket[] = [];
+  existingGroups: group[] = [];
+
+  constructor(private router: Router,
+      private formBuilder: FormBuilder,
+      private groupService: GroupService,
+      private clientService: ClientService) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
@@ -58,15 +66,31 @@ export class ClientManagePage3Component implements OnInit{
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+    //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
+    if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
+      this.existingGroups = this.projectToEdit.assignedGroups;
+      this.selectedGroups = this.projectToEdit.assignedGroups;
+      this.groupSelected = true;
+
+      //REMOVE EXISTING GROUPS FROM ALL GROUPS
+      this.filteredOptions = this.groupControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value || '')),
+      );
+    }
+
+    console.log("selected groups: ", this.selectedGroups);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.allGroups
-    .filter(option => option.groupName.toLowerCase().includes(filterValue))
-    .map(option => option.groupName);
+      .filter(option => option.groupName.toLowerCase().includes(filterValue) && !this.selectedGroups.some(selectedGroup => selectedGroup.id === option.id))
+      .map(option => option.groupName);
   }
+
 
   toggleHover(){
     console.log('came in');
@@ -78,7 +102,21 @@ export class ClientManagePage3Component implements OnInit{
   }
 
   navigateToDashboard() {
-    this.router.navigate(['/dashboard']);
+    console.log('selected Groups before:', this.selectedGroups);
+    console.log('existing groups: ', this.existingGroups);
+    this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
+    console.log('selected Groups now:', this.selectedGroups);
+    this.selectedGroups.forEach((group) => {
+      console.log("group 1: ", group);
+      this.clientService.addGroupToProject(this.clientToEdit.id, this.projectToEdit.id, group).subscribe(
+        (response) => {
+          console.log(response, ' hi');
+        }, (error) => {
+          console.log(error, ' bye');
+        }
+      )
+    })
+    //this.router.navigate(['/dashboard']);
   }
 
   addGroup() {
