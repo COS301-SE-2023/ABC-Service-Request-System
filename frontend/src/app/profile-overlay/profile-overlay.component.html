@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="overlayContainer">
     <form class="profileOverlay">
             <div class="profileOverlayHeader">
@@ -5,14 +7,14 @@
             </div>
             <div class="profileOverlayContent">
                 <div class="Account">
-                    <img src="/assets/profile-icon.png" alt="ProfilePic">
+                    <img src="{{ userPic }}" alt="ProfilePic">
                     <div class="accountDetail">
-                        <p><b>John Smith</b></p>
-                        <p><small>johnsmith@gmail.com</small></p>
+                        <p><b>{{ userName }} {{ userSurname }}</b></p>
+                        <p><small>{{ userEmail }}</small></p>
                     </div>
                 </div>
 
-                <div class="Settings">
+                <div class="Settings" (click)="openSettings()">
                     <p>Settings</p>
                     <img src="/assets/edit.png" alt="settings">
                 </div>

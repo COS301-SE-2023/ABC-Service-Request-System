@@ -68,14 +68,15 @@
     display: flex;
     justify-content: center;
     align-self: center;
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
 }
 
 .accountDetail {
     display: flex;
     flex-direction: column;
-    padding-left: 2em;
+    padding-left: 1em;
     justify-content: center;
     align-items: center;
 }
@@ -86,11 +87,6 @@
     align-items: center;
     margin: 0;
     padding: 0;
-}
-
-.Account:hover {
-    background-color: rgba(116, 172, 205, 0.3);
-    transition: 0.3s ease-in-out;
 }
 
 // Settings========================================================================================

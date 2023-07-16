@@ -4,6 +4,7 @@ import { tickets } from '../data'
 import { Ticket } from '../app.component';
 import { notifications } from '../../../../backend/src/models/notifications.model'; 
 import { NotificationsService } from 'src/services/notifications.service';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-page-header',
@@ -17,6 +18,7 @@ export class PageHeaderComponent {
   showNotificationsForm = false;
   showProfileForm = false;
   unreadNotificationsCount = 0;
+  roles = '';
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -30,7 +32,7 @@ export class PageHeaderComponent {
   @Output() openForm = new EventEmitter<void>();
   // @Input() tickets: any[] = [];
 
-  constructor(private notificationsService: NotificationsService, private router: Router, private elementRef: ElementRef) {}
+  constructor(private notificationsService: NotificationsService, private authService: AuthService, private router: Router, private elementRef: ElementRef) {}
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
@@ -82,6 +84,45 @@ export class PageHeaderComponent {
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
       this.unreadNotificationsCount = this.unreadNotificationsArray.length;
     });
+  }
+
+  getRoles() {
+    if (this.authService.isAdmin()) {
+      this.roles = "Admin";  
+      return this.roles; // Admin is already admin so won't have any other roles
+    }
+
+    if (this.authService.isManager()) {
+      this.roles = "Management";
+
+      if (this.authService.isFunctional()) {
+        this.roles = this.roles + ", Functional";
+      }
+
+      if (this.authService.isTechnical()) {
+        this.roles = this.roles + ", Technical";
+      }
+      
+      return this.roles;
+    }
+
+    if (this.authService.isFunctional()) {
+      this.roles = "Functional";
+
+      if (this.authService.isTechnical()) {
+        this.roles = this.roles + ", Technical";
+      }
+
+      return this.roles;
+    }
+
+    if (this.authService.isTechnical()) {
+      this.roles = "Technical";
+
+      return this.roles;
+    }
+
+    return "";
   }
 
   ngOnInit() {

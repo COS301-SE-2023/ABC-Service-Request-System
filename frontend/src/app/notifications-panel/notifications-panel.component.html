@@ -15,7 +15,8 @@
                         <img [src]="notifications.profilePhotoLink" alt="user" style="border-radius: 50%;">
                     </div>
                     <div class="notification-list_detail">
-                        <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
+                        <p class="Summary"><b>{{ notifications.ticketSummary }}</b></p>
+                        <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.notificationMessage }}</p>
                         <p><small>{{ getNotificationTime(notifications) }}</small></p>
                     </div>
                 </div>
