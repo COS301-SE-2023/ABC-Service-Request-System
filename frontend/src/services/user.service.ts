@@ -31,9 +31,33 @@ export class UserService {
     return this.http.put(url, body);
   }
 
-  updateProfileSurname(surname: string,email: string) {
-    const url = `${this.API_URL}/update_user_surname`;
-    const body = { surname,email };
+  updateProfileLocation(location: string,email: string) {
+    const url = `${this.API_URL}/update_user_location`;
+    const body = { location,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateProfileFB(fb: string,email: string) {
+    const url = `${this.API_URL}/update_user_facebook`;
+    const body = { fb,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateProfileIG(ig: string,email: string) {
+    const url = `${this.API_URL}/update_user_instagram`;
+    const body = { ig,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateProfileLI(li: string,email: string) {
+    const url = `${this.API_URL}/update_user_linkedin`;
+    const body = { li,email };
+    return this.http.put<user>(url, body);
+  }
+
+  updateProfileGH(gh: string,email: string) {
+    const url = `${this.API_URL}/update_user_github`;
+    const body = { gh,email };
     return this.http.put<user>(url, body);
   }
 
@@ -51,6 +75,12 @@ export class UserService {
     formData.append('email', email);
 
     return this.http.put<user>(url, formData);
+  }
+
+  updateUserProfileBio(bio: string, email: string){
+    const url = `${this.API_URL}/update_user_bio`;
+    const body = { bio,email};
+    return this.http.put<user>(url,body);
   }
   //END DASH
 
