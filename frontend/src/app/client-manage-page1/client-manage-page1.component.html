@@ -10,31 +10,12 @@
   </div>
 
   <ul class="options" *ngIf="isDropDownOpen">
-
     <li *ngFor="let organisation of organisationsToShow; let i = index" class="option"  [tabindex]="i" (click)="selectOption(organisation)" (keyup)="selectOption(organisation)">
-      <div class="user-img"></div>
+      <div class="user-img" [class]="organisation.projects[0].color">
+        <img [src]="organisation.projects[0].logo" alt="organisation logo">
+      </div>
       <span class="option-text" id="optionText{{i}}"> {{ organisation.organisation }} </span>
     </li>
-
-    <!-- <li class="option"  tabindex="1" (click)="selectOption(optionText1.textContent)" (keyup)="selectOption(optionText1.textContent)">
-        <div class="user-img"></div>
-        <span class="option-text" #optionText1>Epi-Use Africa</span>
-    </li>
-
-    <li class="option" tabindex="2" (click)="selectOption(optionText2.textContent)" (keyup)="selectOption(optionText2.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText2>Johns Carpets</span>
-    </li>
-
-    <li class="option" tabindex="3" (click)="selectOption(optionText3.textContent)" (keyup)="selectOption(optionText3.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText3>Sam's Works</span>
-    </li>
-
-    <li class="option" tabindex="3" (click)="selectOption(optionText4.textContent)" (keyup)="selectOption(optionText4.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText4>Nedbank</span>
-    </li> -->
   </ul>
 
   <button class="continue-btn" (click)="onContinueClicked()">Continue</button>

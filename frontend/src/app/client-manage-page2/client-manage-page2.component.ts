@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { GroupService } from 'src/services/group.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-client-manage-page2',
   templateUrl: './client-manage-page2.component.html',
@@ -25,6 +26,7 @@ export class ClientManagePage2Component implements OnInit{
   selectedProject!: project;
 
   isAddGroupOverlayOpened = false;
+  isRemoveClientOverlayOpened = false;
   groupControl = new FormControl('');
   filteredOptions!: Observable<string[]>;
   allGroups: group[] = [];
@@ -32,8 +34,9 @@ export class ClientManagePage2Component implements OnInit{
   selectedGroupsForm: FormArray;
   groupSelected = false;
   projectSelected = false;
+  clientToRemove!: client | null;
 
-  constructor(private clientService: ClientService, private groupService: GroupService, private formBuilder: FormBuilder) {
+  constructor(private clientService: ClientService, private groupService: GroupService, private formBuilder: FormBuilder, private router: Router) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
@@ -149,9 +152,26 @@ export class ClientManagePage2Component implements OnInit{
     }
   }
 
+  removeClient(client: client) {
+    console.log("client to remove is: ", client);
+  }
+
+  addClient(organisationName: string) {
+    const queryParams = { organisation: organisationName };
+    this.router.navigate(['/create-account'], { queryParams });
+  }
+
   //Overlays
   toggleAddGroupOverlay(){
-    console.log(this.isAddGroupOverlayOpened);
     this.isAddGroupOverlayOpened = !this.isAddGroupOverlayOpened;
+  }
+
+  toggleRemoveClientOverlay(client: client | null){
+    if(client != null){
+      this.clientToRemove = client;
+    }else {
+      this.clientToRemove = null;
+    }
+    this.isRemoveClientOverlayOpened = !this.isRemoveClientOverlayOpened;
   }
 }

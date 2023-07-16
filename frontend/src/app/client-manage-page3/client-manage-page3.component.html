@@ -101,33 +101,29 @@
 
   <h2>Assigned Groups</h2>
 
-  <!-- <div class="all-groups" *ngIf="projectGroups.length>0">
-    <div class="group-tab" *ngFor="let group of projectGroups; let i = index">
+  <div class="all-groups">
+    <div class="group-tab" *ngFor="let group of projectToEdit.assignedGroups; let i = index">
       <p>{{ group.groupName }}</p>
-      <i class="fa-solid fa-xmark" [tabindex]="i" (click)="removeGroupTab(group)" (keyup)="handleKeyupEvent($event)"></i>
+      <!-- <i class="fa-solid fa-xmark" [tabindex]="i" (click)="removeGroupTab(group)" (keyup)="handleKeyupEvent($event)"></i> -->
+      <i class="fa-solid fa-xmark" [tabindex]="i"></i>
     </div>
 
-    <div class="no-groups-selected" *ngIf="!groupSelected && projectGroups.length === 0">
+    <div class="no-groups-selected" *ngIf="!groupSelected">
       <p>No Groups Selected</p>
       <button class="add-btn-for-group" (click)="toggleAddGroupOverlay()" type="button">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
 
-    <button class="add-btn-for-group" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected || projectGroups.length > 0">
+    <button class="add-btn-for-group" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected">
       <i class="fa-solid fa-plus"></i>
     </button>
-  </div> -->
-
-
-  <!-- <div class="all-groups" *ngIf="!projectSelected">
-    <p>Select A project</p>
-  </div> -->
+  </div>
 
   <button class="complete-btn" (click)="navigateToDashboard()">Dashboard</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>
 
-  <!-- <div class="group-overlay" *ngIf="isAddGroupOverlayOpened">
+  <div class="group-overlay" *ngIf="isAddGroupOverlayOpened">
     <div class="group-overlay-inner-wrapper">
       <h1>Search by Group Name</h1>
       <input type="text"
@@ -145,5 +141,5 @@
       <button class="add-group-btn" (click)="addGroup()">Add Group</button>
       <button class="cancel-btn" (click)="toggleAddGroupOverlay()">Cancel</button>
     </div>
-  </div> -->
+  </div>
 </div>

@@ -1,15 +1,18 @@
-import { Component, Output, EventEmitter} from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-client-account-page2',
   templateUrl: './client-account-page2.component.html',
   styleUrls: ['./client-account-page2.component.scss']
 })
-export class ClientAccountPage2Component {
+export class ClientAccountPage2Component implements OnInit{
   @Output() backClicked = new EventEmitter<void>();
   @Output() continueClicked = new EventEmitter<void>();
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input() selectedOrganisation!: string;
 
   createUserForm: FormGroup;
   errorMessage!: string;
@@ -23,6 +26,17 @@ export class ClientAccountPage2Component {
       industry: ['', Validators.required],
     });
   }
+
+  ngOnInit(): void {
+      console.log(this.selectedOrganisation, ' lol');
+
+    if(this.selectedOrganisation !== undefined){
+      this.createUserForm.get('organisation')?.disable();
+      this.createUserForm.get('organisation')?.setValue(this.selectedOrganisation);
+    }
+  }
+
+
 
   // async onSubmit() {
   //   alert('lol');
@@ -49,6 +63,8 @@ export class ClientAccountPage2Component {
   }
 
   onContinueClicked(): void{
+    this.createUserForm.get('organisation')?.enable();
+
     console.log('Form submitted!');
     console.log('Form value:', this.createUserForm.value);
     if (!this.createUserForm.valid) {

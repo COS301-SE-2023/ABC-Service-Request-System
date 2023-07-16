@@ -6,6 +6,7 @@ import { tickets } from '../data';
 import { Ticket } from '../app.component';
 import { NavbarService } from 'src/services/navbar.service';
 import { client, project } from '../../../../backend/src/models/client.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -30,15 +31,26 @@ export class CreateAccountComponent implements OnInit{
   clientToEdit!: client;
   projectToEdit!: project;
 
+  selectedOrganisation!: string;
+
   constructor(
     public authService: AuthService,
     private router: Router,
-    public navbarService: NavbarService
+    public navbarService: NavbarService,
+    private route: ActivatedRoute
   ) {  }
 
   ngOnInit(): void {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
+    });
+
+    this.route.queryParams.subscribe(params => {
+      this.selectedOrganisation = params['organisation'];
+
+      if (this.selectedOrganisation) {
+        this.clientStage = 1;
+      }
     });
   }
 
