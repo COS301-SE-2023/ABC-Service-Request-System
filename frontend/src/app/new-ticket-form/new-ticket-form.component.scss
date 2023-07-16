@@ -7,6 +7,7 @@
   margin-top: 60px;
   transition: all 300ms;
   margin-left: 1em;
+  font-family: "Poppins", sans-serif;
 }
 
 .page-container h1 {
@@ -246,7 +247,7 @@
   margin-left: 1em;
   padding: 1em;
   background: rgb(4,83,142);
-  background: linear-gradient(146deg, rgba(4,83,142,1) 0%, rgba(0,196,255,1) 100%);
+  background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
   background-clip: padding-box;
   color: white;
   height: 40vh;
@@ -263,7 +264,7 @@
 #submit-button {
   display: flex;
   float: right;
-  background: linear-gradient(180deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 100%);
+  background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
   height: 3em;
   width: 8em;
   border: 0px none;
