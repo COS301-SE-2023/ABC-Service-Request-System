@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotificationsService } from 'src/services/notifications.service';
 import { notifications } from '../../../../backend/src/models/notifications.model';
+import { user } from '../../../../backend/src/models/user.model';
+import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./notifications-panel.component.scss']
 })
 export class NotificationsPanelComponent implements OnInit {
-  constructor(private notificationsService: NotificationsService, private router: Router) {}
+  constructor(private notificationsService: NotificationsService, private userService: UserService, private router: Router) {}
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
