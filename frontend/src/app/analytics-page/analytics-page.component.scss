@@ -243,12 +243,11 @@ h2 {
 .line-chart-container {
   width: 40%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .line-chart {
-  width: 100px;
-  height: 450px; /* Adjust the height as desired */
+  width: 100%;
 }
 
 .average-container h3 {
