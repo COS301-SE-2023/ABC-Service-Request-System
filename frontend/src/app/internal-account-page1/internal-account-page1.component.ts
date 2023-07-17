@@ -25,6 +25,7 @@ export class InternalAccountPage1Component implements OnInit{
   selectedGroupsForm: FormArray;
   filteredOptions!: Observable<string[]>;
   isAddGroupOverlayOpened = false;
+  groupSelected = false;
 
   constructor(public authService: AuthService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService) {
     this.selectedGroupsForm = this.formBuilder.array([]);
@@ -122,27 +123,35 @@ export class InternalAccountPage1Component implements OnInit{
       }
     this.groupControl.reset();
     this.toggleAddGroupOverlay();
+
+    if(this.selectedGroups.length > 0) {
+      this.groupSelected = true;
+    }
   }
 
   removeGroupTab(event: MouseEvent, index: number): void {
-  const targetElement = event.target as HTMLElement;
-  const groupTabElement = targetElement.closest('.group-tab');
-  if (groupTabElement) {
-    const groupNameElement = groupTabElement.querySelector('p');
-    if (groupNameElement) {
-      const groupName = groupNameElement.textContent;
-      if (groupName) {
-        const selectedGroupIndex = this.selectedGroups.findIndex(group => group.groupName === groupName);
-        if (selectedGroupIndex !== -1) {
-          const selectedGroup = this.selectedGroups[selectedGroupIndex];
-          this.selectedGroups.splice(selectedGroupIndex, 1);
-          this.selectedGroupsForm.removeAt(index);
-          this.allGroups.push(selectedGroup);
+    const targetElement = event.target as HTMLElement;
+    const groupTabElement = targetElement.closest('.group-tab');
+    if (groupTabElement) {
+      const groupNameElement = groupTabElement.querySelector('p');
+      if (groupNameElement) {
+        const groupName = groupNameElement.textContent;
+        if (groupName) {
+          const selectedGroupIndex = this.selectedGroups.findIndex(group => group.groupName === groupName);
+          if (selectedGroupIndex !== -1) {
+            const selectedGroup = this.selectedGroups[selectedGroupIndex];
+            this.selectedGroups.splice(selectedGroupIndex, 1);
+            this.selectedGroupsForm.removeAt(index);
+            this.allGroups.push(selectedGroup);
+          }
         }
       }
+      groupTabElement.remove();
     }
-    groupTabElement.remove();
-  }
+
+    if(this.selectedGroups.length == 0) {
+      this.groupSelected = false;
+    }
   }
 
   handleKeyupEvent(event: KeyboardEvent): void {

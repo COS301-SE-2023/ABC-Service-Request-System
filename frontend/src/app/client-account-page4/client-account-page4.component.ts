@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { client } from '../../../../backend/src/models/client.model';
 
 @Component({
   selector: 'app-client-account-page4',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./client-account-page4.component.scss']
 })
 export class ClientAccountPage4Component {
+  @Input() createdClient!: client;
 
   constructor(private router: Router) {}
 
