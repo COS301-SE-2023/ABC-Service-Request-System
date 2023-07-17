@@ -12,7 +12,7 @@
     </div>
     <div class="profile-picture">
         <label for="fileInput" class="profilePicture-input">
-            <img src="{{ getUserProfilePicture() }}" class="profile-picture" alt="profile-picture">
+            <!-- <img src="{{ getUserProfilePicture() }}" class="profile-picture" alt="profile-picture"> -->
         </label>
     </div>
     <div class="labels">
@@ -24,7 +24,7 @@
             <label for="email" class="labelEmail">{{ getUserEmail()}}</label>
         </div>
         <div  class="location">
-            <label for="location" class="labelLocation">Sandton, South Africa</label>
+            <label for="location" class="labelLocation">{{ getUserLocation() }}</label>
         </div>
     </div>
         <div class= "form-group">
@@ -81,7 +81,7 @@
       <h3 class="socials-header">Socials</h3>
       <div class="social-item-1">
         <img src="./assets/facebook_logo.png" alt="facebook_logo.png" class="fb-logo">
-        <a href=" {{ getUserFB() }}">Visit Facebook</a>
+        <a href=" {{ getUserFB() }}" target="{{ getUserFB() }}">Visit Facebook</a>
       </div>
       <div class="social-item-2">
         <img src="./assets/github-logo.png" alt="github_logo.png" class="gh-logo">

@@ -37,27 +37,27 @@ export class UserService {
     return this.http.put<user>(url, body);
   }
 
-  updateProfileFB(fb: string,email: string) {
+  updateProfileFB(facebook: string,email: string) {
     const url = `${this.API_URL}/update_user_facebook`;
-    const body = { fb,email };
+    const body = { facebook,email };
     return this.http.put<user>(url, body);
   }
 
-  updateProfileIG(ig: string,email: string) {
+  updateProfileIG(instagram: string,email: string) {
     const url = `${this.API_URL}/update_user_instagram`;
-    const body = { ig,email };
+    const body = { instagram,email };
     return this.http.put<user>(url, body);
   }
 
-  updateProfileLI(li: string,email: string) {
+  updateProfileLI(linkedin: string,email: string) {
     const url = `${this.API_URL}/update_user_linkedin`;
-    const body = { li,email };
+    const body = { linkedin,email };
     return this.http.put<user>(url, body);
   }
 
-  updateProfileGH(gh: string,email: string) {
+  updateProfileGH(github: string,email: string) {
     const url = `${this.API_URL}/update_user_github`;
-    const body = { gh,email };
+    const body = { github,email };
     return this.http.put<user>(url, body);
   }
 
@@ -75,6 +75,14 @@ export class UserService {
     formData.append('email', email);
 
     return this.http.put<user>(url, formData);
+  }
+
+  updateUserBackgroundPicture(file:File, email: string): Observable<user>{
+    const url = `${this.API_URL}/update_background_picture`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('email',email);
+    return this.http.put<user>(url,formData);
   }
 
   updateUserProfileBio(bio: string, email: string){

@@ -442,8 +442,8 @@ router.put('/update_user_facebook',expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { facebook, email } = req.body;
-            console.log("email: " + email);
-            console.log("Facebook:"+ facebook)
+            // console.log("email: " + email);
+            // console.log("Facebook:"+ facebook);
             const user = await UserModel.findOneAndUpdate(
                 { emailAddress: email },
                 {
@@ -627,7 +627,7 @@ router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler
 ));
 
 //UPDATE USER BACKGROUND PICTURE -
-router.put('/update_background_photo',upload.single('file'),expressAsyncHandler(
+router.put('/update_background_picture',upload.single('file'),expressAsyncHandler(
     async (req,res)=> {
         try{
             if (!req.file) {

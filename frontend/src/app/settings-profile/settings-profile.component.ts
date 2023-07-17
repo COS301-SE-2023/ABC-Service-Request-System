@@ -10,6 +10,7 @@ import { AuthService } from 'src/services/auth.service';
 export class SettingsProfileComponent implements OnInit{
   user!: user;
   profilePicture!: File;
+  backgroundPicture!: File;
   editedLocation!: string;
   firstTimeLocation!: string;
   firstTimeSurname!:string;
@@ -21,6 +22,7 @@ export class SettingsProfileComponent implements OnInit{
   editedSurname!: string;
   editedBio!:string;
   editedPicture!: File;
+  editedBackgroundPicture!: File;
   editedFB!:string;
   editedIG!:string;
   editedLI!:string;
@@ -30,6 +32,7 @@ export class SettingsProfileComponent implements OnInit{
   editingLocation = false;
   editingBio = false;
   editingPicture= false;
+  editingBackgroundPicture = false;
   editingSurname = false;
   editingFB = false;
   editingIG = false;
@@ -61,6 +64,7 @@ export class SettingsProfileComponent implements OnInit{
     });
 
     this.userPic = this.getUsersProfilePicture();
+    //this.userPic = "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png";
   }
 
   toggleEditing(field: string) {
@@ -78,6 +82,10 @@ export class SettingsProfileComponent implements OnInit{
     else if(field ==='profilePicture'){
       this.editingPicture = !this.editingPicture;
       this.isDirty = this.editingPicture;
+    }
+    else if(field ==='fileInput'){
+      this.editingBackgroundPicture = !this.editedBackgroundPicture;
+      this.isDirty = this.editingBackgroundPicture;
     }
     else if(field ==='bio'){
       this.editingBio = !this.editingBio;
@@ -122,6 +130,13 @@ export class SettingsProfileComponent implements OnInit{
         console.log('service response: ', response);
       }, (error: any) => {
         console.log('Error uploading profile photo', error);
+      });
+    }
+    if(this.backgroundPicture){
+      this.userService.updateUserBackgroundPicture(this.backgroundPicture, this.user.emailAddress).subscribe((response:object)=>{
+        console.log('Response:',response);
+      }, (error:any)=>{
+        console.log("Error uploading background image",error);
       });
     }
     this.userService.updateUserProfileBio(this.user.bio,this.user.emailAddress).subscribe(()=>{
@@ -232,6 +247,7 @@ export class SettingsProfileComponent implements OnInit{
 
   getUsersBackgroundPicture(){
     const user = this.authService.getUser();
+    console.log("Background Image:" + user.backgroundPhoto);
     return this.user.backgroundPhoto;
   }
 

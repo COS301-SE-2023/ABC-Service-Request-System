@@ -486,6 +486,10 @@ export class ViewProfileComponent implements OnInit {
 
   }
 
+  goToLink(url: string){
+    window.open(url, "_blank");
+}
+
   ngOnInit() {
     const userId = this.getUserObject().id; // Replace with the actual user ID
     this.getUser(userId);
@@ -560,6 +564,11 @@ getUserLI(){
 getUserGH(){
   const user = this.authService.getUser();
   return this.user.github;
+}
+
+getUserLocation(){
+  const user = this.authService.getUser();
+  return this.user.location;
 }
 
 getUserObject(){
