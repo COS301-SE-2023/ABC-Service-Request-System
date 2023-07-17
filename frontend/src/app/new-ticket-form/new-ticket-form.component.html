@@ -23,7 +23,7 @@
         <input type="text" formControlName="summary" required>
 
         <label class="descriptionLabel">Description<span class="required">*</span></label>
-        <quill-editor formControlName="description"></quill-editor>
+        <quill-editor formControlName="description" [trimOnValidation]="true"></quill-editor>
       </div>
 
       <div class="ticket-information">
@@ -70,8 +70,8 @@
       <div class="assignedInformation">
         <div class="assignedInformation-col1">
           <label>Assigned<span class="required">*</span></label>
-          <select formControlName="assigned" required>
-            <option *ngFor="let user of allUsers">{{ user.name }}</option>
+          <select formControlName="assigned" required (change)="onAssignedChange()">
+            <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
           </select>
 
           <label class="groupLabel">Group<span class="required">*</span></label>

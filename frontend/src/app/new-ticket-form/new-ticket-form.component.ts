@@ -19,6 +19,7 @@ export class NewTicketFormComponent implements OnInit {
   assigneeName: string;
   navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
+  assignedUser!: user;
 
   constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, public navbarService: NavbarService, private formBuilder: FormBuilder, private router: Router) {
     this.ticketForm = this.formBuilder.group({
@@ -61,6 +62,7 @@ export class NewTicketFormComponent implements OnInit {
   getAllAssignable() {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
       this.allUsers = response;
+      console.log("All Users: ", this.allUsers);
       return this.allUsers;
     });
   }
@@ -69,16 +71,19 @@ export class NewTicketFormComponent implements OnInit {
     if (this.ticketForm.valid) {
       const ticketFormValues = this.ticketForm.value;
 
+      // trimming description
+      const trimmedDescription = this.stripPTags(ticketFormValues.description);
+
       const summary = ticketFormValues.summary;
       const assignee = this.authService.getName();
-      const assigned = ticketFormValues.assigned;
+      const assigned = ticketFormValues.assigned.name;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
       const startDate = this.formatDate(ticketFormValues.startDate);
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
-      const description = ticketFormValues.description;
+      const description = trimmedDescription;
 
       // adding new ticket
       this.ticketService.addTicket(summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
@@ -88,13 +93,16 @@ export class NewTicketFormComponent implements OnInit {
         // should navigate to ticket directly
         this.router.navigate([`/ticket/${newTicketId}`]);
 
+        // get the corresponding users
+        const assigneeUser = this.authService.getUser();
+
         // create a notification corresponding to the ticket
-        const profilePhotoLink = "https://i.imgur.com/zYxDCQT.jpg";
+        const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
-        const creatorEmail = "test@example.com";
-        const assignedEmail = "test@example.com";
+        const creatorEmail = assigneeUser.emailAddress;
+        const assignedEmail = this.assignedUser.name;
         const ticketSummary = summary;
-        const ticketStatus = "Done";
+        const ticketStatus = "Pending";
         const notificationTime = new Date();
         const link = newTicketId;
         const readStatus = "Unread"
@@ -184,6 +192,19 @@ export class NewTicketFormComponent implements OnInit {
     const listItems = lines.map(line => `<li>${line}</li>`).join('');
     textBox.innerHTML = listItems !== '' ? `<ul>${listItems}</ul>` : '';
     textBox.normalize(); // Normalize the HTML structure to remove any nested elements
+  }
+
+  onAssignedChange() {
+    const assignedControl = this.ticketForm.get('assigned');
+
+    if (assignedControl) {
+      this.assignedUser = assignedControl.value;
+      console.log(this.assignedUser);
+    }
+  }
+
+  stripPTags(content: string): string {
+    return content.replace(/<\/?p>/g, '');
   }
   
  /* ticketForm = this.fb.group({

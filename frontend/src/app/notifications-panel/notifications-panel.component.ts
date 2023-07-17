@@ -4,6 +4,7 @@ import { notifications } from '../../../../backend/src/models/notifications.mode
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-notifications-panel',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./notifications-panel.component.scss']
 })
 export class NotificationsPanelComponent implements OnInit {
-  constructor(private notificationsService: NotificationsService, private userService: UserService, private router: Router) {}
+  constructor(private notificationsService: NotificationsService, private userService: UserService, private authService: AuthService, private router: Router) {}
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
@@ -111,4 +112,13 @@ export class NotificationsPanelComponent implements OnInit {
       return 'Just now';
     }
   }  
+
+  getCreatorName(emailAddress: string) {
+    const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
+      const name = response.name;
+      console.log("Name: ", name);
+      return name;
+    });
+    
+  }
 }
