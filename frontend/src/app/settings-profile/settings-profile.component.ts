@@ -10,14 +10,35 @@ import { AuthService } from 'src/services/auth.service';
 export class SettingsProfileComponent implements OnInit{
   user!: user;
   profilePicture!: File;
-  editedName!: string;
-  firstTimeName!: string;
+  backgroundPicture!: File;
+  editedLocation!: string;
+  firstTimeLocation!: string;
   firstTimeSurname!:string;
+  firstTimeBio!:string;
+  firstTimeFB!:string;
+  firstTimeIG!:string;
+  firstTimeLI!:string;
+  firstTimeGH!:string;
   editedSurname!: string;
+  editedBio!:string;
   editedPicture!: File;
-  editingName = false;
+  editedBackgroundPicture!: File;
+  editedFB!:string;
+  editedIG!:string;
+  editedLI!:string;
+  editedGH!:string;
+
+
+  editingLocation = false;
+  editingBio = false;
   editingPicture= false;
+  editingBackgroundPicture = false;
   editingSurname = false;
+  editingFB = false;
+  editingIG = false;
+  editingGH = false;
+  editingLI = false;
+
   isDirty = false;
   userPic!: string;
   //file: File | null = null;
@@ -30,59 +51,116 @@ export class SettingsProfileComponent implements OnInit{
     console.log("hi");
     this.userService.getUser(userId).subscribe((user: user)=>{
     this.user = user;
-    this.editedName = user.name;
+    this.editedLocation = user.location;
+    this.editedBio = user.bio;
+    this.editedFB = user.facebook;
+    this.editedGH = user.github;
+    this.editedLI = user.linkedin;
+    this.editedIG = user.instagram;
+
+
     //this.editedPicture = user.profilePhoto;
       this.editedSurname = user.surname;
     });
 
     this.userPic = this.getUsersProfilePicture();
+    //this.userPic = "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png";
   }
 
   toggleEditing(field: string) {
 
     // const inputValue = event.target.textContent.trim();
     // this.isDirty = (inputValue !== this.editedName);
-    if (field === 'name') {
-      this.editingName = !this.editingName;
-      this.isDirty = this.editingName; // Set isDirty to true only if editingName is true
+    if (field === 'location') {
+      this.editingLocation = !this.editingLocation;
+      this.isDirty = this.editingLocation; // Set isDirty to true only if editingName is true
 
-      if (!this.editingName) {
+      if (!this.editingLocation) {
         this.saveChanges();
       }
-    } else if (field === 'surname') {
-      this.editingSurname = !this.editingSurname;
-      this.isDirty = this.editingSurname; // Set isDirty to true only if editingSurname is true
     }
     else if(field ==='profilePicture'){
       this.editingPicture = !this.editingPicture;
       this.isDirty = this.editingPicture;
     }
+    else if(field ==='fileInput'){
+      this.editingBackgroundPicture = !this.editedBackgroundPicture;
+      this.isDirty = this.editingBackgroundPicture;
+    }
+    else if(field ==='bio'){
+      this.editingBio = !this.editingBio;
+      this.isDirty = this.editingBio;
+    }
+    else if(field === 'fb'){
+      this.editingFB = !this.editingFB;
+      this.isDirty = this.editingFB;
+    }
+    else if(field === 'gh-link'){
+      this.editingGH = !this.editingGH;
+      this.isDirty = this.editingGH;
+    }
+    else if(field === 'ig-link'){
+      this.editingIG = !this.editingIG;
+      this.isDirty = !this.editingIG;
+    }
+    else if(field === 'li-link'){
+      this.editingLI = !this.editingLI;
+      this.isDirty = !this.editingLI;
+    }
   }
 
   saveChanges(){
-    this.user.name = this.editedName;
+    this.user.location = this.editedLocation;
     this.user.surname = this.editedSurname;
+    this.user.bio = this.editedBio;
+    this.user.facebook = this.editedFB;
+    this.user.linkedin = this.editedLI;
+    this.user.github = this.editedGH;
+    this.user.instagram = this.editedIG;
+
     //this.user.profilePhoto = this.editedPicture;
 
-    this.userService.updateProfileName(this.user.name,this.user.emailAddress).subscribe(()=>{
-      this.editedName = this.user.name;
+    this.userService.updateProfileLocation(this.user.location,this.user.emailAddress).subscribe(()=>{
+      this.editedLocation = this.user.location;
       this.isDirty = false;
     });
-    this.userService.updateProfileSurname(this.user.surname,this.user.emailAddress).subscribe(()=>{
-      this.editedSurname = this.user.surname;
-      this.isDirty = false;
-    });
+   
     if(this.profilePicture){
       this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
         console.log('service response: ', response);
       }, (error: any) => {
         console.log('Error uploading profile photo', error);
-      })
+      });
     }
+    if(this.backgroundPicture){
+      this.userService.updateUserBackgroundPicture(this.backgroundPicture, this.user.emailAddress).subscribe((response:object)=>{
+        console.log('Response:',response);
+      }, (error:any)=>{
+        console.log("Error uploading background image",error);
+      });
+    }
+    this.userService.updateUserProfileBio(this.user.bio,this.user.emailAddress).subscribe(()=>{
+      this.editedBio = this.user.bio;
+      this.isDirty = false;
+    });
+    this.userService.updateProfileFB(this.user.facebook,this.user.emailAddress).subscribe(()=>{
+      this.editedFB = this.user.facebook;
+      this.isDirty = false;
+    });
+    this.userService.updateProfileIG(this.user.instagram,this.user.emailAddress).subscribe(()=>{
+      this.editedIG = this.user.instagram;
+      this.isDirty = false;
+    });
+    this.userService.updateProfileGH(this.user.github,this.user.emailAddress).subscribe(()=>{
+      this.editedGH = this.user.github;
+      this.isDirty = false;
+    });
+    this.userService.updateProfileLI(this.user.linkedin,this.user.emailAddress).subscribe(()=>{
+      this.editedLI = this.user.linkedin;
+      this.isDirty = false;
+    });
 
   }
-
-  url = "./assets/App Logo.jpg";
 
   // onFileChange(event: any) {
   //   const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -95,10 +173,15 @@ export class SettingsProfileComponent implements OnInit{
       (user: user) => {
         this.user = user;
         //console.log(this.user);
-        this.editedName = user.name;
-        this.firstTimeName = user.name;
+        this.editedLocation = user.location;
+        this.firstTimeLocation = user.location;
         this.editedSurname = user.surname;
         this.firstTimeSurname = user.surname;
+        this.editedFB = user.facebook;
+        this.editedGH = user.github;
+        this.editedLI = user.linkedin;
+        this.editedIG = user.instagram;
+        this.editedBio = user.bio;
       },
 
       (error: any) => {
@@ -110,7 +193,7 @@ export class SettingsProfileComponent implements OnInit{
 
   checkDirtyState() {
     // Check if any changes have been made
-    this.isDirty = this.user.name !== this.editedName ||  this.user.surname !== this.editedSurname;
+    this.isDirty = this.user.location !== this.editedLocation ||  this.user.surname !== this.editedSurname ;
   }
 
   onFieldChange() {
@@ -140,14 +223,60 @@ export class SettingsProfileComponent implements OnInit{
     this.isDirty = true;
   }
 
-
+  getUserName(){
+    const user = this.authService.getUser();
+    return this.user.name;
+  }
+  
+  getUserSurname(){
+   const user = this.authService.getUser();
+   return this.user.surname;
+  }
+  
+  getUserEmail(){
+    const user = this.authService.getUser();
+    return this.user.emailAddress;
+  }
+  
   getUsersProfilePicture(){
     const user = this.authService.getUser();
     console.log("userrr", user);
     console.log("profile photo: " + user.profilePhoto);
     return this.user.profilePhoto;
   }
+
+  getUsersBackgroundPicture(){
+    const user = this.authService.getUser();
+    console.log("Background Image:" + user.backgroundPhoto);
+    return this.user.backgroundPhoto;
+  }
+
+  getUsersRole()
+  {
+    const user = this.authService.getUser();
+    return this.user.roles;
+  }
   
+  getUsersGH(){
+    const user = this.authService.getUser();
+    return this.user.github;
+  }
+
+  getUsersFB(){
+     const user = this.authService.getUser();
+    return this.user.facebook;
+  }
+
+  getUsersIG(){
+    const user = this.authService.getUser();
+   return this.user.instagram;
+ }
+
+ getUsersLI(){
+  const user = this.authService.getUser();
+ return this.user.linkedin;
+}
+
   getUserObject(){
     return this.authService.getUser();
   }

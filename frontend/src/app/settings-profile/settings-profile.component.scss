@@ -4,19 +4,21 @@
  }
 
  .file-input-label {
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
+  position: absolute;
+  width: 3.5%;
+  height: 3%;
   background: url(../../assets/pencil.png) no-repeat center center;
   background-size: contain;
+  background-color: white;
+  border-radius: 50%;
   cursor: pointer;
   transition: background-color .3s ease-in-out;
-  margin-left: 63em;
-  margin-top: 0.625em;
+  margin-left: 94%;
+  margin-top: -5%;
 }
 
 .file-input-label:hover {
-  background-color: #d0d0d0;
+  //background-color: #d0d0d0;
 }
 
 
@@ -30,7 +32,7 @@
   width: 10em;
   height: 0.625em;
   margin-left: 6.875em;
-  margin-top: 1.25em;
+  margin-top: 90%;
  // background: url(../../assets/pencil.png) no-repeat center center;
   background-size: contain;
   cursor: pointer;
@@ -42,20 +44,32 @@
   height: 0;
 }
  .background_img {
-  width: 65.35em;
-  margin-top: -1.1em;
-  margin-left: -1.1em;
+   width: 103.65%;
+//   margin-top: -1.1em;
+//   margin-left: -1.1em;
+//   height: 11.25em;
+//   background-color: #e1e7ed;
+//   background: url("https://source.unsplash.com/9wg5jCEPBsw");
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center;
+//   border-top-left-radius: 1.0625em;
+//   border-top-right-radius: 1.0625em;
+
+//   border-color: black;
+
+.b_img{
+  width: 100%;
+  margin-top: -4.1em;
+  margin-left: -1.2em;
   height: 11.25em;
-  background-color: #e1e7ed;
-  background: url("https://source.unsplash.com/9wg5jCEPBsw");
+  //background-color: #33663D;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  border-top-left-radius: 1.0625em;
-  border-top-right-radius: 1.0625em;
-
-  border-color: black;
 }
+ }
+
 
 .image-button {
   display: inline-block;
@@ -81,15 +95,18 @@
 
 .profile {
      width: 70%;
-     position: absolute;
+     height:120%;
+     position: relative;
     // //margin: 0 auto;
      padding: 1.1em;
-     border: 1px solid black;
-     border-radius: 1.25em;
+     //border: 1px solid black;
+    //border-radius: 1.25em;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
+
      margin-left: 25em;
      background: white;
      //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
-     margin-top: 4.6875em;
+     margin-top: 7.5%  ;
     // float: center;
      display: grid;
 }
@@ -97,6 +114,13 @@ label{
   color: black;
   font-family: 'Poppins', sans-serif;
   margin-top: 0em;
+  font-weight: bold;
+}
+h3{
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  //margin-top: 0em;
+  margin-right:50%;
   font-weight: bold;
 }
 
@@ -124,12 +148,12 @@ label{
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 1em;
+      //margin-bottom: 1em;
       margin-left: -0.625em;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
-      margin-top: -4em;
+      margin-top: -20%;
     
 
       img {
@@ -145,12 +169,46 @@ label{
         margin-top: 0.625em;
       }
     }
-
+    .labels{
+      margin-top: 2.5%;
+    .labelName{
+      color: black;
+      font-family: 'Poppins', sans-serif;
+      margin-left: 20%;
+      //background-color: #33663D;
+      font-weight: 500;
+      // line-height: 114%;
+      font-size: 36px;
+      //margin-top: -40%;
+    }
+    .labelSurname{
+      //display: relative;
+      color: black;
+      font-family: 'Poppins', sans-serif;
+      //background-color: yellow;
+      margin-left: 2%;
+      font-weight: 500;
+      // line-height: 114%;
+      font-size: 36px;
+    }
+    .labelEmail{
+      //display: relative;
+      color: black;
+      font-family: 'Poppins', sans-serif;
+      //background-color: #8C2822;
+      margin-left: 20%;
+      margin-top: -5%;
+      font-weight: 500;
+      // line-height: 114%;
+    }
+  }
     form {
+      margin-top:2.5%;
       .form-group {
-        margin-bottom: 1.25em;
+        margin-top:0%;
         width: 100%;
         position: relative;
+       // background-color: #2196F3;
 
         label {
           margin-top: 3.75em;
@@ -158,6 +216,7 @@ label{
           margin-bottom: 0.3125em;
           font-weight: bold;
         }
+        
 
         input[type="text"] {
           padding:  0.625em;
@@ -167,7 +226,52 @@ label{
           font-size: 0.875em;
         }
       }
+      .form-group-1{
+        // background-color: #007bff;
+        margin-top: -25.8%;
+        margin-bottom: 1.25em;
+        width: 100%;
+        position: relative;
+        margin-left:25%;
+        label {
+          margin-top: 3.75em;
+          display: block;
+          margin-bottom: 0.3125em;
+          font-weight: bold;
+        }
+        
 
+        input[type="text"] {
+          padding:  0.625em;
+          border: 0.0625em solid #ccc;
+          border-radius: 0.3125em;
+          box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+          font-size: 0.875em;
+      }
+    }
+
+    .form-group-2 {
+      margin-bottom: 0%;
+      width: 100%;
+      margin-left:25%;
+      position: relative;
+
+      label {
+        margin-top: 5%;
+        display: block;
+        margin-bottom: 0.3125em;
+        font-weight: bold;
+      }
+      
+
+      input[type="text"] {
+        padding:  0.625em;
+        border: 0.0625em solid #ccc;
+        border-radius: 0.3125em;
+        box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
+        font-size: 0.875em;
+      }
+    }
       button[type="submit"] {
         display: block;
         margin-top: 0.625em;
@@ -180,10 +284,22 @@ label{
       }
     }
 
+    .notifications-div{
+      margin-top: -20%;
+      //background-color: #007bff;
+      .notifications-label{
+        margin-left:50%;
+      }
+    }
+
+  .notifications-item{
+    margin-top:5%;
+  }
   .save-profile{
     background-color: #007bff;
     color: white;
     width: 90%;
+    margin-top: 10%;
     padding: 0.5em;
     border-radius: 0.7em;
   }
@@ -216,6 +332,71 @@ label{
     }
   }
 
-  #name:hover, #surname:hover:hover {
+  #name:hover, #surname:hover, #bio:hover,#fb:hover,#gh-link:hover, #ig-link:hover, #li-link:hover {
     background-color: rgba(0,0,0,0.2);
+  }
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    //float: right;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .notifications-switch{
+    height:1em;
+    margin-left: 53.5em;
+    margin-top: -2em;
   }
