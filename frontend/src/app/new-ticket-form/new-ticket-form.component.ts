@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
+import { group } from '../../../../backend/src/models/group.model';
+import{ GroupService } from 'src/services/group.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -17,8 +19,10 @@ export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
   assigneeName: string;
   allUsers: user[] = [];
+  allGroups: group[] = [];
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, 
+    private userService: UserService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -42,6 +46,9 @@ export class NewTicketFormComponent implements OnInit {
   ngOnInit(): void {
     this.getAssigneeName();
     this.getAllAssignable();
+    this.groupService.getGroups().subscribe((response: group[]) => {
+      this.allGroups = response;
+    });
   }
 
   getAssigneeName() {
@@ -60,9 +67,10 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   onSubmit() {
+    
     if (this.ticketForm.valid) {
+      
       const ticketFormValues = this.ticketForm.value;
-
       const summary = ticketFormValues.summary;
       const assignee = this.authService.getName();
       const assigned = ticketFormValues.assigned;
@@ -73,12 +81,20 @@ export class NewTicketFormComponent implements OnInit {
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
       const description = ticketFormValues.description;
+      let groupName = "";
 
-      // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.groupService.getGroupById(group).subscribe((response: group) => {
+          groupName = response.groupName;
+
+           // adding new ticket
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
+        this.groupService.updateTicketsinGroup(group, newTicketId).subscribe((response: any) => {
+          console.log(response);
+          }
+        );
         // should navigate to ticket directly
         this.router.navigate([`/ticket/${newTicketId}`]);
 
@@ -97,6 +113,12 @@ export class NewTicketFormComponent implements OnInit {
           console.log(response);
         });
       });
+    }
+  );
+     
+   
+      
+     
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -110,7 +132,8 @@ export class NewTicketFormComponent implements OnInit {
         endDate: endDate,
         status: status,
         comments: comments,
-        description: description
+        description: description,
+        createdAt: new Date(),
       };
 
       this.newTicketEvent.emit(newTicket);

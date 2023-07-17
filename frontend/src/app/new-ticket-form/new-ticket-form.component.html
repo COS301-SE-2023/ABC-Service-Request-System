@@ -34,13 +34,10 @@
         </label>
 
     <div class="form-column">
-      <label>
-        Group:<span class="required">*</span>
-        <input type="text" formControlName="group">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('group').invalid && ticketForm.get('group').touched">
-        Group is required.
-      </span> -->
+      <label class="groupLabel">Group<span class="required">*</span></label>
+      <select formControlName="group" required>
+        <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+      </select>
     </div>
 
     <div class="form-column">

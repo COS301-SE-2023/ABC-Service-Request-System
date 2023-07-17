@@ -28,6 +28,9 @@ export interface ticket{
     status: "Done" | "Pending" | "Active",
     comments?: comment [],
     description: string,
+    createdAt: Date;
+    timeToFirstResponse?: Date,
+    timeToTicketResolution?: Date
 }
 
 const attachmentSchema = new Schema<attachment>(
@@ -64,6 +67,8 @@ export const ticketSchema = new Schema<ticket>(
         status: {type: String, required: true},
         comments: {type: [commentSchema]},
         description: {type: String, required: true},
+        timeToFirstResponse: {type: Date},
+        timeToTicketResolution: {type: Date}
     },{
         toJSON: {
             virtuals: true

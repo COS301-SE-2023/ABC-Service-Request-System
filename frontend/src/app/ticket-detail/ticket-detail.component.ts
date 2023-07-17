@@ -39,6 +39,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   uploadProgress = 0;
 
+  userId !: string;
+
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -120,38 +122,20 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }//hellooooo
-
-
-  // addComment(): void {
-  //   const newComment = this.commentInputControl.value;
-  //   // Perform actions with the input value, e.g., save to database, send to API, etc.
-  //   console.log('Input Value:', newComment);
-  //   if(newComment){
-  //     this.ticketService.makeAComment(this.ticket.id, newComment, 'kolo', 'comment').subscribe(
-  //       res => {
-  //         console.log('Comment added successfully', res);
-  //       },
-  //       err => {
-  //         console.log('Error while adding comment', err);
-  //       }
-  //     );
-  //   }
-
-  // }
-
+  }
+  
   saveData(): void {
     const newComment = this.commentInputControl.value;
     console.log('Input Value:', newComment);
     console.log('Selected File:', this.file);
-
+  
     if (!newComment && !this.file) {
       console.log('No comment or file selected');
       return;
     }
-
+  
     this.uploadProgress = 0;
-
+  
     if (newComment && this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
@@ -159,6 +143,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             name: this.editedAttachmentName || this.file?.name || '',
             url: result.url
           };
+          // Add the comment and the first response time
           this.addComment(newComment, attachmentData);
         },
         (error: any) => {
@@ -170,6 +155,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         name: '',
         url: ''
       };
+      // Add the comment and the first response time
       this.addComment(newComment, emptyAttachment);
     } else if (this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
@@ -179,6 +165,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             name: this.editedAttachmentName || this.file?.name || '',
             url: result.url
           };
+          // Add the comment and the first response time
           this.addComment('', attachmentData);
           location.reload();
         },
@@ -202,21 +189,67 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   getCurrentUserImage(){
     return this.authService.getUserObject().subscribe((result: user) => {
       this.userProfilePic = result.profilePhoto;
+      this.userId = result.id;
     });
   }
 
-  addComment(comment: string, attachment: attachment): void {
-    this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+  // addComment(comment: string, attachment: attachment): void {
+  //   this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
 
-      res => {
-        console.log('Comment added successfully', res);
-        location.reload();
-      },
-      err => {
-        console.log('Error while adding comment', err);
-      }
-    );
+  //     res => {
+  //       console.log('Comment added successfully', res);
+  //       location.reload();
+  //     },
+  //     err => {
+  //       console.log('Error while adding comment', err);
+  //     }
+  //   );
+  // }
+
+  addComment(comment: string, attachment: attachment): void {
+    const commentTime = new Date(); // Here we create commentTime
+  
+    // Get currently logged in user
+    const currentUser = this.authService.getName();
+  
+    // Only proceed with adding the time to first response if the current user is the assigned user
+    if (this.ticket.assigned === currentUser) {
+      this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+        res => {
+          console.log('Comment added successfully', res);
+          // If comment is successfully added, add the time to first response
+          this.ticketService.addTimeToFirstResponse(this.ticket.id, commentTime).subscribe(
+            res => {
+              console.log('First response time added', res);
+              location.reload();
+            },
+            err => {
+              console.log('Error while adding first response time', err);
+            }
+          );
+        },
+        err => {
+          console.log('Error while adding comment', err);
+        }
+      );
+    } else {
+      this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+        res => {
+          console.log('Comment added successfully', res);
+          location.reload();
+        },
+        err => {
+          console.log('Error while adding comment', err);
+        }
+      );
+    }
   }
+  
+  
+
+  
+  
+
 
   isPDF(url: string): boolean {
     return url.toLowerCase().endsWith('.pdf');

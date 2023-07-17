@@ -8,14 +8,14 @@
 
         <div class="dropdown-container">
           <label for="analytics-type">Select Analytics:</label>
-          <select id="analytics-type" [(ngModel)]="filterValue" (change)="handleFilterChange(filterValue)">
+          <select id="analytics-type" [(ngModel)]="filterValue" (change)="typeChanged(filterValue)">
             <option value="personal">Personal</option>
             <option value="group">Group</option>
           </select>
         
           <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
-            <select #selectElement (change)="onGroupSelected(selectElement.value)" [value]="selectedGroup">
+            <select #selectElement [value]="selectedGroup" (change)="onGroupSelected(selectElement.value)">
               <option value="" disabled selected>Select group</option>
               <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
             </select>
@@ -87,16 +87,24 @@
             <h2>Time to First Response</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>AVERAGE</h3>
+                <h3>Average</h3>
                 <!-- <p class="average">{{ averageTimeToFirstResponse }}</p> -->
-                <p class="average-unit">MINUTES</p>
+                <div class="average-time">
+                  <p class="average-hours">{{ averageResponseHours }}</p>
+                  <p class="average-minutes">{{ averageResponseMinutes }}</p>
+
+                </div>
+                <div class="average-units">
+                  <p class="average-unit hour-unit">HOURS</p>
+                  <p class="average-unit minute-unit">MINUTES</p>
+                </div>
                 <div class="graph-badge-green">
                   <i class="fa-solid fa-arrow-trend-up"></i>
                   <p id="imp">20.1%</p>
                 </div>
               </div>
               <div class="line-chart-container">
-                <canvas #lineChart class="line-chart"></canvas>
+                <canvas #lineChartCanvas class="line-chart" style="width: 250px; height: 190px;"></canvas>
               </div>
             </div>
           </div>
@@ -105,10 +113,10 @@
             <h2>Time to Ticket Resolution</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>AVERAGE</h3>
+                <h3>Average</h3>
                 <div class="average-time">
-                  <!-- <p class="average-hours">{{averageTimeHours}}</p>
-                  <p class="average-minutes">{{ averageTimeMinutes }}</p> -->
+                  <p class="average-hours">{{averageResolutionHours }}</p>
+                  <p class="average-minutes">{{averageResolutionMinutes}}</p>
                 </div>
                 <div class="average-units">
                   <p class="average-unit hour-unit">HOURS</p>
@@ -120,7 +128,7 @@
                 </div>
               </div>
               <div class="line-chart-container">
-                <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
+                <canvas #ticketResolutionLineChartCanvas class="line-chart" style="width: 250px; height: 250px;"></canvas>
               </div>
             </div>
           </div>
@@ -130,20 +138,20 @@
           <div class="grid-item grid-item-8">
             <h2>Ticket Volume Trend</h2>
             <div id="chart-wrapper">
-              <canvas #ticketVolumeChart></canvas>
+              <canvas #ticketVolumeTrendChartCanvas style = "height:300px; width: 100%;"></canvas>
             </div>
           </div>
 
           <div class="grid-item grid-item-9">
             <h2>Tickets by Priority</h2>
             <div style="display: flex; justify-content: center;">
-              <canvas #doughnutChartByPriorityCanvas></canvas>
+              <canvas #doughnutChartByPriorityCanvas  style="width: 400px; height: 300px;"></canvas>
             </div>
           </div>
           <div class="grid-item grid-item-10">
             <h2>Tickets by Status</h2>
             <div style="display: flex; justify-content: center;">
-              <canvas #polarChartCanvas></canvas>
+              <canvas #polarChartCanvas style="width: 400px; height: 300px;"></canvas>
             </div>
           </div>
           

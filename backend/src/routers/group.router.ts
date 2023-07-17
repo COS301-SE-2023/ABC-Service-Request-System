@@ -223,4 +223,24 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(500).send({ error: 'Internal server error' });
     }
   }))
+
+  router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
+    try {
+      const ticketId = req.body.ticketId;
+      const group = await groupModel.findOneAndUpdate({id: req.body.groupId}, {$push : {tickets: ticketId}});
+      
+      if (group) {
+        res.status(200).send({message:"Ticket added to group", group: group});
+      } else {
+        // console.log('hiii');
+        res.status(404).send("invalid group id");
+      }
+
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
+    }
+  }))
+
+
+
 export default router;

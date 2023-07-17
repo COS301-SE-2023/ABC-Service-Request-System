@@ -9,7 +9,7 @@ import { cloudinary } from '../configs/cloudinary';
 import { UserModel } from "../models/user.model";
 
 
-const axios = require('axios');
+
 
 const router = Router();
 
@@ -53,6 +53,18 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.get('/assigned', expressAsyncHandler(
+  async (req, res) => {
+    const tickets = await TicketModel.find({ assigned: req.query.id });
+
+    if(tickets){
+        res.status(200).send(tickets);
+    }else{
+        res.status(404).send("No tickets found");
+    }
+  }
+))
+
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TicketModel.deleteMany({});
@@ -82,7 +94,8 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             priority: req.body.priority,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
-            status: req.body.status
+            status: req.body.status,
+            createdTime: new Date(),
         });
 
         console.log("new ticket: ", newTicket);
@@ -167,6 +180,11 @@ router.put('/comment', expressAsyncHandler(
         );
   
         if (ticket) {
+          if (status === 'Done' && !ticket.timeToTicketResolution) {
+            // Set timeToTicketResolution if the status is changed to 'Done' and it hasn't been set before
+            ticket.timeToTicketResolution = new Date();
+            await ticket.save();
+          }
           res.status(200).json({ message: 'Ticket status updated successfully' });
         } else {
           res.status(404).json({ message: 'Ticket not found' });
@@ -176,121 +194,30 @@ router.put('/comment', expressAsyncHandler(
       }
     }
   ));
+
+  router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
+    const ticketId = req.body.ticketId;
+    const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
   
-  router.get('/overdueTickets/:userId', expressAsyncHandler(
-    async (req, res) => {
-        // getting the current date
-        const currentDate = new Date();
-
-        // finding all tickets assigned to the user
-        const assignedTickets = await TicketModel.find({
-            assigned: req.params.userId,
-            status: {$ne: "Done"}
-        });
-
-        // filter the tickets to find which are overdue
-        const overdueTickets = assignedTickets.filter(ticket => {
-            const [day, month, year] = ticket.endDate.split("/");
-            const ticketEndDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-            return ticketEndDate < currentDate;
-        });
-
-        // sending the response
-        if (overdueTickets.length) {
-            res.status(200).send(overdueTickets);
+    try{
+      const ticket = await TicketModel.findOne({ id: ticketId });
+      if(ticket){
+        // check if timeToFirstResponse is not set yet
+        if(!ticket.timeToFirstResponse){
+          // save the commentTime as the first response time
+          ticket.timeToFirstResponse = commentTime;
+          await ticket.save();
+          res.status(200).send("Time to first response added");
         } else {
-            res.status(404).send("No overdue tickets found for the user");
+          res.status(200).send("First response time already recorded");
         }
+      }
+    }catch(error){
+      res.status(500).send("Internal server error");
     }
-));
-
-router.get('/dueToday/:userId', expressAsyncHandler(
-  async (req, res) => {
-      // getting the current date
-      const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0); // set to start of the day
-
-      // finding all tickets assigned to the user
-      const assignedTickets = await TicketModel.find({
-          assigned: req.params.userId,
-          status: {$ne: "Done"}
-      });
-
-      // filter the tickets to find which are due today
-      const dueTodayTickets = assignedTickets.filter(ticket => {
-          const [day, month, year] = ticket.endDate.split("/");
-          const ticketEndDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-          ticketEndDate.setHours(0, 0, 0, 0); // set to start of the day
-          return ticketEndDate.getTime() === currentDate.getTime();
-      });
-
-      // sending the response
-      if (dueTodayTickets.length) {
-          res.status(200).send(dueTodayTickets);
-      } else {
-          res.status(404).send("No tickets due today found for the user");
-      }
-  }
-));
-
-router.get('/pendingTickets/:userId', async (req, res, next) => {
-  try {
-      // Fetching user's name from the User Service
-      const userResponse = await axios.get(`http://localhost:3000/api/user/${req.params.userId}`);
-      console.log("userResponse: ", userResponse);
-      
-      const user = userResponse.data;
-      if (!user) {
-          return res.status(404).send("User not found");
-      }
-
-      // Finding all tickets assigned to the user that are not done
-      const pendingTickets = await TicketModel.find({
-          assigned: user.name,
-          status: { $in: ["Pending"] }
-      });
-
-      // Sending the response
-      if (pendingTickets.length) {
-          res.status(200).send({ totalPendingTickets: pendingTickets.length });
-      } else {
-          res.status(404).send("No pending tickets found for the user");
-      }
-  } catch (err) {
-      next(err);
-  }
-});
-
-
-router.get('/activeTickets/:userId', async (req, res, next) => {
-  try {
-      // Fetching user's name from the User Service
-      const userResponse = await axios.get(`http://localhost:3000/api/user/${req.params.userId}`);
-      console.log("userResponse: ", userResponse);
-      
-      const user = userResponse.data;
-      if (!user) {
-          return res.status(404).send("User not found");
-      }
-
-      // Finding all tickets assigned to the user that are not done
-      const activeTickets = await TicketModel.find({
-          assigned: user.name,
-          status: { $in: ["Active"] }
-      });
-
-      // Sending the response
-      if (activeTickets.length) {
-          res.status(200).send({ totalActiveTickets: activeTickets.length });
-      } else {
-          res.status(404).send("No pending tickets found for the user");
-      }
-  } catch (err) {
-      next(err);
-  }
-});
-
-
+  }));
+  
+  
   
 
 export default router;
