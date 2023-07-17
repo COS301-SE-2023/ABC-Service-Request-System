@@ -10,7 +10,7 @@
             <option value="personal">Personal</option>
             <option value="group">Group</option>
           </select>
-        
+
           <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
             <select #selectElement [value]="selectedGroup" (change)="onGroupSelected(selectElement.value)">
@@ -19,8 +19,8 @@
             </select>
           </div>
         </div>
-        
-        
+
+
 
         <div class="grid-container">
           <!-- Total Tickets -->
@@ -85,7 +85,7 @@
             <h2>Time to First Response</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>Average</h3>
+                <h3>AVERAGE</h3>
                 <!-- <p class="average">{{ averageTimeToFirstResponse }}</p> -->
                 <div class="average-time">
                   <p class="average-hours">{{ averageResponseHours }}</p>
@@ -102,7 +102,7 @@
                 </div>
               </div>
               <div class="line-chart-container">
-                <canvas #lineChartCanvas class="line-chart" style="width: 250px; height: 190px;"></canvas>
+                <canvas #lineChartCanvas class="line-chart"></canvas>
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@
             <h2>Time to Ticket Resolution</h2>
             <div class="graph-and-average-container">
               <div class="average-container">
-                <h3>Average</h3>
+                <h3>AVERAGE</h3>
                 <div class="average-time">
                   <p class="average-hours">{{averageResolutionHours }}</p>
                   <p class="average-minutes">{{averageResolutionMinutes}}</p>
@@ -126,7 +126,7 @@
                 </div>
               </div>
               <div class="line-chart-container">
-                <canvas #ticketResolutionLineChartCanvas class="line-chart" style="width: 250px; height: 250px;"></canvas>
+                <canvas #ticketResolutionLineChartCanvas class="line-chart"></canvas>
               </div>
             </div>
           </div>
