@@ -6,6 +6,9 @@ import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
+import { UserModel } from "../models/user.model";
+
+
 
 
 const router = Router();
@@ -50,6 +53,18 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.get('/assigned', expressAsyncHandler(
+  async (req, res) => {
+    const tickets = await TicketModel.find({ assigned: req.query.id });
+
+    if(tickets){
+        res.status(200).send(tickets);
+    }else{
+        res.status(404).send("No tickets found");
+    }
+  }
+))
+
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TicketModel.deleteMany({});
@@ -79,7 +94,8 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             priority: req.body.priority,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
-            status: req.body.status
+            status: req.body.status,
+            createdTime: new Date(),
         });
 
         console.log("new ticket: ", newTicket);
@@ -164,6 +180,11 @@ router.put('/comment', expressAsyncHandler(
         );
   
         if (ticket) {
+          if (status === 'Done' && !ticket.timeToTicketResolution) {
+            // Set timeToTicketResolution if the status is changed to 'Done' and it hasn't been set before
+            ticket.timeToTicketResolution = new Date();
+            await ticket.save();
+          }
           res.status(200).json({ message: 'Ticket status updated successfully' });
         } else {
           res.status(404).json({ message: 'Ticket not found' });
@@ -173,6 +194,29 @@ router.put('/comment', expressAsyncHandler(
       }
     }
   ));
+
+  router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
+    const ticketId = req.body.ticketId;
+    const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
+  
+    try{
+      const ticket = await TicketModel.findOne({ id: ticketId });
+      if(ticket){
+        // check if timeToFirstResponse is not set yet
+        if(!ticket.timeToFirstResponse){
+          // save the commentTime as the first response time
+          ticket.timeToFirstResponse = commentTime;
+          await ticket.save();
+          res.status(200).send("Time to first response added");
+        } else {
+          res.status(200).send("First response time already recorded");
+        }
+      }
+    }catch(error){
+      res.status(500).send("Internal server error");
+    }
+  }));
+  
   
   
 

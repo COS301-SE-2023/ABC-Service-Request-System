@@ -73,6 +73,7 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
+
 //JAIMENS ROUTES//
 
 //RESET PASSWORD TO ACTIVATE ACCOUNT//
@@ -457,6 +458,8 @@ router.get('/id', expressAsyncHandler(
     }
 ));
 
+
+
 router.get('/email', expressAsyncHandler(
     async (req, res) => {
         const user = await UserModel.findOne({ emailAddress: req.query.email });
@@ -548,6 +551,16 @@ router.post('/add-group-to-users', expressAsyncHandler(
     }  
 ));
 
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+));
 router.delete('/:userId/group/:groupId', expressAsyncHandler(
     async(req,res) => {
         const user = await UserModel.findById(req.params.userId);

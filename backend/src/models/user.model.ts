@@ -4,6 +4,7 @@ type Role = "Manager" | "Functional" | "Technical" | "Admin";
 let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
 
 export interface user{
+    groupId: any;
     id: string
     name: string
     surname: string

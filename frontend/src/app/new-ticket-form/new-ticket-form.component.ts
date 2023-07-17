@@ -9,6 +9,8 @@ import { AuthService } from 'src/services/auth.service';
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
 import { NavbarService } from 'src/services/navbar.service';
+import { group } from '../../../../backend/src/models/group.model';
+import{ GroupService } from 'src/services/group.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -19,9 +21,11 @@ export class NewTicketFormComponent implements OnInit {
   assigneeName: string;
   navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
+  allGroups: group[] = [];
   assignedUser!: user;
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, public navbarService: NavbarService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService,
+    private userService: UserService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService, private navbarService: NavbarService) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -35,7 +39,7 @@ export class NewTicketFormComponent implements OnInit {
       comments: '',
     });
 
-    this.assigneeName = ''; 
+    this.assigneeName = '';
   }
 
   @Output() newTicketEvent = new EventEmitter();
@@ -48,6 +52,10 @@ export class NewTicketFormComponent implements OnInit {
 
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
+    });
+
+    this.groupService.getGroups().subscribe((response: group[]) => {
+      this.allGroups = response;
     });
   }
 
@@ -68,7 +76,9 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   onSubmit() {
+
     if (this.ticketForm.valid) {
+
       const ticketFormValues = this.ticketForm.value;
 
       // trimming description
@@ -83,13 +93,22 @@ export class NewTicketFormComponent implements OnInit {
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
-      const description = trimmedDescription;
+     // const description = trimmedDescription;
+      const description = ticketFormValues.description;
+      let groupName = "";
 
-      // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.groupService.getGroupById(group).subscribe((response: group) => {
+          groupName = response.groupName;
+
+           // adding new ticket
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
+        this.groupService.updateTicketsinGroup(group, newTicketId).subscribe((response: any) => {
+          console.log(response);
+          }
+        );
         // should navigate to ticket directly
         this.router.navigate([`/ticket/${newTicketId}`]);
 
@@ -111,6 +130,12 @@ export class NewTicketFormComponent implements OnInit {
           console.log(response);
         });
       });
+    }
+  );
+
+
+
+
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {
@@ -124,7 +149,8 @@ export class NewTicketFormComponent implements OnInit {
         endDate: endDate,
         status: status,
         comments: comments,
-        description: description
+        description: description,
+        createdAt: new Date(),
       };
 
       this.newTicketEvent.emit(newTicket);
@@ -140,11 +166,11 @@ export class NewTicketFormComponent implements OnInit {
       console.log('Form is invalid. Please fill in all required fields.');
     }
   }
-  
+
   markFormControlsAsTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
-  
+
       if (control instanceof FormGroup) {
         this.markFormControlsAsTouched(control);
       }
@@ -161,34 +187,34 @@ export class NewTicketFormComponent implements OnInit {
     if (event.key === 'Enter') {
       const textBox = event.target as HTMLDivElement;
       const selection = window.getSelection();
-  
+
       if (!selection) {
         return;
       }
-  
+
       const range = selection.getRangeAt(0);
       const listItem = document.createElement('li');
       const textNode = document.createTextNode('\u00A0'); // Non-breaking space
-  
+
       event.preventDefault();
-  
+
       range.deleteContents();
       listItem.appendChild(textNode);
       range.insertNode(listItem);
       range.setStart(listItem, 0);
       range.setEnd(listItem, 0);
-  
+
       selection.removeAllRanges();
       selection.addRange(range);
-  
+
       textBox.focus();
     }
   }
-  
+
   handleInput(event: any) {
     const textBox = event.target as HTMLDivElement;
     const lines = textBox.innerText.split('\n').filter(line => line.trim() !== '');
-  
+
     const listItems = lines.map(line => `<li>${line}</li>`).join('');
     textBox.innerHTML = listItems !== '' ? `<ul>${listItems}</ul>` : '';
     textBox.normalize(); // Normalize the HTML structure to remove any nested elements
@@ -206,7 +232,7 @@ export class NewTicketFormComponent implements OnInit {
   stripPTags(content: string): string {
     return content.replace(/<\/?p>/g, '');
   }
-  
+
  /* ticketForm = this.fb.group({
     id: [''], //automatic incrr
     summary: [''],
