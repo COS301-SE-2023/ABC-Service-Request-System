@@ -20,6 +20,9 @@ export class ClientAccountPage3Component implements OnInit{
   @Output() clientCreated: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() formData: any;
+  @Input() selectedOrganisation!: string;
+
+  availableClients: client[] = [];
 
   projectImageUrl!: string;
   projectImageColor!: string;
@@ -36,6 +39,8 @@ export class ClientAccountPage3Component implements OnInit{
   createdClient!: client;
 
   hovered = false;
+
+  selectedClient!: client;
 
   constructor (
     public authService: AuthService,
@@ -58,6 +63,32 @@ export class ClientAccountPage3Component implements OnInit{
   // }
 
   ngOnInit(): void {
+
+    if (!this.formData || !this.formData.projectName) {
+      this.formData = {
+        ...this.formData,
+        projectName: 'Untitled',
+        logo: '',
+        color: '',
+        groups: []
+      };
+    }
+
+    console.log("selected org: ", this.selectedOrganisation);
+
+    if(this.selectedOrganisation) {
+      console.log("selected org: ", this.selectedOrganisation);
+      this.clientService.getClientsByOrganisationName(this.selectedOrganisation).subscribe(
+        (response) => {
+          this.availableClients = response;
+          console.log("available clients: ", response);
+          this.selectedClient = this.availableClients[0];
+        }, (error) => {
+          console.log("Error fetching clients with organisation name", error);
+        }
+      )
+    }
+
     this.formData.projectName = 'Untitled';
     this.setRandomImage();
 
@@ -80,6 +111,10 @@ export class ClientAccountPage3Component implements OnInit{
     );
   }
 
+  onSelectionChange(): void {
+    console.log(this.selectedClient, ' change');
+  }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -97,24 +132,49 @@ export class ClientAccountPage3Component implements OnInit{
   }
 
   onCompleteClicked(): void{
-    console.log(this.projectImageUrl, this.projectImageColor, this.selectedGroups);
-    this.formData.logo = this.projectImageUrl;
-    this.formData.color = this.projectImageColor;
-    this.formData.groups = this.selectedGroups;
-
-    console.log(this.formData);
-
-    this.clientService.createClient(this.formData).subscribe(
-      (response) => {
-        console.log('Response:', response);
-        this.createdClient = response.client;
-        this.clientCreated.emit(this.createdClient); //emit the created client to use on page 4
-        this.completeClicked.emit();
-      },
-      (error) => {
-        console.error('Error:', error);
+    if(this.selectedOrganisation !== undefined) {
+      this.formData = {
+        ...this.formData,
+        logo: this.projectImageUrl,
+        color: this.projectImageColor,
+        groups: this.selectedGroups,
+        clientId: this.selectedClient.id
       }
-    );
+
+      console.log(this.formData, ' form-data');
+
+      this.clientService.addProject(this.formData).subscribe(
+        (response) => {
+          console.log('Response: ', response);
+          this.createdClient = response;
+          this.clientCreated.emit(this.createdClient);
+          this.completeClicked.emit();
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+
+    } else {
+      console.log(this.projectImageUrl, this.projectImageColor, this.selectedGroups);
+      this.formData.logo = this.projectImageUrl;
+      this.formData.color = this.projectImageColor;
+      this.formData.groups = this.selectedGroups;
+
+      console.log(this.formData);
+
+      this.clientService.createClient(this.formData).subscribe(
+        (response) => {
+          console.log('Response:', response);
+          this.createdClient = response.client;
+          this.clientCreated.emit(this.createdClient); //emit the created client to use on page 4
+          this.completeClicked.emit();
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
   }
 
   setRandomImage(): void {

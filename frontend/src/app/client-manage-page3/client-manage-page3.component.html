@@ -102,7 +102,7 @@
   <h3>Assigned Groups</h3>
 
   <div class="all-groups">
-    <div class="group-tab" *ngFor="let group of projectToEdit.assignedGroups; let i = index">
+    <div class="group-tab" *ngFor="let group of selectedGroups; let i = index">
       <p>{{ group.groupName }}</p>
       <!-- <i class="fa-solid fa-xmark" [tabindex]="i" (click)="removeGroupTab(group)" (keyup)="handleKeyupEvent($event)"></i> -->
       <i class="fa-solid fa-xmark" [tabindex]="i"></i>

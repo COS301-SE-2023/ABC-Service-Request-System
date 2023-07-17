@@ -20,6 +20,7 @@ export class ClientManagePage2Component implements OnInit{
   @Input() selectedClient!: client;
 
   allClients: client[] = [];
+  allClients2$!: Observable<client[]>
   allProjects: project[] = [];
   projectGroups: group[] = [];
 
@@ -44,6 +45,8 @@ export class ClientManagePage2Component implements OnInit{
     console.log("managing client: ", this.selectedClient);
 
     this.getAllClientsByOrganisationName();
+
+    this.allClients2$ = this.clientService.getClientsByOrganisationName(this.selectedClient.organisation);
 
     //GETTING ALL THE GROUPS
     this.groupService.getGroups().subscribe(
@@ -154,10 +157,23 @@ export class ClientManagePage2Component implements OnInit{
 
   removeClient(client: client) {
     console.log("client to remove is: ", client);
+    this.clientService.deleteClient(client.id).subscribe(
+      (response) => {
+        console.log('deleted client: ', response);
+      }, (error) => {
+        console.log('error deleting client', error);
+      }
+    );
+    this.toggleRemoveClientOverlay(null);
   }
 
   addClient(organisationName: string) {
     const queryParams = { organisation: organisationName };
+    this.router.navigate(['/create-account'], { queryParams });
+  }
+
+  addProject(organisationName: string) {
+    const queryParams = { project: organisationName };
     this.router.navigate(['/create-account'], { queryParams });
   }
 

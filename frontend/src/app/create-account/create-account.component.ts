@@ -28,10 +28,10 @@ export class CreateAccountComponent implements OnInit{
 
   managingClient!: client;
 
-  clientToEdit!: client;
   projectToEdit!: project;
 
   selectedOrganisation!: string;
+  selectedOrganisationForProject!: string;
 
   constructor(
     public authService: AuthService,
@@ -47,9 +47,14 @@ export class CreateAccountComponent implements OnInit{
 
     this.route.queryParams.subscribe(params => {
       this.selectedOrganisation = params['organisation'];
+      this.selectedOrganisationForProject = params['project'];
 
       if (this.selectedOrganisation) {
         this.clientStage = 1;
+      }
+
+      if(this.selectedOrganisationForProject) {
+        this.clientStage = 2;
       }
     });
   }
@@ -93,7 +98,7 @@ export class CreateAccountComponent implements OnInit{
   }
 
   incrementClientStageAndReceiveEmit(event: { selectedClient: client, projectToEdit: project}){
-    this.clientToEdit = event.selectedClient;
+    //this.clientToEdit = event.selectedClient;
     this.projectToEdit = event.projectToEdit;
     this.clientStage++;
   }

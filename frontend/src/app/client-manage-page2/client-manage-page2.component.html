@@ -11,14 +11,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of allClients">
-        <td class="py-2">{{ client.name }}</td>
-        <td class="py-2">{{ client.surname }}</td>
-        <td class="py-2">{{ client.email }}</td>
-        <td class="py-2 text-red-600 text-right">
-          <button class="underline" (click)="toggleRemoveClientOverlay(client)">Remove</button>
-        </td>
-      </tr>
+      <ng-container *ngIf="(allClients2$ | async) as allClients">
+        <tr *ngFor="let client of allClients">
+          <td class="py-2">{{ client.name }}</td>
+          <td class="py-2">{{ client.surname }}</td>
+          <td class="py-2">{{ client.email }}</td>
+          <td class="py-2 text-red-600 text-right">
+            <button class="underline" (click)="toggleRemoveClientOverlay(client)">Remove</button>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 
@@ -53,7 +55,7 @@
     </tbody>
   </table>
 
-  <button class="add-btn">Add</button> <br>
+  <button class="add-btn" (click)="addProject(this.selectedClient.organisation)">Add</button> <br>
 
   <button class="complete-btn" (click)="onCompleteClicked()">Complete</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>

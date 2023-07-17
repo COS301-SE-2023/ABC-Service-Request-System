@@ -19,7 +19,7 @@
       <!-- <p>Nedbank Mobile Application</p> -->
     </div>
 
-    <div class="button-wrapper">
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfDashboardRoute() }">
       <button (click)="openDashboard()" class="view-tickets">
         <i class="fa-regular fa-ticket"></i>
         <span>Tickets</span>
@@ -28,7 +28,7 @@
       <div *ngIf="!checkIfDashboardRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper">
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfGroupsRoute() }">
       <button (click) = "openTeams()" class="view-teams">
         <i class="fa-solid fa-user-group"></i>
         <span>Groups</span>
@@ -37,7 +37,7 @@
       <div *ngIf="!checkIfGroupsRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper">
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfAnalyticsRoute() }">
       <button (click)="openAnalytics()" class="view-analytics">
         <i class="fa-solid fa-chart-simple"></i>
         <span>Analytics</span>
@@ -46,7 +46,7 @@
       <div *ngIf="!checkIfAnalyticsRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" >
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateAccountRoute() }">
       <button class="creat-account" (click)="openCreateAccount()">
         <i class="fa-solid fa-user-plus"></i>
         <span>Create Account</span>
@@ -55,7 +55,7 @@
       <div *ngIf="!checkIfCreateAccountRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()">
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateTicketRoute() }">
       <button (click)="openNewTicketForm()" class="add-ticket-button">
         <i class="fa-solid fa-circle-plus"></i>
         <span>Add Ticket</span>
@@ -64,7 +64,7 @@
       <div *ngIf="!checkIfCreateTicketRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper">
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfProfileRoute() }">
       <button class="view-settings" (click)="openSettings()">
         <i class="fa-solid fa-gear"></i>
         <span>Profile</span>

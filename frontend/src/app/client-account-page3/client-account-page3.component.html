@@ -1,6 +1,16 @@
 <div class="container">
-  <h1>Initial Project</h1> <br>
-  <p>All client accounts must have at least one project registered to them. Create this clients initial project here!</p>
+  <h1 *ngIf="this.selectedOrganisation === undefined">Initial Project</h1> <br>
+  <h1 *ngIf="this.selectedOrganisation !== undefined">New Project</h1> <br>
+
+  <p *ngIf="this.selectedOrganisation === undefined">All client accounts must have at least one project registered to them. Create this clients initial project here!</p>
+  <p *ngIf="this.selectedOrganisation !== undefined">Select a client to which the new project should be added.</p>
+
+  <div class="full-input" *ngIf="this.selectedOrganisation !== undefined">
+    <label for="client">Client</label>
+    <select id="client" name="client" [(ngModel)]="selectedClient" (change)="onSelectionChange()">
+      <option *ngFor="let client of availableClients" [ngValue]="client">{{ client.name }}</option>
+    </select>
+  </div>
 
   <div class="project-information">
     <div class="project-logo" [class]="projectImageColor" (click)="toggleLogosOverlay()" tabindex="0" (keydown)="toggleLogosOverlay()">

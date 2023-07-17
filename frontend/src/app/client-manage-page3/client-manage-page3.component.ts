@@ -19,7 +19,6 @@ export class ClientManagePage3Component implements OnInit{
   @Output() backClicked = new EventEmitter<void>();
   @Output() completeClicked = new EventEmitter<void>();
 
-  @Input() clientToEdit!: client;
   @Input() projectToEdit!: project;
 
   hovered = false;
@@ -38,6 +37,7 @@ export class ClientManagePage3Component implements OnInit{
 
   allTickets: ticket[] = [];
   existingGroups: group[] = [];
+  clientToEdit!: client;
 
   constructor(private router: Router,
       private formBuilder: FormBuilder,
@@ -69,8 +69,8 @@ export class ClientManagePage3Component implements OnInit{
 
     //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
     if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
-      this.existingGroups = this.projectToEdit.assignedGroups;
-      this.selectedGroups = this.projectToEdit.assignedGroups;
+      this.existingGroups = this.projectToEdit.assignedGroups.slice();
+      this.selectedGroups = this.projectToEdit.assignedGroups.slice();
       this.groupSelected = true;
 
       //REMOVE EXISTING GROUPS FROM ALL GROUPS
@@ -80,7 +80,15 @@ export class ClientManagePage3Component implements OnInit{
       );
     }
 
-    console.log("selected groups: ", this.selectedGroups);
+    const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
+
+    this.clientService.getClientByProjectName(encodedProjectName).subscribe(
+      (response) => {
+        this.clientToEdit = response;
+      }, (error) => {
+        console.log("Error fetching client by project name", error);
+      }
+    )
   }
 
   private _filter(value: string): string[] {
@@ -93,7 +101,6 @@ export class ClientManagePage3Component implements OnInit{
 
 
   toggleHover(){
-    console.log('came in');
     this.hovered = !this.hovered;
   }
 
@@ -102,17 +109,13 @@ export class ClientManagePage3Component implements OnInit{
   }
 
   navigateToDashboard() {
-    console.log('selected Groups before:', this.selectedGroups);
-    console.log('existing groups: ', this.existingGroups);
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
-    console.log('selected Groups now:', this.selectedGroups);
     this.selectedGroups.forEach((group) => {
-      console.log("group 1: ", group);
       this.clientService.addGroupToProject(this.clientToEdit.id, this.projectToEdit.id, group).subscribe(
         (response) => {
-          console.log(response, ' hi');
+          console.log(response);
         }, (error) => {
-          console.log(error, ' bye');
+          console.log(error);
         }
       )
     })
@@ -121,7 +124,6 @@ export class ClientManagePage3Component implements OnInit{
 
   addGroup() {
     const selectedGroupName = this.groupControl.value;
-    console.log("selected group name", selectedGroupName);
     if(selectedGroupName){
         const selectedGroup: group | undefined = this.allGroups.find(group => group.groupName === selectedGroupName);
         if (selectedGroup && !this.selectedGroups.some(group => group.id === selectedGroup.id)) {
