@@ -116,10 +116,6 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
         }
       );
     }
-
-
-    this.calculateAverageResponseTime();
-    this.calculateAverageTimeToResolution();
     // Create the doughnut chart
     this.createDoughnutChart();
     this.createPolarChart();
@@ -202,6 +198,8 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
           this.updateLineChart(response);
           this.updateTicketResolutionLineChart(response);
           this.updateTicketVolumeTrendChart(response);
+          this.calculateAverageResponseTime(response);
+          this.calculateAverageTimeToResolution(response);
         }, (error) => {
           console.log("Error fetching tickets for current user", error);
         }
@@ -266,12 +264,11 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
           }
           this.updatePolarChart();
           this.updateDoughnutChart();
-          //this.createLineChart();
           this.updateLineChart(response);
-          //this.createTicketResolutionLineChart();
           this.updateTicketResolutionLineChart(response);
-          //this.createTicketVolumeTrendChart();
           this.updateTicketVolumeTrendChart(response);
+          this.calculateAverageResponseTime(response);
+          this.calculateAverageTimeToResolution(response);
         });
 
       }, (error) => {
@@ -285,64 +282,52 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     return value < 10 ? `0${value}` : value.toString();
   }
 
-  calculateAverageTimeToResolution(): void {
-    this.userId = this.authService.getUser().name;
+  calculateAverageTimeToResolution(tickets: ticket[]): void {
+    const resolvedTickets = tickets.filter(ticket => ticket.status === 'Done' && ticket.timeToTicketResolution);
+    const totalResolutionTime = resolvedTickets.reduce((total, ticket) => {
+      const createdAt = new Date(ticket.createdAt);
+      const resolutionTime = new Date(ticket.timeToTicketResolution!); // Assert that timeToTicketResolution is not undefined
+      const ticketResolutionTime = resolutionTime.getTime() - createdAt.getTime();
+      return total + ticketResolutionTime;
+    }, 0);
 
-    this.ticketsService.getTicketsWithName(this.userId).subscribe(
-      (tickets) => {
-        const resolvedTickets = tickets.filter(ticket => ticket.status === 'Done' && ticket.timeToTicketResolution);
-        const totalResolutionTime = resolvedTickets.reduce((total, ticket) => {
-          const createdAt = new Date(ticket.createdAt);
-          const resolutionTime = new Date(ticket.timeToTicketResolution!); // Assert that timeToTicketResolution is not undefined
-          const ticketResolutionTime = resolutionTime.getTime() - createdAt.getTime();
-          return total + ticketResolutionTime;
-        }, 0);
-
-        if (resolvedTickets.length > 0) {
-          const averageResolutionTime = totalResolutionTime / resolvedTickets.length;
-          this.averageResolutionHours = this.formatTimeValue(Math.floor(averageResolutionTime / (1000 * 60 * 60)));
-          this.averageResolutionMinutes = this.formatTimeValue(Math.floor((averageResolutionTime / (1000 * 60)) % 60));
-          console.log('averageResolutionHours', this.averageResolutionHours);
-          console.log('averageResolutionMinutes', this.averageResolutionMinutes);
-        } else {
-          this.averageResolutionHours = '00';
-          this.averageResolutionMinutes = '00';
-        }
-      },
-      (error) => {
-        console.error('Error retrieving user tickets:', error);
-      }
-    );
+    if (resolvedTickets.length > 0) {
+      const averageResolutionTime = totalResolutionTime / resolvedTickets.length;
+      this.averageResolutionHours = this.formatTimeValue(Math.floor(averageResolutionTime / (1000 * 60 * 60)));
+      this.averageResolutionMinutes = this.formatTimeValue(Math.floor((averageResolutionTime / (1000 * 60)) % 60));
+      console.log('averageResolutionHours', this.averageResolutionHours);
+      console.log('averageResolutionMinutes', this.averageResolutionMinutes);
+    } else {
+      this.averageResolutionHours = '00';
+      this.averageResolutionMinutes = '00';
+    }
   }
 
-  calculateAverageResponseTime(): void {
-    this.ticketsService.getTicketsWithName(this.userId).subscribe(tickets => {
-      let totalResponseTime = 0;
-      let count = 0;
+  calculateAverageResponseTime(tickets: ticket[]): void {
+    let totalResponseTime = 0;
+    let count = 0;
 
-      tickets.forEach(ticket => {
-        if (ticket.timeToFirstResponse) {
-          const created = new Date(ticket.createdAt);
-          const firstResponse = new Date(ticket.timeToFirstResponse);
+    tickets.forEach(ticket => {
+      if (ticket.timeToFirstResponse) {
+        const created = new Date(ticket.createdAt);
+        const firstResponse = new Date(ticket.timeToFirstResponse);
 
-          console.log('firstResponse', firstResponse);
-          const diff = firstResponse.getTime() - created.getTime();
+        console.log('firstResponse', firstResponse);
+        const diff = firstResponse.getTime() - created.getTime();
 
-          totalResponseTime += diff;
-          count++;
-        }
-      });
-
-      if (count > 0) {
-        const avgDiff = totalResponseTime / count; // average difference in milliseconds
-        this.averageResponseHours = this.formatTimeValue(Math.floor((avgDiff / (1000 * 60 * 60)) % 24));
-        this.averageResponseMinutes = this.formatTimeValue(Math.floor((avgDiff / (1000 * 60)) % 60));
-      } else {
-        this.averageResponseHours = '00';
-        this.averageResponseMinutes = '00';
+        totalResponseTime += diff;
+        count++;
       }
     });
 
+    if (count > 0) {
+      const avgDiff = totalResponseTime / count; // average difference in milliseconds
+      this.averageResponseHours = this.formatTimeValue(Math.floor((avgDiff / (1000 * 60 * 60)) % 24));
+      this.averageResponseMinutes = this.formatTimeValue(Math.floor((avgDiff / (1000 * 60)) % 60));
+    } else {
+      this.averageResponseHours = '00';
+      this.averageResponseMinutes = '00';
+    }
   }
 
   updateLineChart(tickets: any[]): void {
