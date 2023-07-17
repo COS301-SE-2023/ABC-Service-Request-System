@@ -1,221 +1,40 @@
-.panel{
-  position: absolute;
-  top: 0;
- }
-
- .file-input-label {
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
-  background: url(../../assets/pencil.png) no-repeat center center;
-  background-size: contain;
-  cursor: pointer;
-  transition: background-color .3s ease-in-out;
-  margin-left: 63em;
-  margin-top: 0.625em;
-}
-
-.file-input-label:hover {
-  background-color: #d0d0d0;
-}
-
-
-.file-input {
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
-.profilePicture-input{
-  display: inline;
-  width: 10em;
-  height: 0.625em;
-  margin-left: 6.875em;
-  margin-top: 1.25em;
- // background: url(../../assets/pencil.png) no-repeat center center;
-  background-size: contain;
-  cursor: pointer;
-  transition: background-color .3s ease-in-out;
-}
-.profile-input{
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
- .background_img {
-  width: 65.35em;
-  margin-top: -1.1em;
-  margin-left: -1.1em;
-  height: 11.25em;
-  background-color: #e1e7ed;
-  background: url("https://source.unsplash.com/9wg5jCEPBsw");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-top-left-radius: 1.0625em;
-  border-top-right-radius: 1.0625em;
-
-  border-color: black;
-}
-
-.image-button {
-  display: inline-block;
-  background-size: cover;
-  background-position: center;
-  width: 6.25em;
-  height: 6.25em;
-  margin-left: 50em;
-  border: none;
-  cursor: pointer;
-}
-
- .role{
-  display: inline-block;
-  padding: 0.3125em 0.625em;
-  border: 0.0625em solid #ccc;
-  background-color: #f2f2f2;
-  border-radius: 0.625em;
-  font-size: 0.875em;
-  margin-bottom: 0.625em;
-  border-color: gray;
- }
-
-.profile {
-     width: 70%;
-     position: absolute;
-    // //margin: 0 auto;
-     padding: 1.1em;
-     border: 1px solid black;
-     border-radius: 1.25em;
-     margin-left: 25em;
-     background: white;
-     //background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
-     margin-top: 4.6875em;
-    // float: center;
-     display: grid;
-}
-label{
-  color: black;
+.settings-container {
+  width: 82%;
+  float: right;
   font-family: 'Poppins', sans-serif;
-  margin-top: 0em;
-  font-weight: bold;
+  // padding: 0 15px;
+  margin-top: 50px;
 }
 
-    h2 {
-      margin-bottom: 1.25em;
-      text-align: center;
-      color: black;
-      font-family: 'Poppins', sans-serif;
-    }
+.profile-header-img {
+  height: 150px;
+  width: 100%;
+}
 
-    img {
-      display: inline-block;
-      vertical-align: middle;
-      width: 0.625em; /* Adjust the width as needed */
-      height: auto; /* Maintain aspect ratio */
-      margin-right: 0.625em; /* Adjust the margin as needed */
-      margin-left: 0.625em;
-      // border: 0.125em solid white;
-    }
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  top: -50px;
+  // border: 3px solid white; /* Optional: Add a border around the image */
+  // box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);  /* Optional: Add a shadow for depth */
+  right: -50px;
+}
 
+.profile-header {
+  position: relative;
+}
 
-    .profile-picture {
-      width: 9em;
-      height: 9em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 1em;
-      margin-left: -0.625em;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      margin-top: -4em;
-    
+.edit-icon-img {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height:40px;
+}
 
-      img {
-        width:  9.375em;
-        height: 9.375em;
-        object-fit: cover;
-        border-radius: 50%;
-        border-color:  white;
-        margin-bottom: 0.625em;
-      }
-
-      input[type="file"] {
-        margin-top: 0.625em;
-      }
-    }
-
-    form {
-      .form-group {
-        margin-bottom: 1.25em;
-        width: 100%;
-        position: relative;
-
-        label {
-          margin-top: 3.75em;
-          display: block;
-          margin-bottom: 0.3125em;
-          font-weight: bold;
-        }
-
-        input[type="text"] {
-          padding:  0.625em;
-          border: 0.0625em solid #ccc;
-          border-radius: 0.3125em;
-          box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
-          font-size: 0.875em;
-        }
-      }
-
-      button[type="submit"] {
-        display: block;
-        margin-top: 0.625em;
-        padding: 0.625em 1.25em;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-      }
-    }
-
-  .save-profile{
-    background-color: #007bff;
-    color: white;
-    width: 90%;
-    padding: 0.5em;
-    border-radius: 0.7em;
-  }
-
-  .save-profile:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-.textarea{
-          padding: 0.625em;
-          border: 0.0625em solid #ccc;
-          border-radius: 0.3125em;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          font-size: 0.875em;
+.edit-icon-img::hover{
 
 }
-  #name, #surname, #bio{
-    // border-bottom: 1px solid black;
-    outline: none;
-    padding: 1em;
-    max-width: 100%;
-    position: relative;
-    width: 90%;
 
-    img{
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(0, -50%);
-    }
-  }
-
-  #name:hover, #surname:hover:hover {
-    background-color: rgba(0,0,0,0.2);
-  }

@@ -1,53 +1,65 @@
-<div class = "header">
-    <app-page-header></app-page-header>
-</div>
+<app-page-header></app-page-header>
+<app-dash-panel></app-dash-panel>
 
-<div class="panel">
-    <app-dash-panel></app-dash-panel>
-</div>
+<div class="settings-container">
 
-<div class ="profile">
-    <div class="background_img">
-        <label for="fileInput" class="file-input-label">
-            <input type="file" id="fileInput" class="file-input" (change)="onFileChanged($event)" />
-          </label>
+  <div class = "profile-header">
+    <div class = "edit-icon">
+      <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
     </div>
-    <div class="profile-picture">
-        <label for="fileInput" class="profilePicture-input">
-            <input type="file" id="profilePicture" class="profile-input" (change)="onFileChanged($event)">
-            <img src="{{ getUsersProfilePicture() }}" class="profile-picture" alt="profile-picture">
-        </label>
-        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
+    <img class = "profile-header-img" src = "../../assets/bimg.jpg" alt = "profile-header">
+  </div>
+
+  <div class = "profile-picture">
+    <img class = "profile-picture-img" src = "../../assets/default.png" alt = "profile-picture-img">
+  </div>
+
+  <div class = "user-details">
+    <div class = "name">
+
     </div>
+    <div class = "surname">
 
-    <form>
+    </div>
+    <div class = "email">
 
-        <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" *ngIf="!editingName"
-                      [(ngModel)]="editedName"
-                      (keydown)="onFieldChange()">
-                <img src="./assets/pencil.png" alt="pencil">
-        </div>
+    </div>
+    <div class = "location">
 
-        <div class="form-group">
-            <label for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" *ngIf="!editingSurname"
-                  [(ngModel)]="editedSurname"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
-        </div>
-        <div class ="role">
-            Functional
-        </div>
-        <div class= "form-group">
-            <label for="bio">Bio:</label>
-            <textarea id="bio" class="input-field" style="height:50px;resize:vertical;" name="bio" placeholder="Tell us about yourself..."></textarea>
-            <img src="./assets/pencil.png" alt="pencil">
-        </div>
+    </div>
+  </div>
 
-        <button [disabled]="!isDirty" (click)="saveChanges()" class="save-profile">Save</button>
-</form>
+  <div class = "bio">
 
+  </div>
+
+  <div class = "analytics">
+
+  </div>
+
+  <div class = "socials">
+    <div class = "facebook">
+
+    </div>
+    <div class = "twitter">
+
+    </div>
+    <div class = "github">
+
+    </div>
+    <div class = "instagram">
+
+    </div>
+    <div class = "linkedin">
+
+    </div>
+  </div>
+
+  <div class = "groups">
+
+  </div>
+
+  <div class = "notification-settings">
+
+  </div>
 </div>
-
