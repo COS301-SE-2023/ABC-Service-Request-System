@@ -63,6 +63,24 @@ router.get('/assigned', expressAsyncHandler(
         res.status(404).send("No tickets found");
     }
   }
+));
+
+router.get('/group', expressAsyncHandler(
+  async (req, res) => {
+    const groupName = req.query.name;
+
+    try {
+      const tickets = await TicketModel.find({ group: groupName });
+
+      if(tickets) {
+        res.status(200).send(tickets);
+      } else {
+        res.status(404).send("No tickets found for that group");
+      }
+    } catch {
+      res.status(500).send("Internal error fetching tickets by group name");
+    }
+  }
 ))
 
 router.get('/delete', expressAsyncHandler(
