@@ -85,7 +85,8 @@ export class PageHeaderComponent {
   getNumOfUnreadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      const user = this.authService.getUser();
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
       this.unreadNotificationsCount = this.unreadNotificationsArray.length;
     });
   }

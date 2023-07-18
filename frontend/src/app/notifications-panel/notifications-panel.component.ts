@@ -23,10 +23,12 @@ export class NotificationsPanelComponent implements OnInit {
 
   @Input() notifications: notifications[] = [];
 
+
   getUnreadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      const user = this.authService.getUser();
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         // console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -37,7 +39,8 @@ export class NotificationsPanelComponent implements OnInit {
   getReadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
+      const user = this.authService.getUser();
+      this.readNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Read' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
         // console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
