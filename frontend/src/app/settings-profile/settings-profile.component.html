@@ -14,27 +14,74 @@
     <img class = "profile-picture-img" src = "../../assets/default.png" alt = "profile-picture-img">
   </div>
 
-  <div class = "user-details">
-    <div class = "name">
-
+  <div class="user-details">
+    <div class="name-surname">
+      <div class="name">Priyul</div>
+      <div class="surname">Mahabeer</div>
     </div>
-    <div class = "surname">
-
+    <div class="email">
+      <img src="../../assets/email.png" alt="mail-icon">
+      <span>john.doe@example.com</span>
     </div>
-    <div class = "email">
-
-    </div>
-    <div class = "location">
-
+    <div class="location">
+      <img src="../../assets/pin.png" alt="location-icon">
+      <span>New York, USA</span>
     </div>
   </div>
 
-  <div class = "bio">
 
+
+  <div class="bio">
+    <h2>Bio</h2>
+    <form>
+      <textarea></textarea>
+    </form>
+    <img class = "bio-line" src = "../../assets/line.png" alt = "line">
   </div>
+
 
   <div class = "analytics">
-
+    <div class="grid-item grid-item-6">
+      <h2>Time to First Response</h2>
+      <div class="graph-and-average-container">
+        <div class="average-container">
+          <h3>AVERAGE</h3>
+          <p class="average">22</p>
+          <p class="average-unit">MINUTES</p>
+          <div class="graph-badge-green">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <p id="imp">20.1%</p>
+          </div>
+        </div>
+        <div class="line-chart-container">
+          <canvas #lineChart class="line-chart"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Participation -->
+    <div class="grid-item grid-item-7">
+      <h2>Time to Ticket Resolution</h2>
+      <div class="graph-and-average-container">
+        <div class="average-container">
+          <h3>AVERAGE</h3>
+          <div class="average-time">
+            <p class="average-hours">22</p>
+            <p class="average-minutes">37</p>
+          </div>
+          <div class="average-units">
+            <p class="average-unit hour-unit">HOURS</p>
+            <p class="average-unit minute-unit">MINUTES</p>
+          </div>
+          <div class="graph-badge-red">
+            <i class="fa-solid fa-arrow-trend-down"></i>
+            <p id="imp">11.91%</p>
+          </div>
+        </div>
+        <div class="line-chart-container">
+          <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class = "socials">
