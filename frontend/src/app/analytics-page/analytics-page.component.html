@@ -13,7 +13,7 @@
 
           <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
-            <select #selectElement [value]="selectedGroup" (change)="selectGroup(selectElement.value)">
+            <select [(ngModel)]="sgroup" #selectElement (change)="selectGroup(sgroup)">
               <option value="" disabled selected>Select group</option>
               <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
             </select>

@@ -22,6 +22,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   averageTimeToFirstResponse!: string;
   timeToFirstResponseData!: number[];
 
+  sgroup!: string;
   groupId!: string;
   groupName!: string;
   users: user[] = [];
@@ -67,6 +68,8 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   averageResponseMinutes!: string;
 
 
+
+
   //charts
   doughnutChart!: Chart<"doughnut", (number | null)[], string>;
   polarChart!: Chart<"polarArea", (number | null)[], string>;
@@ -91,6 +94,8 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
     //change name to id
     this.userId = this.authService.getUser().name;
+    console.log('user id: ', this.userId);
+    
     const userGroups: any [] = this.authService.getUser().groups;
 
     this.typeChanged('personal');
@@ -104,6 +109,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
           if(!alreadyDone){
             console.log(this.groups[0].id, ' hi');
+            this.sgroup = response.id;
             alreadyDone = true;
           }
           //this.groups = response;
@@ -126,6 +132,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
 
   selectGroup(id: string): void {
+    console.log('Selected Group ID # 1:', this.sgroup)
     const group = this.groups.find(group => group.id === id);
     if (group) {
         this.selectedGroup = group;
@@ -207,6 +214,16 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     }
 
     if(value === 'group') {
+
+      
+      this.selectGroup(this.groups[0].id);
+      
+
+    }
+  }
+
+  onGroupSelected(groupName: string) {
+
       this.ActiveTicketsCount = 0;
       this.PendingTicketsCount = 0;
       this.ticketsDueTodayCount = 0;
@@ -217,14 +234,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
       this.personalLowPriorityTicketsCount = 0;
 
       this.personalClosedTicketsCount = 0;
-      
-      this.selectGroup(this.groups[0].id);
-      
 
-    }
-  }
-
-  onGroupSelected(groupName: string) {
     console.log('selected group name: ', groupName);
     const todaysDate = new Date();
     todaysDate.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds and milliseconds
