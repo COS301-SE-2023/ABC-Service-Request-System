@@ -78,18 +78,21 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }
 
-  updateReadStatusNotifications(id: string) {
-    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
-      console.log("");
-    });
+  async updateReadStatusNotifications(id: string) {
+    try {
+      const readNotification = await this.notificationsService.changeNotificationToRead(id).toPromise();
+      console.log("Read Status Change");
+    } catch (error) {
+      console.error("Failed to update read status:", error);
+      // Handle error if needed.
+    }
   }
   
   navigateToTicket(id: string) {
-    this.router.navigate([`/ticket/${id}`]);
-    location.replace(`/ticket/${id}`);
-
     // update the notification so that it is read
-    this.updateReadStatusNotifications(id);
+    this.updateReadStatusNotifications(id).then(() => {
+      location.replace(`/ticket/${id}`);
+    });
   }
 
   getNotificationTime(notification: notifications): string {
