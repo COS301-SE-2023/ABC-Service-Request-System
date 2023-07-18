@@ -11,6 +11,8 @@ import { UserService } from 'src/services/user.service';
 import { NavbarService } from 'src/services/navbar.service';
 import { group } from '../../../../backend/src/models/group.model';
 import{ GroupService } from 'src/services/group.service';
+import { client, project } from '../../../../backend/src/models/client.model';
+import { ClientService } from 'src/services/client.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -22,10 +24,19 @@ export class NewTicketFormComponent implements OnInit {
   navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
   allGroups: group[] = [];
+  allProjects: project[] = [];
   assignedUser!: user;
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService,
-    private userService: UserService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService, private navbarService: NavbarService) {
+  constructor(
+    private ticketService: TicketsService,
+    private notificationsService: NotificationsService,
+    private authService: AuthService,
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private groupService: GroupService,
+    private navbarService: NavbarService,
+    private clientService: ClientService) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -37,6 +48,7 @@ export class NewTicketFormComponent implements OnInit {
       endDate: '',
       status: '',
       comments: '',
+      project: ''
     });
 
     this.assigneeName = '';
@@ -57,6 +69,23 @@ export class NewTicketFormComponent implements OnInit {
     this.groupService.getGroups().subscribe((response: group[]) => {
       this.allGroups = response;
     });
+
+    this.clientService.getAllClients().subscribe(
+      (response) => {
+        response.forEach((client) => {
+          client.projects.forEach((project) => {
+            if(!this.allProjects.includes(project))
+              this.allProjects.push(project);
+
+              if(this.allProjects.length > 0) {
+                this.ticketForm.get('project')?.setValue(this.allProjects[0].name);
+              }
+          })
+        })
+      }, (error) => {
+        console.log("Error fetching all clients", error);
+      }
+    );
   }
 
   getAssigneeName() {
@@ -77,6 +106,10 @@ export class NewTicketFormComponent implements OnInit {
 
   onSubmit() {
 
+    this.ticketForm.get('assignee')?.setValue(this.assigneeName);
+
+    console.log(this.ticketForm, ' form');
+
     if (this.ticketForm.valid) {
 
       const ticketFormValues = this.ticketForm.value;
@@ -85,7 +118,7 @@ export class NewTicketFormComponent implements OnInit {
       const trimmedDescription = this.stripPTags(ticketFormValues.description);
 
       const summary = ticketFormValues.summary;
-      const assignee = this.authService.getName();
+      const assignee = this.assigneeName;
       const assigned = ticketFormValues.assigned.name;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
@@ -95,13 +128,14 @@ export class NewTicketFormComponent implements OnInit {
       const comments = ticketFormValues.comments;
      // const description = trimmedDescription;
       const description = ticketFormValues.description;
+      const project = ticketFormValues.project;
       let groupName = "";
 
       this.groupService.getGroupById(group).subscribe((response: group) => {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -151,6 +185,7 @@ export class NewTicketFormComponent implements OnInit {
         comments: comments,
         description: description,
         createdAt: new Date(),
+        project: project
       };
 
       this.newTicketEvent.emit(newTicket);

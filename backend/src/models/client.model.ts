@@ -24,7 +24,7 @@ export interface client {
     projects: project []
 }
 
-const projectSchema = new Schema<project>(
+export const projectSchema = new Schema<project>(
     {
         id: { type: String, required: true},
         name: { type: String, required: true},

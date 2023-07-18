@@ -53,6 +53,21 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.get('/groups', expressAsyncHandler(
+  async (req, res) => {
+    const groupNames = req.query.groups;
+
+    try {
+      const tickets = await TicketModel.find({ group: {$in: groupNames}});
+
+      res.status(200).send(tickets);
+    } catch {
+      res.status(500).send('Internal server error getting tickets by group names');
+    }
+
+  }
+));
+
 router.get('/assigned', expressAsyncHandler(
   async (req, res) => {
     const tickets = await TicketModel.find({ assigned: req.query.id });
@@ -63,7 +78,28 @@ router.get('/assigned', expressAsyncHandler(
         res.status(404).send("No tickets found");
     }
   }
-))
+));
+
+router.get('/projects', expressAsyncHandler(
+  async (req, res) => {
+    const groupName = req.query.groupName;
+    const projects: string [] = [];
+    try {
+      const tickets = await TicketModel.find({ group: groupName});
+
+      if(tickets){
+        tickets.forEach((ticket) => {
+          if(ticket.project && !projects.includes(ticket.project))
+            projects.push(ticket.project);
+        });
+
+        res.status(200).send(projects);
+      }
+    } catch {
+      res.status(500).send("Internal Server Error fetching projects");
+    }
+  }
+));
 
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
@@ -96,6 +132,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             endDate: req.body.endDate,
             status: req.body.status,
             createdTime: new Date(),
+            project: req.body.project
         });
 
         console.log("new ticket: ", newTicket);

@@ -12,9 +12,7 @@
       <div class="project-details">
         <label>Project<span class="required">*</span></label>
         <select formControlName="project" required>
-          <option value="Nedbank">Nedbank Mobile App</option>
-          <option value="SB">Standard Bank Website</option>
-          <option value="FNB">FNB Cash Withdrawal</option>
+          <option *ngFor="let project of allProjects" [value]="project.name">{{ project.name }}</option>
         </select>
       </div>
 
@@ -82,12 +80,12 @@
             <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
           </select>
 
-          <label class="groupLabel">Group<span class="required">*</span></label>
+          <!-- <label class="groupLabel">Group<span class="required">*</span></label>
           <select formControlName="group" required>
             <option value="Lemur">Lemur Squad</option>
             <option value="Hyperion">Hyperion Tech</option>
             <option value="Delta">Delta Backend</option>
-          </select>
+          </select> -->
         </div>
 
         <div class="assignedInformation-col2">

@@ -19,6 +19,10 @@ export class TicketsService {
     return this.http.get<ticket[]>(this.TICKET_URL);
   }
 
+  getTicketsByGroupName(groupNames: string[]){
+    return this.http.get<ticket[]>(`${this.TICKET_URL}/groups?groups=${groupNames}`);
+  }
+
   getTicketWithID(objectId: string){
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
@@ -27,14 +31,19 @@ export class TicketsService {
     return this.http.get<ticket[]>(`${this.TICKET_URL}/assigned?id=${userName}`);
   }
 
+  getAllProjectNamesForCurrentUserWithGroupName(groupName: string){
+    console.log('groupname service: ', groupName);
+    return this.http.get<string[]>(`${this.TICKET_URL}/projects?groupName=${groupName}`);
+  }
+
   makeAComment(ticketId: string, comment: string, author: string, authorPhoto: string, type: string, attachment: attachment){
     const body = {ticketId, comment, author, authorPhoto, type, attachment};
     return this.http.put(`${this.TICKET_URL}/comment`, body);
   }
 
   // Add Ticket Functionality
-  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[]) {
-    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments};
+  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string) {
+    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project};
    console.log('Ticket is added service:', body);
     return this.http.post(`${this.TICKET_URL}/addticket`, body);
   }
@@ -111,7 +120,7 @@ export class TicketsService {
 //                 endDate < currentDate
 //               );
 //             });
-  
+
 //             console.log("Overdue Tickets:", overdueTickets);
 //             return overdueTickets;
 //           })
@@ -119,8 +128,8 @@ export class TicketsService {
 //       })
 //     );
 //   }
-  
-  
+
+
 //   getDueTodayTicketsByUserId(userId: string) {
 //     return this.http.get<user>(`${this.API_URL}/id`, { params: { id: userId } }).pipe(
 //       switchMap(user => {
@@ -138,7 +147,7 @@ export class TicketsService {
 //                 endDate.toDateString() === currentDate.toDateString()
 //               );
 //             });
-  
+
 //             console.log("Due Today Tickets:", dueTodayTickets);
 //             return dueTodayTickets;
 //           })
@@ -162,7 +171,7 @@ export class TicketsService {
 
 //                         //get groupid from groupname
 
-                        
+
 
 
 //                         if (ticket.status === "Active" && ticket.group.groupName === groupName) {
@@ -251,8 +260,8 @@ export class TicketsService {
 //     )
 //   }
 
-  
-  
+
+
 //   getActiveTicketsByUserIdAndGroupId(userId: string, groupId: string) {
 //     return this.http.get<user>(`${this.API_URL}/id`, { params: { id: userId } }).pipe(
 //       switchMap(user => {
@@ -289,7 +298,7 @@ export class TicketsService {
 //       })
 //     )
 //   }
-  
+
 //   getOverdueTicketsByUserIdAndGroupId(userId: string, groupId: string) {
 //     return this.http.get<user>(`${this.API_URL}/id`, { params: { id: userId } }).pipe(
 //       switchMap(user => {
@@ -308,7 +317,7 @@ export class TicketsService {
 //                 ticket.groupId === groupId
 //               );
 //             });
-  
+
 //             console.log("Overdue Tickets:", overdueTickets);
 //             return overdueTickets;
 //           })
@@ -316,7 +325,7 @@ export class TicketsService {
 //       })
 //     );
 //   }
-  
+
 //   getDueTodayTicketsByUserIdAndGroupId(userId: string, groupId: string) {
 //     return this.http.get<user>(`${this.API_URL}/id`, { params: { id: userId } }).pipe(
 //       switchMap(user => {
@@ -335,7 +344,7 @@ export class TicketsService {
 //                 ticket.groupId === groupId
 //               );
 //             });
-  
+
 //             console.log("Due Today Tickets:", dueTodayTickets);
 //             return dueTodayTickets;
 //           })
@@ -343,9 +352,9 @@ export class TicketsService {
 //       })
 //     );
 //   }
-  
-  
-  
+
+
+
 
 
 }

@@ -23,7 +23,14 @@ export class TicketTableComponent implements OnInit {
   }
 
   getTicketsForTable() {
-    this.ticketService.getAllTickets().subscribe((response: ticket[]) => { // Update the response type to Ticket[]
+    // this.ticketService.getAllTickets().subscribe((response: ticket[]) => { // Update the response type to Ticket[]
+    //   this.allTicketsArray = response.sort((a, b) => {
+    //     return this.comparePriority(a.priority, b.priority, false);
+    //   });
+    //   this.sortedTicketsArray = this.allTicketsArray.slice();
+    // });
+
+    this.ticketService.getTicketsByGroupName(['Frontend']).subscribe((response: ticket[]) => {
       this.allTicketsArray = response.sort((a, b) => {
         return this.comparePriority(a.priority, b.priority, false);
       });
