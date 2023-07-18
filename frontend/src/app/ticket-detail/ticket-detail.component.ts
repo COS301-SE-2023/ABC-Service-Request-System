@@ -243,6 +243,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             },
             err => {
               console.log('Error while adding first response time', err);
+              location.reload();
             }
           );
         },
@@ -301,8 +302,11 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   displayedComments?: comment[] = [];
   showAll(): void {
-    this.displayedComments = this.ticket.comments;
-    console.log(this.displayedComments);
+    if(this.ticket && this.ticket.comments){
+      this.displayedComments = this.ticket.comments;
+      console.log(this.displayedComments);
+    }
+    
   }
 
   showAttachmentsOnly(): void {
