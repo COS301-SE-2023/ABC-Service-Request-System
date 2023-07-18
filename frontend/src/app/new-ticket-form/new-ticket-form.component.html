@@ -39,14 +39,6 @@
           </select>
         </div>
 
-        <!-- Jaimens thing -->
-        <div class="form-column">
-          <label class="groupLabel">Group<span class="required">*</span></label>
-          <select formControlName="group" required>
-            <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
-          </select>
-        </div>
-
         <div class="ticket-information-col2">
           <label>End Date<span class="required">*</span></label>
           <input type="date" formControlName="endDate" required>
@@ -82,12 +74,12 @@
             <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
           </select>
 
+          <!-- Jaimens thing -->
           <label class="groupLabel">Group<span class="required">*</span></label>
           <select formControlName="group" required>
-            <option value="Lemur">Lemur Squad</option>
-            <option value="Hyperion">Hyperion Tech</option>
-            <option value="Delta">Delta Backend</option>
+            <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
           </select>
+          
         </div>
 
         <div class="assignedInformation-col2">

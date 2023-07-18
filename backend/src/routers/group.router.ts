@@ -238,6 +238,16 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   }))
 
+  router.get('/groupId', expressAsyncHandler(async (req, res) => {
+    const groupId = req.query.id;
+    const group = await groupModel.findById(groupId);
+    if (group) {
+        res.send(group);
+    } else {
+        res.status(404).send("Group not found");
+    }
+}));
+
   router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
     try {
       const ticketId = req.body.ticketId;

@@ -5,6 +5,8 @@ import { Ticket } from '../app.component';
 import { notifications } from '../../../../backend/src/models/notifications.model'; 
 import { NotificationsService } from 'src/services/notifications.service';
 import { AuthService } from 'src/services/auth.service';
+import { user } from '../../../../backend/src/models/user.model';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-page-header',
@@ -19,6 +21,8 @@ export class PageHeaderComponent {
   showProfileForm = false;
   unreadNotificationsCount = 0;
   roles = '';
+  user!: user;
+  userPic!: string;
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -32,7 +36,7 @@ export class PageHeaderComponent {
   @Output() openForm = new EventEmitter<void>();
   // @Input() tickets: any[] = [];
 
-  constructor(private notificationsService: NotificationsService, private authService: AuthService, private router: Router, private elementRef: ElementRef) {}
+  constructor(private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private router: Router, private elementRef: ElementRef) {}
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
@@ -127,5 +131,26 @@ export class PageHeaderComponent {
 
   ngOnInit() {
     this.getNumOfUnreadNotifications();
+    const userId = this.getUserObject().id; 
+    this.getUser(userId);
+  }
+
+  getUser(userId: string) {
+
+    this.userService.getUser(userId).subscribe(
+      (user: user) => {
+        this.user = user;
+        this.userPic = user.profilePhoto;
+      },
+
+      (error: any) => {
+        console.error(error);
+      }
+    );
+
+  }
+
+  getUserObject(){
+    return this.authService.getUser();
   }
 }

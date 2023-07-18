@@ -93,8 +93,7 @@ export class NewTicketFormComponent implements OnInit {
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
-     // const description = trimmedDescription;
-      const description = ticketFormValues.description;
+      const description = trimmedDescription;
       let groupName = "";
 
       this.groupService.getGroupById(group).subscribe((response: group) => {
@@ -119,7 +118,7 @@ export class NewTicketFormComponent implements OnInit {
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
         const creatorEmail = assigneeUser.emailAddress;
-        const assignedEmail = this.assignedUser.name;
+        const assignedEmail = this.assignedUser.emailAddress;
         const ticketSummary = summary;
         const ticketStatus = "Pending";
         const notificationTime = new Date();

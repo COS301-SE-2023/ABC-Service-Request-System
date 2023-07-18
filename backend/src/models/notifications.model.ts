@@ -21,9 +21,9 @@ export const notificationsSchema = new Schema<notifications> (
         creatorEmail: {type: String, required: true},
         assignedEmail: {type: String, required: true},
         ticketSummary: {type: String, required: true},
-        ticketStatus: {type: String, required: true},
+        ticketStatus: {type: String},
         notificationTime: {type: Date, required: true},
-        link: {type: String, required: true},
+        link: {type: String},
         readStatus: {type: String, required: true}
     },
     {

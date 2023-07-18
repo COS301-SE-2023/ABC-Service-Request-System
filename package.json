@@ -3,6 +3,7 @@
     "@angular/forms": "^16.1.2",
     "cloudinary": "^1.37.2",
     "dotenv": "^16.3.1",
+    "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {

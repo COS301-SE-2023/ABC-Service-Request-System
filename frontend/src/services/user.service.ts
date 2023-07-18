@@ -31,6 +31,11 @@ export class UserService {
     return this.http.get<user>(`${this.API_URL}/id?id=${userID}`);
   }
 
+  // Edwin's Function
+  getUserForNotifications(userId: string) {
+    return this.http.get<user>(`${this.API_URL}/${userId}`)
+  }
+
   updateProfileName(name: string, email: string) {
     const url = `${this.API_URL}/update_user_name`;
     const body = { name, email };
