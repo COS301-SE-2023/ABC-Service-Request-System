@@ -10,7 +10,6 @@ import multer, {Multer} from "multer"
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-
 const router = Router();
 
 router.get('/', expressAsyncHandler(

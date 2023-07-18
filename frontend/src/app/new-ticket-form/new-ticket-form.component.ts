@@ -232,6 +232,11 @@ export class NewTicketFormComponent implements OnInit {
     return content.replace(/<\/?p>/g, '');
   }
 
+  getUsersProfilePicture() {
+    const user = this.authService.getUser();
+    return user.profilePhoto;
+  }
+
  /* ticketForm = this.fb.group({
     id: [''], //automatic incrr
     summary: [''],

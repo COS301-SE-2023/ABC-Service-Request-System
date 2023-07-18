@@ -6,7 +6,7 @@
     <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
       <div class="form-header">
         <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
-        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
+        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
       </div>
 
       <div class="project-details">
@@ -69,16 +69,18 @@
 
       <div class="assignedInformation">
         <div class="assignedInformation-col1">
-          <label>Assigned<span class="required">*</span></label>
+          <!-- Jaimens thing -->
+          <label>Group<span class="required">*</span></label>
+          <select formControlName="group" required>
+            <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+          </select>
+          
+
+          <label class="assignedLabel">Assigned<span class="required">*</span></label>
           <select formControlName="assigned" required (change)="onAssignedChange()">
             <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
           </select>
 
-          <!-- Jaimens thing -->
-          <label class="groupLabel">Group<span class="required">*</span></label>
-          <select formControlName="group" required>
-            <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
-          </select>
           
         </div>
 

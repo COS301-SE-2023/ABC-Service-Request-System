@@ -82,13 +82,9 @@ export class NotificationsPanelComponent implements OnInit {
   }
 
   async updateReadStatusNotifications(id: string) {
-    try {
-      const readNotification = await this.notificationsService.changeNotificationToRead(id).toPromise();
-      console.log("Read Status Change");
-    } catch (error) {
-      console.error("Failed to update read status:", error);
-      // Handle error if needed.
-    }
+    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
+      console.log("Read Status Changed")
+    })
   }
   
   navigateToTicket(id: string) {
