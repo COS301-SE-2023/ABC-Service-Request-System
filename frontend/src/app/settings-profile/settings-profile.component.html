@@ -3,16 +3,25 @@
 
 <div class="settings-container">
 
+  <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader>
   <div class = "profile-header">
-    <div class = "edit-icon">
-      <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
-    </div>
-    <img class = "profile-header-img" src = "../../assets/bimg.jpg" alt = "profile-header">
+    <button class="profile-header-btn" (click)="headerFileUploader.click()">
+      <div class = "edit-icon">
+        <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
+      </div>
+      <img class = "profile-header-img" src = "{{headerPhoto}}" alt = "profile-header">
+    </button>
   </div>
 
-  <div class = "profile-picture">
-    <img class = "profile-picture-img" src = "../../assets/default.png" alt = "profile-picture-img">
-  </div>
+  <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
+
+  <button class="profile-picture" (click)="fileUploader.click()">
+    <img class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
+    <!-- <div class="edit-icon">
+      <img class="edit-icon-img" src="../../assets/pen.png" alt="edit-icon">
+    </div> -->
+  </button>
+
 
   <div class="user-details">
     <div class="name-surname">
@@ -21,7 +30,7 @@
     </div>
     <div class="email">
       <img src="../../assets/email.png" alt="mail-icon">
-      <span>john.doe@example.com</span>
+      <span>{{currentUser.emailAddress}}</span>
     </div>
     <div class="location">
       <img src="../../assets/pin.png" alt="location-icon">
@@ -140,9 +149,7 @@
     <p class="groups-text">Groups</p>
     <div class="bubble-container">
       <div class="group-row">
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
-        <app-group-tablet></app-group-tablet>
+        <app-group-tablet *ngFor="let group of groups" [group]="group"></app-group-tablet>
       </div>
     </div>
   </div>
