@@ -186,7 +186,7 @@ export class GroupsSearchBarComponent implements OnInit {
           const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
   
           if (tempUser !== undefined) {
-          console.log("went in");
+          //console.log("went in");
   
           const currentUser = this.authService.getUser();
   
@@ -200,7 +200,7 @@ export class GroupsSearchBarComponent implements OnInit {
           const link = "";
           const readStatus = "Unread";
   
-          console.log("About to create notifications");
+          //console.log("About to create notifications");
   
           await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
           }
@@ -211,6 +211,7 @@ export class GroupsSearchBarComponent implements OnInit {
         this.closeAddPeopleDialog();
         this.fetchGroupsAndUsers();
         this.addPeopleForm.reset();
+        location.reload();
       } catch (error) {
         console.error('Error:', error);
       }

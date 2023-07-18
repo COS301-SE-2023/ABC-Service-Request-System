@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from '../../../../backend/src/models/user.model';
 import { NavbarService } from 'src/services/navbar.service';
 import { comment } from '../../../../backend/src/models/ticket.model';
-
+import { NotificationsService } from 'src/services/notifications.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -28,6 +28,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private authService: AuthService,
     private _snackBar: MatSnackBar,
+    private notificationsService: NotificationsService,
     private navbarService: NavbarService) { }
 
   ticket!: ticket;
@@ -163,6 +164,23 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           };
           // Add the comment and the first response time
           this.addComment(newComment, attachmentData);
+
+          // Edwin's Notifications
+          const currentUser = this.authService.getUser();
+  
+          const profilePhotoLink = currentUser.profilePhoto;
+          const notificationMessage = " uploaded and commented on a ticket";
+          const creatorEmail = currentUser.emailAddress;
+          const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+          const ticketSummary = this.ticket.summary;
+          const ticketStatus = this.ticket.status;
+          const notificationTime = new Date();
+          const link = this.ticket.id;
+          const readStatus = "Unread";
+
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+            console.log(response);
+          });
         },
         (error: any) => {
           console.log('Error uploading file', error);
@@ -175,6 +193,23 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       };
       // Add the comment and the first response time
       this.addComment(newComment, emptyAttachment);
+
+      // Edwin's Notifications
+      const currentUser = this.authService.getUser();
+  
+      const profilePhotoLink = currentUser.profilePhoto;
+      const notificationMessage = " commented on a ticket";
+      const creatorEmail = currentUser.emailAddress;
+      const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+      const ticketSummary = this.ticket.summary;
+      const ticketStatus = this.ticket.status;
+      const notificationTime = new Date();
+      const link = this.ticket.id;
+      const readStatus = "Unread";
+
+      this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+        console.log(response);
+      });
     } else if (this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
@@ -185,6 +220,24 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           };
           // Add the comment and the first response time
           this.addComment('', attachmentData);
+
+          // Edwin's Notifications
+          const currentUser = this.authService.getUser();
+  
+          const profilePhotoLink = currentUser.profilePhoto;
+          const notificationMessage = " uploaded a document on a ticket";
+          const creatorEmail = currentUser.emailAddress;
+          const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+          const ticketSummary = this.ticket.summary;
+          const ticketStatus = this.ticket.status;
+          const notificationTime = new Date();
+          const link = this.ticket.id;
+          const readStatus = "Unread";
+
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+            console.log(response);
+          });
+
           location.reload();
         },
         (error: any) => {
