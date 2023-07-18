@@ -513,7 +513,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
         ]
       },
       options: {
-        responsive: true,
+        responsive: false,
         scales: {
           x: {
             display: true,
