@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <app-page-header></app-page-header>
 <app-dash-panel></app-dash-panel>
 
@@ -22,11 +23,17 @@
     </div> -->
   </button>
 
+  <!-- <div class="save-btn-container">
+    <button class="save-btn">Edit profile</button>
+  </div> -->
 
   <div class="user-details">
     <div class="name-surname">
-      <div class="name">Priyul</div>
-      <div class="surname">Mahabeer</div>
+      <div class="name">{{currentUser.name}}</div>
+      <div class="surname">{{currentUser.surname}}</div>
+    </div>
+    <div class="save-profile-btn-container" *ngIf="profileChanged">
+      <button class="save-profile-btn" (click)="saveProfile()">Save profile</button>
     </div>
     <div class="email">
       <img src="../../assets/email.png" alt="mail-icon">
@@ -41,11 +48,20 @@
 
 
   <div class="bio">
-    <p class = "bio-text">Bio</p>
+    <p class="bio-text">Bio</p>
     <form>
-      <textarea placeholder=""></textarea>
+      <textarea [readonly]="!bioEditable" placeholder=""></textarea>
     </form>
+    <div class="edit-icon-container-2">
+      <img class="edit-icon-img-2"
+        src="../../assets/pencil.png"
+        alt="edit-icon"
+        tabindex="0"
+        (click)="makeBioEditable()">
+    </div>
   </div>
+
+
 
   <div class = "bio-line-one">
     <img class = "bio-line-1" src = "../../assets/line5.png" alt = "line">

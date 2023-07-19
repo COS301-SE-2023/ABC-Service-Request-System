@@ -15,6 +15,13 @@ export class SettingsProfileComponent { // implements OnInit{
   groupIds: string[] = [];
   groups: group[] = [];
   headerPhoto = '../../assets/bimg.jpg';
+  profileChanged = false;
+  bioEditable = false;
+
+  makeBioEditable() {
+      this.bioEditable = true;
+      this.profileChanged = true;
+  }
 
   constructor(private userService: UserService, private authService: AuthService,
   private groupService: GroupService) {}
@@ -44,9 +51,10 @@ export class SettingsProfileComponent { // implements OnInit{
       reader.onload = e => {
         if (typeof reader.result === 'string') {
           this.currentUser.profilePhoto = reader.result;
+          this.userService.updateUserProfilePicture(file, this.currentUser.emailAddress);
         }
       };
-
+      this.profileChanged = true;
       reader.readAsDataURL(file);
     }
   }
@@ -67,9 +75,14 @@ export class SettingsProfileComponent { // implements OnInit{
           this.headerPhoto = reader.result;
         }
       };
-
+      this.profileChanged = true;
       reader.readAsDataURL(file);
     }
+  }
+
+  saveProfile() {
+    this.profileChanged = false;
+    this.bioEditable = false;
   }
 
 
