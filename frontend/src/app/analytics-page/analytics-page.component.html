@@ -13,14 +13,12 @@
 
           <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
-            <select #selectElement [value]="selectedGroup" (change)="onGroupSelected(selectElement.value)">
+            <select [(ngModel)]="sgroup" #selectElement (change)="selectGroup(sgroup)">
               <option value="" disabled selected>Select group</option>
               <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
             </select>
           </div>
         </div>
-
-
 
         <div class="grid-container">
           <!-- Total Tickets -->
@@ -136,20 +134,20 @@
           <div class="grid-item grid-item-8">
             <h2>Ticket Volume Trend</h2>
             <div id="chart-wrapper">
-              <canvas #ticketVolumeTrendChartCanvas style = "height:300px; width: 100%;"></canvas>
+              <canvas #ticketVolumeTrendChartCanvas style="width: 100%; height: 350px;"></canvas>
             </div>
           </div>
 
           <div class="grid-item grid-item-9">
             <h2>Tickets by Priority</h2>
             <div style="display: flex; justify-content: center;">
-              <canvas #doughnutChartByPriorityCanvas  style="width: 400px; height: 300px;"></canvas>
+              <canvas #doughnutChartByPriorityCanvas></canvas>
             </div>
           </div>
           <div class="grid-item grid-item-10">
             <h2>Tickets by Status</h2>
             <div style="display: flex; justify-content: center;">
-              <canvas #polarChartCanvas style="width: 400px; height: 300px;"></canvas>
+              <canvas #polarChartCanvas ></canvas>
             </div>
           </div>
 

@@ -109,29 +109,53 @@ export class DashPanelComponent implements OnInit{
     this.router.navigate(['/analytics-page']);
   }
 
-    //checking active route
+  //checking active route
   checkIfDashboardRoute(): boolean {
-    return this.router.url.includes('dashboard') || /^\/ticket\/\d+$/.test(this.router.url);
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('dashboard') || /^\/ticket\/\d+$/.test(currentUrl);
+    }
+    return false;
   }
 
   checkIfGroupsRoute(): boolean {
-    return this.router.url.includes('teams');
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('teams');
+    }
+    return false;
   }
 
   checkIfAnalyticsRoute(): boolean {
-    return this.router.url.includes('analytics');
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('analytics');
+    }
+    return false;
   }
 
   checkIfCreateAccountRoute(): boolean {
-    return this.router.url.includes('create-account');
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('create-account');
+    }
+    return false;
   }
 
   checkIfCreateTicketRoute(): boolean {
-    return this.router.url.endsWith('/new-ticket-form');
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('/new-ticket-form');
+    }
+    return false;
   }
 
   checkIfProfileRoute(): boolean {
-    return this.router.url.includes('settings');
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('settings');
+    }
+    return false;
   }
 
   //overlay functions

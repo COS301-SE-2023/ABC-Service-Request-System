@@ -60,22 +60,19 @@ export class TeamsPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    let i = 1;
-    const user = this.authService.getUser();
-    if (user) {
-      user.groups.forEach(groupId => {
-        this.groupService.getGroupById(groupId).subscribe(group => {
-          this.groups.push(group);
-          if (i == 1) {
-            // this.selectedGroup = group;
-            this.selectGroup(group)
-            i++;
-          }
-        });
-      });
+    if (this.authService.isManager() || this.authService.isAdmin()) {
+      this.groupService.getGroups().subscribe(
+        (response) => {
+          this.groups = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } else {
-      this.authService.getUserObject().subscribe(user => {
+      let i = 1;
+      const user = this.authService.getUser();
+      if (user) {
         user.groups.forEach(groupId => {
           this.groupService.getGroupById(groupId).subscribe(group => {
             this.groups.push(group);
@@ -86,20 +83,21 @@ export class TeamsPageComponent implements OnInit{
             }
           });
         });
-      });
+      } else {
+        this.authService.getUserObject().subscribe(user => {
+          user.groups.forEach(groupId => {
+            this.groupService.getGroupById(groupId).subscribe(group => {
+              this.groups.push(group);
+              if (i == 1) {
+                // this.selectedGroup = group;
+                this.selectGroup(group)
+                i++;
+              }
+            });
+          });
+        });
+      }
     }
-
-    if (this.authService.isManager() || this.authService.isAdmin()) {
-      this.groupService.getGroups().subscribe(
-        (response) => {
-          this.groups = response;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-
   }
 
 

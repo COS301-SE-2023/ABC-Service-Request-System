@@ -19,9 +19,18 @@ export class ProfileOverlayComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService, private router: Router) {}
 
   ngOnInit() {
-    const userId = this.getUserObject().id; // Replace with the actual user ID
-    this.getUser(userId);
+    const user = this.getUserObject();
+    if (user && user.id) {
+      this.getUser(user.id);
+    } else {
+      console.error('User object or id is undefined');
+    }
   }
+  
+  // ngOnInit() {
+  //   const userId = this.getUserObject().id; // Replace with the actual user ID
+  //   this.getUser(userId);
+  // }
 
   getUser(userId: string) {
 
