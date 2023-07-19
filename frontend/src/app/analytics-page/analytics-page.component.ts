@@ -95,7 +95,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     //change name to id
     this.userId = this.authService.getUser().name;
     console.log('user id: ', this.userId);
-    
+
     const userGroups: any [] = this.authService.getUser().groups;
 
     this.typeChanged('personal');
@@ -215,9 +215,9 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
     if(value === 'group') {
 
-      
+
       this.selectGroup(this.groups[0].id);
-      
+
 
     }
   }
@@ -240,7 +240,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     todaysDate.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds and milliseconds
     this.ticketsService.getTicketsWithGroupName(groupName).subscribe(
       (response) => {
-        
+
         response.forEach((ticket) => {
           // Parse the ticket endDate as a Date object
           const [day, month, year] = ticket.endDate.split("/").map(Number);
@@ -426,7 +426,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
         }],
       },
       options: {
-        responsive: false,
+        responsive: true,
         scales: {
           x: {
             display: false, // Hide x-axis labels
@@ -462,7 +462,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
         }],
       },
       options: {
-        responsive: false,
+        responsive: true,
         scales: {
           x: {
             display: false,
@@ -523,10 +523,16 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
             }
           },
           y: {
+            beginAtZero: false,
+            max: 5,
             display: true,
             title: {
               display: true,
               text: 'Ticket Volume'   // Add title to Y-Axis
+            },
+            ticks: {
+              stepSize: 1,  // This will ensure the y-axis has a step size of 1
+              precision: 0,  // This will set the precision to 0, effectively displaying only whole numbers,
             }
           }
         },
@@ -541,9 +547,9 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
           },
           tooltip: {  // Enable tooltips
             enabled: true,
-            
+
           }
-          
+
         }
       }
     });
@@ -601,6 +607,14 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
     console.log('labels: ', timeLabels);
     console.log('data: ', createdTimeData);
+
+    const maxTickets = Math.max(...createdTimeData, ...resolutionTimeData);
+    const maxScaleValue = Math.max(10, maxTickets + 10);
+
+
+    if (this.ticketVolumeTrendChart && this.ticketVolumeTrendChart.options && this.ticketVolumeTrendChart.options.scales && this.ticketVolumeTrendChart.options.scales['y']) {
+      this.ticketVolumeTrendChart.options.scales['y'].max = maxScaleValue;
+    }
 
     this.ticketVolumeTrendChart.data.labels = timeLabels;
     this.ticketVolumeTrendChart.data.datasets[0].data = createdTimeData;
