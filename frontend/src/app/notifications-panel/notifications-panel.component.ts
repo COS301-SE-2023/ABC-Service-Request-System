@@ -18,7 +18,7 @@ export class NotificationsPanelComponent implements OnInit {
   unreadNotificationsArray: notifications[] = [];
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
-  notificationsType!: string;
+  notification!: notifications;
 
   activeTab: "unread" | "read" = "unread";
 
@@ -76,39 +76,39 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }
 
-  handleKeyup(event: KeyboardEvent, link: string) {
+  handleKeyup(event: KeyboardEvent, link: string, notificationsId: string) {
     if (event.key === 'Enter') {
-      this.navigate(link);
+      this.navigate(link, notificationsId);
     }
   }
 
-  async updateReadStatusNotifications(id: string) {
-    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
+  async updateReadStatusNotifications(id: string, notificationsId: string) {
+    this.notificationsService.changeNotificationToRead(id, notificationsId).subscribe((response: any) => {
       console.log("Read Status Changed")
     })
   }
   
-  navigate(id: string) {
+  navigate(id: string, notificationsId: string) {
     // update the notification so that it is read
-    this.notificationsService.getNotificationById(id).subscribe((response: notifications) => {
-      this.notificationsType = response.notificationMessage;
+    this.notificationsService.getNotificationById(notificationsId).subscribe((response: notifications) => {
+      this.notification = response;
     });
 
-    if (this.notificationsType === " assigned an issue to you") {
-      this.updateReadStatusNotifications(id).then(() => {
+    if (this.notification.notificationMessage === " assigned an issue to you") {
+      this.updateReadStatusNotifications(id, notificationsId).then(() => {
         location.replace(`/ticket/${id}`);
       });
     }
-    else if (this.notificationsType === " assigned you to a group") {
-      this.updateReadStatusNotifications(id).then(() => {
+    else if (this.notification.notificationMessage === " assigned you to a group") {
+      this.updateReadStatusNotifications(id, notificationsId).then(() => {
         location.replace(`/ticket/${id}`);  // NB* This needs to change as well as the router and updateReadStatusNotifications
       });
     }
-    else if (this.notificationsType === " uploaded a document on a ticket" ||
-              this.notificationsType === " commented on a ticket" ||
-              this.notificationsType === " uploaded and commented on a ticket") {
+    else if (this.notification.notificationMessage === " uploaded a document on a ticket" ||
+    this.notification.notificationMessage === " commented on a ticket" ||
+    this.notification.notificationMessage === " uploaded and commented on a ticket") {
 
-      this.updateReadStatusNotifications(id).then(() => {
+      this.updateReadStatusNotifications(id, notificationsId).then(() => {
         location.replace(`/ticket/${id}`);
       });
     }

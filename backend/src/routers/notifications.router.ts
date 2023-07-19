@@ -79,11 +79,13 @@ router.post('/newnotif', expressAsyncHandler(
 
 router.put('/changeToRead', expressAsyncHandler(
     async (req, res) => {
-        const notificationsId = req.body.id;
+        const notificationsLink = req.body.id;
+        const notificationsId = req.body.notificationsId;
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
-              { link: notificationsId },
+              { link: notificationsLink,
+                id: notificationsId },
               { $set: { readStatus: 'Read' } },
               { new: true }
             );

@@ -10,7 +10,7 @@
             </div>
 
             <div class="notification-ui_dd-content">
-                <div *ngFor="let notifications of sortedNotificationsArray" class="notification-list notification-list--unread" (click)="navigate(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
+                <div *ngFor="let notifications of sortedNotificationsArray" class="notification-list notification-list--unread" (click)="navigate(notifications.link, notifications.id)" (keyup)="handleKeyup($event, notifications.link, notifications.id)" tabindex="0">
                     <div class="notification-list_img">
                         <img [src]="notifications.profilePhotoLink" alt="user" style="border-radius: 50%;">
                     </div>
