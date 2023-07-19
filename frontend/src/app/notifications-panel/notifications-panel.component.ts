@@ -101,7 +101,7 @@ export class NotificationsPanelComponent implements OnInit {
     }
     else if (this.notification.notificationMessage === " assigned you to a group") {
       this.updateReadStatusNotifications(id, notificationsId).then(() => {
-        location.replace(`/ticket/${id}`);  // NB* This needs to change as well as the router and updateReadStatusNotifications
+        location.replace(`/teams`);  // NB* This needs to change
       });
     }
     else if (this.notification.notificationMessage === " uploaded a document on a ticket" ||
