@@ -53,21 +53,6 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
-router.get('/groups', expressAsyncHandler(
-  async (req, res) => {
-    const groupNames = req.query.groups;
-
-    try {
-      const tickets = await TicketModel.find({ group: {$in: groupNames}});
-
-      res.status(200).send(tickets);
-    } catch {
-      res.status(500).send('Internal server error getting tickets by group names');
-    }
-
-  }
-));
-
 router.get('/assigned', expressAsyncHandler(
   async (req, res) => {
     const tickets = await TicketModel.find({ assigned: req.query.id });

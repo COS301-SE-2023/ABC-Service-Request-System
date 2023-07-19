@@ -60,15 +60,14 @@ export class NewTicketFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssigneeName();
-    this.getAllAssignable();
 
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
 
-    this.groupService.getGroups().subscribe((response: group[]) => {
-      this.allGroups = response;
-    });
+    // this.groupService.getGroups().subscribe((response: group[]) => {
+    //   this.allGroups = response;
+    // });
 
     this.clientService.getAllClients().subscribe(
       (response) => {
@@ -79,6 +78,10 @@ export class NewTicketFormComponent implements OnInit {
 
               if(this.allProjects.length > 0) {
                 this.ticketForm.get('project')?.setValue(this.allProjects[0].name);
+                if(this.allProjects[0].assignedGroups){
+                  this.allGroups = this.allProjects[0].assignedGroups;
+                  this.getAllAssignable(this.allGroups);
+                }
               }
           })
         })
@@ -86,6 +89,11 @@ export class NewTicketFormComponent implements OnInit {
         console.log("Error fetching all clients", error);
       }
     );
+  }
+
+  onGroupChanged(event: Event) {
+    const groupSelectedId = (event.target as HTMLSelectElement).value;
+    console.log('group selected id: ', groupSelectedId);
   }
 
   getAssigneeName() {
@@ -96,12 +104,29 @@ export class NewTicketFormComponent implements OnInit {
     return this.assigneeName;
   }
 
-  getAllAssignable() {
+  getAllAssignable(selectedGroups: group[]) {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
-      this.allUsers = response;
+      this.allUsers = response.filter((user) => {
+        return user.groups.some((userGroup) => selectedGroups.some((selectedGroup) => userGroup === selectedGroup.id));
+      });
       console.log("All Users: ", this.allUsers);
       return this.allUsers;
     });
+  }
+
+  projectChanged(event: Event){
+    const selectedProjectName = (event.target as HTMLSelectElement).value;
+    const selectedProject = this.allProjects.find((project) => project.name === selectedProjectName);
+    if (selectedProject) {
+      console.log('Selected Project:', selectedProject);
+
+      if(selectedProject.assignedGroups)
+        this.allGroups = selectedProject.assignedGroups;
+
+      this.getAllAssignable(this.allGroups);
+    } else {
+      console.log('Project not found:', selectedProjectName);
+    }
   }
 
   onSubmit() {
@@ -126,8 +151,8 @@ export class NewTicketFormComponent implements OnInit {
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = ticketFormValues.status;
       const comments = ticketFormValues.comments;
-     // const description = trimmedDescription;
-      const description = ticketFormValues.description;
+     const description = trimmedDescription;
+      // const description = ticketFormValues.description;
       const project = ticketFormValues.project;
       let groupName = "";
 

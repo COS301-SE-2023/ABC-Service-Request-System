@@ -6,6 +6,12 @@ import { Router } from '@angular/router';
 
 import { Sort } from '@angular/material/sort';
 import { tick } from '@angular/core/testing';
+import { AuthService } from 'src/services/auth.service';
+import { user } from '../../../../backend/src/models/user.model';
+import { GroupService } from 'src/services/group.service';
+import { group } from '../../../../backend/src/models/group.model';
+import { ClientService } from 'src/services/client.service';
+import { project } from '../../../../backend/src/models/client.model';
 
 @Component({
   selector: 'app-ticket-table',
@@ -14,10 +20,12 @@ import { tick } from '@angular/core/testing';
 })
 
 export class TicketTableComponent implements OnInit{
-  constructor(private ticketService: TicketsService, private router: Router) { }
+  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, private clientService: ClientService) { }
 
   allTicketsArray: ticket[] = [];
   sortedTicketsArray: ticket[] = [];
+  currentUserGroups: string[] = [];
+  selectedProject!: project;
 
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
@@ -26,14 +34,48 @@ export class TicketTableComponent implements OnInit{
     this.openForm.emit(oldAssignee);
   }
 
-  getTicketsForTable(){
-    this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-      this.allTicketsArray = this.sortTickets(response);
-      this.sortedTicketsArray = this.allTicketsArray.slice();
+  getClientGroups(){
+    const user = this.authservice.getUser();
+
+    user.groups.forEach(group => {
+      this.groupService.getGroupNameById(group).subscribe(
+        (response) => {
+          const groupName = response.groupName;
+          if(!this.currentUserGroups.includes(groupName))
+            this.currentUserGroups.push(groupName);
+        }, (error) => {
+          console.log("Error fetching group names", error);
+        }
+      )
     })
   }
 
+  getTicketsForTable(){
+    const projectsObservable = this.clientService.getProjectsObservable();
+    if (projectsObservable !== undefined) {
+      projectsObservable.subscribe((project) => {
+        if (project !== undefined) {
+          this.selectedProject = project;
+          console.log(this.selectedProject, ' pr selected');
+
+          this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+            this.allTicketsArray = response.filter((ticket: ticket) => {
+              return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
+            })
+
+            console.log("current user groups: ", this.currentUserGroups);
+            console.log("after filter", this.allTicketsArray);
+
+            this.allTicketsArray = this.sortTickets(this.allTicketsArray);
+            this.sortedTicketsArray = this.allTicketsArray.slice();
+          });
+        }
+      });
+    }
+  }
+
   ngOnInit(): void {
+      this.getClientGroups();
       this.getTicketsForTable();
   }
 

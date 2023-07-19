@@ -16,8 +16,8 @@
 
     <div class="content" *ngIf="selected === 'client'">
       <app-client-account-page1 (manageAccountClicked)="incrementClientStageManage()" (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
-      <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" (formSubmitted)="getFormValues($event)" [selectedOrganisation]="this.selectedOrganisation" *ngIf="clientStage === 1"></app-client-account-page2>
-      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="decrementClientStage()" (clientCreated)="getCreatedClient($event)" [formData]="recievedFormData" *ngIf="clientStage === 2" [selectedOrganisation]="this.selectedOrganisationForProject"></app-client-account-page3>
+      <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="setClientStage($event)" (formSubmitted)="getFormValues($event)" [selectedOrganisation]="this.selectedOrganisation" *ngIf="clientStage === 1"></app-client-account-page2>
+      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="setClientStage($event)" (clientCreated)="getCreatedClient($event)" [formData]="recievedFormData" *ngIf="clientStage === 2" [selectedOrganisation]="this.selectedOrganisationForProject"></app-client-account-page3>
       <app-client-account-page4 *ngIf="clientStage === 3" [createdClient]="recievedCreatedClient"></app-client-account-page4>
 
       <app-client-manage-page1 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStageManage()" (selectedClient)="getSelectedClient($event)" *ngIf="clientStage === 4"></app-client-manage-page1>

@@ -19,10 +19,6 @@ export class TicketsService {
     return this.http.get<ticket[]>(this.TICKET_URL);
   }
 
-  getTicketsByGroupName(groupNames: string[]){
-    return this.http.get<ticket[]>(`${this.TICKET_URL}/groups?groups=${groupNames}`);
-  }
-
   getTicketWithID(objectId: string){
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`);
   }
