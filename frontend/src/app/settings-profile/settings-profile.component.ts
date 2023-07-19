@@ -14,6 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class SettingsProfileComponent { // implements OnInit{
 
   currentUser!: user;
+  tempUser!:user;
   groupIds: string[] = [];
   groups: group[] = [];
   headerPhoto = '';
@@ -35,18 +36,22 @@ export class SettingsProfileComponent { // implements OnInit{
     this.authService.getUserObject().subscribe(
       (result: any) => {
         this.currentUser = result;
-        console.log(this.currentUser, ' in ngoninit');
+        this.groupIds = this.currentUser.groups;
+        // console.log(this.currentUser.groups, ' in ngoninit');
       }
     );
 
-    this.groupIds = this.authService.getUser().groups;
-    if (this.currentUser) {
-      this.currentUser.groups.forEach(groupId => {
+    this.tempUser = this.authService.getUser();
+    // this.groupIds = this.authService.getUser().groups;
+    if (this.tempUser) {
+      console.log('hi' + this.tempUser.groups);
+      this.tempUser.groups.forEach(groupId => {
         this.groupService.getGroupById(groupId).subscribe(group => {
           this.groups.push(group);
         });
       });
     }
+
   }
 
   @ViewChild('fileUploader')
