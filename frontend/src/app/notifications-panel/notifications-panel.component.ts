@@ -76,13 +76,13 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }
 
-  handleKeyup(event: KeyboardEvent, link: string, notificationsId: string) {
-    if (event.key === 'Enter') {
-      this.navigate(link, notificationsId);
-    }
-  }
+  // handleKeyup(event: KeyboardEvent, link: string, notificationsId: string) {
+  //   if (event.key === 'Enter') {
+  //     this.navigate(link, notificationsId);
+  //   }
+  // }
 
-  async updateReadStatusNotifications(id: string, notificationsId: string) {
+  updateReadStatusNotifications(id: string, notificationsId: string) {
     this.notificationsService.changeNotificationToRead(id, notificationsId).subscribe((response: any) => {
       console.log("Read Status Changed")
     })
@@ -95,22 +95,21 @@ export class NotificationsPanelComponent implements OnInit {
     });
 
     if (this.notification.notificationMessage === " assigned an issue to you") {
-      this.updateReadStatusNotifications(id, notificationsId).then(() => {
+      this.updateReadStatusNotifications(id, notificationsId)
         location.replace(`/ticket/${id}`);
-      });
     }
     else if (this.notification.notificationMessage === " assigned you to a group") {
-      this.updateReadStatusNotifications(id, notificationsId).then(() => {
+      this.updateReadStatusNotifications(id, notificationsId)
         location.replace(`/teams`);  // NB* This needs to change
-      });
+      
     }
     else if (this.notification.notificationMessage === " uploaded a document on a ticket" ||
     this.notification.notificationMessage === " commented on a ticket" ||
     this.notification.notificationMessage === " uploaded and commented on a ticket") {
 
-      this.updateReadStatusNotifications(id, notificationsId).then(() => {
+      this.updateReadStatusNotifications(id, notificationsId)
         location.replace(`/ticket/${id}`);
-      });
+  
     }
   }
 

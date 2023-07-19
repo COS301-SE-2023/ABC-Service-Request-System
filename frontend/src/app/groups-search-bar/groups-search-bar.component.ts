@@ -145,20 +145,57 @@ export class GroupsSearchBarComponent implements OnInit {
     }
   }
 
-  addGroup(groupData: any, backgroundPhoto: string): void {
-    groupData.backgroundPhoto = backgroundPhoto;
-    console.log('in add group function, ' + groupData.backgroundPhoto);
-    this.groupService.createGroup(groupData).subscribe(
-      group => {
-        groupData.people.forEach((userId: string) => {
-          this.groupService.addGroupToUser(userId, group.id).subscribe({
-            next: () => console.log('Group added to user successfully'),
-            error: error => console.error('Failed to add group to user', error),
-          });
-        });
+  async addGroup(groupData: any, backgroundPhoto: string): Promise<void> {
+    try {
+      groupData.backgroundPhoto = backgroundPhoto;
+      console.log('in add group function, ' + groupData.backgroundPhoto);
+  
+      const group: any = await this.groupService.createGroup(groupData).toPromise();
+      console.log("Group: ", group);
+  
+      const people = groupData.people;
+      for (let i = 0; i < people.length; i++) {
+        const userId: string = people[i];
+        try {
+          await this.groupService.addGroupToUser(userId, group.id).toPromise();
+          console.log('Group added to user successfully');
+
+          // Edwin's Notification Code
+          for (const userId of people) {
+            const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
+  
+            if (tempUser !== undefined) {
+              //console.log("went in");
+  
+              const currentUser = this.authService.getUser();
+  
+              const profilePhotoLink = currentUser.profilePhoto;
+              const notificationMessage = " assigned you to a group";
+              const creatorEmail = currentUser.emailAddress;
+              const assignedEmail = tempUser.emailAddress;
+              const ticketSummary = "Group";
+              const ticketStatus = "";
+              const notificationTime = new Date();
+              const link = "";
+              const readStatus = "Unread";
+  
+              //console.log("About to create notifications");
+  
+              await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
+            }
+          }
+          // Edwin's Notification Code End ============================  
+
+        } catch (error) {
+          console.error('Failed to add group to user', error);
+        }
       }
-    );
+  
+    } catch (error) {
+      console.error('Failed to create group', error);
+    }
   }
+  
 
 
   showValidationAlert(): void {
