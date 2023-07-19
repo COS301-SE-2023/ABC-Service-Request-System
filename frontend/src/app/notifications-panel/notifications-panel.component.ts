@@ -88,30 +88,34 @@ export class NotificationsPanelComponent implements OnInit {
     })
   }
   
-  navigate(id: string, notificationsId: string) {
-    // update the notification so that it is read
-    this.notificationsService.getNotificationById(notificationsId).subscribe((response: notifications) => {
-      this.notification = response;
-    });
-
-    if (this.notification.notificationMessage === " assigned an issue to you") {
-      this.updateReadStatusNotifications(id, notificationsId)
-        location.replace(`/ticket/${id}`);
-    }
-    else if (this.notification.notificationMessage === " assigned you to a group") {
-      this.updateReadStatusNotifications(id, notificationsId)
-        location.replace(`/teams`);  // NB* This needs to change
-      
-    }
-    else if (this.notification.notificationMessage === " uploaded a document on a ticket" ||
-    this.notification.notificationMessage === " commented on a ticket" ||
-    this.notification.notificationMessage === " uploaded and commented on a ticket") {
-
-      this.updateReadStatusNotifications(id, notificationsId)
-        location.replace(`/ticket/${id}`);
+  async navigate(id: string, notificationsId: string) {
+    try {
+      // Update the notification so that it is read
+      this.notification = await this.notificationsService.getNotificationById(notificationsId).toPromise() as notifications;
+      console.log("this.notification: ", this.notification);
   
+      if (this.notification.notificationMessage === " assigned an issue to you") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else if (this.notification.notificationMessage === " assigned you to a group") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/teams`);
+      } else if (
+        this.notification.notificationMessage === " uploaded a document on a ticket" ||
+        this.notification.notificationMessage === " commented on a ticket" ||
+        this.notification.notificationMessage === " uploaded and commented on a ticket"
+      ) {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else {
+        // Handle other cases if needed.
+      }
+    } catch (error) {
+      console.error("Failed to get notification or update read status:", error);
+      // Handle error if needed.
     }
   }
+  
 
   getNotificationTime(notification: notifications): string {
     const notificationTime = new Date(notification.notificationTime);
