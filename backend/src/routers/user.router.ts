@@ -250,9 +250,6 @@ router.post("/create_user", expressAsyncHandler(
     })
 );
 
-
-//const token = req.query.token;
-
 ///create a router.get to display the component that is suppose to get the new password from the user
 router.get('/activate_account', expressAsyncHandler(
     async (req, res) => {
@@ -468,44 +465,6 @@ router.get('/email', expressAsyncHandler(
     }
 ));
 
-//UPDATE USER PROFILE PICTURE - WORKS
-const storage = multer.diskStorage({});
-const upload = multer({ storage });
-router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler(
-    async (req, res) => {
-        try{
-            if (!req.file) {
-                res.status(400).json({ message: 'No file uploaded' });
-                return;
-            }
-
-            const result = await cloudinary.uploader.upload(req.file.path);
-
-            const { email } = req.body;
-
-            const user = await UserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    profilePhoto: result.secure_url,
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User photo updated successfuly', url: result.secure_url });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-));
-
 router.post('/:id/add-group', expressAsyncHandler(
     async (req, res) => {
         const groupId = req.body.groupId;
@@ -565,6 +524,55 @@ router.delete('/:userId/group/:groupId', expressAsyncHandler(
         }
     }
 ))
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      console.log('in upload router');
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ message: 'File upload error' });
+    }
+});
+
+router.put('/updateProfilePicture', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { profilePhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile picture updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile picture', error: error.message });
+    }
+  });
+  
+  router.put('/updateProfileHeader', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { headerPhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile header updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile header', error: error.message });
+    }
+  });
+  
+
 
 router.get('/:id', expressAsyncHandler(
     async (req, res) => {

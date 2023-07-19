@@ -8,6 +8,7 @@ export interface user{
     name: string
     surname: string
     profilePhoto: string
+    headerPhoto: string
     emailAddress: string
     emailVerified: boolean
     password: string
@@ -22,6 +23,7 @@ export const userSchema = new Schema<user>(
         name: {type: String, required: true},
         surname:{type: String, required: true},
         profilePhoto:{type: String, required: false},
+        headerPhoto:{type: String, required: false},
         emailAddress: {type: String, unique: true, required: true},
         emailVerified: {type: Boolean, required: true, default: false},
         password: {type: String, required: true, select: true},

@@ -44,6 +44,8 @@ export class AuthService {
     // console.log('Decoded name:', this.name);
   }
 
+
+
   getRole(): string {
     return this.role;
   }
@@ -54,6 +56,10 @@ export class AuthService {
 
   getUser(): user {
     return this.user;
+  }
+
+  updateUserData(newUser: user) {
+    this.user = newUser;
   }
 
   getUserObject() {
