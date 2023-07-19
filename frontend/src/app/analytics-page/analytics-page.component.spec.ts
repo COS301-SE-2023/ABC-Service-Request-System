@@ -109,7 +109,6 @@ describe('AnalyticsPageComponent', () => {
     expect(component.selectedGroup).toBeUndefined();
   });
 
-  
   it('should update selectedGroup when groupChanged is called with valid groupId', () => {
     // Arrange
     const group1: group = {
@@ -131,9 +130,9 @@ describe('AnalyticsPageComponent', () => {
     // Assert
     expect(component.selectedGroup).toEqual(group1);
   });
-  
-  
-  
+
+
+
 
   it('should call the necessary methods and create charts', () => {
     spyOn(component, 'typeChanged');
@@ -142,9 +141,9 @@ describe('AnalyticsPageComponent', () => {
     spyOn(component, 'createLineChart');
     spyOn(component, 'createTicketResolutionLineChart');
     spyOn(component, 'createTicketVolumeTrendChart');
-  
+
     component.ngAfterViewInit();
-  
+
     expect(component.typeChanged).toHaveBeenCalledWith('personal');
     expect(component.createDoughnutChart).toHaveBeenCalled();
     expect(component.createPolarChart).toHaveBeenCalled();
@@ -152,7 +151,7 @@ describe('AnalyticsPageComponent', () => {
     expect(component.createTicketResolutionLineChart).toHaveBeenCalled();
     expect(component.createTicketVolumeTrendChart).toHaveBeenCalled();
   });
-  
+
   it('should update ticket counts when type is changed to "personal"', () => {
     // Arrange
     component.ActiveTicketsCount = 5;
@@ -177,7 +176,7 @@ describe('AnalyticsPageComponent', () => {
     expect(component.personalLowPriorityTicketsCount).toBe(0);
     expect(component.personalClosedTicketsCount).toBe(0);
   });
-  
+
   it('should not update the selected group when the same group ID is passed', () => {
     // Arrange
     const group1: group = {
@@ -192,14 +191,14 @@ describe('AnalyticsPageComponent', () => {
     };
     component.groups = [group1, group2];
     component.selectedGroup = group1;
-  
+
     // Act
     component.selectGroup('1');
-  
+
     // Assert
     expect(component.selectedGroup).toEqual(group1);
   });
-  
+
   it('should reset ticket counts when type is changed to something else than personal', () => {
     // Arrange
     // ... Your existing arrange code
@@ -216,14 +215,14 @@ describe('AnalyticsPageComponent', () => {
         backgroundPhoto: ''
       }
     ];
-  
+
     // Act
     component.typeChanged('group'); // 'group' is the other valid type
-  
+
     // Assert
     // ... Your existing assert code
   });
-  
+
   it('should update ticket counts when type is changed to "group"', () => {
     // Arrange
     component.ActiveTicketsCount = 5;
@@ -234,7 +233,7 @@ describe('AnalyticsPageComponent', () => {
     component.personalMediumPriorityTicketsCount = 2;
     component.personalLowPriorityTicketsCount = 3;
     component.personalClosedTicketsCount = 6;
-  
+
     // Set up the groups property
     const group1: group = {
       id: '1',
@@ -247,12 +246,12 @@ describe('AnalyticsPageComponent', () => {
       backgroundPhoto: 'path/to/another-background-photo.jpg'
     };
     component.groups = [group1, group2];
-  
+
     spyOn(component, 'selectGroup');
-  
+
     // Act
     component.typeChanged('group');
-  
+
     // Assert
     expect(component.selectGroup).toHaveBeenCalledWith('1'); // Assuming the first group is selected by default
     expect(component.ActiveTicketsCount).toBe(5);
@@ -268,7 +267,7 @@ describe('AnalyticsPageComponent', () => {
   it('should calculate the average resolution time when there are resolved tickets', () => {
     // Arrange
     const resolvedTickets: ticket[] = [
-      { 
+      {
         id: '1',
         summary: 'Ticket 1',
         assignee: 'John Doe',
@@ -281,9 +280,10 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 1 description',
         createdAt: new Date('2023-07-18T10:00:00Z'),
         timeToFirstResponse: undefined,
-        timeToTicketResolution: new Date('2023-07-18T12:00:00Z')
+        timeToTicketResolution: new Date('2023-07-18T12:00:00Z'),
+        project: 'Project 1'
       },
-      { 
+      {
         id: '2',
         summary: 'Ticket 2',
         assignee: 'John Doe',
@@ -296,9 +296,10 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 2 description',
         createdAt: new Date('2023-07-18T11:00:00Z'),
         timeToFirstResponse: undefined,
-        timeToTicketResolution: new Date('2023-07-18T14:30:00Z')
+        timeToTicketResolution: new Date('2023-07-18T14:30:00Z'),
+        project: 'Project 1'
       },
-      { 
+      {
         id: '3',
         summary: 'Ticket 3',
         assignee: 'John Doe',
@@ -311,18 +312,19 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 3 description',
         createdAt: new Date('2023-07-18T09:00:00Z'),
         timeToFirstResponse: undefined,
-        timeToTicketResolution: new Date('2023-07-18T10:30:00Z')
+        timeToTicketResolution: new Date('2023-07-18T10:30:00Z'),
+        project: 'Project 1'
       }
     ];
-  
+
     // Act
     component.calculateAverageTimeToResolution(resolvedTickets);
-  
+
     // Assert
     expect(component.averageResolutionHours).toBe('02');
     expect(component.averageResolutionMinutes).toBe('20');
   });
-  
+
   it('should calculate the average response time when there are tickets with first response time', () => {
     // Arrange
     const ticketsWithFirstResponse: ticket[] = [
@@ -339,7 +341,8 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 1 description',
         createdAt: new Date('2023-07-18T10:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T11:30:00Z'),
-        timeToTicketResolution: undefined
+        timeToTicketResolution: undefined,
+        project: 'Project 1'
       },
       {
         id: '2',
@@ -354,7 +357,8 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 2 description',
         createdAt: new Date('2023-07-18T11:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T13:30:00Z'),
-        timeToTicketResolution: undefined
+        timeToTicketResolution: undefined,
+        project: 'Project 1'
       },
       {
         id: '3',
@@ -369,18 +373,19 @@ describe('AnalyticsPageComponent', () => {
         description: 'Ticket 3 description',
         createdAt: new Date('2023-07-18T09:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T10:15:00Z'),
-        timeToTicketResolution: undefined
+        timeToTicketResolution: undefined,
+        project: 'Project 1'
       }
     ];
-  
+
     // Act
     component.calculateAverageResponseTime(ticketsWithFirstResponse);
-  
+
     // Assert
     expect(component.averageResponseHours).toBe('01');
     expect(component.averageResponseMinutes).toBe('45');
   });
-  
-  
-  
+
+
+
 });
