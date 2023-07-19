@@ -81,6 +81,15 @@ export class CreateAccountComponent implements OnInit{
     this.router.navigate(['/dashboard']);
   }
 
+  setClientStage(stage: number){
+    this.router.navigate([], {
+      queryParams: { project: null, organisation: null },
+      queryParamsHandling: 'merge'
+    });
+
+    this.clientStage = stage;
+  }
+
   incrementClientStage(){
     this.clientStage++;
   }

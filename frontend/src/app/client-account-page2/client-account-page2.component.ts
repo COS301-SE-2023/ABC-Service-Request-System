@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./client-account-page2.component.scss']
 })
 export class ClientAccountPage2Component implements OnInit{
-  @Output() backClicked = new EventEmitter<void>();
+  @Output() backClicked = new EventEmitter<number>();
   @Output() continueClicked = new EventEmitter<void>();
 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
@@ -59,7 +59,10 @@ export class ClientAccountPage2Component implements OnInit{
   // }
 
   onBackClicked(): void{
-    this.backClicked.emit();
+    if(this.selectedOrganisation !== undefined)
+      this.backClicked.emit(5);
+    else
+      this.backClicked.emit(0);
   }
 
   onContinueClicked(): void{

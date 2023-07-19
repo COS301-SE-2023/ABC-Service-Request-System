@@ -8,6 +8,7 @@ import { ClientService } from 'src/services/client.service';
 
 import { group } from '../../../../backend/src/models/group.model';
 import { client } from '../../../../backend/src/models/client.model';
+import * as e from 'cors';
 
 @Component({
   selector: 'app-client-account-page3',
@@ -15,7 +16,7 @@ import { client } from '../../../../backend/src/models/client.model';
   styleUrls: ['./client-account-page3.component.scss']
 })
 export class ClientAccountPage3Component implements OnInit{
-  @Output() backClicked = new EventEmitter<void>();
+  @Output() backClicked = new EventEmitter<number>();
   @Output() completeClicked = new EventEmitter<void>();
   @Output() clientCreated: EventEmitter<any> = new EventEmitter<any>();
 
@@ -128,7 +129,10 @@ export class ClientAccountPage3Component implements OnInit{
   }
 
   onBackClicked(): void{
-    this.backClicked.emit();
+    if(this.selectedOrganisation !== undefined)
+      this.backClicked.emit(5);
+    else
+      this.backClicked.emit(1);
   }
 
   onCompleteClicked(): void{

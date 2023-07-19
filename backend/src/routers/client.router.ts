@@ -31,6 +31,21 @@ router.get('/organisation', expressAsyncHandler(
     }
 ));
 
+//fetch all clients containing assigned groups
+router.get('/group', expressAsyncHandler(
+    async (req, res) => {
+        const groupName = req.query.group
+
+        try {
+            const clients = await ClientModel.find({'projects.assignedGroups.groupName': groupName});
+
+            res.status(200).send(clients);
+        } catch (error) {
+            res.status(500).send("Internal server error getting clients with groupName");
+        }
+    }
+));
+
 //fetch the client given the project name
 router.get('/project', expressAsyncHandler(
     async (req, res) => {

@@ -3,12 +3,18 @@ import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/src/models/client.model";
 import { group } from "../../../backend/src/models/group.model";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ClientService {
+  private projectsSubject = new BehaviorSubject<project | undefined>(undefined);
+  private projectInitialized = false;
+
+  project$ = this.projectsSubject.asObservable();
+
   CLIENT_URL = 'http://localhost:3000/api/client';
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -25,6 +31,10 @@ export class ClientService {
   //bug can occur if seperate organisations have the same name and for this reason, when creating an organisation, we need to ensure that organisation name is not already in the db
   getClientsByOrganisationName(organisationName: string) {
     return this.http.get<client[]>(`${this.CLIENT_URL}/organisation?organisation=${organisationName}`);
+  }
+
+  getClientsByGroupName(groupName: string) {
+    return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`);
   }
 
   getClientByProjectName(projectName: string) {
@@ -48,5 +58,22 @@ export class ClientService {
   addProject(formData: any) {
     console.log('in service', formData);
     return this.http.post<any>(`${this.CLIENT_URL}/add_project`, formData);
+  }
+
+  //projects observable
+  setProjectsObservables(project: project): void {
+    this.projectsSubject.next(project);
+  }
+
+  getProjectsObservable(): Observable<project | undefined>{
+    return this.projectsSubject.asObservable();
+  }
+
+  setInitialized(): void {
+    this.projectInitialized = true;
+  }
+
+  getInitialized(): boolean {
+    return this.projectInitialized;
   }
 }

@@ -17,6 +17,7 @@ export const sample_tickets: ticket[] = [
       ],
       description: "You need to update the UI to support the new angular material UI library and also fix the typescript bug with the header.",
       createdAt: new Date(),
+      project: 'New project',
   },
   {
       id: "2",
@@ -39,6 +40,8 @@ export const sample_tickets: ticket[] = [
       ],
       description: "You need to test the tickets before the client has a chance to access their portal.",
       createdAt: new Date(),
+      project: 'Old project',
+
   },
   {
       id: "3",
@@ -78,5 +81,6 @@ export const sample_tickets: ticket[] = [
       ],
       description: 'Update the front end ticket schema so that it conforms to new legislation.',
       createdAt: new Date(),
+      project: 'Some project',
   },
 ];

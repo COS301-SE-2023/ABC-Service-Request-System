@@ -1,9 +1,4 @@
 <div class = "sidenav {{isCollapsed === true ? 'collapsed-menu' : ''}}">
-  <div class="project-header">
-    <!-- <div class="project-icon"></div>
-    <h2>Nedbank Mobile Application</h2> -->
-  </div>
-
   <div class="nav-items">
     <div class="collapse-button">
       <div class="inner-collapse-button">
@@ -14,10 +9,25 @@
       </div>
     </div>
 
-    <div class="project-header">
-      <div class="project-logo"></div>
-      <!-- <p>Nedbank Mobile Application</p> -->
+  <div class="project-header" *ngIf="selectedProject">
+    <div class="inner-header-wrapper {{isCollapsed === true ? 'inner-header-wrapper-center' : ''}}" (click)="toggleProjectOverlay()" (keyup)="toggleProjectOverlay()" tabindex="0">
+      <div class="project-icon" [class]="selectedProject.color">
+        <img [src]="selectedProject.logo" alt="project logo">
+      </div>
+      <h2 *ngIf="!this.isCollapsed">{{ selectedProject.name }}</h2>
     </div>
+    <div class="hr-line"></div>
+
+      <!-- Overlays -->
+    <ul class="options" *ngIf="isProjectOverlayOpen">
+      <li *ngFor="let project of allProjects; let i = index" class="option"  [tabindex]="i" (click)="selectOption(project)" (keyup)="selectOption(project)">
+        <div class="user-img" [class]="project.color">
+          <img [src]="project.logo" alt="organisation logo">
+        </div>
+        <span class="option-text" id="optionText{{i}}" *ngIf="!isCollapsed"> {{ project.name }} </span>
+      </li>
+    </ul>
+  </div>
 
     <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfDashboardRoute() }">
       <button (click)="openDashboard()" class="view-tickets">
@@ -73,4 +83,5 @@
       <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
     </div>
   </div>
+
 </div>

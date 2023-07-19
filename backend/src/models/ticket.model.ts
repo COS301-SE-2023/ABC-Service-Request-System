@@ -1,5 +1,4 @@
 import { Schema, connection } from "mongoose"
-
 // const ticketDb = dbConnection(); <- this breaks it
 
 export interface comment {
@@ -31,6 +30,7 @@ export interface ticket{
     createdAt: Date;
     timeToFirstResponse?: Date,
     timeToTicketResolution?: Date
+    project: string
 }
 
 const attachmentSchema = new Schema<attachment>(
@@ -68,7 +68,9 @@ export const ticketSchema = new Schema<ticket>(
         comments: {type: [commentSchema]},
         description: {type: String, required: true},
         timeToFirstResponse: {type: Date},
-        timeToTicketResolution: {type: Date}
+        timeToTicketResolution: {type: Date},
+        project: {type: String, required: true}
+
     },{
         toJSON: {
             virtuals: true
