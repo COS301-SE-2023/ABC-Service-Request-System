@@ -5,8 +5,9 @@
   <div class="form-container">
     <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
       <div class="form-header">
-        <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
         <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
+        <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
+        
       </div>
 
       <div class="project-details">

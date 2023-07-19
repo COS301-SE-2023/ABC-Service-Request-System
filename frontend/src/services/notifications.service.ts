@@ -30,4 +30,8 @@ export class NotificationsService {
     const body = {id};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToUnread`, body);
   }
+
+  getNotificationById(id: string) {
+    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/:id?id=${id}`);
+  }
 }

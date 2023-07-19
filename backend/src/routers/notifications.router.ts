@@ -34,6 +34,17 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const notification = await NotificationsModel.findOne({ id: req.query.id });
+        if (notification) {
+            res.send(notification);
+        } else {
+            res.status(404).send("Notification not found");
+        }
+    }
+));
+
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
         try {

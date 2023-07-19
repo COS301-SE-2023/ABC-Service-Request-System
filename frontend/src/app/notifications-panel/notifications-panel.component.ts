@@ -18,6 +18,7 @@ export class NotificationsPanelComponent implements OnInit {
   unreadNotificationsArray: notifications[] = [];
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
+  notificationsType!: string;
 
   activeTab: "unread" | "read" = "unread";
 
@@ -77,7 +78,7 @@ export class NotificationsPanelComponent implements OnInit {
 
   handleKeyup(event: KeyboardEvent, link: string) {
     if (event.key === 'Enter') {
-      this.navigateToTicket(link);
+      this.navigate(link);
     }
   }
 
@@ -87,11 +88,30 @@ export class NotificationsPanelComponent implements OnInit {
     })
   }
   
-  navigateToTicket(id: string) {
+  navigate(id: string) {
     // update the notification so that it is read
-    this.updateReadStatusNotifications(id).then(() => {
-      location.replace(`/ticket/${id}`);
+    this.notificationsService.getNotificationById(id).subscribe((response: notifications) => {
+      this.notificationsType = response.notificationMessage;
     });
+
+    if (this.notificationsType === " assigned an issue to you") {
+      this.updateReadStatusNotifications(id).then(() => {
+        location.replace(`/ticket/${id}`);
+      });
+    }
+    else if (this.notificationsType === " assigned you to a group") {
+      this.updateReadStatusNotifications(id).then(() => {
+        location.replace(`/ticket/${id}`);  // NB* This needs to change as well as the router and updateReadStatusNotifications
+      });
+    }
+    else if (this.notificationsType === " uploaded a document on a ticket" ||
+              this.notificationsType === " commented on a ticket" ||
+              this.notificationsType === " uploaded and commented on a ticket") {
+
+      this.updateReadStatusNotifications(id).then(() => {
+        location.replace(`/ticket/${id}`);
+      });
+    }
   }
 
   getNotificationTime(notification: notifications): string {
