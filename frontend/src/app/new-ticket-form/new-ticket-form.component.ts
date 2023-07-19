@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
@@ -178,8 +178,8 @@ export class NewTicketFormComponent implements OnInit {
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
         const creatorEmail = assigneeUser.emailAddress;
-        const assignedEmail = this.assignedUser.name;
-        const ticketSummary = summary;
+        const assignedEmail = this.assignedUser.emailAddress;
+        const ticketSummary = "Ticket: " + summary;
         const ticketStatus = "Pending";
         const notificationTime = new Date();
         const link = newTicketId;
@@ -243,9 +243,13 @@ export class NewTicketFormComponent implements OnInit {
     return formattedDate;
   }
 
+  @ViewChild('textBox') textBox!: ElementRef<HTMLTextAreaElement>;
+
   handleKeyDown(event: any) {
     if (event.key === 'Enter') {
-      const textBox = event.target as HTMLDivElement;
+      event.preventDefault();
+
+      const textBox = this.textBox.nativeElement;
       const selection = window.getSelection();
 
       if (!selection) {
@@ -254,32 +258,31 @@ export class NewTicketFormComponent implements OnInit {
 
       const range = selection.getRangeAt(0);
       const listItem = document.createElement('li');
-      const textNode = document.createTextNode('\u00A0'); // Non-breaking space
-
-      event.preventDefault();
+      listItem.textContent = '\u00A0'; // Non-breaking space
 
       range.deleteContents();
-      listItem.appendChild(textNode);
       range.insertNode(listItem);
       range.setStart(listItem, 0);
       range.setEnd(listItem, 0);
 
       selection.removeAllRanges();
       selection.addRange(range);
-
-      textBox.focus();
     }
   }
 
   handleInput(event: any) {
-    const textBox = event.target as HTMLDivElement;
+    const textBox = this.textBox.nativeElement;
     const lines = textBox.innerText.split('\n').filter(line => line.trim() !== '');
 
-    const listItems = lines.map(line => `<li>${line}</li>`).join('');
-    textBox.innerHTML = listItems !== '' ? `<ul>${listItems}</ul>` : '';
-    textBox.normalize(); // Normalize the HTML structure to remove any nested elements
-  }
+    let htmlContent = '';
+    for (const line of lines) {
+      if (line !== '') {
+        htmlContent += `<li>${line}</li>`;
+      }
+    }
 
+    textBox.innerHTML = htmlContent !== '' ? `<ul>${htmlContent}</ul>` : '';
+  }
   onAssignedChange() {
     const assignedControl = this.ticketForm.get('assigned');
 
@@ -291,6 +294,11 @@ export class NewTicketFormComponent implements OnInit {
 
   stripPTags(content: string): string {
     return content.replace(/<\/?p>/g, '');
+  }
+
+  getUsersProfilePicture() {
+    const user = this.authService.getUser();
+    return user.profilePhoto;
   }
 
  /* ticketForm = this.fb.group({

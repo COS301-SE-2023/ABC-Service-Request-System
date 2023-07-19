@@ -1,8 +1,15 @@
 // @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .ticket-container {
   font-family: "Poppins", sans-serif;
   // font-weight: bolder;
+
+  animation: fadeIn 2s;
 }
 
 .functional-table {

@@ -34,6 +34,17 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const notification = await NotificationsModel.findOne({ id: req.query.id });
+        if (notification) {
+            res.send(notification);
+        } else {
+            res.status(404).send("Notification not found");
+        }
+    }
+));
+
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
         try {
@@ -68,11 +79,13 @@ router.post('/newnotif', expressAsyncHandler(
 
 router.put('/changeToRead', expressAsyncHandler(
     async (req, res) => {
-        const notificationsId = req.body.id;
+        const notificationsLink = req.body.id;
+        const notificationsId = req.body.notificationsId;
     
         try {
             const notification = await NotificationsModel.findOneAndUpdate(
-              { link: notificationsId },
+              { link: notificationsLink,
+                id: notificationsId },
               { $set: { readStatus: 'Read' } },
               { new: true }
             );

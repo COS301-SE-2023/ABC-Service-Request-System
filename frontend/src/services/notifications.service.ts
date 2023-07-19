@@ -21,13 +21,17 @@ export class NotificationsService {
     return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body);
   }
 
-  changeNotificationToRead(id: string) {
-    const body = {id};
+  changeNotificationToRead(id: string, notificationsId: string) {
+    const body = {id, notificationsId};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToRead`, body);
   }
 
   changeNotificationToUnread(id: string) {
     const body = {id};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToUnread`, body);
+  }
+
+  getNotificationById(id: string) {
+    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/:id?id=${id}`);
   }
 }

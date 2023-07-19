@@ -18,15 +18,19 @@ export class NotificationsPanelComponent implements OnInit {
   unreadNotificationsArray: notifications[] = [];
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
+  notification!: notifications;
+  creatorName!: string;
 
   activeTab: "unread" | "read" = "unread";
 
   @Input() notifications: notifications[] = [];
 
+
   getUnreadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      const user = this.authService.getUser();
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         // console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -37,7 +41,8 @@ export class NotificationsPanelComponent implements OnInit {
   getReadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
+      const user = this.authService.getUser();
+      this.readNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Read' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
         // console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -72,25 +77,46 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }
 
-  handleKeyup(event: KeyboardEvent, link: string) {
-    if (event.key === 'Enter') {
-      this.navigateToTicket(link);
-    }
-  }
+  // handleKeyup(event: KeyboardEvent, link: string, notificationsId: string) {
+  //   if (event.key === 'Enter') {
+  //     this.navigate(link, notificationsId);
+  //   }
+  // }
 
-  updateReadStatusNotifications(id: string) {
-    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
-      console.log("");
-    });
+  updateReadStatusNotifications(id: string, notificationsId: string) {
+    this.notificationsService.changeNotificationToRead(id, notificationsId).subscribe((response: any) => {
+      console.log("Read Status Changed")
+    })
   }
   
-  navigateToTicket(id: string) {
-    this.router.navigate([`/ticket/${id}`]);
-    location.replace(`/ticket/${id}`);
-
-    // update the notification so that it is read
-    this.updateReadStatusNotifications(id);
+  async navigate(id: string, notificationsId: string) {
+    try {
+      // Update the notification so that it is read
+      this.notification = await this.notificationsService.getNotificationById(notificationsId).toPromise() as notifications;
+      console.log("this.notification: ", this.notification);
+  
+      if (this.notification.notificationMessage === " assigned an issue to you") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else if (this.notification.notificationMessage === " assigned you to a group") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/teams`);
+      } else if (
+        this.notification.notificationMessage === " uploaded a document on a ticket" ||
+        this.notification.notificationMessage === " commented on a ticket" ||
+        this.notification.notificationMessage === " uploaded and commented on a ticket"
+      ) {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else {
+        // Handle other cases if needed.
+      }
+    } catch (error) {
+      console.error("Failed to get notification or update read status:", error);
+      // Handle error if needed.
+    }
   }
+  
 
   getNotificationTime(notification: notifications): string {
     const notificationTime = new Date(notification.notificationTime);
@@ -113,12 +139,12 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }  
 
-  getCreatorName(emailAddress: string) {
+  getCreatorName(emailAddress: string) : string {
     const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
-      const name = response.name;
-      console.log("Name: ", name);
-      return name;
+      this.creatorName = response.name;
+      console.log("Name: ", this.creatorName);
     });
     
+    return this.creatorName;
   }
 }

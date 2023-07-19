@@ -238,6 +238,17 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   }))
 
+  // Edwin's Function
+  router.get('/groupId/:id', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.id;
+    const group = await groupModel.findById(groupId);
+    if (group) {
+        res.send(group);
+    } else {
+        res.status(404).send("Group not found");
+    }
+}));
+
   router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
     try {
       const ticketId = req.body.ticketId;
