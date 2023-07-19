@@ -20,13 +20,19 @@ export class SettingsProfileComponent { // implements OnInit{
   headerPhoto = '';
   profileChanged = false;
   bioEditable = false;
+  socialsEditable = false;
 
   profilePicture?: File;
   profileHeader?: File;
 
   makeBioEditable() {
-      this.bioEditable = true;
-      this.profileChanged = true;
+    this.bioEditable = true;
+    this.profileChanged = true;
+  }
+
+  makeSocialsEditable() {
+    this.socialsEditable = true;
+    this.profileChanged = true;
   }
 
   constructor(private userService: UserService, private authService: AuthService,
@@ -99,6 +105,7 @@ export class SettingsProfileComponent { // implements OnInit{
   saveProfile() {
     this.profileChanged = false;
     this.bioEditable = false;
+    this.socialsEditable = false;
 
     if (this.profilePicture) {
       this.userService.uploadFile(this.profilePicture).subscribe(

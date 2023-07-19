@@ -128,6 +128,13 @@
 
   <div class="socials">
     <p class="socials-text">Socials</p>
+    <div class="edit-icon-container-3">
+      <img class="edit-icon-img-3"
+        src="../../assets/pencil.png"
+        alt="edit-icon"
+        tabindex="0"
+        (click)="makeSocialsEditable()">
+    </div>
     <div class="socials-container">
       <div class="column">
         <!-- <div class="social-card">
@@ -144,13 +151,13 @@
         </div> -->
         <div class="social-card">
           <img class="social-icon" src="../../assets/github.png"  alt = "icon">
-          <input class="social-input" type="text">
+          <input class="social-input" type="text" [readonly]="!socialsEditable" placeholder="">
         </div>
       </div>
       <div class="column">
         <div class="social-card">
           <img class="social-icon" src="../../assets/linkedin.png"  alt = "icon">
-          <input class="social-input" type="text">
+          <input class="social-input" type="text" [readonly]="!socialsEditable" placeholder="">
         </div>
       </div>
     </div>
