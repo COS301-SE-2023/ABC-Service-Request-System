@@ -128,6 +128,7 @@ router.post("/create_user", expressAsyncHandler(
                 name: req.body.name,
                 surname: req.body.surname,
                 profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                headerPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1689762139/htddlodqzbzytxmedebh.jpg',
                 emailAddress: req.body.email,
                 inviteToken,
                 status: "pending",
