@@ -238,8 +238,9 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   }))
 
-  router.get('/groupId', expressAsyncHandler(async (req, res) => {
-    const groupId = req.query.id;
+  // Edwin's Function
+  router.get('/groupId/:id', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.id;
     const group = await groupModel.findById(groupId);
     if (group) {
         res.send(group);

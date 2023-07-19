@@ -60,7 +60,7 @@ export class GroupService {
   }
 
   getGroupForNotification(groupId: string) {
-    return this.http.get<group[]>(`${this.GROUPS_URL}/groupId/${groupId}`);
+    return this.http.get<group>(`${this.GROUPS_URL}/groupId/${groupId}`);
   }
 
   removeUserFromGroup(groupId: string, user: user): Observable<any> {

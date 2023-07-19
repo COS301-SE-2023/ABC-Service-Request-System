@@ -172,7 +172,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           const notificationMessage = " uploaded and commented on a ticket";
           const creatorEmail = currentUser.emailAddress;
           const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
-          const ticketSummary = this.ticket.summary;
+          const ticketSummary = "On Ticket: " + this.ticket.summary;
           const ticketStatus = this.ticket.status;
           const notificationTime = new Date();
           const link = this.ticket.id;
@@ -210,6 +210,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
         console.log(response);
       });
+      
     } else if (this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {

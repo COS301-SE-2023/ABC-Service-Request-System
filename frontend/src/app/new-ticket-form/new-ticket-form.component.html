@@ -55,7 +55,8 @@
       <div class="todos">
         <div class="todos-col1">
           <label>Todo's</label>
-          <div class="bullet-textbox" contenteditable="true" (keydown)="handleKeyDown($event)"></div>
+          <div class="bullet-textbox" contenteditable="true" (keydown)="handleKeyDown($event)" (input)="handleInput($event)" #textBox></div>
+
         </div>
 
         <div class="todos=col2">

@@ -173,7 +173,11 @@ export class GroupsSearchBarComponent implements OnInit {
               const notificationMessage = " assigned you to a group";
               const creatorEmail = currentUser.emailAddress;
               const assignedEmail = tempUser.emailAddress;
-              const ticketSummary = "Group";
+              
+              const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
+              this.groupName = groupNotification.groupName;
+
+              const ticketSummary = "Group: " + this.groupName;
               const ticketStatus = "";
               const notificationTime = new Date();
               const link = "";
@@ -231,7 +235,11 @@ export class GroupsSearchBarComponent implements OnInit {
           const notificationMessage = " assigned you to a group";
           const creatorEmail = currentUser.emailAddress;
           const assignedEmail = tempUser.emailAddress;
-          const ticketSummary = "Group";
+
+          const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
+          this.groupName = groupNotification.groupName;
+
+          const ticketSummary = "Group: " + this.groupName;
           const ticketStatus = "";
           const notificationTime = new Date();
           const link = "";

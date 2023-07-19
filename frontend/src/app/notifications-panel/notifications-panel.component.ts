@@ -19,6 +19,7 @@ export class NotificationsPanelComponent implements OnInit {
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
   notification!: notifications;
+  creatorName!: string;
 
   activeTab: "unread" | "read" = "unread";
 
@@ -138,12 +139,12 @@ export class NotificationsPanelComponent implements OnInit {
     }
   }  
 
-  getCreatorName(emailAddress: string) {
+  getCreatorName(emailAddress: string) : string {
     const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
-      const name = response.name;
-      console.log("Name: ", name);
-      return name;
+      this.creatorName = response.name;
+      console.log("Name: ", this.creatorName);
     });
     
+    return this.creatorName;
   }
 }
