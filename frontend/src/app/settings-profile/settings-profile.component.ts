@@ -93,12 +93,15 @@ export class SettingsProfileComponent { // implements OnInit{
       this.userService.uploadFile(this.profilePicture).subscribe(
         (result:any) => {
           const url = result.url;
+          // console.log(url);
           this.userService.updateProfilePicture(this.currentUser.id, url).subscribe(
             (result:any) => {
+              console.log(result);
               this.currentUser.profilePhoto = url;
               this.authService.updateUserData(this.currentUser);  // update local user data
               this.cdr.detectChanges();  // force Angular to re-render the component
               this.currentUser = this.authService.getUser();
+              this.profilePicture = undefined;
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -112,14 +115,18 @@ export class SettingsProfileComponent { // implements OnInit{
     }
 
     if (this.profileHeader) {
+      console.log('this.profileHeader');
       this.userService.uploadFile(this.profileHeader).subscribe(
         (result:any) => {
           const url = result.url;
           this.userService.updateProfileHeader(this.currentUser.id, url).subscribe(
             (result:any) => {
+              console.log(result);
               this.currentUser.headerPhoto = url;
               this.authService.updateUserData(this.currentUser);  // update local user data
               this.cdr.detectChanges();  // force Angular to re-render the component
+              this.currentUser = this.authService.getUser();
+              this.profileHeader = undefined;
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
