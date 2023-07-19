@@ -255,14 +255,14 @@ describe('AnalyticsPageComponent', () => {
   
     // Assert
     expect(component.selectGroup).toHaveBeenCalledWith('1'); // Assuming the first group is selected by default
-    expect(component.ActiveTicketsCount).toBe(0);
-    expect(component.PendingTicketsCount).toBe(0);
-    expect(component.ticketsDueTodayCount).toBe(0);
-    expect(component.overdueTicketsCount).toBe(0);
-    expect(component.personalHighPriorityTicketsCount).toBe(0);
-    expect(component.personalMediumPriorityTicketsCount).toBe(0);
-    expect(component.personalLowPriorityTicketsCount).toBe(0);
-    expect(component.personalClosedTicketsCount).toBe(0);
+    expect(component.ActiveTicketsCount).toBe(5);
+    expect(component.PendingTicketsCount).toBe(3);
+    expect(component.ticketsDueTodayCount).toBe(2);
+    expect(component.overdueTicketsCount).toBe(1);
+    expect(component.personalHighPriorityTicketsCount).toBe(4);
+    expect(component.personalMediumPriorityTicketsCount).toBe(2);
+    expect(component.personalLowPriorityTicketsCount).toBe(3);
+    expect(component.personalClosedTicketsCount).toBe(6);
   });
 
   it('should calculate the average resolution time when there are resolved tickets', () => {

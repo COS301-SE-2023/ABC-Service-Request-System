@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 import { ProfileOverlayComponent } from './profile-overlay.component';
 
@@ -8,6 +9,7 @@ describe('ProfileOverlayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule], // Add HttpClientModule to the imports
       declarations: [ProfileOverlayComponent]
     });
     fixture = TestBed.createComponent(ProfileOverlayComponent);

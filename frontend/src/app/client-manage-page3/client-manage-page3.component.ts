@@ -47,49 +47,97 @@ export class ClientManagePage3Component implements OnInit{
   }
 
   ngOnInit(): void {
-    this.projectImageUrl = this.projectToEdit.logo;
-    this.projectImageColor = this.projectToEdit.color;
-
-     //GETTING ALL THE GROUPS
-     this.groupService.getGroups().subscribe(
-      (result: group[]) => {
-        result.forEach(item => {
-          this.allGroups.push(item);
-        });
-      },
-      (error: any) => {
-        console.log('Error fetching all groups', error);
-      }
-    );
-
-    this.filteredOptions = this.groupControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-
-    //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
-    if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
-      this.existingGroups = this.projectToEdit.assignedGroups.slice();
-      this.selectedGroups = this.projectToEdit.assignedGroups.slice();
-      this.groupSelected = true;
-
-      //REMOVE EXISTING GROUPS FROM ALL GROUPS
+    if (this.projectToEdit) {
+      this.projectImageUrl = this.projectToEdit.logo;
+      this.projectImageColor = this.projectToEdit.color;
+  
+      // GETTING ALL THE GROUPS
+      this.groupService.getGroups().subscribe(
+        (result: group[]) => {
+          result.forEach(item => {
+            this.allGroups.push(item);
+          });
+        },
+        (error: any) => {
+          console.log('Error fetching all groups', error);
+        }
+      );
+  
       this.filteredOptions = this.groupControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
       );
-    }
-
-    const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
-
-    this.clientService.getClientByProjectName(encodedProjectName).subscribe(
-      (response) => {
-        this.clientToEdit = response;
-      }, (error) => {
-        console.log("Error fetching client by project name", error);
+  
+      // GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
+      if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
+        this.existingGroups = this.projectToEdit.assignedGroups.slice();
+        this.selectedGroups = this.projectToEdit.assignedGroups.slice();
+        this.groupSelected = true;
+  
+        // REMOVE EXISTING GROUPS FROM ALL GROUPS
+        this.filteredOptions = this.groupControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value || '')),
+        );
       }
-    )
+  
+      const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
+  
+      this.clientService.getClientByProjectName(encodedProjectName).subscribe(
+        (response) => {
+          this.clientToEdit = response;
+        }, (error) => {
+          console.log("Error fetching client by project name", error);
+        }
+      );
+    }
   }
+
+  
+  // ngOnInit(): void {
+  //   this.projectImageUrl = this.projectToEdit.logo;
+  //   this.projectImageColor = this.projectToEdit.color;
+
+  //    //GETTING ALL THE GROUPS
+  //    this.groupService.getGroups().subscribe(
+  //     (result: group[]) => {
+  //       result.forEach(item => {
+  //         this.allGroups.push(item);
+  //       });
+  //     },
+  //     (error: any) => {
+  //       console.log('Error fetching all groups', error);
+  //     }
+  //   );
+
+  //   this.filteredOptions = this.groupControl.valueChanges.pipe(
+  //     startWith(''),
+  //     map(value => this._filter(value || '')),
+  //   );
+
+  //   //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
+  //   if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
+  //     this.existingGroups = this.projectToEdit.assignedGroups.slice();
+  //     this.selectedGroups = this.projectToEdit.assignedGroups.slice();
+  //     this.groupSelected = true;
+
+  //     //REMOVE EXISTING GROUPS FROM ALL GROUPS
+  //     this.filteredOptions = this.groupControl.valueChanges.pipe(
+  //       startWith(''),
+  //       map(value => this._filter(value || '')),
+  //     );
+  //   }
+
+  //   const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
+
+  //   this.clientService.getClientByProjectName(encodedProjectName).subscribe(
+  //     (response) => {
+  //       this.clientToEdit = response;
+  //     }, (error) => {
+  //       console.log("Error fetching client by project name", error);
+  //     }
+  //   )
+  // }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

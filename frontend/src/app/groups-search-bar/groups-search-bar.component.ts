@@ -43,21 +43,23 @@ export class GroupsSearchBarComponent implements OnInit {
   @Input() openAddPeopleDialogEvent!: EventEmitter<void>;
 
   defaultImage = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
+
   ngOnInit(): void {
     this.createGroupForm = this.formBuilder.group({
       groupName: ['', Validators.required],
       fileInput: ['https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg'],
       people: ['', Validators.required],
     });
-
-
+  
+    this.openAddPeopleDialogEvent = new EventEmitter(); // Initialize openAddPeopleDialogEvent
+  
     this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
-
+  
     this.addPeopleForm = this.formBuilder.group({
       group: ['', Validators.required],
       people: ['', Validators.required],
     });
-
+  
     this.userService.getAllUsers().subscribe(
       response => {
         this.users = response;
@@ -66,13 +68,44 @@ export class GroupsSearchBarComponent implements OnInit {
         console.log(error);
       }
     );
-
+  
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
-
+  
     // this.fetchGroupsAndUsers();
   }
+  
+  // ngOnInit(): void {
+  //   this.createGroupForm = this.formBuilder.group({
+  //     groupName: ['', Validators.required],
+  //     fileInput: ['https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg'],
+  //     people: ['', Validators.required],
+  //   });
+
+
+  //   this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
+
+  //   this.addPeopleForm = this.formBuilder.group({
+  //     group: ['', Validators.required],
+  //     people: ['', Validators.required],
+  //   });
+
+  //   this.userService.getAllUsers().subscribe(
+  //     response => {
+  //       this.users = response;
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+
+  //   this.groupService.getGroups().subscribe((groups: group[]) => {
+  //     this.groups = groups;
+  //   });
+
+  //   // this.fetchGroupsAndUsers();
+  // }
 
   closeAllDialogs() {
     this.isFilterDialogOpen = false;

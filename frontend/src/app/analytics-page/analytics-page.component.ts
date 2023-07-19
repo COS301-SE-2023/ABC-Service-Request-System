@@ -1,6 +1,6 @@
 import { NavbarService } from 'src/services/navbar.service';
 import { Component, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartOptions } from 'chart.js/auto';
 // import { Moment } from '@chartjs/adapter-moment';
 import { group } from '../../../../backend/src/models/group.model';
 import { Router } from '@angular/router';
