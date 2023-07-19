@@ -1,6 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <app-page-header></app-page-header>
-<app-dash-panel></app-dash-panel>
 
 <div class="settings-container">
 
@@ -10,14 +9,14 @@
       <div class = "edit-icon">
         <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
       </div>
-      <img class = "profile-header-img" src = "{{currentUser.headerPhoto}}" alt = "profile-header">
+      <img *ngIf = "this.currentUser" class = "profile-header-img" src = "{{currentUser.headerPhoto}}" alt = "profile-header">
     </button>
   </div>
 
   <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
 
   <button class="profile-picture" (click)="fileUploader.click()">
-    <img class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
+    <img  *ngIf = "this.currentUser" class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
     <!-- <div class="edit-icon">
       <img class="edit-icon-img" src="../../assets/pen.png" alt="edit-icon">
     </div> -->
@@ -29,19 +28,19 @@
 
   <div class="user-details">
     <div class="name-surname">
-      <div class="name">{{currentUser.name}}</div>
-      <div class="surname">{{currentUser.surname}}</div>
+      <div  *ngIf = "this.currentUser" class="name">{{currentUser.name}}</div>
+      <div  *ngIf = "this.currentUser" class="surname">{{currentUser.surname}}</div>
     </div>
     <div class="save-profile-btn-container" *ngIf="profileChanged">
       <button class="save-profile-btn" (click)="saveProfile()">Save profile</button>
     </div>
     <div class="email">
       <img src="../../assets/email.png" alt="mail-icon">
-      <span>{{currentUser.emailAddress}}</span>
+      <span  *ngIf = "this.currentUser"> {{currentUser.emailAddress}}</span>
     </div>
     <div class="location">
       <img src="../../assets/pin.png" alt="location-icon">
-      <span>New York, USA</span>
+      <span  *ngIf = "this.currentUser" >{{currentUser.roles}}</span>
     </div>
   </div>
 
@@ -178,3 +177,5 @@
     <p class="notifications-text">Notification Settings</p>
   </div>
 </div>
+
+<app-dash-panel></app-dash-panel>

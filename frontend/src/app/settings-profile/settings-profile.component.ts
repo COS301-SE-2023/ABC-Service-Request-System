@@ -32,7 +32,13 @@ export class SettingsProfileComponent { // implements OnInit{
   private groupService: GroupService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getUser();
+    this.authService.getUserObject().subscribe(
+      (result: any) => {
+        this.currentUser = result;
+        console.log(this.currentUser, ' in ngoninit');
+      }
+    );
+
     this.groupIds = this.authService.getUser().groups;
     if (this.currentUser) {
       this.currentUser.groups.forEach(groupId => {
@@ -100,8 +106,14 @@ export class SettingsProfileComponent { // implements OnInit{
               this.currentUser.profilePhoto = url;
               this.authService.updateUserData(this.currentUser);  // update local user data
               this.cdr.detectChanges();  // force Angular to re-render the component
-              this.currentUser = this.authService.getUser();
+              this.authService.getUserObject().subscribe(
+                (result: any) => {
+                  this.currentUser = result;
+                  console.log(this.currentUser);
+                }
+              )
               this.profilePicture = undefined;
+              alert('Profile picture updated');
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -125,8 +137,13 @@ export class SettingsProfileComponent { // implements OnInit{
               this.currentUser.headerPhoto = url;
               this.authService.updateUserData(this.currentUser);  // update local user data
               this.cdr.detectChanges();  // force Angular to re-render the component
-              this.currentUser = this.authService.getUser();
+              this.authService.getUserObject().subscribe(
+                (result: any) => {
+                  this.currentUser = result;
+                }
+              )
               this.profileHeader = undefined;
+              alert('Profile header updated');
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
