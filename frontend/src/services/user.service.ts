@@ -24,7 +24,6 @@ export class UserService {
   }
 
 
-  //DASHES FUNCTIONS
   getUser(userID: string)
   {
     //alert(userID);
@@ -78,30 +77,14 @@ export class UserService {
     return this.http.put<user>(url, body);
   }
 
-  updateUserProfilePicture(file: File, email: string): Observable<user> {
-    alert(file.name);
-    const url = `${this.API_URL}/update_profile_picture`;
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('email', email);
-
-    return this.http.put<user>(url, formData);
-  }
-
-  updateUserBackgroundPicture(file:File, email: string): Observable<user>{
-    const url = `${this.API_URL}/update_background_picture`;
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('email',email);
-    return this.http.put<user>(url,formData);
-  }
-
-  updateUserProfileBio(bio: string, email: string){
-    const url = `${this.API_URL}/update_user_bio`;
-    const body = { bio,email};
-    return this.http.put<user>(url,body);
-  }
-  //END DASH
+  // updateUserProfilePicture(file: File, email: string): Observable<user> {
+  //   alert(file.name);
+  //   const url = `${this.API_URL}/update_profile_picture`;
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('email', email);
+  //   return this.http.put<user>(url, formData);
+  // }
 
   getUserByToken(token: string) {
     return this.http.post(`${this.API_URL}/get_user_by_token`, { token });
@@ -132,5 +115,36 @@ export class UserService {
     console.log(userId);
     return this.http.delete(`${this.API_URL}/${userId}/group/${groupId}`);
   }
+
+  uploadFile(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<{ url: string }>(`${this.API_URL}/upload`, formData);
+  }
+
+  updateProfilePicture(userId: string, url: string) {
+    // console.log('in service');
+    return this.http.put(`${this.API_URL}/updateProfilePicture`, { userId, url });
+  }
+
+  updateProfileHeader(userId: string, url: string) {
+    return this.http.put(`${this.API_URL}/updateProfileHeader`, { userId, url });
+  }
+
+  updateBio(userId: string, bio: string) {
+    return this.http.put(`${this.API_URL}/updateBio`, { userId, bio });
+  }
+
+  updateGithub(userId: string, githubLink: string) {
+    return this.http.put(`${this.API_URL}/updateGithub`, { userId, githubLink });
+  }
+
+  updateLinkedin(userId: string, linkedinLink: string) {
+    return this.http.put(`${this.API_URL}/updateLinkedin`, { userId, linkedinLink });
+  }
+
+
+
 
 }

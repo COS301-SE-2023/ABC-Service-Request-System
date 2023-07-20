@@ -135,19 +135,16 @@ router.post("/create_user", expressAsyncHandler(
                 name: req.body.name,
                 surname: req.body.surname,
                 profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                headerPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1689762139/htddlodqzbzytxmedebh.jpg',
                 emailAddress: req.body.email,
                 inviteToken,
                 status: "pending",
                 roles: roles,
                 groups: req.body.selectedGroups,
                 password: "Admin",
-                bio:"Tell us about yourself",
-                backgroundPhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
-                linkedin: "https://www.linkedin.com",
-                facebook: "https://www.facebook.com",
-                github: "https://www.Github.com",
-                instagram: "https://www.instagram.com",
-                location: "Home"
+                bio: '',
+                github: '',
+                linkedin: '',
             });
 
             // console.log("before save");
@@ -263,9 +260,6 @@ router.post("/create_user", expressAsyncHandler(
         }
     })
 );
-
-
-//const token = req.query.token;
 
 ///create a router.get to display the component that is suppose to get the new password from the user
 router.get('/activate_account', expressAsyncHandler(
@@ -604,44 +598,6 @@ router.get('/email', expressAsyncHandler(
     }
 ));
 
-//UPDATE USER PROFILE PICTURE - WORKS
-const storage = multer.diskStorage({});
-const upload = multer({ storage });
-router.put('/update_profile_picture', upload.single('file'), expressAsyncHandler(
-    async (req, res) => {
-        try{
-            if (!req.file) {
-                res.status(400).json({ message: 'No file uploaded' });
-                return;
-            }
-
-            const result = await cloudinary.uploader.upload(req.file.path);
-
-            const { email } = req.body;
-
-            const user = await UserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    profilePhoto: result.secure_url,
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User photo updated successfuly', url: result.secure_url });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-));
-
 router.post('/:id/add-group', expressAsyncHandler(
     async (req, res) => {
         const groupId = req.body.groupId;
@@ -711,6 +667,102 @@ router.delete('/:userId/group/:groupId', expressAsyncHandler(
         }
     }
 ))
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
+      }
+      console.log('in upload router');
+      const result = await cloudinary.uploader.upload(req.file.path);
+      res.status(200).json({ url: result.secure_url });
+    } catch (error) {
+      res.status(500).json({ message: 'File upload error' });
+    }
+});
+
+router.put('/updateProfilePicture', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { profilePhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile picture updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile picture', error: error.message });
+    }
+  });
+  
+  router.put('/updateProfileHeader', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { headerPhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile header updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile header', error: error.message });
+    }
+  });
+
+  router.put('/updateBio', async (req, res) => {
+    try {
+      const { userId, bio } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { bio: bio });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Bio updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating bio', error: error.message });
+    }
+  });
+
+  router.put('/updateGithub', async (req, res) => {
+    try {
+      const { userId, githubLink } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { github: githubLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Github link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating Github link', error: error.message });
+    }
+  });
+  
+  router.put('/updateLinkedin', async (req, res) => {
+    try {
+      const { userId, linkedinLink } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { linkedin: linkedinLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'LinkedIn link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating LinkedIn link', error: error.message });
+    }
+  });
+  
+  
+  
+
 
 router.get('/:id', expressAsyncHandler(
     async (req, res) => {
