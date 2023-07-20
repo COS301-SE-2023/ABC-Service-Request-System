@@ -15,6 +15,9 @@ export interface user{
     roles: Role []
     groups: string []
     inviteToken?: string
+    bio:string
+    github:string
+    linkedin:string
 }
 
 export const userSchema = new Schema<user>(
@@ -30,6 +33,9 @@ export const userSchema = new Schema<user>(
         roles: {type: [String], required: true, enum: roles},
         groups: {type: [String], required: false, default:[]},
         inviteToken: { type: String }, // Add inviteToken field
+        bio: {type: String, required:false},
+        github: {type: String, required:false},
+        linkedin: {type:String, required: false},
     },{
         toJSON: {
             virtuals: true

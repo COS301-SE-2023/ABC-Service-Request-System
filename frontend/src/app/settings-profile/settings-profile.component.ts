@@ -24,6 +24,9 @@ export class SettingsProfileComponent { // implements OnInit{
 
   profilePicture?: File;
   profileHeader?: File;
+  userBio?: string;
+  githubLink?: string;
+  linkedinLink?: string;
 
   makeBioEditable() {
     this.bioEditable = true;
@@ -43,6 +46,8 @@ export class SettingsProfileComponent { // implements OnInit{
       (result: any) => {
         this.currentUser = result;
         this.groupIds = this.currentUser.groups;
+        this.githubLink = this.currentUser.github;
+        this.linkedinLink = this.currentUser.linkedin;
         // console.log(this.currentUser.groups, ' in ngoninit');
       }
     );
@@ -50,7 +55,9 @@ export class SettingsProfileComponent { // implements OnInit{
     this.tempUser = this.authService.getUser();
     // this.groupIds = this.authService.getUser().groups;
     if (this.tempUser) {
-      console.log('hi' + this.tempUser.groups);
+      // console.log('hi' + this.tempUser.groups);
+      // this.githubLink = this.tempUser.github;
+      // this.linkedinLink = this.tempUser.linkedin;
       this.tempUser.groups.forEach(groupId => {
         this.groupService.getGroupById(groupId).subscribe(group => {
           this.groups.push(group);
@@ -167,11 +174,50 @@ export class SettingsProfileComponent { // implements OnInit{
         }
       )
     }
-    // location.reload();
+
+    if (this.userBio) {
+      this.userService.updateBio(this.currentUser.id, this.userBio).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.bio = this.userBio!;
+          this.authService.updateUserData(this.currentUser);
+          this.userBio = undefined;
+          alert('Bio updated');
+        },
+        (error: any) => {
+          console.log('Error updating bio', error);
+        }
+      )
+    }
+
+    if (this.githubLink) {
+      this.userService.updateGithub(this.currentUser.id, this.githubLink).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.github = this.githubLink!;
+          this.authService.updateUserData(this.currentUser);
+          this.githubLink = undefined;
+          alert('Github link updated');
+        },
+        (error: any) => {
+          console.log('Error updating Github link', error);
+        }
+      )
+    }
+
+    if (this.linkedinLink) {
+      this.userService.updateLinkedin(this.currentUser.id, this.linkedinLink).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.linkedin = this.linkedinLink!;
+          this.authService.updateUserData(this.currentUser);
+          this.linkedinLink = undefined;
+          alert('LinkedIn link updated');
+        },
+        (error: any) => {
+          console.log('Error updating LinkedIn link', error);
+        }
+      )
+    }
   }
-
-
-
-
-
 }

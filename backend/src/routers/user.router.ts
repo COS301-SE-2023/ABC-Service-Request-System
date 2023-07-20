@@ -134,7 +134,10 @@ router.post("/create_user", expressAsyncHandler(
                 status: "pending",
                 roles: roles,
                 groups: req.body.selectedGroups,
-                password: "Admin"
+                password: "Admin",
+                bio: '',
+                github: '',
+                linkedin: '',
             });
 
             // console.log("before save");
@@ -572,6 +575,53 @@ router.put('/updateProfilePicture', async (req, res) => {
       res.status(500).json({ message: 'Error updating profile header', error: error.message });
     }
   });
+
+  router.put('/updateBio', async (req, res) => {
+    try {
+      const { userId, bio } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { bio: bio });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Bio updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating bio', error: error.message });
+    }
+  });
+
+  router.put('/updateGithub', async (req, res) => {
+    try {
+      const { userId, githubLink } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { github: githubLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Github link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating Github link', error: error.message });
+    }
+  });
+  
+  router.put('/updateLinkedin', async (req, res) => {
+    try {
+      const { userId, linkedinLink } = req.body;
+      const result = await UserModel.updateOne({ id: userId }, { linkedin: linkedinLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'LinkedIn link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating LinkedIn link', error: error.message });
+    }
+  });
+  
+  
   
 
 

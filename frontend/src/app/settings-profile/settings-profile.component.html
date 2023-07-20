@@ -49,7 +49,8 @@
   <div class="bio">
     <p class="bio-text">Bio</p>
     <form>
-      <textarea [readonly]="!bioEditable" placeholder=""></textarea>
+      <textarea [(ngModel)]="userBio" [readonly]="!bioEditable" placeholder="{{currentUser.bio}}" name="userBio"></textarea>
+
     </form>
     <div class="edit-icon-container-2">
       <img class="edit-icon-img-2"
@@ -58,7 +59,9 @@
         tabindex="0"
         (click)="makeBioEditable()">
     </div>
+    <!-- <button (click)="saveProfile()">Save</button> -->
   </div>
+
 
 
 
@@ -137,27 +140,17 @@
     </div>
     <div class="socials-container">
       <div class="column">
-        <!-- <div class="social-card">
-          <img class="social-icon" src="../../assets/facebook.png" alt = "icon">
-          <input class="social-input" type="text">
-        </div>
         <div class="social-card">
-          <img class="social-icon" src="../../assets/twitter.png"  alt = "icon">
-          <input class="social-input" type="text">
-        </div>
-        <div class="social-card">
-          <img class="social-icon" src="../../assets/instagram.png"  alt = "icon">
-          <input class="social-input" type="text">
-        </div> -->
-        <div class="social-card">
-          <img class="social-icon" src="../../assets/github.png"  alt = "icon">
-          <input class="social-input" type="text" [readonly]="!socialsEditable" placeholder="">
+          <img class="social-icon" src="../../assets/github.png" alt="icon">
+          <input class="social-input-github" [(ngModel)]="githubLink" [readonly]="!socialsEditable" placeholder="" name="githubLink">
+          <a [href]="githubLink" target="_blank" class="social-link">Go</a>
         </div>
       </div>
       <div class="column">
         <div class="social-card">
-          <img class="social-icon" src="../../assets/linkedin.png"  alt = "icon">
-          <input class="social-input" type="text" [readonly]="!socialsEditable" placeholder="">
+          <img class="social-icon" src="../../assets/linkedin.png" alt="icon">
+          <input class="social-input-linkedin" [(ngModel)]="linkedinLink" [readonly]="!socialsEditable" placeholder="" name="linkedinLink">
+          <a [href]="linkedinLink" target="_blank" class="social-link">Go</a>
         </div>
       </div>
     </div>

@@ -103,5 +103,19 @@ export class UserService {
     return this.http.put(`${this.API_URL}/updateProfileHeader`, { userId, url });
   }
 
+  updateBio(userId: string, bio: string) {
+    return this.http.put(`${this.API_URL}/updateBio`, { userId, bio });
+  }
+
+  updateGithub(userId: string, githubLink: string) {
+    return this.http.put(`${this.API_URL}/updateGithub`, { userId, githubLink });
+  }
+
+  updateLinkedin(userId: string, linkedinLink: string) {
+    return this.http.put(`${this.API_URL}/updateLinkedin`, { userId, linkedinLink });
+  }
+
+
+
 
 }

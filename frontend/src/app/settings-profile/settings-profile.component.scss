@@ -410,6 +410,7 @@ button.profile-picture {
   width: 46%;
 }
 
+
 .social-card {
   display: flex;
   align-items: center;
@@ -426,11 +427,23 @@ button.profile-picture {
   margin-right: 15px;
 }
 
-.social-input {
+.social-input-github {
   flex-grow: 1;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.social-input-linkedin {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.social-link {
+  /* Add styles here for the clickable link. */
+  margin-left: 10px;
 }
 
 .bio-line-three {
