@@ -27,6 +27,8 @@ export class SettingsProfileComponent { // implements OnInit{
   userBio?: string;
   githubLink?: string;
   linkedinLink?: string;
+  oldGithubLink?:string;
+  oldLinkedinLink?:string;
 
   makeBioEditable() {
     this.bioEditable = true;
@@ -48,6 +50,8 @@ export class SettingsProfileComponent { // implements OnInit{
         this.groupIds = this.currentUser.groups;
         this.githubLink = this.currentUser.github;
         this.linkedinLink = this.currentUser.linkedin;
+        this.oldGithubLink = this.githubLink;
+        this.oldLinkedinLink = this.linkedinLink;
         // console.log(this.currentUser.groups, ' in ngoninit');
       }
     );
@@ -190,13 +194,13 @@ export class SettingsProfileComponent { // implements OnInit{
       )
     }
 
-    if (this.githubLink) {
+    if (this.githubLink && (this.githubLink != this.oldGithubLink)) {
       this.userService.updateGithub(this.currentUser.id, this.githubLink).subscribe(
         (result:any) => {
           console.log(result);
           this.currentUser.github = this.githubLink!;
           this.authService.updateUserData(this.currentUser);
-          this.githubLink = undefined;
+          this.oldGithubLink = this.githubLink;
           alert('Github link updated');
         },
         (error: any) => {
@@ -205,13 +209,14 @@ export class SettingsProfileComponent { // implements OnInit{
       )
     }
 
-    if (this.linkedinLink) {
+    if (this.linkedinLink && (this.linkedinLink != this.oldLinkedinLink)) {
       this.userService.updateLinkedin(this.currentUser.id, this.linkedinLink).subscribe(
         (result:any) => {
           console.log(result);
           this.currentUser.linkedin = this.linkedinLink!;
           this.authService.updateUserData(this.currentUser);
-          this.linkedinLink = undefined;
+          // this.linkedinLink = undefined;
+          this.oldLinkedinLink = this.linkedinLink;
           alert('LinkedIn link updated');
         },
         (error: any) => {
