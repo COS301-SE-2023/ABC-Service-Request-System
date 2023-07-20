@@ -7,6 +7,7 @@ import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { group } from '../../../../backend/src/models/group.model'
 
+import TicketService from '../../../../backend/tickets/src/services/ticket.service';
 @Component({
   selector: 'app-teams-page',
   templateUrl: './teams-page.component.html',
@@ -98,6 +99,9 @@ export class TeamsPageComponent implements OnInit{
         });
       }
     }
+
+    const ticketService = new TicketService();
+    console.log('tickettts: ', ticketService.getAllTickets());
   }
 
 
