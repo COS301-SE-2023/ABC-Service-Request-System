@@ -49,7 +49,7 @@
   <div class="bio">
     <p class="bio-text">Bio</p>
     <form>
-      <textarea [(ngModel)]="userBio" [readonly]="!bioEditable" placeholder="{{currentUser.bio}}" name="userBio"></textarea>
+      <input class = "input-bio" [(ngModel)]="userBio" [readonly]="!bioEditable" placeholder="" name="userBio">
 
     </form>
     <div class="edit-icon-container-2">

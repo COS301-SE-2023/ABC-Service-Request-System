@@ -29,6 +29,7 @@ export class SettingsProfileComponent { // implements OnInit{
   linkedinLink?: string;
   oldGithubLink?:string;
   oldLinkedinLink?:string;
+  oldUserBio?:string;
 
   makeBioEditable() {
     this.bioEditable = true;
@@ -52,6 +53,8 @@ export class SettingsProfileComponent { // implements OnInit{
         this.linkedinLink = this.currentUser.linkedin;
         this.oldGithubLink = this.githubLink;
         this.oldLinkedinLink = this.linkedinLink;
+        this.userBio = this.currentUser.bio;
+        this.oldUserBio = this.userBio;
         // console.log(this.currentUser.groups, ' in ngoninit');
       }
     );
@@ -179,13 +182,14 @@ export class SettingsProfileComponent { // implements OnInit{
       )
     }
 
-    if (this.userBio) {
+    if (this.userBio && (this.userBio != this.oldUserBio)) {
       this.userService.updateBio(this.currentUser.id, this.userBio).subscribe(
         (result:any) => {
           console.log(result);
           this.currentUser.bio = this.userBio!;
           this.authService.updateUserData(this.currentUser);
-          this.userBio = undefined;
+          // this.userBio = undefined;
+          this.oldUserBio = this.userBio;
           alert('Bio updated');
         },
         (error: any) => {
