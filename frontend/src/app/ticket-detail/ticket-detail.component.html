@@ -20,6 +20,12 @@
         <p *ngIf="!ticket.description">
           As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.
         </p>
+        
+        <div class="ticket-summary-area-todos" *ngIf="!todoEmpty()">
+          <div class="ticket-summary-area-todos-list" *ngFor="let todo of ticket.todo">
+            <label for="todoListItem">{{ todo }}</label><br>
+          </div>
+        </div>
       </div>
 
       <div class="activity-area">

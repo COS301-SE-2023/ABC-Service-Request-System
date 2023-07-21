@@ -3,7 +3,7 @@ import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { ticket } from '../../../../backend/src/models/ticket.model';
 import { notifications } from '../../../../backend/src/models/notifications.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { user } from '../../../../backend/src/models/user.model';
@@ -26,6 +26,10 @@ export class NewTicketFormComponent implements OnInit {
   allGroups: group[] = [];
   allProjects: project[] = [];
   assignedUser!: user;
+  todoAdded = false;
+  isAddTodoOverlayOpened = false;
+  todo: FormControl = new FormControl();
+  todoArray: string[] = [];
 
   constructor(
     private ticketService: TicketsService,
@@ -48,7 +52,8 @@ export class NewTicketFormComponent implements OnInit {
       endDate: '',
       status: '',
       comments: '',
-      project: ''
+      project: '',
+      todo: ''
     });
 
     this.assigneeName = '';
@@ -89,6 +94,8 @@ export class NewTicketFormComponent implements OnInit {
         console.log("Error fetching all clients", error);
       }
     );
+
+    this.todoArray.length = 0;
   }
 
   onGroupChanged(event: Event) {
@@ -104,10 +111,10 @@ export class NewTicketFormComponent implements OnInit {
     return this.assigneeName;
   }
 
-  getAllAssignable(selectedGroups: group[]) {
+  getAllAssignable(selectedTodos: group[]) {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
       this.allUsers = response.filter((user) => {
-        return user.groups.some((userGroup) => selectedGroups.some((selectedGroup) => userGroup === selectedGroup.id));
+        return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
       });
       console.log("All Users: ", this.allUsers);
       return this.allUsers;
@@ -149,18 +156,20 @@ export class NewTicketFormComponent implements OnInit {
       const priority = ticketFormValues.priority;
       const startDate = this.formatDate(ticketFormValues.startDate);
       const endDate = this.formatDate(ticketFormValues.endDate);
-      const status = ticketFormValues.status;
+      const status = "Pending";
       const comments = ticketFormValues.comments;
-     const description = trimmedDescription;
+      const description = trimmedDescription;
       // const description = ticketFormValues.description;
       const project = ticketFormValues.project;
+
+
       let groupName = "";
 
       this.groupService.getGroupById(group).subscribe((response: group) => {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -210,7 +219,8 @@ export class NewTicketFormComponent implements OnInit {
         comments: comments,
         description: description,
         createdAt: new Date(),
-        project: project
+        project: project,
+        todo: this.todoArray
       };
 
       this.newTicketEvent.emit(newTicket);
@@ -245,44 +255,117 @@ export class NewTicketFormComponent implements OnInit {
 
   @ViewChild('textBox') textBox!: ElementRef<HTMLTextAreaElement>;
 
-  handleKeyDown(event: any) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
+  // handleKeyDown(event: any) {
+  //   if (event.key === 'Enter') {
+  //     event.preventDefault();
+  
+  //     const textBox = this.textBox.nativeElement;
+  //     const selection = window.getSelection();
+  
+  //     if (!selection) {
+  //       return;
+  //     }
+  
+  //     const range = selection.getRangeAt(0);
+  //     const listItem = document.createElement('li');
+  //     listItem.textContent = '\u00A0'; // Non-breaking space
+  
+  //     range.deleteContents();
+  //     range.insertNode(listItem);
+  //     range.setStart(listItem, 0);
+  //     range.setEnd(listItem, 0);
+  
+  //     selection.removeAllRanges();
+  //     selection.addRange(range);
+  //   }
+  // }
+  
+  // handleInput(event: any) {
+  //   const textBox = this.textBox.nativeElement;
+  //   const selection = window.getSelection();
+  //   const lines = textBox.innerText.split('\n');
+  
+  //   const bullet = "\u2022";
+  //   const bulletSpace = `${bullet} `;
+  //   const bulletLength = bulletSpace.length;
+  
+  //   const currentLine = lines[selection?.focusOffset || 0];
+  //   const bulletIndex = currentLine.indexOf(bulletSpace);
+  
+  //   let htmlContent = '';
+  //   for (const line of lines) {
+  //     htmlContent += `<li>${line}</li>`;
+  //   }
+  
+  //   textBox.innerHTML = htmlContent !== '' ? `<ul>${htmlContent}</ul>` : '';
+  
+  //   if (textBox.type !== 'textarea' && textBox.getAttribute('contenteditable') === 'true') {
+  //     textBox.focus();
+  //     selection?.selectAllChildren(textBox);
+  
+  //     // Adjust cursor position to accommodate bullet points
+  //     const range = selection?.getRangeAt(0);
+  //     if (range && range.startContainer.nodeName === 'LI') {
+  //       const offset = range.startOffset;
+  //       range.setStart(range.startContainer.firstChild!, bulletIndex + bulletLength + offset); // Move cursor after the bullet point
+  //     }
+  
+  //     selection?.collapseToEnd();
+  //   } else {
+  //     // Place cursor at the end of text areas and input elements
+  //     textBox.focus();
+  //     textBox.select();
+  //     selection?.collapseToEnd();
+  //   }
+  // }
+  
+  toggleAddTodoOverlay(){
+    this.isAddTodoOverlayOpened = !this.isAddTodoOverlayOpened;
+  }
 
-      const textBox = this.textBox.nativeElement;
-      const selection = window.getSelection();
+  addTodo() {
+    this.todoArray.push(this.todo.value);
+    console.log("Todo Value: ", this.todo.value);
+    console.log("Todo Array: ", this.todoArray);
+    this.todo.reset();
+    this.toggleAddTodoOverlay();
 
-      if (!selection) {
-        return;
-      }
-
-      const range = selection.getRangeAt(0);
-      const listItem = document.createElement('li');
-      listItem.textContent = '\u00A0'; // Non-breaking space
-
-      range.deleteContents();
-      range.insertNode(listItem);
-      range.setStart(listItem, 0);
-      range.setEnd(listItem, 0);
-
-      selection.removeAllRanges();
-      selection.addRange(range);
+    if (this.todoArray.length > 0) {
+      this.todoAdded = true;
     }
   }
 
-  handleInput(event: any) {
-    const textBox = this.textBox.nativeElement;
-    const lines = textBox.innerText.split('\n').filter(line => line.trim() !== '');
-
-    let htmlContent = '';
-    for (const line of lines) {
-      if (line !== '') {
-        htmlContent += `<li>${line}</li>`;
+  editTodoTab(event: MouseEvent, index: number): void {
+    console.log("");
+  }
+  
+  removeTodoTab(event: MouseEvent, index: number): void {
+    const targetElement = event.target as HTMLElement;
+    const todoTabElement = targetElement.closest('.todo-tab');
+    if (todoTabElement) {
+      const todoNameElement = todoTabElement.querySelector('p');
+      if (todoNameElement) {
+        const todoName = todoNameElement.textContent;
+        if (todoName) {
+          const selectedTodoIndex = this.todoArray.findIndex(todo => todo === todoName);
+          if (selectedTodoIndex !== -1) {
+            this.todoArray.splice(selectedTodoIndex, 1);
+          }
+        }
       }
+      todoTabElement.remove();
+
     }
 
-    textBox.innerHTML = htmlContent !== '' ? `<ul>${htmlContent}</ul>` : '';
+    if(this.todoArray.length == 0) {
+      this.todoAdded = false;
+    }
   }
+
+  handleKeyupEvent(event: KeyboardEvent): void {
+    console.log("");
+  }
+  
   onAssignedChange() {
     const assignedControl = this.ticketForm.get('assigned');
 

@@ -319,7 +319,15 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
 
-
+  // Edwin's Code
+  todoEmpty() {
+    if (this.ticket.todo.length === 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
 
 
