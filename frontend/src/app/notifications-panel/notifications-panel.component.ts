@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotificationsService } from 'src/services/notifications.service';
-import { notifications } from '../../../../backend/src/models/notifications.model';
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
@@ -71,7 +71,7 @@ export class NotificationsPanelComponent implements OnInit {
     if (this.activeTab === "unread") {
       this.getUnreadNotifications();
     }
-    
+
     if (this.activeTab === "read") {
       this.getReadNotifications();
     }
@@ -88,13 +88,13 @@ export class NotificationsPanelComponent implements OnInit {
       console.log("Read Status Changed")
     })
   }
-  
+
   async navigate(id: string, notificationsId: string) {
     try {
       // Update the notification so that it is read
       this.notification = await this.notificationsService.getNotificationById(notificationsId).toPromise() as notifications;
       console.log("this.notification: ", this.notification);
-  
+
       if (this.notification.notificationMessage === " assigned an issue to you") {
         await this.updateReadStatusNotifications(id, notificationsId);
         await location.replace(`/ticket/${id}`);
@@ -116,18 +116,18 @@ export class NotificationsPanelComponent implements OnInit {
       // Handle error if needed.
     }
   }
-  
+
 
   getNotificationTime(notification: notifications): string {
     const notificationTime = new Date(notification.notificationTime);
     const currentTime = new Date();
     const timeDifference = currentTime.getTime() - notificationTime.getTime();
-  
+
     // Convert the time difference to minutes, hours, days, etc.
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  
+
     if (days > 0) {
       return `${days} day${days > 1 ? 's' : ''} ago`;
     } else if (hours > 0) {
@@ -137,14 +137,14 @@ export class NotificationsPanelComponent implements OnInit {
     } else {
       return 'Just now';
     }
-  }  
+  }
 
   getCreatorName(emailAddress: string) : string {
     const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
       this.creatorName = response.name;
       console.log("Name: ", this.creatorName);
     });
-    
+
     return this.creatorName;
   }
 }

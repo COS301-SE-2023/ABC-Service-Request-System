@@ -5,7 +5,7 @@ import { NavbarService } from 'src/services/navbar.service';
 import { ClientService } from 'src/services/client.service';
 import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
-import { project } from '../../../../backend/src/models/client.model';
+import { project } from '../../../../backend/clients/src/models/client.model';
 @Component({
   selector: 'app-dash-panel',
   templateUrl: './dash-panel.component.html',

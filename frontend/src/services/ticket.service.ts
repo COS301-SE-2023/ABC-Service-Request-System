@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket, attachment, TicketModel } from "../../../backend/src/models/ticket.model";
+import { ticket, attachment, TicketModel } from "../../../backend/tickets/src/models/ticket.model";
 import { UserModel, user } from "../../../backend/src/models/user.model";
 import { map, switchMap, tap } from 'rxjs/operators';
 @Injectable({
@@ -9,9 +9,9 @@ import { map, switchMap, tap } from 'rxjs/operators';
 })
 
 export class TicketsService {
-  TICKET_URL = 'http://localhost:3000/api/ticket';
+  TICKET_URL = 'http://localhost:3001/api/ticket';
   USER_URL: any;
-  API_URL = 'http://localhost:3000/api/user';
+  API_URL = 'http://localhost:3001/api/user';
 
   constructor(private http: HttpClient, private router: Router) { }
 

@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
-  API_URL = 'http://localhost:3000/api/user'; // replace with your API URL
+  API_URL = 'http://localhost:3002/api/user'; // replace with your API URL
   LOGIN_URL = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient, private router : Router) { }

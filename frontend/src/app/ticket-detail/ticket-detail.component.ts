@@ -5,13 +5,12 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment } from '../../../../backend/src/models/ticket.model';
+import { ticket, attachment, comment } from "../../../../backend/tickets/src/models/ticket.model";
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from '../../../../backend/src/models/user.model';
 import { NavbarService } from 'src/services/navbar.service';
-import { comment } from '../../../../backend/src/models/ticket.model';
 import { NotificationsService } from 'src/services/notifications.service';
 
 @Component({
@@ -167,7 +166,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
           // Edwin's Notifications
           const currentUser = this.authService.getUser();
-  
+
           const profilePhotoLink = currentUser.profilePhoto;
           const notificationMessage = " uploaded and commented on a ticket";
           const creatorEmail = currentUser.emailAddress;
@@ -196,7 +195,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       // Edwin's Notifications
       const currentUser = this.authService.getUser();
-  
+
       const profilePhotoLink = currentUser.profilePhoto;
       const notificationMessage = " commented on a ticket";
       const creatorEmail = currentUser.emailAddress;
@@ -210,7 +209,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
         console.log(response);
       });
-      
+
     } else if (this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
@@ -224,7 +223,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
           // Edwin's Notifications
           const currentUser = this.authService.getUser();
-  
+
           const profilePhotoLink = currentUser.profilePhoto;
           const notificationMessage = " uploaded a document on a ticket";
           const creatorEmail = currentUser.emailAddress;
@@ -360,7 +359,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.displayedComments = this.ticket.comments;
       console.log(this.displayedComments);
     }
-    
+
   }
 
   showAttachmentsOnly(): void {

@@ -5,7 +5,7 @@ import { GroupService } from 'src/services/group.service';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { user } from '../../../../backend/src/models/user.model';
 
 @Component({

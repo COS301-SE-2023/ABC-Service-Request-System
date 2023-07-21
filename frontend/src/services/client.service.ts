@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { client, project } from "../../../backend/src/models/client.model";
-import { group } from "../../../backend/src/models/group.model";
+import { client, project } from "../../../backend/clients/src/models/client.model";
+import { group } from '../../../backend/groups/src/models/group.model';
 import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
@@ -15,7 +15,7 @@ export class ClientService {
 
   project$ = this.projectsSubject.asObservable();
 
-  CLIENT_URL = 'http://localhost:3000/api/client';
+  CLIENT_URL = 'http://localhost:3005/api/client';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -51,8 +51,9 @@ export class ClientService {
   }
 
   addGroupToProject(clientId: string, projectId: string, newGroup: group) {
-    console.log("clientId in service: ", clientId);
-    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, {clientId: clientId, projectId: projectId, newGroup: newGroup});
+    const body = {clientId, projectId, newGroup};
+    console.log('body in service: ', body);
+    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body);
   }
 
   addProject(formData: any) {

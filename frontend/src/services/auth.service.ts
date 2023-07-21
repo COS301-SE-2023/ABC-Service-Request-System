@@ -63,12 +63,12 @@ export class AuthService {
   }
 
   getUserObject() {
-    const API_URL = 'http://localhost:3000/api/user/email'; // Replace with your API URL
+    const API_URL = 'http://localhost:3002/api/user/email'; // Replace with your API URL
     return this.http.get<user>(`${API_URL}?email=${this.getUser().emailAddress}`);
   }
 
   getUserNameByEmail(emailAddress: string) {
-    const API_URL = 'http://localhost:3000/api/user/email';
+    const API_URL = 'http://localhost:3002/api/user/email';
     return this.http.get<user>(`${API_URL}?email=${emailAddress}`)
   }
 
@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   createUser(userDetails: any) {
-    const API_URL = 'http://localhost:3000/api/user'; // Replace with your API URL
+    const API_URL = 'http://localhost:3002/api/user'; // Replace with your API URL
     return this.http.post(`${API_URL}/create_user`, userDetails);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { client, project } from '../../../../backend/src/models/client.model';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ClientService } from 'src/services/client.service';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { notifications } from '../../../../backend/src/models/notifications.model';
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
 
 @Component({
   selector: 'app-notification-item',
@@ -13,12 +13,12 @@ export class NotificationItemComponent {
     const notificationTime = new Date(notification.notificationTime);
     const currentTime = new Date();
     const timeDifference = currentTime.getTime() - notificationTime.getTime();
-  
+
     // Convert the time difference to minutes, hours, days, etc.
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  
+
     if (days > 0) {
       return `${days} day${days > 1 ? 's' : ''} ago`;
     } else if (hours > 0) {
@@ -28,5 +28,5 @@ export class NotificationItemComponent {
     } else {
       return 'Just now';
     }
-  }  
+  }
 }

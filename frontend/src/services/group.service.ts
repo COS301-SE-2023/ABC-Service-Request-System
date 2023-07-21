@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { group } from  '../../../backend/src/models/group.model'
+import { group } from '../../../backend/groups/src/models/group.model';
 import { user } from  '../../../backend/src/models/user.model'
 import { Router } from '@angular/router';
-import { ticket } from '../../../backend/src/models/ticket.model';
 
 
 @Injectable({
@@ -13,7 +12,7 @@ import { ticket } from '../../../backend/src/models/ticket.model';
 
 export class GroupService {
 
-  GROUPS_URL = 'http://localhost:3000/api/group';
+  GROUPS_URL = 'http://localhost:3003/api/group';
 
   constructor(private http: HttpClient, private router: Router) { }
 

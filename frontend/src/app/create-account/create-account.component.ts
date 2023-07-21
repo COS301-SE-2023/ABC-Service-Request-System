@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
 import { NavbarService } from 'src/services/navbar.service';
-import { client, project } from '../../../../backend/src/models/client.model';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

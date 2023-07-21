@@ -1,17 +1,17 @@
 import { Component, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
-import { notifications } from '../../../../backend/src/models/notifications.model';
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { user } from '../../../../backend/src/models/user.model';
 import { UserService } from 'src/services/user.service';
 import { NavbarService } from 'src/services/navbar.service';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import{ GroupService } from 'src/services/group.service';
-import { client, project } from '../../../../backend/src/models/client.model';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ClientService } from 'src/services/client.service';
 @Component({
   selector: 'app-new-ticket-form',
