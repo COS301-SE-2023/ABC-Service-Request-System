@@ -1,6 +1,6 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { TestNotificationsModel } from "../models/testNotifications.model";
+import { TestNotificationsModel } from "./testNotifications.model";
 import { sample_notifications } from "../sampleNotifications";
 
 const router = Router();
