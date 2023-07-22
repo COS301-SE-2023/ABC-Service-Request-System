@@ -1,15 +1,11 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TicketModel } from "../models/ticket.model";
-import { sample_tickets } from "../data";
+import { sample_tickets } from "../utils/data";
 import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
-import { cloudinary } from '../configs/cloudinary';
-import { UserModel } from "../models/user.model";
-
-
-
+import { cloudinary } from "../configs/cloudinary";
 
 const router = Router();
 
@@ -48,6 +44,7 @@ router.post('/seed', expressAsyncHandler(
 
 router.get('/', expressAsyncHandler(
     async (req, res) => {
+        console.log('getting');
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
     }
@@ -117,7 +114,7 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        // console.log("New ticket request received: ", req.body);
+        console.log("New ticket request received: ", req.body);
 
         // for now, not checking on existing tickets
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { user } from "../../../backend/src/models/user.model";
+import { user } from "../../../backend/users/src/models/user.model";
 import { Observable } from "rxjs";
 
 
@@ -108,7 +108,7 @@ export class UserService {
   }
 
   loginUser(userDetails: { emailAddress: string, password: string }) {
-    return this.http.post(`${this.LOGIN_URL}/login`, userDetails);
+    return this.http.post(`${this.API_URL}/login`, userDetails);
   }
 
   deleteUserGroup(userId: string, groupId: string): Observable<any> {

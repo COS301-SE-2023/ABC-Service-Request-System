@@ -2,12 +2,11 @@ import { Component, EventEmitter, OnInit, Output, Input, ElementRef } from '@ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
-import { group } from '../../../../backend/src/models/group.model'
-import { user } from '../../../../backend/src/models/user.model'
+import { group } from '../../../../backend/groups/src/models/group.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { SafeUrl } from '@angular/platform-browser';
-import { notifications } from '../../../../backend/src/models/notifications.model';
 import { NotificationsService } from 'src/services/notifications.service';
 import { AuthService } from 'src/services/auth.service';
 import { forkJoin } from 'rxjs';
@@ -55,16 +54,16 @@ export class GroupsSearchBarComponent implements OnInit {
       fileInput: ['https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg'],
       people: ['', Validators.required],
     });
-  
+
     this.openAddPeopleDialogEvent = new EventEmitter(); // Initialize openAddPeopleDialogEvent
-  
+
     this.openAddPeopleDialogEvent.subscribe(() => this.onOpenAddPeopleDialog());
-  
+
     this.addPeopleForm = this.formBuilder.group({
       group: ['', Validators.required],
       people: ['', Validators.required],
     });
-  
+
     this.userService.getAllUsers().subscribe(
       response => {
         this.users = response;
@@ -73,14 +72,14 @@ export class GroupsSearchBarComponent implements OnInit {
         console.log(error);
       }
     );
-  
+
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
-  
+
     // this.fetchGroupsAndUsers();
   }
-  
+
   // ngOnInit(): void {
   //   this.createGroupForm = this.formBuilder.group({
   //     groupName: ['', Validators.required],
@@ -157,7 +156,7 @@ export class GroupsSearchBarComponent implements OnInit {
             this.closeCreateGroupDialog();
             this.fetchGroupsAndUsers();
             this.createGroupForm.reset();
-            location.reload();
+           // location.reload();
           },
           (error: any) => {
             console.log('Error uploading file', error);
@@ -171,7 +170,7 @@ export class GroupsSearchBarComponent implements OnInit {
         this.closeCreateGroupDialog();
         this.fetchGroupsAndUsers();
         this.createGroupForm.reset();
-        location.reload();
+      //  location.reload();
       }
     } else {
       this.showValidationAlert();
@@ -182,10 +181,10 @@ export class GroupsSearchBarComponent implements OnInit {
     try {
       groupData.backgroundPhoto = backgroundPhoto;
       console.log('in add group function, ' + groupData.backgroundPhoto);
-  
+
       const group: any = await this.groupService.createGroup(groupData).toPromise();
       console.log("Group: ", group);
-  
+
       const people = groupData.people;
       for (let i = 0; i < people.length; i++) {
         const userId: string = people[i];
@@ -196,17 +195,17 @@ export class GroupsSearchBarComponent implements OnInit {
           // Edwin's Notification Code
           for (const userId of people) {
             const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
-  
+
             if (tempUser !== undefined) {
               //console.log("went in");
-  
+
               const currentUser = this.authService.getUser();
-  
+
               const profilePhotoLink = currentUser.profilePhoto;
               const notificationMessage = " assigned you to a group";
               const creatorEmail = currentUser.emailAddress;
               const assignedEmail = tempUser.emailAddress;
-              
+
               const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
               this.groupName = groupNotification.groupName;
 
@@ -215,24 +214,24 @@ export class GroupsSearchBarComponent implements OnInit {
               const notificationTime = new Date();
               const link = "";
               const readStatus = "Unread";
-  
+
               //console.log("About to create notifications");
-  
+
               await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
             }
           }
-          // Edwin's Notification Code End ============================  
+          // Edwin's Notification Code End ============================
 
         } catch (error) {
           console.error('Failed to add group to user', error);
         }
       }
-  
+
     } catch (error) {
       console.error('Failed to create group', error);
     }
   }
-  
+
 
 
   showValidationAlert(): void {
@@ -247,23 +246,23 @@ export class GroupsSearchBarComponent implements OnInit {
       };
       const group = groupData.group;
       const people = groupData.people;
-  
+
       try {
         // Add people to the group
         await this.groupService.addPeopleToGroup(group, people).toPromise();
-  
+
         // Add group to users
         await this.groupService.addGroupToUsers(group, people).toPromise();
-  
+
         // Edwin's Notification Code
         for (const userId of people) {
           const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
-  
+
           if (tempUser !== undefined) {
           //console.log("went in");
-  
+
           const currentUser = this.authService.getUser();
-  
+
           const profilePhotoLink = currentUser.profilePhoto;
           const notificationMessage = " assigned you to a group";
           const creatorEmail = currentUser.emailAddress;
@@ -277,19 +276,19 @@ export class GroupsSearchBarComponent implements OnInit {
           const notificationTime = new Date();
           const link = "";
           const readStatus = "Unread";
-  
+
           //console.log("About to create notifications");
-  
+
           await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
           }
         }
         // Edwin's Notification Code End ============================
-  
+
         console.log('Group added to users successfully');
         this.closeAddPeopleDialog();
         this.fetchGroupsAndUsers();
         this.addPeopleForm.reset();
-        location.reload();
+        // location.reload();
       } catch (error) {
         console.error('Error:', error);
       }
@@ -297,7 +296,7 @@ export class GroupsSearchBarComponent implements OnInit {
       this.showValidationAlert();
     }
   }
-  
+
 
 
 

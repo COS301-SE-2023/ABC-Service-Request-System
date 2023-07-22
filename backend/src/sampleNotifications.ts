@@ -1,4 +1,4 @@
-import { notifications } from "./models/notifications.model"
+import { notifications } from "../notifications/src/models/notifications.model"
 
 const yesterdayDate = new Date();
 const oneDayBefore = new Date(yesterdayDate);

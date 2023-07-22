@@ -1,17 +1,16 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 // import { tickets } from '../data';
 import { TicketsService } from 'src/services/ticket.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { Router } from '@angular/router';
 
 import { Sort } from '@angular/material/sort';
 import { tick } from '@angular/core/testing';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
 import { GroupService } from 'src/services/group.service';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { ClientService } from 'src/services/client.service';
-import { project } from '../../../../backend/src/models/client.model';
+import { project } from '../../../../backend/clients/src/models/client.model';
 
 @Component({
   selector: 'app-ticket-table',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 import { AuthService } from 'src/services/auth.service';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class ProfileOverlayComponent implements OnInit {
       console.error('User object or id is undefined');
     }
   }
-  
+
   // ngOnInit() {
   //   const userId = this.getUserObject().id; // Replace with the actual user ID
   //   this.getUser(userId);

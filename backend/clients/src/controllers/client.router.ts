@@ -5,7 +5,7 @@ import { project } from "../models/client.model";
 
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-import { group } from "../models/group.model";
+
 
 const router = Router();
 
@@ -100,9 +100,10 @@ router.put("/remove_group", expressAsyncHandler(
 //add a group to a project given the client id and project id
 router.post("/add_group", expressAsyncHandler(
     async (req, res) => {
+        console.log('req body: ', req.body);
         const clientId = req.body.clientId;
         const projectId = req.body.projectId;
-        const newGroup: group = req.body.newGroup;
+        const newGroup: any = req.body.newGroup;
 
         try{
             console.log("received client id: ", clientId);
@@ -190,6 +191,7 @@ router.delete("/delete_client", expressAsyncHandler(
 router.post("/create_client", expressAsyncHandler(
     async (req, res) => {
         // check if a user with the provided email already exists
+        console.log('req: ', req.body);
         const existingUser = await ClientModel.findOne({ email: req.body.email });
         if (existingUser) {
             res.status(409).send("User with this email already exists.");
@@ -296,7 +298,7 @@ router.post("/create_client", expressAsyncHandler(
                 <body>
                     <div class="email-container">
                         <div class="header">
-                            <img src="cid:logo" alt="Luna Logo" class="logo">
+
                             <h1>Welcome to Luna</h1>
                         </div>
                         <p class="greeting">Hello ${newClient.name},</p>
@@ -306,13 +308,13 @@ router.post("/create_client", expressAsyncHandler(
                 </body>
                 </html>
             `,
-            attachments: [
-                {
-                    filename: 'luna-logo.png',
-                    path: 'assets/luna-logo.png',
-                    cid: 'logo'
-                }
-            ]
+            // attachments: [
+            //     {
+            //         filename: 'luna-logo.png',
+            //         path: 'assets/luna-logo.png',
+            //         cid: 'logo'
+            //     }
+            // ]
         };
 
         transporter.sendMail(mailOptions);

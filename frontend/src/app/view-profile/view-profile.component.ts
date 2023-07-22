@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import { UserService } from 'src/services/user.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { AuthService } from 'src/services/auth.service';
 import { Chart, registerables } from 'chart.js';
 import { GroupService } from 'src/services/group.service';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

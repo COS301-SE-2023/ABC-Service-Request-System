@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { UserModel, user } from  '../../../../backend/src/models/user.model'
+import { user } from "../../../../backend/users/src/models/user.model";
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { group } from '../../../../backend/src/models/group.model'
+import { group } from '../../../../backend/groups/src/models/group.model';
 
 @Component({
   selector: 'app-teams-page',

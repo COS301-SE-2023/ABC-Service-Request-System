@@ -2,12 +2,11 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { sample_groups } from "../sampleGroups";
 import mongoose, { Types } from "mongoose";
-import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
-import { testGroupModel } from "../models/testGroup.model";
-import { UserModel, user } from "../models/user.model";
-import { TestUserModel } from "../models/testUser.model";
+import { testGroupModel } from "./testGroup.model";
+import { UserModel, user } from "../../users/src/models/user.model";
+import { TestUserModel } from "./testUser.model";
 
 const router = Router();
 

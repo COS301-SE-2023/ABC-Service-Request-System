@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket, attachment, TicketModel } from "../../../backend/src/models/ticket.model";
-import { UserModel, user } from "../../../backend/src/models/user.model";
+import { ticket, attachment, TicketModel } from "../../../backend/tickets/src/models/ticket.model";
 import { map, switchMap, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'

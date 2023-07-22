@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { notifications } from "../../../backend/src/models/notifications.model";
+import { notifications } from "../../../backend/notifications/src/models/notifications.model";
 
 @Injectable({
   providedIn: 'root'

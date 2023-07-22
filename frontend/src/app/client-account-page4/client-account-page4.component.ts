@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { client } from '../../../../backend/src/models/client.model';
+import { client } from '../../../../backend/clients/src/models/client.model';
 
 @Component({
   selector: 'app-client-account-page4',

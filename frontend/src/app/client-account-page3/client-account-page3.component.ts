@@ -5,10 +5,8 @@ import {map, startWith} from 'rxjs/operators';
 import { GroupService } from 'src/services/group.service';
 import { AuthService } from 'src/services/auth.service';
 import { ClientService } from 'src/services/client.service';
-
-import { group } from '../../../../backend/src/models/group.model';
-import { client } from '../../../../backend/src/models/client.model';
-import * as e from 'cors';
+import { group } from '../../../../backend/groups/src/models/group.model';
+import { client } from '../../../../backend/clients/src/models/client.model';
 
 @Component({
   selector: 'app-client-account-page3',

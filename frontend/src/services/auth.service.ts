@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
-import { user } from '../../../backend/src/models/user.model';
+import { user } from "../../../backend/users/src/models/user.model";
 
 interface DecodedToken {
   user: user;

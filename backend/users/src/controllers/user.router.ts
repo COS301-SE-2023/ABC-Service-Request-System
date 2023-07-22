@@ -1,15 +1,16 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { UserModel } from "../models/user.model";
-import { sample_users } from "../sampleUsers";  
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-import bcrypt from 'bcryptjs';
-import mongoose from "mongoose";        
-import multer, {Multer} from "multer"
+import bcrypt from 'bcryptjs';       
+import multer, {Multer} from "multer";
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
-import { groupModel } from "../models/group.model";
+import dotenv from "dotenv";
+dotenv.config();
+
+// import { groupModel } from "../models/group.model";
 const router = Router();
 
 router.get('/', expressAsyncHandler(
@@ -18,6 +19,74 @@ router.get('/', expressAsyncHandler(
         res.send(users);
     }
 ));
+
+router.post("/login", expressAsyncHandler(
+    async (req, res) => {
+        console.log("Login request received:", req.body); // Log the request body
+      try {
+        const user = await UserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
+  
+        console.log("User found:", user); // Log the user object
+  
+        if (user) {
+          console.log("Request password:", req.body.password);
+          console.log("User password:", user.password);
+  
+          console.log("Hashededed password from DB:", user.password);  // Add this line
+  
+          console.log("Types:", typeof req.body.password, typeof user.password);  
+          const validPassword = await bcrypt.compare(req.body.password, user.password);
+          console.log("Result of bcrypt compare:", validPassword);
+  
+  
+          if (!validPassword) {
+            console.log("Invalid password");
+            res.status(401).send({ auth: false, token: null });
+            return;
+          }
+  
+          const secretKey = process.env.JWT_SECRET;
+  
+          if (!secretKey) {
+            console.log("JWT Secret is not defined");
+            throw new Error('JWT Secret is not defined');
+          }
+          
+          //loop through roles and add them to the token
+          
+          let setRoles : string = "Default";
+
+
+          for (let role of user.roles){
+            if(role == "Admin"){
+              setRoles = role;
+              break;
+            }else if(role == "Manager"){
+              setRoles = role;
+              break;
+            }else if(role == "Functional"){
+              setRoles = role;
+              break;
+            }else if(role == "Technical"){
+              setRoles = role;
+            }
+          }
+          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name}, secretKey, {
+            expiresIn: 86400, // expires in 24 hours
+          });
+  
+          // console.log("Login successful");
+          res.status(200).send({ auth: true, token });
+        } else {
+          // console.log("User not found");
+          res.status(404).send("No user found.");
+        }
+      } catch (error) {
+        // console.error("Login error:", error);
+        res.status(500).send("An error occurred during login.");
+      }
+    })
+  );
 
 router.get('/seed', expressAsyncHandler(
     async (req, res) => {
@@ -52,8 +121,8 @@ router.get('/seed', expressAsyncHandler(
             };
 
             const newUser = await UserModel.create(adminUser);
-            const secretKey = "Jetpad2023";
-            // Generate JWT token here, make sure it is the same as the one generated in "activate_account"
+            const secretKey: any = process.env.JWT_SECRET;
+
             const token = jwt.sign(
                 { _id: newUser._id, role: 'Admin' },
                 secretKey,
@@ -71,7 +140,42 @@ router.get('/seed', expressAsyncHandler(
     }
 ));
 
-
+router.post("/signup", expressAsyncHandler(
+    async (req, res) => {
+      try {
+        // console.log("Signup request received:", req.body); 
+  
+        const user = await UserModel.findOne({ emailAddress: req.body.emailAddress });
+  
+        if (user) {
+          // console.log("User with this email already exists");
+          res.status(409).send("User with this email already exists.");
+          return;
+        }
+  
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  
+        const newUser = new UserModel({
+          name: req.body.name,
+          surname: req.body.surname,
+          profilePhoto: req.body.profilePhoto,
+          emailAddress: req.body.emailAddress,
+          password: hashedPassword,
+          roles: req.body.roles,
+          groups: req.body.groups
+        });
+  
+        await newUser.save();
+  
+        // console.log("Signup successful");
+        res.status(201).send({ message: 'User created successfully' });
+      } catch (error) {
+        // console.error("Signup error:", error);
+        res.status(500).send("An error occurred during signup.");
+      }
+    })
+  );
 
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
@@ -612,33 +716,33 @@ router.post('/:id/add-group', expressAsyncHandler(
     }
 ));
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
-router.post('/add-group-to-users', expressAsyncHandler(
-    async (req, res) => {
-      const groupId = req.body.groupId; // this is actually group._id
-      const userIds = req.body.userIds;
+// router.post('/add-group-to-users', expressAsyncHandler(
+//     async (req, res) => {
+//       const groupId = req.body.groupId; // this is actually group._id
+//       const userIds = req.body.userIds;
 
-      try {
-        // find the group using its _id
-        const group = await groupModel.findOne({ _id: groupId });
+//       try {
+//         // find the group using its _id
+//         const group = await groupModel.findOne({ _id: groupId });
 
-        if (!group) {
-          res.status(404).send('Group not found');
-          return;
-        }
-        const actualGroupId = group.id;
-        const users = await UserModel.updateMany(
-          { _id: { $in: userIds } },
-          { $addToSet: { groups: actualGroupId } }
-        );
+//         if (!group) {
+//           res.status(404).send('Group not found');
+//           return;
+//         }
+//         const actualGroupId = group.id;
+//         const users = await UserModel.updateMany(
+//           { _id: { $in: userIds } },
+//           { $addToSet: { groups: actualGroupId } }
+//         );
 
-        res.status(201).send(users);
-      }
-      catch (error) {
-        console.log(error);
-        res.status(500).send("An error occurred while adding the group to the users");
-      }
-    }  
-));
+//         res.status(201).send(users);
+//       }
+//       catch (error) {
+//         console.log(error);
+//         res.status(500).send("An error occurred while adding the group to the users");
+//       }
+//     }  
+// ));
 
 router.get('/:id', expressAsyncHandler(
     async (req, res) => {

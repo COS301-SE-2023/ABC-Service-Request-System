@@ -2,15 +2,15 @@ import { NavbarService } from 'src/services/navbar.service';
 import { Component, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartOptions } from 'chart.js/auto';
 // import { Moment } from '@chartjs/adapter-moment';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
 import { UserService } from 'src/services/user.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import * as moment from 'moment';
-import { ticket } from '../../../../backend/src/models/ticket.model';
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 
 @Component({
   selector: 'app-analytics-page',

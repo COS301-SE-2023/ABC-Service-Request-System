@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
-import { client } from '../../../../backend/src/models/client.model';
+import { client } from '../../../../backend/clients/src/models/client.model';
 
 @Component({
   selector: 'app-client-manage-page1',

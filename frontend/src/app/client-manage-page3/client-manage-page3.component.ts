@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { client, project } from '../../../../backend/src/models/client.model';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import { GroupService } from 'src/services/group.service';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { ticket } from '../../../../backend/src/models/ticket.model';
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { ClientService } from 'src/services/client.service';
 
 
@@ -50,7 +50,7 @@ export class ClientManagePage3Component implements OnInit{
     if (this.projectToEdit) {
       this.projectImageUrl = this.projectToEdit.logo;
       this.projectImageColor = this.projectToEdit.color;
-  
+
       // GETTING ALL THE GROUPS
       this.groupService.getGroups().subscribe(
         (result: group[]) => {
@@ -62,27 +62,27 @@ export class ClientManagePage3Component implements OnInit{
           console.log('Error fetching all groups', error);
         }
       );
-  
+
       this.filteredOptions = this.groupControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || '')),
       );
-  
+
       // GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
       if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
         this.existingGroups = this.projectToEdit.assignedGroups.slice();
         this.selectedGroups = this.projectToEdit.assignedGroups.slice();
         this.groupSelected = true;
-  
+
         // REMOVE EXISTING GROUPS FROM ALL GROUPS
         this.filteredOptions = this.groupControl.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value || '')),
         );
       }
-  
+
       const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
-  
+
       this.clientService.getClientByProjectName(encodedProjectName).subscribe(
         (response) => {
           this.clientToEdit = response;
@@ -93,7 +93,7 @@ export class ClientManagePage3Component implements OnInit{
     }
   }
 
-  
+
   // ngOnInit(): void {
   //   this.projectImageUrl = this.projectToEdit.logo;
   //   this.projectImageColor = this.projectToEdit.color;

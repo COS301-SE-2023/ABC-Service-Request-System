@@ -1,4 +1,4 @@
-import { ticket } from "./models/ticket.model";
+import { ticket } from "../models/ticket.model";
 
 
 export const sample_tickets: ticket[] = [

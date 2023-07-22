@@ -1,13 +1,10 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { TicketModel } from "../models/ticket.model";
-import { sample_groups } from "../sampleGroups";
-import mongoose, { Types } from "mongoose";
-import { comment } from "../models/ticket.model";
+import { sample_groups } from "../utils/sampleGroups";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-import { UserModel, user } from "../models/user.model";
+import { UserModel, user } from "../../../users/src/models/user.model";
 
 const router = Router();
 

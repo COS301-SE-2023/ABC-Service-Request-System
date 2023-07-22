@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { group } from  '../../../backend/src/models/group.model'
-import { user } from  '../../../backend/src/models/user.model'
+import { group } from '../../../backend/groups/src/models/group.model';
+import { user } from "../../../backend/users/src/models/user.model";
 import { Router } from '@angular/router';
-import { ticket } from '../../../backend/src/models/ticket.model';
 
 
 @Injectable({

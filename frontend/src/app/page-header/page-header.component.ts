@@ -2,10 +2,10 @@ import { Component, EventEmitter, HostListener, Input, Output, ElementRef, OnIni
 import { Router } from '@angular/router';
 import { tickets } from '../data'
 import { Ticket } from '../app.component';
-import { notifications } from '../../../../backend/src/models/notifications.model'; 
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
 import { NotificationsService } from 'src/services/notifications.service';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 
 @Component({
@@ -93,7 +93,7 @@ export class PageHeaderComponent {
 
   getRoles() {
     if (this.authService.isAdmin()) {
-      this.roles = "Admin";  
+      this.roles = "Admin";
       return this.roles; // Admin is already admin so won't have any other roles
     }
 
@@ -107,7 +107,7 @@ export class PageHeaderComponent {
       if (this.authService.isTechnical()) {
         this.roles = this.roles + ", Technical";
       }
-      
+
       return this.roles;
     }
 
@@ -132,7 +132,7 @@ export class PageHeaderComponent {
 
   ngOnInit() {
     this.getNumOfUnreadNotifications();
-    const userId = this.getUserObject().id; 
+    const userId = this.getUserObject().id;
     this.getUser(userId);
   }
 
