@@ -31,6 +31,7 @@ export class NewTicketFormComponent implements OnInit {
   isAddTodoOverlayOpened = false;
   todo: FormControl = new FormControl();
   todoArray: string[] = [];
+  todoChecked: boolean[] = [];
 
   constructor(
     private ticketService: TicketsService,
@@ -97,6 +98,7 @@ export class NewTicketFormComponent implements OnInit {
     );
 
     this.todoArray.length = 0;
+    this.todoChecked.length = 0;
   }
 
   onGroupChanged(event: Event) {
@@ -168,6 +170,10 @@ export class NewTicketFormComponent implements OnInit {
       // const description = ticketFormValues.description;
       const project = ticketFormValues.project;
 
+      for (let i = 0; i < this.todoArray.length; i++) {
+        this.todoChecked.push(false);  
+      }
+
 
       let groupName = "";
 
@@ -175,7 +181,7 @@ export class NewTicketFormComponent implements OnInit {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -226,7 +232,8 @@ export class NewTicketFormComponent implements OnInit {
         description: description,
         createdAt: new Date(),
         project: project,
-        todo: this.todoArray
+        todo: this.todoArray,
+        todoChecked: this.todoChecked
       };
 
       this.newTicketEvent.emit(newTicket);

@@ -18,7 +18,8 @@ export const sample_tickets: ticket[] = [
       description: "You need to update the UI to support the new angular material UI library and also fix the typescript bug with the header.",
       createdAt: new Date(),
       project: 'New project',
-      todo: ["Change to Old Project"]
+      todo: ["Change to Old Project"],
+      todoChecked: [true]
   },
   {
       id: "2",
@@ -42,7 +43,8 @@ export const sample_tickets: ticket[] = [
       description: "You need to test the tickets before the client has a chance to access their portal.",
       createdAt: new Date(),
       project: 'Old project',
-      todo: ["Change name of project"]
+      todo: ["Change name of project"],
+      todoChecked: [false]
 
   },
   {
@@ -84,6 +86,7 @@ export const sample_tickets: ticket[] = [
       description: 'Update the front end ticket schema so that it conforms to new legislation.',
       createdAt: new Date(),
       project: 'Some project',
-      todo: ["Specify Project", "Backend"]
+      todo: ["Specify Project", "Backend"],
+      todoChecked: [true, false]
   },
 ];
