@@ -105,7 +105,8 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     for(let i = 0; i < userGroups.length; i++){
       this.groupService.getGroupsByUserId(userGroups[i]).subscribe(
         (response) => {
-          this.groups.push(response);
+          if(!this.groups.includes(response))
+            this.groups.push(response);
 
           if(!alreadyDone){
             console.log(this.groups[0].id, ' hi');
