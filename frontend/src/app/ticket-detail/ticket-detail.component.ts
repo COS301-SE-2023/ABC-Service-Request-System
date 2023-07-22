@@ -58,6 +58,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   assigneeUser!: user;
   assigneeImage!: string;
 
+  checkChanges = false;
+
+  todosChanged: boolean[] = [];
+
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -116,6 +120,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     
     this.showAll();
     this.attachmentsOnly = false;
+
+    this.todosChanged.length = 0;
   }
 
 
@@ -145,6 +151,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         }
       }
       this.getAssigneeUserImage(this.ticket.assignee);
+
+      for (let i = 0; i < this.ticket.todoChecked.length; i++) {
+        this.todosChanged[i] = this.ticket.todoChecked[i];
+      }
+
+      // console.log("todosChanged: ", this.todosChanged);
     });
   }
 
@@ -339,15 +351,35 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
       this.assigneeUser = response;
       this.assigneeImage = this.assigneeUser.profilePhoto;
-      console.log("AssigneeImage: ", this.assigneeImage);
+      // console.log("AssigneeImage: ", this.assigneeImage);
     } catch (error) {
       console.error('Error fetching assignee user image:', error);
     }
   }
+
+  async saveTodos() {
+    this.checkChanges = false;
+
+    console.log("todosChanged: ", this.todosChanged);
   
+    try {
+      const response = await this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).toPromise();
+      console.log(response);
 
+      location.reload();
+    } catch (error) {
+      console.error(error);
 
+      location.reload();
+    }
+  }
 
+  onCheckChanged(i: number) {
+    this.checkChanges = true;
+
+    this.todosChanged[i] = !this.todosChanged[i];
+  }
+  
 
   isPDF(url: string): boolean {
     return url.toLowerCase().endsWith('.pdf');

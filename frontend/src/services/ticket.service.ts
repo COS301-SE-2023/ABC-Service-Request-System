@@ -48,6 +48,11 @@ export class TicketsService {
     return this.http.post(`${this.TICKET_URL}/addticket`, body);
   }
 
+  updateTodoChecked(id: string, todoChecked: boolean[]) {
+    const body = { todoChecked };
+    return this.http.put(`${this.TICKET_URL}/updateTodoChecked/${id}`, body);
+  }
+
   uploadFile(file: File) {
     const formData = new FormData();
     formData.append('file', file);

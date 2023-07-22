@@ -23,10 +23,12 @@
         
         <div class="ticket-summary-area-todos" *ngIf="!todoEmpty()">
           <p><b>Todo's</b></p>
-          <div class="ticket-summary-area-todos-list" *ngFor="let todo of ticket.todo">
-            <input type="checkbox">
-            <label for="todoListItem">{{ todo }}</label>
+          <div class="ticket-summary-area-todos-list" *ngFor="let todo of ticket.todo; let i = index;">
+            <input type="checkbox" [checked]="ticket.todoChecked[i]" (change)="onCheckChanged(i)">
+            <label [ngClass]="{ 'completed': ticket.todoChecked[i] }" for="todoListItem">{{ todo }}</label>
           </div>
+
+          <button *ngIf="checkChanges" (click)="saveTodos()" class="check-btn">Save Changes</button>
         </div>
       </div>
 
