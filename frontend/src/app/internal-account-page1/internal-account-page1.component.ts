@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { group } from '../../../../backend/groups/src/models/group.model';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 
 @Component({
   selector: 'app-internal-account-page1',

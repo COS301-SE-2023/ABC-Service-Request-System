@@ -6,7 +6,7 @@ import { notifications } from "../../../../backend/notifications/src/models/noti
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 import { NavbarService } from 'src/services/navbar.service';
 import { group } from '../../../../backend/groups/src/models/group.model';

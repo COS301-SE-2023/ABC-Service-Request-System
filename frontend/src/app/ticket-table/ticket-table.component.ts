@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { tick } from '@angular/core/testing';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
 import { GroupService } from 'src/services/group.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { ClientService } from 'src/services/client.service';

@@ -5,7 +5,7 @@ import mongoose, { Types } from "mongoose";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { testGroupModel } from "./testGroup.model";
-import { UserModel, user } from "../models/user.model";
+import { UserModel, user } from "../../users/src/models/user.model";
 import { TestUserModel } from "./testUser.model";
 
 const router = Router();

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { group } from '../../../backend/groups/src/models/group.model';
-import { user } from  '../../../backend/src/models/user.model'
+import { user } from "../../../backend/users/src/models/user.model";
 import { Router } from '@angular/router';
 
 
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class GroupService {
 
-  GROUPS_URL = 'http://localhost:3003/api/group';
+  GROUPS_URL = 'http://localhost:3000/api/group';
 
   constructor(private http: HttpClient, private router: Router) { }
 

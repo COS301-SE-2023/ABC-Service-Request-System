@@ -15,7 +15,7 @@ export class ClientService {
 
   project$ = this.projectsSubject.asObservable();
 
-  CLIENT_URL = 'http://localhost:3005/api/client';
+  CLIENT_URL = 'http://localhost:3000/api/client';
 
   constructor(private http: HttpClient, private router: Router) { }
 

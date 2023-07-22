@@ -1,6 +1,6 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { TestUserModel } from "../models/testUser.model";
+import { TestUserModel } from "./testUser.model";
 
 import crypto from "crypto";
 import nodemailer from "nodemailer";

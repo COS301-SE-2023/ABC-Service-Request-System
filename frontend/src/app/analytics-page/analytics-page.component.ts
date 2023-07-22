@@ -8,7 +8,7 @@ import { AuthService } from 'src/services/auth.service';
 import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
 import { UserService } from 'src/services/user.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import * as moment from 'moment';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 

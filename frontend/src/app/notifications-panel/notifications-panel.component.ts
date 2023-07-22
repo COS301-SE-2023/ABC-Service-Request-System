@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotificationsService } from 'src/services/notifications.service';
 import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';

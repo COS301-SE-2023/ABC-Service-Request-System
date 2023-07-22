@@ -1,5 +1,4 @@
 import { Schema, connection } from "mongoose"
-import { UserModel, user } from "./user.model"
 
 export interface group {
     id: string

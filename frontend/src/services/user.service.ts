@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { user } from "../../../backend/src/models/user.model";
+import { user } from "../../../backend/users/src/models/user.model";
 import { Observable } from "rxjs";
 
 
@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
-  API_URL = 'http://localhost:3002/api/user'; // replace with your API URL
+  API_URL = 'http://localhost:3000/api/user'; // replace with your API URL
   LOGIN_URL = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient, private router : Router) { }
@@ -108,7 +108,7 @@ export class UserService {
   }
 
   loginUser(userDetails: { emailAddress: string, password: string }) {
-    return this.http.post(`${this.LOGIN_URL}/login`, userDetails);
+    return this.http.post(`${this.API_URL}/login`, userDetails);
   }
 
   deleteUserGroup(userId: string, groupId: string): Observable<any> {

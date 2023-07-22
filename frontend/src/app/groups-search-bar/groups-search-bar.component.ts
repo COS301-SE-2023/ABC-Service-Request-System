@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
-import { user } from '../../../../backend/src/models/user.model'
+import { user } from "../../../../backend/users/src/models/user.model";
 import { HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { SafeUrl } from '@angular/platform-browser';

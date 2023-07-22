@@ -5,7 +5,7 @@ import { Ticket } from '../app.component';
 import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
 import { NotificationsService } from 'src/services/notifications.service';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 
 @Component({
