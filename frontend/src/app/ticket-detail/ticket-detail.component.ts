@@ -113,7 +113,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentUserImage();
-    await this.getAssigneeUserImage(this.ticket.assignee);
+    
     this.showAll();
     this.attachmentsOnly = false;
   }
@@ -144,6 +144,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           }
         }
       }
+      this.getAssigneeUserImage(this.ticket.assignee);
     });
   }
 
@@ -338,6 +339,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
       this.assigneeUser = response;
       this.assigneeImage = this.assigneeUser.profilePhoto;
+      console.log("AssigneeImage: ", this.assigneeImage);
     } catch (error) {
       console.error('Error fetching assignee user image:', error);
     }
@@ -383,7 +385,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.displayedComments = this.ticket.comments;
       console.log(this.displayedComments);
     }
-    
+  
   }
 
   showAttachmentsOnly(): void {
