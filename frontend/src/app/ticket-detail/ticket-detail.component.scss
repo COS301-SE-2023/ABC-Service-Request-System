@@ -29,6 +29,15 @@
         border-radius: 1em;
         height: fit-content;
         margin-bottom: 2em;
+
+        .ticket-summary-area-todos-list {
+          display: flex;
+          align-items: center;
+
+          input {
+            margin-right: 0.5em;
+          }
+        }
       }
 
       .activity-area{
@@ -207,7 +216,6 @@
           margin: 0 !important;
           font-weight: lighter;
           span{
-            text-transform: capitalize;
             font-weight: bolder;
           }
         }
@@ -525,3 +533,4 @@ app-user-dropdown{
   width: 80%;
   margin-left: 2em;
 }
+

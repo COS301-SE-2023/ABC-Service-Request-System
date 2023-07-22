@@ -55,6 +55,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   userId !: string;
 
+  assigneeUser!: user;
+  assigneeImage!: string;
+
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -97,7 +100,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
@@ -110,6 +113,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentUserImage();
+    await this.getAssigneeUserImage(this.ticket.assignee);
     this.showAll();
     this.attachmentsOnly = false;
   }
@@ -201,7 +205,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       const notificationMessage = " commented on a ticket";
       const creatorEmail = currentUser.emailAddress;
       const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
-      const ticketSummary = this.ticket.summary;
+      const ticketSummary = "On Ticket: " + this.ticket.summary;
       const ticketStatus = this.ticket.status;
       const notificationTime = new Date();
       const link = this.ticket.id;
@@ -229,7 +233,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           const notificationMessage = " uploaded a document on a ticket";
           const creatorEmail = currentUser.emailAddress;
           const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
-          const ticketSummary = this.ticket.summary;
+          const ticketSummary = "On Ticket: " + this.ticket.summary;
           const ticketStatus = this.ticket.status;
           const notificationTime = new Date();
           const link = this.ticket.id;
@@ -328,6 +332,17 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+
+  async getAssigneeUserImage(email: string) {
+    try {
+      const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
+      this.assigneeUser = response;
+      this.assigneeImage = this.assigneeUser.profilePhoto;
+    } catch (error) {
+      console.error('Error fetching assignee user image:', error);
+    }
+  }
+  
 
 
 

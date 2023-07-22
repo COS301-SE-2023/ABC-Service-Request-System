@@ -10,20 +10,22 @@
       <div class="summary-inner-info">
         <div class="summary-header">
           <div class="user-profile-img">
-            <!-- <img src="{{getCurrentUserImage()}}" alt="user profile image"> -->
+            <!-- <img src="{{ assigneeImage }}" alt="user profile image"> -->
           </div>
           <h2><span><b>{{ ticket.assignee }}</b></span> created this ticket on <span><b>{{ ticket.startDate }}</b></span></h2> <br>
         </div>
 
-        <p>Description</p>
+        <p><b>Description</b></p>
         <p *ngIf="ticket.description"> {{ ticket.description }} </p>
         <p *ngIf="!ticket.description">
           As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.
         </p>
         
         <div class="ticket-summary-area-todos" *ngIf="!todoEmpty()">
+          <p><b>Todo's</b></p>
           <div class="ticket-summary-area-todos-list" *ngFor="let todo of ticket.todo">
-            <label for="todoListItem">{{ todo }}</label><br>
+            <input type="checkbox">
+            <label for="todoListItem">{{ todo }}</label>
           </div>
         </div>
       </div>

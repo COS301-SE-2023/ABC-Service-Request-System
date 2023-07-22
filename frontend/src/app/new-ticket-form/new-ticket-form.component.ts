@@ -21,6 +21,7 @@ import { ClientService } from 'src/services/client.service';
 export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
   assigneeName: string;
+  assignee!: user;
   navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
   allGroups: group[] = [];
@@ -105,6 +106,7 @@ export class NewTicketFormComponent implements OnInit {
 
   getAssigneeName() {
     this.assigneeName = this.authService.getName();
+    this.assignee = this.authService.getUser();
 
     console.log("Assignee Name: ", this.assigneeName);
 
@@ -150,11 +152,15 @@ export class NewTicketFormComponent implements OnInit {
       const trimmedDescription = this.stripPTags(ticketFormValues.description);
 
       const summary = ticketFormValues.summary;
-      const assignee = this.assigneeName;
-      const assigned = ticketFormValues.assigned.name;
+      const assignee = this.assignee.emailAddress;
+      const assigned = this.assignedUser.emailAddress;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
-      const startDate = this.formatDate(ticketFormValues.startDate);
+      
+      // get Current Date in String Format
+      const currentDate = new Date();
+
+      const startDate = this.formatDate(this.stringFormatDate(currentDate));
       const endDate = this.formatDate(ticketFormValues.endDate);
       const status = "Pending";
       const comments = ticketFormValues.comments;
@@ -251,6 +257,22 @@ export class NewTicketFormComponent implements OnInit {
     const parts = date.split('-');
     const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
     return formattedDate;
+  }
+
+  private stringFormatDate(date: Date): string {
+    let month = '' + (date.getMonth() + 1);
+    let day = '' + date.getDate();
+    const year = date.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+
+    if ( day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
   }
 
   @ViewChild('textBox') textBox!: ElementRef<HTMLTextAreaElement>;
