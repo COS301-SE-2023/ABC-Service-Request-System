@@ -141,7 +141,7 @@ export class UserService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post<{ url: string }>(`${this.API_URL}/upload`, formData);
+    return this.http.post<{ url: string }>(`http://localhost:3002/api/user/upload`, formData);
   }
 
   updateProfilePicture(userId: string, url: string) {
