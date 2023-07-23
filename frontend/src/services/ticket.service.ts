@@ -41,10 +41,15 @@ export class TicketsService {
   }
 
   // Add Ticket Functionality
-  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string) {
-    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project};
+  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string, todo: string[], todoChecked: boolean[]) {
+    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked};
    console.log('Ticket is added service:', body);
     return this.http.post(`${this.TICKET_URL}/addticket`, body);
+  }
+
+  updateTodoChecked(id: string, todoChecked: boolean[]) {
+    const body = { todoChecked };
+    return this.http.put(`${this.TICKET_URL}/updateTodoChecked/${id}`, body);
   }
 
   uploadFile(file: File) {

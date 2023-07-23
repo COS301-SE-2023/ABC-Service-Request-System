@@ -132,7 +132,8 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             endDate: req.body.endDate,
             status: req.body.status,
             createdTime: new Date(),
-            project: req.body.project
+            project: req.body.project,
+            todo: req.body.todo
         });
 
         console.log("new ticket: ", newTicket);
@@ -253,8 +254,30 @@ router.put('/comment', expressAsyncHandler(
       res.status(500).send("Internal server error");
     }
   }));
-  
-  
+
+// Edwin's Router Functions for Todo list
+
+router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
+  const ticketId = req.params.id;
+  const updatedTodoChecked = req.body.todoChecked;
+
+  try {
+    const ticket = await TicketModel.findOne({ id: ticketId});
+
+    if (ticket) {
+      ticket.todoChecked = updatedTodoChecked;
+
+      await ticket.save();
+      res.status(200).send("Ticket todo checked updated");
+    }
+    else {
+      res.status(404).send("Ticket not found");
+    }
+  } catch(error) {
+    res.status(500).send("Internal server error");
+  }
+}));
+
   
 
 export default router;

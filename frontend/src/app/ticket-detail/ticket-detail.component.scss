@@ -29,6 +29,20 @@
         border-radius: 1em;
         height: fit-content;
         margin-bottom: 2em;
+
+        .ticket-summary-area-todos-list {
+          display: flex;
+          align-items: center;
+
+          input {
+            margin-right: 0.5em;
+          }
+
+          .completed {
+            text-decoration: line-through;
+            color: #888;
+          }
+        }
       }
 
       .activity-area{
@@ -207,7 +221,6 @@
           margin: 0 !important;
           font-weight: lighter;
           span{
-            text-transform: capitalize;
             font-weight: bolder;
           }
         }
@@ -524,4 +537,17 @@ mat-expansion-panel-header.mat-expanded,
 app-user-dropdown{
   width: 80%;
   margin-left: 2em;
+}
+
+.ticket-container .ticket-summary-area .summary-info .check-btn {
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 0.8em;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }

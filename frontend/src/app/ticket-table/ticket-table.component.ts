@@ -163,5 +163,17 @@ export class TicketTableComponent implements OnInit{
     console.log(tickets);
     return tickets;
   }
+
+  getAssigneeName(email: string) {
+    this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
+      return response.name;
+    });
+  }
+
+  getAssignedName(email: string) {
+    this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
+      return response.name;
+    });
+  }
 }
 
