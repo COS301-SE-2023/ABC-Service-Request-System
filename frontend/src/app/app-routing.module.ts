@@ -18,6 +18,10 @@ import { TeamsPageComponent } from './teams-page/teams-page.component';
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
+import { SearchItemComponent } from './search-item/search-item.component';
+import { SearchItemUserComponent } from './search-item-user/search-item-user.component';
+import { SearchItemClientComponent } from './search-item-client/search-item-client.component';
+import { SearchItemProjectComponent } from './search-item-project/search-item-project.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -32,7 +36,7 @@ const routes: Routes = [
   { path: 'settings-profile',component: SettingsProfileComponent},
   { path: 'teams', component: TeamsPageComponent},
   { path: 'settings', component: SettingsProfileComponent },
-  { path: 'view-profile',component: ViewProfileComponent},
+  //{ path: 'view-profile',component: ViewProfileComponent},
   { path: 'notifications-search',component: NotificationsSearchComponent},
 
   //{ path: 'settings-profile',component: SettingsProfileComponent},
