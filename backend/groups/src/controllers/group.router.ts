@@ -49,45 +49,31 @@ router.get('/seed', expressAsyncHandler(
 ));
 
 router.post('/add', expressAsyncHandler(
-    async (req, res) => {
-      console.log('in add  router');
+  async (req, res) => {
+    console.log('in add  router');
 
-      const groupCount = await groupModel.countDocuments();
-      console.log(req.body.people);
-      const group = new groupModel({
-        id: String(groupCount+1),
-        backgroundPhoto: req.body.backgroundPhoto,
-        groupName: req.body.groupName,
-        people: req.body.people
+    const groupCount = await groupModel.countDocuments();
+    console.log(req.body.people);
+    const group = new groupModel({
+      id: String(groupCount+1),
+      backgroundPhoto: req.body.backgroundPhoto,
+      groupName: req.body.groupName,
+      people: req.body.people
+    });
 
-      });
+    console.log(group);
 
-      console.log(group);
-
-      try {
-        const createdGroup = await groupModel.create(group); 
-        const users = createdGroup.people;
-        // console.log(users);
-        if (users) {
-          for (let user of users) { 
-            const userFromDb = await UserModel.findById(user);
-            // console.log('userfromdb: ' + userFromDb);
-            if (userFromDb) {
-              userFromDb.groups.push(createdGroup.id); 
-              await userFromDb.save(); 
-            }
-          }
-        }
-
-        res.status(201).send(createdGroup); 
+    try {
+      const createdGroup = await groupModel.create(group);
+      res.status(201).send(createdGroup);
     }
     catch (error) {
-        console.log(error);
-        res.status(500).send("An error occurred during group creation");
+      console.log(error);
+      res.status(500).send("An error occurred during group creation");
     }
-  }  
-
+}  
 ));
+
 
   router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;

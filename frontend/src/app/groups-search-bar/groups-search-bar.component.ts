@@ -189,7 +189,8 @@ export class GroupsSearchBarComponent implements OnInit {
       for (let i = 0; i < people.length; i++) {
         const userId: string = people[i];
         try {
-          await this.groupService.addGroupToUser(userId, group.id).toPromise();
+          console.log('in component addGroup function... ' + group.id + 'and user is ' + userId);
+          await this.userService.addGroupToUser(userId, group.id).toPromise();
           console.log('Group added to user successfully');
 
           // Edwin's Notification Code
@@ -221,16 +222,15 @@ export class GroupsSearchBarComponent implements OnInit {
             }
           }
           // Edwin's Notification Code End ============================
-
         } catch (error) {
           console.error('Failed to add group to user', error);
         }
       }
-
     } catch (error) {
       console.error('Failed to create group', error);
     }
-  }
+}
+
 
 
 

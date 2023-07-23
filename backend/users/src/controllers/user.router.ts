@@ -864,7 +864,24 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
   
-  
+router.post('/addGroup', expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const user = await UserModel.findById(req.body.userId);
+            if(user) {
+                user.groups.push(req.body.groupId);
+                await user.save();
+                res.status(201).send(user);
+            } else {
+                res.status(404).send("User not found");
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("An error occurred during user update");
+        }
+    }
+));
+
   
 
 

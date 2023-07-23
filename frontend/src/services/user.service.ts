@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { user } from "../../../backend/users/src/models/user.model";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 
 
 @Injectable({
@@ -165,6 +165,14 @@ export class UserService {
     return this.http.put(`${this.API_URL}/updateLinkedin`, { userId, linkedinLink });
   }
 
+  addGroupToUser(userId: string, groupId: string): Observable<user> {
+    return this.http.post<user>(`${this.API_URL}/addGroup`, { userId, groupId }).pipe(
+      tap({
+        next: () => console.log('Group added to user successfully'),
+        error: (error) => console.error('Failed to add group to user', error),
+      })
+    );
+  }
 
 
 
