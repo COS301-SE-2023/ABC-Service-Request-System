@@ -10,7 +10,6 @@ import { cloudinary } from '../configs/cloudinary';
 import dotenv from "dotenv";
 dotenv.config();
 
-// import { groupModel } from "../models/group.model";
 const router = Router();
 
 router.get('/', expressAsyncHandler(

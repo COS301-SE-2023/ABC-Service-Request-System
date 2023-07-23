@@ -55,22 +55,27 @@ export class SettingsProfileComponent { // implements OnInit{
         this.oldLinkedinLink = this.linkedinLink;
         this.userBio = this.currentUser.bio;
         this.oldUserBio = this.userBio;
-        // console.log(this.currentUser.groups, ' in ngoninit');
+        // console.log(this.currentUser.groups, ' in ngoninit ');
+        this.currentUser.groups.forEach(groupId => {
+          this.groupService.getGroupById(groupId).subscribe(group => {
+            this.groups.push(group);
+          });
+        });
       }
     );
 
-    this.tempUser = this.authService.getUser();
-    // this.groupIds = this.authService.getUser().groups;
-    if (this.tempUser) {
-      // console.log('hi' + this.tempUser.groups);
-      // this.githubLink = this.tempUser.github;
-      // this.linkedinLink = this.tempUser.linkedin;
-      this.tempUser.groups.forEach(groupId => {
-        this.groupService.getGroupById(groupId).subscribe(group => {
-          this.groups.push(group);
-        });
-      });
-    }
+    // this.tempUser = this.authService.getUser();
+    // // this.groupIds = this.authService.getUser().groups;
+    // if (this.tempUser) {
+    //   // console.log('hi' + this.tempUser.groups);
+    //   // this.githubLink = this.tempUser.github;
+    //   // this.linkedinLink = this.tempUser.linkedin;
+    //   this.tempUser.groups.forEach(groupId => {
+    //     this.groupService.getGroupById(groupId).subscribe(group => {
+    //       this.groups.push(group);
+    //     });
+    //   });
+    // }
 
   }
 

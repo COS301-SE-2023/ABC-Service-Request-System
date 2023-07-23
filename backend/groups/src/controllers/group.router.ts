@@ -4,7 +4,6 @@ import { sample_groups } from "../utils/sampleGroups";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-// import { UserModel, user } from "../../../users/src/models/user.model";
 
 const router = Router();
 
@@ -12,12 +11,13 @@ const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
 router.post('/upload', upload.single('file'), async (req, res) => {
+  console.log(req.file);
     try {
       if (!req.file) {
         res.status(400).json({ message: 'No file uploaded' });
         return;
       }
-      console.log('in upload router');
+      console.log('in upload router222');
       const result = await cloudinary.uploader.upload(req.file.path);
       res.status(200).json({ url: result.secure_url });
     } catch (error) {

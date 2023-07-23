@@ -17,10 +17,11 @@ export class GroupService {
   constructor(private http: HttpClient, private router: Router) { }
 
   uploadFile(file: File) {
+    console.log('in group service upload fikle');
     const formData = new FormData();
     formData.append('file', file);
-
-    return this.http.post<{ url: string }>(`${this.GROUPS_URL}/upload`, formData);
+    console.log(file.name);
+    return this.http.post<{ url: string }>(`http://localhost:3003/api/group/upload`, formData);
   }
 
   createGroup(group1: group): Observable<group> {
