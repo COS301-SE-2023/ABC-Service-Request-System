@@ -12,6 +12,27 @@ export class UserService {
   API_URL = 'http://localhost:3000/api/user'; // replace with your API URL
   LOGIN_URL = 'http://localhost:3000/api';
 
+  // private userDB = [
+  //   { groupId: 1,
+  //     id: '01',
+  //     name: 'Edwin',
+  //     surname: 'Chang',
+  //     profilePhoto: 'img.png',
+  //     emailAddress: 'edwin@gmail.com',
+  //     emailVerified: 'true',
+  //     password: '12345',
+  //     roles: 'Technical',
+  //     groups: 'Lemur',
+  //     inviteToken?: '1234',
+  //     bio: 'dev from hyperion tech',
+  //     backgroundPhoto: 'image.png',
+  //     facebook: 'link',
+  //     github: 'link',
+  //     linkedin: 'link',
+  //     instagram: 'link',
+  //     location: 'link',
+  //   }
+  // ]
   constructor(private http: HttpClient, private router : Router) { }
 
   //get all users

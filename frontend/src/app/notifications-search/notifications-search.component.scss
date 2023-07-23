@@ -14,8 +14,74 @@
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25) inset;
 
 }
+.search-user{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 15%;
+   // border-radius: 8px;
+   border: 1px solid rgba(73, 69, 69, 0.20);
+//    background: #DEDEDE;
+  //box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
+    background: white;
+    .search-user-img{
+        position: relative;
+        width: 7.5%;
+        top: 10%;
+    }
+    .search-user-default-img{
+        position: relative;
+        width: 15.5%;
+        top: 10%; 
+    }
+    .title{
+        position: relative;
+        width:100%;
+        top:30%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .title-user{
+        position: relative;
+        width:100%;
+        top:0%;
+        justify-content: center;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .additional-user-info{
+        position: relative;
+        top:0%;
+     
+        width:100%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .additional-info{
+        position: relative;
+        top:30%;
+        width:100%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+}
+table{
+    background-color: green;
+}
 .searchBar{
-    background-color: yellow;
+    //background-color: yellow;
     position:fixed;
     width: 20%;
     height: 5%;
@@ -27,21 +93,30 @@
     background: #DEDEDE;
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
 }
-.filter-panel{
+.search-results{
+    position:fixed;
+    right: 10%;
+    top:25%;
+    width: 41.9%;
+    height: 65%;
+    //background-color: yellow;
+ }
+ .search-item{
+    position: fixed;
     width: 30%;
-    height: 100.1%;
+    height: 30%;
+    right: 10%;
+   // background-color: yellow;
+ }
+.filter-panel{
+    width: 30.1%;
+    height: 99.9%;
+    top:0%;
     flex-shrink: 0;
-
-    border: 1px solid rgba(73, 69, 69, 0.20);
-    //border-top-left-radius: 13px;
-   // border-bottom-left-radius: 13px;
     border: 1px solid rgba(73, 69, 69, 0.20);
     background: whitesmoke;
    // box-shadow: -1px 0px 20px 3px rgba(0, 0, 0, 0.25) inset;
 
-    .filter-item{
-        //background-color: yellow;
-    }
     .filter-item-1{
         position: fixed;
         top: 20%;
