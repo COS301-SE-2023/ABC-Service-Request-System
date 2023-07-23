@@ -882,7 +882,32 @@ router.post('/addGroup', expressAsyncHandler(
     }
 ));
 
+router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const users = await UserModel.find({ groups: { $in: [groupId] } });
+    const userArray = users.map(user => ({ 
+        id: user.id, 
+        name: user.name, 
+        surname: user.surname, 
+        emailAddress: user.emailAddress, 
+        roles: user.roles[0],
+        profilePhoto: user.profilePhoto
+    }));
+    console.log(userArray);
+    res.send(userArray);
+}));
+
+router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
+    const userEmail = decodeURIComponent(req.params.userEmail);
+    const user = await UserModel.findOne({ emailAddress: userEmail });
   
+    if (!user) {
+      res.status(404).send({ message: 'User not found' });
+      return;
+    }
+  
+    res.send(user);
+  }));
 
 
 router.get('/:id', expressAsyncHandler(

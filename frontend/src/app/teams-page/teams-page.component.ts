@@ -6,6 +6,8 @@ import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { group } from '../../../../backend/groups/src/models/group.model';
+import { UserModel } from '../../../../backend/users/src/models/user.model';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-teams-page',
@@ -32,17 +34,17 @@ export class TeamsPageComponent implements OnInit{
 
   onGroupSelected(groupId: string): void {
     this.groupId = groupId;
-    this.groupService.getUsersByGroupId(groupId).subscribe(
-      (response) => {
-        this.users = response;
-        this.users.forEach(user => {
-          console.log(user.profilePhoto);
-          this.userImages.set(user.id, user.profilePhoto);
-        });
-      },
-      (error) => {
-        console.log(error);
-      }
+    this.userService.getUsersByGroupId(groupId).subscribe(
+        (response) => {
+            this.users = response;
+            this.users.forEach(user => {
+            console.log('hello');
+            this.userImages.set(user.id, user.profilePhoto);
+            });
+        },
+        (error) => {
+            console.log(error);
+        }
     );
 
     this.groupService.getGroupNameById(groupId).subscribe(
@@ -156,21 +158,6 @@ export class TeamsPageComponent implements OnInit{
 
   removeGroup(group: group): void {
 
-    // if (group.people) {
-    //   for (const user of group.people) {
-    //     const user1 = this.userService.getUserById(user);
-    //     console.log(user1);
-    //     // this.userService.deleteUserGroup(user1.id, group.id).subscribe(
-    //     //   (response) => {
-    //     //     console.log(response);
-    //     //   },
-    //     //   (error:Error) => {
-    //     //     console.log(error);
-    //     //   }
-    //     // );
-    //   }
-    // }
-
     group.people?.forEach(userId => {
       this.userService.deleteUserGroup(userId, group.id).subscribe(
         (response) => {
@@ -200,16 +187,22 @@ export class TeamsPageComponent implements OnInit{
     // this.selectedGroup = null;
   }
 
-
-
   removeUser(user: user): void {
-    console.log('from frontend ' + user.emailAddress);
-    // if (!this.groupId) {
-    //   this.userService
-    // }
-    this.groupService.removeUserFromGroup(this.groupId, user).subscribe(
-      (response) => {
-        // this.users = this.users.filter(u => u.id !== user.id);
+    this.userService.getUserByEmail(user.emailAddress).pipe(
+      switchMap((response: any) => {
+        console.log('in removeUser, response: ' + response._id);
+        // first, remove the user from the group
+        return this.groupService.removeUserFromGroup(this.groupId, response._id).pipe(
+          switchMap((groupResponse) => {
+            console.log(groupResponse);
+            // after the user is removed from the group, remove the group from the user
+            return this.userService.deleteUserGroup(response._id, this.groupId);
+          })
+        );
+      })
+    ).subscribe(
+      (userResponse) => {
+        console.log(userResponse);
         this.onGroupSelected(this.groupId);
         location.reload();
       },
@@ -218,6 +211,9 @@ export class TeamsPageComponent implements OnInit{
       }
     );
   }
+
+
+
 
   selectGroup(group: group): void {
     this.selectedGroup = group;

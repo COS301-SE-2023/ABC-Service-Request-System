@@ -174,6 +174,13 @@ export class UserService {
     );
   }
 
+  getUsersByGroupId(groupId: string): Observable<user[]> {
+    return this.http.get<user[]>(`${this.API_URL}/byGroup/${groupId}`);
+  }
+
+  getUserByEmail(email: string): Observable<user> {
+    return this.http.get<user>(`${this.API_URL}/email/${encodeURIComponent(email)}`);
+  }
 
 
 }

@@ -62,9 +62,10 @@ export class GroupService {
     return this.http.get<group>(`${this.GROUPS_URL}/groupId/${groupId}`);
   }
 
-  removeUserFromGroup(groupId: string, user: user): Observable<any> {
-    return this.http.delete(`${this.GROUPS_URL}/${groupId}/user/${encodeURIComponent(user.emailAddress)}`);
+  removeUserFromGroup(groupId: string, userId: string): Observable<any> {
+    return this.http.delete(`${this.GROUPS_URL}/${groupId}/user/${userId}`);
   }
+
 
   getGroupNameById(groupId: string): Observable<any> {
     return this.http.get<any>(`${this.GROUPS_URL}/${groupId}/name`);
