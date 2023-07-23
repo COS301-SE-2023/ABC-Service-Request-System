@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { group } from '../../../backend/groups/src/models/group.model';
 import { user } from "../../../backend/users/src/models/user.model";
 import { Router } from '@angular/router';
@@ -46,9 +46,18 @@ export class GroupService {
   }
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
   addGroupToUsers(groupId: string, userIds: Array<string>): Observable<any> {
-    return this.http.post<any>(`http://localhost:3000/api/user/add-group-to-users`, { groupId, userIds });
+    return this.getGroupByObjectId(groupId).pipe(
+        switchMap(group => {
+            const actualGroupId = group.id;
+            console.log('actual group id: ' + actualGroupId);
+            return this.http.post<any>(`http://localhost:3000/api/user/add-group-to-users`, { groupId: actualGroupId, userIds });
+        })
+    );
   }
 
+  getGroupByObjectId(groupId: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/api/group/objectId/${groupId}`);
+  }
 
   getGroups(): Observable<group[]> {
     return this.http.get<group[]>(`${this.GROUPS_URL}`);

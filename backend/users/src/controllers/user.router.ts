@@ -716,33 +716,27 @@ router.post('/:id/add-group', expressAsyncHandler(
     }
 ));
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
-// router.post('/add-group-to-users', expressAsyncHandler(
-//     async (req, res) => {
-//       const groupId = req.body.groupId; // this is actually group._id
-//       const userIds = req.body.userIds;
+router.post('/add-group-to-users', expressAsyncHandler(
+  async (req, res) => {
+    const groupId = req.body.groupId;
+    const userIds = req.body.userIds;
+    console.log('in add-group-to-users, group id: ' + groupId);
 
-//       try {
-//         // find the group using its _id
-//         const group = await groupModel.findOne({ _id: groupId });
+    try {
+      const users = await UserModel.updateMany(
+        { _id: { $in: userIds } },
+        { $addToSet: { groups: groupId } }
+      );
 
-//         if (!group) {
-//           res.status(404).send('Group not found');
-//           return;
-//         }
-//         const actualGroupId = group.id;
-//         const users = await UserModel.updateMany(
-//           { _id: { $in: userIds } },
-//           { $addToSet: { groups: actualGroupId } }
-//         );
+      res.status(201).send(users);
+    }
+    catch (error) {
+      console.log(error);
+      res.status(500).send("An error occurred while adding the group to the users");
+    }
+  }  
+));
 
-//         res.status(201).send(users);
-//       }
-//       catch (error) {
-//         console.log(error);
-//         res.status(500).send("An error occurred while adding the group to the users");
-//       }
-//     }  
-// ));
 
 router.get('/:id', expressAsyncHandler(
     async (req, res) => {

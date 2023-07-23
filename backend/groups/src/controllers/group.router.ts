@@ -201,6 +201,23 @@ router.post('/add', expressAsyncHandler(
     }
   }))
 
+  router.get('/objectId/:groupId', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    console.log(' in router, objectId: ' + groupId);
+    try {
+        const group = await groupModel.findOne({ _id: groupId });
+        if (group) {
+            res.status(200).send(group);
+        } else {
+            res.status(404).send('Group not found');
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred while fetching the group");
+    }
+}));
+
+
   router.get('/:groupId', expressAsyncHandler(async(req,res) => {
     try {
       const groupId = req.params.groupId;
