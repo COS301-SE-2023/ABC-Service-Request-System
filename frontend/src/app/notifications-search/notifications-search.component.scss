@@ -1,0 +1,323 @@
+.panel{
+    width: 60%;
+    height: 80%;
+    //margin-left: 30%;
+    position: fixed;
+    left: 30%;
+    top: 10%;
+    flex-shrink: 0;
+    
+    border-bottom-right-radius: 13px;
+    border-top-right-radius: 13px ;
+    border: 1px solid rgba(73, 69, 69, 0.20);
+    background: #0384BF;
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25) inset;
+
+}
+.search-user{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 15%;
+   // border-radius: 8px;
+   border: 1px solid rgba(73, 69, 69, 0.20);
+//    background: #DEDEDE;
+  //box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
+    background: white;
+    .search-user-img{
+        position: relative;
+        width: 7.5%;
+        top: 10%;
+    }
+    .search-user-default-img{
+        position: relative;
+        width: 15.5%;
+        top: 10%; 
+    }
+    .title{
+        position: relative;
+        width:100%;
+        top:30%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .title-user{
+        position: relative;
+        width:100%;
+        top:0%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .additional-user-info{
+        position: relative;
+        top:0%;
+     
+        width:100%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+    .additional-info{
+        position: relative;
+        top:30%;
+        width:100%;
+        color: #494545;
+        font-family: Poppins;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 100%;
+    }
+}
+table{
+    background-color: green;
+}
+.searchBar{
+    //background-color: yellow;
+    position:fixed;
+    width: 20%;
+    height: 5%;
+    left: 50%;
+    top: 15%;
+
+    border-radius: 13px;
+    border: 1px solid rgba(73, 69, 69, 0.20);
+    background: #DEDEDE;
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
+}
+.search-results{
+    position:fixed;
+    right: 10%;
+    top:25%;
+    width: 41.9%;
+    height: 65%;
+    //background-color: yellow;
+ }
+ .search-item{
+    position: fixed;
+    width: 30%;
+    height: 30%;
+    right: 10%;
+   // background-color: yellow;
+ }
+.filter-panel{
+    width: 30.1%;
+    height: 99.9%;
+    top:0%;
+    flex-shrink: 0;
+    border: 1px solid rgba(73, 69, 69, 0.20);
+    background: whitesmoke;
+   // box-shadow: -1px 0px 20px 3px rgba(0, 0, 0, 0.25) inset;
+
+    .filter-item-1{
+        position: fixed;
+        top: 20%;
+        left: 35%;
+    }
+
+    .filter-item-2{
+        position: fixed;
+        top: 30%;
+        left: 35%;
+    }
+    .filter-item-3{
+        position: fixed;
+        top: 40%;
+        left: 35%;
+    }
+    .filter-item-4{
+        position: fixed;
+        top: 50%;
+        left: 35%;
+    }
+    .filter-item-5{
+        position: fixed;
+        top: 60%;
+        left: 35%;
+    }
+
+    .img-ticket
+    {
+        //background-color: yellow;
+        width: 2.5%;
+        position: fixed;
+        top: 19.7%;
+        left: 32%;
+    }
+    .img-group{
+        //background-color: yellow;
+        width: 2.5%;
+        position: fixed;
+        top: 30%;
+        left: 32%;
+    }
+    .img-user{
+        width: 02.5%;
+        position: fixed;
+        top: 39.5%;
+        left: 32%;
+    }
+    .img-client{
+        width: 02.5%;
+        position: fixed;
+        top: 50%;
+        left: 32%;
+    }
+    .img-project{
+        width: 02.5%;
+        position: fixed;
+        top: 60%;
+        left: 32%;
+    }
+
+    .ticket-checkbox{
+        position: fixed;
+        right:56.5%;
+        top: 21.5%;
+    }
+
+    .groups-checkbox{
+        position: fixed;
+        right:56.5%;
+        top: 31.25%;
+    }
+
+    .users-checkbox{
+        position: fixed;
+        right:56.5%;
+        top: 41.25%;
+    }
+    .client-checkbox{
+        position: fixed;
+        right:56.5%;
+        top: 51.25%;
+    }
+    .project-checkbox{
+        position: fixed;
+        right:56.5%;
+        top: 61.25%;
+    }
+    h2{
+       // background-color: #FFF;
+        color: #494545;
+        font-family: Poppins;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+         /* Styling for the switch container */
+         .switch-container-client {
+            display: inline-block;
+            position: fixed;
+            right: 53%;
+            top: 49.5%;
+            width: 60px;
+            height: 34px;
+        }
+        .switch-container-project {
+            display: inline-block;
+            position: fixed;
+            right: 53%;
+            top: 59.5%;
+            width: 60px;
+            height: 34px;
+        }
+        .switch-container-ticket {
+            display: inline-block;
+            position: fixed;
+            right: 53%;
+            top: 19.5%;
+            width: 60px;
+            height: 34px;
+        }
+        .switch-container-groups {
+            display: inline-block;
+            position: fixed;
+            right: 53%;
+            top: 29.5%;
+            width: 60px;
+            height: 34px;
+        }
+        .switch-container-users {
+            display: inline-block;
+            position: fixed;
+            right: 53%;
+            top: 39.5%;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch-container-client input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-container-groups input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-container-project input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-container-ticket input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-container-users input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(132, 190, 224, 0.81);
+            border-radius: 17px;
+        }
+
+        .switch-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .switch-container-client input[type="checkbox"]:checked + .switch-track .switch-thumb {
+            transform: translateX(26px);
+        }
+        .switch-container-groups input[type="checkbox"]:checked + .switch-track .switch-thumb {
+            transform: translateX(26px);
+        }
+        .switch-container-project input[type="checkbox"]:checked + .switch-track .switch-thumb {
+            transform: translateX(26px);
+        }
+        .switch-container-ticket input[type="checkbox"]:checked + .switch-track .switch-thumb {
+            transform: translateX(26px);
+        }
+        .switch-container-users input[type="checkbox"]:checked + .switch-track .switch-thumb {
+            transform: translateX(26px);
+        }
+        
+}
+

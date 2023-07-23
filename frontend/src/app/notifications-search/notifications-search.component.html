@@ -1,0 +1,110 @@
+<div>
+    <app-page-header></app-page-header>
+</div>
+<div>
+    <app-dash-panel></app-dash-panel>
+</div>
+
+<div class = "panel">
+    <button (click)="onSearch()">Search</button>
+    <input type="text" [(ngModel)]="searchQuery" class = "searchBar">
+    <div class="search-results">
+        <div *ngFor="let users of resultsUsers" class="search-user">
+            <div class="search-user-img">
+                <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
+            </div>
+            <div class="search-user-list-detail">
+                <p class="title-user"><b>{{ users.name }}</b></p>
+                <p class ="additional-user-info"><b>{{ users.roles[0]}}</b> {{ users.emailAddress }}</p> 
+            </div>
+        </div>
+        <div *ngFor="let clients of resultsClients" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/client.png" alt = "client-Icon">
+            </div>
+                <p class ="title"><b>{{clients.organisation}}</b></p>
+                <p class ="additional-info"><b>{{clients.name}}</b> {{clients.email}}</p>
+        </div>
+        <div *ngFor="let clients of resultsClientsName" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/client.png" alt = "client-Icon">
+            </div>
+                <p class ="title"><b>{{clients.organisation}}</b></p>
+                <p class ="additional-info"><b>{{clients.name}}</b> {{clients.email}}</p>
+        </div>
+        <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/tickets.png" alt = "ticket-Icon">
+            </div>
+                <p class = "title"><b>{{tickets.summary}}</b></p>
+                <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
+        </div>
+        <div *ngFor="let tickets of resultsTicketsSummary" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/tickets.png" alt = "ticket-Icon">
+            </div>
+                <p class = "title"><b>{{tickets.summary}}</b></p>
+                <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
+        </div>
+        <div *ngFor="let groups of resultsGroup" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/follower.png" alt = "group-Icon">
+            </div>
+                <p class = "title"><b>{{groups.groupName}}</b></p>
+        </div>
+    </div>
+    <div class = "filter-panel">
+            <div class = "filter-item-1">
+                <img src = "./assets/tickets.png" alt = "Tickets-Icon" class = "img-ticket">
+                <h2> Tickets </h2>
+                <label class="switch-container-ticket">
+                    <input type="checkbox" class = "ticket-checkbox">
+                    <div class="switch-track">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </label>
+            </div>
+            <div>
+            </div>
+            <div class = "filter-item-2">
+                <img src = "./assets/follower.png" alt = "groups-Icon" class = "img-group">
+                <h2> Groups </h2>
+                <label class="switch-container-groups">
+                    <input type="checkbox" class = "groups-checkbox">
+                    <div class="switch-track">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </label>
+            </div>
+            <div class = "filter-item-3">
+                <img src = "./assets/profile-icon.png" alt = "user-Icon" class = "img-user">
+                <h2> Users </h2>
+                <label class="switch-container-users">
+                    <input type="checkbox" class = "users-checkbox">
+                    <div class="switch-track">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </label>
+            </div>
+            <div class = "filter-item-4">
+                <img src = "./assets/client.png" alt = "user-Icon" class = "img-client">
+                <h2> Clients </h2>
+                <label class="switch-container-client">
+                    <input type="checkbox" class = "client-checkbox">
+                    <div class="switch-track">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </label>
+            </div>
+            <div class = "filter-item-5">
+                <img src = "./assets/briefing.png" alt = "user-Icon" class = "img-project">
+                <h2> Projects </h2>
+                <label class="switch-container-project">
+                    <input type="checkbox" class = "project-checkbox">
+                    <div class="switch-track">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </label>
+            </div>
+    </div>
+</div>
