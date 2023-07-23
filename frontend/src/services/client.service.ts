@@ -41,8 +41,12 @@ export class ClientService {
     return this.http.get<client>(`${this.CLIENT_URL}/project?projectName=${projectName}`);
   }
 
-  removeGroupFromProject(clientId: string, projectId: string, groupId: string) {
-    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupId: groupId});
+  getProjectByObjectId(projectId: string) {
+    return this.http.get<any>(`${this.CLIENT_URL}/project/id?projectId=${projectId}`);
+  }
+
+  removeGroupFromProject(clientId: string, projectId: string, groupName: string) {
+    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupName: groupName});
   }
 
   deleteClient(clientId: string) {

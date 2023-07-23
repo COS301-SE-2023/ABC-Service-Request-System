@@ -169,7 +169,7 @@ export class ClientAccountPage3Component implements OnInit{
         (response) => {
           console.log('Response:', response);
           this.createdClient = response.client;
-          this.clientCreated.emit(this.createdClient); //emit the created client to use on page 4
+          this.clientCreated.emit(this.createdClient);
           this.completeClicked.emit();
         },
         (error) => {

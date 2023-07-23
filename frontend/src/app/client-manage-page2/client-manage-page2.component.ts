@@ -121,19 +121,6 @@ export class ClientManagePage2Component implements OnInit{
     this.editClicked.emit({selectedClient, projectToEdit});
   }
 
-  showAssignedGroups(project: project) {
-    this.projectGroups = [];
-    this.selectedProject = project;
-
-    project.assignedGroups?.forEach((group) => {
-      this.projectGroups.push(group);
-    });
-
-    this.allGroups = this.allGroups.filter((group) => group.id);
-
-    this.projectSelected = true;
-  }
-
   addGroup() {
     const selectedGroupName = this.groupControl.value;
     console.log("selected group name", selectedGroupName);

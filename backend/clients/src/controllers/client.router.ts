@@ -64,11 +64,28 @@ router.get('/project', expressAsyncHandler(
     }
 ));
 
+//fetch the project given the project name
+router.get('/project/id', expressAsyncHandler(
+    async (req, res) => {
+        const projectId = req.query.projectId;
+
+        const project = await ClientModel.findOne({
+            "projects._id": projectId
+        });
+
+        if (project) {
+            res.status(200).send({ project: project });
+        } else {
+            res.status(404).send({ message: 'No project found with that projectId' });
+        }
+    }
+));
+
 //remove a group from a project given the project id, group id and client id
 router.put("/remove_group", expressAsyncHandler(
     async (req, res) => {
         const projectId = req.body.projectId;
-        const groupId = req.body.groupId;
+        const groupName = req.body.groupName;
         const clientId = req.body.clientId;
 
         try {
@@ -81,7 +98,7 @@ router.put("/remove_group", expressAsyncHandler(
 
                 if(project){
                     project.assignedGroups = project.assignedGroups?.filter((group) => {
-                        return group.id !== groupId;
+                        return group.groupName !== groupName;
                     });
                     await client.save();
                     res.status(200).send(project);
