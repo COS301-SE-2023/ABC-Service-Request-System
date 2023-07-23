@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { Router } from '@angular/router';
-
+import { user } from '../../../../backend/users/src/models/user.model';
 import { Sort } from '@angular/material/sort';
 import { tick } from '@angular/core/testing';
 import { AuthService } from 'src/services/auth.service';
