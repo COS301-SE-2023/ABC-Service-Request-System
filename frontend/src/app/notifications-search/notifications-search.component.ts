@@ -61,6 +61,17 @@ export class NotificationsSearchComponent implements OnInit {
  }
   onSearch(){
     this.searchPerformed = true;
+    if(this.searchQuery.trim() =='')
+    {
+      this.resultsClients = [];
+      this.resultsClientsName = [];
+      this.resultsGroup = [];
+      this.resultsProjectName = [];
+      this.resultsTicketsAssigned = [];
+      this.resultsTicketsSummary = [];
+      this.resultsUsers = [];
+      return;
+    }
     //Searches the users by name - works
     this.userService.getAllUsers().subscribe((response:user[])=> {
       this.allUsersArray = this.sortUsers(response);

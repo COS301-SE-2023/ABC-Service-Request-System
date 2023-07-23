@@ -7,7 +7,7 @@
 
 <div class = "panel">
     <button (click)="onSearch()">Search</button>
-    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" class = "searchBar">
+    <input type="text" [(ngModel)]="searchQuery" class = "searchBar">
     <div class="search-results">
         <div *ngFor="let users of resultsUsers" class="search-user">
             <div class="search-user-img">
