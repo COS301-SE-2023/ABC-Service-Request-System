@@ -32,17 +32,24 @@ export class NotificationsPanelComponent implements OnInit {
       const user = this.authService.getUser();
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
 
+      // this.creators = [];
+
       // for (let i = 0; i < this.unreadNotificationsArray.length; i++) {
       //   this.authService.getUserNameByEmail(this.unreadNotificationsArray[i].creatorEmail).subscribe((response) => {
+      //     // console.log("Response: ", response);
       //     this.creators.push(response);
       //   });
       // }
+
+      // console.log("Creators: ", this.creators);
 
       // for (let i = 0; i < this.unreadNotificationsArray.length; i++) {
       //   const creatorNames = this.creators[i].name + " " + this.creators[i].surname;
 
       //   this.unreadNotificationsArray[i].creatorEmail = creatorNames;
       // }
+
+      // console.log("Creators 2: ", this.creators);
 
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         // console.log("Unread: ", this.unreadNotificationsArray);

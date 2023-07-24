@@ -133,7 +133,9 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             status: req.body.status,
             createdTime: new Date(),
             project: req.body.project,
-            todo: req.body.todo
+            todo: req.body.todo,
+            assigneeFullName: req.body.assigneeFullName,
+            assignedFullName: req.body.assignedFullName
         });
 
         console.log("new ticket: ", newTicket);

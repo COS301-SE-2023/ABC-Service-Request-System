@@ -32,7 +32,9 @@ export interface ticket{
     timeToTicketResolution?: Date
     project: string,
     todo: string[],
-    todoChecked: boolean[]
+    todoChecked: boolean[],
+    assigneeFullName: string,
+    assignedFullName: string
 }
 
 const attachmentSchema = new Schema<attachment>(
@@ -73,7 +75,9 @@ export const ticketSchema = new Schema<ticket>(
         timeToTicketResolution: {type: Date},
         project: {type: String, required: true},
         todo: {type: [String]},
-        todoChecked: {type: [Boolean]}
+        todoChecked: {type: [Boolean]},
+        assignedFullName: {type: String, required: true},
+        assigneeFullName: {type: String, required: true}
     },{
         toJSON: {
             virtuals: true

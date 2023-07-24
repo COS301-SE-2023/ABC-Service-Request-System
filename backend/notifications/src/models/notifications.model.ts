@@ -11,6 +11,7 @@ export interface notifications {
     notificationTime: Date;
     link: string;
     readStatus: string;
+    creatorFullName: string;
 }
 
 export const notificationsSchema = new Schema<notifications> (
@@ -24,7 +25,8 @@ export const notificationsSchema = new Schema<notifications> (
         ticketStatus: {type: String},
         notificationTime: {type: Date, required: true},
         link: {type: String},
-        readStatus: {type: String, required: true}
+        readStatus: {type: String, required: true},
+        creatorFullName: {type: String, required: true}
     },
     {
         toJSON: {

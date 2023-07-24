@@ -214,10 +214,11 @@ export class GroupsSearchBarComponent implements OnInit {
               const notificationTime = new Date();
               const link = "";
               const readStatus = "Unread";
+              const creatorFullName = currentUser.name + " " + currentUser.surname;
 
               //console.log("About to create notifications");
 
-              await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
+              await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).toPromise();
             }
           }
           // Edwin's Notification Code End ============================
@@ -276,10 +277,11 @@ export class GroupsSearchBarComponent implements OnInit {
           const notificationTime = new Date();
           const link = "";
           const readStatus = "Unread";
+          const creatorFullName = currentUser.name + " " + currentUser.surname;
 
           //console.log("About to create notifications");
 
-          await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
+          await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).toPromise();
           }
         }
         // Edwin's Notification Code End ============================
