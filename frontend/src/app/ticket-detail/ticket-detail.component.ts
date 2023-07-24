@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from "../../../../backend/users/src/models/user.model";
 import { NavbarService } from 'src/services/navbar.service';
 import { NotificationsService } from 'src/services/notifications.service';
+import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -103,7 +104,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
@@ -111,16 +112,31 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if(id) {
-        this.getTicketWithId(id);
+        // this.getTicketWithId(id);
+
+        this.ticketService.getTicketWithID(id).subscribe(
+          (response) => {
+            this.ticket = response;
+            console.log(this.ticket, " ticket");
+            console.log("assignee email: ", response.assignee);
+
+            this.authService.getUserNameByEmail(response.assignee).subscribe(
+              (response) => {
+                this.assigneeUser = response;
+                this.assigneeImage = response.profilePhoto;
+              }
+            )
+          }
+        )
       }
     });
 
     this.getCurrentUserImage();
 
     this.showAll();
-    this.attachmentsOnly = false;
+    // this.attachmentsOnly = false;
 
-    this.todosChanged.length = 0;
+    // this.todosChanged.length = 0;
   }
 
 
@@ -149,7 +165,17 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.getAssigneeUserImage(this.ticket.assignee);
+
+      this.authService.getUserNameByEmail(this.ticket.assignee).subscribe(
+        (respone) => {
+          this.assigneeUser = respone;
+          this.assigneeImage = this.assigneeUser.profilePhoto;
+          console.log("AssigneeImage: ", this.assigneeImage);
+        }
+      )
+
+
+      // this.getAssigneeUserImage(this.ticket.assignee);
 
       for (let i = 0; i < this.ticket.todoChecked.length; i++) {
         this.todosChanged[i] = this.ticket.todoChecked[i];
@@ -258,7 +284,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             console.log(response);
           });
 
-          location.reload();
+          // location.reload();
         },
         (error: any) => {
           console.log('Error uploading file', error);
@@ -301,40 +327,50 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     const commentTime = new Date(); // Here we create commentTime
 
     // Get currently logged in user
-    const currentUser = this.authService.getName();
+    let currentUser!: user;
 
-    // Only proceed with adding the time to first response if the current user is the assigned user
-    if (this.ticket.assigned === currentUser) {
-      this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
-        res => {
-          console.log('Comment added successfully', res);
-          // If comment is successfully added, add the time to first response
-          this.ticketService.addTimeToFirstResponse(this.ticket.id, commentTime).subscribe(
+    this.authService.getUserObject().subscribe(
+      (response) => {
+        currentUser = response;
+
+        // Only proceed with adding the time to first response if the current user is the assigned user
+        console.log("assigned: ", this.ticket.assigned);
+        console.log("current: ", currentUser);
+
+        if (this.ticket.assigned === currentUser.emailAddress) {
+          console.log("should go in here");
+          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
             res => {
-              console.log('First response time added', res);
-              location.reload();
+              console.log('Comment added successfully', res);
+              // If comment is successfully added, add the time to first response
+              this.ticketService.addTimeToFirstResponse(this.ticket.id, commentTime).subscribe(
+                res => {
+                  console.log('First response time added', res);
+                  // location.reload();
+                },
+                err => {
+                  console.log('Error while adding first response time', err);
+                  // location.reload();
+                }
+              );
             },
             err => {
-              console.log('Error while adding first response time', err);
-              location.reload();
+              console.log('Error while adding comment', err);
             }
           );
-        },
-        err => {
-          console.log('Error while adding comment', err);
+        } else {
+          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+            res => {
+              console.log('Comment added successfully', res);
+              // location.reload();
+            },
+            err => {
+              console.log('Error while adding comment', err);
+            }
+          );
         }
-      );
-    } else {
-      this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
-        res => {
-          console.log('Comment added successfully', res);
-          location.reload();
-        },
-        err => {
-          console.log('Error while adding comment', err);
-        }
-      );
-    }
+      }, (error) => { console.log("error fetching current user ")}
+    );
   }
 
 
@@ -350,10 +386,17 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   async getAssigneeUserImage(email: string) {
     try {
-      const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
-      this.assigneeUser = response;
-      this.assigneeImage = this.assigneeUser.profilePhoto;
+      // const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
+      // this.assigneeUser = response;
+      // this.assigneeImage = this.assigneeUser.profilePhoto;
       // console.log("AssigneeImage: ", this.assigneeImage);
+      this.authService.getUserNameByEmail(email).subscribe(
+        (respone) => {
+          this.assigneeUser = respone;
+          this.assigneeImage = this.assigneeUser.profilePhoto;
+          console.log("AssigneeImage: ", this.assigneeImage);
+        }
+      )
     } catch (error) {
       console.error('Error fetching assignee user image:', error);
     }
