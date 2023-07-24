@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';  // Modify the path b
 import { NavbarService } from 'src/services/navbar.service';
 import { TicketsService } from 'src/services/ticket.service';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

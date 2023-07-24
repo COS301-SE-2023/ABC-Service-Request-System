@@ -1,115 +1,181 @@
-<div class = "header">
-    <app-page-header></app-page-header>
-</div>
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<app-page-header></app-page-header>
 
-<div class="panel">
-    <app-dash-panel></app-dash-panel>
-</div>
+<div class="settings-container">
 
-<div class ="profile">
-    <div class="background_img">
-        <label for="fileInput" class="file-input-label">
-            <input type="file" id="fileInput" class="file-input" (change)="onFileChanged($event)" />
-            <!-- <img src = "{{getUsersBackgroundPicture()}}" class = background_img alt = "background-piture"> -->
-          </label>
-          <img src="./assets/Draven_2.jpg" alt="background_img" class="b_img">
+  <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader>
+  <div class = "profile-header">
+    <button class="profile-header-btn" (click)="headerFileUploader.click()">
+      <div class = "edit-icon">
+        <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
+      </div>
+      <img *ngIf = "this.currentUser" class = "profile-header-img" src = "{{currentUser.headerPhoto}}" alt = "profile-header">
+    </button>
+  </div>
+
+  <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
+
+  <button class="profile-picture" (click)="fileUploader.click()">
+    <img  *ngIf = "this.currentUser" class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
+    <!-- <div class="edit-icon">
+      <img class="edit-icon-img" src="../../assets/pen.png" alt="edit-icon">
+    </div> -->
+  </button>
+
+  <!-- <div class="save-btn-container">
+    <button class="save-btn">Edit profile</button>
+  </div> -->
+
+  <div class="user-details">
+    <div class="name-surname">
+      <div  *ngIf = "this.currentUser" class="name">{{currentUser.name}}</div>
+      <div  *ngIf = "this.currentUser" class="surname">{{currentUser.surname}}</div>
     </div>
-    <div class="profile-picture">
-        <label for="fileInput" class="profilePicture-input">
-            <input type="file" id="profilePicture" class="profile-input" (change)="onFileChanged($event)">
-            <img src="{{ getUsersProfilePicture() }}" class="profile-picture" alt="profile-picture">
-        </label>
-        <!-- <img src="{{ getUsersProfilePicture() }}" alt="profile-picture"> -->
+    <div class="save-profile-btn-container" *ngIf="profileChanged">
+      <button class="save-profile-btn" (click)="saveProfile()">Save profile</button>
     </div>
-    <div class="labels">
-        <div class="name-surname">
-            <label for="name" class ="labelName">{{getUserName()}}</label>
-            <label for="surname" class = "labelSurname">{{getUserSurname()}}</label>
-        </div>
-        <div class="email">
-            <label for="email" class="labelEmail">{{getUserEmail()}}</label>
-        </div>
+    <div class="email">
+      <img src="../../assets/email.png" alt="mail-icon">
+      <span  *ngIf = "this.currentUser"> {{currentUser.emailAddress}}</span>
     </div>
+    <div class="location">
+      <img src="../../assets/pin.png" alt="location-icon">
+      <span  *ngIf = "this.currentUser" >{{currentUser.roles}}</span>
+    </div>
+  </div>
+
+
+
+  <div class="bio">
+    <p class="bio-text">Bio</p>
     <form>
-        <div class="form-group">
-                <label for="name">Location</label>
-                <input type="text" id="name" name="name" *ngIf="!editingLocation"
-                      [(ngModel)]="editedLocation"
-                      (keydown)="onFieldChange()">
-                <img src="./assets/pencil.png" alt="pencil">
+      <input class = "input-bio" [(ngModel)]="userBio" [readonly]="!bioEditable" placeholder="" name="userBio">
+
+    </form>
+    <div class="edit-icon-container-2">
+      <img class="edit-icon-img-2"
+        src="../../assets/pencil.png"
+        alt="edit-icon"
+        tabindex="0"
+        (click)="makeBioEditable()">
+    </div>
+    <!-- <button (click)="saveProfile()">Save</button> -->
+  </div>
+
+
+
+
+  <div class = "bio-line-one">
+    <img class = "bio-line-1" src = "../../assets/line5.png" alt = "line">
+  </div>
+
+  <div class = "analytics">
+    <p class = "analytics-text">Analytics</p>
+  </div>
+
+  <div class = "grid-container">
+    <div class="grid-item grid-item-6">
+      <h2>Time to First Response</h2>
+      <div class="graph-and-average-container">
+        <div class="average-container">
+          <h3>AVERAGE</h3>
+          <p class="average">20</p>
+          <p class="average-unit">MINUTES</p>
+          <div class="graph-badge-green">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <p id="imp">20.1%</p>
+          </div>
         </div>
-        <div class= "form-group">
-            <label for="bio">Bio:</label>
-            <input type="text" id="bio" name="bio" *ngIf="!editingBio"
-                  [(ngModel)]="editedBio"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
+        <div class="line-chart-container">
+          <canvas #lineChart class="line-chart"></canvas>
         </div>
-        <!-- <h3>Socials</h3> -->
-        <div class= "form-group">
-            <label for="facebook">Facebook</label>
-            <input type="text" id="facebook" name="facebook" *ngIf="!editingFB"
-                  [(ngModel)]="editedFB"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
+      </div>
+    </div>
+    <!-- Participation -->
+    <div class="grid-item grid-item-7">
+      <h2>Time to Ticket Resolution</h2>
+      <div class="graph-and-average-container">
+        <div class="average-container">
+          <h3>AVERAGE</h3>
+          <div class="average-time">
+            <p class="average-hours">17</p>
+            <p class="average-minutes">38</p>
+          </div>
+          <div class="average-units">
+            <p class="average-unit hour-unit">HOURS</p>
+            <p class="average-unit minute-unit">MINUTES</p>
+          </div>
+          <div class="graph-badge-red">
+            <i class="fa-solid fa-arrow-trend-down"></i>
+            <p id="imp">11.91%</p>
+          </div>
+        </div>
+        <div class="line-chart-container">
+          <canvas #timeToTicketResolutionChart class="line-chart"></canvas>
         </div>
 
-        <div class= "form-group">
-            <label for="github">Github</label>
-            <input type="text" id="gh-link" name="gh-link" *ngIf="!editingGH"
-                  [(ngModel)]="editedGH"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
+      </div>
+    </div>
+  </div>
+
+  <div class = "view-report-container">
+    <div class="view-detailed-report">
+      <a href = ""  class = "view-detailed-report-text">View detailed report</a>
+    </div>
+  </div>
+
+
+  <div class = "bio-line-two">
+    <img class = "bio-line-2" src = "../../assets/line5.png" alt = "line">
+  </div>
+
+  <div class="socials">
+    <p class="socials-text">Socials</p>
+    <div class="edit-icon-container-3">
+      <img class="edit-icon-img-3"
+        src="../../assets/pencil.png"
+        alt="edit-icon"
+        tabindex="0"
+        (click)="makeSocialsEditable()">
+    </div>
+    <div class="socials-container">
+      <div class="column">
+        <div class="social-card">
+          <img class="social-icon" src="../../assets/github.png" alt="icon">
+          <input class="social-input-github" [(ngModel)]="githubLink" [readonly]="!socialsEditable" placeholder="" name="githubLink">
+          <a [href]="githubLink" target="_blank" class="social-link">Go</a>
         </div>
-
-        <div class= "form-group-1">
-            <label for="linkedin">Linkedin</label>
-            <input type="text" id="li-link" name="li-link" *ngIf="!editingLI"
-                  [(ngModel)]="editedLI"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
+      </div>
+      <div class="column">
+        <div class="social-card">
+          <img class="social-icon" src="../../assets/linkedin.png" alt="icon">
+          <input class="social-input-linkedin" [(ngModel)]="linkedinLink" [readonly]="!socialsEditable" placeholder="" name="linkedinLink">
+          <a [href]="linkedinLink" target="_blank" class="social-link">Go</a>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class= "form-group-2">
-            <label for="instagram">Instagram</label>
-            <input type="text" id="ig-link" name="ig-link" *ngIf="!editingIG"
-                  [(ngModel)]="editedIG"
-                  (keydown)="onFieldChange()">
-            <img src="./assets/pencil.png" alt="pencil">
-        </div>
-        <div class="notifications-div">
-            <label for="notifications" class="notifications-label"><u>Notifications</u></label>
-            <div>
-                <label for="notification" class="notifications-label">Ticket Creation</label>
-                <div class="notifications-switch">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="notifications-item">
-                <label for="notification" class="notifications-label">Ticket Comments</label>
-                <div class="notifications-switch">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="notifications-item">
-                <label for="notification" class="notifications-label">Added to Group</label>
-                <div class="notifications-switch">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-         </div>
+  <div class = "bio-line-three">
+    <img class = "bio-line-3" src = "../../assets/line5.png" alt = "line">
+  </div>
 
-        <button [disabled]="!isDirty" (click)="saveChanges()" class="save-profile">Save</button>
-</form>
+  <div class = "groups">
+    <p class="groups-text">Groups</p>
+    <div class="bubble-container">
+      <div class="group-row">
+        <app-group-tablet *ngFor="let group of groups" [group]="group"></app-group-tablet>
+      </div>
+    </div>
+  </div>
 
+  <div class = "bio-line-four">
+    <img class = "bio-line-4" src = "../../assets/line5.png" alt = "line">
+  </div>
+
+  <div class = "notification-settings">
+    <p class="notifications-text">Notification Settings</p>
+  </div>
 </div>
 
+<app-dash-panel></app-dash-panel>

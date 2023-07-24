@@ -5,14 +5,13 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment } from '../../../../backend/src/models/ticket.model';
+import { ticket, attachment, comment } from "../../../../backend/tickets/src/models/ticket.model";
 import { FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { NavbarService } from 'src/services/navbar.service';
-import { comment } from '../../../../backend/src/models/ticket.model';
-
+import { NotificationsService } from 'src/services/notifications.service';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -28,6 +27,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private authService: AuthService,
     private _snackBar: MatSnackBar,
+    private notificationsService: NotificationsService,
     private navbarService: NavbarService) { }
 
   ticket!: ticket;
@@ -53,6 +53,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   allComments = false;
 
   userId !: string;
+
+  assigneeUser!: user;
+  assigneeImage!: string;
+
+  checkChanges = false;
+
+  todosChanged: boolean[] = [];
 
 
   onFileChange(event: any) {
@@ -96,7 +103,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to match the content
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
@@ -109,8 +116,11 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentUserImage();
+
     this.showAll();
     this.attachmentsOnly = false;
+
+    this.todosChanged.length = 0;
   }
 
 
@@ -139,6 +149,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           }
         }
       }
+      this.getAssigneeUserImage(this.ticket.assignee);
+
+      for (let i = 0; i < this.ticket.todoChecked.length; i++) {
+        this.todosChanged[i] = this.ticket.todoChecked[i];
+      }
+
+      // console.log("todosChanged: ", this.todosChanged);
     });
   }
 
@@ -163,6 +180,23 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           };
           // Add the comment and the first response time
           this.addComment(newComment, attachmentData);
+
+          // Edwin's Notifications
+          const currentUser = this.authService.getUser();
+
+          const profilePhotoLink = currentUser.profilePhoto;
+          const notificationMessage = " uploaded and commented on a ticket";
+          const creatorEmail = currentUser.emailAddress;
+          const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+          const ticketSummary = "On Ticket: " + this.ticket.summary;
+          const ticketStatus = this.ticket.status;
+          const notificationTime = new Date();
+          const link = this.ticket.id;
+          const readStatus = "Unread";
+
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+            console.log(response);
+          });
         },
         (error: any) => {
           console.log('Error uploading file', error);
@@ -175,6 +209,24 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       };
       // Add the comment and the first response time
       this.addComment(newComment, emptyAttachment);
+
+      // Edwin's Notifications
+      const currentUser = this.authService.getUser();
+
+      const profilePhotoLink = currentUser.profilePhoto;
+      const notificationMessage = " commented on a ticket";
+      const creatorEmail = currentUser.emailAddress;
+      const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+      const ticketSummary = "On Ticket: " + this.ticket.summary;
+      const ticketStatus = this.ticket.status;
+      const notificationTime = new Date();
+      const link = this.ticket.id;
+      const readStatus = "Unread";
+
+      this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+        console.log(response);
+      });
+
     } else if (this.file) {
       this.ticketService.uploadFile(this.file).subscribe(
         (result: any) => {
@@ -185,6 +237,24 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           };
           // Add the comment and the first response time
           this.addComment('', attachmentData);
+
+          // Edwin's Notifications
+          const currentUser = this.authService.getUser();
+
+          const profilePhotoLink = currentUser.profilePhoto;
+          const notificationMessage = " uploaded a document on a ticket";
+          const creatorEmail = currentUser.emailAddress;
+          const assignedEmail = this.ticket.assignee; // will eventually have to change assignee to email or an object. This is incomplete for now
+          const ticketSummary = "On Ticket: " + this.ticket.summary;
+          const ticketStatus = this.ticket.status;
+          const notificationTime = new Date();
+          const link = this.ticket.id;
+          const readStatus = "Unread";
+
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+            console.log(response);
+          });
+
           location.reload();
         },
         (error: any) => {
@@ -243,6 +313,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             },
             err => {
               console.log('Error while adding first response time', err);
+              location.reload();
             }
           );
         },
@@ -264,9 +335,49 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
 
+  // Edwin's Code
+  todoEmpty() {
+    if (this.ticket.todo.length === 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
+  async getAssigneeUserImage(email: string) {
+    try {
+      const response: user = await this.authService.getUserNameByEmail(email).toPromise() as user;
+      this.assigneeUser = response;
+      this.assigneeImage = this.assigneeUser.profilePhoto;
+      // console.log("AssigneeImage: ", this.assigneeImage);
+    } catch (error) {
+      console.error('Error fetching assignee user image:', error);
+    }
+  }
 
+  async saveTodos() {
+    this.checkChanges = false;
 
+    console.log("todosChanged: ", this.todosChanged);
+
+    try {
+      const response = await this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).toPromise();
+      console.log(response);
+
+      location.reload();
+    } catch (error) {
+      console.error(error);
+
+      location.reload();
+    }
+  }
+
+  onCheckChanged(i: number) {
+    this.checkChanges = true;
+
+    this.todosChanged[i] = !this.todosChanged[i];
+  }
 
 
   isPDF(url: string): boolean {
@@ -301,8 +412,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   displayedComments?: comment[] = [];
   showAll(): void {
-    this.displayedComments = this.ticket.comments;
-    console.log(this.displayedComments);
+    if(this.ticket && this.ticket.comments){
+      this.displayedComments = this.ticket.comments;
+      console.log(this.displayedComments);
+    }
   }
 
   showAttachmentsOnly(): void {

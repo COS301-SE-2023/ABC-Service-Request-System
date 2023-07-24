@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { group } from '../../../../backend/src/models/group.model'
+import { group } from '../../../../backend/groups/src/models/group.model';
 
 @Component({
   selector: 'app-group-tablet',

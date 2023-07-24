@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { UserModel, user } from  '../../../../backend/src/models/user.model'
+import { user } from "../../../../backend/users/src/models/user.model";
 import { GroupService } from '../../services/group.service';
 import { UserService } from 'src/services/user.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { group } from '../../../../backend/src/models/group.model'
+import { group } from '../../../../backend/groups/src/models/group.model';
 
 @Component({
   selector: 'app-teams-page',
@@ -60,22 +60,19 @@ export class TeamsPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    let i = 1;
-    const user = this.authService.getUser();
-    if (user) {
-      user.groups.forEach(groupId => {
-        this.groupService.getGroupById(groupId).subscribe(group => {
-          this.groups.push(group);
-          if (i == 1) {
-            // this.selectedGroup = group;
-            this.selectGroup(group)
-            i++;
-          }
-        });
-      });
+    if (this.authService.isManager() || this.authService.isAdmin()) {
+      this.groupService.getGroups().subscribe(
+        (response) => {
+          this.groups = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } else {
-      this.authService.getUserObject().subscribe(user => {
+      let i = 1;
+      const user = this.authService.getUser();
+      if (user) {
         user.groups.forEach(groupId => {
           this.groupService.getGroupById(groupId).subscribe(group => {
             this.groups.push(group);
@@ -86,20 +83,21 @@ export class TeamsPageComponent implements OnInit{
             }
           });
         });
-      });
+      } else {
+        this.authService.getUserObject().subscribe(user => {
+          user.groups.forEach(groupId => {
+            this.groupService.getGroupById(groupId).subscribe(group => {
+              this.groups.push(group);
+              if (i == 1) {
+                // this.selectedGroup = group;
+                this.selectGroup(group)
+                i++;
+              }
+            });
+          });
+        });
+      }
     }
-
-    if (this.authService.isManager() || this.authService.isAdmin()) {
-      this.groupService.getGroups().subscribe(
-        (response) => {
-          this.groups = response;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-
   }
 
 

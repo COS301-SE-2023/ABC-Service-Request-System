@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/services/user.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from '../../../../backend/users/src/models/user.model';
 import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
 import { ClientService } from 'src/services/client.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
-import { group } from '../../../../backend/src/models/group.model';
-import { client, project } from '../../../../backend/src/models/client.model';
+import { ticket } from '../../../../backend/tickets/src/models/ticket.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
 
 @Component({
   selector: 'app-notifications-search',

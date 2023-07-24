@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotificationsService } from 'src/services/notifications.service';
-import { notifications } from '../../../../backend/src/models/notifications.model';
-import { user } from '../../../../backend/src/models/user.model';
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
@@ -18,15 +18,19 @@ export class NotificationsPanelComponent implements OnInit {
   unreadNotificationsArray: notifications[] = [];
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
+  notification!: notifications;
+  creatorName!: string;
 
   activeTab: "unread" | "read" = "unread";
 
   @Input() notifications: notifications[] = [];
 
+
   getUnreadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread');
+      const user = this.authService.getUser();
+      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         // console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -37,7 +41,8 @@ export class NotificationsPanelComponent implements OnInit {
   getReadNotifications() {
     this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
       this.allNotificationsArray = response;
-      this.readNotificationsArray = this.allNotificationsArray.filter(notification => notification.readStatus === 'Read');
+      const user = this.authService.getUser();
+      this.readNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Read' && notifications.assignedEmail === user.emailAddress);
       this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
         // console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -66,42 +71,63 @@ export class NotificationsPanelComponent implements OnInit {
     if (this.activeTab === "unread") {
       this.getUnreadNotifications();
     }
-    
+
     if (this.activeTab === "read") {
       this.getReadNotifications();
     }
   }
 
-  handleKeyup(event: KeyboardEvent, link: string) {
-    if (event.key === 'Enter') {
-      this.navigateToTicket(link);
+  // handleKeyup(event: KeyboardEvent, link: string, notificationsId: string) {
+  //   if (event.key === 'Enter') {
+  //     this.navigate(link, notificationsId);
+  //   }
+  // }
+
+  updateReadStatusNotifications(id: string, notificationsId: string) {
+    this.notificationsService.changeNotificationToRead(id, notificationsId).subscribe((response: any) => {
+      console.log("Read Status Changed")
+    })
+  }
+
+  async navigate(id: string, notificationsId: string) {
+    try {
+      // Update the notification so that it is read
+      this.notification = await this.notificationsService.getNotificationById(notificationsId).toPromise() as notifications;
+      console.log("this.notification: ", this.notification);
+
+      if (this.notification.notificationMessage === " assigned an issue to you") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else if (this.notification.notificationMessage === " assigned you to a group") {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/teams`);
+      } else if (
+        this.notification.notificationMessage === " uploaded a document on a ticket" ||
+        this.notification.notificationMessage === " commented on a ticket" ||
+        this.notification.notificationMessage === " uploaded and commented on a ticket"
+      ) {
+        await this.updateReadStatusNotifications(id, notificationsId);
+        await location.replace(`/ticket/${id}`);
+      } else {
+        // Handle other cases if needed.
+      }
+    } catch (error) {
+      console.error("Failed to get notification or update read status:", error);
+      // Handle error if needed.
     }
   }
 
-  updateReadStatusNotifications(id: string) {
-    this.notificationsService.changeNotificationToRead(id).subscribe((response: any) => {
-      console.log("");
-    });
-  }
-  
-  navigateToTicket(id: string) {
-    this.router.navigate([`/ticket/${id}`]);
-    location.replace(`/ticket/${id}`);
-
-    // update the notification so that it is read
-    this.updateReadStatusNotifications(id);
-  }
 
   getNotificationTime(notification: notifications): string {
     const notificationTime = new Date(notification.notificationTime);
     const currentTime = new Date();
     const timeDifference = currentTime.getTime() - notificationTime.getTime();
-  
+
     // Convert the time difference to minutes, hours, days, etc.
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  
+
     if (days > 0) {
       return `${days} day${days > 1 ? 's' : ''} ago`;
     } else if (hours > 0) {
@@ -111,14 +137,14 @@ export class NotificationsPanelComponent implements OnInit {
     } else {
       return 'Just now';
     }
-  }  
+  }
 
-  getCreatorName(emailAddress: string) {
+  getCreatorName(emailAddress: string) : string {
     const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
-      const name = response.name;
-      console.log("Name: ", name);
-      return name;
+      this.creatorName = response.name;
+      console.log("Name: ", this.creatorName);
     });
-    
+
+    return this.creatorName;
   }
 }

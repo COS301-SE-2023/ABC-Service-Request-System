@@ -1,3 +1,8 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .app-container {
   display: flex;
   width: 82%;
@@ -59,6 +64,8 @@
   grid-auto-rows: minmax(100px, auto);
   grid-gap: 20px;
   padding: 20px;
+
+  animation: fadeIn 2s;
 }
 
 

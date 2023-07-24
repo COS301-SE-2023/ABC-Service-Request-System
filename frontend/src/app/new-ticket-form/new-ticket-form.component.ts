@@ -1,16 +1,18 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TicketsService } from 'src/services/ticket.service';
 import { NotificationsService } from 'src/services/notifications.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
-import { notifications } from '../../../../backend/src/models/notifications.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
+import { notifications } from "../../../../backend/notifications/src/models/notifications.model";
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { UserService } from 'src/services/user.service';
 import { NavbarService } from 'src/services/navbar.service';
-import { group } from '../../../../backend/src/models/group.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
 import{ GroupService } from 'src/services/group.service';
+import { client, project } from '../../../../backend/clients/src/models/client.model';
+import { ClientService } from 'src/services/client.service';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -19,13 +21,28 @@ import{ GroupService } from 'src/services/group.service';
 export class NewTicketFormComponent implements OnInit {
   ticketForm!: FormGroup;
   assigneeName: string;
+  assignee!: user;
   navbarIsCollapsed!: boolean;
   allUsers: user[] = [];
   allGroups: group[] = [];
+  allProjects: project[] = [];
   assignedUser!: user;
+  todoAdded = false;
+  isAddTodoOverlayOpened = false;
+  todo: FormControl = new FormControl();
+  todoArray: string[] = [];
+  todoChecked: boolean[] = [];
 
-  constructor(private ticketService: TicketsService, private notificationsService: NotificationsService, private authService: AuthService,
-    private userService: UserService, private formBuilder: FormBuilder, private router: Router, private groupService: GroupService, private navbarService: NavbarService) {
+  constructor(
+    private ticketService: TicketsService,
+    private notificationsService: NotificationsService,
+    private authService: AuthService,
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private groupService: GroupService,
+    private navbarService: NavbarService,
+    private clientService: ClientService) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -37,6 +54,8 @@ export class NewTicketFormComponent implements OnInit {
       endDate: '',
       status: '',
       comments: '',
+      project: '',
+      todo: ''
     });
 
     this.assigneeName = '';
@@ -48,34 +67,84 @@ export class NewTicketFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssigneeName();
-    this.getAllAssignable();
 
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
 
-    this.groupService.getGroups().subscribe((response: group[]) => {
-      this.allGroups = response;
-    });
+    // this.groupService.getGroups().subscribe((response: group[]) => {
+    //   this.allGroups = response;
+    // });
+
+    this.clientService.getAllClients().subscribe(
+      (response) => {
+        response.forEach((client) => {
+          client.projects.forEach((project) => {
+            if(!this.allProjects.includes(project))
+              this.allProjects.push(project);
+
+              if(this.allProjects.length > 0) {
+                this.ticketForm.get('project')?.setValue(this.allProjects[0].name);
+                if(this.allProjects[0].assignedGroups){
+                  this.allGroups = this.allProjects[0].assignedGroups;
+                  this.getAllAssignable(this.allGroups);
+                }
+              }
+          })
+        })
+      }, (error) => {
+        console.log("Error fetching all clients", error);
+      }
+    );
+
+    this.todoArray.length = 0;
+    this.todoChecked.length = 0;
+  }
+
+  onGroupChanged(event: Event) {
+    const groupSelectedId = (event.target as HTMLSelectElement).value;
+    console.log('group selected id: ', groupSelectedId);
   }
 
   getAssigneeName() {
     this.assigneeName = this.authService.getName();
+    this.assignee = this.authService.getUser();
 
     console.log("Assignee Name: ", this.assigneeName);
 
     return this.assigneeName;
   }
 
-  getAllAssignable() {
+  getAllAssignable(selectedTodos: group[]) {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
-      this.allUsers = response;
+      this.allUsers = response.filter((user) => {
+        return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
+      });
       console.log("All Users: ", this.allUsers);
       return this.allUsers;
     });
   }
 
+  projectChanged(event: Event){
+    const selectedProjectName = (event.target as HTMLSelectElement).value;
+    const selectedProject = this.allProjects.find((project) => project.name === selectedProjectName);
+    if (selectedProject) {
+      console.log('Selected Project:', selectedProject);
+
+      if(selectedProject.assignedGroups)
+        this.allGroups = selectedProject.assignedGroups;
+
+      this.getAllAssignable(this.allGroups);
+    } else {
+      console.log('Project not found:', selectedProjectName);
+    }
+  }
+
   onSubmit() {
+
+    this.ticketForm.get('assignee')?.setValue(this.assigneeName);
+
+    console.log(this.ticketForm, ' form');
 
     if (this.ticketForm.valid) {
 
@@ -85,23 +154,34 @@ export class NewTicketFormComponent implements OnInit {
       const trimmedDescription = this.stripPTags(ticketFormValues.description);
 
       const summary = ticketFormValues.summary;
-      const assignee = this.authService.getName();
-      const assigned = ticketFormValues.assigned.name;
+      const assignee = this.assignee.emailAddress;
+      const assigned = this.assignedUser.emailAddress;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
-      const startDate = this.formatDate(ticketFormValues.startDate);
+
+      // get Current Date in String Format
+      const currentDate = new Date();
+
+      const startDate = this.formatDate(this.stringFormatDate(currentDate));
       const endDate = this.formatDate(ticketFormValues.endDate);
-      const status = ticketFormValues.status;
+      const status = "Pending";
       const comments = ticketFormValues.comments;
-     // const description = trimmedDescription;
-      const description = ticketFormValues.description;
+      const description = trimmedDescription;
+      // const description = ticketFormValues.description;
+      const project = ticketFormValues.project;
+
+      for (let i = 0; i < this.todoArray.length; i++) {
+        this.todoChecked.push(false);
+      }
+
+
       let groupName = "";
 
       this.groupService.getGroupById(group).subscribe((response: group) => {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -119,8 +199,8 @@ export class NewTicketFormComponent implements OnInit {
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
         const creatorEmail = assigneeUser.emailAddress;
-        const assignedEmail = this.assignedUser.name;
-        const ticketSummary = summary;
+        const assignedEmail = this.assignedUser.emailAddress;
+        const ticketSummary = "Ticket: " + summary;
         const ticketStatus = "Pending";
         const notificationTime = new Date();
         const link = newTicketId;
@@ -151,6 +231,9 @@ export class NewTicketFormComponent implements OnInit {
         comments: comments,
         description: description,
         createdAt: new Date(),
+        project: project,
+        todo: this.todoArray,
+        todoChecked: this.todoChecked
       };
 
       this.newTicketEvent.emit(newTicket);
@@ -183,41 +266,133 @@ export class NewTicketFormComponent implements OnInit {
     return formattedDate;
   }
 
-  handleKeyDown(event: any) {
-    if (event.key === 'Enter') {
-      const textBox = event.target as HTMLDivElement;
-      const selection = window.getSelection();
+  private stringFormatDate(date: Date): string {
+    let month = '' + (date.getMonth() + 1);
+    let day = '' + date.getDate();
+    const year = date.getFullYear();
 
-      if (!selection) {
-        return;
-      }
+    if (month.length < 2) {
+      month = '0' + month;
+    }
 
-      const range = selection.getRangeAt(0);
-      const listItem = document.createElement('li');
-      const textNode = document.createTextNode('\u00A0'); // Non-breaking space
+    if ( day.length < 2) {
+      day = '0' + day;
+    }
 
-      event.preventDefault();
+    return [year, month, day].join('-');
+  }
 
-      range.deleteContents();
-      listItem.appendChild(textNode);
-      range.insertNode(listItem);
-      range.setStart(listItem, 0);
-      range.setEnd(listItem, 0);
+  @ViewChild('textBox') textBox!: ElementRef<HTMLTextAreaElement>;
 
-      selection.removeAllRanges();
-      selection.addRange(range);
+  // handleKeyDown(event: any) {
+  //   if (event.key === 'Enter') {
+  //     event.preventDefault();
 
-      textBox.focus();
+  //     const textBox = this.textBox.nativeElement;
+  //     const selection = window.getSelection();
+
+  //     if (!selection) {
+  //       return;
+  //     }
+
+  //     const range = selection.getRangeAt(0);
+  //     const listItem = document.createElement('li');
+  //     listItem.textContent = '\u00A0'; // Non-breaking space
+
+  //     range.deleteContents();
+  //     range.insertNode(listItem);
+  //     range.setStart(listItem, 0);
+  //     range.setEnd(listItem, 0);
+
+  //     selection.removeAllRanges();
+  //     selection.addRange(range);
+  //   }
+  // }
+
+  // handleInput(event: any) {
+  //   const textBox = this.textBox.nativeElement;
+  //   const selection = window.getSelection();
+  //   const lines = textBox.innerText.split('\n');
+
+  //   const bullet = "\u2022";
+  //   const bulletSpace = `${bullet} `;
+  //   const bulletLength = bulletSpace.length;
+
+  //   const currentLine = lines[selection?.focusOffset || 0];
+  //   const bulletIndex = currentLine.indexOf(bulletSpace);
+
+  //   let htmlContent = '';
+  //   for (const line of lines) {
+  //     htmlContent += `<li>${line}</li>`;
+  //   }
+
+  //   textBox.innerHTML = htmlContent !== '' ? `<ul>${htmlContent}</ul>` : '';
+
+  //   if (textBox.type !== 'textarea' && textBox.getAttribute('contenteditable') === 'true') {
+  //     textBox.focus();
+  //     selection?.selectAllChildren(textBox);
+
+  //     // Adjust cursor position to accommodate bullet points
+  //     const range = selection?.getRangeAt(0);
+  //     if (range && range.startContainer.nodeName === 'LI') {
+  //       const offset = range.startOffset;
+  //       range.setStart(range.startContainer.firstChild!, bulletIndex + bulletLength + offset); // Move cursor after the bullet point
+  //     }
+
+  //     selection?.collapseToEnd();
+  //   } else {
+  //     // Place cursor at the end of text areas and input elements
+  //     textBox.focus();
+  //     textBox.select();
+  //     selection?.collapseToEnd();
+  //   }
+  // }
+
+  toggleAddTodoOverlay(){
+    this.isAddTodoOverlayOpened = !this.isAddTodoOverlayOpened;
+  }
+
+  addTodo() {
+    this.todoArray.push(this.todo.value);
+    console.log("Todo Value: ", this.todo.value);
+    console.log("Todo Array: ", this.todoArray);
+    this.todo.reset();
+    this.toggleAddTodoOverlay();
+
+    if (this.todoArray.length > 0) {
+      this.todoAdded = true;
     }
   }
 
-  handleInput(event: any) {
-    const textBox = event.target as HTMLDivElement;
-    const lines = textBox.innerText.split('\n').filter(line => line.trim() !== '');
+  editTodoTab(event: MouseEvent, index: number): void {
+    console.log("");
+  }
 
-    const listItems = lines.map(line => `<li>${line}</li>`).join('');
-    textBox.innerHTML = listItems !== '' ? `<ul>${listItems}</ul>` : '';
-    textBox.normalize(); // Normalize the HTML structure to remove any nested elements
+  removeTodoTab(event: MouseEvent, index: number): void {
+    const targetElement = event.target as HTMLElement;
+    const todoTabElement = targetElement.closest('.todo-tab');
+    if (todoTabElement) {
+      const todoNameElement = todoTabElement.querySelector('p');
+      if (todoNameElement) {
+        const todoName = todoNameElement.textContent;
+        if (todoName) {
+          const selectedTodoIndex = this.todoArray.findIndex(todo => todo === todoName);
+          if (selectedTodoIndex !== -1) {
+            this.todoArray.splice(selectedTodoIndex, 1);
+          }
+        }
+      }
+      todoTabElement.remove();
+
+    }
+
+    if(this.todoArray.length == 0) {
+      this.todoAdded = false;
+    }
+  }
+
+  handleKeyupEvent(event: KeyboardEvent): void {
+    console.log("");
   }
 
   onAssignedChange() {
@@ -231,6 +406,11 @@ export class NewTicketFormComponent implements OnInit {
 
   stripPTags(content: string): string {
     return content.replace(/<\/?p>/g, '');
+  }
+
+  getUsersProfilePicture() {
+    const user = this.authService.getUser();
+    return user.profilePhoto;
   }
 
  /* ticketForm = this.fb.group({

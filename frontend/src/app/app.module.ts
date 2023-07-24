@@ -75,11 +75,6 @@ import { QuillModule } from 'ngx-quill'
 import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.component';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
-import { SearchItemComponent } from './search-item/search-item.component';
-import { SearchItemUserComponent } from './search-item-user/search-item-user.component';
-import { SearchItemClientComponent } from './search-item-client/search-item-client.component';
-import { SearchItemGroupComponent } from './search-item-group/search-item-group.component';
-import { SearchItemProjectComponent } from './search-item-project/search-item-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -120,11 +115,6 @@ import { SearchItemProjectComponent } from './search-item-project/search-item-pr
     ProfileOverlayComponent,
     ViewProfileComponent,
     NotificationsSearchComponent,
-    SearchItemComponent,
-    SearchItemUserComponent,
-    SearchItemClientComponent,
-    SearchItemGroupComponent,
-    SearchItemProjectComponent,
   ],
   imports: [
     BrowserModule,

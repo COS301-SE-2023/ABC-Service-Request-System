@@ -1,14 +1,20 @@
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { client, project } from "../../../backend/src/models/client.model";
-import { group } from "../../../backend/src/models/group.model";
+import { client, project } from "../../../backend/clients/src/models/client.model";
+import { group } from '../../../backend/groups/src/models/group.model';
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ClientService {
+  private projectsSubject = new BehaviorSubject<project | undefined>(undefined);
+  private projectInitialized = false;
+
+  project$ = this.projectsSubject.asObservable();
+
   CLIENT_URL = 'http://localhost:3000/api/client';
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -27,6 +33,10 @@ export class ClientService {
     return this.http.get<client[]>(`${this.CLIENT_URL}/organisation?organisation=${organisationName}`);
   }
 
+  getClientsByGroupName(groupName: string) {
+    return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`);
+  }
+
   getClientByProjectName(projectName: string) {
     return this.http.get<client>(`${this.CLIENT_URL}/project?projectName=${projectName}`);
   }
@@ -41,12 +51,30 @@ export class ClientService {
   }
 
   addGroupToProject(clientId: string, projectId: string, newGroup: group) {
-    console.log("clientId in service: ", clientId);
-    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, {clientId: clientId, projectId: projectId, newGroup: newGroup});
+    const body = {clientId, projectId, newGroup};
+    console.log('body in service: ', body);
+    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body);
   }
 
   addProject(formData: any) {
     console.log('in service', formData);
     return this.http.post<any>(`${this.CLIENT_URL}/add_project`, formData);
+  }
+
+  //projects observable
+  setProjectsObservables(project: project): void {
+    this.projectsSubject.next(project);
+  }
+
+  getProjectsObservable(): Observable<project | undefined>{
+    return this.projectsSubject.asObservable();
+  }
+
+  setInitialized(): void {
+    this.projectInitialized = true;
+  }
+
+  getInitialized(): boolean {
+    return this.projectInitialized;
   }
 }

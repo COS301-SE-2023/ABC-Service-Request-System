@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { group } from  '../../../backend/src/models/group.model'
-import { user } from  '../../../backend/src/models/user.model'
+import { group } from '../../../backend/groups/src/models/group.model';
+import { user } from "../../../backend/users/src/models/user.model";
 import { Router } from '@angular/router';
-import { ticket } from '../../../backend/src/models/ticket.model';
 
 
 @Injectable({
@@ -59,12 +58,16 @@ export class GroupService {
     return this.http.get<user[]>(`${this.GROUPS_URL}/${groupId}/users`);
   }
 
+  getGroupForNotification(groupId: string) {
+    return this.http.get<group>(`${this.GROUPS_URL}/groupId/${groupId}`);
+  }
+
   removeUserFromGroup(groupId: string, user: user): Observable<any> {
     return this.http.delete(`${this.GROUPS_URL}/${groupId}/user/${encodeURIComponent(user.emailAddress)}`);
   }
 
-  getGroupNameById(groupId: string): Observable<string> {
-    return this.http.get<string>(`${this.GROUPS_URL}/${groupId}/name`);
+  getGroupNameById(groupId: string): Observable<any> {
+    return this.http.get<any>(`${this.GROUPS_URL}/${groupId}/name`);
   }
 
   addPeopleToGroup(group: group, people: user) {
@@ -86,9 +89,9 @@ export class GroupService {
   getGroupsByUserId( groupId: string): Observable<group> {
     return this.http.get<group>(`${this.GROUPS_URL}/${groupId}`);
   }
-  
+
   updateTicketsinGroup(groupId: string, ticketId: string): Observable<any> {
     return this.http.put<any>(`${this.GROUPS_URL}/update_tickets`, { ticketId , groupId });
   }
-  
+
 }
