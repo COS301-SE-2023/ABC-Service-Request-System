@@ -45,8 +45,13 @@ export class ClientService {
     return this.http.get<any>(`${this.CLIENT_URL}/project/id?projectId=${projectId}`);
   }
 
-  removeGroupFromProject(clientId: string, projectId: string, groupName: string) {
-    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupName: groupName});
+  getProjectByProjectIdAndClienId(projectId: string, clientId: string) {
+    return this.http.get<project>(`${this.CLIENT_URL}/project/client?projectId=${projectId}&clientId=${clientId}`);
+  }
+
+  removeGroupFromProject(clientId: string, projectId: string, groupsToRemove: string []) {
+    console.log("in remove group service");
+    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupsToRemove: groupsToRemove});
   }
 
   deleteClient(clientId: string) {
@@ -54,8 +59,8 @@ export class ClientService {
     return this.http.delete<client>(`${this.CLIENT_URL}/delete_client`, { params: { clientId: clientId } });
   }
 
-  addGroupToProject(clientId: string, projectId: string, newGroup: group) {
-    const body = {clientId, projectId, newGroup};
+  addGroupsToProject(clientId: string, projectId: string, newGroups: group []) {
+    const body = {clientId, projectId, newGroups};
     console.log('body in service: ', body);
     return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body);
   }

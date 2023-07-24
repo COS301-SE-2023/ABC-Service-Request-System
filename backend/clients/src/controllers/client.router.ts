@@ -2,10 +2,9 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { ClientModel } from "../models/client.model";
 import { project } from "../models/client.model";
-
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -64,20 +63,57 @@ router.get('/project', expressAsyncHandler(
     }
 ));
 
-//fetch the project given the project name
+//fetch the project given the project objectId
 router.get('/project/id', expressAsyncHandler(
     async (req, res) => {
-        const projectId = req.query.projectId;
+        let projectId = req.query.projectId;
 
-        const project = await ClientModel.findOne({
-            "projects._id": projectId
-        });
+        projectId = projectId?.toString();
+
+        const project = await ClientModel.aggregate([
+            {
+                $unwind: "$projects" // Unwind the projects array
+            },
+            {
+                $match: {
+                    "projects._id": new mongoose.Types.ObjectId(projectId)
+                }
+            },
+            {
+                $replaceRoot: {
+                    newRoot: "$projects"
+                }
+            }
+        ]);
 
         if (project) {
-            res.status(200).send({ project: project });
+            res.status(200).send({ project });
         } else {
             res.status(404).send({ message: 'No project found with that projectId' });
         }
+    }
+));
+
+//fetch the project given the project id and the client id
+router.get('/project/client', expressAsyncHandler(
+    async (req, res) => {
+        const projectId = req.query.projectId;
+        const clientId = req.query.clientId;
+
+        const clients = await ClientModel.find();
+
+        clients.forEach(client => {
+            if(client.id == clientId) {
+                client.projects.forEach(project => {
+                    if(project.id == projectId) {
+                        res.status(200).send(project);
+                        return;
+                    }
+                })
+            }
+        });
+
+        res.status(404).send({ message: 'No project found with that projectId' });
     }
 ));
 
@@ -85,21 +121,31 @@ router.get('/project/id', expressAsyncHandler(
 router.put("/remove_group", expressAsyncHandler(
     async (req, res) => {
         const projectId = req.body.projectId;
-        const groupName = req.body.groupName;
+        const groupsToRemove = req.body.groupsToRemove;
         const clientId = req.body.clientId;
+
+        console.log("projectId: ", projectId);
+        console.log("groupName: ", groupsToRemove);
+        console.log("clientId: ", clientId);
+
 
         try {
             const client = await ClientModel.findOne({id: clientId});
 
             if(client){
+                console.log("client found");
                 const project = client.projects.find((project) => {
                     return project.id == projectId;
                 });
 
                 if(project){
+                    console.log("project found: ", project);
+
                     project.assignedGroups = project.assignedGroups?.filter((group) => {
-                        return group.groupName !== groupName;
+                        return !groupsToRemove.includes(group.groupName);
                     });
+
+                    console.log("assigned groups: ", project.assignedGroups);
                     await client.save();
                     res.status(200).send(project);
                 } else {
@@ -120,7 +166,7 @@ router.post("/add_group", expressAsyncHandler(
         console.log('req body: ', req.body);
         const clientId = req.body.clientId;
         const projectId = req.body.projectId;
-        const newGroup: any = req.body.newGroup;
+        const newGroups: any = req.body.newGroups;
 
         try{
             console.log("received client id: ", clientId);
@@ -132,7 +178,7 @@ router.post("/add_group", expressAsyncHandler(
                 });
 
                 if(project) {
-                    project.assignedGroups?.push(newGroup);
+                    project.assignedGroups?.push(...newGroups);
                     await client.save();
 
                     res.status(201).send(project);

@@ -73,27 +73,36 @@ export class ClientManagePage3Component implements OnInit{
       );
 
       // GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
-      this.clientService.getProjectByObjectId(this.projectToEdit._id!).subscribe(
-        (response) => {
-          this.projectToEdit = response.project;
-           console.log('project to edit now: ', this.projectToEdit);
+      //GET GROUP INFO AGAIN TO MAKE SURE CORRECT VALUES
+      // if(this.projectToEdit){
+      //   this.clientService.getProjectByProjectIdAndClienId(this.projectToEdit.id, this.clientToEdit.id).subscribe(
+      //     (response) => {
+      //       console.log('got new project');
+      //       this.projectToEdit = response;
+      //     }
+      //   )
+      // }
 
-        }, (error) => {
-          console.log('Error fetching project by objectId', error);
-        }
-      );
+      if(this.projectToEdit){
+        this.clientService.getProjectByObjectId(this.projectToEdit._id!).subscribe(
+          (response) => {
+            console.log("response project to edit: ", response.project[0]);
+            this.projectToEdit = response.project[0];
 
-      if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
-        console.log("init groups: ", this.projectToEdit.assignedGroups.slice());
-        this.existingGroups = this.projectToEdit.assignedGroups.slice();
-        this.selectedGroups = this.projectToEdit.assignedGroups.slice();
-        this.groupSelected = true;
+            if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
+              console.log("init groups: ", this.projectToEdit.assignedGroups.slice());
+              this.existingGroups = this.projectToEdit.assignedGroups.slice();
+              this.selectedGroups = this.projectToEdit.assignedGroups.slice();
+              this.groupSelected = true;
 
-        // REMOVE EXISTING GROUPS FROM ALL GROUPS
-        this.filteredOptions = this.groupControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value || '')),
-        );
+              // REMOVE EXISTING GROUPS FROM ALL GROUPS
+              this.filteredOptions = this.groupControl.valueChanges.pipe(
+                startWith(''),
+                map(value => this._filter(value || '')),
+              );
+            }
+          }
+        )
       }
 
       const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
@@ -172,25 +181,39 @@ export class ClientManagePage3Component implements OnInit{
   }
 
   onUpdateAndBack() {
+    console.log("selected groups: ", this.selectedGroups);
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
-    this.selectedGroups.forEach((group) => {
-      this.clientService.addGroupToProject(this.clientToEdit.id, this.projectToEdit.id, group).subscribe(
-        (response) => {
-          console.log(response);
-        }, (error) => {
-          console.log(error);
-        }
-      )
+
+    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
+      (response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      }
+    )
+
+    const removingGroupsNames: string [] = [];
+
+    this.removingGroups.forEach(group => {
+      removingGroupsNames.push(group.groupName);
     });
 
     console.log('removing groups is:', this.removingGroups);
-    this.removingGroups.forEach(group => {
-      this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, group.groupName).subscribe(
-        (response) => { console.log('group removed: ', response)}
-      );
-    })
+    this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
+      (respone) => {
+        console.log('group removed', respone);
+      }
+    )
+    // this.removingGroups.forEach(group => {
+    //   console.log("about to remove: ", group);
+    //   this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, group.groupName).subscribe(
+    //     (response) => {
+    //       console.log('group removed: ', response)
+    //       this.removingGroups = [];
+    //     }
+    //   );
+    // })
 
-    this.removingGroups = [];
     this.selectedGroups = [];
     this.backClicked.emit();
   }
