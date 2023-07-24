@@ -83,6 +83,25 @@ router.get('/projects', expressAsyncHandler(
   }
 ));
 
+router.get('/project', expressAsyncHandler(
+  async (req, res) => {
+    const projectName = req.query.name;
+    try {
+      const tickets = await TicketModel.find({ project: projectName});
+
+      if(tickets){
+        console.log('tickets found', tickets);
+        res.status(200).send(tickets);
+      } else {
+        console.log('no tickets found');
+        res.status(404).send("No tickets for this project");
+      }
+    } catch {
+      res.status(500).send("Internal Server Error fetching projects");
+    }
+  }
+));
+
 router.get('/group', expressAsyncHandler(
   async (req, res) => {
     const groupName = req.query.name;

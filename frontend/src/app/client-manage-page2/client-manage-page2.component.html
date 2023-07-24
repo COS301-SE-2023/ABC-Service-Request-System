@@ -38,7 +38,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let project of allProjects" (click)="showAssignedGroups(project)" class="project-row">
+      <tr *ngFor="let project of allProjects" (click)="onEditClicked(this.selectedClient, project)" class="project-row">
         <td class="py-2">
           <div class="project-logo" [class]="project.color">
             <img [src]="project.logo" alt="poject-logo">

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tickets } from '../data';
 import { Ticket } from '../app.component';
 import { NavbarService } from 'src/services/navbar.service';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ActivatedRoute } from '@angular/router';
+import { user } from '../../../../backend/users/src/models/user.model';
 
 @Component({
   selector: 'app-create-account',
@@ -22,9 +23,11 @@ export class CreateAccountComponent implements OnInit{
   selected = 'client';
 
   clientStage = 0;
+  internalStage = 0;
 
   recievedFormData: any;
   recievedCreatedClient!: client;
+  recievedCreatedUser!: user;
 
   managingClient!: client;
 
@@ -48,6 +51,14 @@ export class CreateAccountComponent implements OnInit{
     this.route.queryParams.subscribe(params => {
       this.selectedOrganisation = params['organisation'];
       this.selectedOrganisationForProject = params['project'];
+
+      if(params['home']){
+        this.clientStage = 0;
+        this.internalStage = 0;
+        this.selected = 'client';
+        const navigationExtras: NavigationExtras = { replaceUrl: true };
+        this.router.navigate([], navigationExtras);
+      }
 
       if (this.selectedOrganisation) {
         this.clientStage = 1;
@@ -129,5 +140,10 @@ export class CreateAccountComponent implements OnInit{
 
   getSelectedClient(client: client): void {
     this.managingClient = client;
+  }
+
+  getCreatedUser(user: user): void {
+    this.internalStage++;
+    this.recievedCreatedUser = user;
   }
 }

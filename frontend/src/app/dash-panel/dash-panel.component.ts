@@ -99,7 +99,7 @@ export class DashPanelComponent implements OnInit{
 
   openCreateAccount() {
     console.log("openCreateAccount called");
-    this.router.navigate(['/create-account']);
+    this.router.navigate(['/create-account'], { queryParams: { home: true } });
   }
 
   openSettings(){

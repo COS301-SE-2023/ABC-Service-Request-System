@@ -4,6 +4,7 @@ import { group, groupSchema } from "./group.model"
 
 export interface project {
     id: string,
+    _id?: string,
     name: string,
     logo: string,
     color: string,

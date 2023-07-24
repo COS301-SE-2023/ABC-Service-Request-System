@@ -15,6 +15,7 @@ import { user } from "../../../../backend/users/src/models/user.model";
 })
 export class InternalAccountPage1Component implements OnInit{
   @Output() completeClicked = new EventEmitter<void>();
+  @Output() userCreated: EventEmitter<any> = new EventEmitter<any>();
 
   createUserForm: FormGroup;
   errorMessage!: string;
@@ -85,7 +86,6 @@ export class InternalAccountPage1Component implements OnInit{
       console.log('User created successfully');
 
       if (response && response.message === 'User created successfully') {
-        window.alert('User created successfully');
         console.log("user: ", response.user);
 
         this.selectedGroups.forEach(group => {
@@ -99,6 +99,9 @@ export class InternalAccountPage1Component implements OnInit{
             }
           );
         });
+
+        this.completeClicked.emit();
+        this.userCreated.emit(response.user);
         //this.router.navigate(['/dashboard']);
       } else {
         console.error('Error creating user:', response);
@@ -159,7 +162,7 @@ export class InternalAccountPage1Component implements OnInit{
   }
 
   onCompleteClicked(): void{
-    this.completeClicked.emit();
+    console.log('create clicked');
   }
 
   //Overlays
