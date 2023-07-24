@@ -34,19 +34,28 @@ export class TicketTableComponent implements OnInit{
   }
 
   getClientGroups(){
-    const user = this.authservice.getUser();
+    let user!: user;
 
-    user.groups.forEach(group => {
-      this.groupService.getGroupNameById(group).subscribe(
-        (response) => {
-          const groupName = response.groupName;
-          if(!this.currentUserGroups.includes(groupName))
-            this.currentUserGroups.push(groupName);
-        }, (error) => {
-          console.log("Error fetching group names", error);
-        }
-      )
-    })
+    this.authservice.getUserObject().subscribe(
+      (response) => {
+        user = response
+
+        console.log("user object: ", user);
+        user.groups.forEach(group => {
+          this.groupService.getGroupNameById(group).subscribe(
+            (response) => {
+              const groupName = response.groupName;
+              if(!this.currentUserGroups.includes(groupName))
+                this.currentUserGroups.push(groupName);
+            }, (error) => {
+              console.log("Error fetching group names", error);
+            }
+          )
+        })
+      },
+      (error) => { console.log("Error fetching groups Names", error)}
+    );
+
   }
 
   getTicketsForTable(){
