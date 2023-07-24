@@ -58,6 +58,7 @@ export class TicketTableComponent implements OnInit{
           console.log(this.selectedProject, ' pr selected');
 
           this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+            console.log('important: ', response);
             this.allTicketsArray = response.filter((ticket: ticket) => {
               return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
             })

@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
+import {jwtVerify} from "../../../jwtVerify/jwtVerify";
 
 const router = Router();
 
@@ -42,9 +43,8 @@ router.post('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Manager']), expressAsyncHandler(
     async (req, res) => {
-        console.log('getting');
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
     }
@@ -114,8 +114,8 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        console.log("New ticket request received: ", req.body);
-
+        // console.log("New ticket request received: ", req.body);
+        // console.log(res.getHeader('Authorization') + "Headers");
         // for now, not checking on existing tickets
 
         const ticketCount = await TicketModel.countDocuments();
