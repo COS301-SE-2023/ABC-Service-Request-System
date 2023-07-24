@@ -46,11 +46,24 @@
                 <p class = "title"><b>{{tickets.summary}}</b></p>
                 <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
         </div>
+        <div *ngFor="let tickets of resultsTicketsDescription" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "./assets/tickets.png" alt = "ticket-Icon">
+            </div>
+                <p class = "title"><b>Description</b></p>
+                <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
+        </div>
         <div *ngFor="let groups of resultsGroup" class="search-user">
             <div class="search-user-default-img">
                 <img src = "./assets/follower.png" alt = "group-Icon">
             </div>
                 <p class = "title"><b>{{groups.groupName}}</b></p>
+        </div>
+        <div *ngFor="let projects of resultsProjectName" class="search-user">
+            <div class="search-user-default-img">
+                <img src = "{{projects.logo}}" alt = "group-Icon">
+            </div>
+                <p class = "title"><b>{{projects.name}}</b></p>
         </div>
     </div>
     <div class = "filter-panel">

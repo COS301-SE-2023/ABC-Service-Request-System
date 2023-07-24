@@ -21,7 +21,9 @@ export class NotificationsSearchComponent implements OnInit {
   resultsClientsName: client[] = [];
   resultsTicketsAssigned: ticket[]=[];
   resultsTicketsSummary: ticket[]=[];
+  resultsTicketsDescription: ticket[]=[];
   resultsProjectName: project[]=[];
+  resultsProject: client[]=[];
   allUsersArray: user[] = [];
   allTicketsArray: ticket[] = [];
   allGroupsArray: group[] = [];
@@ -37,11 +39,11 @@ export class NotificationsSearchComponent implements OnInit {
   projectsFilter!: boolean;
 
   constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService){
-    this.ticketFilter = false;
-    this.groupsFilter = false;
-    this.usersFilter = false;
-    this.clientsFilter = false;
-    this.projectsFilter = false;
+    this.ticketFilter = true;
+    this.groupsFilter = true;
+    this.usersFilter = true;
+    this.clientsFilter = true;
+    this.projectsFilter = true;
   }
 
   sortUsers(users: user[]): user[] {
@@ -49,6 +51,9 @@ export class NotificationsSearchComponent implements OnInit {
     return users;
   }
 
+  sortProjects(projects: project[]): project[]{
+    return projects;
+  }
   sortClients(clients: client[]):client[]{
     //console.log(clients);
     return clients;
@@ -77,6 +82,7 @@ export class NotificationsSearchComponent implements OnInit {
       this.resultsClientsName = [];
       this.resultsGroup = [];
       this.resultsProjectName = [];
+      this.resultsProject = [];
       this.resultsTicketsAssigned = [];
       this.resultsTicketsSummary = [];
       this.resultsUsers = [];
@@ -86,6 +92,7 @@ export class NotificationsSearchComponent implements OnInit {
       this.resultsClientsName = [];
       this.resultsGroup = [];
       this.resultsProjectName = [];
+      this.resultsProject = [];
       this.resultsTicketsAssigned = [];
       this.resultsTicketsSummary = [];
       this.resultsUsers = [];
@@ -107,7 +114,7 @@ export class NotificationsSearchComponent implements OnInit {
       this.resultsClients = resultsFromCLients;
     })
   }
-    //searches the clients by name - works with some bugs
+    //searches the clients by name - works
     if(this.clientsFilter){
     this.clientService.getAllClients().subscribe((response:client[])=>{
       this.allClientsArray = this.sortClients(response);
@@ -131,15 +138,36 @@ export class NotificationsSearchComponent implements OnInit {
     this.resultsTicketsSummary = resultFromTickets;
    })
   }
-   //searches the clients by projects
-  //  this.clientService.getAllClients().subscribe((response:client[])=>{
-  //   this.allClientsArray = this.sortClients(response);
-  //   const resultsProjectName = this.allClientsArray.filter(item=>item.projects.filter(nItem=>nItem.name.toLowerCase().includes(this.searchQuery)));
-  //   this.resultsProjectName = resultsProjectName;
-  //   console.log('Project:',this.resultsProjectName);
-  //  });
+  //searches the tickets by description - works
+  if(this.ticketFilter){
+    this.ticketService.getAllTickets().subscribe((response:ticket[])=>{
+    this.allTicketsArray = this.sortTickets(response);
+    const resultFromTickets = this.allTicketsArray.filter(item=>item.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    this.resultsTicketsDescription = resultFromTickets;
+   })
+  }
+   //searches the clients by projects - works
+   if(this.projectsFilter){
+   this.clientService.getAllClients().subscribe((response:client[])=>{
+    this.allClientsArray = this.sortClients(response);
+    const resultsProjectName = this.allClientsArray.filter((item) =>
+    item.projects.some((project)=>
+    project.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
+    );
+    this.resultsProject = resultsProjectName;
+    const size = this.resultsProject[0].projects.length;
+    for( let loop = 0; loop < size;loop++){
+      if(this.resultsProject[0].projects[loop].name.toLowerCase() == this.searchQuery.toLowerCase()){
+        //console.log('found');
+        this.resultsProjectName.push(this.resultsProject[0].projects[loop]);
+      }
+    }
+    console.log('Project:',this.resultsProjectName);
+    // console.log('size', size);
+   });
+  }
 
-  //searches groups by name
+  //searches groups by name - works
   if(this.groupsFilter){
     this.groupService.getGroups().subscribe((response:group[])=>{
     this.allGroupsArray = this.sortGroups(response);
