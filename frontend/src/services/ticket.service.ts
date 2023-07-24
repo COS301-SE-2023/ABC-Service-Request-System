@@ -49,7 +49,7 @@ export class TicketsService {
 
   makeAComment(ticketId: string, comment: string, author: string, authorPhoto: string, type: string, attachment: attachment){
     const body = {ticketId, comment, author, authorPhoto, type, attachment};
-    return this.http.put(`${this.TICKET_URL}/comment`, body);
+    return this.http.put(`http://localhost:3001/api/ticket/comment`, body);
   }
 
   // Add Ticket Functionality
