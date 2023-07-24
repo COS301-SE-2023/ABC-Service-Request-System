@@ -164,7 +164,7 @@ export class NewTicketFormComponent implements OnInit {
 
       const startDate = this.formatDate(this.stringFormatDate(currentDate));
       const endDate = this.formatDate(ticketFormValues.endDate);
-      const status = "Pending";
+      const status = "Active";
       const comments = ticketFormValues.comments;
       const description = trimmedDescription;
       // const description = ticketFormValues.description;
@@ -198,10 +198,10 @@ export class NewTicketFormComponent implements OnInit {
         // create a notification corresponding to the ticket
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
-        const creatorEmail = assigneeUser.emailAddress;
-        const assignedEmail = this.assignedUser.emailAddress;
+        const creatorEmail = assignee;
+        const assignedEmail = assigned;
         const ticketSummary = "Ticket: " + summary;
-        const ticketStatus = "Pending";
+        const ticketStatus = status;
         const notificationTime = new Date();
         const link = newTicketId;
         const readStatus = "Unread"
