@@ -195,7 +195,13 @@ export class NewTicketFormComponent implements OnInit {
         this.router.navigate([`/ticket/${newTicketId}`]);
 
         // get the corresponding users
-        const assigneeUser = this.authService.getUser();
+        let assigneeUser!: user;
+
+        this.authService.getUserObject().subscribe(
+          (response) => {
+            assigneeUser = response
+          }
+        );
 
         // create a notification corresponding to the ticket
         const profilePhotoLink = assigneeUser.profilePhoto;
