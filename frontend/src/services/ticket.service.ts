@@ -48,12 +48,12 @@ export class TicketsService {
   }
 
   // Add Ticket Functionality
-  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string, todo: string[], todoChecked: boolean[]) {
-    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked};
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
-    console.log('Ticket HEADER:', headers);
+  addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string, todo: string[], todoChecked: boolean[], assigneeFullName: string, assignedFullName: string) {
+    const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked, assigneeFullName, assignedFullName};
    console.log('Ticket is added service:', body);
+   const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+   console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
+   console.log('Ticket HEADER:', headers);
     return this.http.post(`${this.TICKET_URL}/addticket`, body , {headers});
   }
 

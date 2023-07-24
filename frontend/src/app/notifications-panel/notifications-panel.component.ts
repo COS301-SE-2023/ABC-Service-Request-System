@@ -19,7 +19,7 @@ export class NotificationsPanelComponent implements OnInit {
   sortedNotificationsArray: notifications[] = [];
   readNotificationsArray: notifications[] = [];
   notification!: notifications;
-  creatorName!: string;
+  creators!: user[];
 
   activeTab: "unread" | "read" = "unread";
 
@@ -31,6 +31,26 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       const user = this.authService.getUser();
       this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
+
+      // this.creators = [];
+
+      // for (let i = 0; i < this.unreadNotificationsArray.length; i++) {
+      //   this.authService.getUserNameByEmail(this.unreadNotificationsArray[i].creatorEmail).subscribe((response) => {
+      //     // console.log("Response: ", response);
+      //     this.creators.push(response);
+      //   });
+      // }
+
+      // console.log("Creators: ", this.creators);
+
+      // for (let i = 0; i < this.unreadNotificationsArray.length; i++) {
+      //   const creatorNames = this.creators[i].name + " " + this.creators[i].surname;
+
+      //   this.unreadNotificationsArray[i].creatorEmail = creatorNames;
+      // }
+
+      // console.log("Creators 2: ", this.creators);
+
       this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
         // console.log("Unread: ", this.unreadNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -43,6 +63,9 @@ export class NotificationsPanelComponent implements OnInit {
       this.allNotificationsArray = response;
       const user = this.authService.getUser();
       this.readNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Read' && notifications.assignedEmail === user.emailAddress);
+
+      // for (let i = 0;)
+
       this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
         // console.log("Read: ", this.readNotificationsArray);
         return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -137,14 +160,5 @@ export class NotificationsPanelComponent implements OnInit {
     } else {
       return 'Just now';
     }
-  }
-
-  getCreatorName(emailAddress: string) : string {
-    const user =  this.authService.getUserNameByEmail(emailAddress).subscribe((response: any) => {
-      this.creatorName = response.name;
-      console.log("Name: ", this.creatorName);
-    });
-
-    return this.creatorName;
   }
 }

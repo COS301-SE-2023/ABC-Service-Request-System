@@ -26,6 +26,9 @@ export class TicketTableComponent implements OnInit{
   currentUserGroups: string[] = [];
   selectedProject!: project;
 
+  assigneeDetails!: user[];
+  assignedDetails!: user[];
+
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
 
@@ -69,11 +72,27 @@ export class TicketTableComponent implements OnInit{
           this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
             console.log('important: ', response);
             this.allTicketsArray = response.filter((ticket: ticket) => {
+              // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
+              //   this.assignedDetails.push(response);
+              // });
+
+              // this.authservice.getUserNameByEmail(ticket.assignee).subscribe((response) => {
+              //   this.assigneeDetails.push(response);
+              // });
+
               return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
             })
 
             console.log("current user groups: ", this.currentUserGroups);
             console.log("after filter", this.allTicketsArray);
+
+            // for (let i = 0; i < this.allTicketsArray.length; i++) {
+            //   const assigneeNames = this.assigneeDetails[i].name + " " + this.assigneeDetails[i].surname;
+            //   const assignedNames = this.assignedDetails[i].name + " " + this.assignedDetails[i].surname;
+
+            //   this.allTicketsArray[i].assignee = assigneeNames;
+            //   this.allTicketsArray[i].assigned = assignedNames;
+            // }
 
             this.allTicketsArray = this.sortTickets(this.allTicketsArray);
             this.sortedTicketsArray = this.allTicketsArray.slice();
@@ -86,6 +105,9 @@ export class TicketTableComponent implements OnInit{
   ngOnInit(): void {
       this.getClientGroups();
       this.getTicketsForTable();
+
+      this.assignedDetails.length = 0;
+      this.assigneeDetails.length = 0;
   }
 
   navigateToTicket(id: string) {

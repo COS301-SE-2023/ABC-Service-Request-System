@@ -16,8 +16,8 @@ export class NotificationsService {
     return this.http.get<notifications[]>(this.NOTIFICATIONS_URL);
   }
 
-  newNotification(profilePhotoLink: string, notificationMessage: string, creatorEmail: string, assignedEmail: string, ticketSummary: string, ticketStatus: string, notificationTime: Date, link: string, readStatus: string) {
-    const body = {profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus};
+  newNotification(profilePhotoLink: string, notificationMessage: string, creatorEmail: string, assignedEmail: string, ticketSummary: string, ticketStatus: string, notificationTime: Date, link: string, readStatus: string, creatorFullName: string) {
+    const body = {profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName};
     return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body);
   }
 

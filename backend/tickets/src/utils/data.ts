@@ -5,8 +5,8 @@ export const sample_tickets: ticket[] = [
   {
       id: "1",
       summary: 'Update UI and bug fixes',
-      assignee: 'Jesse',
-      assigned: 'Jaimen',
+      assignee: 'jesse@example.com',
+      assigned: 'jaimen@example.com',
       group: '1',
       priority: 'High',
       startDate: '19/05/2023',
@@ -19,13 +19,15 @@ export const sample_tickets: ticket[] = [
       createdAt: new Date(),
       project: 'New project',
       todo: ["Change to Old Project"],
-      todoChecked: [true]
+      todoChecked: [true],
+      assigneeFullName: "Jesse Mwirygwi",
+      assignedFullName: "Jaimen Govender"
   },
   {
       id: "2",
       summary: 'testing tickets',
-      assignee: 'John',
-      assigned: 'Ashir',
+      assignee: 'john@example.com',
+      assigned: 'ashir@example.com',
       group: '2',
       priority: 'Low',
       startDate: '09/11/2023',
@@ -44,14 +46,15 @@ export const sample_tickets: ticket[] = [
       createdAt: new Date(),
       project: 'Old project',
       todo: ["Change name of project"],
-      todoChecked: [false]
-
+      todoChecked: [false],
+      assigneeFullName: "John Doe",
+      assignedFullName: "Ashir Butt"
   },
   {
       id: "3",
       summary: 'Epiuse frontend ticket',
-      assignee: 'Mark',
-      assigned: 'Priyul',
+      assignee: 'mark@example.com',
+      assigned: 'priyul@example.com',
       group: '3',
       priority: 'Medium',
       startDate: '24/08/2023',
@@ -87,6 +90,8 @@ export const sample_tickets: ticket[] = [
       createdAt: new Date(),
       project: 'Some project',
       todo: ["Specify Project", "Backend"],
-      todoChecked: [true, false]
+      todoChecked: [true, false],
+      assigneeFullName: "Mark Tick",
+      assignedFullName: "Priyul Mahabeer"
   },
 ];

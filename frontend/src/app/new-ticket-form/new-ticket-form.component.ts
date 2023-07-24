@@ -164,11 +164,13 @@ export class NewTicketFormComponent implements OnInit {
 
       const startDate = this.formatDate(this.stringFormatDate(currentDate));
       const endDate = this.formatDate(ticketFormValues.endDate);
-      const status = "Pending";
+      const status = "Active";
       const comments = ticketFormValues.comments;
       const description = trimmedDescription;
       // const description = ticketFormValues.description;
       const project = ticketFormValues.project;
+      const assigneeFullName = this.assignee.name + " " + this.assignee.surname;
+      const assignedFullName = this.assignedUser.name + " " + this.assignedUser.surname;
 
       for (let i = 0; i < this.todoArray.length; i++) {
         this.todoChecked.push(false);
@@ -181,7 +183,7 @@ export class NewTicketFormComponent implements OnInit {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked, assigneeFullName, assignedFullName).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -198,15 +200,16 @@ export class NewTicketFormComponent implements OnInit {
         // create a notification corresponding to the ticket
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
-        const creatorEmail = assigneeUser.emailAddress;
-        const assignedEmail = this.assignedUser.emailAddress;
+        const creatorEmail = assignee;
+        const assignedEmail = assigned;
         const ticketSummary = "Ticket: " + summary;
-        const ticketStatus = "Pending";
+        const ticketStatus = status;
         const notificationTime = new Date();
         const link = newTicketId;
         const readStatus = "Unread"
+        const creatorFullName = assigneeFullName;
 
-        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
+        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
           console.log(response);
         });
       });
@@ -233,7 +236,9 @@ export class NewTicketFormComponent implements OnInit {
         createdAt: new Date(),
         project: project,
         todo: this.todoArray,
-        todoChecked: this.todoChecked
+        todoChecked: this.todoChecked,
+        assigneeFullName: assigneeFullName,
+        assignedFullName: assignedFullName
       };
 
       this.newTicketEvent.emit(newTicket);
