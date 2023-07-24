@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { ClientService } from 'src/services/client.service';
+import { TicketsService } from 'src/services/ticket.service';
 
 
 @Component({
@@ -40,10 +41,13 @@ export class ClientManagePage3Component implements OnInit{
   existingGroups: group[] = [];
   clientToEdit!: client;
 
+  projectTickets: ticket[] = [];
+
   constructor(private router: Router,
       private formBuilder: FormBuilder,
       private groupService: GroupService,
-      private clientService: ClientService) {
+      private clientService: ClientService,
+      private ticketService: TicketsService) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
@@ -74,23 +78,14 @@ export class ClientManagePage3Component implements OnInit{
 
       // GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
       //GET GROUP INFO AGAIN TO MAKE SURE CORRECT VALUES
-      // if(this.projectToEdit){
-      //   this.clientService.getProjectByProjectIdAndClienId(this.projectToEdit.id, this.clientToEdit.id).subscribe(
-      //     (response) => {
-      //       console.log('got new project');
-      //       this.projectToEdit = response;
-      //     }
-      //   )
-      // }
+      const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
 
       if(this.projectToEdit){
         this.clientService.getProjectByObjectId(this.projectToEdit._id!).subscribe(
           (response) => {
-            console.log("response project to edit: ", response.project[0]);
             this.projectToEdit = response.project[0];
 
             if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
-              console.log("init groups: ", this.projectToEdit.assignedGroups.slice());
               this.existingGroups = this.projectToEdit.assignedGroups.slice();
               this.selectedGroups = this.projectToEdit.assignedGroups.slice();
               this.groupSelected = true;
@@ -101,11 +96,16 @@ export class ClientManagePage3Component implements OnInit{
                 map(value => this._filter(value || '')),
               );
             }
+
+            //GET PROJECT TICKETS
+            console.log("project name: ", encodedProjectName);
+            this.ticketService.getTicketsWithProjectName(encodedProjectName).subscribe(
+              (response) => { this.allTickets = response },
+              (error) => { console.log("Error fetching tickets for this project", error)}
+            );
           }
         )
       }
-
-      const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
 
       this.clientService.getClientByProjectName(encodedProjectName).subscribe(
         (response) => {
@@ -116,52 +116,6 @@ export class ClientManagePage3Component implements OnInit{
       );
     }
   }
-
-
-  // ngOnInit(): void {
-  //   this.projectImageUrl = this.projectToEdit.logo;
-  //   this.projectImageColor = this.projectToEdit.color;
-
-  //    //GETTING ALL THE GROUPS
-  //    this.groupService.getGroups().subscribe(
-  //     (result: group[]) => {
-  //       result.forEach(item => {
-  //         this.allGroups.push(item);
-  //       });
-  //     },
-  //     (error: any) => {
-  //       console.log('Error fetching all groups', error);
-  //     }
-  //   );
-
-  //   this.filteredOptions = this.groupControl.valueChanges.pipe(
-  //     startWith(''),
-  //     map(value => this._filter(value || '')),
-  //   );
-
-  //   //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
-  //   if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
-  //     this.existingGroups = this.projectToEdit.assignedGroups.slice();
-  //     this.selectedGroups = this.projectToEdit.assignedGroups.slice();
-  //     this.groupSelected = true;
-
-  //     //REMOVE EXISTING GROUPS FROM ALL GROUPS
-  //     this.filteredOptions = this.groupControl.valueChanges.pipe(
-  //       startWith(''),
-  //       map(value => this._filter(value || '')),
-  //     );
-  //   }
-
-  //   const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
-
-  //   this.clientService.getClientByProjectName(encodedProjectName).subscribe(
-  //     (response) => {
-  //       this.clientToEdit = response;
-  //     }, (error) => {
-  //       console.log("Error fetching client by project name", error);
-  //     }
-  //   )
-  // }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -181,7 +135,6 @@ export class ClientManagePage3Component implements OnInit{
   }
 
   onUpdateAndBack() {
-    console.log("selected groups: ", this.selectedGroups);
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
 
     this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
@@ -198,21 +151,11 @@ export class ClientManagePage3Component implements OnInit{
       removingGroupsNames.push(group.groupName);
     });
 
-    console.log('removing groups is:', this.removingGroups);
     this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
       (respone) => {
         console.log('group removed', respone);
       }
     )
-    // this.removingGroups.forEach(group => {
-    //   console.log("about to remove: ", group);
-    //   this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, group.groupName).subscribe(
-    //     (response) => {
-    //       console.log('group removed: ', response)
-    //       this.removingGroups = [];
-    //     }
-    //   );
-    // })
 
     this.selectedGroups = [];
     this.backClicked.emit();

@@ -26,6 +26,11 @@ export class TicketsService {
     return this.http.get<ticket[]>(`${this.TICKET_URL}/assigned?id=${userName}`);
   }
 
+  getTicketsWithProjectName(projectName: string) {
+    console.log('went in service');
+    return this.http.get<ticket[]>(`${this.TICKET_URL}/project?name=${projectName}`);
+  }
+
   getAllProjectNamesForCurrentUserWithGroupName(groupName: string){
     console.log('groupname service: ', groupName);
     return this.http.get<string[]>(`${this.TICKET_URL}/projects?groupName=${groupName}`);
