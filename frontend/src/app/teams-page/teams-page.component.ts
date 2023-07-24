@@ -121,6 +121,12 @@ export class TeamsPageComponent implements OnInit{
     // this.router.navigate(['/user-profile', user.id]);
   }
 
+  navigateToProfile(id: string) {
+    console.log('in navigateToProfile, id = ' + id);
+    this.router.navigate(['/view-profile'], { queryParams: { id: id } });
+  }
+  
+
   handleFilterChange(filterValue: string): void {
     this.users = [];
     this.groups = [];
