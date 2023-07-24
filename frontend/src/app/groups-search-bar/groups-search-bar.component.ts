@@ -206,8 +206,8 @@ export class GroupsSearchBarComponent implements OnInit {
               const creatorEmail = currentUser.emailAddress;
               const assignedEmail = tempUser.emailAddress;
 
-              const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
-              this.groupName = groupNotification.groupName;
+            //  const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
+            //  this.groupName = groupNotification.groupName;
 
               const ticketSummary = "Group: " + this.groupName;
               const ticketStatus = "";
