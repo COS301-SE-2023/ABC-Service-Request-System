@@ -87,17 +87,18 @@ export class ClientManagePage2Component implements OnInit{
   }
 
   groupAllProjectsForSelectedOrganisation() {
-    this.allClients.forEach((client) => {
-      client.projects.forEach((project) => {
-        const isExistingProject = this.allProjects.some((existingProject) => {
-          return existingProject.name === project.name;
-        });
+    // this.allClients.forEach((client) => {
+    //   client.projects.forEach((project) => {
+    //     const isExistingProject = this.allProjects.some((existingProject) => {
+    //       return existingProject.name === project.name;
+    //     });
 
-        if (!isExistingProject) {
-          this.allProjects.push(project);
-        }
-      })
-    });
+    //     if (!isExistingProject) {
+    //       this.allProjects.push(project);
+    //     }
+    //   })
+    // });
+    this.allProjects = this.selectedClient.projects;
   }
 
 
