@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'settings-profile',component: SettingsProfileComponent},
   { path: 'teams', component: TeamsPageComponent},
   { path: 'settings', component: SettingsProfileComponent },
-  //{ path: 'view-profile',component: ViewProfileComponent},
+  { path: 'view-profile',component: ViewProfileComponent},
   { path: 'notifications-search',component: NotificationsSearchComponent},
 
   //{ path: 'settings-profile',component: SettingsProfileComponent},
