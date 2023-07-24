@@ -64,7 +64,7 @@ export class NotificationsSearchComponent implements OnInit {
     return tickets;
   }
   sortGroups(groups:group[]):group[]{
-    console.log(groups);
+    //console.log(groups);
     return groups;
   }
 
@@ -77,16 +77,21 @@ export class NotificationsSearchComponent implements OnInit {
   //console.log('resultsUser in set',this.resultsUsers)
  }
   onSearch(){
+    const searchQuery = this.searchQuery;
+    console.log('searchQuery:', searchQuery)
     this.searchPerformed = true;
-    this.resultsClients = [];
+
+      this.resultsClients = [];
       this.resultsClientsName = [];
       this.resultsGroup = [];
       this.resultsProjectName = [];
       this.resultsProject = [];
       this.resultsTicketsAssigned = [];
       this.resultsTicketsSummary = [];
+      this.resultsTicketsDescription = [];
       this.resultsUsers = [];
-    if(this.searchQuery.trim() =='')
+
+    if(searchQuery.length==0)
     {
       this.resultsClients = [];
       this.resultsClientsName = [];
@@ -95,11 +100,16 @@ export class NotificationsSearchComponent implements OnInit {
       this.resultsProject = [];
       this.resultsTicketsAssigned = [];
       this.resultsTicketsSummary = [];
+      this.resultsTicketsDescription = [];
+      // this.userService.getAllUsers().subscribe(()=> {
       this.resultsUsers = [];
+      // })
+      console.log('Users:',this.resultsUsers)
       return;
     }
     //Searches the users by name - works
-    if(this.usersFilter){
+    else{
+      if(this.usersFilter){
       this.userService.getAllUsers().subscribe((response:user[])=> {
         this.allUsersArray = this.sortUsers(response);
         const resultsFromUsers = this.allUsersArray.filter(item=>item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -157,7 +167,7 @@ export class NotificationsSearchComponent implements OnInit {
     this.resultsProject = resultsProjectName;
     const size = this.resultsProject[0].projects.length;
     for( let loop = 0; loop < size;loop++){
-      if(this.resultsProject[0].projects[loop].name.toLowerCase() == this.searchQuery.toLowerCase()){
+      if(this.resultsProject[0].projects[loop].name.toLowerCase().includes(this.searchQuery.toLowerCase())){
         //console.log('found');
         this.resultsProjectName.push(this.resultsProject[0].projects[loop]);
       }
@@ -173,8 +183,9 @@ export class NotificationsSearchComponent implements OnInit {
     this.allGroupsArray = this.sortGroups(response);
     const resultGroup = this.allGroupsArray.filter(item=>item.groupName.toLowerCase().includes(this.searchQuery.toLowerCase()));
     this.resultsGroup = resultGroup;
-    console.log("group:", this.resultsGroup);
+    //console.log("group:", this.resultsGroup);
   })
   }
+}
 }
 }
