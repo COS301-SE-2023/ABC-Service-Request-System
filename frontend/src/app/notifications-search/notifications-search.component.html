@@ -6,7 +6,7 @@
 </div>
 
 <div class = "panel">
-    <button (click)="onSearch()">Search</button>
+    <button (click)="onSearch()">Search </button>
     <input type="text" [(ngModel)]="searchQuery" class = "searchBar">
     <div class="search-results">
         <div *ngFor="let users of resultsUsers" class="search-user">
@@ -58,7 +58,7 @@
                 <img src = "./assets/tickets.png" alt = "Tickets-Icon" class = "img-ticket">
                 <h2> Tickets </h2>
                 <label class="switch-container-ticket">
-                    <input type="checkbox" class = "ticket-checkbox">
+                    <input type="checkbox" [(ngModel)]="ticketFilter" class = "ticket-checkbox">
                     <div class="switch-track">
                         <div class="switch-thumb"></div>
                     </div>
@@ -70,7 +70,7 @@
                 <img src = "./assets/follower.png" alt = "groups-Icon" class = "img-group">
                 <h2> Groups </h2>
                 <label class="switch-container-groups">
-                    <input type="checkbox" class = "groups-checkbox">
+                    <input type="checkbox"  [(ngModel)]="groupsFilter" class = "groups-checkbox">
                     <div class="switch-track">
                         <div class="switch-thumb"></div>
                     </div>
@@ -80,7 +80,7 @@
                 <img src = "./assets/profile-icon.png" alt = "user-Icon" class = "img-user">
                 <h2> Users </h2>
                 <label class="switch-container-users">
-                    <input type="checkbox" class = "users-checkbox">
+                    <input type="checkbox" [(ngModel)]="usersFilter" class = "users-checkbox">
                     <div class="switch-track">
                         <div class="switch-thumb"></div>
                     </div>
@@ -90,7 +90,7 @@
                 <img src = "./assets/client.png" alt = "user-Icon" class = "img-client">
                 <h2> Clients </h2>
                 <label class="switch-container-client">
-                    <input type="checkbox" class = "client-checkbox">
+                    <input type="checkbox" [(ngModel)]="clientsFilter" class = "client-checkbox">
                     <div class="switch-track">
                         <div class="switch-thumb"></div>
                     </div>
@@ -100,7 +100,7 @@
                 <img src = "./assets/briefing.png" alt = "user-Icon" class = "img-project">
                 <h2> Projects </h2>
                 <label class="switch-container-project">
-                    <input type="checkbox" class = "project-checkbox">
+                    <input type="checkbox"  [(ngModel)]="projectsFilter" class = "project-checkbox">
                     <div class="switch-track">
                         <div class="switch-thumb"></div>
                     </div>
