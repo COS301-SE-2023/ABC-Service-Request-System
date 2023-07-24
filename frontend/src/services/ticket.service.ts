@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { ticket, attachment, TicketModel } from "../../../backend/tickets/src/models/ticket.model";
@@ -12,10 +12,17 @@ export class TicketsService {
   USER_URL: any;
   API_URL = 'http://localhost:3000/api/user';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  private token: string | null;
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+  }
 
   getAllTickets(){
-    return this.http.get<ticket[]>(this.TICKET_URL);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
+    console.log('Ticket HEADER:', headers);
+    return this.http.get<ticket[]>(this.TICKET_URL, {headers});
   }
 
   getTicketWithID(objectId: string){
@@ -43,8 +50,11 @@ export class TicketsService {
   // Add Ticket Functionality
   addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string, todo: string[], todoChecked: boolean[]) {
     const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked};
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
+    console.log('Ticket HEADER:', headers);
    console.log('Ticket is added service:', body);
-    return this.http.post(`${this.TICKET_URL}/addticket`, body);
+    return this.http.post(`${this.TICKET_URL}/addticket`, body , {headers});
   }
 
   updateTodoChecked(id: string, todoChecked: boolean[]) {

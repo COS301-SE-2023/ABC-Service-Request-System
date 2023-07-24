@@ -28,6 +28,7 @@ router.post("/login", expressAsyncHandler(
         console.log("User found:", user); // Log the user object
   
         if (user) {
+          const roles  = Object.values(user.roles);
           console.log("Request password:", req.body.password);
           console.log("User password:", user.password);
   
@@ -70,7 +71,7 @@ router.post("/login", expressAsyncHandler(
               setRoles = role;
             }
           }
-          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name}, secretKey, {
+          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
   
