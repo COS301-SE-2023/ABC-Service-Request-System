@@ -50,6 +50,7 @@ export class TicketTableComponent implements OnInit{
         }
       )
     })
+
   }
 
   getTicketsForTable(){
@@ -61,6 +62,7 @@ export class TicketTableComponent implements OnInit{
           console.log(this.selectedProject, ' pr selected');
 
           this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+            console.log('important: ', response);
             this.allTicketsArray = response.filter((ticket: ticket) => {
               // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
               //   this.assignedDetails.push(response);
@@ -96,8 +98,8 @@ export class TicketTableComponent implements OnInit{
       this.getClientGroups();
       this.getTicketsForTable();
 
-      this.assignedDetails.length = 0;
-      this.assigneeDetails.length = 0;
+      // this.assignedDetails.length = 0;
+      // this.assigneeDetails.length = 0;
   }
 
   navigateToTicket(id: string) {

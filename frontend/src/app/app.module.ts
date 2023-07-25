@@ -75,6 +75,8 @@ import { QuillModule } from 'ngx-quill'
 import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.component';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
+import { InternalAccountPage2Component } from './internal-account-page2/internal-account-page2.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -115,6 +117,7 @@ import { NotificationsSearchComponent } from './notifications-search/notificatio
     ProfileOverlayComponent,
     ViewProfileComponent,
     NotificationsSearchComponent,
+    InternalAccountPage2Component,
   ],
   imports: [
     BrowserModule,

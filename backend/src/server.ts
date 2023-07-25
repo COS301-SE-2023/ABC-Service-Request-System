@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import { createProxyMiddleware } from 'http-proxy-middleware';
 import proxy = require("express-http-proxy");
+import { jwtVerify } from "../../backend/jwtVerify/jwtVerify";
 
 dotenv.config();
 //test
@@ -67,6 +68,8 @@ app.use(express.json());
 //   },
 //   changeOrigin: true,
 // }));
+
+
 
 app.use("/api/ticket", proxy("http://localhost:3001", {
   proxyReqPathResolver: (req) => {

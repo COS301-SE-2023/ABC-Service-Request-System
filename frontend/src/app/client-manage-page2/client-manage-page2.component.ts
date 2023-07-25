@@ -87,17 +87,18 @@ export class ClientManagePage2Component implements OnInit{
   }
 
   groupAllProjectsForSelectedOrganisation() {
-    this.allClients.forEach((client) => {
-      client.projects.forEach((project) => {
-        const isExistingProject = this.allProjects.some((existingProject) => {
-          return existingProject.name === project.name;
-        });
+    // this.allClients.forEach((client) => {
+    //   client.projects.forEach((project) => {
+    //     const isExistingProject = this.allProjects.some((existingProject) => {
+    //       return existingProject.name === project.name;
+    //     });
 
-        if (!isExistingProject) {
-          this.allProjects.push(project);
-        }
-      })
-    });
+    //     if (!isExistingProject) {
+    //       this.allProjects.push(project);
+    //     }
+    //   })
+    // });
+    this.allProjects = this.selectedClient.projects;
   }
 
 
@@ -119,19 +120,6 @@ export class ClientManagePage2Component implements OnInit{
 
   onEditClicked(selectedClient: client, projectToEdit: project): void{
     this.editClicked.emit({selectedClient, projectToEdit});
-  }
-
-  showAssignedGroups(project: project) {
-    this.projectGroups = [];
-    this.selectedProject = project;
-
-    project.assignedGroups?.forEach((group) => {
-      this.projectGroups.push(group);
-    });
-
-    this.allGroups = this.allGroups.filter((group) => group.id);
-
-    this.projectSelected = true;
   }
 
   addGroup() {

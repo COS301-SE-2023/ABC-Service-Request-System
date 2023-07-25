@@ -4,7 +4,6 @@ import { sample_groups } from "../utils/sampleGroups";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-import { UserModel, user } from "../../../users/src/models/user.model";
 
 const router = Router();
 
@@ -12,12 +11,13 @@ const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
 router.post('/upload', upload.single('file'), async (req, res) => {
+  console.log(req.file);
     try {
       if (!req.file) {
         res.status(400).json({ message: 'No file uploaded' });
         return;
       }
-      console.log('in upload router');
+      console.log('in upload router222');
       const result = await cloudinary.uploader.upload(req.file.path);
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
@@ -49,103 +49,84 @@ router.get('/seed', expressAsyncHandler(
 ));
 
 router.post('/add', expressAsyncHandler(
-    async (req, res) => {
-      console.log('in add  router');
+  async (req, res) => {
+    console.log('in add  router');
 
-      const groupCount = await groupModel.countDocuments();
-      console.log(req.body.people);
-      const group = new groupModel({
-        id: String(groupCount+1),
-        backgroundPhoto: req.body.backgroundPhoto,
-        groupName: req.body.groupName,
-        people: req.body.people
+    const groupCount = await groupModel.countDocuments();
+    console.log(req.body.people);
+    const group = new groupModel({
+      id: String(groupCount+1),
+      backgroundPhoto: req.body.backgroundPhoto,
+      groupName: req.body.groupName,
+      people: req.body.people
+    });
 
-      });
+    console.log(group);
 
-      console.log(group);
-
-      try {
-        const createdGroup = await groupModel.create(group); 
-        const users = createdGroup.people;
-        // console.log(users);
-        if (users) {
-          for (let user of users) { 
-            const userFromDb = await UserModel.findById(user);
-            // console.log('userfromdb: ' + userFromDb);
-            if (userFromDb) {
-              userFromDb.groups.push(createdGroup.id); 
-              await userFromDb.save(); 
-            }
-          }
-        }
-
-        res.status(201).send(createdGroup); 
+    try {
+      const createdGroup = await groupModel.create(group);
+      res.status(201).send(createdGroup);
     }
     catch (error) {
-        console.log(error);
-        res.status(500).send("An error occurred during group creation");
+      console.log(error);
+      res.status(500).send("An error occurred during group creation");
     }
-  }  
-
+}  
 ));
 
-  router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const group = await groupModel.findOne({ id: groupId });
-    console.log(group?.people)
-    if (!group) {
-      res.status(404).send({ message: "Group not found" });
-      return;
-    }
-  
-    const userIds = group.people; 
-    const users = await UserModel.find({ _id: { $in: userIds } });
-    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles[0] })); 
-    console.log(userArray);
-    res.send(userArray);
-    // res.send(group.people);
-  }));
 
-  router.get("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
+  // router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
+  //   const groupId = req.params.groupId;
+  //   const group = await groupModel.findOne({ id: groupId });
+  //   console.log(group?.people)
+  //   if (!group) {
+  //     res.status(404).send({ message: "Group not found" });
+  //     return;
+  //   }
+  
+  //   const userIds = group.people; 
+  //   const users = await UserModel.find({ _id: { $in: userIds } });
+  //   const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles[0] })); 
+  //   console.log(userArray);
+  //   res.send(userArray);
+  //   // res.send(group.people);
+  // }));
+
+  // router.get("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
+  //   const groupId = req.params.groupId;
+  //   const userId = req.params.userId;
+
+  //   const group = await groupModel.findOne({ id: groupId });
+
+  //   console.log(group?.people)
+  //   if (!group) {
+  //     res.status(404).send({ message: "Group not found" });
+  //     return;
+  //   }
+
+  //   const users = await UserModel.find({ _id: { $in: userId } });
+  //   const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles })); 
+  //   console.log(userArray);
+  //   res.send(userArray);
+  //   // res.send(group.people);
+  // }));
+
+
+  router.delete("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
-
+    console.log('user id ' + userId);
+    
     const group = await groupModel.findOne({ id: groupId });
-
-    console.log(group?.people)
+    console.log(group);
     if (!group) {
       res.status(404).send({ message: "Group not found" });
       return;
     }
-
-    const users = await UserModel.find({ _id: { $in: userId } });
-    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles })); 
-    console.log(userArray);
-    res.send(userArray);
-    // res.send(group.people);
-  }));
-
-
-router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const userEmail = decodeURIComponent(req.params.userEmail); 
-    console.log('user email decoded: ' + userEmail);
-    
-    const group = await groupModel.findOne({ id: groupId });
-    if (!group) {
-      res.status(404).send({ message: "Group not found" });
-      return;
-    }
-    
-    const userToRemove = await UserModel.findOne({ emailAddress: userEmail });
-    if (!userToRemove) {
-      res.status(404).send({ message: 'User not found' });
-      return;
-    }
   
-    const userIndex = group.people!.indexOf(userToRemove._id.toString());
-    console.log('user index ' + userIndex)
-  
+    const userIndex = group.people!.indexOf(userId);
+    console.log('user index ' + userIndex);
+
     if (userIndex !== -1) {
       group.people!.splice(userIndex, 1);
       await group.save();
@@ -154,6 +135,8 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(404).send({ message: 'User not found in the group' });
     }
   }));
+  
+
   
   router.get("/:groupId/name", expressAsyncHandler(async(req,res) => {
     const groupId = req.params.groupId;
@@ -217,6 +200,23 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(500).send({ error: 'Internal server error' });
     }
   }))
+
+  router.get('/objectId/:groupId', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    console.log(' in router, objectId: ' + groupId);
+    try {
+        const group = await groupModel.findOne({ _id: groupId });
+        if (group) {
+            res.status(200).send(group);
+        } else {
+            res.status(404).send('Group not found');
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred while fetching the group");
+    }
+}));
+
 
   router.get('/:groupId', expressAsyncHandler(async(req,res) => {
     try {

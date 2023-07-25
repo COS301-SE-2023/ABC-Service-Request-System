@@ -6,6 +6,7 @@ import { ClientService } from 'src/services/client.service';
 import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
 import { project } from '../../../../backend/clients/src/models/client.model';
+import { user } from '../../../../backend/users/src/models/user.model';
 @Component({
   selector: 'app-dash-panel',
   templateUrl: './dash-panel.component.html',
@@ -29,55 +30,62 @@ export class DashPanelComponent implements OnInit{
       this.isCollapsed = collapsed;
     });
 
-    const currentUser = this.authService.getUser();
+    let currentUser!: user;
 
-    console.log('current groups: ', currentUser.groups);
-    currentUser.groups.forEach((group) => {
+    this.authService.getUserObject().subscribe(
+      (res) => {
+        currentUser = res;
 
-      if(group){
-        let groupName = '';
-        this.groupService.getGroupNameById(group).subscribe(
-          (response) => {
-            groupName = response.groupName;
+        console.log('current user: ', currentUser);
+        console.log('current groups: ', currentUser.groups);
+        currentUser.groups.forEach((group) => {
 
-            this.clientService.getClientsByGroupName(groupName).subscribe(
+          if(group){
+            let groupName = '';
+            this.groupService.getGroupNameById(group).subscribe(
               (response) => {
-                response.forEach(client => {
-                  client.projects.forEach(project => {
-                    if (!this.allProjects.some(p => p.name === project.name)) {
-                      this.allProjects.push(project);
-                      this.selectedProject = this.allProjects[0];
-                      if(!isProjectInitialized){
-                        this.clientService.setProjectsObservables(this.selectedProject);
-                        this.clientService.setInitialized();
-                      }
+                groupName = response.groupName;
 
-                      const projectsObservable = this.clientService.getProjectsObservable();
-                      if (projectsObservable !== undefined) {
-                        projectsObservable.subscribe((project) => {
-                          if (project !== undefined) {
-                            this.selectedProject = project;
+                this.clientService.getClientsByGroupName(groupName).subscribe(
+                  (response) => {
+                    response.forEach(client => {
+                      client.projects.forEach(project => {
+                        if (!this.allProjects.some(p => p.name === project.name)) {
+                          this.allProjects.push(project);
+                          this.selectedProject = this.allProjects[0];
+                          if(!isProjectInitialized){
+                            this.clientService.setProjectsObservables(this.selectedProject);
+                            this.clientService.setInitialized();
                           }
-                        });
-                      }
 
-                    }
-                  })
-                })
+                          const projectsObservable = this.clientService.getProjectsObservable();
+                          if (projectsObservable !== undefined) {
+                            projectsObservable.subscribe((project) => {
+                              if (project !== undefined) {
+                                this.selectedProject = project;
+                              }
+                            });
+                          }
+
+                        }
+                      })
+                    })
+                  }, (error) => {
+                    console.log("Error fetching clients with groupName");
+                  }
+                )
               }, (error) => {
-                console.log("Error fetching clients with groupName");
+                console.log("Error fetching groupName with groupId", error);
               }
-            )
-          }, (error) => {
-            console.log("Error fetching groupName with groupId", error);
+            );
           }
-        );
-      }
 
-    });
+        });
+      }
+    )
 
     console.log(this.allProjects, ' all projects');
-  }
+}
 
   toggleCollapse(){
     this.isCollapsed = !this.isCollapsed;
@@ -91,7 +99,7 @@ export class DashPanelComponent implements OnInit{
 
   openCreateAccount() {
     console.log("openCreateAccount called");
-    this.router.navigate(['/create-account']);
+    this.router.navigate(['/create-account'], { queryParams: { home: true } });
   }
 
   openSettings(){

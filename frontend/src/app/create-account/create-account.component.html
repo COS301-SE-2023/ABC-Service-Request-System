@@ -26,7 +26,8 @@
     </div>
 
     <div class="content" *ngIf="selected === 'internal'">
-      <app-internal-account-page1></app-internal-account-page1>
+      <app-internal-account-page1 (userCreated)="getCreatedUser($event)" *ngIf="internalStage === 0"></app-internal-account-page1>
+      <app-internal-account-page2 [createdUser]="recievedCreatedUser" *ngIf="internalStage === 1"></app-internal-account-page2>
     </div>
   </div>
 </div>

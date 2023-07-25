@@ -68,6 +68,14 @@ export const userSchema = new Schema<user>(
 // });
 
 
+export const ROLES_LIST = {
+    "Admin": "1001",
+    "Manager": "1002",
+    "Technical": "1003",
+    "Functional": "1004",
+    "Client": "1005"
+}
+
 const userDb = connection.useDb("UserDB");
 export const UserModel = userDb.model("user", userSchema);
 

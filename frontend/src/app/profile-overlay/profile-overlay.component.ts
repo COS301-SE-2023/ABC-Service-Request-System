@@ -57,4 +57,9 @@ export class ProfileOverlayComponent implements OnInit {
   openSettings() {
     this.router.navigate(['/settings']);
   }
+
+  clearLocalStorage(){
+    localStorage.clear();
+    //this.router.navigate(['/login']);
+  }
 }

@@ -10,7 +10,6 @@ import { cloudinary } from '../configs/cloudinary';
 import dotenv from "dotenv";
 dotenv.config();
 
-// import { groupModel } from "../models/group.model";
 const router = Router();
 
 router.get('/', expressAsyncHandler(
@@ -29,6 +28,7 @@ router.post("/login", expressAsyncHandler(
         console.log("User found:", user); // Log the user object
   
         if (user) {
+          const roles  = Object.values(user.roles);
           console.log("Request password:", req.body.password);
           console.log("User password:", user.password);
   
@@ -71,7 +71,7 @@ router.post("/login", expressAsyncHandler(
               setRoles = role;
             }
           }
-          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name}, secretKey, {
+          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
   
@@ -716,33 +716,27 @@ router.post('/:id/add-group', expressAsyncHandler(
     }
 ));
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
-// router.post('/add-group-to-users', expressAsyncHandler(
-//     async (req, res) => {
-//       const groupId = req.body.groupId; // this is actually group._id
-//       const userIds = req.body.userIds;
+router.post('/add-group-to-users', expressAsyncHandler(
+  async (req, res) => {
+    const groupId = req.body.groupId;
+    const userIds = req.body.userIds;
+    console.log('in add-group-to-users, group id: ' + groupId);
 
-//       try {
-//         // find the group using its _id
-//         const group = await groupModel.findOne({ _id: groupId });
+    try {
+      const users = await UserModel.updateMany(
+        { _id: { $in: userIds } },
+        { $addToSet: { groups: groupId } }
+      );
 
-//         if (!group) {
-//           res.status(404).send('Group not found');
-//           return;
-//         }
-//         const actualGroupId = group.id;
-//         const users = await UserModel.updateMany(
-//           { _id: { $in: userIds } },
-//           { $addToSet: { groups: actualGroupId } }
-//         );
+      res.status(201).send(users);
+    }
+    catch (error) {
+      console.log(error);
+      res.status(500).send("An error occurred while adding the group to the users");
+    }
+  }  
+));
 
-//         res.status(201).send(users);
-//       }
-//       catch (error) {
-//         console.log(error);
-//         res.status(500).send("An error occurred while adding the group to the users");
-//       }
-//     }  
-// ));
 
 router.get('/:id', expressAsyncHandler(
     async (req, res) => {
@@ -864,8 +858,50 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
   
+router.post('/addGroup', expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const user = await UserModel.findById(req.body.userId);
+            if(user) {
+                user.groups.push(req.body.groupId);
+                await user.save();
+                res.status(201).send(user);
+            } else {
+                res.status(404).send("User not found");
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("An error occurred during user update");
+        }
+    }
+));
+
+router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const users = await UserModel.find({ groups: { $in: [groupId] } });
+    const userArray = users.map(user => ({ 
+        id: user.id, 
+        name: user.name, 
+        surname: user.surname, 
+        emailAddress: user.emailAddress, 
+        roles: user.roles[0],
+        profilePhoto: user.profilePhoto
+    }));
+    console.log(userArray);
+    res.send(userArray);
+}));
+
+router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
+    const userEmail = decodeURIComponent(req.params.userEmail);
+    const user = await UserModel.findOne({ emailAddress: userEmail });
   
+    if (!user) {
+      res.status(404).send({ message: 'User not found' });
+      return;
+    }
   
+    res.send(user);
+  }));
 
 
 router.get('/:id', expressAsyncHandler(

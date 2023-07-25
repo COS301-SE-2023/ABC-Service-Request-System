@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { ClientService } from 'src/services/client.service';
+import { TicketsService } from 'src/services/ticket.service';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class ClientManagePage3Component implements OnInit{
   groupSelected = false;
   allGroups: group[] = [];
   selectedGroups: group[] = [];
+  removingGroups: group[] = [];
   selectedGroupsForm: FormArray;
   filteredOptions!: Observable<string[]>;
 
@@ -39,15 +41,21 @@ export class ClientManagePage3Component implements OnInit{
   existingGroups: group[] = [];
   clientToEdit!: client;
 
+  projectTickets: ticket[] = [];
+
   constructor(private router: Router,
       private formBuilder: FormBuilder,
       private groupService: GroupService,
-      private clientService: ClientService) {
+      private clientService: ClientService,
+      private ticketService: TicketsService) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
   ngOnInit(): void {
     if (this.projectToEdit) {
+      this.removingGroups = [];
+      this.selectedGroups = [];
+
       this.projectImageUrl = this.projectToEdit.logo;
       this.projectImageColor = this.projectToEdit.color;
 
@@ -69,19 +77,35 @@ export class ClientManagePage3Component implements OnInit{
       );
 
       // GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
-      if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
-        this.existingGroups = this.projectToEdit.assignedGroups.slice();
-        this.selectedGroups = this.projectToEdit.assignedGroups.slice();
-        this.groupSelected = true;
-
-        // REMOVE EXISTING GROUPS FROM ALL GROUPS
-        this.filteredOptions = this.groupControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value || '')),
-        );
-      }
-
+      //GET GROUP INFO AGAIN TO MAKE SURE CORRECT VALUES
       const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
+
+      if(this.projectToEdit){
+        this.clientService.getProjectByObjectId(this.projectToEdit._id!).subscribe(
+          (response) => {
+            this.projectToEdit = response.project[0];
+
+            if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
+              this.existingGroups = this.projectToEdit.assignedGroups.slice();
+              this.selectedGroups = this.projectToEdit.assignedGroups.slice();
+              this.groupSelected = true;
+
+              // REMOVE EXISTING GROUPS FROM ALL GROUPS
+              this.filteredOptions = this.groupControl.valueChanges.pipe(
+                startWith(''),
+                map(value => this._filter(value || '')),
+              );
+            }
+
+            //GET PROJECT TICKETS
+            console.log("project name: ", encodedProjectName);
+            this.ticketService.getTicketsWithProjectName(encodedProjectName).subscribe(
+              (response) => { this.allTickets = response },
+              (error) => { console.log("Error fetching tickets for this project", error)}
+            );
+          }
+        )
+      }
 
       this.clientService.getClientByProjectName(encodedProjectName).subscribe(
         (response) => {
@@ -92,52 +116,6 @@ export class ClientManagePage3Component implements OnInit{
       );
     }
   }
-
-
-  // ngOnInit(): void {
-  //   this.projectImageUrl = this.projectToEdit.logo;
-  //   this.projectImageColor = this.projectToEdit.color;
-
-  //    //GETTING ALL THE GROUPS
-  //    this.groupService.getGroups().subscribe(
-  //     (result: group[]) => {
-  //       result.forEach(item => {
-  //         this.allGroups.push(item);
-  //       });
-  //     },
-  //     (error: any) => {
-  //       console.log('Error fetching all groups', error);
-  //     }
-  //   );
-
-  //   this.filteredOptions = this.groupControl.valueChanges.pipe(
-  //     startWith(''),
-  //     map(value => this._filter(value || '')),
-  //   );
-
-  //   //GETTING EXISTING GROUPS BELONGING TO THIS PROJECT
-  //   if(this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0){
-  //     this.existingGroups = this.projectToEdit.assignedGroups.slice();
-  //     this.selectedGroups = this.projectToEdit.assignedGroups.slice();
-  //     this.groupSelected = true;
-
-  //     //REMOVE EXISTING GROUPS FROM ALL GROUPS
-  //     this.filteredOptions = this.groupControl.valueChanges.pipe(
-  //       startWith(''),
-  //       map(value => this._filter(value || '')),
-  //     );
-  //   }
-
-  //   const encodedProjectName = encodeURIComponent(this.projectToEdit.name);
-
-  //   this.clientService.getClientByProjectName(encodedProjectName).subscribe(
-  //     (response) => {
-  //       this.clientToEdit = response;
-  //     }, (error) => {
-  //       console.log("Error fetching client by project name", error);
-  //     }
-  //   )
-  // }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -156,18 +134,31 @@ export class ClientManagePage3Component implements OnInit{
     this.backClicked.emit();
   }
 
-  navigateToDashboard() {
+  onUpdateAndBack() {
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
-    this.selectedGroups.forEach((group) => {
-      this.clientService.addGroupToProject(this.clientToEdit.id, this.projectToEdit.id, group).subscribe(
-        (response) => {
-          console.log(response);
-        }, (error) => {
-          console.log(error);
-        }
-      )
-    })
-    //this.router.navigate(['/dashboard']);
+
+    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
+      (response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      }
+    )
+
+    const removingGroupsNames: string [] = [];
+
+    this.removingGroups.forEach(group => {
+      removingGroupsNames.push(group.groupName);
+    });
+
+    this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
+      (respone) => {
+        console.log('group removed', respone);
+      }
+    )
+
+    this.selectedGroups = [];
+    this.backClicked.emit();
   }
 
   addGroup() {
@@ -185,6 +176,38 @@ export class ClientManagePage3Component implements OnInit{
 
     if(this.selectedGroups.length > 0) {
       this.groupSelected = true;
+    }
+  }
+
+  handleKeyupEvent(event: KeyboardEvent): void {
+    console.log("nothing");
+  }
+
+  removeGroupTab(event: MouseEvent, index: number): void {
+    const targetElement = event.target as HTMLElement;
+    const groupTabElement = targetElement.closest('.group-tab');
+    if (groupTabElement) {
+      const groupNameElement = groupTabElement.querySelector('p');
+      if (groupNameElement) {
+        const groupName = groupNameElement.textContent;
+        if (groupName) {
+          const selectedGroupIndex = this.selectedGroups.findIndex(group => group.groupName === groupName);
+          if (selectedGroupIndex !== -1) {
+            const selectedGroup = this.selectedGroups[selectedGroupIndex];
+
+            const isGroupInRemovingGroups = this.removingGroups.some((group) => group.groupName === selectedGroup.groupName);
+
+            if (!isGroupInRemovingGroups) {
+              this.removingGroups.push(selectedGroup);
+            }
+
+            this.selectedGroups.splice(selectedGroupIndex, 1);
+            this.selectedGroupsForm.removeAt(index);
+            this.allGroups.push(selectedGroup);
+          }
+        }
+      }
+      groupTabElement.remove();
     }
   }
 
