@@ -91,7 +91,7 @@
   font-size: 1.2em;
 }
 
-// ticket summary and description 
+// ticket summary and description
 .ticket-details {
   display: flex;
   flex-direction: column;
@@ -275,6 +275,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0,0,0,0.5);
+  z-index: 999;
 
   .todo-overlay-inner-wrapper {
     width: fit-content;
@@ -304,7 +305,7 @@
     }
 
     .todo-overlay-buttons {
-      display: flex;     
+      display: flex;
     }
 
     .add-todo-btn, .cancel-btn {

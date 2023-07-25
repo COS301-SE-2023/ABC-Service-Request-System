@@ -28,6 +28,7 @@ export class ClientManagePage2Component implements OnInit{
 
   isAddGroupOverlayOpened = false;
   isRemoveClientOverlayOpened = false;
+  isRemoveProjectOverlayOpened = false;
   groupControl = new FormControl('');
   filteredOptions!: Observable<string[]>;
   allGroups: group[] = [];
@@ -36,6 +37,7 @@ export class ClientManagePage2Component implements OnInit{
   groupSelected = false;
   projectSelected = false;
   clientToRemove!: client | null;
+  projectToRemove!: project | null;
 
   constructor(private clientService: ClientService, private groupService: GroupService, private formBuilder: FormBuilder, private router: Router) {
     this.selectedGroupsForm = this.formBuilder.array([]);
@@ -155,6 +157,10 @@ export class ClientManagePage2Component implements OnInit{
     this.toggleRemoveClientOverlay(null);
   }
 
+  removeProject(project: project) {
+    console.log("project to remove: ", project);
+  }
+
   addClient(organisationName: string) {
     const queryParams = { organisation: organisationName };
     this.router.navigate(['/create-account'], { queryParams });
@@ -177,5 +183,15 @@ export class ClientManagePage2Component implements OnInit{
       this.clientToRemove = null;
     }
     this.isRemoveClientOverlayOpened = !this.isRemoveClientOverlayOpened;
+  }
+
+  toggleRemoveProjectOverlay(event: Event, project: project | null){
+    event.stopPropagation();
+    if(project != null){
+      this.projectToRemove = project;
+    }else {
+      this.projectToRemove = null;
+    }
+    this.isRemoveProjectOverlayOpened = !this.isRemoveProjectOverlayOpened;
   }
 }

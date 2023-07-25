@@ -10,7 +10,8 @@
   float: right;
   padding: 0 15px;
   font-family: 'Poppins', sans-serif;
-  
+  transition: all 300ms;
+
 
   .functional-table{
     // background-color: red;
@@ -71,6 +72,7 @@
   // padding: 0 15px;
   font-family: 'Poppins', sans-serif;
   font-weight: bolder;
+  transition: all 300ms;
 
   animation: fadeIn 2s;
 }

@@ -15,12 +15,11 @@
       <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small">notifications</mat-icon>
       <app-notifications-panel *ngIf="showNotificationsForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeForms()"></app-notifications-panel>
     </div>
-    
+
     <div class="profile-photo" (click)="openProfile()">
       <img src="{{ userPic }}" alt="ProfilePic">
       <app-profile-overlay *ngIf="showProfileForm" (profileOverlayEvent)="openProfile()" (closeform)="closeForms()"></app-profile-overlay>
     </div>
   </div>
 </div>
-
 <!-- <app-dash-panel></app-dash-panel> -->

@@ -226,4 +226,9 @@ export class ClientManagePage3Component implements OnInit{
     this.projectImageUrl = imgElement.src;
     this.projectImageColor = imgElement.className;
   }
+
+  viewTicketDetails(ticketId: string) {
+    console.log('view ticket details called');
+    this.router.navigate([`/ticket/${ticketId}`]);
+  }
 }

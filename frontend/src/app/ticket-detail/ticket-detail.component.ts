@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
@@ -29,7 +29,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private _snackBar: MatSnackBar,
     private notificationsService: NotificationsService,
-    private navbarService: NavbarService) { }
+    private navbarService: NavbarService,
+    private router: Router) { }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -483,5 +484,11 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     event.target.classList.add('selected');
   }
 
+  goBack(){
+    this.router.navigate(['/dashboard']);
+  }
 
+  handleKeyUp(){
+    return;
+  }
 }

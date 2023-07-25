@@ -83,6 +83,7 @@
       border: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.24);
       padding: 0.5em;
+      z-index: 999;
 
       .image-select {
         display: flex;
@@ -119,6 +120,7 @@
       border-width: 0.7em;
       border-style: solid;
       border-color: transparent transparent rgba(255, 255, 255, 0.8) transparent;
+      z-index: 999;
     }
 
     .hover-bg {
@@ -291,6 +293,7 @@ h3{
   justify-content: center;
   align-items: center;
   background-color: rgba(0,0,0,0.5);
+  z-index: 999;
 
   h1{
     font-family: 'Poppins';

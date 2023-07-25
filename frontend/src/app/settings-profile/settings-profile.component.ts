@@ -5,6 +5,7 @@ import { AuthService } from 'src/services/auth.service';
 import { GroupService } from 'src/services/group.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { ChangeDetectorRef } from '@angular/core';
+import { NavbarService } from 'src/services/navbar.service';
 
 @Component({
   selector: 'app-settings-profile',
@@ -31,6 +32,8 @@ export class SettingsProfileComponent { // implements OnInit{
   oldLinkedinLink?:string;
   oldUserBio?:string;
 
+  navbarIsCollapsed!: boolean;
+
   makeBioEditable() {
     this.bioEditable = true;
     this.profileChanged = true;
@@ -42,9 +45,13 @@ export class SettingsProfileComponent { // implements OnInit{
   }
 
   constructor(private userService: UserService, private authService: AuthService,
-  private groupService: GroupService, private cdr: ChangeDetectorRef) {}
+  private groupService: GroupService, private cdr: ChangeDetectorRef, private navbarService: NavbarService) {}
 
   ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+
     this.authService.getUserObject().subscribe(
       (result: any) => {
         this.currentUser = result;

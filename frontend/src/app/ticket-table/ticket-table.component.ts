@@ -1,16 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 // import { tickets } from '../data';
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { Router } from '@angular/router';
 import { user } from '../../../../backend/users/src/models/user.model';
 import { Sort } from '@angular/material/sort';
-import { tick } from '@angular/core/testing';
 import { AuthService } from 'src/services/auth.service';
 import { GroupService } from 'src/services/group.service';
-import { group } from '../../../../backend/groups/src/models/group.model';
 import { ClientService } from 'src/services/client.service';
 import { project } from '../../../../backend/clients/src/models/client.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-table',
@@ -29,6 +28,8 @@ export class TicketTableComponent implements OnInit{
   assigneeDetails!: user[];
   assignedDetails!: user[];
 
+  ticketsReady = false;
+
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
 
@@ -36,21 +37,32 @@ export class TicketTableComponent implements OnInit{
     this.openForm.emit(oldAssignee);
   }
 
-  getClientGroups(){
-    const user = this.authservice.getUser();
+  getClientGroups() {
+    this.authservice.getUserObject().subscribe(
+      (response) => {
+        const user = response;
+        const groupObservables = user.groups.map(group => {
+          return this.groupService.getGroupNameById(group);
+        });
 
-    user.groups.forEach(group => {
-      this.groupService.getGroupNameById(group).subscribe(
-        (response) => {
-          const groupName = response.groupName;
-          if(!this.currentUserGroups.includes(groupName))
-            this.currentUserGroups.push(groupName);
-        }, (error) => {
-          console.log("Error fetching group names", error);
-        }
-      )
-    })
+        forkJoin(groupObservables).subscribe(
+          (responses) => {
+            responses.forEach(response => {
+              const groupName = response.groupName;
+              if (!this.currentUserGroups.includes(groupName)) {
+                this.currentUserGroups.push(groupName);
+              }
+            });
 
+            // Call the different function here, as all group names have been fetched
+            this.getTicketsForTable();
+          },
+          (error) => {
+            console.log("Error fetching group names", error);
+          }
+        );
+      }
+    );
   }
 
   getTicketsForTable(){
@@ -58,36 +70,22 @@ export class TicketTableComponent implements OnInit{
     if (projectsObservable !== undefined) {
       projectsObservable.subscribe((project) => {
         if (project !== undefined) {
+
           this.selectedProject = project;
-          console.log(this.selectedProject, ' pr selected');
+
+          console.log("current user groups: ", this.currentUserGroups);
 
           this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-            console.log('important: ', response);
             this.allTicketsArray = response.filter((ticket: ticket) => {
-              // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
-              //   this.assignedDetails.push(response);
-              // });
-
-              // this.authservice.getUserNameByEmail(ticket.assignee).subscribe((response) => {
-              //   this.assigneeDetails.push(response);
-              // });
-
               return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
             })
 
-            console.log("current user groups: ", this.currentUserGroups);
-            console.log("after filter", this.allTicketsArray);
-
-            // for (let i = 0; i < this.allTicketsArray.length; i++) {
-            //   const assigneeNames = this.assigneeDetails[i].name + " " + this.assigneeDetails[i].surname;
-            //   const assignedNames = this.assignedDetails[i].name + " " + this.assignedDetails[i].surname;
-
-            //   this.allTicketsArray[i].assignee = assigneeNames;
-            //   this.allTicketsArray[i].assigned = assignedNames;
-            // }
+            console.log("all tickets after filter:", this.allTicketsArray);
 
             this.allTicketsArray = this.sortTickets(this.allTicketsArray);
             this.sortedTicketsArray = this.allTicketsArray.slice();
+
+            this.ticketsReady = true;
           });
         }
       });
@@ -95,8 +93,8 @@ export class TicketTableComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.getClientGroups();
-      this.getTicketsForTable();
+    this.getClientGroups();
+    //this.getTicketsForTable();
 
       // this.assignedDetails.length = 0;
       // this.assigneeDetails.length = 0;
@@ -184,7 +182,6 @@ export class TicketTableComponent implements OnInit{
   }
 
   sortTickets(tickets: ticket[]): ticket[] {
-    console.log(tickets);
     return tickets;
   }
 
@@ -198,6 +195,10 @@ export class TicketTableComponent implements OnInit{
     this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
       return response.name;
     });
+  }
+
+  routeToNewTickets() {
+    this.router.navigate(['/new-ticket-form']);
   }
 }
 

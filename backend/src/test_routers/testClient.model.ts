@@ -1,6 +1,6 @@
 import { Schema, connection } from "mongoose"
-import { ticket, ticketSchema } from "./ticket.model"
-import { group, groupSchema } from "./group.model"
+import { ticket, ticketSchema } from "./testTicket.model"
+import { group, groupSchema } from "./testGroup.model"
 
 export interface project {
     id: string,
@@ -59,5 +59,5 @@ const clientSchema = new Schema<client>(
     }
 )
 
-const clientDb = connection.useDb("ClientDB");
-export const ClientModel = clientDb.model("client", clientSchema);
+const clientDb = connection.useDb("test");
+export const TestClientModel = clientDb.model("clients", clientSchema);

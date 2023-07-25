@@ -8,6 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { UserModel } from '../../../../backend/users/src/models/user.model';
 import { switchMap } from 'rxjs';
+import { NavbarService } from 'src/services/navbar.service';
 
 @Component({
   selector: 'app-teams-page',
@@ -25,12 +26,14 @@ export class TeamsPageComponent implements OnInit{
   userImages: Map<string, string> = new Map();
 
   isModalVisible = false;
+
+  navbarIsCollapsed!: boolean;
   // selectedGroup: any = null;
 
 
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private userService: UserService,
-    private changeDetector: ChangeDetectorRef) {}
+    private changeDetector: ChangeDetectorRef, private navbarService: NavbarService) {}
 
   onGroupSelected(groupId: string): void {
     this.groupId = groupId;
@@ -62,6 +65,10 @@ export class TeamsPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+
     if (this.authService.isManager() || this.authService.isAdmin()) {
       this.groupService.getGroups().subscribe(
         (response) => {
@@ -125,7 +132,7 @@ export class TeamsPageComponent implements OnInit{
     console.log('in navigateToProfile, id = ' + id);
     this.router.navigate(['/view-profile'], { queryParams: { id: id } });
   }
-  
+
 
   handleFilterChange(filterValue: string): void {
     this.users = [];

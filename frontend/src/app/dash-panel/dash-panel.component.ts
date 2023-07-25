@@ -35,9 +35,6 @@ export class DashPanelComponent implements OnInit{
     this.authService.getUserObject().subscribe(
       (res) => {
         currentUser = res;
-
-        console.log('current user: ', currentUser);
-        console.log('current groups: ', currentUser.groups);
         currentUser.groups.forEach((group) => {
 
           if(group){
@@ -70,10 +67,12 @@ export class DashPanelComponent implements OnInit{
                         }
                       })
                     })
+
+                    this.sortProjects(this.allProjects);
+
                   }, (error) => {
                     console.log("Error fetching clients with groupName");
-                  }
-                )
+                  })
               }, (error) => {
                 console.log("Error fetching groupName with groupId", error);
               }
@@ -83,9 +82,11 @@ export class DashPanelComponent implements OnInit{
         });
       }
     )
-
-    console.log(this.allProjects, ' all projects');
 }
+
+  sortProjects(projects: project[]){
+    this.allProjects = projects.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
   toggleCollapse(){
     this.isCollapsed = !this.isCollapsed;
@@ -93,22 +94,18 @@ export class DashPanelComponent implements OnInit{
   }
 
   openNewTicketForm() {
-    console.log("openNewTicketForm called");
     this.router.navigate(['/new-ticket-form']);
   }
 
   openCreateAccount() {
-    console.log("openCreateAccount called");
     this.router.navigate(['/create-account'], { queryParams: { home: true } });
   }
 
   openSettings(){
-    console.log("settings page called");
     this.router.navigate(['/settings']);
   }
 
   openDashboard(){
-    console.log("dashboard page called");
     this.router.navigate(['/dashboard']);
   }
 
@@ -117,7 +114,6 @@ export class DashPanelComponent implements OnInit{
   }
 
   openAnalytics(){
-    console.log("analytics page called");
     this.router.navigate(['/analytics-page']);
   }
 
@@ -177,7 +173,6 @@ export class DashPanelComponent implements OnInit{
     this.clientService.setProjectsObservables(this.selectedProject);
 
     this.toggleProjectOverlay();
-    console.log(this.selectedProject);
   }
 
   toggleProjectOverlay() {

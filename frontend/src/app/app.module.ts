@@ -49,6 +49,7 @@ import { TeamsPageComponent } from './teams-page/teams-page.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { GroupTabletComponent } from './group-tablet/group-tablet.component';
 import { UserTabletComponent } from './user-tablet/user-tablet.component';
 import { GroupsSearchBarComponent } from './groups-search-bar/groups-search-bar.component';
@@ -145,6 +146,7 @@ import { InternalAccountPage2Component } from './internal-account-page2/internal
     NgxMatSelectSearchModule,
     MatCheckboxModule,
     MatAutocompleteModule,
+    MatProgressBarModule,
     QuillModule.forRoot()
   ],
   providers: [],
