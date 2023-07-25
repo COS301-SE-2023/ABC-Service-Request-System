@@ -40,8 +40,6 @@ export class NotificationsSearchComponent implements OnInit {
   displayClients!: boolean;
   displayProjects!: boolean;
 
-  firstClick!: boolean;
-
   navbarIsCollapsed!: boolean;
 
   constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router, private navbarService: NavbarService){
@@ -80,8 +78,6 @@ export class NotificationsSearchComponent implements OnInit {
       this.navbarService.collapsed$.subscribe(collapsed => {
         this.navbarIsCollapsed = collapsed;
       });
-
-      this.firstClick = true;
   }
  setResultsUsers(temp:user[]){
   this.resultsUsers = temp;
@@ -202,8 +198,24 @@ navigateToTicket(id: string) {
   this.router.navigate([`/ticket/${id}`]);
 }
 
+highlightButton(event: any) {
+  const buttons = document.getElementsByClassName('filter-buttons');
+
+  if (event.target.classList.contains('se'))
+  for (let i = 1; i < buttons.length; i++) {
+    buttons[i].classList.remove('selected');
+  }
+
+  this.displayUsers = true;
+  this.displayTickets = true;
+  this.displayClients = true;
+  this.displayGroups = true;
+  this.displayClients = true;
+
+  event.target.classList.add('selected');
+}
+
 highlightButtonUsers(event: any) {
-  this.handleFirstClick("Users");
 
   const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
@@ -224,7 +236,6 @@ highlightButtonUsers(event: any) {
 }
 
 highlightButtonTickets(event: any) {
-  this.handleFirstClick("Tickets");
 
   const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
@@ -245,7 +256,6 @@ highlightButtonTickets(event: any) {
 }
 
 highlightButtonClients(event: any) {
-  this.handleFirstClick("Clients");
 
   const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
@@ -266,7 +276,6 @@ highlightButtonClients(event: any) {
 }
 
 highlightButtonGroups(event: any) {
-  this.handleFirstClick("Groups");
 
   const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
@@ -287,7 +296,6 @@ highlightButtonGroups(event: any) {
 }
 
 highlightButtonProjects(event: any) {
-  this.handleFirstClick("Projects");
 
   const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
@@ -306,64 +314,4 @@ highlightButtonProjects(event: any) {
     this.displayProjects = true;
   }
 }
-
-handleFirstClick(type: string) {
-  if (this.firstClick == true) {
-    this.firstClick = false;
-
-    if (type == "Users") {
-      this.displayTickets = false;
-      this.displayGroups = false;
-      this.displayClients = false;
-      this.displayProjects = false;
-    }
-
-    if (type == "Tickets") {
-      this.displayUsers = false;
-      this.displayGroups = false;
-      this.displayClients = false;
-      this.displayProjects = false;
-    }
-
-    if (type == "Groups") {
-      this.displayUsers = false;
-      this.displayTickets = false;
-      this.displayClients = false;
-      this.displayProjects = false;
-    }
-
-    if (type == "Clients") {
-      this.displayUsers = false;
-      this.displayTickets = false;
-      this.displayGroups = false;
-      this.displayProjects = false;
-    }
-
-    if (type == "Projects") {
-      this.displayUsers = false;
-      this.displayTickets = false;
-      this.displayGroups = false;
-      this.displayClients = false;
-    }
-  }
-  else {
-    const buttons = document.getElementsByClassName('filter-buttons');
-    let noSelected = true;
-
-    for (let i = 0; i < buttons.length; i++) {
-      if (buttons[i].classList.contains('selected')) {
-        noSelected = false;
-      }
-    }
-
-    if (noSelected) {
-      this.displayUsers = true;
-      this.displayTickets = true;
-      this.displayClients = true;
-      this.displayGroups = true;
-      this.displayProjects = true;
-    }
-  }
-}
-
 }

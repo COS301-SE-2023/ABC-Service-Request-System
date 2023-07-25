@@ -11,6 +11,7 @@
         <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"class = "searchBar">
     </div>
     <div class = "filter-container">
+        <button class="filter-buttons selected" (click)="highlightButton($event)">All</button>
         <button class="filter-buttons" (click)="highlightButtonUsers($event)">Users</button>
         <button class="filter-buttons" (click)="highlightButtonTickets($event)">Tickets</button>
         <button class="filter-buttons" (click)="highlightButtonClients($event)">Clients</button>
@@ -22,47 +23,47 @@
                 <div class="search-user-img">
                     <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
                 </div>
-                    <p class="title"><b>{{ users.name }}</b></p>
+                    <p class="title"><b>{{ users.name }}&nbsp;{{ users.surname}}</b></p>
                     <p class ="additional-info"><b>{{ users.roles[0]}}</b></p> 
             </div>
             <div *ngFor="let clients of resultsClients" class="search-user">
                 <div class="search-user-default-img">
-                    <img src = "./assets/client.png" alt = "client-Icon">
+                    <i class="fa-solid fa-business-time"></i>
                 </div>
                     <p class ="title"><b>{{clients.organisation}}</b></p>
                     <p class ="additional-info"><b>{{clients.name}}&nbsp;</b> {{clients.email}}</p>
             </div>
             <div *ngFor="let clients of resultsClientsName" class="search-user">
                 <div class="search-user-default-img">
-                    <img src = "./assets/client.png" alt = "client-Icon">
+                    <i class="fa-solid fa-business-time"></i>
                 </div>
                     <p class ="title"><b>{{clients.organisation}}</b></p>
                     <p class ="additional-info"><b>{{clients.name}}&nbsp;</b> {{clients.email}}</p>
             </div>
             <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
-                    <img src = "./assets/tickets.png" alt = "ticket-Icon">
+                    <i class="fa-regular fa-ticket"></i>
                 </div>
                     <p class = "title"><b>{{tickets.summary}}</b></p>
                     <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
             </div>
             <div *ngFor="let tickets of resultsTicketsSummary" class="search-user" (click)="navigateToTicket(tickets.id)"  tabindex="0">
                 <div class="search-user-default-img">
-                    <img src = "./assets/tickets.png" alt = "ticket-Icon">
+                    <i class="fa-regular fa-ticket"></i>
                 </div>
                     <p class = "title"><b>{{tickets.summary}}</b></p>
                     <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
             </div>
             <div *ngFor="let tickets of resultsTicketsDescription" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
-                    <img src = "./assets/tickets.png" alt = "ticket-Icon">
+                    <i class="fa-regular fa-ticket"></i>
                 </div>
                     <p class = "title"><b>...{{searchQuery}}...</b></p>
                     <p class ="additional-info"><b>{{tickets.project}}</b></p>
             </div>
             <div *ngFor="let groups of resultsGroup" class="search-user">
                 <div class="search-user-default-img">
-                    <img src = "./assets/follower.png" alt = "group-Icon">
+                    <i class="fa-solid fa-user-group"></i>
                 </div>
                     <p class = "title"><b>{{groups.groupName}}</b></p>
             </div>
