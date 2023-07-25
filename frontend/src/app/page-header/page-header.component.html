@@ -11,6 +11,10 @@
       <p>Account: <b>{{ getRoles() }}</b></p>
     </div>
 
+    <div class="search">
+      <i class="fa-solid fa-magnifying-glass" style="color: #000000;" (click)="navigateToSearch()"></i>
+    </div>
+
     <div class="notifications" (click)="openNotifications()">
       <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small">notifications</mat-icon>
       <app-notifications-panel *ngIf="showNotificationsForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeForms()"></app-notifications-panel>

@@ -154,4 +154,8 @@ export class PageHeaderComponent {
   getUserObject(){
     return this.authService.getUser();
   }
+
+  navigateToSearch() {
+    this.router.navigate([`/notifications-search`]);
+  }
 }

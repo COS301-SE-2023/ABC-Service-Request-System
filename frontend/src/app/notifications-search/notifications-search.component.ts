@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarService } from 'src/services/navbar.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 import { user } from '../../../../backend/users/src/models/user.model';
@@ -33,18 +34,22 @@ export class NotificationsSearchComponent implements OnInit {
   searchResults: any[] = [];
   searchPerformed!: boolean;
 
-  ticketFilter!: boolean;
-  groupsFilter!: boolean;
-  usersFilter!: boolean;
-  clientsFilter!: boolean;
-  projectsFilter!: boolean;
+  displayTickets!: boolean;
+  displayGroups!: boolean;
+  displayUsers!: boolean;
+  displayClients!: boolean;
+  displayProjects!: boolean;
 
-  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router){
-    this.ticketFilter = true;
-    this.groupsFilter = true;
-    this.usersFilter = true;
-    this.clientsFilter = true;
-    this.projectsFilter = true;
+  firstClick!: boolean;
+
+  navbarIsCollapsed!: boolean;
+
+  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router, private navbarService: NavbarService){
+    this.displayTickets = true;
+    this.displayGroups = true;
+    this.displayUsers = true;
+    this.displayClients = true;
+    this.displayProjects = true;
   }
 
   sortUsers(users: user[]): user[] {
@@ -72,6 +77,11 @@ export class NotificationsSearchComponent implements OnInit {
   ngOnInit(){
       this.searchQuery = '';
       this.searchPerformed = false;
+      this.navbarService.collapsed$.subscribe(collapsed => {
+        this.navbarIsCollapsed = collapsed;
+      });
+
+      this.firstClick = true;
   }
  setResultsUsers(temp:user[]){
   this.resultsUsers = temp;
@@ -108,7 +118,7 @@ export class NotificationsSearchComponent implements OnInit {
     }
     //Searches the users by name - works
     else{
-      if(this.usersFilter){
+      if(this.displayUsers){
       this.userService.getAllUsers().subscribe((response:user[])=> {
         this.allUsersArray = this.sortUsers(response);
         const resultsFromUsers = this.allUsersArray.filter(item=>item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -116,7 +126,7 @@ export class NotificationsSearchComponent implements OnInit {
       });
   }
     //searches the clients by organisation - works
-    if(this.clientsFilter){
+    if(this.displayClients){
     this.clientService.getAllClients().subscribe((response:client[])=>{
       this.allClientsArray = this.sortClients(response);
       const resultsFromCLients = this.allClientsArray.filter(item=>item.organisation.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -124,7 +134,7 @@ export class NotificationsSearchComponent implements OnInit {
     })
   }
     //searches the clients by name - works
-    if(this.clientsFilter){
+    if(this.displayClients){
     this.clientService.getAllClients().subscribe((response:client[])=>{
       this.allClientsArray = this.sortClients(response);
       const resultsFromCLients = this.allClientsArray.filter(item=>item.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -132,7 +142,7 @@ export class NotificationsSearchComponent implements OnInit {
     })
   }
     //searches the tickets by assigned - works
-    if(this.ticketFilter){
+    if(this.displayTickets){
     this.ticketService.getAllTickets().subscribe((response:ticket[])=>{
     this.allTicketsArray = this.sortTickets(response);
     const resultsFromTickets = this.allTicketsArray.filter(item=>item.assigned.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -140,7 +150,7 @@ export class NotificationsSearchComponent implements OnInit {
    })
   }
    //searches the tickets by summary - works
-   if(this.ticketFilter){
+   if(this.displayTickets){
     this.ticketService.getAllTickets().subscribe((response:ticket[])=>{
     this.allTicketsArray = this.sortTickets(response);
     const resultFromTickets = this.allTicketsArray.filter(item=>item.summary.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -148,7 +158,7 @@ export class NotificationsSearchComponent implements OnInit {
    })
   }
   //searches the tickets by description - works
-  if(this.ticketFilter){
+  if(this.displayTickets){
     this.ticketService.getAllTickets().subscribe((response:ticket[])=>{
     this.allTicketsArray = this.sortTickets(response);
     const resultFromTickets = this.allTicketsArray.filter(item=>item.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -156,7 +166,7 @@ export class NotificationsSearchComponent implements OnInit {
    })
   }
    //searches the clients by projects - works
-   if(this.projectsFilter){
+   if(this.displayProjects){
    this.clientService.getAllClients().subscribe((response:client[])=>{
     this.allClientsArray = this.sortClients(response);
     const resultsProjectName = this.allClientsArray.filter((item) =>
@@ -177,7 +187,7 @@ export class NotificationsSearchComponent implements OnInit {
   }
 
   //searches groups by name - works
-  if(this.groupsFilter){
+  if(this.displayGroups){
     this.groupService.getGroups().subscribe((response:group[])=>{
     this.allGroupsArray = this.sortGroups(response);
     const resultGroup = this.allGroupsArray.filter(item=>item.groupName.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -191,4 +201,169 @@ export class NotificationsSearchComponent implements OnInit {
 navigateToTicket(id: string) {
   this.router.navigate([`/ticket/${id}`]);
 }
+
+highlightButtonUsers(event: any) {
+  this.handleFirstClick("Users");
+
+  const buttons = document.getElementsByClassName('filter-buttons');
+  if(event.target.classList.contains('selected'))
+  {
+    event.target.classList.remove('selected');
+    if((this.displayTickets == true || this.displayClients == true || this.displayGroups == true || this.displayProjects == true))
+    {
+       this.displayUsers = false;
+    }
+    else{
+      this.displayUsers = true;
+    }
+  }
+  else{
+    event.target.classList.add('selected');
+    this.displayUsers = true;
+  }
+}
+
+highlightButtonTickets(event: any) {
+  this.handleFirstClick("Tickets");
+
+  const buttons = document.getElementsByClassName('filter-buttons');
+  if(event.target.classList.contains('selected'))
+  {
+    event.target.classList.remove('selected');
+    if((this.displayUsers == true || this.displayClients == true || this.displayGroups == true || this.displayProjects == true))
+    {
+       this.displayTickets = false;
+    }
+    else{
+      this.displayTickets = true;
+    }
+  }
+  else{
+    event.target.classList.add('selected');
+    this.displayTickets = true;
+  }
+}
+
+highlightButtonClients(event: any) {
+  this.handleFirstClick("Clients");
+
+  const buttons = document.getElementsByClassName('filter-buttons');
+  if(event.target.classList.contains('selected'))
+  {
+    event.target.classList.remove('selected');
+    if((this.displayTickets == true || this.displayUsers == true || this.displayGroups == true || this.displayProjects == true))
+    {
+       this.displayClients = false;
+    }
+    else{
+      this.displayClients = true;
+    }
+  }
+  else{
+    event.target.classList.add('selected');
+    this.displayClients = true;
+  }
+}
+
+highlightButtonGroups(event: any) {
+  this.handleFirstClick("Groups");
+
+  const buttons = document.getElementsByClassName('filter-buttons');
+  if(event.target.classList.contains('selected'))
+  {
+    event.target.classList.remove('selected');
+    if((this.displayTickets == true || this.displayClients == true || this.displayUsers == true || this.displayProjects == true))
+    {
+       this.displayGroups = false;
+    }
+    else{
+      this.displayGroups = true;
+    }
+  }
+  else{
+    event.target.classList.add('selected');
+    this.displayGroups = true;
+  }
+}
+
+highlightButtonProjects(event: any) {
+  this.handleFirstClick("Projects");
+
+  const buttons = document.getElementsByClassName('filter-buttons');
+  if(event.target.classList.contains('selected'))
+  {
+    event.target.classList.remove('selected');
+    if((this.displayTickets == true || this.displayClients == true || this.displayGroups == true || this.displayUsers == true))
+    {
+       this.displayProjects = false;
+    }
+    else{
+      this.displayProjects = true;
+    }
+  }
+  else{
+    event.target.classList.add('selected');
+    this.displayProjects = true;
+  }
+}
+
+handleFirstClick(type: string) {
+  if (this.firstClick == true) {
+    this.firstClick = false;
+
+    if (type == "Users") {
+      this.displayTickets = false;
+      this.displayGroups = false;
+      this.displayClients = false;
+      this.displayProjects = false;
+    }
+
+    if (type == "Tickets") {
+      this.displayUsers = false;
+      this.displayGroups = false;
+      this.displayClients = false;
+      this.displayProjects = false;
+    }
+
+    if (type == "Groups") {
+      this.displayUsers = false;
+      this.displayTickets = false;
+      this.displayClients = false;
+      this.displayProjects = false;
+    }
+
+    if (type == "Clients") {
+      this.displayUsers = false;
+      this.displayTickets = false;
+      this.displayGroups = false;
+      this.displayProjects = false;
+    }
+
+    if (type == "Projects") {
+      this.displayUsers = false;
+      this.displayTickets = false;
+      this.displayGroups = false;
+      this.displayClients = false;
+    }
+  }
+  else {
+    const buttons = document.getElementsByClassName('filter-buttons');
+    let noSelected = true;
+
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].classList.contains('selected')) {
+        noSelected = false;
+      }
+    }
+
+    if (noSelected) {
+      this.displayUsers = true;
+      this.displayTickets = true;
+      this.displayClients = true;
+      this.displayGroups = true;
+      this.displayProjects = true;
+    }
+  }
+}
+
 }
