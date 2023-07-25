@@ -61,6 +61,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   checkChanges = false;
 
   todosChanged: boolean[] = [];
+  numReversed = 0;
 
 
   onFileChange(event: any) {
@@ -119,7 +120,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             this.ticket = response;
             console.log(this.ticket, " ticket");
             console.log("assignee email: ", response.assignee);
-
+            this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {
                 this.assigneeUser = response;
@@ -133,7 +134,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     this.getCurrentUserImage();
 
-    this.showAll();
     // this.attachmentsOnly = false;
 
     // this.todosChanged.length = 0;
@@ -350,7 +350,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
                 },
                 err => {
                   console.log('Error while adding first response time', err);
-                  // location.reload();
+
+                  if(err.status === 200)
+                    location.reload();
                 }
               );
             },
@@ -362,7 +364,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
             res => {
               console.log('Comment added successfully', res);
-              // location.reload();
+              location.reload();
             },
             err => {
               console.log('Error while adding comment', err);
@@ -371,6 +373,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         }
       }, (error) => { console.log("error fetching current user ")}
     );
+
   }
 
 
@@ -460,7 +463,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showAll(): void {
     if(this.ticket && this.ticket.comments){
       this.displayedComments = this.ticket.comments;
-      console.log(this.displayedComments);
+      if (this.numReversed != 1) {
+        this.displayedComments.reverse();
+        this.numReversed = 1;
+      }
     }
   }
 

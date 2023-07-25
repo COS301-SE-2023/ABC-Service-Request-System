@@ -105,4 +105,7 @@ export class GroupService {
     return this.http.put<any>(`${this.GROUPS_URL}/update_tickets`, { ticketId , groupId });
   }
 
+  checkGroupNameExists(groupName: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.GROUPS_URL}/exists/${groupName}`);
+  }
 }

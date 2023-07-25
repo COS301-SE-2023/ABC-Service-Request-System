@@ -52,10 +52,15 @@ router.post('/add', expressAsyncHandler(
   async (req, res) => {
     console.log('in add  router');
 
-    const groupCount = await groupModel.countDocuments();
+    const maxGroup = await groupModel.find().sort({ id: -1 }).limit(1);
+    let maxId = 0;
+    if (maxGroup.length > 0) {
+      maxId = Number(maxGroup[0].id);
+    }
+
     console.log(req.body.people);
     const group = new groupModel({
-      id: String(groupCount+1),
+      id: String(maxId + 1),
       backgroundPhoto: req.body.backgroundPhoto,
       groupName: req.body.groupName,
       people: req.body.people
@@ -261,8 +266,13 @@ router.post('/add', expressAsyncHandler(
     } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
     }
-  }))
+  }));
 
-
+  router.get('/exists/:groupName', expressAsyncHandler(
+    async (req, res) => {
+        const groupExists = await groupModel.exists({ groupName: req.params.groupName });
+        res.send(groupExists);
+    }
+  ));
 
 export default router;

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 // import { tickets } from '../data';
 import { TicketsService } from 'src/services/ticket.service';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { user } from '../../../../backend/users/src/models/user.model';
 import { Sort } from '@angular/material/sort';
 import { tick } from '@angular/core/testing';
@@ -19,7 +19,7 @@ import { project } from '../../../../backend/clients/src/models/client.model';
 })
 
 export class TicketTableComponent implements OnInit{
-  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, private clientService: ClientService) { }
+  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, private clientService: ClientService, private route: ActivatedRoute) { }
 
   allTicketsArray: ticket[] = [];
   sortedTicketsArray: ticket[] = [];
@@ -55,43 +55,57 @@ export class TicketTableComponent implements OnInit{
 
   getTicketsForTable(){
     const projectsObservable = this.clientService.getProjectsObservable();
-    if (projectsObservable !== undefined) {
-      projectsObservable.subscribe((project) => {
-        if (project !== undefined) {
-          this.selectedProject = project;
-          console.log(this.selectedProject, ' pr selected');
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+          console.log('important: ', response);
+          this.allTicketsArray = response.filter((ticket: ticket) => {
+            return (this.currentUserGroups.includes(ticket.group) );
+          })
+          this.allTicketsArray = this.sortTickets(this.allTicketsArray);
+          this.sortedTicketsArray = this.allTicketsArray.slice();
+        });
+      } else {
+        if (projectsObservable !== undefined) {
+          projectsObservable.subscribe((project) => {
+            if (project !== undefined) {
+              this.selectedProject = project;
+              console.log(this.selectedProject, ' pr selected');
 
-          this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-            console.log('important: ', response);
-            this.allTicketsArray = response.filter((ticket: ticket) => {
-              // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
-              //   this.assignedDetails.push(response);
-              // });
+              this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+                console.log('important: ', response);
+                this.allTicketsArray = response.filter((ticket: ticket) => {
+                  // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
+                  //   this.assignedDetails.push(response);
+                  // });
 
-              // this.authservice.getUserNameByEmail(ticket.assignee).subscribe((response) => {
-              //   this.assigneeDetails.push(response);
-              // });
+                  // this.authservice.getUserNameByEmail(ticket.assignee).subscribe((response) => {
+                  //   this.assigneeDetails.push(response);
+                  // });
 
-              return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
-            })
+                  return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
+                })
 
-            console.log("current user groups: ", this.currentUserGroups);
-            console.log("after filter", this.allTicketsArray);
+                console.log("current user groups: ", this.currentUserGroups);
+                console.log("after filter", this.allTicketsArray);
 
-            // for (let i = 0; i < this.allTicketsArray.length; i++) {
-            //   const assigneeNames = this.assigneeDetails[i].name + " " + this.assigneeDetails[i].surname;
-            //   const assignedNames = this.assignedDetails[i].name + " " + this.assignedDetails[i].surname;
+                // for (let i = 0; i < this.allTicketsArray.length; i++) {
+                //   const assigneeNames = this.assigneeDetails[i].name + " " + this.assigneeDetails[i].surname;
+                //   const assignedNames = this.assignedDetails[i].name + " " + this.assignedDetails[i].surname;
 
-            //   this.allTicketsArray[i].assignee = assigneeNames;
-            //   this.allTicketsArray[i].assigned = assignedNames;
-            // }
+                //   this.allTicketsArray[i].assignee = assigneeNames;
+                //   this.allTicketsArray[i].assigned = assignedNames;
+                // }
 
-            this.allTicketsArray = this.sortTickets(this.allTicketsArray);
-            this.sortedTicketsArray = this.allTicketsArray.slice();
+                this.allTicketsArray = this.sortTickets(this.allTicketsArray);
+                this.sortedTicketsArray = this.allTicketsArray.slice();
+              });
+            }
           });
         }
-      });
-    }
+      }
+    })
+
   }
 
   ngOnInit(): void {
