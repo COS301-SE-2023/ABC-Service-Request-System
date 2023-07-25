@@ -103,7 +103,7 @@ router.get('/project/id', expressAsyncHandler(
             }
         ]);
 
-        if (project) {
+        if (project.length != 0) {
             res.status(200).send({ project });
         } else {
             res.status(404).send({ message: 'No project found with that projectId' });
@@ -119,10 +119,13 @@ router.get('/project/client', expressAsyncHandler(
 
         const clients = await TestClientModel.find();
 
+        let found = false;
+
         clients.forEach(client => {
             if(client.id == clientId) {
                 client.projects.forEach(project => {
                     if(project.id == projectId) {
+                        found = true;
                         res.status(200).send(project);
                         return;
                     }
@@ -130,40 +133,40 @@ router.get('/project/client', expressAsyncHandler(
             }
         });
 
-        res.status(404).send({ message: 'No project found with that projectId' });
+        if(!found)
+            res.status(404).send({ message: 'No project found with that projectId and/or clientId' });
     }
 ));
 
-//remove a group from a project given the project id, group id and client id
+//remove a group from a project given the project id, groups and client id
 router.put("/remove_group", expressAsyncHandler(
     async (req, res) => {
         const projectId = req.body.projectId;
         const groupsToRemove = req.body.groupsToRemove;
         const clientId = req.body.clientId;
 
-        console.log("projectId: ", projectId);
-        console.log("groupName: ", groupsToRemove);
-        console.log("clientId: ", clientId);
-
-
         try {
             const client = await TestClientModel.findOne({id: clientId});
 
             if(client){
-                console.log("client found");
                 const project = client.projects.find((project) => {
                     return project.id == projectId;
                 });
 
                 if(project){
-                    console.log("project found: ", project);
-
                     project.assignedGroups = project.assignedGroups?.filter((group) => {
                         return !groupsToRemove.includes(group.groupName);
                     });
 
-                    console.log("assigned groups: ", project.assignedGroups);
                     await client.save();
+
+                    console.log(client);
+                    console.log();
+                    console.log();
+                    console.log();
+                    console.log(client.projects[1].assignedGroups);
+
+
                     res.status(200).send(project);
                 } else {
                     res.status(404).send("Project not found");
