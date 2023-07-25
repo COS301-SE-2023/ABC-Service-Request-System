@@ -38,8 +38,8 @@ export class TeamsPageComponent implements OnInit{
         (response) => {
             this.users = response;
             this.users.forEach(user => {
-            console.log('hello');
             this.userImages.set(user.id, user.profilePhoto);
+
             });
         },
         (error) => {
@@ -125,7 +125,7 @@ export class TeamsPageComponent implements OnInit{
     console.log('in navigateToProfile, id = ' + id);
     this.router.navigate(['/view-profile'], { queryParams: { id: id } });
   }
-  
+
 
   handleFilterChange(filterValue: string): void {
     this.users = [];
@@ -218,13 +218,15 @@ export class TeamsPageComponent implements OnInit{
     );
   }
 
-
-
-
   selectGroup(group: group): void {
     this.selectedGroup = group;
     this.onGroupSelected(group.id);
     // location.reload();
+  }
+
+  clickGroup(group: group): void {
+    this.filterValue = 'group';
+    this.selectGroup(group);
   }
 
 }
