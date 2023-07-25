@@ -250,9 +250,6 @@ export class GroupsSearchBarComponent implements OnInit {
     // Edwin's Notification Code End ============================
 }
 
-
-
-
   showValidationAlert(): void {
     alert('Please fill out all fields before submitting the form.');
   }
