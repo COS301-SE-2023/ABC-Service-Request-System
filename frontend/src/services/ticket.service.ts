@@ -70,8 +70,8 @@ export class TicketsService {
   uploadFile(file: File) {
     const formData = new FormData();
     formData.append('file', file);
-
-    return this.http.post<{ url: string }>(`${this.TICKET_URL}/upload`, formData);
+    return this.http.post<{ url: string }>(`http://localhost:3003/api/group/upload`, formData);
+    // return this.http.post<{ url: string }>(`http://localhost:3001/api/ticket/upload`, formData);
   }
 
   updateTicketStatus(ticketId: string, status: string) {
