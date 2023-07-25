@@ -261,8 +261,13 @@ router.post('/add', expressAsyncHandler(
     } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
     }
-  }))
+  }));
 
-
+  router.get('/exists/:groupName', expressAsyncHandler(
+    async (req, res) => {
+        const groupExists = await groupModel.exists({ groupName: req.params.groupName });
+        res.send(groupExists);
+    }
+  ));
 
 export default router;

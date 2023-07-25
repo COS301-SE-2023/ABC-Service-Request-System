@@ -227,6 +227,11 @@ export class TeamsPageComponent implements OnInit{
   clickGroup(group: group): void {
     this.filterValue = 'group';
     this.selectGroup(group);
+    console.log('in click group, ' + group.groupName);
+  }
+
+  routeToAnalytics(): void {
+    this.router.navigateByUrl('/analytics-page');
   }
 
 }

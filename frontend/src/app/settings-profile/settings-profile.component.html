@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <app-page-header></app-page-header>
 
@@ -120,7 +121,7 @@
 
   <div class = "view-report-container">
     <div class="view-detailed-report">
-      <a href = ""  class = "view-detailed-report-text">View detailed report</a>
+      <p  class = "view-detailed-report-text pointer" (click) = "routeToAnalytics()">View detailed report</p>
     </div>
   </div>
 
@@ -143,14 +144,18 @@
         <div class="social-card">
           <img class="social-icon" src="../../assets/github.png" alt="icon">
           <input class="social-input-github" [(ngModel)]="githubLink" [readonly]="!socialsEditable" placeholder="" name="githubLink">
-          <a [href]="githubLink" target="_blank" class="social-link">Go</a>
+          <a [href]="githubLink" target="_blank" class="social-link">
+            <img class = "go-icon" src="../../assets/go.png" alt="Go">
+          </a>
         </div>
       </div>
       <div class="column">
         <div class="social-card">
           <img class="social-icon" src="../../assets/linkedin.png" alt="icon">
           <input class="social-input-linkedin" [(ngModel)]="linkedinLink" [readonly]="!socialsEditable" placeholder="" name="linkedinLink">
-          <a [href]="linkedinLink" target="_blank" class="social-link">Go</a>
+          <a [href]="linkedinLink" target="_blank" class="social-link">
+            <img class = "go-icon" src="../../assets/go.png" alt="Go">
+          </a>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { AuthService } from 'src/services/auth.service';
 import { GroupService } from 'src/services/group.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-profile',
@@ -42,7 +43,8 @@ export class SettingsProfileComponent { // implements OnInit{
   }
 
   constructor(private userService: UserService, private authService: AuthService,
-  private groupService: GroupService, private cdr: ChangeDetectorRef) {}
+  private groupService: GroupService, private cdr: ChangeDetectorRef,
+  private router: Router) {}
 
   ngOnInit(): void {
     this.authService.getUserObject().subscribe(
@@ -233,5 +235,9 @@ export class SettingsProfileComponent { // implements OnInit{
         }
       )
     }
+  }
+
+  routeToAnalytics(): void {
+    this.router.navigateByUrl('/analytics-page');
   }
 }

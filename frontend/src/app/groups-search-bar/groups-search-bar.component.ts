@@ -122,7 +122,6 @@ export class GroupsSearchBarComponent implements OnInit {
   }
 
   onOpenAddPeopleDialog(): void {
-    console.log('[][][]2');
     this.openAddPeopleDialog();
   }
 
@@ -140,42 +139,58 @@ export class GroupsSearchBarComponent implements OnInit {
 
   onCreateGroupSubmit(): void {
     if (this.createGroupForm.valid) {
-      const groupData = {
-        ...this.createGroupForm.value,
-        people: Array.isArray(this.createGroupForm.value.people) ? this.createGroupForm.value.people : [this.createGroupForm.value.people],
-      };
-      console.log(groupData);
-      // console.log('Selected File:', this.file);
+      this.groupService.checkGroupNameExists(this.createGroupForm.value.groupName).subscribe(
+        (isExist: boolean) => {
+          if (isExist) {
+            alert('Group with this name already exists, please select another name');
+            // this.groupName = '';
+          } else {
+            const groupData = {
+              ...this.createGroupForm.value,
+              people: Array.isArray(this.createGroupForm.value.people) ? this.createGroupForm.value.people : [this.createGroupForm.value.people],
+            };
+            console.log('group data');
+            console.log(groupData);
 
-      if (this.file) {
-        this.groupService.uploadFile(this.file!).subscribe(
-          (result:any) => {
-            const backgroundPhoto = result.url;
-            console.log('background photo link:' + backgroundPhoto);
-            this.addGroup(groupData, backgroundPhoto);
-            this.closeCreateGroupDialog();
-            this.fetchGroupsAndUsers();
-            this.createGroupForm.reset();
-           // location.reload();
-          },
-          (error: any) => {
-            console.log('Error uploading file', error);
+            if (this.file) {
+              this.groupService.uploadFile(this.file!).subscribe(
+                (result:any) => {
+                  const backgroundPhoto = result.url;
+                  console.log('background photo link:' + backgroundPhoto);
+                  this.addGroup(groupData, backgroundPhoto);
+                  this.closeCreateGroupDialog();
+                  this.fetchGroupsAndUsers();
+                  this.createGroupForm.reset();
+                  // location.reload();
+                  this.groupService.getGroups().subscribe((groups: group[]) => {
+                    this.groups = groups;
+                  });
+                },
+                (error: any) => {
+                  console.log('Error uploading file', error);
+                }
+              )
+            }
+            else if (!this.file) {
+              const backgroundPhoto = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
+              console.log('background photo link:' + backgroundPhoto);
+              this.addGroup(groupData, backgroundPhoto);
+              this.closeCreateGroupDialog();
+              this.fetchGroupsAndUsers();
+              this.createGroupForm.reset();
+              // location.reload();
+              this.groupService.getGroups().subscribe((groups: group[]) => {
+                this.groups = groups;
+              });
+            }
           }
-        )
-      }
-      else if (!this.file) {
-        const backgroundPhoto = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
-        console.log('background photo link:' + backgroundPhoto);
-        this.addGroup(groupData, backgroundPhoto);
-        this.closeCreateGroupDialog();
-        this.fetchGroupsAndUsers();
-        this.createGroupForm.reset();
-      //  location.reload();
-      }
+        }
+      );
     } else {
       this.showValidationAlert();
     }
   }
+
 
   async addGroup(groupData: any, backgroundPhoto: string): Promise<void> {
     try {
@@ -183,7 +198,7 @@ export class GroupsSearchBarComponent implements OnInit {
       console.log('in add group function, ' + groupData.backgroundPhoto);
 
       const group: any = await this.groupService.createGroup(groupData).toPromise();
-      console.log("Group: ", group);
+      console.log("in addGroup... Group: ", group);
 
       const people = groupData.people;
       for (let i = 0; i < people.length; i++) {
@@ -223,6 +238,9 @@ export class GroupsSearchBarComponent implements OnInit {
             }
           }
           // Edwin's Notification Code End ============================
+          if (i == people.length-1) {
+            location.reload();
+          }
         } catch (error) {
           console.error('Failed to add group to user', error);
         }
