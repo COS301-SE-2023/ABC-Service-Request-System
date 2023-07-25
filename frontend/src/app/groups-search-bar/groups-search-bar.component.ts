@@ -207,37 +207,6 @@ export class GroupsSearchBarComponent implements OnInit {
           console.log('in component addGroup function... ' + group.id + 'and user is ' + userId);
           await this.userService.addGroupToUser(userId, group.id).toPromise();
           console.log('Group added to user successfully');
-
-          // Edwin's Notification Code
-          for (const userId of people) {
-            const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
-
-            if (tempUser !== undefined) {
-              //console.log("went in");
-
-              const currentUser = this.authService.getUser();
-
-              const profilePhotoLink = currentUser.profilePhoto;
-              const notificationMessage = " assigned you to a group";
-              const creatorEmail = currentUser.emailAddress;
-              const assignedEmail = tempUser.emailAddress;
-
-            //  const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
-            //  this.groupName = groupNotification.groupName;
-
-              const ticketSummary = "Group: " + this.groupName;
-              const ticketStatus = "";
-              const notificationTime = new Date();
-              const link = "";
-              const readStatus = "Unread";
-              const creatorFullName = currentUser.name + " " + currentUser.surname;
-
-              //console.log("About to create notifications");
-
-              await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).toPromise();
-            }
-          }
-          // Edwin's Notification Code End ============================
           if (i == people.length-1) {
             location.reload();
           }
@@ -248,6 +217,37 @@ export class GroupsSearchBarComponent implements OnInit {
     } catch (error) {
       console.error('Failed to create group', error);
     }
+    const people = groupData.people;
+    // Edwin's Notification Code
+    for (const userId of people) {
+      const tempUser: user | undefined = await this.userService.getUserForNotifications(userId).toPromise();
+
+      if (tempUser !== undefined) {
+        console.log("edwin notifcation in");
+
+        const currentUser = this.authService.getUser();
+
+        const profilePhotoLink = currentUser.profilePhoto;
+        const notificationMessage = " assigned you to a group";
+        const creatorEmail = currentUser.emailAddress;
+        const assignedEmail = tempUser.emailAddress;
+
+      //  const groupNotification = await this.groupService.getGroupForNotification(group).toPromise() as group;
+      //  this.groupName = groupNotification.groupName;
+
+        const ticketSummary = "Group: " + this.groupName;
+        const ticketStatus = "";
+        const notificationTime = new Date();
+        const link = "";
+        const readStatus = "Unread";
+        const creatorFullName = currentUser.name + " " + currentUser.surname;
+
+        //console.log("About to create notifications");
+
+        await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).toPromise();
+      }
+    }
+    // Edwin's Notification Code End ============================
 }
 
 
