@@ -26,74 +26,93 @@ export class NotificationsPanelComponent implements OnInit {
   @Input() notifications: notifications[] = [];
 
 
-  async getUnreadNotifications() {
-    try {
-      this.notificationsService.getAllNotifications().subscribe(async (response: notifications[]) => {
+  getUnreadNotifications() {
+    // try {
+    //   this.notificationsService.getAllNotifications().subscribe(async (response: notifications[]) => {
+    //     this.allNotificationsArray = response;
+    //     const user = this.authService.getUser();
+    //     this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
+
+    //     this.creators = [];
+
+    //     const creatorPromises = this.unreadNotificationsArray.forEach((notification, i) => {
+    //       return new Promise<void>((resolve, reject) => {
+    //         this.authService.getUserNameByEmail(notification.creatorEmail).subscribe((userObject) => {
+    //           this.creators.push({...userObject});
+
+    //           console.log("Creators: ", this.creators);
+    //           console.log("i: ", i);
+    //           console.log("Creators[i]: ", this.creators[i].name);
+    //           const creatorNames = this.creators[i].name + " " + this.creators[i].surname;
+    //           this.unreadNotificationsArray[i].creatorEmail = creatorNames;
+    //           resolve(); // Resolve the promise after the subscribe is done
+    //         }, (error) => {
+    //           reject(error); // Reject the promise if there's an error
+    //         });
+    //       });
+    //     });
+
+    //     await Promise.all(creatorPromises);
+
+    //     this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
+    //       // console.log("Unread: ", this.unreadNotificationsArray);
+    //       return this.compareDates(a.notificationTime, b.notificationTime, false);
+    //     });
+    //   });
+    // }
+    // catch (error: any) {
+    //   console.log(error);
+    // }
+
+    this.notificationsService.getAllNotifications().subscribe(
+      (response) => {
         this.allNotificationsArray = response;
         const user = this.authService.getUser();
         this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
 
-        this.creators = [];
+        this.unreadNotificationsArray.forEach(notification => {
+          const userEmail = notification.creatorEmail;
 
-        const creatorPromises = this.unreadNotificationsArray.map((notification, i) => {
-          return new Promise<void>((resolve, reject) => {
-            this.authService.getUserNameByEmail(notification.creatorEmail).subscribe((userObject) => {
-              this.creators.push({...userObject});
-              const creatorNames = this.creators[i].name + " " + this.creators[i].surname;
-              this.unreadNotificationsArray[i].creatorEmail = creatorNames;
-              resolve(); // Resolve the promise after the subscribe is done
-            }, (error) => {
-              reject(error); // Reject the promise if there's an error
-            });
-          });
+          this.authService.getUserNameByEmail(userEmail).subscribe(
+            (response) => {
+              notification.creatorEmail = response.name + " " + response.surname;
+            }
+          )
         });
-
-        await Promise.all(creatorPromises);
 
         this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
           // console.log("Unread: ", this.unreadNotificationsArray);
           return this.compareDates(a.notificationTime, b.notificationTime, false);
         });
-      });
-    }
-    catch (error: any) {
-      console.log(error);
-    }
+
+      }
+    )
   }
 
-  async getReadNotifications() {
-    try {
-      this.notificationsService.getAllNotifications().subscribe(async (response: notifications[]) => {
+  getReadNotifications() {
+    this.notificationsService.getAllNotifications().subscribe(
+      (response) => {
         this.allNotificationsArray = response;
         const user = this.authService.getUser();
         this.readNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Read' && notifications.assignedEmail === user.emailAddress);
 
-        this.creators = [];
+        this.readNotificationsArray.forEach(notification => {
+          const userEmail = notification.creatorEmail;
 
-        const creatorPromises = this.readNotificationsArray.map((notification, i) => {
-          return new Promise<void>((resolve, reject) => {
-            this.authService.getUserNameByEmail(notification.creatorEmail).subscribe((userObject) => {
-              this.creators.push({...userObject});
-              const creatorNames = this.creators[i].name + " " + this.creators[i].surname;
-              this.readNotificationsArray[i].creatorEmail = creatorNames;
-              resolve(); // Resolve the promise after the subscribe is done
-            }, (error) => {
-              reject(error); // Reject the promise if there's an error
-            });
-          });
+          this.authService.getUserNameByEmail(userEmail).subscribe(
+            (response) => {
+              notification.creatorEmail = response.name + " " + response.surname;
+            }
+          )
         });
-
-        await Promise.all(creatorPromises);
 
         this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
           // console.log("Unread: ", this.unreadNotificationsArray);
           return this.compareDates(a.notificationTime, b.notificationTime, false);
         });
-      });
-    }
-    catch (error: any) {
-      console.log(error);
-    }
+
+      }
+    )
   }
 
   compareDates(a: Date, b: Date, isAsc: boolean) {
