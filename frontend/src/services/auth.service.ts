@@ -6,19 +6,18 @@ import { user } from "../../../backend/users/src/models/user.model";
 
 interface DecodedToken {
   user: user;
-  role: string;
+  role: string[];
   name: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private role: string;
+  private role: string[] = [];
   private name: string;
   private token: string | null;
   private user!: user;
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.role = '';
     this.name = '';
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
 
@@ -37,7 +36,7 @@ export class AuthService {
     if (!this.token) return; // if token is not set, do nothing
 
     const decodedToken = jwt_decode(this.token) as DecodedToken;
-    this.role = decodedToken.role;
+    this.role = decodedToken.role || [];
     this.name = decodedToken.name;
     this.user = decodedToken.user;
     // console.log('Decoded role:', this.role);
@@ -46,7 +45,7 @@ export class AuthService {
 
 
 
-  getRole(): string {
+  getRole(): string []{
     return this.role;
   }
 
@@ -75,22 +74,22 @@ export class AuthService {
 
   isAdmin(): boolean {
     //console.log('Role:', this.role);
-    return this.role === 'Admin';
+    return this.role.includes('Admin');
   }
 
   isManager(): boolean {
     //console.log('Role:', this.role);
-    return this.role === 'Manager';
+    return this.role.includes('Manager');
   }
 
   isTechnical(): boolean {
     //console.log('Role:', this.role);
-    return this.role === 'Technical';
+    return this.role.includes('Technical');
   }
 
   isFunctional(): boolean {
     //console.log('Role:', this.role);
-    return this.role === 'Functional';
+    return this.role.includes('Functional');
   }
 
   createUser(userDetails: any) {

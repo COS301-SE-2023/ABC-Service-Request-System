@@ -53,27 +53,32 @@ router.post("/login", expressAsyncHandler(
           }
           
           //loop through roles and add them to the token
-          
-          let setRoles : string = "Default";
+          let setRoles: string[] = [];
+          setRoles = user.roles;
 
 
-          for (let role of user.roles){
-            if(role == "Admin"){
-              setRoles = role;
-              break;
-            }else if(role == "Manager"){
-              setRoles = role;
-              break;
-            }else if(role == "Functional"){
-              setRoles = role;
-              break;
-            }else if(role == "Technical"){
-              setRoles = role;
-            }
-          }
+          // let setRoles : string = "Default";
+
+
+          // for (let role of user.roles){
+          //   if(role == "Admin"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Manager"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Functional"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Technical"){
+          //     setRoles = role;
+          //   }
+          // }
           const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
+
+          console.log("Token:", token);
   
           // console.log("Login successful");
           res.status(200).send({ auth: true, token });

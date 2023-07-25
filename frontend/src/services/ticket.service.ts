@@ -12,16 +12,16 @@ export class TicketsService {
   USER_URL: any;
   API_URL = 'http://localhost:3000/api/user';
 
-  private token: string | null;
+  private token!: string | null;
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.token = localStorage.getItem('token'); // retrieve token from localStorage
-  }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getAllTickets(){
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
-    console.log('Ticket HEADER:', headers);
+    // console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
+    // console.log('Ticket HEADER:', headers);
     return this.http.get<ticket[]>(this.TICKET_URL, {headers});
   }
 
@@ -57,8 +57,8 @@ export class TicketsService {
     const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked, assigneeFullName, assignedFullName};
    console.log('Ticket is added service:', body);
    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-   console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
-   console.log('Ticket HEADER:', headers);
+  //  console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
+  //  console.log('Ticket HEADER:', headers);
     return this.http.post(`${this.TICKET_URL}/addticket`, body , {headers});
   }
 
