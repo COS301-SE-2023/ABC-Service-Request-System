@@ -26,7 +26,7 @@ export const notificationsSchema = new Schema<notifications> (
         notificationTime: {type: Date, required: true},
         link: {type: String},
         readStatus: {type: String, required: true},
-        creatorFullName: {type: String, required: true}
+        creatorFullName: {type: String}
     },
     {
         toJSON: {

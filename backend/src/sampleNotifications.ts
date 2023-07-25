@@ -23,7 +23,8 @@ export const sample_notifications: notifications[] = [
         ticketStatus: "Done",
         notificationTime: oneDayBefore,
         link: "1",
-        readStatus: "Unread"
+        readStatus: "Unread",
+        creatorFullName: "Jesse Mwirygwi",
     },
     {
         id: "2",
@@ -35,7 +36,8 @@ export const sample_notifications: notifications[] = [
         ticketStatus: "Pending",
         notificationTime: oneWeekBefore,
         link: "2",
-        readStatus: "Unread"
+        readStatus: "Unread",
+        creatorFullName: "John Doe"
     },
     {
         id: "3",
@@ -47,6 +49,7 @@ export const sample_notifications: notifications[] = [
         ticketStatus: "Done",
         notificationTime: oneMonthBefore,
         link: "3",
-        readStatus: "Read"
+        readStatus: "Read",
+        creatorFullName: "Mark Tick"
     }
 ];
