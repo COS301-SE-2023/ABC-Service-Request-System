@@ -362,7 +362,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
             res => {
               console.log('Comment added successfully', res);
-              // location.reload();
+              location.reload();
             },
             err => {
               console.log('Error while adding comment', err);
@@ -371,6 +371,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         }
       }, (error) => { console.log("error fetching current user ")}
     );
+
   }
 
 
