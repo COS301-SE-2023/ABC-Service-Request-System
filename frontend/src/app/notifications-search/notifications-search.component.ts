@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/services/user.service';
 import { user } from '../../../../backend/users/src/models/user.model';
 import { TicketsService } from 'src/services/ticket.service';
@@ -38,7 +39,7 @@ export class NotificationsSearchComponent implements OnInit {
   clientsFilter!: boolean;
   projectsFilter!: boolean;
 
-  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService){
+  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router){
     this.ticketFilter = true;
     this.groupsFilter = true;
     this.usersFilter = true;
@@ -101,9 +102,7 @@ export class NotificationsSearchComponent implements OnInit {
       this.resultsTicketsAssigned = [];
       this.resultsTicketsSummary = [];
       this.resultsTicketsDescription = [];
-      // this.userService.getAllUsers().subscribe(()=> {
       this.resultsUsers = [];
-      // })
       console.log('Users:',this.resultsUsers)
       return;
     }
@@ -187,5 +186,9 @@ export class NotificationsSearchComponent implements OnInit {
   })
   }
 }
+}
+
+navigateToTicket(id: string) {
+  this.router.navigate([`/ticket/${id}`]);
 }
 }

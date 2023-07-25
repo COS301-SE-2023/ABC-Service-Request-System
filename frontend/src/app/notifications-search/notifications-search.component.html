@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div>
     <app-page-header></app-page-header>
 </div>
@@ -6,7 +7,7 @@
 </div>
 
 <div class = "panel">
-    <button (click)="onSearch()">Search </button>
+    <!-- <button (click)="onSearch()">Search </button> -->
     <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"class = "searchBar">
     <div class="search-results">
         <div *ngFor="let users of resultsUsers" class="search-user">
@@ -32,25 +33,25 @@
                 <p class ="title"><b>{{clients.organisation}}</b></p>
                 <p class ="additional-info"><b>{{clients.name}}</b> {{clients.email}}</p>
         </div>
-        <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user">
+        <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
             <div class="search-user-default-img">
                 <img src = "./assets/tickets.png" alt = "ticket-Icon">
             </div>
                 <p class = "title"><b>{{tickets.summary}}</b></p>
                 <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
         </div>
-        <div *ngFor="let tickets of resultsTicketsSummary" class="search-user">
+        <div *ngFor="let tickets of resultsTicketsSummary" class="search-user" (click)="navigateToTicket(tickets.id)"  tabindex="0">
             <div class="search-user-default-img">
                 <img src = "./assets/tickets.png" alt = "ticket-Icon">
             </div>
                 <p class = "title"><b>{{tickets.summary}}</b></p>
                 <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
         </div>
-        <div *ngFor="let tickets of resultsTicketsDescription" class="search-user">
+        <div *ngFor="let tickets of resultsTicketsDescription" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
             <div class="search-user-default-img">
                 <img src = "./assets/tickets.png" alt = "ticket-Icon">
             </div>
-                <p class = "title"><b>Description</b></p>
+                <p class = "title"><b>...{{searchQuery}}...</b></p>
                 <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
         </div>
         <div *ngFor="let groups of resultsGroup" class="search-user">
