@@ -350,7 +350,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
                 },
                 err => {
                   console.log('Error while adding first response time', err);
-                  // location.reload();
+
+                  if(err.status === 200)
+                    location.reload();
                 }
               );
             },
