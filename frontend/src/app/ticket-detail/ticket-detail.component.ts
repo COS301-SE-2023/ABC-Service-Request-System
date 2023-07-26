@@ -125,6 +125,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               (response) => {
                 this.assigneeUser = response;
                 this.assigneeImage = response.profilePhoto;
+
+                for (let i = 0; i < this.ticket.todoChecked.length; i++) {
+                  this.todosChanged[i] = this.ticket.todoChecked[i];
+                }
+          
+                console.log("todosChanged: ", this.todosChanged);
               }
             )
           }
@@ -135,8 +141,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.getCurrentUserImage();
 
     // this.attachmentsOnly = false;
-
-    // this.todosChanged.length = 0;
   }
 
 
@@ -177,11 +181,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       // this.getAssigneeUserImage(this.ticket.assignee);
 
-      for (let i = 0; i < this.ticket.todoChecked.length; i++) {
-        this.todosChanged[i] = this.ticket.todoChecked[i];
-      }
-
-      // console.log("todosChanged: ", this.todosChanged);
+      
     });
   }
 
@@ -405,21 +405,17 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  async saveTodos() {
+  saveTodos() {
     this.checkChanges = false;
 
     console.log("todosChanged: ", this.todosChanged);
 
-    try {
-      const response = await this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).toPromise();
+    
+    this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).subscribe((response) => {
       console.log(response);
-
       location.reload();
-    } catch (error) {
-      console.error(error);
-
-      location.reload();
-    }
+    });
+  
   }
 
   onCheckChanged(i: number) {

@@ -75,27 +75,24 @@ export class TicketTableComponent implements OnInit{
               this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
                 console.log('important: ', response);
                 this.allTicketsArray = response.filter((ticket: ticket) => {
-                  // this.authservice.getUserNameByEmail(ticket.assigned).subscribe((response) => {
-                  //   this.assignedDetails.push(response);
-                  // });
-
-                  // this.authservice.getUserNameByEmail(ticket.assignee).subscribe((response) => {
-                  //   this.assigneeDetails.push(response);
-                  // });
-
                   return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
                 })
 
                 console.log("current user groups: ", this.currentUserGroups);
                 console.log("after filter", this.allTicketsArray);
 
-                // for (let i = 0; i < this.allTicketsArray.length; i++) {
-                //   const assigneeNames = this.assigneeDetails[i].name + " " + this.assigneeDetails[i].surname;
-                //   const assignedNames = this.assignedDetails[i].name + " " + this.assignedDetails[i].surname;
+                this.allTicketsArray.forEach(tickets => {
+                  const assigneeEmail = tickets.assignee;
+                  const assignedEmail = tickets.assigned;
 
-                //   this.allTicketsArray[i].assignee = assigneeNames;
-                //   this.allTicketsArray[i].assigned = assignedNames;
-                // }
+                  this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
+                    tickets.assignee = assignee.name + " " + assignee.surname;
+
+                    this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
+                      tickets.assigned = assigned.name + " " + assigned.surname;
+                    })
+                  })
+                });
 
                 this.allTicketsArray = this.sortTickets(this.allTicketsArray);
                 this.sortedTicketsArray = this.allTicketsArray.slice();

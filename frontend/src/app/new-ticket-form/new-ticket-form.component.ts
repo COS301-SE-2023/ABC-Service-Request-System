@@ -97,8 +97,8 @@ export class NewTicketFormComponent implements OnInit {
       }
     );
 
-    this.todoArray.length = 0;
-    this.todoChecked.length = 0;
+    // this.todoArray.length = 0;
+    // this.todoChecked.length = 0;
   }
 
   onGroupChanged(event: Event) {
@@ -172,9 +172,13 @@ export class NewTicketFormComponent implements OnInit {
       const assigneeFullName = this.assignee.name + " " + this.assignee.surname;
       const assignedFullName = this.assignedUser.name + " " + this.assignedUser.surname;
 
+
+      console.log("todoArray.length: ", this.todoArray.length);
       for (let i = 0; i < this.todoArray.length; i++) {
         this.todoChecked.push(false);
       }
+
+      console.log("todoChecked", this.todoChecked);
 
 
       let groupName = "";
@@ -192,18 +196,17 @@ export class NewTicketFormComponent implements OnInit {
           }
         );
         // should navigate to ticket directly
-        this.router.navigate([`/ticket/${newTicketId}`]);
+        //this.router.navigate([`/ticket/${newTicketId}`]);
 
         // get the corresponding users
         let assigneeUser!: user;
 
         this.authService.getUserObject().subscribe(
           (response) => {
-            assigneeUser = response
-          }
-        );
+            assigneeUser = response;
 
-        // create a notification corresponding to the ticket
+             // create a notification corresponding to the ticket
+        
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
         const creatorEmail = assignee;
@@ -218,6 +221,9 @@ export class NewTicketFormComponent implements OnInit {
         this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
           console.log(response);
         });
+          }
+        );
+        
       });
     }
   );
@@ -251,7 +257,7 @@ export class NewTicketFormComponent implements OnInit {
       this.ticketForm.reset();
 
       // should navigate to ticket directly
-      this.router.navigate(['/ticket/${id}']);
+      //this.router.navigate(['/ticket/${id}']);
     }
     else {
       this.markFormControlsAsTouched(this.ticketForm);

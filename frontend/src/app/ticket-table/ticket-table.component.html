@@ -21,9 +21,9 @@
       <tr *ngFor="let ticket of sortedTicketsArray" class="odd:bg-white even:bg-slate-200 pointer" (click)="navigateToTicket(ticket.id)">
         <td class="pt-3 pb-3 pl-4 font-bold text-blue-500 hover:underline text-left">{{ ticket.id }}</td>
         <td class="text-left  text-blue-500 hover:underline">{{ ticket.summary }}</td>
-        <td class="text-left">{{ ticket.assigneeFullName }}</td>
+        <td class="text-left">{{ ticket.assignee }}</td>
         <!-- <td class="text-left">{{ getAssigneeName(ticket.assignee) }}</td> -->
-        <td class="text-left">{{ ticket.assignedFullName }}</td>
+        <td class="text-left">{{ ticket.assigned }}</td>
         <!-- <td class="text-left">{{ getAssignedName(ticket.assigned) }}</td> -->
         <td class="text-left">{{ ticket.group }}</td>
         <td class="text-center">
