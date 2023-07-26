@@ -201,7 +201,7 @@ navigateToTicket(id: string) {
 highlightButton(event: any) {
   const buttons = document.getElementsByClassName('filter-buttons');
 
-  if (event.target.classList.contains('se'))
+  if (event.target.classList.contains('selected'))
   for (let i = 1; i < buttons.length; i++) {
     buttons[i].classList.remove('selected');
   }
@@ -313,5 +313,20 @@ highlightButtonProjects(event: any) {
     event.target.classList.add('selected');
     this.displayProjects = true;
   }
+}
+highlightDescription(description: string, searchQuery: string): string {
+  if (!description || !searchQuery) {
+    return description;
+  }
+
+  const searchIndex = description.toLowerCase().indexOf(searchQuery.toLowerCase());
+  if (searchIndex >= 0) {
+    const before = searchIndex > 10 ? '...' : '';
+    const after = searchIndex + searchQuery.length + 10 < description.length ? '...' : '';
+    const context = description.substring(searchIndex - 10, searchIndex + searchQuery.length + 10);
+    return `${before}${context}${after}`;
+  }
+
+  return description;
 }
 }

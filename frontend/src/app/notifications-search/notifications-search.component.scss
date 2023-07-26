@@ -45,11 +45,14 @@
         }
       }
 
+      
       .search-results{
         border-top: 1px solid #ccc;
         margin-top: 1em;
         overflow-y: auto;
-
+        width: 75vw;
+        margin-right: 0;
+        
         .search-user{
             display: flex;
             flex-wrap: nowrap;
