@@ -581,3 +581,24 @@ mat-select .mat-select-trigger {
 ::ng-deep .ng-option.highlighted {
   background-color: #710b0b;
 }
+
+.back-icon {
+  width: 30px;
+  height:30px;
+  margin-left: 10px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.group-name {
+  margin-left:15px;
+  font-family: "Poppins";
+  font-size: 28px;
+  line-height: 1.2em;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(290deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

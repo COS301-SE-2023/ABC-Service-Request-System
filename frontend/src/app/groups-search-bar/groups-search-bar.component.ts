@@ -28,10 +28,10 @@ export class GroupsSearchBarComponent implements OnInit {
   users: user[] = [];
   groups: group[] = [];
   groupId! : string;
-  filterValue = 'all';
+  filterValue = 'wolongong';
   selectedGroup = '';
   peopleArray: user[] = [];
-  groupName!: string;
+  @Input() groupName!: string;
 
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService, private userService: UserService, private notificationsService: NotificationsService
@@ -76,6 +76,8 @@ export class GroupsSearchBarComponent implements OnInit {
     this.groupService.getGroups().subscribe((groups: group[]) => {
       this.groups = groups;
     });
+
+    this.groupName = 'All Groups'
 
     // this.fetchGroupsAndUsers();
   }
@@ -355,7 +357,8 @@ export class GroupsSearchBarComponent implements OnInit {
 
   handleFilterChange(filterValue: string): void {
     this.filterChanged.emit(filterValue);
-    this.filterValue = filterValue;
+    // this.filterValue = filterValue;
+    this.groupName = 'All Groups'
     if (filterValue === 'all') {
       this.selectedGroup = '';
     }
