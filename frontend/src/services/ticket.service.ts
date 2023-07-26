@@ -19,6 +19,7 @@ export class TicketsService {
   }
 
   getAllTickets(){
+    this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket[]>(this.TICKET_URL, {headers});
   }

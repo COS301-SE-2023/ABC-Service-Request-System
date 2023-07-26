@@ -131,9 +131,11 @@ export class PageHeaderComponent {
   }
 
   ngOnInit() {
-    this.getNumOfUnreadNotifications();
-    const userId = this.getUserObject().id;
-    this.getUser(userId);
+    if(this.authService.getUser() != null || undefined){
+      this.getNumOfUnreadNotifications();
+      const userId = this.getUserObject().id;
+      this.getUser(userId);
+    }
   }
 
   getUser(userId: string) {

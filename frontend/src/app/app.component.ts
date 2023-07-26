@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tickets } from './data';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 export interface Ticket {
   id: number;
@@ -22,10 +22,26 @@ export interface Ticket {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Project';
 
+  isLoginRoute = false;
+  routerSubscription!: Subscription;
+
   constructor(private http: HttpClient, private router: Router) { }
+
+  ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        console.log('app init url: ', event.urlAfterRedirects);
+        this.isLoginRoute = event.urlAfterRedirects.includes('login');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
+  }
 
   getData(): Observable<any> {
     return this.http.get('http://localhost:3000/api/data');
