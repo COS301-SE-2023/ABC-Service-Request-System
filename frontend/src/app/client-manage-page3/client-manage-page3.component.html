@@ -85,7 +85,9 @@
       <tr *ngFor="let ticket of allTickets">
         <td class="py-2"> {{ ticket.id }} </td>
         <td class="py-2"> {{ ticket.summary }} </td>
-        <td class="py-2 underline text-sky-600 text-center">View Details</td>
+        <td class="py-2 underline text-sky-600 text-center">
+          <button class="underline" (click)="viewTicketDetails(ticket.id)">View Details</button>
+        </td>
         <td class="py-2 underline text-red-600 text-right">Remove</td>
       </tr>
       <!-- <tr>

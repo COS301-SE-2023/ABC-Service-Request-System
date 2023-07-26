@@ -18,6 +18,6 @@
     </li>
   </ul>
 
-  <button class="continue-btn" (click)="onContinueClicked()">Continue</button>
+  <button class="continue-btn" [disabled]="!selectedOption" (click)="onContinueClicked()">Continue</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>
 </div>

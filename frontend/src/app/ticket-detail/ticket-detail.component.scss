@@ -551,3 +551,23 @@ app-user-dropdown{
     justify-content: center;
     align-self: center;
 }
+
+.ticket-heading {
+  display: flex;
+  align-items: center;
+  // font-size: 2em;
+
+  .backButton {
+    font-size: 1.5em;
+    padding: 0.5em;
+    padding-right: 1em;
+
+    i:hover{
+      cursor: pointer;
+    }
+  }
+
+  h1 {
+    margin: 0 !important;
+  }
+}

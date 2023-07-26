@@ -2,7 +2,6 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TestTicketModel } from "./testTicket.model";
 import { sample_tickets } from "../../tickets/src/utils/data";
-import mongoose from "mongoose";
 import { comment } from "../../tickets/src/models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';

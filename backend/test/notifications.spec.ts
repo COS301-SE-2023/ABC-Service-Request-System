@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TestNotificationsModel } from "../src/models/testNotifications.model";
+import { TestNotificationsModel } from "../src/test_routers/testNotifications.model";
 
 chai.use(chaiHttp);
 chai.should();

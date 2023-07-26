@@ -40,8 +40,6 @@ export class AuthService {
     this.role = decodedToken.role;
     this.name = decodedToken.name;
     this.user = decodedToken.user;
-    // console.log('Decoded role:', this.role);
-    // console.log('Decoded name:', this.name);
   }
 
 
@@ -63,7 +61,6 @@ export class AuthService {
   }
 
   getUserObject() {
-    console.log('user email: ', this.getUser().emailAddress);
     const API_URL = 'http://localhost:3000/api/user/email'; // Replace with your API URL
     return this.http.get<user>(`${API_URL}?email=${this.getUser().emailAddress}`);
   }
@@ -74,22 +71,18 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    //console.log('Role:', this.role);
     return this.role === 'Admin';
   }
 
   isManager(): boolean {
-    //console.log('Role:', this.role);
     return this.role === 'Manager';
   }
 
   isTechnical(): boolean {
-    //console.log('Role:', this.role);
     return this.role === 'Technical';
   }
 
   isFunctional(): boolean {
-    //console.log('Role:', this.role);
     return this.role === 'Functional';
   }
 

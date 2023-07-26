@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<app-dash-panel></app-dash-panel>
+<!-- <app-dash-panel></app-dash-panel> -->
 
 <div class="page-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
   <h1>Create Ticket</h1>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="ticket-information-col2">
-          
+
         </div>
       </div>
 
@@ -56,7 +56,7 @@
               <i class="fa-solid fa-xmark" tabindex="0" (click)="removeTodoTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
             </div>
           </div>
-          
+
           <div class="no-todo-added" *ngIf="!todoAdded">
             <p>No Todos Added</p>
             <button class="add-btn" (click)="toggleAddTodoOverlay()" type="button">
@@ -145,4 +145,4 @@
 
 
 
-<app-page-header></app-page-header>
+<!-- <app-page-header></app-page-header> -->

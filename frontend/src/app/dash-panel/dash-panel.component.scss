@@ -38,6 +38,10 @@
     width: 100%;
     position: relative;
 
+    i {
+      margin-left: 0.5em;
+    }
+
     .inner-header-wrapper {
       display: flex;
       align-items: center;

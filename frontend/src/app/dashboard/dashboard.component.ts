@@ -106,13 +106,10 @@ export class DashboardComponent implements OnInit{
   currentStatus = 'all';
   filterTicketsByStatus(status: string): void {
     this.currentStatus = status;
-    console.log('in function... '+ status);
     if (status === 'all') {
       this.filteredTickets = this.allTickets;
     } else {
-      console.log(this.allTickets);
       this.filteredTickets = this.allTickets.filter(ticket => ticket.status.toLowerCase() === status);
-      console.log(this.filteredTickets);
     }
   }
 

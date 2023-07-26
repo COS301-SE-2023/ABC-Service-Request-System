@@ -2,7 +2,7 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <app-page-header></app-page-header>
 
-<div class="settings-container">
+<div class="settings-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 
   <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader>
   <div class = "profile-header">
@@ -183,4 +183,4 @@
   </div>
 </div>
 
-<app-dash-panel></app-dash-panel>
+<!-- <app-dash-panel></app-dash-panel> -->

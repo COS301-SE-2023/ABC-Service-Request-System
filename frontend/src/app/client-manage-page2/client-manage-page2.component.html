@@ -1,5 +1,7 @@
 <div class="container">
-  <h1>Members</h1> <br>
+  <h1>{{this.selectedClient.organisation}}</h1> <br>
+
+  <h2>Members</h2>
 
   <table class="w-full table-fixed">
     <thead>
@@ -49,7 +51,7 @@
           <button class="underline" (click)="onEditClicked(this.selectedClient, project)">Edit</button>
         </td>
         <td class="py-2 text-red-600 text-right">
-          <button class="underline">Remove</button>
+          <button class="underline" (click)="toggleRemoveProjectOverlay($event, project)">Remove</button>
         </td>
       </tr>
     </tbody>
@@ -69,4 +71,12 @@
       <button class="cancel-remove-client-btn" (click)="toggleRemoveClientOverlay(null)">No, take me back</button>
     </div>
   </div>
-</div>
+
+  <div class="remove-client-overlay" *ngIf="isRemoveProjectOverlayOpened">
+    <div class="remove-client-overlay-inner-wrapper">
+      <h3>Confirm Action</h3>
+      <p>Are you sure you'd like to remove <span class="important-white">{{ this.projectToRemove?.name }}</span> from <span class="important-white">{{ this.selectedClient.organisation }}</span>? Doing so will remove all the <span class="important-white">tickets</span> associated with this project.</p>
+      <button class="remove-client-btn" (click)="removeProject(this.projectToRemove!)">Remove Project</button>
+      <button class="cancel-remove-client-btn" (click)="toggleRemoveProjectOverlay($event, null)">No, take me back</button>
+    </div>
+  </div>

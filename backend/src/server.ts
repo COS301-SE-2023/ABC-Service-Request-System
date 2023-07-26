@@ -12,7 +12,8 @@ dotenv.config();
 import testTicketRouter from './test_routers/testTicket.router';
 import testUserRouter from './test_routers/testUser.router';
 import testNotificationsRouter from './test_routers/testNotifications.router';
-import testGroupRouter from './test_routers/testGroup.router'
+import testGroupRouter from './test_routers/testGroup.router';
+import testClientRouter from './test_routers/testClient.router';
 
 import { dbConnection } from "./configs/testTicketDB.config";
 
@@ -106,6 +107,7 @@ app.use('/api/test_ticket', testTicketRouter);
 app.use('/api/test_user', testUserRouter);
 app.use('/api/test_notifications', testNotificationsRouter);
 app.use('/api/test_group', testGroupRouter);
+app.use('/api/test_client', testClientRouter);
 
 app.get('/api/welcome', (req: any, res :any) => {
     res.status(200).send({ message: 'Welcome to the server!' });
