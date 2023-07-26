@@ -160,19 +160,12 @@ router.put("/remove_group", expressAsyncHandler(
 
                     await client.save();
 
-                    console.log(client);
-                    console.log();
-                    console.log();
-                    console.log();
-                    console.log(client.projects[1].assignedGroups);
-
-
                     res.status(200).send(project);
                 } else {
-                    res.status(404).send("Project not found");
+                    res.status(404).send({ message: 'Project not found' });
                 }
             } else {
-                res.status(404).send("Client not found");
+                res.status(404).send({ message: 'Client not found' });
             }
         } catch (error) {
             res.status(500).send("Internal server error removing group from clients project");
@@ -183,13 +176,11 @@ router.put("/remove_group", expressAsyncHandler(
 //add a group to a project given the client id and project id
 router.post("/add_group", expressAsyncHandler(
     async (req, res) => {
-        console.log('req body: ', req.body);
         const clientId = req.body.clientId;
         const projectId = req.body.projectId;
         const newGroups: any = req.body.newGroups;
 
         try{
-            console.log("received client id: ", clientId);
             const client = await TestClientModel.findOne({ id: clientId });
 
             if(client) {
@@ -203,11 +194,11 @@ router.post("/add_group", expressAsyncHandler(
 
                     res.status(201).send(project);
                 } else {
-                    res.status(404).send("Project not found");
+                    res.status(404).send({ message: 'Project not found' });
                 }
     
             } else {
-                res.status(404).send("Client not found")
+                res.status(404).send({ message: 'Client not found' })
             }
 
         } catch (error) {
@@ -235,7 +226,7 @@ router.post("/add_project", expressAsyncHandler(
             if(client) {
                 const projectExists = client.projects.some(project => project.name === newProject.name);
                 if (projectExists) {
-                  res.status(400).send("Project name already exists");
+                  res.status(400).send({ message: 'Project name already exists' });
                   return;
                 }
 
@@ -256,14 +247,14 @@ router.post("/add_project", expressAsyncHandler(
 router.delete("/delete_client", expressAsyncHandler(
     async (req, res) => {
         const clientId = req.query.clientId;
-        console.log('client Id: ', clientId);
+        
         try {
             const deletedClient = await TestClientModel.findOneAndDelete({ id: clientId });
 
             if(deletedClient){
                 res.status(200).send(deletedClient);
             } else {
-                res.status(404).send("Client not found");
+                res.status(404).send({ message: 'Client not found' });
             }
         } catch (error) {
             res.status(500).send("Internal server error deleting client");
@@ -273,137 +264,136 @@ router.delete("/delete_client", expressAsyncHandler(
 
 router.post("/create_client", expressAsyncHandler(
     async (req, res) => {
-        // check if a user with the provided email already exists
-        console.log('req: ', req.body);
+
         const existingUser = await TestClientModel.findOne({ email: req.body.email });
         if (existingUser) {
-            res.status(409).send("User with this email already exists.");
-            return;
-        }
+            res.status(409).send({ message: "User with this email already exists." });
+            //return;
+        } else {
+            // generate invite token
+            const inviteToken = crypto.randomBytes(32).toString("hex");
+            const clientCount = await TestClientModel.countDocuments();
 
-        // generate invite token
-        const inviteToken = crypto.randomBytes(32).toString("hex");
-        const clientCount = await TestClientModel.countDocuments();
-
-        const newProject: project = {
-            id: '1',
-            name: req.body.projectName,
-            logo: req.body.logo,
-            color: req.body.color,
-            assignedGroups: req.body.groups
-        }
-
-        // create new client
-        const newClient = new TestClientModel({
-            id: String(clientCount + 1), // Assign the auto-incremented ID
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            inviteToken,
-            organisation: req.body.organisation,
-            industry: req.body.industry,
-            projects: newProject,
-            password: "Admin"
-        });
-
-        await newClient.save();
-
-        //send verification email
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "hyperiontech.capstone@gmail.com",
-                pass: "zycjmbveivhamcgt"
+            const newProject: project = {
+                id: '1',
+                name: req.body.projectName,
+                logo: req.body.logo,
+                color: req.body.color,
+                assignedGroups: req.body.groups
             }
-        });
 
-        const mailOptions = {
-            from: process.env.EMAIL,
-            to: newClient.email,
-            subject: "Invitation to join Luna",
-            html: `
-                <html>
-                <head>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .email-container {
-                            max-width: 600px;
-                            margin: auto;
-                            background-color: rgba(33, 33, 33, 1);
-                            padding: 20px;
-                        }
-                        .header {
-                            background-color: #04538E;
-                            color: #fff;
-                            padding: 20px;
-                            text-align: center;
-                        }
-                        .header h1 {
-                            margin: 0;
-                        }
-                        .logo {
-                            display: block;
-                            margin: 0 auto 20px;
-                            width: 100px;
-                            height: auto;
-                        }
-                        .greeting {
-                            font-size: 24px;
-                            color: #fff;
-                            text-align: center;
-                        }
-                        .message {
-                            font-size: 18px;
-                            color: rgba(122 , 122 , 122 , 1);
-                            text-align: center;
-                            margin: 20px 0;
-                        }
-                        .activation-link {
-                            display: block;
-                            width: 200px;
-                            margin: 20px auto;
-                            padding: 10px;
-                            background-color: rgba(18, 18, 18, 1);
-                            color: #fff;
-                            text-align: center;
-                            text-decoration: none;
-                            border-radius: 4px;
-                        }
-                        a {
-                            color: #fff;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="email-container">
-                        <div class="header">
+            // create new client
+            const newClient = new TestClientModel({
+                id: String(clientCount + 1), // Assign the auto-incremented ID
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                inviteToken,
+                organisation: req.body.organisation,
+                industry: req.body.industry,
+                projects: newProject,
+                password: "Admin"
+            });
 
-                            <h1>Welcome to Luna</h1>
+            await newClient.save();
+
+            //send verification email
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "hyperiontech.capstone@gmail.com",
+                    pass: "zycjmbveivhamcgt"
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: newClient.email,
+                subject: "Invitation to join Luna",
+                html: `
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .email-container {
+                                max-width: 600px;
+                                margin: auto;
+                                background-color: rgba(33, 33, 33, 1);
+                                padding: 20px;
+                            }
+                            .header {
+                                background-color: #04538E;
+                                color: #fff;
+                                padding: 20px;
+                                text-align: center;
+                            }
+                            .header h1 {
+                                margin: 0;
+                            }
+                            .logo {
+                                display: block;
+                                margin: 0 auto 20px;
+                                width: 100px;
+                                height: auto;
+                            }
+                            .greeting {
+                                font-size: 24px;
+                                color: #fff;
+                                text-align: center;
+                            }
+                            .message {
+                                font-size: 18px;
+                                color: rgba(122 , 122 , 122 , 1);
+                                text-align: center;
+                                margin: 20px 0;
+                            }
+                            .activation-link {
+                                display: block;
+                                width: 200px;
+                                margin: 20px auto;
+                                padding: 10px;
+                                background-color: rgba(18, 18, 18, 1);
+                                color: #fff;
+                                text-align: center;
+                                text-decoration: none;
+                                border-radius: 4px;
+                            }
+                            a {
+                                color: #fff;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="header">
+
+                                <h1>Welcome to Luna</h1>
+                            </div>
+                            <p class="greeting">Hello ${newClient.name},</p>
+                            <p class="message">To complete your signup process, please click the button below.</p>
+                            <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
                         </div>
-                        <p class="greeting">Hello ${newClient.name},</p>
-                        <p class="message">To complete your signup process, please click the button below.</p>
-                        <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
-                    </div>
-                </body>
-                </html>
-            `,
-            // attachments: [
-            //     {
-            //         filename: 'luna-logo.png',
-            //         path: 'assets/luna-logo.png',
-            //         cid: 'logo'
-            //     }
-            // ]
-        };
+                    </body>
+                    </html>
+                `,
+                // attachments: [
+                //     {
+                //         filename: 'luna-logo.png',
+                //         path: 'assets/luna-logo.png',
+                //         cid: 'logo'
+                //     }
+                // ]
+            };
 
-        transporter.sendMail(mailOptions);
+            transporter.sendMail(mailOptions);
 
-        console.log("New client created successfully");
-        res.status(201).send({ message: 'Client created successfully', inviteToken, client: newClient});
+            res.status(201).send({ message: 'Client created successfully', inviteToken, client: newClient});
+        }
+
     }
 ));
 

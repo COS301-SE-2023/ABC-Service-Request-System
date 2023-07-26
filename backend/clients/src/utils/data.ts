@@ -19,6 +19,12 @@ const group3: group = {
     backgroundPhoto: "url",
 }
 
+const group4: group = {
+    id: "4",
+    groupName: "Services",
+    backgroundPhoto: "url",
+}
+
 const project1: project = {
     id: "1",
     _id: "64c01aa79c2a7421c8c11200",
@@ -33,7 +39,15 @@ const project2: project = {
     name: "Absa",
     logo: "logo",
     color: "yellow",
-    assignedGroups: [group2, group3]
+    assignedGroups: [group3]
+}
+
+const project3: project = {
+    id: "3",
+    name: "Something",
+    logo: "logo",
+    color: "white",
+    assignedGroups: [group4]
 }
 
 export const sample_clients: client[] = [
@@ -46,7 +60,7 @@ export const sample_clients: client[] = [
         emailVerified: false,
         password: "password",
         industry: "Technical",
-        projects: [project1],
+        projects: [project3],
     },
     {
         id: "2",
