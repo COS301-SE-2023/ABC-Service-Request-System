@@ -777,6 +777,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       }
       console.log('in upload router');
       const result = await cloudinary.uploader.upload(req.file.path);
+      console.log("result is: ", result);
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
       res.status(500).json({ message: 'File upload error' });
