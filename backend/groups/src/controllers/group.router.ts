@@ -4,6 +4,7 @@ import { sample_groups } from "../utils/sampleGroups";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
+import { jwtVerify } from "../../../jwtVerify/jwtVerify";
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const groups = await groupModel.find();
         res.send(groups);
@@ -48,7 +49,7 @@ router.get('/seed', expressAsyncHandler(
     }
 ));
 
-router.post('/add', expressAsyncHandler(
+router.post('/add', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
   async (req, res) => {
     console.log('in add  router');
 
@@ -157,7 +158,7 @@ router.post('/add', expressAsyncHandler(
   }));
   
 
-  router.delete("/:groupId/delete", expressAsyncHandler(async (req, res) => {
+  router.delete("/:groupId/delete", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
   
     const group = await groupModel.findOne({ id: groupId });
@@ -171,7 +172,7 @@ router.post('/add', expressAsyncHandler(
     res.status(200).send({ message: "Group deleted successfully" });
   }));
 
-  router.put('/add-people', expressAsyncHandler(async(req,res)=>{
+  router.put('/add-people', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(async(req,res)=>{
     try {
       const { group, people } = req.body;
       console.log('hello from backend');
@@ -246,7 +247,7 @@ router.post('/add', expressAsyncHandler(
     }
 }));
 
-  router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
+  router.put('/update_tickets',  jwtVerify(['Admin', 'Manager' , 'Technical' , 'Functional']),expressAsyncHandler(async(req,res) => {
     try {
       const ticketId = req.body.ticketId;
       const group = await groupModel.findOneAndUpdate({id: req.body.groupId}, {$push : {tickets: ticketId}});

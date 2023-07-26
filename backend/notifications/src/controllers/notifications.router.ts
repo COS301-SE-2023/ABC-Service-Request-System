@@ -2,7 +2,7 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { NotificationsModel } from "../models/notifications.model";
 import { sample_notifications } from "../utils/sampleNotifications";
-
+import { jwtVerify } from "../../../jwtVerify/jwtVerify";
 const router = Router();
 
 router.post('/seed', expressAsyncHandler(
@@ -20,7 +20,7 @@ router.post('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const notifications = await NotificationsModel.find();
         res.send(notifications);
@@ -34,7 +34,7 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
-router.get('/:id', expressAsyncHandler(
+router.get('/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const notification = await NotificationsModel.findOne({ id: req.query.id });
         if (notification) {
@@ -45,7 +45,7 @@ router.get('/:id', expressAsyncHandler(
     }
 ));
 
-router.post('/newnotif', expressAsyncHandler(
+router.post('/newnotif', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         try {
             // console.log("New notification request received: ", req.body);
@@ -78,7 +78,7 @@ router.post('/newnotif', expressAsyncHandler(
     }
 ));
 
-router.put('/changeToRead', expressAsyncHandler(
+router.put('/changeToRead', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const notificationsLink = req.body.id;
         const notificationsId = req.body.notificationsId;
@@ -102,7 +102,7 @@ router.put('/changeToRead', expressAsyncHandler(
     }
 ));
 
-router.put('/changeToUnread', expressAsyncHandler(
+router.put('/changeToUnread', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const notificationsId = req.body.id;
     

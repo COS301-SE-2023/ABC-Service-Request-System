@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/clients/src/models/client.model";
@@ -17,57 +17,103 @@ export class ClientService {
 
   CLIENT_URL = 'http://localhost:3000/api/client';
 
+  private token!: string | null;
+
   constructor(private http: HttpClient, private router: Router) { }
 
   getAllClients() {
-    return this.http.get<client[]>(`${this.CLIENT_URL}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}`, {headers});
   }
 
   createClient(formData: any) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     console.log('in service', formData);
-    return this.http.post<any>(`${this.CLIENT_URL}/create_client`, formData);
+    return this.http.post<any>(`${this.CLIENT_URL}/create_client`, formData, {headers});
   }
 
   //bug can occur if seperate organisations have the same name and for this reason, when creating an organisation, we need to ensure that organisation name is not already in the db
   getClientsByOrganisationName(organisationName: string) {
-    return this.http.get<client[]>(`${this.CLIENT_URL}/organisation?organisation=${organisationName}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/organisation?organisation=${organisationName}`, {headers});
   }
 
   getClientsByGroupName(groupName: string) {
-    return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`, {headers});
   }
 
   getClientByProjectName(projectName: string) {
-    return this.http.get<client>(`${this.CLIENT_URL}/project?projectName=${projectName}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client>(`${this.CLIENT_URL}/project?projectName=${projectName}`, {headers});
   }
 
   getProjectByObjectId(projectId: string) {
-    return this.http.get<any>(`${this.CLIENT_URL}/project/id?projectId=${projectId}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<any>(`${this.CLIENT_URL}/project/id?projectId=${projectId}` , {headers});
   }
 
   getProjectByProjectIdAndClienId(projectId: string, clientId: string) {
-    return this.http.get<project>(`${this.CLIENT_URL}/project/client?projectId=${projectId}&clientId=${clientId}`);
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<project>(`${this.CLIENT_URL}/project/client?projectId=${projectId}&clientId=${clientId}`, {headers});
   }
 
   removeGroupFromProject(clientId: string, projectId: string, groupsToRemove: string []) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     console.log("in remove group service");
-    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupsToRemove: groupsToRemove});
+    return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupsToRemove: groupsToRemove} , {headers});
   }
 
   deleteClient(clientId: string) {
+    // this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    // console.log('Token from storage:', this.token);
+    // const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    
     console.log("clientId in service: ", clientId);
     return this.http.delete<client>(`${this.CLIENT_URL}/delete_client`, { params: { clientId: clientId } });
   }
 
   addGroupsToProject(clientId: string, projectId: string, newGroups: group []) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     const body = {clientId, projectId, newGroups};
     console.log('body in service: ', body);
-    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body);
+    return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body, {headers});
   }
 
   addProject(formData: any) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     console.log('in service', formData);
-    return this.http.post<any>(`${this.CLIENT_URL}/add_project`, formData);
+    return this.http.post<any>(`${this.CLIENT_URL}/add_project`, formData, {headers});
   }
 
   //projects observable

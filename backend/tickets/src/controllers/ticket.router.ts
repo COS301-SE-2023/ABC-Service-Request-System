@@ -43,14 +43,14 @@ router.post('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', jwtVerify(['Manager']), expressAsyncHandler(
+router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
     }
 ));
 
-router.get('/assigned', expressAsyncHandler(
+router.get('/assigned', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
   async (req, res) => {
     const tickets = await TicketModel.find({ assigned: req.query.id });
 
@@ -62,7 +62,7 @@ router.get('/assigned', expressAsyncHandler(
   }
 ));
 
-router.get('/projects', expressAsyncHandler(
+router.get('/projects', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(
   async (req, res) => {
     const groupName = req.query.groupName;
     const projects: string [] = [];
@@ -83,7 +83,7 @@ router.get('/projects', expressAsyncHandler(
   }
 ));
 
-router.get('/project', expressAsyncHandler(
+router.get('/project', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(
   async (req, res) => {
     const projectName = req.query.name;
     try {
@@ -102,7 +102,7 @@ router.get('/project', expressAsyncHandler(
   }
 ));
 
-router.get('/group', expressAsyncHandler(
+router.get('/group', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(
   async (req, res) => {
     const groupName = req.query.name;
 
@@ -131,7 +131,7 @@ router.get('/delete', expressAsyncHandler(
 // Edwin's add ticket function
 
 // Add ticket
-router.post('/addticket', expressAsyncHandler( async (req, res) => {
+router.post('/addticket', jwtVerify(['Admin', 'Manager']), expressAsyncHandler( async (req, res) => {
     try {
         // console.log("New ticket request received: ", req.body);
         // console.log(res.getHeader('Authorization') + "Headers");
@@ -170,7 +170,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
     }
 }));
 
-router.get('/id', expressAsyncHandler(
+router.get('/id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         // const id = String(req.query.id);
 
@@ -189,7 +189,7 @@ router.get('/id', expressAsyncHandler(
     }
 ));
 
-router.put('/comment', expressAsyncHandler(
+router.put('/comment',jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
   async (req, res) => {
     const ticketId = req.body.ticketId;
     const comment = req.body.comment;
@@ -224,7 +224,7 @@ router.put('/comment', expressAsyncHandler(
   }
 ));
 
-  router.put('/updateStatus', expressAsyncHandler(
+  router.put('/updateStatus', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
       try {
         const ticketId = req.body.ticketId;
@@ -254,7 +254,7 @@ router.put('/comment', expressAsyncHandler(
     }
   ));
 
-  router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
+  router.post('/addTimeToFirstResponse', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(async (req, res) => {  
     const ticketId = req.body.ticketId;
     const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
   
@@ -278,7 +278,7 @@ router.put('/comment', expressAsyncHandler(
 
 // Edwin's Router Functions for Todo list
 
-router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
+router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(async (req, res) => {
   const ticketId = req.params.id;
   const updatedTodoChecked = req.body.todoChecked;
 

@@ -8,11 +8,12 @@ import multer, {Multer} from "multer";
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
 import dotenv from "dotenv";
+import { jwtVerify } from "../../../jwtVerify/jwtVerify";
 dotenv.config();
 
 const router = Router();
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const users = await UserModel.find();
         res.send(users);
@@ -206,7 +207,7 @@ router.get('/delete', expressAsyncHandler(
 // );
 
 //CREATING A USER//
-router.post("/create_user", expressAsyncHandler(
+router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         try {
              console.log("User creation request received:", req.body);
@@ -371,7 +372,7 @@ router.post("/create_user", expressAsyncHandler(
 );
 
 ///create a router.get to display the component that is suppose to get the new password from the user
-router.get('/activate_account', expressAsyncHandler(
+router.get('/activate_account',jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res) => {
         try{
             // console.log('Account activation request received:', req.query.token);
@@ -402,7 +403,7 @@ router.get('/activate_account', expressAsyncHandler(
 
 
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
-router.post('/activate_account', expressAsyncHandler(
+router.post('/activate_account', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']) , expressAsyncHandler(
     async (req, res) => {
       try {
         // console.log('Account activation request received:', req.body);
@@ -448,7 +449,7 @@ router.post('/activate_account', expressAsyncHandler(
 //DASH"S ROUTES//
 //UPDATE USER NAME - WORKING
 
-router.post('/get_user_by_token', async (req, res) => {
+router.post('/get_user_by_token', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), async (req, res) => {
 try {
     const { token } = req.body;
 
@@ -464,7 +465,7 @@ try {
 }
 });
 
-router.put('/update_user_name',expressAsyncHandler(
+router.put('/update_user_name', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']) ,expressAsyncHandler(
     async (req, res) => {
         try{
             const { name, email } = req.body;
@@ -496,7 +497,7 @@ router.put('/update_user_name',expressAsyncHandler(
     }
 ))
 //UPDATE USER PASSWORD - WORKING
-router.put('/update_user_password',expressAsyncHandler(
+router.put('/update_user_password',jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res) => {
         try{
             const { password, email } = req.body;
@@ -525,7 +526,7 @@ router.put('/update_user_password',expressAsyncHandler(
     }
 ))
 //UPDATE USER Location - WORKING
-router.put('/update_user_location',expressAsyncHandler(
+router.put('/update_user_location', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { location, email } = req.body;
@@ -555,7 +556,7 @@ router.put('/update_user_location',expressAsyncHandler(
 ))
 
 //UPDATE USER Facebook - 
-router.put('/update_user_facebook',expressAsyncHandler(
+router.put('/update_user_facebook',jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { facebook, email } = req.body;
@@ -585,7 +586,7 @@ router.put('/update_user_facebook',expressAsyncHandler(
 ))
 
 //UPDATE USER INSTAGRAM - 
-router.put('/update_user_instagram',expressAsyncHandler(
+router.put('/update_user_instagram', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { instagram, email } = req.body;
@@ -615,7 +616,7 @@ router.put('/update_user_instagram',expressAsyncHandler(
 ))
 
 //UPDATE USER GITHUB - 
-router.put('/update_user_github',expressAsyncHandler(
+router.put('/update_user_github', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']),expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { github, email } = req.body;
@@ -645,7 +646,7 @@ router.put('/update_user_github',expressAsyncHandler(
 ))
 
 //UPDATE USER GITHUB - 
-router.put('/update_user_linkedin',expressAsyncHandler(
+router.put('/update_user_linkedin', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res,next) => {
         try{
             const { linkedin, email } = req.body;
@@ -675,7 +676,7 @@ router.put('/update_user_linkedin',expressAsyncHandler(
 ))
 
 //GET USER
-router.get('/id', expressAsyncHandler(
+router.get('/id', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res) => {
         // const id = String(req.query.id);
         // if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -696,7 +697,7 @@ router.get('/id', expressAsyncHandler(
 
 
 
-router.get('/email', expressAsyncHandler(
+router.get('/email', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
     async (req, res) => {
         const user = await UserModel.findOne({ emailAddress: req.query.email });
         if(user){
@@ -788,7 +789,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     }
 });
 
-router.put('/updateProfilePicture', async (req, res) => {
+router.put('/updateProfilePicture', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), async (req, res) => {
     try {
       const { userId, url } = req.body;
       const result = await UserModel.updateOne({ id: userId }, { profilePhoto: url });
@@ -803,7 +804,7 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
   
-  router.put('/updateProfileHeader', async (req, res) => {
+  router.put('/updateProfileHeader', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), async (req, res) => {
     try {
       const { userId, url } = req.body;
       const result = await UserModel.updateOne({ id: userId }, { headerPhoto: url });
@@ -818,7 +819,7 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
 
-  router.put('/updateBio', async (req, res) => {
+  router.put('/updateBio', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']) , async (req, res) => {
     try {
       const { userId, bio } = req.body;
       const result = await UserModel.updateOne({ id: userId }, { bio: bio });
@@ -833,7 +834,7 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
 
-  router.put('/updateGithub', async (req, res) => {
+  router.put('/updateGithub', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), async (req, res) => {
     try {
       const { userId, githubLink } = req.body;
       const result = await UserModel.updateOne({ id: userId }, { github: githubLink });
@@ -848,7 +849,7 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
   
-  router.put('/updateLinkedin', async (req, res) => {
+  router.put('/updateLinkedin', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), async (req, res) => {
     try {
       const { userId, linkedinLink } = req.body;
       const result = await UserModel.updateOne({ id: userId }, { linkedin: linkedinLink });
@@ -863,7 +864,7 @@ router.put('/updateProfilePicture', async (req, res) => {
     }
   });
   
-router.post('/addGroup', expressAsyncHandler(
+router.post('/addGroup' , jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         try {
             const user = await UserModel.findById(req.body.userId);
@@ -896,7 +897,7 @@ router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
     res.send(userArray);
 }));
 
-router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
+router.get("/email/:userEmail", jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(async (req, res) => {
     const userEmail = decodeURIComponent(req.params.userEmail);
     const user = await UserModel.findOne({ emailAddress: userEmail });
   
