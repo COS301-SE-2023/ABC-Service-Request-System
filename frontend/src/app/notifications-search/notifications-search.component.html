@@ -19,58 +19,75 @@
     </div>
         <div *ngIf="searchQuery.trim().length > 0" class="search-results">
             <div *ngFor="let users of resultsUsers" class="search-user">
-                <div class="search-user-img">
+                <div class="search-user-default-img">
                     <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
+                    <!-- <i class="fa-solid fa-user"></i> -->
                 </div>
+                <div>
                     <p class="title"><b>{{ users.name }}&nbsp;{{ users.surname}}</b></p>
                     <p class ="additional-info"><b>{{ users.roles[0]}}</b></p> 
+                </div>
             </div>
             <div *ngFor="let clients of resultsClients" class="search-user">
                 <div class="search-user-default-img">
                     <i class="fa-solid fa-business-time"></i>
                 </div>
+                <div>
                     <p class ="title"><b>{{clients.organisation}}</b></p>
                     <p class ="additional-info"><b>{{clients.name}}&nbsp;</b> {{clients.email}}</p>
+                </div>
             </div>
             <div *ngFor="let clients of resultsClientsName" class="search-user">
                 <div class="search-user-default-img">
                     <i class="fa-solid fa-business-time"></i>
                 </div>
+                <div class = "info">
                     <p class ="title"><b>{{clients.organisation}}</b></p>
                     <p class ="additional-info"><b>{{clients.name}}&nbsp;</b> {{clients.email}}</p>
+                </div>
             </div>
             <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
                     <i class="fa-regular fa-ticket"></i>
                 </div>
+                <div class = "info">
                     <p class = "title"><b>{{tickets.summary}}</b></p>
                     <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
+                </div>
             </div>
             <div *ngFor="let tickets of resultsTicketsSummary" class="search-user" (click)="navigateToTicket(tickets.id)"  tabindex="0">
                 <div class="search-user-default-img">
                     <i class="fa-regular fa-ticket"></i>
                 </div>
-                    <p class = "title"><b>{{tickets.summary}}</b></p>
+                <div class = "info">
+                    <p class = "title"><b>{{highlightDescription(tickets.summary, searchQuery)}}</b></p>
                     <p class ="additional-info"><b>{{tickets.assigned}}</b></p>
+                </div>
             </div>
             <div *ngFor="let tickets of resultsTicketsDescription" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
                     <i class="fa-regular fa-ticket"></i>
                 </div>
+                <div class = "info">
                     <p class = "title"><b>{{ highlightDescription(tickets.description, searchQuery) }}</b></p>
                     <p class ="additional-info"><b>{{tickets.project}}</b></p>
+                </div>
             </div>
-            <div *ngFor="let groups of resultsGroup" class="search-user">
+            <div *ngFor="let groups of resultsGroup" class="search-user" (click)="navigateToGroup()" tabindex="0">
                 <div class="search-user-default-img">
                     <i class="fa-solid fa-user-group"></i>
                 </div>
+                <div class = "info">
                     <p class = "title"><b>{{groups.groupName}}</b></p>
+                </div>
             </div>
             <div *ngFor="let projects of resultsProjectName" class="search-user">
                 <div class="search-project-img">
                     <img src = "{{projects.logo}}" alt = "group-Icon">
                 </div>
+                <div class = "info">
                     <p class = "title"><b>{{projects.name}}</b></p>
+                </div>
             </div>
         </div>
         <div *ngIf="!searchQuery || searchQuery.trim().length === 0" class="search-results">

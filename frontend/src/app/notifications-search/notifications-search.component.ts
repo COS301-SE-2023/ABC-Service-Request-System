@@ -205,6 +205,10 @@ navigateToTicket(id: string) {
   this.router.navigate([`/ticket/${id}`]);
 }
 
+navigateToGroup(){
+  this.router.navigate([`/teams`])
+}
+
 highlightButtonUsers(event: any) {
 
   if(event.target.classList.contains('selected'))

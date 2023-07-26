@@ -48,11 +48,21 @@
       
       .search-results{
         border-top: 1px solid #ccc;
-        margin-top: 1em;
+       // margin-top: 1em;
         overflow-y: auto;
-        width: 75vw;
-        margin-right: 0;
-       
+        width: 30vw;
+        display: flex;
+        justify-content: center;
+                //margin-top: 1em;
+        align-items: center;
+        flex-direction: column;
+        
+        
+       .info{
+       // display: flex;
+        //justify-content: center;
+        align-items: center;
+       }
         .search-user{
             display: flex;
             flex-wrap: nowrap;
@@ -68,7 +78,7 @@
               }
             .search-user-img{
                 position: relative;
-                padding: 1%;
+                padding: 1.5%;
                 width: 7.5%;
                 //top: 10%;
                 //right: -1%; 
@@ -76,12 +86,12 @@
             .search-user-default-img{
                 position: relative;
                 padding: 1%;
-                width: 12.5%; 
+                width: 7.5%; 
             }
             .search-project-img{
                 position: relative;
                 padding: 1%;
-                width: 5%; 
+                width: 7.5%; 
             }
             .title{
                 display: flex;
@@ -92,7 +102,7 @@
                 color: #494545;
                 font-family: Poppins;
                 font-weight: 500;
-                font-style: normal;
+                font-style: bold;
                 font-size: 100%;
             }
             .additional-info{
@@ -106,7 +116,7 @@
                 font-family: Poppins;
                 font-weight: 500;
                 font-style: normal;
-                font-size: 100%;
+                font-size: 75%;
             }
         }  
       }
