@@ -9,6 +9,7 @@ import { ClientService } from 'src/services/client.service';
 import { ticket } from '../../../../backend/tickets/src/models/ticket.model';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notifications-search',
@@ -45,7 +46,7 @@ export class NotificationsSearchComponent implements OnInit {
 
   navbarIsCollapsed!: boolean;
 
-  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router, private navbarService: NavbarService){
+  constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router, private navbarService: NavbarService, private sanitizer: DomSanitizer){
     this.displayTickets = true;
     this.displayGroups = true;
     this.displayUsers = true;
@@ -409,5 +410,24 @@ multifilter(index: number) {
   console.log("displayClients: ", this.displayFilters[2]);
   console.log("displayGroups: ", this.displayFilters[3]);
   console.log("displayProjects: ", this.displayFilters[4]);
+}
+highlightDescription(description: string, searchQuery: string): string {
+  if (!description || !searchQuery) {
+    return description;
+  }
+
+  const searchIndex = description.toLowerCase().indexOf(searchQuery.toLowerCase());
+  if (searchIndex >= 0) {
+    const before = searchIndex > 10 ? '...' : '';
+    const after = searchIndex + searchQuery.length + 10 < description.length ? '...' : '';
+
+    // Highlight the searched query in the description
+    const highlightedQuery = description.substring(searchIndex, searchIndex + searchQuery.length);
+    const context = description.substring(0, searchIndex) + `<span class="highlight" style= "background-color: yellowgreen; font-weight: bold;">${highlightedQuery}</span>` + description.substring(searchIndex + searchQuery.length);
+
+    return `${before}${context}${after}`;
+  }
+
+  return description;
 }
 }
