@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { group } from '../../../../backend/groups/src/models/group.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-tablet',
@@ -11,11 +12,15 @@ export class GroupTabletComponent  {
   group!: group;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() { }
+  constructor(private router: Router) { }
 
   @Input() selectedGroup!: group;
 
   isSelected(): boolean {
     return this.selectedGroup && this.group && this.selectedGroup.id === this.group.id;
+  }
+
+  routeToAnalytics(): void {
+    this.router.navigateByUrl('/analytics-page');
   }
 }

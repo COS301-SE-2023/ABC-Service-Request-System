@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <app-page-header></app-page-header>
 
@@ -101,7 +102,7 @@
 
   <div class = "view-report-container">
     <div class="view-detailed-report">
-      <a href = ""  class = "view-detailed-report-text">View detailed report</a>
+      <p  class = "view-detailed-report-text pointer" (click) = "routeToAnalytics()">View detailed report</p>
     </div>
   </div>
 
