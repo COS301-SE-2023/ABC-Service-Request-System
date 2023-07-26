@@ -6,6 +6,7 @@ import { Chart, registerables } from 'chart.js';
 import { GroupService } from 'src/services/group.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { ActivatedRoute } from '@angular/router';
+import { NavbarService } from 'src/services/navbar.service';
 
 @Component({
   selector: 'app-view-profile',
@@ -17,7 +18,8 @@ export class ViewProfileComponent implements OnInit {
   constructor(private userService: UserService,
     private authService: AuthService,
     private groupService: GroupService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private navbarService: NavbarService) {}
 
     currentUser!: user;
     tempUser!:user;
@@ -26,7 +28,13 @@ export class ViewProfileComponent implements OnInit {
     linkedinLink?:string;
     groups: group[] = [];
 
+    navbarIsCollapsed!: boolean;
+
   ngOnInit() {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
+    });
+
     this.route.queryParams.subscribe(params => {
       const id = params['id'];
       console.log(id);
