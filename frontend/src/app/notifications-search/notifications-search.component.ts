@@ -205,7 +205,6 @@ navigateToTicket(id: string) {
 }
 
 highlightButtonUsers(event: any) {
-  this.firstClick = false;
 
   if(event.target.classList.contains('selected'))
   {
@@ -225,7 +224,6 @@ highlightButtonUsers(event: any) {
 }
 
 highlightButtonTickets(event: any) {
-  this.firstClick = false;
 
   if(event.target.classList.contains('selected'))
   {
@@ -246,7 +244,6 @@ highlightButtonTickets(event: any) {
 }
 
 highlightButtonClients(event: any) {
-  this.firstClick = false;
 
   if(event.target.classList.contains('selected'))
   {
@@ -267,7 +264,6 @@ highlightButtonClients(event: any) {
 }
 
 highlightButtonGroups(event: any) {
-  this.firstClick = false;
 
   if(event.target.classList.contains('selected'))
   {
@@ -289,7 +285,6 @@ highlightButtonGroups(event: any) {
 }
 
 highlightButtonProjects(event: any) {
-  this.firstClick = false;
 
   if(event.target.classList.contains('selected'))
   {
@@ -317,9 +312,14 @@ multifilter(index: number) {
 
   for (let i = 0; i < buttons.length; i++) {
     if (buttons[i].classList.contains('selected')) {
+      console.log("Buttons ", i , buttons[i].classList.contains('selected'));
       noSelected = false;
     }
   }
+  console.log("noSelected: ", noSelected);
+  console.log("First Click: ", this.firstClick);
+
+  
 
   if (noSelected === true) {
     this.displayClients = true;
@@ -328,34 +328,53 @@ multifilter(index: number) {
     this.displayTickets = true;
     this.displayUsers = true;
 
+    this.displayFilters[0] = true;
+    this.displayFilters[1] = true;
+    this.displayFilters[2] = true;
+    this.displayFilters[3] = true;
+    this.displayFilters[4] = true;
+
     this.firstClick = true;
   }
-  else if (this.firstClick == false) {
+  else if (this.firstClick) {
     this.displayClients = false;
     this.displayGroups = false;
     this.displayProjects = false;
     this.displayTickets = false;
     this.displayUsers = false;
 
+    this.displayFilters[0] = false;
+    this.displayFilters[1] = false;
+    this.displayFilters[2] = false;
+    this.displayFilters[3] = false;
+    this.displayFilters[4] = false;
+
     if (index == 0) {
       this.displayUsers = true;
+      this.displayFilters[0] = true;
     }
 
     if (index == 1) {
       this.displayTickets = true;
+      this.displayFilters[1] = true;
     }
 
     if (index == 2) {
       this.displayClients = true;
+      this.displayFilters[2] = true;
     }
 
     if (index == 3) {
       this.displayGroups = true;
+      this.displayFilters[3] = true;
     }
 
     if (index == 4) {
       this.displayProjects = true;
+      this.displayFilters[4] = true;
     }
+
+    this.firstClick = false;
   }
   else {
     this.displayClients = false;
@@ -384,5 +403,11 @@ multifilter(index: number) {
       this.displayProjects = true;
     }
   }
+
+  console.log("displayUsers: ", this.displayFilters[0]);
+  console.log("displayTickets: ", this.displayFilters[1]);
+  console.log("displayClients: ", this.displayFilters[2]);
+  console.log("displayGroups: ", this.displayFilters[3]);
+  console.log("displayProjects: ", this.displayFilters[4]);
 }
 }
