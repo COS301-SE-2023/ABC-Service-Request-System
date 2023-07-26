@@ -92,20 +92,36 @@ button.profile-picture {
   -webkit-text-fill-color: transparent;
 }
 
-.email, .location {
+.email {
   display: flex;
   align-items: center;
   gap: 20px;
   margin-top: 10px;
   color: gray;
-  font-size: medium;
+  font-size: 1.3em;
 }
 
-.email img, .location img {
+.location {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 10px;
+  color: gray;
+  font-size: 1.3em;
+}
+
+.email img {
   margin-left: 5px;
 
   width: 25px;
   height: 25px;
+}
+
+.location img {
+  margin-left: 3px;
+
+  width: 30px;
+  height: 30px;
 }
 
 .bio {
@@ -130,7 +146,7 @@ button.profile-picture {
 
 .bio-line-1 {
   height:1px;
-  width: 1200px;
+  width: 1600px;
 }
 
 .analytics {
@@ -339,7 +355,7 @@ button.profile-picture {
 
 .bio-line-2 {
   height:1px;
-  width: 1200px;
+  width: 1600px;
 }
 
 .input-bio {
@@ -417,7 +433,7 @@ button.profile-picture {
 
 .bio-line-3 {
   height:1px;
-  width: 1200px;
+  width: 1600px;
 }
 
 
@@ -457,7 +473,7 @@ button.profile-picture {
 
 .bio-line-4 {
   height:1px;
-  width: 1200px;
+  width: 1600px;
 }
 
 .tickets-text {

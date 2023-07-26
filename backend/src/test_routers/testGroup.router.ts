@@ -13,44 +13,44 @@ const router = Router();
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
-router.post('/upload', upload.single('file'), async (req, res) => {
-    try {
-      if (!req.file) {
-        res.status(400).json({ message: 'No file uploaded' });
-        return;
-      }
-      console.log('in upload router');
-      const result = await cloudinary.uploader.upload(req.file.path);
-      res.status(200).json({ url: result.secure_url });
-    } catch (error) {
-      res.status(500).json({ message: 'File upload error' });
-    }
-});
-
-
-router.get('/', expressAsyncHandler(
-    async (req, res) => {
-        const groups = await testGroupModel.find();
-        res.status(200).send(groups);
-    }
-));
-
-router.get('/seed', expressAsyncHandler(
-    async (req, res) => {
-        const groupsCount = await testGroupModel.countDocuments();
-        if(groupsCount > 0){
-            res.status(400).send("Seed is already done");
-            return;
+  router.post('/upload', upload.single('file'), async (req, res) => {
+      try {
+        if (!req.file) {
+          res.status(400).json({ message: 'No file uploaded' });
+          return;
         }
+        console.log('in upload router');
+        const result = await cloudinary.uploader.upload(req.file.path);
+        res.status(200).json({ url: result.secure_url });
+      } catch (error) {
+        res.status(500).json({ message: 'File upload error' });
+      }
+  });
 
-        testGroupModel.create(sample_groups)
-            .then(data => {res.status(201).send(data)})
-            .catch(err => {res.status(500).send({message: err.message}); });
-        // res.status(200).send("Seed is done!");
-    }
-));
 
-router.post('/add', expressAsyncHandler(
+  router.get('/', expressAsyncHandler(
+      async (req, res) => {
+          const groups = await testGroupModel.find();
+          res.status(200).send(groups);
+      }
+  ));
+
+  router.get('/seed', expressAsyncHandler(
+      async (req, res) => {
+          const groupsCount = await testGroupModel.countDocuments();
+          if(groupsCount > 0){
+              res.status(400).send("Seed is already done");
+              return;
+          }
+
+          testGroupModel.create(sample_groups)
+              .then(data => {res.status(201).send(data)})
+              .catch(err => {res.status(500).send({message: err.message}); });
+          // res.status(200).send("Seed is done!");
+      }
+  ));
+
+  router.post('/add', expressAsyncHandler(
     async (req, res) => {
     //   console.log('in add  router');
 
@@ -82,84 +82,38 @@ router.post('/add', expressAsyncHandler(
         }
 
         res.status(201).send(createdGroup); 
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).send("An error occurred during group creation");
-    }
-  }  
+      }
+      catch (error) {
+          console.log(error);
+          res.status(500).send("An error occurred during group creation");
+      }
+    }  
+  ));
 
-));
-
-  router.get("/:groupId/users", expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const group = await testGroupModel.findOne({ id: groupId });
-    // console.log(group?.people)
-    if (!group) {
-      res.status(404).send({ message: "Group not found" });
-      return;
-    }
-  
-    const userIds = group.people; 
-    const users = await UserModel.find({ _id: { $in: userIds } });
-    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles[0] })); 
-    // console.log(userArray);
-    res.status(200).send(userArray);
-    // res.send(group.people);
-  }));
-
-  router.get("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
+  router.delete("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
-
+    console.log('user id ' + userId);
+    
     const group = await testGroupModel.findOne({ id: groupId });
-
-    // console.log(group?.people);
+    console.log(group);
     if (!group) {
       res.status(404).send({ message: "Group not found" });
       return;
     }
-
-    const users = await UserModel.find({ _id: { $in: userId } });
-    // if (!users) {
-    //     res.status(500).send({message: "User not found"});
-    //     return;
-    // }
-    const userArray = users.map(user => ({ name: user.name, surname: user.surname, emailAddress: user.emailAddress, roles:user.roles })); 
-    // console.log(userArray);
-    res.status(200).send(userArray);
-    // res.send(group.people);
-  }));
-
-
-router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const userEmail = decodeURIComponent(req.params.userEmail); 
-    console.log('user email decoded: ' + userEmail);
-    
-    const group = await testGroupModel.findOne({ id: groupId });
-    if (!group) {
-      res.status(404).send({ message: "Group not found" });
-      return;
-    }
-    
-    const userToRemove = await TestUserModel.findOne({ emailAddress: userEmail });
-    if (!userToRemove) {
-      res.status(404).send({ message: 'User not found' });
-      return;
-    }
   
-    const userIndex = group.people!.indexOf(userToRemove._id.toString());
-    // console.log('user index ' + userIndex)
-  
+    const userIndex = group.people!.indexOf(userId);
+    console.log('user index ' + userIndex);
+
     if (userIndex !== -1) {
       group.people!.splice(userIndex, 1);
       await group.save();
       res.status(200).send({ message: 'User removed successfully' });
     } else {
       res.status(404).send({ message: 'User not found in the group' });
-    } //still to test...
+    }
   }));
+  
   
   router.get("/:groupId/name", expressAsyncHandler(async(req,res) => {
     const groupId = req.params.groupId;
@@ -176,10 +130,10 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(200).json({groupName: groupName});
     } else {
       res.status(404).send({ message: 'Group name not found' });
-    } //still have to test this
+    }
   }));
   
-
+  
   router.delete("/:groupId/delete", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
   
@@ -190,16 +144,16 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     }
   
     await testGroupModel.deleteOne({ id: groupId });
-    // console.log('group deleted');
+    console.log('group deleted');
     res.status(200).send({ message: "Group deleted successfully" });
   }));
 
   router.put('/add-people', expressAsyncHandler(async(req,res)=>{
     try {
       const { group, people } = req.body;
-    //   console.log('hello from backend');
-    //   console.log(group);
-    //   console.log(people);
+      console.log('hello from backend');
+      console.log(group);
+      console.log(people);
 
       const newGroup = await testGroupModel.findOneAndUpdate(
         {_id: group},
@@ -215,7 +169,7 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
 
       if (newGroup) {
         res.status(200).json({message: 'users added to group'});
-      } else { //still to test...
+      } else {
         res.status(404).json({message: 'Group not found'});
       }
     }
@@ -223,6 +177,22 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
       res.status(500).send({ error: 'Internal server error' });
     }
   }))
+
+  router.get('/objectId/:groupId', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    console.log(' in router, objectId: ' + groupId);
+    try {
+        const group = await testGroupModel.findOne({ _id: groupId });
+        if (group) {
+            res.status(200).send(group);
+        } else {
+            res.status(404).send('Group not found');
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("An error occurred while fetching the group");
+    }
+}));
 
   router.get('/:groupId', expressAsyncHandler(async(req,res) => {
     try {
@@ -239,6 +209,43 @@ router.delete("/:groupId/user/:userEmail", expressAsyncHandler(async (req, res) 
     } catch (error) {
       res.status(500).send({ error: 'Internal server error' });
     }
+  }))
+
+  router.get('/groupId/:id', expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.id;
+    const group = await testGroupModel.findById(groupId);
+    if (group) {
+        res.send(group);
+    } else {
+        res.status(404).send("Group not found");
+    }
+}));
+
+  router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
+    try {
+      const ticketId = req.body.ticketId;
+      const group = await testGroupModel.findOneAndUpdate({id: req.body.groupId}, {$push : {tickets: ticketId}});
+      
+      if (group) {
+        res.status(200).send({message:"Ticket added to group", group: group});
+      } else {
+        // console.log('hiii');
+        res.status(404).send("invalid group id");
+      }
+
+    } catch (error) {
+      res.status(500).send({ error: 'Internal server error' });
+    }
   }));
+
+  router.get('/exists/:groupName', expressAsyncHandler(
+    async (req, res) => {
+        const groupExists = await testGroupModel.exists({ groupName: req.params.groupName });
+        res.send(groupExists);
+    }
+  ));
+
+
+
 
 export default router;
