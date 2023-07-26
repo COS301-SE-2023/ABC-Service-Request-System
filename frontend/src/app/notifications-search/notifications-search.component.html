@@ -11,7 +11,6 @@
         <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"class = "searchBar">
     </div>
     <div class = "filter-container">
-        <button class="filter-buttons selected" (click)="highlightButton($event)">All</button>
         <button class="filter-buttons" (click)="highlightButtonUsers($event)">Users</button>
         <button class="filter-buttons" (click)="highlightButtonTickets($event)">Tickets</button>
         <button class="filter-buttons" (click)="highlightButtonClients($event)">Clients</button>

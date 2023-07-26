@@ -40,6 +40,9 @@ export class NotificationsSearchComponent implements OnInit {
   displayClients!: boolean;
   displayProjects!: boolean;
 
+  displayFilters!: boolean[];
+  firstClick!: boolean;
+
   navbarIsCollapsed!: boolean;
 
   constructor(private userService: UserService, private ticketService: TicketsService, private groupService: GroupService, private clientService: ClientService, private router: Router, private navbarService: NavbarService){
@@ -78,6 +81,9 @@ export class NotificationsSearchComponent implements OnInit {
       this.navbarService.collapsed$.subscribe(collapsed => {
         this.navbarIsCollapsed = collapsed;
       });
+
+      this.displayFilters = [true, true, true, true, true];
+      this.firstClick = true;
   }
  setResultsUsers(temp:user[]){
   this.resultsUsers = temp;
@@ -198,120 +204,185 @@ navigateToTicket(id: string) {
   this.router.navigate([`/ticket/${id}`]);
 }
 
-highlightButton(event: any) {
-  const buttons = document.getElementsByClassName('filter-buttons');
-
-  if (event.target.classList.contains('se'))
-  for (let i = 1; i < buttons.length; i++) {
-    buttons[i].classList.remove('selected');
-  }
-
-  this.displayUsers = true;
-  this.displayTickets = true;
-  this.displayClients = true;
-  this.displayGroups = true;
-  this.displayClients = true;
-
-  event.target.classList.add('selected');
-}
-
 highlightButtonUsers(event: any) {
+  this.firstClick = false;
 
-  const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
   {
     event.target.classList.remove('selected');
-    if((this.displayTickets == true || this.displayClients == true || this.displayGroups == true || this.displayProjects == true))
-    {
-       this.displayUsers = false;
-    }
-    else{
-      this.displayUsers = true;
-    }
+    this.displayFilters[0] = false;
+    setTimeout(() => {
+      this.multifilter(0);
+    }, 100);
   }
   else{
     event.target.classList.add('selected');
-    this.displayUsers = true;
+    this.displayFilters[0] = true;
+    setTimeout(() => {
+      this.multifilter(0);
+    }, 100);
   }
 }
 
 highlightButtonTickets(event: any) {
+  this.firstClick = false;
 
-  const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
   {
     event.target.classList.remove('selected');
-    if((this.displayUsers == true || this.displayClients == true || this.displayGroups == true || this.displayProjects == true))
-    {
-       this.displayTickets = false;
-    }
-    else{
-      this.displayTickets = true;
-    }
+    this.displayFilters[1] = false;
+    setTimeout(() => {
+      this.multifilter(1);
+    }, 100);
   }
   else{
     event.target.classList.add('selected');
-    this.displayTickets = true;
+    
+    this.displayFilters[1] = true;
+    setTimeout(() => {
+      this.multifilter(1);
+    }, 100);
   }
 }
 
 highlightButtonClients(event: any) {
+  this.firstClick = false;
 
-  const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
   {
     event.target.classList.remove('selected');
-    if((this.displayTickets == true || this.displayUsers == true || this.displayGroups == true || this.displayProjects == true))
-    {
-       this.displayClients = false;
-    }
-    else{
-      this.displayClients = true;
-    }
+    this.displayFilters[2] = false;
+    setTimeout(() => {
+      this.multifilter(2);
+    }, 100);
   }
   else{
     event.target.classList.add('selected');
-    this.displayClients = true;
+    
+    this.displayFilters[2] = true;
+    setTimeout(() => {
+      this.multifilter(2);
+    }, 100);
   }
 }
 
 highlightButtonGroups(event: any) {
+  this.firstClick = false;
 
-  const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
   {
     event.target.classList.remove('selected');
-    if((this.displayTickets == true || this.displayClients == true || this.displayUsers == true || this.displayProjects == true))
-    {
-       this.displayGroups = false;
-    }
-    else{
-      this.displayGroups = true;
-    }
+
+    this.displayFilters[3] = false;
+    setTimeout(() => {
+      this.multifilter(3);
+    }, 100);
   }
   else{
     event.target.classList.add('selected');
-    this.displayGroups = true;
+    
+    this.displayFilters[3] = true;
+    setTimeout(() => {
+      this.multifilter(3);
+    }, 100);
   }
 }
 
 highlightButtonProjects(event: any) {
+  this.firstClick = false;
 
-  const buttons = document.getElementsByClassName('filter-buttons');
   if(event.target.classList.contains('selected'))
   {
     event.target.classList.remove('selected');
-    if((this.displayTickets == true || this.displayClients == true || this.displayGroups == true || this.displayUsers == true))
-    {
-       this.displayProjects = false;
-    }
-    else{
-      this.displayProjects = true;
-    }
+    
+    this.displayFilters[4] = false;
+    setTimeout(() => {
+      this.multifilter(4);
+    }, 100);
   }
   else{
     event.target.classList.add('selected');
+    
+
+    this.displayFilters[4] = true;
+    setTimeout(() => {
+      this.multifilter(4);
+    }, 100);
+  }
+}
+
+multifilter(index: number) {
+  let noSelected = true;
+  const buttons = document.getElementsByClassName('filter-buttons');
+
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].classList.contains('selected')) {
+      noSelected = false;
+    }
+  }
+
+  if (noSelected === true) {
+    this.displayClients = true;
+    this.displayGroups = true;
     this.displayProjects = true;
+    this.displayTickets = true;
+    this.displayUsers = true;
+
+    this.firstClick = true;
+  }
+  else if (this.firstClick == false) {
+    this.displayClients = false;
+    this.displayGroups = false;
+    this.displayProjects = false;
+    this.displayTickets = false;
+    this.displayUsers = false;
+
+    if (index == 0) {
+      this.displayUsers = true;
+    }
+
+    if (index == 1) {
+      this.displayTickets = true;
+    }
+
+    if (index == 2) {
+      this.displayClients = true;
+    }
+
+    if (index == 3) {
+      this.displayGroups = true;
+    }
+
+    if (index == 4) {
+      this.displayProjects = true;
+    }
+  }
+  else {
+    this.displayClients = false;
+    this.displayGroups = false;
+    this.displayProjects = false;
+    this.displayTickets = false;
+    this.displayUsers = false;
+
+    if (this.displayFilters[0] == true) {
+      this.displayUsers = true;
+    }
+
+    if (this.displayFilters[1] == true) {
+      this.displayTickets = true;
+    }
+
+    if (this.displayFilters[2] == true) {
+      this.displayClients = true;
+    }
+
+    if (this.displayFilters[3] == true) {
+      this.displayGroups = true;
+    }
+
+    if (this.displayFilters[4] == true) {
+      this.displayProjects = true;
+    }
   }
 }
 }
