@@ -11,8 +11,8 @@
       <p>Account: <b>{{ getRoles() }}</b></p>
     </div>
 
-    <div class="search">
-      <i class="fa-solid fa-magnifying-glass" style="color: #000000;" (click)="navigateToSearch()"></i>
+    <div class="search" (click)="navigateToSearch()">
+      <i class="fa-solid fa-magnifying-glass" style="color: #000000;" ></i>
     </div>
 
     <div class="notifications" (click)="openNotifications()">
