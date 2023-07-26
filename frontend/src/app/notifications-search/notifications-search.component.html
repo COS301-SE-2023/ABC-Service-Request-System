@@ -17,7 +17,7 @@
         <button class="filter-buttons" (click)="highlightButtonGroups($event)">Groups</button>
         <button class="filter-buttons" (click)="highlightButtonProjects($event)">Projects</button>
     </div>
-        <div  class="search-results">
+        <div *ngIf="searchQuery.trim().length > 0" class="search-results">
             <div *ngFor="let users of resultsUsers" class="search-user">
                 <div class="search-user-img">
                     <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
@@ -57,7 +57,7 @@
                 <div class="search-user-default-img">
                     <i class="fa-regular fa-ticket"></i>
                 </div>
-                    <p class = "title"><b>{{ highlightDescription(tickets.description, searchQuery) }}</b></p>
+                    <p class = "title"><b [innerHTML]="highlightDescription(tickets.description, searchQuery)"></b></p>
                     <p class ="additional-info"><b>{{tickets.project}}</b></p>
             </div>
             <div *ngFor="let groups of resultsGroup" class="search-user">
@@ -72,5 +72,8 @@
                 </div>
                     <p class = "title"><b>{{projects.name}}</b></p>
             </div>
+        </div>
+        <div *ngIf="!searchQuery || searchQuery.trim().length === 0" class="search-results">
+
         </div>
 </div>
