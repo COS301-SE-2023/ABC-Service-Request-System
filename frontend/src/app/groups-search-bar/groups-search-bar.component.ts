@@ -112,6 +112,9 @@ export class GroupsSearchBarComponent implements OnInit {
 
   //   // this.fetchGroupsAndUsers();
   // }
+  reload() {
+    location.reload();
+  }
 
   closeAllDialogs() {
     this.isFilterDialogOpen = false;
