@@ -412,22 +412,18 @@ multifilter(index: number) {
   console.log("displayProjects: ", this.displayFilters[4]);
 }
 highlightDescription(description: string, searchQuery: string): string {
-  if (!description || !searchQuery) {
+      if (!description || !searchQuery) {
+      return description;
+    }
+
+    const searchIndex = description.toLowerCase().indexOf(searchQuery.toLowerCase());
+    if (searchIndex >= 0) {
+      const before = searchIndex > 10 ? '...' : '';
+      const after = searchIndex + searchQuery.length + 10 < description.length ? '...' : '';
+      const context = description.substring(searchIndex - 10, searchIndex + searchQuery.length + 10);
+      return `${before}${context}${after}`;
+    }
+
     return description;
   }
-
-  const searchIndex = description.toLowerCase().indexOf(searchQuery.toLowerCase());
-  if (searchIndex >= 0) {
-    const before = searchIndex > 10 ? '...' : '';
-    const after = searchIndex + searchQuery.length + 10 < description.length ? '...' : '';
-
-    // Highlight the searched query in the description
-    const highlightedQuery = description.substring(searchIndex, searchIndex + searchQuery.length);
-    const context = description.substring(0, searchIndex) + `<span class="highlight" style= "background-color: yellowgreen; font-weight: bold;">${highlightedQuery}</span>` + description.substring(searchIndex + searchQuery.length);
-
-    return `${before}${context}${after}`;
-  }
-
-  return description;
-}
 }
