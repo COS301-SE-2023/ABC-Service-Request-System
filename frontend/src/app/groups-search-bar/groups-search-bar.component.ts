@@ -266,10 +266,8 @@ export class GroupsSearchBarComponent implements OnInit {
       const people = groupData.people;
 
       try {
-        // Add people to the group
         await this.groupService.addPeopleToGroup(group, people).toPromise();
 
-        // Add group to users
         await this.groupService.addGroupToUsers(group, people).toPromise();
 
         // Edwin's Notification Code
