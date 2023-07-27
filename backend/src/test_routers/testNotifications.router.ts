@@ -72,7 +72,7 @@ router.post('/newnotif', expressAsyncHandler(
         }
         catch (error) {
             // console.error("Notification creation error:", error);
-            res.status(500).send("An error occurred during notification creation.");
+            res.status(500).send({ message: "An error occurred during notification creation."});
         }
     }
 ));
