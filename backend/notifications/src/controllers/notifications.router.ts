@@ -9,7 +9,7 @@ router.post('/seed', expressAsyncHandler(
     async (req, res) => {
         const notificationsCount = await NotificationsModel.countDocuments();
         if(notificationsCount > 0){
-            res.status(400).send("Seed is already done");
+            res.status(400).send({message: "Seed is already done"});
             return;
         }
 
@@ -30,7 +30,7 @@ router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expr
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await NotificationsModel.deleteMany({});
-        res.send("Delete is done!");
+        res.send({message: "Delete is done!"});
     }
 ));
 
@@ -40,7 +40,7 @@ router.get('/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), e
         if (notification) {
             res.send(notification);
         } else {
-            res.status(404).send("Notification not found");
+            res.status(404).send({message: "Notification not found"});
         }
     }
 ));
@@ -63,7 +63,6 @@ router.post('/newnotif', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin
                 notificationTime: req.body.notificationTime,
                 link: req.body.link,
                 readStatus: req.body.readStatus,
-                creatorFullName: req.body.creatorFullName
             });
     
             await newNotification.save();
@@ -92,12 +91,12 @@ router.put('/changeToRead', jwtVerify(['Manager', 'Technical', 'Functional', 'Ad
             );
 
             if (notification) {
-                res.status(204).json({ message: 'Read Status changed successfully' });
+                res.status(204).send({ message: 'Read Status changed successfully' });
             } else {
-                res.status(404).json({ message: 'Notification not found' });
+                res.status(404).send({ message: 'Notification not found' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).send({ message: 'Internal server error' });
         }
     }
 ));
@@ -114,12 +113,12 @@ router.put('/changeToUnread', jwtVerify(['Manager', 'Technical', 'Functional', '
             );
 
             if (notification) {
-                res.status(204).json({ message: 'Read Status changed successfully' });
+                res.status(204).send({ message: 'Read Status changed successfully' });
             } else {
-                res.status(404).json({ message: 'Notification not found' });
+                res.status(404).send({ message: 'Notification not found' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).send({ message: 'Internal server error' });
         }
     }
 ));

@@ -24,7 +24,6 @@ export const sample_notifications: notifications[] = [
         notificationTime: oneDayBefore,
         link: "1",
         readStatus: "Unread",
-        creatorFullName: "Jesse Mwirygwi",
     },
     {
         id: "2",
@@ -37,7 +36,6 @@ export const sample_notifications: notifications[] = [
         notificationTime: oneWeekBefore,
         link: "2",
         readStatus: "Unread",
-        creatorFullName: "John Doe"
     },
     {
         id: "3",
@@ -50,6 +48,5 @@ export const sample_notifications: notifications[] = [
         notificationTime: oneMonthBefore,
         link: "3",
         readStatus: "Read",
-        creatorFullName: "Mark Tick"
     }
 ];

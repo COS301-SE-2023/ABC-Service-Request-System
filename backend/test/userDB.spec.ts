@@ -1,7 +1,7 @@
 import "mocha";
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
-import { dbConnection, mongooseWrapper } from '../src/configs/testTicketDB.config'; 
+import { dbConnection, mongooseWrapper } from "../src/configs/testTicketDB.config";
 
 describe('Database Config Tests', () => {
   let connectStub: sinon.SinonStub, 
