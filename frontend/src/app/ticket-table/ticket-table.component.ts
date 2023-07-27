@@ -94,6 +94,19 @@ export class TicketTableComponent implements OnInit{
                 console.log("current user groups: ", this.currentUserGroups);
                 console.log("after filter", this.allTicketsArray);
 
+                this.allTicketsArray.forEach(tickets => {
+                  const assigneeEmail = tickets.assignee;
+                  const assignedEmail = tickets.assigned;
+
+                  this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
+                    tickets.assignee = assignee.name + " " + assignee.surname;
+
+                    this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
+                      tickets.assigned = assigned.name + " " + assigned.surname;
+                    })
+                  })
+                });
+
                 this.allTicketsArray = this.sortTickets(this.allTicketsArray);
                 this.sortedTicketsArray = this.allTicketsArray.slice();
                 this.ticketsReady = true;

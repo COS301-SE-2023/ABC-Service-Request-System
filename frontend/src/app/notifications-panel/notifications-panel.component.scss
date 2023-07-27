@@ -176,10 +176,15 @@
 
 .notification-list .notification-list_img {
     flex: 0 0 auto; 
-    height: 48px;
-    width: 48px;
+    height: 3em;
+    width: 3em;
     border-radius: 50px;
     margin-right: 20px;
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .notification-list .notification-list_detail {

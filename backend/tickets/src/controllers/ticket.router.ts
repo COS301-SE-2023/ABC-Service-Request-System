@@ -153,6 +153,7 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             createdTime: new Date(),
             project: req.body.project,
             todo: req.body.todo,
+            todoChecked: req.body.todoChecked,
             assigneeFullName: req.body.assigneeFullName,
             assignedFullName: req.body.assignedFullName
         });
@@ -283,18 +284,20 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
   const updatedTodoChecked = req.body.todoChecked;
 
   try {
-    const ticket = await TicketModel.findOne({ id: ticketId});
+    const ticket = await TicketModel.findOne({ id: ticketId });
+    
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
 
       await ticket.save();
-      res.status(200).send("Ticket todo checked updated");
+      res.status(200).send({message: "Ticket todo checked updated"});
     }
     else {
       res.status(404).send("Ticket not found");
     }
   } catch(error) {
+    console.log(ticketId, updatedTodoChecked, req, res);
     res.status(500).send("Internal server error");
   }
 }));

@@ -92,42 +92,42 @@ export class PageHeaderComponent {
   }
 
   getRoles() {
-    if (this.authService.isAdmin()) {
-      this.roles = "Admin";
-      return this.roles; // Admin is already admin so won't have any other roles
-    }
+    this.authService.getUserObject().subscribe((response) => {
+      const user = response;
 
-    if (this.authService.isManager()) {
-      this.roles = "Management";
-
-      if (this.authService.isFunctional()) {
-        this.roles = this.roles + ", Functional";
+      if (user.roles[0] == "Admin") {
+        this.roles = "Admin"; // Admin is already admin so won't have any other roles
       }
 
-      if (this.authService.isTechnical()) {
-        this.roles = this.roles + ", Technical";
+      if (user.roles[0] == "Manager") {
+        this.roles = "Management";
       }
 
-      return this.roles;
-    }
-
-    if (this.authService.isFunctional()) {
-      this.roles = "Functional";
-
-      if (this.authService.isTechnical()) {
-        this.roles = this.roles + ", Technical";
+      if (user.roles[0] == "Functional") {
+        this.roles = "Functional";
       }
 
-      return this.roles;
-    }
+      if (user.roles[0] == "Technical") {
+        this.roles = "Technical";
+      }
 
-    if (this.authService.isTechnical()) {
-      this.roles = "Technical";
+      if (user.roles.length > 1) {
+        for (let i = 1; i < user.roles.length; i++) {
+            if (user.roles[i] == "Manager") {
+              this.roles = this.roles + ", Management";
+            }
 
-      return this.roles;
-    }
+            if (user.roles[i] == "Functional") {
+              this.roles = this.roles + ", Functional";
+            }
 
-    return "";
+            if (user.roles[i] == "Technical") {
+              this.roles = this.roles + ", Technical";
+            }
+        }
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -135,6 +135,7 @@ export class PageHeaderComponent {
       this.getNumOfUnreadNotifications();
       const userId = this.getUserObject().id;
       this.getUser(userId);
+      this.getRoles();
     }
   }
 

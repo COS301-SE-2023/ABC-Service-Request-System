@@ -21,6 +21,8 @@ export class NotificationsPanelComponent implements OnInit {
   notification!: notifications;
   creators!: user[];
 
+  notificationsReady!: boolean;
+
   activeTab: "unread" | "read" = "unread";
 
   @Input() notifications: notifications[] = [];
@@ -81,12 +83,16 @@ export class NotificationsPanelComponent implements OnInit {
         });
 
         this.sortedNotificationsArray = this.unreadNotificationsArray.sort((a, b) => {
+          this.notificationsReady = true;
           // console.log("Unread: ", this.unreadNotificationsArray);
           return this.compareDates(a.notificationTime, b.notificationTime, false);
         });
 
+        
       }
     )
+
+    
   }
 
   getReadNotifications() {
@@ -106,6 +112,8 @@ export class NotificationsPanelComponent implements OnInit {
           )
         });
 
+        this.notificationsReady = true;
+
         this.sortedNotificationsArray = this.readNotificationsArray.sort((a, b) => {
           // console.log("Unread: ", this.unreadNotificationsArray);
           return this.compareDates(a.notificationTime, b.notificationTime, false);
@@ -113,6 +121,8 @@ export class NotificationsPanelComponent implements OnInit {
 
       }
     )
+
+    
   }
 
   compareDates(a: Date, b: Date, isAsc: boolean) {
@@ -128,6 +138,8 @@ export class NotificationsPanelComponent implements OnInit {
   ngOnInit(): void {
     //console.log("Notifications Initialising");
     this.getUnreadNotifications();
+
+    this.notificationsReady = false;
   }
 
   handleTabClick(tab: 'unread' | 'read') {
@@ -135,10 +147,12 @@ export class NotificationsPanelComponent implements OnInit {
 
     if (this.activeTab === "unread") {
       this.getUnreadNotifications();
+      this.notificationsReady = false;
     }
 
     if (this.activeTab === "read") {
       this.getReadNotifications();
+      this.notificationsReady = false;
     }
   }
 
