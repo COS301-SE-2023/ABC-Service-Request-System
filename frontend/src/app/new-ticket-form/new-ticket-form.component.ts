@@ -215,10 +215,9 @@ export class NewTicketFormComponent implements OnInit {
         const ticketStatus = status;
         const notificationTime = new Date();
         const link = newTicketId;
-        const readStatus = "Unread"
-        const creatorFullName = assigneeFullName;
+        const readStatus = "Unread";
 
-        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
+        this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
           console.log(response);
         });
           }

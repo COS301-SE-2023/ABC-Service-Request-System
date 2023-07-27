@@ -2,7 +2,7 @@ import "mocha"
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from "../src/server";  // Import your Express app
-import { TestUserModel } from "../src/models/testUser.model"; // Import your User model
+import { TestUserModel } from "../src/test_routers/testUser.model";
 
 const jwt = require('jsonwebtoken');
 import dotenv from "dotenv";

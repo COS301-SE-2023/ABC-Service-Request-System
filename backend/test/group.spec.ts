@@ -4,7 +4,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
-import { testGroupModel, group } from '../src/models/testGroup.model';
+import { testGroupModel, group } from "../src/test_routers/testGroup.model";
 
 
 chai.use(chaiHttp);

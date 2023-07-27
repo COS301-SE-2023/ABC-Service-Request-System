@@ -219,9 +219,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           const notificationTime = new Date();
           const link = this.ticket.id;
           const readStatus = "Unread";
-          const creatorFullName = currentUser.name + " " + currentUser.surname;
 
-          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
             console.log(response);
           });
         },
@@ -249,9 +248,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       const notificationTime = new Date();
       const link = this.ticket.id;
       const readStatus = "Unread";
-      const creatorFullName = currentUser.name + " " + currentUser.surname;
 
-      this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
+      this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
         console.log(response);
       });
 
@@ -278,9 +276,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           const notificationTime = new Date();
           const link = this.ticket.id;
           const readStatus = "Unread";
-          const creatorFullName = currentUser.name + " " + currentUser.surname;
 
-          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus, creatorFullName).subscribe((response: any) => {
+          this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
             console.log(response);
           });
 

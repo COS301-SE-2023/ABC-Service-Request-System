@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TestTicketModel } from "../src/models/testTicket.model";
+import { TestTicketModel } from "../src/test_routers/testTicket.model";
 
 chai.use(chaiHttp);
 chai.should();

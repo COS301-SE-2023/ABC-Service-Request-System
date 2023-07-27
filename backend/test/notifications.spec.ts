@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TestNotificationsModel } from "../src/models/testNotifications.model";
+import { TestNotificationsModel } from "../src/test_routers/testNotifications.model";
 
 chai.use(chaiHttp);
 chai.should();
@@ -39,6 +39,15 @@ describe('/First test collection', () => {
         res.should.have.status(201);
         res.body.should.be.a('array');
         res.body.should.have.lengthOf(3);
+    });
+
+    it('Seed should fail because data already exists...', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_notifications/seed');
+
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Seed is already done');
     });
 
     it('Should add a new notification...', async () => {
@@ -78,6 +87,7 @@ describe('/First test collection', () => {
     it('Should make notification 1 readStatus = "Read"...', async () => {
 
         const toSend = {
+            notificationsId: "1",
             id: '1'
         }
 
@@ -87,6 +97,21 @@ describe('/First test collection', () => {
 
         res.should.have.status(204);
         res.body.should.be.a('object');
+    });
+
+    it('Should fail in updating notification 5 readStatus = "Read" as notification doesnt exist...', async() => {
+        const toSend = {
+            notificationsId: "5",
+            id: '5'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToRead')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
     });
 
     it('Should make notification 3 readStatus = "Unread"...', async () => {
@@ -101,5 +126,27 @@ describe('/First test collection', () => {
 
         res.should.have.status(204);
         res.body.should.be.a('object');
+    });
+
+    it('Should fail in updating notification 5 readStatus = "Unread" as notification doesnt exist...', async() => {
+        const toSend = {
+            id: '5'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToUnread')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
+    });
+
+    it('Should delete the database...', async() => {
+        const res = await chai.request(app)
+            .get('/api/test_notifications/delete');
+
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Delete is done!');
     });
 });
