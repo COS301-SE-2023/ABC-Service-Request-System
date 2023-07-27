@@ -1,6 +1,6 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { sample_groups } from "../sampleGroups";
+import { sample_groups } from "../../groups/src/utils/sampleGroups";
 import mongoose, { Types } from "mongoose";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
