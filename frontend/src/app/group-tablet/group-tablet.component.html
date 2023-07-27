@@ -1,0 +1,14 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<div class="group-card" [ngClass]="{'group-card-selected': isSelected()}">
+  <div class = "group-image">
+    <img [src]="group.backgroundPhoto" alt="Group image">
+  </div>
+
+  <div class="group-content">
+    <div class="group-details">
+      <h2>{{group.groupName}}</h2>
+      <p class = "view-stats pointer" (click) = "routeToAnalytics()">View Statistics</p>
+    </div>
+  </div>
+</div>

@@ -55,11 +55,16 @@ select:hover {
   align-items: center;
   border: 1px solid black;
   border-left: none;
+  // padding: 5px;
   background: #fff;
   border-radius: 0 10px 10px 0;
   cursor: pointer;
   outline: none;
 }
+
+// input ::placeholder {
+//   padding:5px;
+// }
 
 .search-button img {
   background: #fff;

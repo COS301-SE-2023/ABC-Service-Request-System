@@ -1,0 +1,91 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.container{
+  margin-top: 2em;
+  font-family: 'Montserrat';
+  font-size: 1.2em;
+  font-weight: 100;
+  color: rgba(0,0,0,0.6);
+
+  animation: fadeIn 2s;
+
+  h1{
+    font-family: 'Poppins';
+    font-size: 60px;
+    line-height: 1.2em;
+    font-weight: bolder;
+
+    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  form {
+    .half-inputs {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.8em 0em;
+    }
+
+    .name-input {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .surname-input {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .full-input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0.8em 0;
+    }
+  }
+
+  input, select {
+    // margin: 0.5em;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid #494545;
+    width: 100%;
+  }
+
+  select {
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 95% 50%;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .continue-btn{
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 20px;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    margin-top: 1em;
+    min-width: 10em;
+  }
+
+  .back-btn{
+    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Poppins';
+    font-size: 20px;
+    padding-bottom: 0.3em;
+    margin-left: 1.5em;
+    position: relative;
+    border-bottom: 3px solid rgba(72, 160, 205);
+    margin-top: 3em;
+  }
+}

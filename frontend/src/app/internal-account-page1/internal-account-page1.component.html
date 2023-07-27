@@ -1,0 +1,76 @@
+<div class="container">
+  <h1>Create New Internal Account</h1> <br>
+
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div class="input half-inputs">
+      <div class="name-input">
+        <label for="name">Name </label>
+        <input id="name" type="text" formControlName="name">
+      </div>
+      <div class="surname-input">
+        <label for="surname">Surname </label>
+        <input id="surname" type="text" formControlName="surname">
+      </div>
+    </div>
+
+    <div class="full-input">
+      <label for="email">Email </label>
+      <input id="email" type="email" formControlName="email">
+    </div>
+
+    <div class="full-input">
+      <label for="roles">Roles </label>
+      <div class="role-select-admin" *ngIf="authService.isAdmin()">
+        <mat-checkbox class="role" color="primary" formControlName="manager"><span class="role-text">Manager</span></mat-checkbox>
+        <mat-checkbox class="role" color="primary" formControlName="technical"><span class="role-text">Technical</span></mat-checkbox>
+        <mat-checkbox class="role" color="primary" formControlName="functional"><span class="role-text">Functional</span></mat-checkbox>
+      </div>
+
+      <div class="role-select-others" *ngIf="!authService.isAdmin()">
+        <mat-checkbox class="role" color="primary" formControlName="technical"><span class="role-text">Technical</span></mat-checkbox>
+        <mat-checkbox class="role" color="primary" formControlName="functional"><span class="role-text">Functional</span></mat-checkbox>
+      </div>
+    </div>
+
+    <label for="groups">Groups </label>
+    <div class="all-groups">
+      <div class="group-tab" *ngFor="let selectedGroup of selectedGroups; let i = index;">
+        <p>{{ selectedGroup.groupName }}</p>
+        <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
+      </div>
+
+      <div class="no-groups-selected" *ngIf="!groupSelected">
+        <p>No Groups Selected</p>
+        <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+
+    <button class="complete-btn" (click)="onCompleteClicked()" type="submit">Create Account</button>
+  </form>
+
+  <div class="group-overlay" *ngIf="isAddGroupOverlayOpened">
+    <div class="group-overlay-inner-wrapper">
+      <h1>Search by Group Name</h1>
+      <input type="text"
+        placeholder="Group Name"
+        aria-label="Group Name"
+        matInput
+        [formControl]="groupControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" color="primary">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+        </mat-option>
+      </mat-autocomplete>
+
+      <button class="add-group-btn" (click)="addGroup()">Add Group</button>
+      <button class="cancel-btn" (click)="toggleAddGroupOverlay()">Cancel</button>
+    </div>
+  </div>
+</div>

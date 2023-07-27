@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Edit Client Information</h1> <br>
+  <p>Choose a client to edit their information.</p>
+
+  <label for="">Organisation</label>
+  <div class="select-btn" class="select-btn" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()">
+    <span *ngIf="!selectedOption" class="sBtn-text"></span>
+    <span *ngIf="selectedOption" class="sBtn-text">{{ selectedOption.organisation }}</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <ul class="options" *ngIf="isDropDownOpen">
+    <li *ngFor="let organisation of organisationsToShow; let i = index" class="option"  [tabindex]="i" (click)="selectOption(organisation)" (keyup)="selectOption(organisation)">
+      <div class="user-img" [class]="organisation.projects[0].color">
+        <img [src]="organisation.projects[0].logo" alt="organisation logo">
+      </div>
+      <span class="option-text" id="optionText{{i}}"> {{ organisation.organisation }} </span>
+    </li>
+  </ul>
+
+  <button class="continue-btn" [disabled]="!selectedOption" (click)="onContinueClicked()">Continue</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
+</div>

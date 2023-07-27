@@ -1,0 +1,28 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="overlayContainer">
+    <form class="profileOverlay">
+            <div class="profileOverlayHeader">
+                <h2 class="text-center">Account</h2>
+            </div>
+            <div class="profileOverlayContent">
+                <div class="Account">
+                    <img src="{{ userPic }}" alt="ProfilePic">
+                    <div class="accountDetail">
+                        <p><b>{{ userName }} {{ userSurname }}</b></p>
+                        <p><small>{{ userEmail }}</small></p>
+                    </div>
+                </div>
+
+                <div class="Settings" (click)="openSettings()">
+                    <p>Settings</p>
+                    <img src="/assets/edit.png" alt="settings">
+                </div>
+
+                <div class="Logout" routerLink="/" (click)="clearLocalStorage()">
+                    <p>Log Out</p>
+                    <img src="/assets/Logout_Hover.png" alt="logout">
+                </div>
+            </div>
+    </form>
+</div>

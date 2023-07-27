@@ -5,7 +5,7 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
-import { TestTicketModel } from "../src/models/testTicket.model";
+import { TestTicketModel } from "../src/test_routers/testTicket.model";
 
 chai.use(chaiHttp);
 chai.should();
@@ -33,7 +33,7 @@ after(async () => {
 //     }
 // }
 
-describe('/First test collection', () => {
+describe('/Ticket test collection', () => {
     it('should test welcome route...', async () => {
         const res = await chai.request(app)
             .get('/api/welcome');

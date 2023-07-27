@@ -1,49 +1,35 @@
-<app-page-header></app-page-header>
-<app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel>
-<div class="dashboard-container adjusted-container">
-<h2 class="form-heading">Create Account</h2>
-<div class="create-account-container">
-  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="create-account-form">
-    <div class="form-group">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" id="name" formControlName="name" class="form-input">
-    </div>
-    <div class="form-group">
-      <label for="surname" class="form-label">Surname</label>
-      <input type="text" id="surname" formControlName="surname" class="form-input">
-    </div>
-    <!-- Removed profile photo input -->
-    <div class="form-group">
-      <label for="emailAddress" class="form-label">Email Address</label>
-      <input type="email" id="emailAddress" formControlName="emailAddress" class="form-input">
-    </div>
-    <div class="form-group">
-      <label for="roles" class="form-label">Roles</label>
+<!-- <app-dash-panel (openForm)="openNewTicketForm()" [tickets]="tickets"></app-dash-panel> -->
 
-      <div class="role-select-admin" *ngIf="authService.isAdmin()">
-        <select id="roles" formControlName="roles" class="form-input">
-          <option value="Manager">Manager</option>
-          <option value="Technical">Technical</option>
-          <option value="Functional">Functional</option>
-        </select>
-      </div>
+<div class="create-account-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 
-      <div class="role-select-others" *ngIf="!authService.isAdmin()">
-        <select id="roles" formControlName="roles" class="form-input">
-          <option value="Technical">Technical</option>
-          <option value="Functional">Functional</option>
-        </select>
-      </div>
+  <mat-form-field>
+    <mat-select [(value)]="selected" class="header-label" (selectionChange)="onSelectionChange()">
+      <mat-option value="client">Client</mat-option>
+      <mat-option value="internal">Internal</mat-option>
+    </mat-select>
+  </mat-form-field>
 
+  <div class="content-area">
+    <div class="img">
+      <img src="../../assets/client_background.png" alt="background">
     </div>
-    <div class="form-group">
-      <label for="groups" class="form-label">Groups</label>
-      <input type="text" id="groups" formControlName="groups" class="form-input">
+
+    <div class="content" *ngIf="selected === 'client'">
+      <app-client-account-page1 (manageAccountClicked)="incrementClientStageManage()" (createAccountClicked)="incrementClientStage()" *ngIf="clientStage === 0"></app-client-account-page1>
+      <app-client-account-page2 (continueClicked)="incrementClientStage()" (backClicked)="setClientStage($event)" (formSubmitted)="getFormValues($event)" [selectedOrganisation]="this.selectedOrganisation" *ngIf="clientStage === 1"></app-client-account-page2>
+      <app-client-account-page3 (completeClicked)="incrementClientStage()" (backClicked)="setClientStage($event)" (clientCreated)="getCreatedClient($event)" [formData]="recievedFormData" *ngIf="clientStage === 2" [selectedOrganisation]="this.selectedOrganisationForProject"></app-client-account-page3>
+      <app-client-account-page4 *ngIf="clientStage === 3" [createdClient]="recievedCreatedClient"></app-client-account-page4>
+
+      <app-client-manage-page1 (continueClicked)="incrementClientStage()" (backClicked)="decrementClientStageManage()" (selectedClient)="getSelectedClient($event)" *ngIf="clientStage === 4"></app-client-manage-page1>
+      <app-client-manage-page2 (completeClicked)="decrementClientStageManage()" (backClicked)="decrementClientStage()" (editClicked)="incrementClientStageAndReceiveEmit($event)" [selectedClient]="managingClient" *ngIf="clientStage === 5"></app-client-manage-page2>
+      <app-client-manage-page3 (backClicked)="decrementClientStage()" *ngIf="clientStage === 6" [projectToEdit]="projectToEdit"></app-client-manage-page3>
     </div>
-    <div class="button-container">
-      <!-- <button type="button" (click)="navigateToDashboard()" class="back-button">Back to Dashboard</button> -->
-      <button type="submit" class="submit-button">Create Account</button>
+
+    <div class="content" *ngIf="selected === 'internal'">
+      <app-internal-account-page1 (userCreated)="getCreatedUser($event)" *ngIf="internalStage === 0"></app-internal-account-page1>
+      <app-internal-account-page2 [createdUser]="recievedCreatedUser" *ngIf="internalStage === 1"></app-internal-account-page2>
     </div>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  </form>
+  </div>
 </div>
+
+<!-- <app-page-header></app-page-header> -->

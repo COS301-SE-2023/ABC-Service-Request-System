@@ -1,114 +1,148 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<div class="page-container">
-  <h1>Add Ticket</h1>
+<!-- <app-dash-panel></app-dash-panel> -->
 
-<div class="form-container">
-  <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
-    <div class="form-column">
-      <label>
-        Assignee:
-        <p>{{ assigneeName }}</p>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('assignee').invalid && ticketForm.get('assignee').touched">
-        Assignee is required.
-      </span> -->
-    </div>
+<div class="page-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+  <h1>Create Ticket</h1>
 
-    <div class="form-column">
-      <label>
-        Summary:<span class="required">*</span>
+  <div class="form-container">
+    <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+      <div class="form-header">
+        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
+        <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
+
+      </div>
+
+      <div class="project-details">
+        <label>Project<span class="required">*</span></label>
+        <select formControlName="project" required (change)="projectChanged($event)">
+          <option *ngFor="let project of allProjects" [value]="project.name">{{ project.name }}</option>
+        </select>
+      </div>
+
+      <div class="ticket-details">
+        <label>Summary<span class="required">*</span></label>
         <input type="text" formControlName="summary" required>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('summary').invalid && ticketForm.get('summary').touched">
-        Summary is required.
-      </span> -->
-    </div>
 
-    
+        <label class="descriptionLabel">Description<span class="required">*</span></label>
+        <quill-editor formControlName="description" [trimOnValidation]="true"></quill-editor>
+      </div>
 
-    <label>
-          Assigned:<span class="required">*</span>
-          <select formControlName="assigned" required>
-            <option *ngFor="let user of allUsers">{{ user.name }}</option>
+      <div class="ticket-information">
+        <div class="ticket-information-col1">
+          <label>End Date<span class="required">*</span></label>
+          <input type="date" formControlName="endDate" required>
+
+          <label class="priorityLabel">Priority<span class="required">*</span></label>
+          <select formControlName="priority" required>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
           </select>
-        </label>
+        </div>
 
-    <div class="form-column">
-      <label>
-        Group:<span class="required">*</span>
-        <input type="text" formControlName="group">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('group').invalid && ticketForm.get('group').touched">
-        Group is required.
-      </span> -->
-    </div>
+        <div class="ticket-information-col2">
 
-    <div class="form-column">
-      <label>
-        Priority:<span class="required">*</span>
-        <select formControlName="priority" required>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('priority').invalid && ticketForm.get('priority').touched">
-        Priority is required.
-      </span> -->
-    </div>
+        </div>
+      </div>
 
-    <div class="form-column">
-      <label>
-        Start Date:<span class="required">*</span>
-        <input type="date" formControlName="startDate" required>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('startDate').invalid && ticketForm.get('startDate').touched">
-        Start Date is required.
-      </span> -->
-    </div>
+      <div class="todos">
+        <div class="todos-col1">
+          <label>Todo's</label>
+          <div class="todo-tab" *ngFor="let selectedTodo of todoArray; let i = index;">
+            <p>{{ selectedTodo }}</p>
 
-    <div class="form-column">
-      <label>
-        End Date:<span class="required">*</span>
-        <input type="date" formControlName="endDate">
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('endDate').invalid && ticketForm.get('endDate').touched">
-        End Date is required.
-      </span> -->
-    </div>
+            <div class="todo-tab-icons">
+              <i class="fa-solid fa-pencil" tabindex="0" (click)="editTodoTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
+              <i class="fa-solid fa-xmark" tabindex="0" (click)="removeTodoTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
+            </div>
+          </div>
 
-    <div class="form-column">
-      <label>
-        Status:<span class="required">*</span>
-        <select formControlName="status" required>
-          <option value="Active">Active</option>
-          <option value="Pending">Pending</option>
-        </select>
-      </label>
-      <!-- <span class="error-message" *ngIf="ticketForm.get('status').invalid && ticketForm.get('status').touched">
-        Status is required.
-      </span> -->
-    </div>
+          <div class="no-todo-added" *ngIf="!todoAdded">
+            <p>No Todos Added</p>
+            <button class="add-btn" (click)="toggleAddTodoOverlay()" type="button">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
 
-    <div class="form-column">
-      <label>
-        Description:<span class="required">*</span>
-      </label>
-      <div class="textarea-container">
-        <textarea formControlName="description" required></textarea>
+          <button class="add-btn" (click)="toggleAddTodoOverlay()" type="button" *ngIf="todoAdded">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+        <div class="todos=col2">
+          <label>AI Generated Todo's</label>
+
+          <!-- AI GENERATION HERE -->
+          <p>Work in Progress</p>
+
+          <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
+        </div>
+      </div>
+
+      <div class="assignedInformation">
+        <div class="assignedInformation-col1">
+          <label class="groupLabel">Group<span class="required">*</span></label>
+          <select formControlName="group" required (change)="onGroupChanged($event)">
+            <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+          </select>
+
+          <label class="assignedLabel">Assigned<span class="required">*</span></label>
+          <select formControlName="assigned" required (change)="onAssignedChange()">
+            <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
+          </select>
+        </div>
+
+        <div class="assignedInformation-col2">
+          <div class="memberAIBlock">
+            <label>Suggested Technical Members</label>
+
+            <div class="memberAIContent">
+
+            </div>
+          </div>
+        </div>
       </div>
       <!-- <span class="error-message" *ngIf="ticketForm.get('description').invalid && ticketForm.get('description').touched">
         Description is required.
       </span> -->
-    </div>    
 
-    <div class="form-buttons">
+    <div class="submitButton">
       <button id="submit-button" type="submit">Submit</button>
     </div>
   </form>
-</div>
+
+
+  <div class="todo-overlay" *ngIf="isAddTodoOverlayOpened">
+    <div class="todo-overlay-inner-wrapper">
+      <h1>Add a todo</h1>
+      <textarea [formControl]="todo"></textarea>
+      <br>
+
+      <div class="todo-overlay-buttons">
+        <button class="add-todo-btn" (click)="addTodo()">Add Todo</button>
+        <button class="cancel-btn" (click)="toggleAddTodoOverlay()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="edit-todo-overlay" *ngIf="isEditTodoOverlayOpened">
+    <div class="edit-todo-overlay-inner-wrapper">
+      <h1>Edit todo</h1>
+      <textarea [formControl]="todo"></textarea>
+      <br>
+
+      <div class="edit-todo-overlay-buttons">
+        <button class="add-todo-btn" (click)="editTodo()">Add Todo</button>
+        <button class="cancel-btn" (click)="toggleEditTodoOverlay()">Cancel</button>
+      </div>
+    </div>
+  </div> -->
+
 </div>
 
 
-<app-dash-panel></app-dash-panel>
-<app-page-header></app-page-header>
+</div>
+
+
+
+<!-- <app-page-header></app-page-header> -->

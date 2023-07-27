@@ -1,0 +1,34 @@
+<!-- <div class="user-card">
+  <div class = "user-image">
+    <img [src]="user?.profilePhoto" alt="User image">
+
+  </div>
+
+  <div class="user-content">
+    <div class="user-details">
+      <p>{{user?.name}} {{user?.surname}}</p>
+    </div>
+    <div class = "user-role">
+      <p>{{user?.roles}}</p>
+    </div>
+  </div>
+</div> -->
+
+<table class="w-full">
+  <thead class="bg-gray border-b-2 border-gray-200">
+    <tr>
+      <th class="w-100 pl-4 text-sm font-semibold tracking-wide text-left">Name</th>
+      <th class="w-100 text-sm font-semibold tracking-wide text-left">Surname</th>
+      <th class="w-100 text-sm font-semibold tracking-wide text-left">Email</th>
+      <th class="w-100 text-sm font-semibold tracking-wide text-left">Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users" class="odd:bg-white even:bg-slate-200">
+      <td class="pt-3 pb-3 pl-4 text-left">{{user.name}}</td>
+      <td class="text-left">{{user.surname}}</td>
+      <td class="text-left">{{user.emailAddress}}</td>
+      <td class="text-left">{{user.roles}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,82 @@
+<div class="container">
+  <h1>{{this.selectedClient.organisation}}</h1> <br>
+
+  <h2>Members</h2>
+
+  <table class="w-full table-fixed">
+    <thead>
+      <tr>
+        <th class="w-1/5 py-2 text-left">Name</th>
+        <th class="w-1/5 py-2 text-left">Surname</th>
+        <th class="w-2/5 py-2 text-left">Email</th>
+        <th class="w-1/5 py-2 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="(allClients2$ | async) as allClients">
+        <tr *ngFor="let client of allClients">
+          <td class="py-2">{{ client.name }}</td>
+          <td class="py-2">{{ client.surname }}</td>
+          <td class="py-2">{{ client.email }}</td>
+          <td class="py-2 text-red-600 text-right">
+            <button class="underline" (click)="toggleRemoveClientOverlay(client)">Remove</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <button class="add-btn" (click)="addClient(this.selectedClient.organisation)">Add</button> <br>
+
+  <h2>Projects</h2>
+
+  <table class="w-full table-fixed">
+    <thead>
+      <tr>
+        <th class="w-1/5 py-2 text-left"></th>
+        <th class="w-3/5 py-2 text-left">Project Name</th>
+        <th class="w-1/5 py-2 text-center">Action</th>
+        <th class="w-1/5 py-2 text-right">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of allProjects" (click)="onEditClicked(this.selectedClient, project)" class="project-row">
+        <td class="py-2">
+          <div class="project-logo" [class]="project.color">
+            <img [src]="project.logo" alt="poject-logo">
+          </div>
+        </td>
+        <td class="py-2">{{ project.name }}</td>
+        <td class="py-2 text-sky-600 text-center">
+          <button class="underline" (click)="onEditClicked(this.selectedClient, project)">Edit</button>
+        </td>
+        <td class="py-2 text-red-600 text-right">
+          <button class="underline" (click)="toggleRemoveProjectOverlay($event, project)">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="add-btn" (click)="addProject(this.selectedClient.organisation)">Add</button> <br>
+
+  <button class="complete-btn" (click)="onCompleteClicked()">Complete</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
+
+  <!-- Overlays -->
+  <div class="remove-client-overlay" *ngIf="isRemoveClientOverlayOpened">
+    <div class="remove-client-overlay-inner-wrapper">
+      <h3>Confirm Action</h3>
+      <p>Are you sure you'd like to remove <span class="important-white">{{ this.clientToRemove?.name }}</span> from <span class="important-white">{{ this.selectedClient.organisation }}</span>? Doing so will remove all their information as well as any <span class="important-white">projects and tickets</span> associated with their account.</p>
+      <button class="remove-client-btn" (click)="removeClient(this.clientToRemove!)">Remove Client</button>
+      <button class="cancel-remove-client-btn" (click)="toggleRemoveClientOverlay(null)">No, take me back</button>
+    </div>
+  </div>
+
+  <div class="remove-client-overlay" *ngIf="isRemoveProjectOverlayOpened">
+    <div class="remove-client-overlay-inner-wrapper">
+      <h3>Confirm Action</h3>
+      <p>Are you sure you'd like to remove <span class="important-white">{{ this.projectToRemove?.name }}</span> from <span class="important-white">{{ this.selectedClient.organisation }}</span>? Doing so will remove all the <span class="important-white">tickets</span> associated with this project.</p>
+      <button class="remove-client-btn" (click)="removeProject(this.projectToRemove!)">Remove Project</button>
+      <button class="cancel-remove-client-btn" (click)="toggleRemoveProjectOverlay($event, null)">No, take me back</button>
+    </div>
+  </div>

@@ -1,29 +1,40 @@
-<div class="overlayContainer">
-<form class="notificationsOverlay">
-        <div class="notification-ui_dd-header">
-            <h2 class="text-center">Notifications</h2>
-        </div>
-        <div class="notification-ui_dd-content">
-            <div *ngFor="let notifications of sortedUnreadNotificationsArray" class="notification-list notification-list--unread" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
-                <div class="notification-list_img">
-                    <img [src]="notifications.profilePhotoLink" alt="user">
-                </div>
-                <div class="notification-list_detail">
-                    <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
-                    <p><small>{{ getNotificationTime(notifications) }}</small></p>
-                </div>
-            </div>
-        </div>
-
-            <div *ngFor="let notifications of sortedReadNotificationsArray" class="notification-list" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
-                <div class="notification-list_img">
-                    <img [src]="notifications.profilePhotoLink" alt="user">
-                </div>
-                <div class="notification-list_detail">
-                    <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
-                    <p><small>{{ getNotificationTime(notifications) }}</small></p>
-                </div>
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+    <div class="overlayContainer">
+    <form class="notificationsOverlay">
+            <div class="notification-ui_dd-header">
+                <h2 class="text-center">Notifications</h2>
             </div>
 
-</form>
-</div>
+            <div class="notification-filter">
+                <button class="unreadNotifications" [class.active]="activeTab === 'unread'" (click)="handleTabClick('unread')">Unread</button>
+                <button class="readNotifications" [class.active]="activeTab === 'read'" (click)="handleTabClick('read')">Read</button>
+            </div>
+
+            <mat-progress-bar mode="indeterminate" *ngIf="!notificationsReady"></mat-progress-bar>
+
+            <div class="notification-ui_dd-content"  *ngIf="notificationsReady">
+                <div *ngFor="let notifications of sortedNotificationsArray" class="notification-list notification-list--unread" (click)="navigate(notifications.link, notifications.id)">
+                    <div class="notification-list_img">
+                        <img [src]="notifications.profilePhotoLink" alt="user" style="border-radius: 50%;">
+                    </div>
+                    <div class="notification-list_detail">
+                        <p class="Summary"><b>{{ notifications.ticketSummary }}</b></p>
+                        <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.notificationMessage }}</p> 
+                        <p><small>{{ getNotificationTime(notifications) }}</small></p>
+                    </div>
+                </div>
+            </div>
+
+                <!-- <div *ngFor="let notifications of sortedReadNotificationsArray" class="notification-list" (click)="navigateToTicket(notifications.link)" (keyup)="handleKeyup($event, notifications.link)" tabindex="0">
+                    <div class="notification-list_img">
+                        <img [src]="notifications.profilePhotoLink" alt="user">
+                    </div>
+                    <div class="notification-list_detail">
+                        <p><b>{{ notifications.creatorEmail }}</b> {{ notifications.ticketSummary }}</p>
+                        <p><small>{{ getNotificationTime(notifications) }}</small></p>
+                    </div>
+                </div> -->
+
+    </form>
+    </div>

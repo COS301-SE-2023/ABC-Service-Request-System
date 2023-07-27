@@ -1,9 +1,21 @@
 // @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-// .ticket-container {
-//   font-family: "Poppins", sans-serif;
-// }
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
+.ticket-container {
+  font-family: "Poppins", sans-serif;
+  // font-weight: bolder;
+
+  animation: fadeIn 2s;
+}
+
+.functional-table {
+  background-color: red;
+  width: 100vw;
+}
 // table {
 //   display: grid;
 //   border-collapse: collapse;
@@ -94,4 +106,32 @@
 
 .index {
     // z-index: -1;
+}
+
+.no-ticket-yet {
+  width: 98%;
+  margin: 1em;
+  border: 2px dashed rgba(0,0,0,0.4);
+  padding: 1em;
+  border-radius: 0.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  button {
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 1.2em;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    margin-top: 0.5em;
+    min-width: 10em;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin-top: 0.4em;
+  }
 }

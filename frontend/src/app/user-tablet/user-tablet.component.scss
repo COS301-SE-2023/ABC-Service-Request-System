@@ -1,0 +1,77 @@
+.user-card {
+  position: relative;
+  width: calc(100% - 40px);
+  height: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 200px;
+}
+
+.user-image {
+  display: block;
+  margin: auto;
+  width: 50px;
+  height:50px;
+  object-fit: cover;
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.group-image {
+  position: relative; /* Changed to relative from absolute */
+  width: 100%;
+  height: 100px; /* You can adjust this as needed */
+}
+
+.group-image img {
+  width: 100%;
+  height: auto; /* Changed this to auto so the image height scales with width */
+  object-fit: cover;
+}
+
+
+.user-content {
+  padding: 10px;
+}
+
+.user-details {
+  margin-top: 45px;
+  // padding-top: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+
+.user-role {
+  text-align: center;
+}
+
+.user-details h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.user-details p {
+  margin: 5px 0;
+}
+
+.view-profile {
+  margin-top: 5px;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: rgb(6, 120, 250);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.view-profile:hover {
+  opacity: 0.8;
+}
+

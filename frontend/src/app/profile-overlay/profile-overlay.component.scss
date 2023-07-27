@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.overlay-container {
+    position: relative;
+  }
+
+  /* Style for the notification overlay form */
+.profileOverlay {
+    position: absolute;
+    top: 3em;
+    right: 2em;
+    background-color: #f3f3f3;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    text-align: center;
+    z-index: 9999; /* Ensure a high z-index value */
+    max-height: 40vh;
+    max-width: 30vw;
+    font-family: 'Poppins', sans-serif;
+    cursor: initial;
+}
+
+// .notification-ui a:after {
+//     display: none;
+// }
+
+// .notification-ui_icon {
+//     position: relative;
+// }
+
+// .notification-ui_icon .unread-notification {
+//     display: inline-block;
+//     height: 7px;
+//     width: 7px;
+//     border-radius: 7px;
+//     background-color: #66BB6A;
+//     position: absolute;
+//     top: 7px;
+//     left: 12px;
+// }
+
+.profileOverlayHeader {
+    border-bottom: 1px solid #ddd;
+}
+
+.profileOverlayHeader h2 {
+    margin-bottom: 0.3em;
+}
+
+.profileOverlayContent {
+    max-height: 30vh;
+    width: 18vw;
+    overflow: auto;
+    cursor: pointer;
+}
+
+// Account========================================================================================
+.Account {
+    display: flex;
+    padding-left: 0.8em;
+    height: 4em;
+    border-radius: 0.5em;
+}
+
+.Account img {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+}
+
+.accountDetail {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+    justify-content: center;
+    align-items: center;
+}
+
+.accountDetail p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+// Settings========================================================================================
+.Settings {
+    display: flex;
+    padding-left: 0.8em;
+    height: 2em;
+    border-radius: 0.5em;
+}
+
+.Settings img{
+    display: flex;
+    position: absolute;
+    right: 1.5em;
+    justify-content: center;
+    align-self: center;
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.Settings p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.Settings:hover {
+    background-color: rgba(116, 172, 205, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+// Logout========================================================================================
+.Logout {
+    display: flex;
+    padding-left: 0.8em;
+    height: 2em;
+    border-radius: 0.5em;
+}
+
+.Logout img{
+    display: flex;
+    position: absolute;
+    right: 1.5em;
+    justify-content: center;
+    float: right;
+    align-self: center;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.Logout p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: red;
+}
+
+.Logout:hover {
+    background-color: rgba(116, 172, 205, 0.3);
+    transition: 0.3s ease-in-out;
+}

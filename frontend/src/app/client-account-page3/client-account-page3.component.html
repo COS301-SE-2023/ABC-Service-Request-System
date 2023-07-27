@@ -1,0 +1,146 @@
+<div class="container">
+  <h1 *ngIf="this.selectedOrganisation === undefined">Initial Project</h1> <br>
+  <h1 *ngIf="this.selectedOrganisation !== undefined">New Project</h1> <br>
+
+  <p *ngIf="this.selectedOrganisation === undefined">All client accounts must have at least one project registered to them. Create this clients initial project here!</p>
+  <p *ngIf="this.selectedOrganisation !== undefined">Select a client to which the new project should be added.</p>
+
+  <div class="full-input" *ngIf="this.selectedOrganisation !== undefined">
+    <label for="client">Client</label>
+    <select id="client" name="client" [(ngModel)]="selectedClient" (change)="onSelectionChange()">
+      <option *ngFor="let client of availableClients" [ngValue]="client">{{ client.name }}</option>
+    </select>
+  </div>
+
+  <div class="project-information">
+    <div class="project-logo" [class]="projectImageColor" (click)="toggleLogosOverlay()" tabindex="0" (keydown)="toggleLogosOverlay()">
+      <!-- <div class="hover-bg" [style.opacity]="hovered ? '1' : '0'" (mouseenter)="toggleHover()" (mouseleave)="toggleHover()"></div> -->
+      <img [src]="projectImageUrl" alt="projectLogo">
+
+      <div class="image-select-outer-wrapper grid grid-cols-3 gap-y-4" *ngIf="isLogosOverlayOpen">
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/camera.png" alt="select-logo" class="orange-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/coffee-cup.png" alt="select-logo" class="cyan-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/computer.png" alt="select-logo" class="yellow-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/eight.png" alt="select-logo" class="grey-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/flask.png" alt="select-logo" class="purple-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/hotdog.png" alt="select-logo" class="green-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/laptop.png" alt="select-logo" class="blue-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/notebook.png" alt="select-logo" class="pink-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/smartphone.png" alt="select-logo" class="yellow-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/vynil.png" alt="select-logo" class="orange-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/wallet.png" alt="select-logo" class="cyan-cl">
+          </button>
+        </div>
+        <div class="image-select">
+          <button (click)="setProjectLogo($event)">
+            <img src="../../assets/project-logos/web-design.png" alt="select-logo" class="purple-cl">
+          </button>
+        </div>
+      </div>
+    </div>
+    <input type="text" placeholder="Untitled" [(ngModel)]="formData.projectName" style="outline: none;">
+  </div>
+
+  <h2>Assigned Groups</h2> <br>
+
+  <div class="all-groups">
+    <div class="group-tab" *ngFor="let selectedGroup of selectedGroups; let i = index;">
+      <p>{{ selectedGroup.groupName }}</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+
+    <div class="no-groups-selected" *ngIf="!groupSelected">
+      <p>No Group Selected</p>
+      <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+
+    <button class="add-btn" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <!-- <div class="group-tab">
+      <p>Backend</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+
+    <div class="group-tab">
+      <p>Epiuse</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div>
+
+    <div class="group-tab">
+      <p>Service Engineering</p>
+      <i class="fa-solid fa-xmark" tabindex="0" (click)="removeGroupTab($event)" (keyup)="handleKeyupEvent($event)"></i>
+    </div> -->
+  </div>
+
+  <!-- <button class="add-btn">Add</button> <br> -->
+
+  <button class="complete-btn" (click)="onCompleteClicked()">Complete</button>
+  <button class="back-btn" (click)="onBackClicked()">Back</button>
+
+  <div class="group-overlay" *ngIf="isAddGroupOverlayOpened">
+    <div class="group-overlay-inner-wrapper">
+      <h1>Search by Group Name</h1>
+      <input type="text"
+        placeholder="Group Name"
+        aria-label="Group Name"
+        matInput
+        [formControl]="groupControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" color="primary">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+        </mat-option>
+      </mat-autocomplete>
+
+      <button class="add-group-btn" (click)="addGroup()">Add Group</button>
+      <button class="cancel-btn" (click)="toggleAddGroupOverlay()">Cancel</button>
+    </div>
+  </div>
+</div>
+

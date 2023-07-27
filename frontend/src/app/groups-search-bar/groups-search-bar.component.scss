@@ -1,0 +1,631 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import 'node_modules/@ng-select/ng-select/themes/default.theme.css';
+
+.groups-header {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  margin-left: 1em;
+  position: relative;
+  align-items: center;
+  margin-bottom: 0.5em;
+  justify-content: space-between;
+  width: 95%;
+}
+
+
+.groups-header select {
+  border: none;
+  border-radius: 5px;
+  font-size: 2.5em;
+  font-weight: 500;
+  text-align: left;
+  width: fit-content;
+  position: relative;
+
+  // appearance: none;
+  // background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+  // background-size: 13px 13px;
+}
+
+select:hover {
+  background: #fff;
+}
+
+.groups-filter {
+  flex-grow: 1;
+  margin-left: 70px;
+}
+
+.groups-filter-2 {
+  flex-grow: 1;
+  margin-left: 70px;
+  opacity: 0;
+}
+
+mat-select {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 5px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+#header-grid {
+  display: flex;
+  grid-template-columns: auto auto auto;
+  grid-gap: 3px;
+  justify-content: space-between;
+}
+
+.group-image-preview {
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.group-image-preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.create-group-button {
+  display: flex;
+  border-radius: 10px;
+  background: #808080;
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.create-group-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.add-people-button {
+  display: flex;
+  border-radius: 10px;
+  background: #808080;
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-group-button {
+  display: flex;
+  border-radius: 10px;
+  border-color: red;
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-group-image-button {
+  display: flex;
+  border-radius: 10px;
+
+
+  background: #808080;
+
+  color: #ffffff;
+  margin-right: 50px;
+  width:180px;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+mat-select .mat-select-trigger {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+.add-people-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.remove-group-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.update-group-image-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.reload-button {
+  min-width: auto;
+}
+
+.reload-button img {
+  width: 27px;
+  height: 27px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1em;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.606);
+}
+
+.groups-filter-2 select {
+  width: 180px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  font-size: 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  padding-right: 25px;
+    background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+    background-size: 13px 13px;
+  outline: none;
+}
+
+.groups-filter select {
+  width: 180px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #808080;
+  font-size: 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  padding-right: 25px;
+    background: url(../../assets/dropdown-arrow.png) no-repeat right 10px center;
+    background-size: 13px 13px;
+  outline: none;
+}
+
+#filterDialog {
+  display: none;
+  position: fixed;
+  // z-index: 1;
+  left:0;
+  top:0;
+  // margin-left: 600px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+ #addPeopleDialog, #createGroupDialog {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.filter-dialog {
+  background-color: #fefefe;
+  margin: 8% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 345px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.input-field-group-people {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field-group-people label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field-group-people input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-people select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-people select option.placeholder {
+  display: none;
+}
+
+.input-field-group-people select option[disabled].placeholder {
+  display: block;
+  color: #999;
+}
+
+.input-field-group-name {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field-group-name label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field-group-name input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-name select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field-group-name select option.placeholder {
+  display: none;
+}
+
+.input-field-group-name select option[disabled].placeholder {
+  display: block;
+  color: #999;
+}
+
+.input-field {
+  margin-bottom: 1em;
+  width: 300px;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field select {
+  width: 100%;
+  padding: 0.5em;
+  // height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-field select option.placeholder {
+  display: none;
+}
+
+.input-field select option[disabled].placeholder {
+  display: block;
+  color: #999;
+}
+
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+
+.dialog-buttons button {
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 140px;
+}
+
+.dialog-buttons button:hover {
+  opacity: 0.8;
+}
+
+.dialog-buttons button:first-child {
+  background-color: rgb(1, 128, 218);
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 28px;
+  height: 28px;
+}
+
+.or-label {
+  display: flex;
+  justify-content: center;
+  // margin-top: 1em;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-group-button,
+.add-people-button,
+.remove-group-button,
+.update-group-image-button {
+  border: 1px solid grey;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 180px;
+  height: 40px;
+}
+
+.create-group-button:hover,
+.add-people-button:hover,
+.remove-group-button:hover,
+.update-group-image-button:hover {
+  opacity: 0.8;
+}
+
+.create-group-button .button-content,
+.add-people-button .button-content,
+.remove-group-button .button-content,
+.update-group-image-button .button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-group-button .button-content span,
+.add-people-button .button-content span,
+.remove-group-button .button-content span,
+.update-group-image-button .button-content span{
+  margin-left: 8px;
+}
+
+.dialog-buttons-internal {
+  display: flex;
+  justify-content: center;
+  width: 250px;
+}
+
+.create-user-button {
+  // padding: 0.5em 1em;
+  border: none;
+  border-radius: 1em;
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+  color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 800px;
+  margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+}
+
+// background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+// padding: 0.5em 1em;
+// border-radius: 1em;
+// color: white;
+// box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+
+.create-group-button-2 {
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+  border-radius: 1em;
+  color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 800px;
+  margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+}
+
+
+.add-new-user-button {
+  background-color: rgb(206, 206, 206);
+  border: none;
+  border-radius: 1em;
+  // box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  // -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  // -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 150px;
+  // margin-top: 10px;
+  margin-left: 50px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+
+
+// background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+// padding: 0.5em 1em;
+// border-radius: 1em;
+// color: white;
+// box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+
+.create-group-button-2:hover {
+  opacity: 0.8;
+}
+
+
+.create-user-button:hover {
+  opacity: 0.8;
+}
+
+
+.input-field-group-people {
+  margin-bottom: 1em;
+  border-color: black;
+  border: 5px;
+}
+
+.input-field-group-people label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.ng-select {
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px;
+  padding: 0.5em;
+
+  .ng-select-container {
+    border: none; /* Remove default container border */
+    background-color: #f8f8f8;
+  }
+
+  .ng-dropdown-panel {
+    background-color: #d61010; /* Set background color */
+    border: 1px solid #ccc; /* Add border */
+  }
+}
+
+.ng-select-container {
+  .ng-option {
+    background-color: #f8f8f8;
+    border: none;
+  }
+  .ng-option.selected {
+    background-color: #ddd;
+  }
+  .ng-option.highlighted {
+    background-color: #ccc;
+  }
+}
+
+::ng-deep .ng-dropdown-panel {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-left: -6px;
+}
+
+::ng-deep .ng-option {
+  background-color: #ffffff;
+  width: 300px;
+  margin-left: 5px;
+  margin-top: 5px;
+  font-size: medium;
+}
+
+::ng-deep .ng-option:hover {
+  background: #ade7ff;
+  opacity: 0.8;
+  font-size: large;
+}
+
+::ng-deep .ng-option.selected {
+  background-color: #920c0c;
+}
+
+::ng-deep .ng-option.highlighted {
+  background-color: #710b0b;
+}
+
+.back-icon {
+  width: 30px;
+  height:30px;
+  margin-left: 10px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.group-name {
+  margin-left:15px;
+  font-family: "Poppins";
+  font-size: 28px;
+  line-height: 1.2em;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(290deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

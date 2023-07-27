@@ -14,6 +14,10 @@ import { SettingsGeneralComponent } from './settings-general/settings-general.co
 import { SettingsNotificationsComponent } from './settings-notifications/settings-notifications.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 import { NewTicketFormComponent } from './new-ticket-form/new-ticket-form.component';
+import { TeamsPageComponent } from './teams-page/teams-page.component';
+import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
+import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -21,13 +25,20 @@ const routes: Routes = [
  // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
+  { path: 'analytics-page', component: AnalyticsPageComponent},
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
-  { path: 'settings', component: SettingsGeneralComponent },
   { path: 'settings-notifications',component: SettingsNotificationsComponent},
   { path: 'settings-profile',component: SettingsProfileComponent},
+  { path: 'teams', component: TeamsPageComponent},
+  { path: 'settings', component: SettingsProfileComponent },
+  { path: 'view-profile',component: ViewProfileComponent},
+  { path: 'notifications-search',component: NotificationsSearchComponent},
+
+  //{ path: 'settings-profile',component: SettingsProfileComponent},
   { path: '**', redirectTo: '/login' }, //fallback
   // { path: 'settings-general', component: SettingsGeneralComponent},
+
 
 
 ];

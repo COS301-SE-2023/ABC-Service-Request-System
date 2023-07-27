@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="header-container">
   <div routerLink="/dashboard" class="logo-container">
     <img src="/assets/App Logo PNG.png" alt="Logo">
@@ -5,19 +7,19 @@
   </div>
 
   <div class="header-container-right">
-    <div class="notifications">
-        <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small" (click)="openNotifications()">mail_outline</mat-icon>  <!--(click)="openNotifications.emit()"-->
-        <app-notifications-panel *ngIf="showForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeNotificationsForm()"></app-notifications-panel>
+    <div class="privilege" style="display: contents">
+      <p>Account: <b>{{ roles }}</b></p>
     </div>
 
-    <div class="profile-photo">
-      <img src="/assets/profile-icon.png" alt="ProfilePic">
+    <div class="notifications" (click)="openNotifications()">
+      <mat-icon [matBadge]="unreadNotificationsCount" matBadgeColor="primary" matBadgeSize="small">notifications</mat-icon>
+      <app-notifications-panel *ngIf="showNotificationsForm" (notificationsPanelEvent)="openNotifications()" (closeForm)="closeForms()"></app-notifications-panel>
     </div>
 
-    <div class="log-out">
-      <img routerLink="/" src="/assets/Logout.png" alt="Logout">
+    <div class="profile-photo" (click)="openProfile()">
+      <img src="{{ userPic }}" alt="ProfilePic">
+      <app-profile-overlay *ngIf="showProfileForm" (profileOverlayEvent)="openProfile()" (closeform)="closeForms()"></app-profile-overlay>
     </div>
   </div>
 </div>
-
 <!-- <app-dash-panel></app-dash-panel> -->

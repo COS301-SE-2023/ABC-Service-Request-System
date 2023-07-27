@@ -1,0 +1,191 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<div class = "groups-header" id="header-grid">
+  <img src = "../../assets/back.png" class = "back-icon pointer" alt = "back-icon" (click) ="handleFilterChange('all')" >
+  <!-- <div class = "type-filter">
+    <select name="filter" id="filter" #filterElement (change)="handleFilterChange(filterElement.value)">
+      <option value="all" selected>All</option>
+      <option value="group">Group</option>
+    </select>
+
+    <div class="groups-filter-arrow"></div>
+  </div> -->
+  <div class = "group-name">{{groupName}}</div>
+
+  <div class="groups-filter" [hidden]="filterValue === 'wolongong'">
+    <select #selectElement (change)="onGroupSelected(selectElement.value)" [value]="selectedGroup">
+      <option value="" disabled selected>Select group</option>
+      <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
+    </select>
+    <div class="groups-filter-arrow"></div>
+  </div>
+
+  <div class="groups-filter-2" [hidden]="filterValue === 'shrooms'">
+    <select>
+
+    </select>
+  </div>
+
+    <!-- <button class="remove-group-button" style = "border-color: red;">
+      <div class="button-content">
+        <img src="../../assets/group.png" alt="add people icon">
+        <span style = "color:red">Remove Group</span>
+      </div>
+    </button>
+
+    <button class="update-group-image-button">
+      <div class="button-content">
+        <img src="../../assets/update-image-2.png" alt="add people icon">
+        <span>Update Header</span>
+      </div>
+    </button> -->
+
+    <button class="add-people-button"  (click) = "openAddPeopleDialog()">
+      <div class="button-content">
+        <img src="../../assets/add-people.png" alt="add people icon">
+        <span >Add People</span>
+      </div>
+    </button>
+
+    <button class="create-group-button" (click) = "openCreateGroupDialog()">
+      <div class="button-content">
+        <img src="../../assets/create-group.png" alt="create group icon">
+        <span>Create Group</span>
+      </div>
+    </button>
+
+    <button class="reload-button pointer" (click)="reload()">
+      <img src="../../assets/reload.png" alt="reload-icon">
+    </button>
+
+</div>
+
+<div id="filterDialog" [ngStyle]="{'display': isFilterDialogOpen ? 'block' : 'none'}">
+  <div class="filter-dialog">
+    <div class="close-button" tabindex="0" (click)="closeFilterDialog()" (keyup.enter)="closeFilterDialog()" (keyup.space)="closeFilterDialog()">
+      <img src="../../assets/close.png" alt="Close icon">
+    </div>
+    <h2>Filter</h2>
+
+    <form [formGroup]="filterForm">
+      <div class="input-field">
+        <label>Name</label>
+        <input type="text" formControlName="name" placeholder="Enter Name">
+      </div>
+
+      <div class="input-field">
+        <label>Surname</label>
+        <input type="text" formControlName="surname" placeholder="Enter Surname">
+      </div>
+
+      <div class="input-field">
+        <label>Role</label>
+        <select formControlName="role">
+          <option value="functional" selected>Functional</option>
+          <option value="technical">Technical</option>
+          <option value="management">Management</option>
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label>Email</label>
+        <input type="text" formControlName="email" placeholder="Enter email">
+      </div>
+
+      <div class="dialog-buttons">
+        <button (click)="closeFilterDialog()">Apply</button>
+        <button (click)="resetFields()">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="addPeopleDialog" [ngStyle]="{'display': isAddPeopleDialogOpen ? 'block' : 'none'}">
+  <form [formGroup]="addPeopleForm" (ngSubmit)="onAddPeopleSubmit()">
+    <div class="filter-dialog">
+      <div class="close-button" tabindex="0" (click)="closeAddPeopleDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
+        <img src="../../assets/close.png" alt="Close icon">
+      </div>
+      <h2>Add people to Luna</h2>
+
+      <div class="input-field">
+        <label>Select a group</label>
+        <ng-select formControlName="group" [items]="groups" bindLabel="groupName" bindValue="_id" [searchable]="true">
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            {{ item.groupName }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+
+      <div class="input-field-group-people">
+        <label>Select people to add to group</label>
+        <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            {{ item.name }} {{ item.surname }}, {{item.roles}}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class = 'add-new-user-button'>
+        <button class="add-new-user-button" type="submit" >Add to group</button>
+      </div>
+
+      <div class="or-label">
+        <label>or</label>
+      </div>
+
+      <div class="dialog-buttons-internal">
+        <button class="create-user-button" (click)="navigateToCreateAccount()">Create a new user</button>
+
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<div id="createGroupDialog" [ngStyle]="{'display': isCreateGroupDialogOpen ? 'block' : 'none'}">
+  <form [formGroup]="createGroupForm" (ngSubmit)="onCreateGroupSubmit()">
+    <div class="filter-dialog" >
+      <div class="close-button" tabindex="0" (click)="closeCreateGroupDialog()" (keyup.enter)="closeAddPeopleDialog()" (keyup.space)="closeAddPeopleDialog()">
+        <img src="../../assets/close.png" alt="Close icon">
+      </div>
+      <h2>Create a new group</h2>
+      <label>Get everyone working in one place by adding them to a group.
+        Stay connected with comments, collaborate on work together, and efficiently
+        manage everything from the group profile page.
+      </label> <br><br>
+
+      <div class="input-field-group-name">
+        <label>Group Name</label>
+        <input formControlName="groupName" type="text" placeholder="What's your group called?">
+      </div>
+
+      <div class="input-field-group-image">
+        <label>Group Header</label>
+        <label for="backgroundPhoto" class="backgroundPhoto-input-label">
+          <input style = "margin-top: 5px;" type="file" id="backgroundPhoto" class="backgroundPhoto" (change)="onFileChange($event)" />
+        </label>
+      </div>
+
+      <div class="group-image-preview">
+        <img [src]="preview || defaultImage" alt="Image Attachment Preview" />
+      </div>
+
+      <div class="input-field-group-people">
+        <h2>Add people to group</h2>
+        <label>Choose a list of group members</label>
+        <ng-select formControlName="people" [multiple]="true" [items]="users" bindLabel="name" bindValue="_id"  [searchable]="true">
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            {{ item.name }} {{ item.surname }}, {{item.roles}}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class="dialog-buttons-internal">
+        <button class="create-group-button-2">Create group</button>
+      </div>
+    </div>
+  </form>
+</div>

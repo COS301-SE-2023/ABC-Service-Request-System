@@ -1,0 +1,210 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.container{
+  margin-top: 2em;
+  position: relative;
+  animation: fadeIn 2s;
+
+  label, span {
+    font-family: 'Montserrat';
+    font-size: 1.2em;
+    font-weight: 100;
+    color: rgba(0,0,0,0.6);
+  }
+
+  h1{
+    font-family: 'Poppins';
+    font-size: 60px;
+    line-height: 1.2em;
+    font-weight: bolder;
+
+    background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-family: 'Montserrat';
+    font-size: 1.2em;
+    font-weight: 100;
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 1.5em;
+  }
+
+  .select-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    padding: 1.5em;
+    border-radius: 0.3em;
+    border: 1px solid #494545;
+    margin-top: 0.5em;
+
+    i{
+      font-size: 0.5em;
+    }
+  }
+
+  .options::-webkit-scrollbar {
+    display: none;
+  }
+
+  .options{
+    padding: 0.5em;
+    border-radius: 0.3em;
+    background-color: rgb(249, 251, 252);
+    margin-top: 0.5em;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    // position: absolute;
+    max-height: 200px;
+    overflow: scroll;
+    // -ms-overflow-style: none;  /* IE and Edge */
+    // scrollbar-width: none;  /* Firefox */
+    width: 100%;
+    z-index: 9999;
+
+    .option {
+      display: flex;
+      height: 55px;
+      cursor: pointer;
+      align-items: center;
+      padding: 3em 1.5em;
+      border-radius: 0.3em;
+      background-color: rgb(249, 251, 252);
+
+      button {
+        display: flex;
+        align-items: center;
+      }
+
+      .option-text {
+        font-family: 'Montserrat';
+        font-size: 1.5em;
+        color: rgba(0,0,0,0.66);
+      }
+    }
+
+    .option:hover{
+      background-color: #EEECEC;
+    }
+  }
+
+  .user-img {
+    width: 4em;
+    height: 4em;
+   //background-color: gray;
+    border-radius: 0.3em;
+    margin-right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 60%;
+    }
+  }
+
+  .dashboard-btn{
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 20px;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    margin-top: 3em;
+  }
+}
+
+.back-btn{
+  background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Poppins';
+  font-size: 20px;
+  padding-bottom: 0.3em;
+  position: relative;
+  border-bottom: 3px solid rgba(72, 160, 205);
+  margin-top: 3em;
+  margin-left: 1.5em;
+}
+
+.continue-btn{
+  background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+  font-family: 'Poppins';
+  font-size: 20px;
+  color: white;
+  padding: 0.8em;
+  border-radius: 0.3em;
+  margin-top: 1em;
+  min-width: 10em;
+}
+
+.orange-cl {
+  background-color: rgb(236, 98, 64);
+}
+
+.orange-cl:hover {
+  background-color: rgb(167, 72, 48);
+}
+
+.cyan-cl {
+  background-color: rgb(90, 196, 226);
+}
+
+.cyan-cl:hover {
+  background-color: rgb(72, 156, 179);
+}
+
+.yellow-cl {
+  background-color: rgb(246, 198, 68);
+}
+
+.yellow-cl:hover {
+  background-color: rgb(194, 156, 53);
+}
+
+.purple-cl {
+  background-color: rgb(98, 86, 186);
+}
+
+.purple-cl:hover {
+  background-color: rgb(72, 63, 138);
+}
+
+.grey-cl {
+  background-color: #565656;
+}
+
+.grey-cl:hover {
+  background-color: #373737;
+}
+
+.pink-cl {
+  background-color: #D64769;
+}
+
+.pink-cl:hover {
+  background-color: #9e354d;
+}
+
+.green-cl {
+  background-color: #56DB8B;
+}
+
+.green-cl:hover {
+  background-color: #3f9e65;
+}
+
+.blue-cl {
+  background-color: rgb(58, 130, 186);
+}
+
+.blue-cl:hover {
+  background-color: rgb(37, 84, 120);
+}

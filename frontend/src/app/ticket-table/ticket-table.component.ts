@@ -1,10 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 // import { tickets } from '../data';
 import { TicketsService } from 'src/services/ticket.service';
-import { ticket } from '../../../../backend/src/models/ticket.model';
-import { Router } from '@angular/router';
-
+import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { user } from '../../../../backend/users/src/models/user.model';
 import { Sort } from '@angular/material/sort';
+import { AuthService } from 'src/services/auth.service';
+import { GroupService } from 'src/services/group.service';
+import { ClientService } from 'src/services/client.service';
+import { project } from '../../../../backend/clients/src/models/client.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-table',
@@ -13,10 +18,17 @@ import { Sort } from '@angular/material/sort';
 })
 
 export class TicketTableComponent implements OnInit{
-  constructor(private ticketService: TicketsService, private router: Router) { }
+  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, private clientService: ClientService, private route: ActivatedRoute) { }
 
   allTicketsArray: ticket[] = [];
   sortedTicketsArray: ticket[] = [];
+  currentUserGroups: string[] = [];
+  selectedProject!: project;
+
+  assigneeDetails!: user[];
+  assignedDetails!: user[];
+
+  ticketsReady = false;
 
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
@@ -25,17 +37,94 @@ export class TicketTableComponent implements OnInit{
     this.openForm.emit(oldAssignee);
   }
 
+  getClientGroups() {
+    this.authservice.getUserObject().subscribe(
+      (response) => {
+        const user = response;
+        const groupObservables = user.groups.map(group => {
+          return this.groupService.getGroupNameById(group);
+        });
+
+        forkJoin(groupObservables).subscribe(
+          (responses) => {
+            responses.forEach(response => {
+              const groupName = response.groupName;
+              if (!this.currentUserGroups.includes(groupName)) {
+                this.currentUserGroups.push(groupName);
+              }
+            });
+
+            // Call the different function here, as all group names have been fetched
+            this.getTicketsForTable();
+          },
+          (error) => {
+            console.log("Error fetching group names", error);
+          }
+        );
+      }
+    );
+  }
+
   getTicketsForTable(){
-    this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-      this.allTicketsArray = response.sort((a, b) => {
-        return this.comparePriority(a.priority, b.priority, false);
-      });
-      this.sortedTicketsArray = this.allTicketsArray.slice();
+    const projectsObservable = this.clientService.getProjectsObservable();
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+          console.log('important: ', response);
+          this.allTicketsArray = response.filter((ticket: ticket) => {
+            return (this.currentUserGroups.includes(ticket.group) );
+          })
+          this.allTicketsArray = this.sortTickets(this.allTicketsArray);
+          this.sortedTicketsArray = this.allTicketsArray.slice();
+          this.ticketsReady = true;
+        });
+      } else {
+        if (projectsObservable !== undefined) {
+          projectsObservable.subscribe((project) => {
+            if (project !== undefined) {
+              this.selectedProject = project;
+              console.log(this.selectedProject, ' pr selected');
+
+              this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+                console.log('important: ', response);
+                this.allTicketsArray = response.filter((ticket: ticket) => {
+                  return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
+                })
+
+                console.log("current user groups: ", this.currentUserGroups);
+                console.log("after filter", this.allTicketsArray);
+
+                this.allTicketsArray.forEach(tickets => {
+                  const assigneeEmail = tickets.assignee;
+                  const assignedEmail = tickets.assigned;
+
+                  this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
+                    tickets.assignee = assignee.name + " " + assignee.surname;
+
+                    this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
+                      tickets.assigned = assigned.name + " " + assigned.surname;
+                    })
+                  })
+                });
+
+                this.allTicketsArray = this.sortTickets(this.allTicketsArray);
+                this.sortedTicketsArray = this.allTicketsArray.slice();
+                this.ticketsReady = true;
+              });
+            }
+          });
+        }
+      }
     })
+
   }
 
   ngOnInit(): void {
-      this.getTicketsForTable();
+    this.getClientGroups();
+    //this.getTicketsForTable();
+
+      // this.assignedDetails.length = 0;
+      // this.assigneeDetails.length = 0;
   }
 
   navigateToTicket(id: string) {
@@ -111,6 +200,32 @@ export class TicketTableComponent implements OnInit{
     const month = parseInt(parts[1], 10) - 1; // Month is zero-based in JavaScript Date
     const year = parseInt(parts[2], 10);
     return new Date(year, month, day);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['tickets']) {
+      this.sortedTicketsArray = this.sortTickets(changes['tickets'].currentValue);
+    }
+  }
+
+  sortTickets(tickets: ticket[]): ticket[] {
+    return tickets;
+  }
+
+  getAssigneeName(email: string) {
+    this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
+      return response.name;
+    });
+  }
+
+  getAssignedName(email: string) {
+    this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
+      return response.name;
+    });
+  }
+
+  routeToNewTickets() {
+    this.router.navigate(['/new-ticket-form']);
   }
 }
 

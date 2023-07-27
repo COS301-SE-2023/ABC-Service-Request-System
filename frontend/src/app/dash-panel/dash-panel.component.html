@@ -1,15 +1,89 @@
-<div class = "sidenav">
-  <div class="project-header">
-    <!-- <div class="project-icon"></div>
-    <h2>Nedbank Mobile Application</h2> -->
+<div class = "sidenav {{isCollapsed === true ? 'collapsed-menu' : ''}}">
+  <div class="nav-items">
+    <div class="collapse-button">
+      <div class="inner-collapse-button">
+        <button (click)="toggleCollapse()">
+          <i *ngIf="isCollapsed === false" class="fa-solid fa-angles-left"></i>
+          <i *ngIf="isCollapsed === true" class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+    </div>
+
+  <div class="project-header" *ngIf="selectedProject">
+    <div class="inner-header-wrapper {{isCollapsed === true ? 'inner-header-wrapper-center' : ''}}" (click)="toggleProjectOverlay()" (keyup)="toggleProjectOverlay()" tabindex="0">
+      <div class="project-icon" [class]="selectedProject.color">
+        <img [src]="selectedProject.logo" alt="project logo">
+      </div>
+      <h2 *ngIf="!this.isCollapsed">{{ selectedProject.name }}</h2>
+      <i *ngIf="!isProjectOverlayOpen && !this.isCollapsed" class="fa-solid fa-chevron-down"></i>
+      <i *ngIf="isProjectOverlayOpen && !this.isCollapsed" class="fa-solid fa-chevron-up"></i>
+    </div>
+    <div class="hr-line"></div>
+
+      <!-- Overlays -->
+    <ul class="options" *ngIf="isProjectOverlayOpen">
+      <li *ngFor="let project of allProjects; let i = index" class="option"  [tabindex]="i" (click)="selectOption(project)" (keyup)="selectOption(project)">
+        <div class="user-img" [class]="project.color">
+          <img [src]="project.logo" alt="organisation logo">
+        </div>
+        <span class="option-text" id="optionText{{i}}" *ngIf="!isCollapsed"> {{ project.name }} </span>
+      </li>
+    </ul>
   </div>
 
-  <div class="nav-items">
-    <button (click)="openDashboard()" class="view-tickets"><img src="/assets/ticket.png" alt="ticket">Tickets</button>
-    <button class="view-teams"><img src="/assets/follower.png" alt="teams">Teams</button>
-    <button class="view-analytics"><img src="/assets/data-analytics.png" alt="analytics">Analytics</button>
-    <button *ngIf="authService.isAdmin() || authService.isManager()" class="creat-account" (click)="openCreateAccount()"><img src="/assets/add-user.png" alt="createAccount">Create Account</button>
-    <button class="view-settings" (click)="openSettings()"><img src="/assets/settings.png" alt="settings">Settings</button>
-    <button *ngIf="authService.isAdmin() || authService.isManager()" (click)="openNewTicketForm()" class="add-ticket-button">Add new ticket</button>
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfDashboardRoute() }">
+      <button (click)="openDashboard()" class="view-tickets">
+        <i class="fa-solid fa-ticket-simple"></i>
+        <span>Tickets</span>
+      </button>
+      <div *ngIf="checkIfDashboardRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfDashboardRoute()" class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfGroupsRoute() }">
+      <button (click) = "openTeams()" class="view-teams">
+        <i class="fa-solid fa-user-group"></i>
+        <span>Groups</span>
+      </button>
+      <div *ngIf="checkIfGroupsRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfGroupsRoute()" class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfAnalyticsRoute() }">
+      <button (click)="openAnalytics()" class="view-analytics">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>Analytics</span>
+      </button>
+      <div *ngIf="checkIfAnalyticsRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfAnalyticsRoute()" class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateAccountRoute() }">
+      <button class="creat-account" (click)="openCreateAccount()">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>Create Account</span>
+      </button>
+      <div *ngIf="checkIfCreateAccountRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfCreateAccountRoute()" class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateTicketRoute() }">
+      <button (click)="openNewTicketForm()" class="add-ticket-button">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>Add Ticket</span>
+      </button>
+      <div *ngIf="checkIfCreateTicketRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfCreateTicketRoute()" class="inactive-background"></div>
+    </div>
+
+    <div class="button-wrapper" [ngClass]="{ 'white-color': checkIfProfileRoute() }">
+      <button class="view-settings" (click)="openSettings()">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+      </button>
+      <div *ngIf="checkIfProfileRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
+    </div>
   </div>
+
 </div>

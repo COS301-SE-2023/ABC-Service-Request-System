@@ -1,197 +1,249 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { UserService } from 'src/services/user.service';
-import { user } from '../../../../backend/src/models/user.model';
+import { user } from "../../../../backend/users/src/models/user.model";
 import { AuthService } from 'src/services/auth.service';
+import { GroupService } from 'src/services/group.service';
+import { group } from '../../../../backend/groups/src/models/group.model';
+import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { NavbarService } from 'src/services/navbar.service';
+
 @Component({
   selector: 'app-settings-profile',
   templateUrl: './settings-profile.component.html',
   styleUrls: ['./settings-profile.component.scss']
 })
-export class SettingsProfileComponent implements OnInit{
-  user!: user;
-  profilePicture!: File;
-  editedName!: string;
-  firstTimeName!: string;
-  firstTimeSurname!:string;
-  editedSurname!: string;
-  editedPicture!: File;
-  editingName = false;
-  editingPicture= false;
-  editingSurname = false;
-  isDirty = false;
-  userPic!: string;
-  //file: File | null = null;
+export class SettingsProfileComponent { // implements OnInit{
 
-   constructor(private userService: UserService, private authService: AuthService) {}
+  currentUser!: user;
+  tempUser!:user;
+  groupIds: string[] = [];
+  groups: group[] = [];
+  headerPhoto = '';
+  profileChanged = false;
+  bioEditable = false;
+  socialsEditable = false;
 
-  ngOnInit() {
-     const userId = this.getUserObject().id; // Replace with the actual user ID
-     this.getUser(userId);
-    console.log("hi");
-    this.userService.getUser(userId).subscribe((user: user)=>{
-    this.user = user;
-    this.editedName = user.name;
-    //this.editedPicture = user.profilePhoto;
-      this.editedSurname = user.surname;
-    });
+  profilePicture?: File;
+  profileHeader?: File;
+  userBio?: string;
+  githubLink?: string;
+  linkedinLink?: string;
+  oldGithubLink?:string;
+  oldLinkedinLink?:string;
+  oldUserBio?:string;
 
-    this.userPic = this.getUsersProfilePicture();
+  navbarIsCollapsed!: boolean;
+
+  makeBioEditable() {
+    this.bioEditable = true;
+    this.profileChanged = true;
   }
 
-  toggleEditing(field: string) {
-
-    // const inputValue = event.target.textContent.trim();
-    // this.isDirty = (inputValue !== this.editedName);
-    if (field === 'name') {
-      this.editingName = !this.editingName;
-      this.isDirty = this.editingName; // Set isDirty to true only if editingName is true
-
-      if (!this.editingName) {
-        this.saveChanges();
-      }
-    } else if (field === 'surname') {
-      this.editingSurname = !this.editingSurname;
-      this.isDirty = this.editingSurname; // Set isDirty to true only if editingSurname is true
-    }
-    else if(field ==='profilePicture'){
-      this.editingPicture = !this.editingPicture;
-      this.isDirty = this.editingPicture;
-    }
+  makeSocialsEditable() {
+    this.socialsEditable = true;
+    this.profileChanged = true;
   }
 
-  saveChanges(){
-    this.user.name = this.editedName;
-    this.user.surname = this.editedSurname;
-    //this.user.profilePhoto = this.editedPicture;
+  constructor(private userService: UserService, private authService: AuthService,
+  private groupService: GroupService, private cdr: ChangeDetectorRef, private navbarService: NavbarService, private router: Router) {}
 
-    this.userService.updateProfileName(this.user.name,this.user.emailAddress).subscribe(()=>{
-      this.editedName = this.user.name;
-      this.isDirty = false;
+  ngOnInit(): void {
+    this.navbarService.collapsed$.subscribe(collapsed => {
+      this.navbarIsCollapsed = collapsed;
     });
-    this.userService.updateProfileSurname(this.user.surname,this.user.emailAddress).subscribe(()=>{
-      this.editedSurname = this.user.surname;
-      this.isDirty = false;
-    });
-    if(this.profilePicture){
-      this.userService.updateUserProfilePicture(this.profilePicture, this.user.emailAddress).subscribe((response: object) => {
-        console.log('service response: ', response);
-      }, (error: any) => {
-        console.log('Error uploading profile photo', error);
-      })
-    }
 
-  }
-
-  url = "./assets/App Logo.jpg";
-
-  // onFileChange(event: any) {
-  //   const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
-  //   this.profilePicture = file as File;
-  // }
-
-  getUser(userId: string) {
-
-    this.userService.getUser(userId).subscribe(
-      (user: user) => {
-        this.user = user;
-        //console.log(this.user);
-        this.editedName = user.name;
-        this.firstTimeName = user.name;
-        this.editedSurname = user.surname;
-        this.firstTimeSurname = user.surname;
-      },
-
-      (error: any) => {
-        console.error(error);
+    this.authService.getUserObject().subscribe(
+      (result: any) => {
+        this.currentUser = result;
+        this.groupIds = this.currentUser.groups;
+        this.githubLink = this.currentUser.github;
+        this.linkedinLink = this.currentUser.linkedin;
+        this.oldGithubLink = this.githubLink;
+        this.oldLinkedinLink = this.linkedinLink;
+        this.userBio = this.currentUser.bio;
+        this.oldUserBio = this.userBio;
+        // console.log(this.currentUser.groups, ' in ngoninit ');
+        this.currentUser.groups.forEach(groupId => {
+          this.groupService.getGroupById(groupId).subscribe(group => {
+            this.groups.push(group);
+          });
+        });
       }
     );
 
+    // this.tempUser = this.authService.getUser();
+    // // this.groupIds = this.authService.getUser().groups;
+    // if (this.tempUser) {
+    //   // console.log('hi' + this.tempUser.groups);
+    //   // this.githubLink = this.tempUser.github;
+    //   // this.linkedinLink = this.tempUser.linkedin;
+    //   this.tempUser.groups.forEach(groupId => {
+    //     this.groupService.getGroupById(groupId).subscribe(group => {
+    //       this.groups.push(group);
+    //     });
+    //   });
+    // }
+
   }
 
-  checkDirtyState() {
-    // Check if any changes have been made
-    this.isDirty = this.user.name !== this.editedName ||  this.user.surname !== this.editedSurname;
-  }
+  @ViewChild('fileUploader')
+  fileUploader!: ElementRef;
 
-  onFieldChange() {
-    this.isDirty = true;
-  }
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      const file = target.files[0];
 
-  // onSurnameChange(event: any) {
-  //   const span = event.target;
-  //   const inputValue = event.target.textContent.trim();
-  //   this.editedSurname = inputValue;
-  //   this.isDirty = true;
-
-  //   const selection = window.getSelection();
-  //   const range = document.createRange();
-  //   range.selectNodeContents(span);
-  //   range.collapse(false);
-  //   selection?.removeAllRanges();
-  //   selection?.addRange(range);
-  // }
-
-  onFileChanged(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.files && inputElement.files.length > 0) {
-      this.profilePicture = inputElement.files[0];
-      // Call your function or perform any desired actions with the selected file
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = e => {
+        if (typeof reader.result === 'string') {
+          this.currentUser.profilePhoto = reader.result;
+          this.profilePicture = file;
+        }
+      };
+      this.profileChanged = true;
+      reader.readAsDataURL(file);
     }
-    this.isDirty = true;
   }
 
-  getUsersProfilePicture(){
-    const user = this.authService.getUser();
-    console.log("userrr", user);
-    console.log("profile photo: " + user.profilePhoto);
-    return this.user.profilePhoto;
+  @ViewChild('headerFileUploader')
+  headerFileUploader!: ElementRef;
+
+  onHeaderFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      const file = target.files[0];
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = e => {
+        if (typeof reader.result === 'string') {
+          this.currentUser.headerPhoto = reader.result;
+          this.profileHeader = file;
+        }
+      };
+      this.profileChanged = true;
+      reader.readAsDataURL(file);
+    }
   }
 
-  getUserObject(){
-    return this.authService.getUser();
+  saveProfile() {
+    this.profileChanged = false;
+    this.bioEditable = false;
+    this.socialsEditable = false;
+
+    if (this.profilePicture) {
+      this.userService.uploadFile(this.profilePicture).subscribe(
+        (result:any) => {
+          const url = result.url;
+          // console.log(url);
+          this.userService.updateProfilePicture(this.currentUser.id, url).subscribe(
+            (result:any) => {
+              console.log(result);
+              this.currentUser.profilePhoto = url;
+              this.authService.updateUserData(this.currentUser);  // update local user data
+              this.cdr.detectChanges();  // force Angular to re-render the component
+              this.authService.getUserObject().subscribe(
+                (result: any) => {
+                  this.currentUser = result;
+                  console.log(this.currentUser);
+                }
+              )
+              this.profilePicture = undefined;
+              alert('Profile picture updated');
+            },
+            (error: any) => {
+              console.log('Error updating profile picture', error);
+            }
+          )
+        },
+        (error: any) => {
+          console.log('Error uploading file', error);
+        }
+      )
+    }
+
+    if (this.profileHeader) {
+      console.log('this.profileHeader');
+      this.userService.uploadFile(this.profileHeader).subscribe(
+        (result:any) => {
+          const url = result.url;
+          this.userService.updateProfileHeader(this.currentUser.id, url).subscribe(
+            (result:any) => {
+              console.log(result);
+              this.currentUser.headerPhoto = url;
+              this.authService.updateUserData(this.currentUser);  // update local user data
+              this.cdr.detectChanges();  // force Angular to re-render the component
+              this.authService.getUserObject().subscribe(
+                (result: any) => {
+                  this.currentUser = result;
+                }
+              )
+              this.profileHeader = undefined;
+              alert('Profile header updated');
+            },
+            (error: any) => {
+              console.log('Error updating profile picture', error);
+            }
+          )
+        },
+        (error: any) => {
+          console.log('Error uploading file', error);
+        }
+      )
+    }
+
+    if (this.userBio && (this.userBio != this.oldUserBio)) {
+      this.userService.updateBio(this.currentUser.id, this.userBio).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.bio = this.userBio!;
+          this.authService.updateUserData(this.currentUser);
+          // this.userBio = undefined;
+          this.oldUserBio = this.userBio;
+          alert('Bio updated');
+        },
+        (error: any) => {
+          console.log('Error updating bio', error);
+        }
+      )
+    }
+
+    if (this.githubLink && (this.githubLink != this.oldGithubLink)) {
+      this.userService.updateGithub(this.currentUser.id, this.githubLink).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.github = this.githubLink!;
+          this.authService.updateUserData(this.currentUser);
+          this.oldGithubLink = this.githubLink;
+          alert('Github link updated');
+        },
+        (error: any) => {
+          console.log('Error updating Github link', error);
+        }
+      )
+    }
+
+    if (this.linkedinLink && (this.linkedinLink != this.oldLinkedinLink)) {
+      this.userService.updateLinkedin(this.currentUser.id, this.linkedinLink).subscribe(
+        (result:any) => {
+          console.log(result);
+          this.currentUser.linkedin = this.linkedinLink!;
+          this.authService.updateUserData(this.currentUser);
+          // this.linkedinLink = undefined;
+          this.oldLinkedinLink = this.linkedinLink;
+          alert('LinkedIn link updated');
+        },
+        (error: any) => {
+          console.log('Error updating LinkedIn link', error);
+        }
+      )
+    }
   }
-//   updateUser() {
-//     const userId = '123'; // Replace with the actual user ID
-//     const userData: FormData = new FormData();
-//     // Set the updated user data in the FormData object
-//     userData.append('name', 'John Doe');
-//     userData.append('surname','Example');
-//     userData.append('email', 'john@example.com');
-//     // Add more fields as needed
 
-//     this.userService.updateProfileName(userId, userData).subscribe(
-//       (updatedUser: User) => {
-//         this.user = updatedUser;
-//       },
-//       (error: any) => {
-//         console.error(error);
-//       }
-//     );
-// }
-
-//   onProfilePictureChange(event: any) {
-//     const files = event.target.files;
-//     if (files && files.length > 0) {
-//       this.user.profilePhoto = files[0];
-//     }
-//   }
-
-//   updateProfilePicture() {
-//     if (!this.user.profilePhoto) {
-//       return;
-//     }
-
-//     const userId = '123'; // Replace with the actual user ID
-
-//     this.userService.updateUserProfilePicture(userId, this.profilePicture).subscribe(
-//       (updatedUser: User) => {
-//         this.user = updatedUser;
-//         // Reset the profilePicture variable
-//         this.profilePicture = null;
-//       },
-//       (error: any) => {
-//         console.error(error);
-//       }
-//     );
-// }
+  routeToAnalytics(): void {
+    this.router.navigateByUrl('/analytics-page');
+  }
 }

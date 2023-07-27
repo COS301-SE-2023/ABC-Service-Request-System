@@ -1,0 +1,498 @@
+app-page-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.settings-container {
+  width: 82%;
+  float: right;
+  font-family: 'Poppins', sans-serif;
+  // padding: 0 15px;
+  margin-top: 50px;
+  font-weight: bolder;
+  transition: all 300ms;
+}
+
+.profile-header-img {
+  height: 200px;
+  width: 100%;
+  // border-radius: 20px;
+  // border-bottom-left-radius: 20px;
+  // border-bottom-right-radius: 20px;
+  object-fit: cover;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  top: -50px;
+  // border: 3px solid white; /* Optional: Add a border around the image */
+  // box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);  /* Optional: Add a shadow for depth */
+  right: -50px;
+  object-fit: cover;
+
+}
+
+.profile-header:hover .profile-header-img {
+  // cursor: pointer;
+  // filter: grayscale(30%);
+}
+
+.profile-header:hover .edit-icon-img {
+  // display: block;
+}
+.profile-header-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.profile-picture:hover .profile-picture-img {
+  // cursor: pointer;
+  // filter: grayscale(30%);
+}
+
+.profile-picture:hover .edit-icon-img {
+  // display: block;
+}
+
+button.profile-picture {
+  background: none;
+  border: none;
+  padding: 0;
+  /* include any other styles to reset any button defaults */
+}
+
+.profile-header {
+  position: relative;
+  border-radius: 20px;
+}
+
+.user-details {
+  margin-left: 220px;
+  margin-top: -140px;
+}
+
+.name-surname {
+  display: flex;
+  gap: 10px;
+}
+
+.name, .surname {
+  font-family: "Poppins";
+  font-size: 48px;
+  line-height: 1.2em;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(290deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.email {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  color: gray;
+  font-size: 1.3em;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 10px;
+  color: gray;
+  font-size: 1.3em;
+}
+
+.email img {
+  margin-left: 5px;
+
+  width: 25px;
+  height: 25px;
+}
+
+.location img {
+  margin-left: 3px;
+
+  width: 30px;
+  height: 30px;
+}
+
+.bio {
+  position: relative;  /* This is necessary for the absolute positioning of child elements */
+  margin-left: 50px;
+  // right: 80px;
+  margin-right: 50px;
+}
+
+.bio-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  margin-left:3px;
+  color:gray;
+}
+
+.bio-line-one {
+  // margin-top: -190px;
+  margin-bottom: 180px;
+  margin-top: 30px;
+}
+
+.bio-line-1 {
+  height:1px;
+  width: 1600px;
+}
+
+.analytics {
+  margin-top:-150px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.analytics-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  margin-left:3px;
+  color:gray;
+}
+
+.grid-container {
+  display: grid;
+  // margin-left: 18%;
+  margin-top: -40px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-gap: 20px;
+  padding: 20px;
+  height: 100px;
+  width:93%;
+  margin-left: 31px;
+}
+
+
+.grid-item {
+  position: relative; /* Add position relative */
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 0.7em;
+  // width: 90%;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.24);
+}
+
+.grid-item-6,
+.grid-item-7 {
+  grid-column: span 2;
+  grid-row: span 2;
+  flex-direction: column;
+}
+
+.graph-and-average-container {
+  display: flex;
+  height: 90%;
+}
+
+.average-container {
+  margin-right: 1em;
+  position: relative;
+  width: 60%;
+  height: fit-content;
+}
+
+.average {
+  font-family: 'Poppins', sans-serif;
+  font-size: 4em;
+  font-weight: bold;
+  color: rgba(0,0,0,0.66);
+  margin-top: 0.5em;
+}
+
+.average-unit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  color: rgba(0,0,0,0.5);
+  margin-top: 1em;
+}
+
+.graph-badge-green {
+  background-color: #C7F5D3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 40%;
+  margin-left: 0.5em;
+  transform: translateY(-50%);
+  color: #33663D;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
+
+.line-chart-container {
+  width: 40%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.line-chart {
+  width: 100px;
+  height: 450px; /* Adjust the height as desired */
+}
+
+.average-time {
+  display: flex;
+  max-width: 70%;
+
+  .average-hours {
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 4em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 50%;
+  }
+
+  .average-minutes {
+    margin-top: 0.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 4em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.66);
+    min-width: 40%;
+  }
+}
+
+.average-units{
+  display: flex;
+  max-width: 70%;
+
+  .hour-unit {
+    min-width: 50%;
+  }
+
+  .minute-unit {
+    min-width: 40%;
+  }
+}
+
+.graph-badge-red {
+  background-color: #F6CCCB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  color: #8C2822;
+  font-family: 'Montserrat', sans-serif;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
+.line-chart-container {
+  width: 40%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.line-chart {
+  width: 100px;
+  height: 450px; /* Adjust the height as desired */
+}
+
+.view-report-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-detailed-report {
+  font-family: "Poppins";
+  font-size: 26px;
+  line-height: 1.2em;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(290deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 180px;
+}
+
+.view-detailed-report p {
+  text-decoration: underline;
+}
+
+.bio-line-two {
+  margin-bottom: 180px;
+  margin-top: 30px;
+}
+
+.bio-line-2 {
+  height:1px;
+  width: 1600px;
+}
+
+.input-bio {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 98%;
+  // height: 100px;
+}
+
+.socials-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  margin-left:3px;
+  color:gray;
+  margin-top:-150px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.socials-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  margin-bottom: 50px;
+  margin-top: -30px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 46%;
+}
+
+
+.social-card {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.social-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: white;
+  // border-color: black;
+  margin-right: 15px;
+}
+
+.social-input-github {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.social-input-linkedin {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.social-link {
+  margin-left: 10px;
+}
+
+.bio-line-three {
+  margin-bottom: 180px;
+  margin-top: 30px;
+}
+
+.bio-line-3 {
+  height:1px;
+  width: 1600px;
+}
+
+
+.groups-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  margin-left:3px;
+  color:gray;
+  margin-top:-150px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.bubble-container {
+  border: 1px solid #494545;
+  border-radius: 15px;
+  margin: 20px 0;
+  padding: 20px;
+  width: 94%;
+  margin-left: 40px;
+}
+
+.group-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  border-radius: 15px;
+  overflow: hidden;
+  padding-bottom: 20px;
+  border-color: #494545;
+}
+
+.bio-line-four {
+  margin-bottom: 180px;
+  margin-top: 30px;
+}
+
+.bio-line-4 {
+  height:1px;
+  width: 1600px;
+}
+
+.tickets-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  margin-left:3px;
+  color:gray;
+  margin-top:-150px;
+  margin-bottom: 40px;
+  margin-left: 50px;
+}
+
+.go-icon{
+  width:25px;
+  height:25px;
+
+}
+
+.pointer{
+  cursor: pointer;
+}

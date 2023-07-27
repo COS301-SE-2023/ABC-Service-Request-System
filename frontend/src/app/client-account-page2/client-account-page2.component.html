@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>Client Details</h1> <br>
+
+  <form [formGroup]="createUserForm" (ngSubmit)="onContinueClicked()">
+    <div class="input half-inputs">
+      <div class="name-input">
+        <label for="name">Name </label>
+        <input id="name" type="text" formControlName="name">
+      </div>
+      <div class="surname-input">
+        <label for="surname">Surname </label>
+        <input id="surname" type="text" formControlName="surname">
+      </div>
+    </div>
+
+    <div class="full-input">
+      <label for="organisation">Organisation </label>
+      <input id="organisation" type="text" formControlName="organisation">
+    </div>
+
+    <div class="full-input">
+      <label for="email">Email </label>
+      <input id="email" type="email" formControlName="email">
+    </div>
+
+    <div class="full-input">
+      <label for="email">Industry </label>
+      <select id="industry" formControlName="industry" [value]="'other'">
+        <option>Technology/Software</option>
+        <option>Healthcare/Medical</option>
+        <option>Financial Services</option>
+        <option>Education/Training</option>
+        <option>Retail/E-commerce</option>
+        <option>Manufacturing/Industrial</option>
+        <option>Hospitality/Travel</option>
+        <option>Media/Entertainment</option>
+        <option>Government/Public Sector</option>
+        <option>Non-Profit/Charity</option>
+        <option>Automotive</option>
+        <option>Telecommunications</option>
+        <option>Energy/Utilities</option>
+        <option>Construction/Engineering</option>
+        <option>Professional Services (Legal, Accounting, Consulting, etc.)</option>
+        <option>Consumer Goods</option>
+        <option>Food and Beverage</option>
+        <option>Real Estate/Property Management</option>
+        <option>Transportation/Logistics</option>
+        <option>Agriculture/Farming</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <button class="continue-btn" (click)="onContinueClicked()">Continue</button>
+    <button class="back-btn" (click)="onBackClicked()">Back</button>
+  </form>
+</div>

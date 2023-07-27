@@ -1,9 +1,10 @@
 .ticket-container {
   background-color: white;
-  width: 78%;
+  width: 82%;
   float: right;
   padding: 1.5em;
   margin-top: 60px;
+  transition: all 300ms;
 
   h1{
     text-transform: capitalize;
@@ -28,6 +29,20 @@
         border-radius: 1em;
         height: fit-content;
         margin-bottom: 2em;
+
+        .ticket-summary-area-todos-list {
+          display: flex;
+          align-items: center;
+
+          input {
+            margin-right: 0.5em;
+          }
+
+          .completed {
+            text-decoration: line-through;
+            color: #888;
+          }
+        }
       }
 
       .activity-area{
@@ -73,6 +88,29 @@
           background-color: #d0d0d0;
         }
 
+        .attachment-preview {
+          display: flex;
+          flex-direction: column;
+          // align-items: center;
+          margin-top: 1em;
+          border-radius: 1em;
+          border: 2px dashed black;
+          padding: 2em;
+          margin-bottom: 2em;
+        }
+
+        .attachment-preview img {
+          max-width: 200px;
+          max-height: 200px;
+          margin-bottom: 0.5em;
+        }
+
+        .attachment-filename {
+          width: 200px;
+          padding: 0.5em;
+          box-sizing: border-box;
+        }
+
 
 
         .note-button-area{
@@ -108,25 +146,6 @@
             }
           }
 
-          .attachment-preview {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 1em;
-          }
-
-          .attachment-preview img {
-            max-width: 200px;
-            max-height: 200px;
-            margin-bottom: 0.5em;
-          }
-
-          .attachment-filename {
-            width: 200px;
-            padding: 0.5em;
-            box-sizing: border-box;
-          }
-
           // .pdf-preview {
           //   // display: flex;
           //   max-width: 400px;
@@ -158,7 +177,7 @@
           width: 100%;
           display: flex;
           justify-content: flex-end;
-          margin-bottom: 2em;
+          margin-bottom: 0.5em;
         }
 
         .save-btn{
@@ -202,22 +221,29 @@
           margin: 0 !important;
           font-weight: lighter;
           span{
-            text-transform: capitalize;
             font-weight: bolder;
           }
         }
       }
     }
 
+    .ticket-info-area::-webkit-scrollbar {
+      display: none;
+    }
+
     .ticket-info-area{
       border: 1px solid black;
       padding: 1em;
       border-radius: 1em;
-      width: 30%;
+      width: 35%;
       height: fit-content;
       position: sticky;
       right: 0;
       top: 7em;
+      max-height: 80vh;
+      overflow: scroll;
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
 
 
       h1{
@@ -240,6 +266,12 @@
 
       .update-status-button:hover {
         background-color: deepskyblue;
+      }
+
+      .sla-area {
+        .expansion-item {
+          font-family: 'Poppins';
+        }
       }
     }
   }
@@ -429,4 +461,113 @@ mat-expansion-panel-header.mat-expanded,
 
 ::ng-deep .custom-snackbar .mat-snack-bar-action {
   color: #479abb; /* Set the action color */
+}
+
+.flex-start {
+  justify-content: flex-start !important;
+}
+
+.expansion-item{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  font-family: 'Poppins';
+  padding-bottom: 0.2em;
+
+  p{
+    margin: 0;
+  }
+
+  .priority {
+    width: 50%;
+    padding: 0.3em 0;
+  }
+
+  .left-margin {
+    margin-left: 2em;
+    color: rgba(0,0,0,0.44);
+  }
+
+  .content {
+    width: 100%;
+    height: 2em;
+    padding: 2em 1em;
+    border-radius: 0.3em;
+    border: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    margin-left: 2em;
+
+    p {
+      padding: 0 !important;
+    }
+
+    .user-img {
+      width: 2em;
+      height: 2em;
+      background-color: gray;
+      border-radius: 50%;
+      margin-right: 1em;
+    }
+  }
+}
+
+.expansion-item:nth-last-child(1){
+  margin-bottom: 0.7em;
+}
+
+.expansion-item p:nth-last-child(1){
+  min-width: 50%;
+  padding: 0.7em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i{
+    margin-left: 0.5em;
+  }
+}
+
+.bold-label{
+  font-weight: 500;
+}
+
+app-user-dropdown{
+  width: 80%;
+  margin-left: 2em;
+}
+
+.ticket-container .ticket-summary-area .summary-info .check-btn {
+    background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+    font-family: 'Poppins';
+    font-size: 0.8em;
+    color: white;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.ticket-heading {
+  display: flex;
+  align-items: center;
+  // font-size: 2em;
+
+  .backButton {
+    font-size: 1.5em;
+    padding: 0.5em;
+    padding-right: 1em;
+
+    i:hover{
+      cursor: pointer;
+    }
+  }
+
+  h1 {
+    margin: 0 !important;
+  }
 }

@@ -2,6 +2,11 @@ import { ConnectOptions, connect, connection, Connection } from 'mongoose';
 
 let db: Connection;
 
+export const mongooseWrapper = {
+  connect: connect,
+  connection: connection
+}
+
 export const dbConnection = async () => {
   if (!db) {
     await connect(process.env['MONGO_URI']!, {
