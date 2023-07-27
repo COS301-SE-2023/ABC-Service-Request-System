@@ -36,3 +36,18 @@
   border: 1px solid blue;
 }
 
+.view-stats {
+  color: black;
+  transition: color 0.5s ease;
+  cursor: pointer;
+}
+
+.view-stats:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.pointer{
+  cursor: pointer;
+}
+

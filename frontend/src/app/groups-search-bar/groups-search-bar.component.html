@@ -1,15 +1,19 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
 <div class = "groups-header" id="header-grid">
-  <div class = "type-filter">
+  <img src = "../../assets/back.png" class = "back-icon pointer" alt = "back-icon" (click) ="handleFilterChange('all')" >
+  <!-- <div class = "type-filter">
     <select name="filter" id="filter" #filterElement (change)="handleFilterChange(filterElement.value)">
       <option value="all" selected>All</option>
       <option value="group">Group</option>
     </select>
 
     <div class="groups-filter-arrow"></div>
-  </div>
+  </div> -->
+  <div class = "group-name">{{groupName}}</div>
 
-  <div class="groups-filter" [hidden]="filterValue === 'all'">
+  <div class="groups-filter" [hidden]="filterValue === 'wolongong'">
     <select #selectElement (change)="onGroupSelected(selectElement.value)" [value]="selectedGroup">
       <option value="" disabled selected>Select group</option>
       <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
@@ -17,9 +21,9 @@
     <div class="groups-filter-arrow"></div>
   </div>
 
-  <div class="groups-filter-2" [hidden]="filterValue === 'group'">
+  <div class="groups-filter-2" [hidden]="filterValue === 'shrooms'">
     <select>
-      <!-- <option> test</option> -->
+
     </select>
   </div>
 
@@ -51,8 +55,8 @@
       </div>
     </button>
 
-    <button class="filter-button" (click)="openFilterDialog()">
-      <img src="../../assets/filter.png" alt="filter icon">
+    <button class="reload-button pointer" (click)="reload()">
+      <img src="../../assets/reload.png" alt="reload-icon">
     </button>
 
 </div>

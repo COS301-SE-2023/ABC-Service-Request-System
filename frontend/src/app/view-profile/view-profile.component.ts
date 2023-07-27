@@ -7,6 +7,7 @@ import { GroupService } from 'src/services/group.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { ActivatedRoute } from '@angular/router';
 import { NavbarService } from 'src/services/navbar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-profile',
@@ -19,7 +20,8 @@ export class ViewProfileComponent implements OnInit {
     private authService: AuthService,
     private groupService: GroupService,
     private route: ActivatedRoute,
-    private navbarService: NavbarService) {}
+    private navbarService: NavbarService,
+    private router: Router) {}
 
     currentUser!: user;
     tempUser!:user;
@@ -52,5 +54,9 @@ export class ViewProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  routeToAnalytics(): void {
+    this.router.navigateByUrl('/analytics-page');
   }
 }

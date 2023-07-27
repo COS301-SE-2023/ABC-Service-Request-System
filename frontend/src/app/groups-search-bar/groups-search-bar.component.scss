@@ -169,11 +169,11 @@ mat-select .mat-select-trigger {
   height: 24px;
 }
 
-.filter-button {
+.reload-button {
   min-width: auto;
 }
 
-.filter-button img {
+.reload-button img {
   width: 27px;
   height: 27px;
 }
@@ -461,9 +461,12 @@ mat-select .mat-select-trigger {
 .create-user-button {
   // padding: 0.5em 1em;
   border: none;
-  border-radius: 4px;
-  background-color: rgb(1, 128, 218);
+  border-radius: 1em;
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
   color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
   cursor: pointer;
   transition: all 0.3s;
   width: 800px;
@@ -472,11 +475,21 @@ mat-select .mat-select-trigger {
   height: 40px;
 }
 
+// background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+// padding: 0.5em 1em;
+// border-radius: 1em;
+// color: white;
+// box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+
 .create-group-button-2 {
-  background-color: rgb(1, 128, 218);
-  border: none;
-  border-radius: 4px;
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+  border-radius: 1em;
   color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
   cursor: pointer;
   transition: all 0.3s;
   width: 800px;
@@ -484,11 +497,15 @@ mat-select .mat-select-trigger {
   margin-left: 50px;
   height: 40px;
 }
+
 
 .add-new-user-button {
   background-color: rgb(206, 206, 206);
   border: none;
-  border-radius: 4px;
+  border-radius: 1em;
+  // box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  // -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  // -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
   color: black;
   cursor: pointer;
   transition: all 0.3s;
@@ -499,6 +516,16 @@ mat-select .mat-select-trigger {
   margin-bottom: 10px;
   text-align: left;
 }
+
+
+
+// background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+// padding: 0.5em 1em;
+// border-radius: 1em;
+// color: white;
+// box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+// -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
 
 .create-group-button-2:hover {
   opacity: 0.8;
@@ -580,4 +607,25 @@ mat-select .mat-select-trigger {
 
 ::ng-deep .ng-option.highlighted {
   background-color: #710b0b;
+}
+
+.back-icon {
+  width: 30px;
+  height:30px;
+  margin-left: 10px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.group-name {
+  margin-left:15px;
+  font-family: "Poppins";
+  font-size: 28px;
+  line-height: 1.2em;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(290deg, rgb(4, 83, 142) 0%, rgb(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

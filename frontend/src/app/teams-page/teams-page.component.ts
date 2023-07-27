@@ -21,7 +21,7 @@ export class TeamsPageComponent implements OnInit{
   users: user[] = [];
   filterValue = 'all';
   groups: group[] = [];
-  selectedGroup!: group;
+  selectedGroup: group = { id:'0', groupName: 'All groups', backgroundPhoto:'' };
 
   userImages: Map<string, string> = new Map();
 
@@ -233,6 +233,7 @@ export class TeamsPageComponent implements OnInit{
 
   clickGroup(group: group): void {
     this.filterValue = 'group';
+    this.selectedGroup = group;
     this.selectGroup(group);
     console.log('in click group, ' + group.groupName);
   }
