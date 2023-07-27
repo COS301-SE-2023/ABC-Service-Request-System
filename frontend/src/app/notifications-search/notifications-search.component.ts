@@ -209,6 +209,11 @@ navigateToGroup(){
   this.router.navigate([`/teams`])
 }
 
+navigateToProfile(id: string) {
+  console.log('in navigateToProfile, id = ' + id);
+  this.router.navigate(['/view-profile'], { queryParams: { id: id } });
+}
+
 highlightButtonUsers(event: any) {
 
   if(event.target.classList.contains('selected'))

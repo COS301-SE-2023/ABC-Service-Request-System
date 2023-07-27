@@ -18,7 +18,7 @@
 
     <div class="search-results-container">
         <div *ngIf="searchQuery.trim().length > 0" class="search-results">
-            <div *ngFor="let users of resultsUsers" class="search-user">
+            <div *ngFor="let users of resultsUsers" class="search-user" (click) = "navigateToProfile(users.id)" tabindex="0">
                 <div class="search-user-default-img">
                     <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
                     <!-- <i class="fa-solid fa-user"></i> -->
