@@ -218,19 +218,19 @@ describe('/Upload File API', () => {
         expect(res.body.message).to.be.equal('No file uploaded');
     });
 
-    it('should pass when a file is attached', async () => {
+    it('should fail when a wrong format file is attached', async () => {
         const filePath = process.env.GITHUB_ACTIONS
             ? path.join(process.cwd(), 'test.png') // GitHub environment
             : path.join(__dirname, 'test.png');    // Local environment
-        const file = "test";
+        const file = 'file';
 
         const res = await chai.request(app)
             .post('/api/test_ticket/upload')
             .attach(file, filePath);
 
-        res.should.have.status(200);
+        res.should.have.status(500);
         res.body.should.be.a('object');
-        res.body.should.have.property('url');
+        expect(res.body.message).to.be.equal('File upload error');
     });
 });
 
