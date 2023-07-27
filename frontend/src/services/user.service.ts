@@ -177,7 +177,7 @@ export class UserService {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-  
+
     return this.http.post(`${this.API_URL}/activate_account`, accountDetails, { headers })
       .pipe(
         tap((response: any) => {
@@ -211,6 +211,10 @@ export class UserService {
   }
 
   uploadFile(file: File) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     const formData = new FormData();
     formData.append('file', file);
 
@@ -218,8 +222,11 @@ export class UserService {
   }
 
   updateProfilePicture(userId: string, url: string) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     // console.log('in service');
-    return this.http.put(`${this.API_URL}/updateProfilePicture`, { userId, url });
+    return this.http.put(`${this.API_URL}/updateProfilePicture`, { userId, url }, { headers });
   }
 
   updateProfileHeader(userId: string, url: string) {
