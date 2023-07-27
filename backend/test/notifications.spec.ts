@@ -4,6 +4,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
+import sinon from 'sinon';
 
 import { TestNotificationsModel } from "../src/test_routers/testNotifications.model";
 
@@ -136,6 +137,28 @@ describe('/Notification test collection', () => {
         const res = await chai.request(app)
             .put('/api/test_notifications/changeToUnread')
             .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
+    });
+
+    it('Should get the notification 1 from id search...', async() => {
+        const notificationId = "1";
+
+        const res = await chai.request(app)
+            .get(`/api/test_notifications/id`)
+            .query({id: notificationId});
+
+        res.body.should.be.a('object');
+    });
+
+    it('Should fail to get notification 5 from id search...', async() => {
+        let notificationId = "5";
+
+        const res = await chai.request(app)
+            .get('/api/test_notifications/id')
+            .query({id: notificationId});
 
         res.should.have.status(404);
         res.body.should.be.a('object');

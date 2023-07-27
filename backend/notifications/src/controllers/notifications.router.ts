@@ -34,7 +34,7 @@ router.get('/delete', expressAsyncHandler(
     }
 ));
 
-router.get('/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
+router.get('/id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const notification = await NotificationsModel.findOne({ id: req.query.id });
         if (notification) {
