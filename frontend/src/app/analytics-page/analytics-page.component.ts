@@ -214,7 +214,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
       )
     }
 
-    if(value === 'group') {
+    if(value === 'group' && this.groups.length > 0) {
 
 
       this.selectGroup(this.groups[0].id);

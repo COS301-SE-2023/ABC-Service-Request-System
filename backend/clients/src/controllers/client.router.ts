@@ -5,10 +5,11 @@ import { project } from "../models/client.model";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
+import { jwtVerify } from "../../../jwtVerify/jwtVerify";
 
 const router = Router();
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const clients = await ClientModel.find();
         res.status(200).send(clients);
@@ -16,7 +17,7 @@ router.get('/', expressAsyncHandler(
 ));
 
 //fetch all clients belonging to a specific organisation
-router.get('/organisation', expressAsyncHandler(
+router.get('/organisation', jwtVerify(['Admin', 'Manager']) , expressAsyncHandler(
     async (req, res) => {
         const organisation = req.query.organisation
 
@@ -31,7 +32,7 @@ router.get('/organisation', expressAsyncHandler(
 ));
 
 //fetch all clients containing assigned groups
-router.get('/group', expressAsyncHandler(
+router.get('/group', jwtVerify(['Admin', 'Manager', 'Functional', 'Technical']), expressAsyncHandler(
     async (req, res) => {
         const groupName = req.query.group
 
@@ -46,7 +47,7 @@ router.get('/group', expressAsyncHandler(
 ));
 
 //fetch the client given the project name
-router.get('/project', expressAsyncHandler(
+router.get('/project', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const projectName = req.query.projectName;
         const clients = await ClientModel.find({});
@@ -64,7 +65,7 @@ router.get('/project', expressAsyncHandler(
 ));
 
 //fetch the project given the project objectId
-router.get('/project/id', expressAsyncHandler(
+router.get('/project/id', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         let projectId = req.query.projectId;
 
@@ -95,7 +96,7 @@ router.get('/project/id', expressAsyncHandler(
 ));
 
 //fetch the project given the project id and the client id
-router.get('/project/client', expressAsyncHandler(
+router.get('/project/client', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const projectId = req.query.projectId;
         const clientId = req.query.clientId;
@@ -118,7 +119,7 @@ router.get('/project/client', expressAsyncHandler(
 ));
 
 //remove a group from a project given the project id, group id and client id
-router.put("/remove_group", expressAsyncHandler(
+router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const projectId = req.body.projectId;
         const groupsToRemove = req.body.groupsToRemove;
@@ -161,7 +162,7 @@ router.put("/remove_group", expressAsyncHandler(
 ));
 
 //add a group to a project given the client id and project id
-router.post("/add_group", expressAsyncHandler(
+router.post("/add_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         console.log('req body: ', req.body);
         const clientId = req.body.clientId;
@@ -197,7 +198,7 @@ router.post("/add_group", expressAsyncHandler(
 ));
 
 //ADD PROJECT TO EXISTING CLIENT
-router.post("/add_project", expressAsyncHandler(
+router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         const clientId = req.body.clientId;
 
@@ -251,7 +252,7 @@ router.delete("/delete_client", expressAsyncHandler(
     }
 ));
 
-router.post("/create_client", expressAsyncHandler(
+router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
         // check if a user with the provided email already exists
         console.log('req: ', req.body);

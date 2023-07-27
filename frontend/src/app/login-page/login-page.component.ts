@@ -9,13 +9,15 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent {
+export class LoginPageComponent  {
   password = '';
   email = '';
   errorMessage: string | null = null;
   logInClicked = false;
 
-  constructor(private router: Router, private userService: UserService, private authService: AuthService) { }
+  constructor(private router: Router, private userService: UserService, private authService: AuthService) {  }
+
+  
 
   navigateToDashboard(event: Event) {
     event.preventDefault();
@@ -33,6 +35,7 @@ export class LoginPageComponent {
 
         this.logInClicked = true;
         // Navigate to dashboard
+        console.log('Token', token);
         this.router.navigate(['/dashboard']);
       },
       error: (error: any) => {
