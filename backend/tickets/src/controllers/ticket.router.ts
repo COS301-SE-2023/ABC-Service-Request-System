@@ -153,9 +153,7 @@ router.post('/addticket', jwtVerify(['Admin', 'Manager']), expressAsyncHandler( 
             createdTime: new Date(),
             project: req.body.project,
             todo: req.body.todo,
-            todoChecked: req.body.todoChecked,
-            assigneeFullName: req.body.assigneeFullName,
-            assignedFullName: req.body.assignedFullName
+            todoChecked: req.body.todoChecked
         });
 
         console.log("new ticket: ", newTicket);
