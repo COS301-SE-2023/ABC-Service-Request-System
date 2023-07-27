@@ -32,6 +32,6 @@ export class NotificationsService {
   }
 
   getNotificationById(id: string) {
-    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/:id?id=${id}`);
+    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/id?id=${id}`);
   }
 }
