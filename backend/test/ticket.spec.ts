@@ -5,6 +5,9 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
+const fs = require('fs');
+const path = require('path');
+
 import { TestTicketModel } from "../src/test_routers/testTicket.model";
 
 chai.use(chaiHttp);
@@ -133,8 +136,6 @@ describe('/Ticket test collection', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Id not found');
     });
-})
-describe('/Ticket Status and Comment APIs', () => {
 
     it('should update the status of a ticket...', async () => {
         const toSend = {
@@ -203,12 +204,7 @@ describe('/Ticket Status and Comment APIs', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Ticket not found');
     });
-});
 
-const fs = require('fs');
-const path = require('path');
-
-describe('/Upload File API', () => {
     it('should fail when no file is attached', async () => {
         const res = await chai.request(app)
             .post('/api/test_ticket/upload');
@@ -232,9 +228,7 @@ describe('/Upload File API', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('File upload error');
     });
-});
 
-describe('/Deleting database', () => {
     it('should delete the database...', async() => {
         const res = await chai.request(app)
             .get('/api/test_ticket/delete');
@@ -245,5 +239,5 @@ describe('/Deleting database', () => {
             res.body.should.be.a('object');
             expect(res.body.message).to.be.equal('Delete is done!');
     });
-});
+})
 
