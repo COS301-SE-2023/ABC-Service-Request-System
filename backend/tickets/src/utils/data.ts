@@ -42,7 +42,7 @@ export const sample_tickets: ticket[] = [
       ],
       description: "You need to test the tickets before the client has a chance to access their portal.",
       createdAt: new Date(),
-      project: 'Old project',
+      project: 'project',
       todo: ["Change name of project"],
       todoChecked: [false]
   },

@@ -57,12 +57,12 @@ router.get('/', expressAsyncHandler(
 
 router.get('/assigned', expressAsyncHandler(
   async (req, res) => {
-    const tickets = await TestTicketModel.find({ assigned: req.query.id });
+    const tickets = await TestTicketModel.find({ id: req.query.id });
 
-    if(tickets){
+    if(tickets.length!=0){
         res.status(200).send(tickets);
     }else{
-        res.status(404).send("No tickets found");
+        res.status(404).send({message:"No tickets found"});
     }
   }
 ));
@@ -90,16 +90,14 @@ router.get('/projects', expressAsyncHandler(
 
 router.get('/project', expressAsyncHandler(
   async (req, res) => {
-    const projectName = req.query.name;
     try {
-      const tickets = await TestTicketModel.find({ project: projectName});
-
-      if(tickets){
-        console.log('tickets found', tickets);
+      const tickets = await TestTicketModel.find({ project: req.query.project});
+      console.log("TICKETS", tickets);
+      if(tickets.length !=0 ){
         res.status(200).send(tickets);
       } else {
         console.log('no tickets found');
-        res.status(404).send("No tickets for this project");
+        res.status(404).send({message:"No tickets for this project"});
       }
     } catch {
       res.status(500).send("Internal Server Error fetching projects");
@@ -109,15 +107,15 @@ router.get('/project', expressAsyncHandler(
 
 router.get('/group', expressAsyncHandler(
   async (req, res) => {
-    const groupName = req.query.name;
+    const groupName = req.query.group;
 
     try {
       const tickets = await TestTicketModel.find({ group: groupName });
 
-      if(tickets) {
+      if(tickets.length != 0) {
         res.status(200).send(tickets);
       } else {
-        res.status(404).send("No tickets found for that group");
+        res.status(404).send({message:"No tickets found for that group"});
       }
     } catch {
       res.status(500).send("Internal error fetching tickets by group name");
@@ -270,9 +268,9 @@ router.put('/comment', expressAsyncHandler(
           // save the commentTime as the first response time
           ticket.timeToFirstResponse = commentTime;
           await ticket.save();
-          res.status(200).send("Time to first response added");
+          res.status(200).send({message:"Time to first response added"});
         } else {
-          res.status(200).send("First response time already recorded");
+          res.status(200).send({message:"First response time already recorded"});
         }
       }
     }catch(error){

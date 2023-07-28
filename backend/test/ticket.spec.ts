@@ -229,6 +229,118 @@ describe('/Ticket test collection', () => {
         expect(res.body.message).to.be.equal('File upload error');
     });
 
+    it('should return 200 with tickets when tickets are found',async () => {
+        let userId = '1';
+        const res = await chai.request(app)
+            .get('/api/test_ticket/assigned')
+            .query({ id: userId});
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+    });
+
+    it('should return 404',async () => {
+        let userId = '999999';
+        const res = await chai.request(app)
+            .get('/api/test_ticket/assigned')
+            .query({ id: userId});
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('No tickets found')
+    });
+
+    it('should return 200 with an array of projects',async () => {
+        let groupId = '1';
+        const res = await chai.request(app)
+            .get('/api/test_ticket/projects')
+            .query({groupName: groupId});
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+    });
+
+    it('should return 200 with an array of tickets',async () => {
+       let projectName = 'project';
+       const res = await chai.request(app)
+            .get('/api/test_ticket/project')
+            .query({project: projectName}) ;
+            console.log("RESPONSE:", res.body);
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+    });
+
+    it('should return 404 with no tickets found',async () => {
+        let projectName="";
+        const res = await chai.request(app)
+            .get('/api/test_ticket/project')
+            .query({project: projectName});
+            res.should.have.status(404);
+            res.body.should.be.a('object');
+            expect(res.body.message).to.be.equal("No tickets for this project");
+        
+    });
+
+    it('should return 200 with an array of tickets',async () => {
+        let groupId = '2';
+        const res = await chai.request(app)
+            .get('/api/test_ticket/group')
+            .query({group: groupId});
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+    });
+    it('should return 404 with a message "No tickets found for that group"',async () => {
+        let groupId = "";
+        const res = await chai.request(app)
+            .get('/api/test_ticket/group')
+            .query({group: groupId});
+            res.should.have.status(404);
+            res.body.should.be.a('object');
+            expect(res.body.message).to.be.equal("No tickets found for that group");
+    });
+
+    it('should add a new ticket', async () => {
+        const ticketCountBefore = await TestTicketModel.countDocuments();
+    
+        const newTicketData = {
+          description: 'Test Ticket Description',
+          summary: 'Test Ticket Summary',
+          assignee: 'Test Assignee',
+          assigned: 'Test Assigned',
+          group: 'Test Group',
+          priority: 'High',
+          startDate: '2023-07-25',
+          endDate: '2023-07-26',
+          status: 'Open',
+          project: 'Test Project',
+          todo: ['Task 1', 'Task 2'],
+          todoChecked: [false, true],
+        };
+    
+        const res = await chai.request(app)
+          .post('/api/test_ticket/addticket')
+          .send(newTicketData);
+    
+          console.log('HERE', res.body)
+    
+        // Assertions
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.an('object');
+        expect(res.body.message).to.equal('Ticket created succesfully');
+    });
+
+    // it('should add a time to first response if not set', async () => {
+    //     const ticketId = '1';
+    //     const commentTime = new Date();
+    
+    //     // Make a POST request to the /addTimeToFirstResponse route
+    //     const res = await chai.request(app)
+    //       .post('/api/test_ticket/addTimeToFirstResponse')
+    //       .send({ ticketId, commentTime });
+    
+    //     // Assertions
+    //     res.should.have.status(200);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.equal('Time to first response added');
+    //   });
+
     it('should delete the database...', async() => {
         const res = await chai.request(app)
             .get('/api/test_ticket/delete');
