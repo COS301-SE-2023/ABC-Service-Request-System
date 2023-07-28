@@ -22,26 +22,22 @@ router.get('/', expressAsyncHandler(
 
 router.post("/login", expressAsyncHandler(
     async (req, res) => {
-        console.log("Login request received:", req.body); // Log the request body
+       
       try {
         const user = await TestUserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
   
-        console.log("User found:", user); // Log the user object
+      
   
         if (user) {
           const roles  = Object.values(user.roles);
-          console.log("Request password:", req.body.password);
-          console.log("User password:", user.password);
+
   
-          console.log("Hashededed password from DB:", user.password);  // Add this line
-  
-          console.log("Types:", typeof req.body.password, typeof user.password);  
           const validPassword = await bcrypt.compare(req.body.password, user.password);
-          console.log("Result of bcrypt compare:", validPassword);
+   
   
   
           if (!validPassword) {
-            console.log("Invalid password");
+            
             res.status(401).send({ auth: false, token: null });
             return;
           }
@@ -49,46 +45,25 @@ router.post("/login", expressAsyncHandler(
           const secretKey = process.env.JWT_SECRET;
   
           if (!secretKey) {
-            console.log("JWT Secret is not defined");
+   
             throw new Error('JWT Secret is not defined');
           }
-          
-          //loop through roles and add them to the token
+
           let setRoles: string[] = [];
           setRoles = user.roles;
-
-
-          // let setRoles : string = "Default";
-
-
-          // for (let role of user.roles){
-          //   if(role == "Admin"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Manager"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Functional"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Technical"){
-          //     setRoles = role;
-          //   }
-          // }
           const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
 
-          console.log("Token:", token);
   
-          // console.log("Login successful");
+         
           res.status(200).send({ auth: true, token });
         } else {
-          // console.log("User not found");
+   
           res.status(404).send("No user found.");
         }
       } catch (error) {
-        // console.error("Login error:", error);
+  
         res.status(500).send("An error occurred during login.");
       }
     })
@@ -140,7 +115,6 @@ router.get('/seed', expressAsyncHandler(
             // Send the token back to the client
             res.status(200).json({ message: "Seed is done!", token });
         } catch (error) {
-            console.error(error);
             res.status(500).json({ message: 'Error seeding database' });
         }
     }
@@ -496,7 +470,7 @@ router.put('/update_user_name' ,expressAsyncHandler(
         }
     }
 ))
-//UPDATE USER PASSWORD - WORKING
+// UPDATE USER PASSWORD - WORKING
 router.put('/update_user_password', expressAsyncHandler(
     async (req, res) => {
         try{
@@ -555,65 +529,6 @@ router.put('/update_user_location', expressAsyncHandler(
     }
 ))
 
-//UPDATE USER Facebook - 
-router.put('/update_user_facebook', expressAsyncHandler(
-    async (req, res,next) => {
-        try{
-            const { facebook, email } = req.body;
-            // console.log("email: " + email);
-            // console.log("Facebook:"+ facebook);
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    facebook: facebook
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User facebook updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-))
-
-//UPDATE USER INSTAGRAM - 
-router.put('/update_user_instagram', expressAsyncHandler(
-    async (req, res,next) => {
-        try{
-            const { instagram, email } = req.body;
-            // console.log("email: " + email);
-
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    instagram: instagram
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User instagram updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-))
 
 //UPDATE USER GITHUB - 
 router.put('/update_user_github',expressAsyncHandler(
@@ -726,7 +641,7 @@ router.post('/add-group-to-users', expressAsyncHandler(
   async (req, res) => {
     const groupId = req.body.groupId;
     const userIds = req.body.userIds;
-    console.log('in add-group-to-users, group id: ' + groupId);
+   
 
     try {
       const users = await TestUserModel.updateMany(
@@ -737,7 +652,6 @@ router.post('/add-group-to-users', expressAsyncHandler(
       res.status(201).send(users);
     }
     catch (error) {
-      console.log(error);
       res.status(500).send("An error occurred while adding the group to the users");
     }
   }  
@@ -781,9 +695,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         res.status(400).json({ message: 'No file uploaded' });
         return;
       }
-      console.log('in upload router');
+
       const result = await cloudinary.uploader.upload(req.file.path);
-      console.log("result is: ", result);
+   
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
       res.status(500).json({ message: 'File upload error' });
@@ -877,7 +791,7 @@ router.post('/addGroup' , expressAsyncHandler(
                 res.status(404).send("User not found");
             }
         } catch (error) {
-            console.log(error);
+         
             res.status(500).send("An error occurred during user update");
         }
     }
@@ -894,7 +808,7 @@ router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
         roles: user.roles[0],
         profilePhoto: user.profilePhoto
     }));
-    console.log(userArray);
+
     res.send(userArray);
 }));
 
@@ -947,7 +861,7 @@ router.put('/update_background_picture',upload.single('file'),expressAsyncHandle
                 res.status(404).json({ message: 'User not found' });
             }
         }catch(error){
-            // console.log(error);
+         
             res.status(500).send({ error: 'Internal server error' });
         }
     }
@@ -959,7 +873,7 @@ router.put('/update_user_bio',expressAsyncHandler(
         try{
             const { bio, email } = req.body;
             // console.log("email: " + email);
-            console.log("bio:"+bio);
+          
             const user = await TestUserModel.findOneAndUpdate(
                 { emailAddress: email },
                 {
@@ -977,7 +891,7 @@ router.put('/update_user_bio',expressAsyncHandler(
             }
 
         }catch(error){
-            // console.log(error);
+         
             res.status(500).send({ error: 'Internal server error' });
         }
     }

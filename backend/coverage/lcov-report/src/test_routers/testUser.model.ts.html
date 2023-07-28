@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/sampleGroups.ts</title>
+    <title>Code coverage report for src/test_routers/testUser.model.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">src</a> sampleGroups.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/test_routers</a> testUser.model.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -116,23 +116,7 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,9 +130,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,65 +160,69 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UserModel } from "../users/src/models/user.model";
-import { sample_users } from "./sampleUsers";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Schema, connection } from "mongoose"
 &nbsp;
-const user1 = new UserModel({ 
-    id: "1",
-    name: "John",
-    surname: "Doe",
-    profilePhoto: "user1.jpg",
-    emailAddress: "john.doe@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Manager"],
-    groups: ["group1", "group2"],
-  });
-  
-  const user2 = new UserModel({
-    id: "2",
-    name: "Jane",
-    surname: "Smith",
-    profilePhoto: "user2.jpg",
-    emailAddress: "jane.smith@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Functional"],
-    groups: ["group1"],
-  });
-  
-  const user3 = new UserModel({
-    id: "3",
-    name: "Alice",
-    surname: "Johnson",
-    profilePhoto: "user3.jpg",
-    emailAddress: "alice.johnson@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Technical"],
-    groups: ["group2"],
-  });
 &nbsp;
-export const sample_groups: any[] = [
+type Role = "Manager" | "Functional" | "Technical" | "Admin";
+let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
+&nbsp;
+&nbsp;
+export interface user{
+    groupId: any;
+    id: string
+    name: string
+    surname: string
+    profilePhoto: string
+    headerPhoto: string
+    emailAddress: string
+    emailVerified: boolean
+    password: string
+    roles: Role []
+    groups: string []
+    inviteToken?: string
+    bio:string
+    github:string
+    linkedin:string
+}
+&nbsp;
+export const userSchema = new Schema&lt;user&gt;(
     {
-        id: '1',
-        groupName: 'Frontend',
-        backgroundPhoto: '',
-        people: [user1, user2],
-    },
-    {
-        id: '2',
-        groupName: 'Backend',
-        backgroundPhoto: '',
-        people: [user2, user3],
-    },
-    {
-        id: '3',
-        groupName: 'Integration',
-        backgroundPhoto: '',
-        people: [user1, user3],
+        id: {type: String, required: true},
+        name: {type: String, required: true},
+        surname:{type: String, required: true},
+        profilePhoto:{type: String, required: false},
+        headerPhoto:{type: String, required: false},
+        emailAddress: {type: String, unique: true, required: true},
+        emailVerified: {type: Boolean, required: true, default: false},
+        password: {type: String, required: true, select: true},
+        roles: {type: [String], required: true, enum: roles},
+        groups: {type: [String], required: false, default:[]},
+        inviteToken: { type: String }, // Add inviteToken field
+        bio: {type: String, required:false},
+        github: {type: String, required:false},
+        linkedin: {type:String, required: false},
+    },{
+        toJSON: {
+            virtuals: true
+        },
+        toObject: {
+            virtuals: true
+        },
+        timestamps: true
     }
-]</pre></td></tr></table></pre>
+);
+&nbsp;
+const userDb = connection.useDb("test");
+export const TestUserModel = userDb.model("user", userSchema);</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
@@ -246,14 +231,14 @@ export const sample_groups: any[] = [
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
                 at 2023-07-28T09:44:15.967Z
             </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

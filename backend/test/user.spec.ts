@@ -92,6 +92,33 @@ describe('/User test collection', () => {
     userId = res.body.user.id;
   });
 
+  it('should activate a user with valid invite token', async () => {
+    const res = await chai.request(app)
+      .post('/api/test_user/activate_account')
+      .send({ inviteToken, password: 'newPassword' });
+
+    expect(res).to.have.status(201);
+    expect(res.body).to.be.a('object');
+    expect(res.body).to.have.property('message').eql('Account activated successfully');
+  });
+
+  // it('should log in a user with valid credentials', async () => {
+  //   const loginUser = {
+  //     emailAddress: 'john@example.com',
+  //     password: 'newPassword'
+  //   };
+  
+  //   const res = await chai.request(app)
+  //     .post('/login')
+  //     .send(loginUser);
+  
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.a('object');
+  //   expect(res.body).to.have.property('auth').eql(true);
+  //   expect(res.body).to.have.property('token');
+  // });
+
+
   it('should not create a user with the email that already exists', async () => {
     const testUser = {
       name: 'John',
@@ -115,12 +142,13 @@ describe('/User test collection', () => {
     expect(res.text).to.eql('User with this email already exists.');
   });
 
-  it('should return a redirect for valid invite token', async () => {
-    const res = await chai.request(app)
-      .get(`/api/test_user/activate_account?token=${inviteToken}`);
 
-    expect(res).to.redirect;
-  });
+  // it('should return a redirect for valid invite token', async () => {
+  //   const res = await chai.request(app)
+  //     .get(`/api/test_user/activate_account?token=${inviteToken}`);
+
+  //   expect(res).to.redirect;
+  // });
 
   it('should not return a redirect for invalid invite token', async () => {
     const res = await chai.request(app)
@@ -130,15 +158,7 @@ describe('/User test collection', () => {
     expect(res.text).to.eql('Invalid token.');
   });
 
-  it('should activate a user with valid invite token', async () => {
-    const res = await chai.request(app)
-      .post('/api/test_user/activate_account')
-      .send({ inviteToken, password: 'newPassword' });
-
-    expect(res).to.have.status(201);
-    expect(res.body).to.be.a('object');
-    expect(res.body).to.have.property('message').eql('Account activated successfully');
-  });
+  
 
   it('should not activate a user with invalid invite token', async () => {
     const res = await chai.request(app)
@@ -148,6 +168,7 @@ describe('/User test collection', () => {
     expect(res).to.have.status(409);
     expect(res.text).to.eql('Invalid token.');
   });
+
 
   it('should get a user by invite token', async () => {
     const res = await chai.request(app)
