@@ -38,7 +38,7 @@ describe('/User test collection', () => {
     const res = await chai.request(app)
         .get('/api/test_user');
     
-    res.should.have.status(500);
+    res.should.have.status(200);
     res.body.should.be.a('array');
     res.body.should.have.lengthOf(0);
   });
@@ -47,7 +47,7 @@ describe('/User test collection', () => {
     const res = await chai.request(app)
         .get('/api/test_user/seed');
     
-    res.should.have.status(500);
+    res.should.have.status(200);
     res.body.should.be.a('object');
     res.body.should.have.property('message').eql('Seed is done!');
   });
