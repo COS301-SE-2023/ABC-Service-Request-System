@@ -23,7 +23,7 @@ after(async() => {
     server.close();
 });
 
-describe('/First test collection', () => {
+describe('/Notifications test collection', () => {
     it('Should verify that we have no notifications in the DB...', async () => {
         const res = await chai.request(app)
             .get('/api/test_notifications');
