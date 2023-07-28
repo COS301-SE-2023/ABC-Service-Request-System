@@ -22,26 +22,15 @@ router.get('/', expressAsyncHandler(
 
 router.post("/login", expressAsyncHandler(
     async (req, res) => {
-        console.log("Login request received:", req.body); // Log the request body
       try {
         const user = await TestUserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
   
-        console.log("User found:", user); // Log the user object
-  
         if (user) {
           const roles  = Object.values(user.roles);
-          console.log("Request password:", req.body.password);
-          console.log("User password:", user.password);
   
-          console.log("Hashededed password from DB:", user.password);  // Add this line
-  
-          console.log("Types:", typeof req.body.password, typeof user.password);  
           const validPassword = await bcrypt.compare(req.body.password, user.password);
-          console.log("Result of bcrypt compare:", validPassword);
-  
   
           if (!validPassword) {
-            console.log("Invalid password");
             res.status(401).send({ auth: false, token: null });
             return;
           }
@@ -49,7 +38,6 @@ router.post("/login", expressAsyncHandler(
           const secretKey = process.env.JWT_SECRET;
   
           if (!secretKey) {
-            console.log("JWT Secret is not defined");
             throw new Error('JWT Secret is not defined');
           }
           
@@ -78,14 +66,12 @@ router.post("/login", expressAsyncHandler(
           const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
-
-          console.log("Token:", token);
   
           // console.log("Login successful");
           res.status(200).send({ auth: true, token });
         } else {
           // console.log("User not found");
-          res.status(404).send("No user found.");
+          res.status(404).send({message: "No user found."});
         }
       } catch (error) {
         // console.error("Login error:", error);
@@ -99,7 +85,7 @@ router.get('/seed', expressAsyncHandler(
         try {
             const usersCount = await TestUserModel.countDocuments();
             if(usersCount > 0){
-                res.send("Seed is already done");
+                res.status(401).send({message: "Seed is already done"});
                 return;
             }
 
@@ -544,66 +530,6 @@ router.put('/update_user_location', expressAsyncHandler(
         
             if (user) {
                 res.status(200).json({ message: 'User location updated successfully' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-))
-
-//UPDATE USER Facebook - 
-router.put('/update_user_facebook', expressAsyncHandler(
-    async (req, res,next) => {
-        try{
-            const { facebook, email } = req.body;
-            // console.log("email: " + email);
-            // console.log("Facebook:"+ facebook);
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    facebook: facebook
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User facebook updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
-        }
-    }
-))
-
-//UPDATE USER INSTAGRAM - 
-router.put('/update_user_instagram', expressAsyncHandler(
-    async (req, res,next) => {
-        try{
-            const { instagram, email } = req.body;
-            // console.log("email: " + email);
-
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    instagram: instagram
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User instagram updated successfuly' });
             } else {
                 res.status(404).json({ message: 'User not found' });
             }

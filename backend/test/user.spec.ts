@@ -47,9 +47,18 @@ describe('/User test collection', () => {
     const res = await chai.request(app)
         .get('/api/test_user/seed');
     
-    res.should.have.status(500);
-    // res.body.should.be.a('object');
-    // res.body.should.have.property('message').eql('Seed is done!');
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    res.body.should.have.property('message').eql('Seed is done!');
+  });
+
+  it('should not reseed the database...', async () => {
+    const res = await chai.request(app)
+        .get('/api/test_user/seed');
+    
+    res.should.have.status(401);
+    res.body.should.be.a('object');
+    res.body.should.have.property('message').eql('Seed is already done');
   });
 
   it('should return all users...', async () => {
@@ -147,6 +156,80 @@ describe('/User test collection', () => {
 
     expect(res).to.have.status(409);
     expect(res.text).to.eql('Invalid token.');
+  });
+
+  it('should not login a user with an invalid password...', async () => {
+    const body = {
+      emailAddress: 'john@example.com',
+      password: 'InvalidPass'
+    }
+    const res = await chai.request(app)
+        .post('/api/test_user/login')
+        .send(body);
+    
+    res.should.have.status(401);
+    res.body.should.be.a('object');
+    expect(res.body).to.have.property('auth');
+    res.body.auth.should.be.a('boolean');
+    expect(res.body.auth).to.be.equal(false);
+  });
+
+  it('should login a valid user...', async () => {
+    const body = {
+      emailAddress: 'john@example.com',
+      password: 'newPassword'
+    }
+    const res = await chai.request(app)
+        .post('/api/test_user/login')
+        .send(body);
+    
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    expect(res.body).to.have.property('auth');
+    res.body.auth.should.be.a('boolean');
+    expect(res.body.auth).to.be.equal(true);
+  });
+
+  it('should return 404 when invalid email entered for login', async () => {
+    const body = {
+      emailAddress: 'nothing@hhh.com',
+      password: 'newPassword'
+    }
+    const res = await chai.request(app)
+        .post('/api/test_user/login')
+        .send(body);
+    
+    res.should.have.status(404);
+    res.body.should.be.a('object');
+    expect(res.body.message).to.be.equal('No user found.');
+  });
+
+  it('should update a users password', async () => {
+    const body = {
+      email: 'john@example.com',
+      password: 'newNewPassword'
+    }
+    const res = await chai.request(app)
+        .put('/api/test_user/update_user_password')
+        .send(body);
+    
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    expect(res.body.message).to.be.equal('User password updated successfuly');
+  });
+
+  it('should return 404 for invalid user when updating password', async () => {
+    const body = {
+      emailAddress: 'john@example.com',
+      password: 'newNewPassword'
+    }
+    const res = await chai.request(app)
+        .put('/api/test_user/update_user_password')
+        .send(body);
+    
+    res.should.have.status(404);
+    res.body.should.be.a('object');
+    expect(res.body.message).to.be.equal('User not found');
   });
 
   it('should get a user by invite token', async () => {
