@@ -81,8 +81,7 @@ router.put('/changeToRead', expressAsyncHandler(
     async (req, res) => {
         const notificationsLink = req.body.id;
         const notificationsId = req.body.notificationsId;
-    
-        try {
+
             const notification = await TestNotificationsModel.findOneAndUpdate(
               { link: notificationsLink,
                 id: notificationsId },
@@ -95,9 +94,6 @@ router.put('/changeToRead', expressAsyncHandler(
             } else {
                 res.status(404).send({ message: 'Notification not found' });
             }
-        } catch (error) {
-            res.status(500).send({ message: 'Internal server error' });
-        }
     }
 ));
 
@@ -105,7 +101,6 @@ router.put('/changeToUnread', expressAsyncHandler(
     async (req, res) => {
         const notificationsId = req.body.id;
     
-        try {
             const notification = await TestNotificationsModel.findOneAndUpdate(
               { link: notificationsId },
               { $set: { readStatus: 'Unread' } },
@@ -117,9 +112,6 @@ router.put('/changeToUnread', expressAsyncHandler(
             } else {
                 res.status(404).send({ message: 'Notification not found' });
             }
-        } catch (error) {
-            res.status(500).send({ message: 'Internal server error' });
-        }
     }
 ));
 
