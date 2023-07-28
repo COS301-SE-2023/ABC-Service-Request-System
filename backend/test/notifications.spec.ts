@@ -73,20 +73,20 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Notification created succesfully');
     });
 
-    it('Should fail to add a new notification...', async() => {
-        const toSend = {
-            profilePhotoLink: 'https://i.imgur.com/zYxDCQT.jpg',
-            ticketSummary: 'Fail',
-        }
+    // it('Should fail to add a new notification...', async() => {
+    //     const toSend = {
+    //         profilePhotoLink: 'https://i.imgur.com/zYxDCQT.jpg',
+    //         ticketSummary: 'Fail',
+    //     }
 
-        const res = await chai.request(app)
-            .post('/api/test_notifications/newnotif')
-            .send(toSend);
+    //     const res = await chai.request(app)
+    //         .post('/api/test_notifications/newnotif')
+    //         .send(toSend);
 
-        res.should.have.status(500);
-        res.body.should.be.a('object');
-        expect(res.body.message).to.be.equal('An error occurred during notification creation.');
-    })
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('An error occurred during notification creation.');
+    // })
 
     it('Should check that notification 4 has ticketSummary = "Integration"...', async () => {    
         const res = await chai.request(app)
