@@ -34,6 +34,8 @@ describe('/User test collection', () => {
   let userGithub = '';
   let userLinkedin = '';
 
+  let groupIds = [];
+
   it('should verify that we have no users in the DB...', async () => {
     const res = await chai.request(app)
         .get('/api/test_user');
@@ -340,6 +342,8 @@ describe('/User test collection', () => {
     // Save the new Linkedin for future use
     userLinkedin = newLinkedin;
   });
+  
+
 
   it('should not update Linkedin for non-existent user', async () => {
     const newLinkedin = 'newLinkedinProfile';
@@ -351,6 +355,26 @@ describe('/User test collection', () => {
     expect(res.body).to.be.a('object');
     expect(res.body).to.have.property('message').eql('User not found');
   });
+
+  it('should get a user by id...', async () => {
+    const res = await chai.request(app)
+        .get(`/api/test_user/id?id=${userId}`);
+    
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    expect(res.body.id).to.eql(userId);
+  });
+  
+  
+  
+  it('should return 404 when user id is not found...', async () => {
+    const res = await chai.request(app)
+        .get('/api/test_user/id?id=notAnExistingId');
+    
+    res.should.have.status(404);
+    res.text.should.be.eql('Id not found');
+  });
+  
 
   it('should return a user by email', async () => {
     const res = await chai.request(app)
@@ -379,6 +403,70 @@ describe('/User test collection', () => {
 
     expect(res).to.have.status(404);
   });
+
+  // it('should add group to user if user exists', async () => {
+  //   const groupId = 'validGroupId';
+  
+  //   const res = await chai.request(app)
+  //     .post(`/api/test_user/${userId}/add-group`)
+  //     .send({ groupId });
+  
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.a('object');
+  //   expect(res.body.groups).to.include(groupId);
+  // });
+
+  // it('should return 404 if user does not exist', async () => {
+  //   const invalidUserId = 'invalidUserId';
+  //   const groupId = 'validGroupId';
+  
+  //   const res = await chai.request(app)
+  //     .post(`/api/test_user/${invalidUserId}/add-group`)
+  //     .send({ groupId });
+  
+  //   expect(res).to.have.status(500);
+  //   expect(res.body).to.have.property('message').eql('User Not Found');
+  // });
+
+  // it('should add group to a user ', async () => {
+  //   const groupId = 'validGroupId';
+  
+  //   const res = await chai.request(app)
+  //     .post(`/api/test_user/add-group-to-users`)
+  //     .send({ groupId });
+  
+  //   expect(res).to.have.status(201);
+  //   expect(res.body).to.equal("An error occurred while adding the group to the users");
+  // });
+
+  it('should return user data for valid email', async () => {
+    // Assuming you have a valid userEmail that exists in the database
+    const userEmail = 'john@example.com';
+  
+    const res = await chai.request(app)
+      .get(`/api/test_user/email/${encodeURIComponent(userEmail)}`);
+  
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property('emailAddress').equal(userEmail);
+  });
+  
+  it('should return 404 for non-existent email', async () => {
+    // Assuming you have an invalid userEmail that does not exist in the database
+    const userEmail = 'non_existent_user@example.com';
+  
+    const res = await chai.request(app)
+      .get(`/api/test_user/email/${encodeURIComponent(userEmail)}`);
+  
+    expect(res).to.have.status(404);
+    expect(res.body).to.have.property('message').equal('User not found');
+  });
+
+  
+  
+  
+  
+  
+  
 
   // it('should update a user Github link', async () => {
   //   const newGithubLink = 'https://github.com/new-link';
@@ -420,5 +508,7 @@ describe('/User test collection', () => {
       expect(res).to.have.status(404);
   });
 
+
+  
   
 });
