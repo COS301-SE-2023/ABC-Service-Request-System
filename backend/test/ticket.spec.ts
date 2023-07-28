@@ -5,6 +5,9 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 
+const fs = require('fs');
+const path = require('path');
+
 import { TestTicketModel } from "../src/test_routers/testTicket.model";
 
 chai.use(chaiHttp);
@@ -28,8 +31,8 @@ after(async () => {
 //             .get('/api/test_ticket/delete');
         
 //         res.should.have.status(200);
-//         res.body.should.be.a('array');
-//         res.body.should.have.lengthOf(0);
+//         res.body.should.be.a('object');
+//         expect(res.body.message).to.be.equal('Delete is done!');
 //     }
 // }
 
@@ -50,7 +53,7 @@ describe('/Ticket test collection', () => {
     it('should verify that we have no tickets in the DB...', async () => {
         const res = await chai.request(app)
             .get('/api/test_ticket');
-        
+
         res.should.have.status(200);
         res.body.should.be.a('array');
         res.body.should.have.lengthOf(0);
@@ -65,14 +68,14 @@ describe('/Ticket test collection', () => {
         res.body.should.have.lengthOf(3);
     });
 
-    // it('should not seed an already seeded database...', async () => {
-    //     const res = await chai.request(app)
-    //         .post('/api/test_ticket/seed');
-        
-    //     res.should.have.status(400);
-    //     // res.body.should.be.a('object');
-    //     // expect(res.body.message).to.be.equal('Seed is already done');
-    // });
+    it('should not seed an already seeded database...', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_ticket/seed');
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Seed is already done');
+    });
+
 
     it('should check that comments for user 1 is empty at first...', async () => {
         let userId = '1';
@@ -129,13 +132,10 @@ describe('/Ticket test collection', () => {
         const res = await chai.request(app)
             .get('/api/test_ticket/id')
             .query({ id: userId});
-
         res.should.have.status(404);
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Id not found');
     });
-})
-describe('/Ticket Status and Comment APIs', () => {
 
     it('should update the status of a ticket...', async () => {
         const toSend = {
@@ -204,12 +204,7 @@ describe('/Ticket Status and Comment APIs', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Ticket not found');
     });
-});
 
-const fs = require('fs');
-const path = require('path');
-
-describe('/Upload File API', () => {
     it('should fail when no file is attached', async () => {
         const res = await chai.request(app)
             .post('/api/test_ticket/upload');
@@ -218,16 +213,31 @@ describe('/Upload File API', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('No file uploaded');
     });
-});
 
-// describe('/Deleting database'), () => {
-//     it('should delete the database...'), async() => {
-//         const res = await chai.request(app)
-//             .get('/api/test_ticket/delete');
+    it('should fail when a wrong format file is attached', async () => {
+        const filePath = process.env.GITHUB_ACTIONS
+            ? path.join(process.cwd(), 'test.png') // GitHub environment
+            : path.join(__dirname, 'test.png');    // Local environment
+        const file = 'file';
+
+        const res = await chai.request(app)
+            .post('/api/test_ticket/upload')
+            .attach(file, filePath);
+
+        res.should.have.status(500);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('File upload error');
+    });
+
+    it('should delete the database...', async() => {
+        const res = await chai.request(app)
+            .get('/api/test_ticket/delete');
         
-//         res.should.have.status(200);
-//         // res.body.should.be.a('array');
-//         // res.body.should.have.lengthOf(0);
-//     }
-// }
+        res.should.have.status(200);
+        // res.body.should.be.a('array');
+        // res.body.should.have.lengthOf(0);
+            res.body.should.be.a('object');
+            expect(res.body.message).to.be.equal('Delete is done!');
+    });
+})
 

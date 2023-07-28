@@ -23,7 +23,7 @@ after(async() => {
     server.close();
 });
 
-describe('/Notification test collection', () => {
+describe('/First test collection', () => {
     it('Should verify that we have no notifications in the DB...', async () => {
         const res = await chai.request(app)
             .get('/api/test_notifications');
@@ -73,6 +73,21 @@ describe('/Notification test collection', () => {
         expect(res.body.message).to.be.equal('Notification created succesfully');
     });
 
+    it('Should fail to add a new notification...', async() => {
+        const toSend = {
+            profilePhotoLink: 'https://i.imgur.com/zYxDCQT.jpg',
+            ticketSummary: 'Fail',
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_notifications/newnotif')
+            .send(toSend);
+
+        res.should.have.status(500);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('An error occurred during notification creation.');
+    })
+
     it('Should check that notification 4 has ticketSummary = "Integration"...', async () => {    
         const res = await chai.request(app)
             .get('/api/test_notifications');
@@ -114,6 +129,18 @@ describe('/Notification test collection', () => {
         res.body.should.be.a('object');
         expect(res.body.message).to.be.equal('Notification not found');
     });
+
+    // it('Should fail in updating notification with the wrong information...', async() => {
+    //     const toSend = {}
+
+    //     const res = await chai.request(app)
+    //         .put('/api/test_notifications/changeToRead')
+    //         .send(toSend);
+
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('Internal server error');
+    // });
 
     it('Should make notification 3 readStatus = "Unread"...', async () => {
 

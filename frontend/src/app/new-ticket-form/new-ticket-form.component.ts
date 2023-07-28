@@ -169,8 +169,6 @@ export class NewTicketFormComponent implements OnInit {
       const description = trimmedDescription;
       // const description = ticketFormValues.description;
       const project = ticketFormValues.project;
-      const assigneeFullName = this.assignee.name + " " + this.assignee.surname;
-      const assignedFullName = this.assignedUser.name + " " + this.assignedUser.surname;
 
 
       console.log("todoArray.length: ", this.todoArray.length);
@@ -187,7 +185,7 @@ export class NewTicketFormComponent implements OnInit {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked, assigneeFullName, assignedFullName).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
         console.log(response);
 
@@ -247,9 +245,7 @@ export class NewTicketFormComponent implements OnInit {
         createdAt: new Date(),
         project: project,
         todo: this.todoArray,
-        todoChecked: this.todoChecked,
-        assigneeFullName: assigneeFullName,
-        assignedFullName: assignedFullName
+        todoChecked: this.todoChecked
       };
 
       this.newTicketEvent.emit(newTicket);
