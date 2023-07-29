@@ -22,7 +22,7 @@ after(async () => {
     server.close();
 });
 
-describe ('/First test collection',() => {
+describe ('/Group test collection',() => {
     it('should test welcome route...', async () => {
         const res = await chai.request(app)
             .get('/api/welcome');

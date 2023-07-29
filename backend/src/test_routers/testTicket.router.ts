@@ -246,6 +246,7 @@ router.put('/comment', expressAsyncHandler(
   router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
     const ticketId = req.body.ticketId;
     const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
+    
     try{
       const ticket = await TestTicketModel.findOne({ id: ticketId });
 
@@ -255,7 +256,7 @@ router.put('/comment', expressAsyncHandler(
           ticket.timeToFirstResponse = commentTime;
           res.status(200).send({message:"Time to first response added"});
           await ticket.save();
-          // res.status(200).send({message:"Time to first response added"});
+          return;
         } else if(ticket.timeToFirstResponse) {
           res.status(200).send({message:"First response time already recorded"});
         }
@@ -273,13 +274,12 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
 
   try {
     const ticket = await TestTicketModel.findOne({ id: ticketId });
-    
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
-      res.status(200).send({message: "Ticket todo checked updated"});
       await ticket.save();
-      // res.status(200).send({message: "Ticket todo checked updated"});
+      res.status(200).send({message: "Ticket todo checked updated"});
+      return;
     }
     else {
       res.status(404).send({message:"Ticket not found"});
