@@ -1,12 +1,9 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { sample_groups } from "../../groups/src/utils/sampleGroups";
-import mongoose, { Types } from "mongoose";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { testGroupModel } from "./testGroup.model";
-import { UserModel, user } from "../../users/src/models/user.model";
-import { TestUserModel } from "./testUser.model";
 
 const router = Router();
 
@@ -28,20 +25,20 @@ const upload = multer({ storage });
   });
 
 
-  router.get('/', expressAsyncHandler(
+  router.get('/', expressAsyncHandler( //done
       async (req, res) => {
           const groups = await testGroupModel.find();
           res.status(200).send(groups);
       }
   ));
 
-  router.get('/seed', expressAsyncHandler(
+  router.get('/seed', expressAsyncHandler( //done
       async (req, res) => {
           const groupsCount = await testGroupModel.countDocuments();
-          if(groupsCount > 0){
-              res.status(400).send("Seed is already done");
-              return;
-          }
+          // if(groupsCount > 0){
+          //     res.status(400).send("Seed is already done");
+          //     return;
+          // }
 
           testGroupModel.create(sample_groups)
               .then(data => {res.status(201).send(data)})
@@ -50,46 +47,36 @@ const upload = multer({ storage });
       }
   ));
 
-  router.post('/add', expressAsyncHandler(
+  router.post('/add', expressAsyncHandler( //dpne
     async (req, res) => {
-    //   console.log('in add  router');
-
-      const groupCount = await testGroupModel.countDocuments();
+      console.log('in add  router');
+  
+      const maxGroup = await testGroupModel.find().sort({ id: -1 }).limit(1);
+      let maxId = 0;
+      if (maxGroup.length > 0) {
+        maxId = Number(maxGroup[0].id);
+      }
+  
       console.log(req.body.people);
       const group = new testGroupModel({
-        id: String(groupCount+1),
+        id: String(maxId + 1),
         backgroundPhoto: req.body.backgroundPhoto,
         groupName: req.body.groupName,
         people: req.body.people
-
       });
-
-    //   console.log(group);
-
+  
+      console.log(group);
+  
       try {
-        const createdGroup = await testGroupModel.create(group); 
-        const users = createdGroup.people;
-        // console.log(users);
-        if (users) {
-          for (let user of users) { 
-            const userFromDb = await UserModel.findById(user);
-            // console.log('userfromdb: ' + userFromDb);
-            if (userFromDb) {
-              userFromDb.groups.push(createdGroup.id); 
-              await userFromDb.save(); 
-            }
-          }
-        }
-
-        res.status(201).send(createdGroup); 
+        const createdGroup = await testGroupModel.create(group);
+        res.status(201).send(createdGroup);
       }
       catch (error) {
-          console.log(error);
-          res.status(500).send("An error occurred during group creation");
+        console.log(error);
+        res.status(500).send("An error occurred during group creation");
       }
-    }  
+  }  
   ));
-
   router.delete("/:groupId/user/:userId", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
@@ -134,7 +121,7 @@ const upload = multer({ storage });
   }));
   
   
-  router.delete("/:groupId/delete", expressAsyncHandler(async (req, res) => {
+  router.delete("/:groupId/delete",  expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
   
     const group = await testGroupModel.findOne({ id: groupId });
@@ -147,6 +134,7 @@ const upload = multer({ storage });
     console.log('group deleted');
     res.status(200).send({ message: "Group deleted successfully" });
   }));
+
 
   router.put('/add-people', expressAsyncHandler(async(req,res)=>{
     try {

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/test_routers/testClient.model.ts</title>
+    <title>Code coverage report for src/test_routers/testUser.model.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/test_routers</a> testClient.model.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/test_routers</a> testUser.model.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -116,22 +116,11 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,13 +146,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,55 +170,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Schema, connection } from "mongoose"
-import { ticket, ticketSchema } from "./testTicket.model"
-import { group, groupSchema } from "./testGroup.model"
 &nbsp;
-export interface project {
-    id: string,
-    _id?: string,
-    name: string,
-    logo: string,
-    color: string,
-    // tickets?: ticket [],
-    assignedGroups?: group [],
+&nbsp;
+type Role = "Manager" | "Functional" | "Technical" | "Admin";
+let roles: Role[] = ["Manager", "Functional", "Technical", "Admin"];
+&nbsp;
+&nbsp;
+export interface user{
+    groupId: any;
+    id: string
+    name: string
+    surname: string
+    profilePhoto: string
+    headerPhoto: string
+    emailAddress: string
+    emailVerified: boolean
+    password: string
+    roles: Role []
+    groups: string []
+    inviteToken?: string
+    bio:string
+    github:string
+    linkedin:string
 }
 &nbsp;
-export interface client {
-    id: string,
-    name: string,
-    surname: string,
-    organisation: string,
-    email: string,
-    emailVerified: boolean,
-    password: string,
-    industry: string,
-    inviteToken?: string,
-    projects: project []
-}
-&nbsp;
-export const projectSchema = new Schema&lt;project&gt;(
+export const userSchema = new Schema&lt;user&gt;(
     {
-        id: { type: String, required: true},
-        name: { type: String, required: true},
-        logo: { type: String, required: true},
-        color: { type: String, required: true},
-        // tickets: { type: [ticketSchema], required: false},
-        assignedGroups: { type: [groupSchema], required: false},
-    }
-)
-&nbsp;
-const clientSchema = new Schema&lt;client&gt;(
-    {
-        id: { type: String, required: true},
-        name: { type: String, required: true},
-        surname: { type: String, required: true},
-        organisation: { type: String, required: true},
-        email: { type: String, required: true},
+        id: {type: String, required: true},
+        name: {type: String, required: true},
+        surname:{type: String, required: true},
+        profilePhoto:{type: String, required: false},
+        headerPhoto:{type: String, required: false},
+        emailAddress: {type: String, unique: true, required: true},
         emailVerified: {type: Boolean, required: true, default: false},
         password: {type: String, required: true, select: true},
-        industry: { type: String, required: true},
+        roles: {type: [String], required: true, enum: roles},
+        groups: {type: [String], required: false, default:[]},
         inviteToken: { type: String }, // Add inviteToken field
-        projects: { type: [projectSchema], required: true},
+        bio: {type: String, required:false},
+        github: {type: String, required:false},
+        linkedin: {type:String, required: false},
     },{
         toJSON: {
             virtuals: true
@@ -246,10 +219,10 @@ const clientSchema = new Schema&lt;client&gt;(
         },
         timestamps: true
     }
-)
+);
 &nbsp;
-const clientDb = connection.useDb("test");
-export const TestClientModel = clientDb.model("clients", clientSchema);</pre></td></tr></table></pre>
+const userDb = connection.useDb("test");
+export const TestUserModel = userDb.model("user", userSchema);</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
