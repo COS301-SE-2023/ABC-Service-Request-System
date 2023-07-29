@@ -512,3 +512,463 @@
   
   
 // });
+
+import "mocha"
+import mongoose from 'mongoose';
+import chai from "chai";
+import chaiHttp from "chai-http";
+import app from "../src/server";
+import { server } from "../src/server";
+import sinon from 'sinon';
+
+import { TestUserModel } from "../src/test_routers/testUser.model";
+
+chai.use(chaiHttp);
+chai.should();
+const expect = chai.expect;
+
+//DELETE THE CONTENTS OF THE DATABASE BEFORE THE TEST (Remember, we are using a test DB, so this is OK) 
+before(async () => {
+    await TestUserModel.deleteMany({});
+});
+
+after(async () => {
+    // await TicketModel.deleteMany({});
+    await mongoose.connection.close();
+    server.close();
+});
+
+describe('/User test collection', () => {
+    it('should verify that we have no users in the DB...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(0);
+    });
+
+    it('should post admin data...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/seed');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Seed is done!');
+    });
+
+    it('should not reseed admin data...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/seed');
+        
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Seed is already done');
+    });
+
+    let johnsInviteToken = '';
+
+    it('should create a user...', async () => {
+        const toSend = {
+            email: "Johndoe@gmail.com",
+            manager: true,
+            name: 'John',
+            surname: "Doe",
+            groups: [],
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/create_user')
+            .send(toSend);
+        
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User created successfully');
+        expect(res.body).to.have.property('inviteToken');
+        res.body.inviteToken.should.be.a('string');
+
+        johnsInviteToken = res.body.inviteToken;
+    });
+
+    it('should not create a user with a duplicate email...', async () => {
+        const toSend = {
+            email: "Johndoe@gmail.com",
+            manager: true,
+            name: 'John',
+            surname: "Doe",
+            groups: [],
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/create_user')
+            .send(toSend);
+        
+        res.should.have.status(409);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User with this email already exists.');
+    });
+
+    it('should activate new users account...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/activate_account')
+            .query({token: johnsInviteToken});
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('valid token');
+    });
+
+    it('should not activate new users account with invalid token...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/activate_account')
+            .query({token: 'jjjjj'});
+        
+        res.should.have.status(409);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Invalid token.');
+    });
+
+    it('should activate the users account with their new password...', async () => {
+        const toSend = {
+            inviteToken: johnsInviteToken,
+            password: 'NewPassword'
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/activate_account')
+            .send(toSend);
+        
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Account activated successfully');
+    });
+
+    it('should not activate the users account with their new password if valid invite token...', async () => {
+        const toSend = {
+            inviteToken: johnsInviteToken,
+            password: 'NewPassword'
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/activate_account')
+            .send(toSend);
+        
+        res.should.have.status(409);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Invalid token.');
+    });
+
+    let sarahsInviteToken = '';
+    let sarahsObjectId : any;
+
+    it('should create a user sarah...', async () => {
+        const toSend = {
+            email: "sarahconner@gmail.com",
+            manager: true,
+            name: 'John',
+            surname: "Doe",
+            groups: [],
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/create_user')
+            .send(toSend);
+        
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User created successfully');
+        expect(res.body).to.have.property('inviteToken');
+        res.body.inviteToken.should.be.a('string');
+
+        sarahsInviteToken = res.body.inviteToken;
+        sarahsObjectId = res.body.user._id;
+    });
+
+    it('should get user by their token...', async () => {
+        const toSend = {
+            token: sarahsInviteToken,
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/get_user_by_token')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('email');
+        res.body.email.should.be.a('string');
+        expect(res.body.email).to.be.equal('sarahconner@gmail.com');
+    });
+
+    it('should not get user by an invalid token...', async () => {
+        const toSend = {
+            token: 'hahahaha',
+        }
+
+        const res = await chai.request(app)
+            .post('/api/test_user/get_user_by_token')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('error');
+        res.body.error.should.be.a('string');
+        expect(res.body.error).to.be.equal('User not found');
+    });
+
+    it('should update a user name...', async () => {
+        const toSend = {
+            name: 'Sam',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_name')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User name updated successfuly');
+    });
+
+    it('should not update a user name for invalid email...', async () => {
+        const toSend = {
+            name: 'Sam',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_name')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should update a users password...', async () => {
+        const toSend = {
+            password: 'NewNewPassword',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_password')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User password updated successfuly');
+    });
+
+
+    it('should not update a users password for an invalid email...', async () => {
+        const toSend = {
+            password: 'NewNewPassword',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_password')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should update a users location...', async () => {
+        const toSend = {
+            location: 'Johannesburg',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_location')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User location updated successfully');
+    });
+
+    it('should not update a users location for an invalid email...', async () => {
+        const toSend = {
+            location: 'Johannesburg',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_location')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should update a users github...', async () => {
+        const toSend = {
+            github: 'https://github.com',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_github')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User Github updated successfully');
+    });
+
+    it('should not update a users github for an invalid email...', async () => {
+        const toSend = {
+            github: 'https://github.com',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_github')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should update a users linkedIn...', async () => {
+        const toSend = {
+            linkedin: 'https://linkedIn.com',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_linkedin')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User Linkedin updated successfully');
+    });
+
+    it('should not update a users linkedIn for an invalid email...', async () => {
+        const toSend = {
+            linkedin: 'https://linkedIn.com',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_linkedin')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should GET a user by their ID...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/id')
+            .query({id: 2});
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('emailAddress');
+        res.body.emailAddress.should.be.a('string');
+        expect(res.body.emailAddress).to.be.equal('Johndoe@gmail.com');
+    });
+
+    it('should not GET a user by an invalid ID...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/id')
+            .query({id: 5});
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Id not found');
+    });
+
+    it('should GET a user by their email...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/email')
+            .query({email: 'sarahconner@gmail.com'});
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('name');
+        res.body.name.should.be.a('string');
+        expect(res.body.name).to.be.equal('Sam');
+    });
+
+    it('should not GET a user by an invalid email...', async () => {
+        const res = await chai.request(app)
+            .get('/api/test_user/email')
+            .query({email: 'invalidemail.example.com'});
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('Id not found');
+    });
+
+    it('should add group to user if user exists', async () => {
+        const toSend = {
+            groupId: '1'
+        }
+    
+        const res = await chai.request(app)
+            .post(`/api/test_user/${sarahsObjectId}/add-group`)
+            .send(toSend);
+    
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('groups');
+        res.body.groups.should.be.a('array');
+        res.body.groups.should.have.lengthOf(1);
+        res.body.groups[0].should.be.a('string');
+        expect(res.body.groups[0]).to.be.equal('1');
+    });
+
+});

@@ -166,7 +166,7 @@ router.post("/create_user", expressAsyncHandler(
 
             if (existingUser) {
                 // console.log("User with this email already exists");
-                res.status(409).send("User with this email already exists.");
+                res.status(409).send({message: "User with this email already exists."});
                 return;
             }
 
@@ -323,28 +323,21 @@ router.post("/create_user", expressAsyncHandler(
 ///create a router.get to display the component that is suppose to get the new password from the user
 router.get('/activate_account', expressAsyncHandler(
     async (req, res) => {
-        try{
-            // console.log('Account activation request received:', req.query.token);
-  
-            const inviteToken = req.query.token;
-    
-            const user = await TestUserModel.findOne({ inviteToken });
-            
-            // console.log("When in here");
+        // console.log('Account activation request received:', req.query.token);
 
-            if (!user) {
-                // console.log('Invalid token');
-                res.status(409).send('Invalid token.');
-                return;
-            }else{
-                res.redirect(`http://localhost:4200/activate_account/${inviteToken}`);
-                // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
-            }
-            
+        const inviteToken = req.query.token;
 
-            
-        }catch(error){
-            // console.log(error);
+        const user = await TestUserModel.findOne({ inviteToken });
+        
+        // console.log("When in here");
+
+        if (!user) {
+            // console.log('Invalid token');
+            res.status(409).send({message: 'Invalid token.'});
+            return;
+        }else{
+            res.status(200).send({message: 'valid token'});
+            // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
         }
 
     }
@@ -354,8 +347,6 @@ router.get('/activate_account', expressAsyncHandler(
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
 router.post('/activate_account' , expressAsyncHandler(
     async (req, res) => {
-      try {
-        // console.log('Account activation request received:', req.body);
   
         const { inviteToken, password } = req.body;
   
@@ -365,7 +356,7 @@ router.post('/activate_account' , expressAsyncHandler(
   
         if (!user) {
         //   console.log('Invalid token');
-          res.status(409).send('Invalid token.');
+          res.status(409).send({message: 'Invalid token.'});
           return;
         }
   
@@ -387,11 +378,7 @@ router.post('/activate_account' , expressAsyncHandler(
   
         // console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });
-      } catch (error) {
-        // console.error('Account activation error:', error);
-        res.status(500).send('An error occurred during account activation.');
-      }
-    //   console.log(req.body);
+      
     })
   );
 
@@ -399,107 +386,85 @@ router.post('/activate_account' , expressAsyncHandler(
 //UPDATE USER NAME - WORKING
 
 router.post('/get_user_by_token', async (req, res) => {
-try {
     const { token } = req.body;
 
     const user = await TestUserModel.findOne({ inviteToken: token });
-    if (!user) {
-    return res.status(404).json({ error: 'User not found' });
-    }
 
-    res.status(200).json({ email: user.emailAddress });
-} catch (error) {
-    // console.error('Error retrieving user by token:', error);
-    res.status(500).json({ error: 'An error occurred while retrieving user by token' });
-}
+    if (!user) {
+        res.status(404).send({ error: 'User not found' });
+    } else {
+        res.status(200).send({ email: user.emailAddress });
+    }
 });
 
 router.put('/update_user_name' ,expressAsyncHandler(
     async (req, res) => {
-        try{
-            const { name, email } = req.body;
-            // console.log("email: " + email);
-            // console.log("name: " + name);
+        const { name, email } = req.body;
+        // console.log("email: " + email);
+        // console.log("name: " + name);
 
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    name: name
-                  }
-                },
-                { new: true }
-            );
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                name: name
+                }
+            },
+            { new: true }
+        );
 
-            // console.log("user: ", user);
-        
-            if (user) {
-                res.status(200).json({ message: 'User name updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        // console.log("user: ", user);
+    
+        if (user) {
+            res.status(200).json({ message: 'User name updated successfuly' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ))
 //UPDATE USER PASSWORD - WORKING
 router.put('/update_user_password', expressAsyncHandler(
     async (req, res) => {
-        try{
-            const { password, email } = req.body;
-            // console.log("email: " + email);
+        const { password, email } = req.body;
+        // console.log("email: " + email);
 
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    password: password,
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User password updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                password: password,
+                }
+            },
+            { new: true }
+        );
+    
+        if (user) {
+            res.status(200).json({ message: 'User password updated successfuly' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ))
 //UPDATE USER Location - WORKING
 router.put('/update_user_location', expressAsyncHandler(
     async (req, res,next) => {
-        try{
-            const { location, email } = req.body;
-            // console.log("email: " + email);
+        const { location, email } = req.body;
+        // console.log("email: " + email);
 
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    location: location
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User location updated successfully' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                location: location
+                }
+            },
+            { new: true }
+        );
+    
+        if (user) {
+            res.status(200).json({ message: 'User location updated successfully' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ))
@@ -507,29 +472,23 @@ router.put('/update_user_location', expressAsyncHandler(
 //UPDATE USER GITHUB - 
 router.put('/update_user_github',expressAsyncHandler(
     async (req, res,next) => {
-        try{
-            const { github, email } = req.body;
-            // console.log("email: " + email);
+        const { github, email } = req.body;
+        // console.log("email: " + email);
 
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    github: github
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User Github updated successfully' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                github: github
+                }
+            },
+            { new: true }
+        );
+    
+        if (user) {
+            res.status(200).json({ message: 'User Github updated successfully' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ))
@@ -537,29 +496,23 @@ router.put('/update_user_github',expressAsyncHandler(
 //UPDATE USER GITHUB - 
 router.put('/update_user_linkedin', expressAsyncHandler(
     async (req, res,next) => {
-        try{
-            const { linkedin, email } = req.body;
-            // console.log("email: " + email);
+        const { linkedin, email } = req.body;
+        // console.log("email: " + email);
 
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    linkedin: linkedin
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User Linkedin updated successfully' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                linkedin: linkedin
+                }
+            },
+            { new: true }
+        );
+    
+        if (user) {
+            res.status(200).json({ message: 'User Linkedin updated successfully' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ))
@@ -567,19 +520,11 @@ router.put('/update_user_linkedin', expressAsyncHandler(
 //GET USER
 router.get('/id', expressAsyncHandler(
     async (req, res) => {
-        // const id = String(req.query.id);
-        // if (!mongoose.Types.ObjectId.isValid(id)) {
-        //     res.status(400).send('Invalid ObjectId');
-        //     return;
-        // }
-
-        // const objectId = new mongoose.Types.ObjectId(id);
-
         const user = await TestUserModel.findOne({ id: req.query.id });
         if(user){
             res.status(200).send(user);
         }else{
-            res.status(404).send("Id not found");
+            res.status(404).send({message: "Id not found"});
         }
     }
 ));
@@ -592,7 +537,7 @@ router.get('/email', expressAsyncHandler(
         if(user){
             res.status(200).send(user);
         }else{
-            res.status(404).send("Id not found");
+            res.status(404).send({message: "Id not found"});
         }
     }
 ));
@@ -604,7 +549,7 @@ router.post('/:id/add-group', expressAsyncHandler(
         if (user) {
             user.groups.push(groupId);
             const updatedUser = await user.save();
-            res.send(updatedUser);
+            res.status(200).send(updatedUser);
         } else {
             res.status(404).send({ message: 'User Not Found' });
         }
