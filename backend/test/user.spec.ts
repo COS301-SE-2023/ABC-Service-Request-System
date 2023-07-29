@@ -523,6 +523,8 @@ import sinon from 'sinon';
 
 import { TestUserModel } from "../src/test_routers/testUser.model";
 
+const fs = require('fs');
+
 chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
@@ -971,4 +973,144 @@ describe('/User test collection', () => {
         expect(res.body.groups[0]).to.be.equal('1');
     });
 
+    it('should not add group to user if user id is invalid', async () => {
+        const toSend = {
+            groupId: '1'
+        }
+
+        let invalidObjectId = new mongoose.Types.ObjectId(1);
+        
+        const res = await chai.request(app)
+            .post(`/api/test_user/${invalidObjectId}/add-group`)
+            .send(toSend);
+    
+        expect(res).to.have.status(404);
+    });
+
+    it('should GET a user by their encoded email...', async () => {
+        let userEmail = 'sarahconner@gmail.com';
+
+        const res = await chai.request(app)
+            .get(`/api/test_user/email/${userEmail}`);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('name');
+        res.body.name.should.be.a('string');
+        expect(res.body.name).to.be.equal('Sam');
+    });
+
+    it('should not GET a user by an invalid encoded email...', async () => {
+        let userEmail = 'invalidemail@example.com';
+
+        const res = await chai.request(app)
+            .get(`/api/test_user/email/${userEmail}`);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should GET a user by their encoded object id...', async () => {
+        let id = sarahsObjectId;
+
+        const res = await chai.request(app)
+            .get(`/api/test_user/${id}`);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('emailAddress');
+        res.body.emailAddress.should.be.a('string');
+        expect(res.body.emailAddress).to.be.equal('sarahconner@gmail.com');
+    });
+
+    it('should not GET a user by an encoded object id...', async () => {
+        let id = new mongoose.Types.ObjectId(1);
+
+        const res = await chai.request(app)
+            .get(`/api/test_user/${id}`);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+    });
+
+    it('should update a users background photo...', async () => {
+        let email = 'sarahconner@gmail.com'
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_background_picture')
+            .field('email', email)
+            .attach('file', fs.readFileSync('./src/test_routers/test.png'), 'test.png');
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User background photo updated successfuly');
+    });
+
+    it('should not update a users background photo if no image has been uploaded...', async () => {
+        let email = 'sarahconner@gmail.com'
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_background_picture')
+            .field('email', email);
+        
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('No file uploaded');
+    });
+
+    it('should not update a users background photo if email is invalid...', async () => {
+        let email = 'invalidemail@example.com'
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_background_picture')
+            .field('email', email)
+            .attach('file', fs.readFileSync('./src/test_routers/test.png'), 'test.png');
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
+
+    it('should update a users bio...', async () => {
+        const toSend = {
+            bio: 'New bio',
+            email: 'sarahconner@gmail.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_bio')
+            .send(toSend);
+        
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User bio updated successfuly');
+    });
+
+    it('should not update a users bio for an invalid email...', async () => {
+        const toSend = {
+            bio: 'New bio',
+            email: 'invalidemail@example.com'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_user/update_user_bio')
+            .send(toSend);
+        
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body).to.have.property('message');
+        res.body.message.should.be.a('string');
+        expect(res.body.message).to.be.equal('User not found');
+    });
 });

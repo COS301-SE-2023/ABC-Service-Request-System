@@ -22,12 +22,9 @@ router.get('/', expressAsyncHandler(
 
 router.post("/login", expressAsyncHandler(
     async (req, res) => {
-      try {
         const user = await TestUserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
   
-        if (user) {
-          const roles  = Object.values(user.roles);
-  
+        if (user) {  
           const validPassword = await bcrypt.compare(req.body.password, user.password);
   
           if (!validPassword) {
@@ -45,24 +42,6 @@ router.post("/login", expressAsyncHandler(
           let setRoles: string[] = [];
           setRoles = user.roles;
 
-
-          // let setRoles : string = "Default";
-
-
-          // for (let role of user.roles){
-          //   if(role == "Admin"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Manager"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Functional"){
-          //     setRoles = role;
-          //     break;
-          //   }else if(role == "Technical"){
-          //     setRoles = role;
-          //   }
-          // }
           const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
             expiresIn: 86400, // expires in 24 hours
           });
@@ -73,10 +52,6 @@ router.post("/login", expressAsyncHandler(
           // console.log("User not found");
           res.status(404).send({message: "No user found."});
         }
-      } catch (error) {
-        // console.error("Login error:", error);
-        res.status(500).send("An error occurred during login.");
-      }
     })
   );
 
@@ -101,15 +76,11 @@ router.get('/seed', expressAsyncHandler(
                 emailVerified: true,
                 password: hashedPassword,
                 roles: ["Admin"],
-                groups: ["group1", "group2"],
+                groups: [],
                 bio: "I am the admin",
-                backgroundPhoto:"https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                headerPhoto:"https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
                 linkedin: "https://www.linkedin.com",
-                facebook: "https://www.facebook.com",
                 github: "https://www.Github.com",
-                instagram: "https://www.instagram.com",
-                location: "Home"
-
             };
 
             const newUser = await TestUserModel.create(adminUser);
@@ -741,7 +712,7 @@ router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
       return;
     }
   
-    res.send(user);
+    res.status(200).send(user);
   }));
 
   
@@ -750,9 +721,9 @@ router.get('/:id', expressAsyncHandler(
     async (req, res) => {
         const user = await TestUserModel.findById(req.params.id);
         if (user) {
-            res.send(user);
+            res.status(200).send(user);
         } else {
-            res.status(404).send("User not found");
+            res.status(404).send({message: "User not found"});
         }
     }
 ));
@@ -760,30 +731,25 @@ router.get('/:id', expressAsyncHandler(
 //UPDATE USER BACKGROUND PICTURE -
 router.put('/update_background_picture',upload.single('file'),expressAsyncHandler(
     async (req,res)=> {
-        try{
-            if (!req.file) {
-                res.status(400).json({ message: 'No file uploaded' });
-                return;
-            }
-            const result = await cloudinary.uploader.upload(req.file.path);
-            const { email } = req.body;
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    backgroundPhoto: result.secure_url,
-                  }
-                },
-                { new: true }
-            );
-            if (user) {
-                res.status(200).json({ message: 'User background photo updated successfuly', url: result.secure_url });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        if (!req.file) {
+            res.status(400).json({ message: 'No file uploaded' });
+            return;
+        }
+
+        const { email } = req.body;
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                backgroundPhoto: req.file.path,
+                }
+            },
+            { new: true }
+        );
+        if (user) {
+            res.status(200).send({ message: 'User background photo updated successfuly', url: req.file.path });
+        } else {
+            res.status(404).send({ message: 'User not found' });
         }
     }
 ));
@@ -791,29 +757,22 @@ router.put('/update_background_picture',upload.single('file'),expressAsyncHandle
 //UPDATE USER BIO - WORKING
 router.put('/update_user_bio',expressAsyncHandler(
     async (req, res,next) => {
-        try{
-            const { bio, email } = req.body;
-            // console.log("email: " + email);
-            console.log("bio:"+bio);
-            const user = await TestUserModel.findOneAndUpdate(
-                { emailAddress: email },
-                {
-                  $set: {
-                    bio: bio
-                  }
-                },
-                { new: true }
-            );
-        
-            if (user) {
-                res.status(200).json({ message: 'User bio updated successfuly' });
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
+        const { bio, email } = req.body;
 
-        }catch(error){
-            // console.log(error);
-            res.status(500).send({ error: 'Internal server error' });
+        const user = await TestUserModel.findOneAndUpdate(
+            { emailAddress: email },
+            {
+                $set: {
+                bio: bio
+                }
+            },
+            { new: true }
+        );
+    
+        if (user) {
+            res.status(200).json({ message: 'User bio updated successfuly' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
         }
     }
 ));

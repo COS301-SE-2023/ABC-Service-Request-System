@@ -231,7 +231,7 @@ router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                 roles.push("Technical");
             }
 
-            if(req.body.Functional){
+            if(req.body.functional){
                 roles.push("Functional");
             }
 
@@ -247,8 +247,8 @@ router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                 profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
                 headerPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1689762139/htddlodqzbzytxmedebh.jpg',
                 emailAddress: req.body.email,
+                emailVerified: false,
                 inviteToken,
-                status: "pending",
                 roles: roles,
                 groups: req.body.selectedGroups,
                 password: "Admin",
@@ -344,23 +344,17 @@ router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                     </body>
                     </html>
                 `,
-                attachments: [
-                    {
-                        filename: 'luna-logo.png',
-                        path: 'assets/luna-logo.png',
-                        cid: 'logo'
-                    }
-                ]
+                // attachments: [
+                //     {
+                //         filename: 'luna-logo.png',
+                //         path: 'assets/luna-logo.png',
+                //         cid: 'logo'
+                //     }
+                // ]
             };
             
 
-            transporter.sendMail(mailOptions, function(error, info) {
-                if (error) {
-                    // console.log(error);
-                } else {
-                    // console.log("Email sent: " + info.response);
-                }
-            });
+            transporter.sendMail(mailOptions);
 
             // console.log("User created successfully");
             res.status(201).send({ message: 'User created successfully', inviteToken, user: newUser});
