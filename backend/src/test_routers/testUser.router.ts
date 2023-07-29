@@ -106,7 +106,7 @@ router.get('/seed', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TestUserModel.deleteMany({});
-        res.send("Delete is done!");
+        res.status(200).send({message: "Delete is done!"});
     }
 ));
 
@@ -531,7 +531,6 @@ router.post('/add-group-to-users', expressAsyncHandler(
   async (req, res) => {
     const groupId = req.body.groupId;
     const userIds = req.body.userIds;
-    console.log('in add-group-to-users, group id: ' + groupId);
 
     try {
       const users = await TestUserModel.updateMany(
@@ -572,7 +571,7 @@ router.delete('/:userId/group/:groupId', expressAsyncHandler(
                 res.status(404).send({ message: "Group not found in user's groups" });
             }
         } else {
-            res.status(404).send("User not found");
+            res.status(404).send({message: "User not found"});
         }
     }
 ))
@@ -580,27 +579,12 @@ router.delete('/:userId/group/:groupId', expressAsyncHandler(
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
-router.post('/upload', upload.single('file'), async (req, res) => {
-    try {
-      if (!req.file) {
-        res.status(400).json({ message: 'No file uploaded' });
-        return;
-      }
-      console.log('in upload router');
-      const result = await cloudinary.uploader.upload(req.file.path);
-      console.log("result is: ", result);
-      res.status(200).json({ url: result.secure_url });
-    } catch (error) {
-      res.status(500).json({ message: 'File upload error' });
-    }
-});
-
 router.put('/updateProfilePicture', async (req, res) => {
     try {
       const { userId, url } = req.body;
       const result = await TestUserModel.updateOne({ id: userId }, { profilePhoto: url });
   
-      if (!result) {
+      if (result.modifiedCount <= 0) {
         res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
       } else {
         res.status(200).json({ message: 'Profile picture updated successfully.' });
@@ -615,7 +599,7 @@ router.put('/updateProfilePicture', async (req, res) => {
       const { userId, url } = req.body;
       const result = await TestUserModel.updateOne({ id: userId }, { headerPhoto: url });
   
-      if (!result) {
+      if (result.modifiedCount <= 0) {
         res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
       } else {
         res.status(200).json({ message: 'Profile header updated successfully.' });
@@ -630,7 +614,7 @@ router.put('/updateProfilePicture', async (req, res) => {
       const { userId, bio } = req.body;
       const result = await TestUserModel.updateOne({ id: userId }, { bio: bio });
   
-      if (!result) {
+      if (result.modifiedCount <= 0) {
         res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
       } else {
         res.status(200).json({ message: 'Bio updated successfully.' });
@@ -645,7 +629,7 @@ router.put('/updateProfilePicture', async (req, res) => {
       const { userId, githubLink } = req.body;
       const result = await TestUserModel.updateOne({ id: userId }, { github: githubLink });
   
-      if (!result) {
+      if (result.modifiedCount <= 0) {
         res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
       } else {
         res.status(200).json({ message: 'Github link updated successfully.' });
@@ -660,7 +644,7 @@ router.put('/updateProfilePicture', async (req, res) => {
       const { userId, linkedinLink } = req.body;
       const result = await TestUserModel.updateOne({ id: userId }, { linkedin: linkedinLink });
   
-      if (!result) {
+      if (result.modifiedCount <= 0) {
         res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
       } else {
         res.status(200).json({ message: 'LinkedIn link updated successfully.' });
