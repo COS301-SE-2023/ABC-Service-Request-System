@@ -92,11 +92,10 @@ router.get('/project', expressAsyncHandler(
   async (req, res) => {
     try {
       const tickets = await TestTicketModel.find({ project: req.query.project});
-      console.log("TICKETS", tickets);
       if(tickets.length !=0 ){
         res.status(200).send(tickets);
       } else {
-        console.log('no tickets found');
+
         res.status(404).send({message:"No tickets for this project"});
       }
     } catch {
@@ -136,10 +135,6 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        // console.log("New ticket request received: ", req.body);
-        // console.log(res.getHeader('Authorization') + "Headers");
-        // for now, not checking on existing tickets
-
         const ticketCount = await TestTicketModel.countDocuments();
 
         const newTicket = new TestTicketModel({
@@ -158,16 +153,10 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             todo: req.body.todo,
             todoChecked: req.body.todoChecked
         });
-
-        console.log("new ticket: ", newTicket);
-
         await newTicket.save();
-
-        // console.log("New ticket created succesfully");
         res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
     }
     catch (error) {
-        // console.error("Ticket creation error:", error);
         res.status(500).send("An error occurred during ticket creation.");
     }
 }));
@@ -231,8 +220,6 @@ router.put('/comment', expressAsyncHandler(
       try {
         const ticketId = req.body.ticketId;
         const status = req.body.status;
-        // console.log('status is ' +  status);
-        // console.log('ticket id is ' + ticketId);
   
         const ticket = await TestTicketModel.findOneAndUpdate(
           { id: ticketId },
@@ -259,17 +246,17 @@ router.put('/comment', expressAsyncHandler(
   router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
     const ticketId = req.body.ticketId;
     const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
-  
     try{
       const ticket = await TestTicketModel.findOne({ id: ticketId });
+
       if(ticket){
         // check if timeToFirstResponse is not set yet
         if(!ticket.timeToFirstResponse){
-          // save the commentTime as the first response time
           ticket.timeToFirstResponse = commentTime;
-          await ticket.save();
           res.status(200).send({message:"Time to first response added"});
-        } else {
+          await ticket.save();
+          // res.status(200).send({message:"Time to first response added"});
+        } else if(ticket.timeToFirstResponse) {
           res.status(200).send({message:"First response time already recorded"});
         }
       }
@@ -290,15 +277,14 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
-
-      await ticket.save();
       res.status(200).send({message: "Ticket todo checked updated"});
+      await ticket.save();
+      // res.status(200).send({message: "Ticket todo checked updated"});
     }
     else {
-      res.status(404).send("Ticket not found");
+      res.status(404).send({message:"Ticket not found"});
     }
   } catch(error) {
-    console.log(ticketId, updatedTodoChecked, req, res);
     res.status(500).send("Internal server error");
   }
 }));
