@@ -23,8 +23,6 @@ after(async () => {
 });
 
 describe ('/First test collection',() => {
-
-
     it('should test welcome route...', async () => {
         const res = await chai.request(app)
             .get('/api/welcome');
@@ -80,6 +78,19 @@ describe ('/First test collection',() => {
         res.body.should.have.property('groupName').eql('Test Group');
       });
 
+      it('should not add a new group & report an internal server error...', async () => {
+        const res = await chai.request(app)
+          .post('/api/test_group/add')
+          .send({
+
+          });
+    
+        res.should.have.status(500);
+        // res.body.should.be.a('object');
+        // res.body.should.have.property('id');
+        // res.body.should.have.property('groupName').eql('Test Group');
+      });
+
     let createdGroupId = 1;
     let createdUserId = '6078fd71cd9e35a06b1b7f1b'; 
 
@@ -88,6 +99,14 @@ describe ('/First test collection',() => {
             .get(`/api/test_group/1/name`);
 
         res.should.have.status(200);
+        // res.body.should.hav('Group 1');
+    });
+    
+    it('should not get group name by ID that does not exist', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/999/name`);
+
+        res.should.have.status(404);
         // res.body.should.hav('Group 1');
     });
 
@@ -117,12 +136,55 @@ describe ('/First test collection',() => {
         res.body.message.should.equal('Ticket added to group');
     });
 
-    it('should remove user from group', async () => {
+    it('should not update group tickets of a group that does not exist...', async () => {
+        const payload = {
+            groupId: '999',
+            ticketId: 'Test Ticket Id'
+        };
+        const res = await chai.request(app)
+            .put('/api/test_group/update_tickets')
+            .send(payload);
+
+        res.should.have.status(404);
+        // res.body.message.should.equal('invalid group id');
+    });
+
+    // it('should report internal server error for update_tickets...', async () => {
+    //     const payload = {
+    //         test: '999',
+    //         test1: 'Test Ticket Id'
+    //     };
+    //     const res = await chai.request(app)
+    //         .put('/api/test_group/update_tickets')
+    //         .send(payload);
+
+    //     res.should.have.status(500);
+    //     // res.body.message.should.equal('Ticket added to group');
+    // });
+
+
+    it('should remove user from group...', async () => {
         const res = await chai.request(app)
             .delete(`/api/test_group/${createdGroupId}/user/${createdUserId}`);
 
         res.should.have.status(200);
         res.body.message.should.equal('User removed successfully');
+    });
+
+    it('should not remove user that is not from group...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/user/9999`);
+
+        res.should.have.status(404);
+        res.body.message.should.equal('User not found in the group');
+    });
+
+    it('should not remove user from group that does not exist...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/999/user/${createdUserId}`);
+
+        res.should.have.status(404);
+        // res.body.message.should.equal('Group not found');
     });
 
     it('should get group by ID', async () => {
@@ -133,6 +195,14 @@ describe ('/First test collection',() => {
         res.body.should.be.a('object');
     });
 
+    it('should not get group that does not exist by ID', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/999`);
+
+        res.should.have.status(404);
+        // res.body.should.be.a('object');
+    });
+
     it('should delete group', async () => {
         const res = await chai.request(app)
             .delete(`/api/test_group/${createdGroupId}/delete`);
@@ -140,6 +210,15 @@ describe ('/First test collection',() => {
         res.should.have.status(200);
         res.body.message.should.equal('Group deleted successfully');
     });
+
+    it('should not delete a group that does not exist...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/delete`);
+
+        res.should.have.status(404);
+        res.body.message.should.equal('Group not found');
+    });
+
 
     it('should check if a group name exists', async () => {
         const res = await chai.request(app)
