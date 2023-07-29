@@ -203,6 +203,14 @@ describe ('/First test collection',() => {
         // res.body.should.be.a('object');
     });
 
+    // it('should not get group that does not exist by objectID', async () => {
+    //     const res = await chai.request(app)
+    //         .get(`/api/test_group/groupId/999`);
+
+    //     res.should.have.status(404);
+    //     // res.body.should.be.a('object');
+    // });
+
     it('should delete group', async () => {
         const res = await chai.request(app)
             .delete(`/api/test_group/${createdGroupId}/delete`);
