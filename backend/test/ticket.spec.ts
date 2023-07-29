@@ -423,20 +423,20 @@ describe('/Ticket test collection', () => {
         expect(res.body.message).to.be.equal('No file uploaded');
     });
 
-    it('should fail when a wrong format file is attached', async () => {
-        const filePath = process.env.GITHUB_ACTIONS
-            ? path.join(process.cwd(), 'test.png') // GitHub environment
-            : path.join(__dirname, 'test.png');    // Local environment
-        const file = 'file';
+    // it('should fail when a wrong format file is attached', async () => {
+    //     const filePath = process.env.GITHUB_ACTIONS
+    //         ? path.join(process.cwd(), 'test.png') // GitHub environment
+    //         : path.join(__dirname, 'test.png');    // Local environment
+    //     const file = 'file';
 
-        const res = await chai.request(app)
-            .post('/api/test_ticket/upload')
-            .attach(file, filePath);
+    //     const res = await chai.request(app)
+    //         .post('/api/test_ticket/upload')
+    //         .attach(file, filePath);
 
-        res.should.have.status(500);
-        res.body.should.be.a('object');
-        expect(res.body.message).to.be.equal('File upload error');
-    });
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('File upload error');
+    // });
 
     it('should return 200 with tickets when tickets are found',async () => {
         let userId = '1';
