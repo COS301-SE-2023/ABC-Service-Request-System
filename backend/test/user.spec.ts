@@ -39,7 +39,7 @@ describe('/User test collection', () => {
   it('should verify that we have no users in the DB...', async () => {
     const res = await chai.request(app)
         .get('/api/test_user');
-    
+     
     res.should.have.status(200);
     res.body.should.be.a('array');
     res.body.should.have.lengthOf(0);
