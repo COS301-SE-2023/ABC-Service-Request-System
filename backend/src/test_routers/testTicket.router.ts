@@ -57,12 +57,12 @@ router.get('/', expressAsyncHandler(
 
 router.get('/assigned', expressAsyncHandler(
   async (req, res) => {
-    const tickets = await TestTicketModel.find({ assigned: req.query.id });
+    const tickets = await TestTicketModel.find({ id: req.query.id });
 
-    if(tickets){
+    if(tickets.length!=0){
         res.status(200).send(tickets);
     }else{
-        res.status(404).send("No tickets found");
+        res.status(404).send({message:"No tickets found"});
     }
   }
 ));
@@ -90,16 +90,13 @@ router.get('/projects', expressAsyncHandler(
 
 router.get('/project', expressAsyncHandler(
   async (req, res) => {
-    const projectName = req.query.name;
     try {
-      const tickets = await TestTicketModel.find({ project: projectName});
-
-      if(tickets){
-        console.log('tickets found', tickets);
+      const tickets = await TestTicketModel.find({ project: req.query.project});
+      if(tickets.length !=0 ){
         res.status(200).send(tickets);
       } else {
-        console.log('no tickets found');
-        res.status(404).send("No tickets for this project");
+
+        res.status(404).send({message:"No tickets for this project"});
       }
     } catch {
       res.status(500).send("Internal Server Error fetching projects");
@@ -109,15 +106,15 @@ router.get('/project', expressAsyncHandler(
 
 router.get('/group', expressAsyncHandler(
   async (req, res) => {
-    const groupName = req.query.name;
+    const groupName = req.query.group;
 
     try {
       const tickets = await TestTicketModel.find({ group: groupName });
 
-      if(tickets) {
+      if(tickets.length != 0) {
         res.status(200).send(tickets);
       } else {
-        res.status(404).send("No tickets found for that group");
+        res.status(404).send({message:"No tickets found for that group"});
       }
     } catch {
       res.status(500).send("Internal error fetching tickets by group name");
@@ -138,10 +135,6 @@ router.get('/delete', expressAsyncHandler(
 // Add ticket
 router.post('/addticket', expressAsyncHandler( async (req, res) => {
     try {
-        // console.log("New ticket request received: ", req.body);
-        // console.log(res.getHeader('Authorization') + "Headers");
-        // for now, not checking on existing tickets
-
         const ticketCount = await TestTicketModel.countDocuments();
 
         const newTicket = new TestTicketModel({
@@ -160,16 +153,10 @@ router.post('/addticket', expressAsyncHandler( async (req, res) => {
             todo: req.body.todo,
             todoChecked: req.body.todoChecked
         });
-
-        console.log("new ticket: ", newTicket);
-
         await newTicket.save();
-
-        // console.log("New ticket created succesfully");
         res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
     }
     catch (error) {
-        // console.error("Ticket creation error:", error);
         res.status(500).send("An error occurred during ticket creation.");
     }
 }));
@@ -233,8 +220,6 @@ router.put('/comment', expressAsyncHandler(
       try {
         const ticketId = req.body.ticketId;
         const status = req.body.status;
-        // console.log('status is ' +  status);
-        // console.log('ticket id is ' + ticketId);
   
         const ticket = await TestTicketModel.findOneAndUpdate(
           { id: ticketId },
@@ -261,18 +246,18 @@ router.put('/comment', expressAsyncHandler(
   router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
     const ticketId = req.body.ticketId;
     const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
-  
     try{
       const ticket = await TestTicketModel.findOne({ id: ticketId });
+
       if(ticket){
         // check if timeToFirstResponse is not set yet
         if(!ticket.timeToFirstResponse){
-          // save the commentTime as the first response time
           ticket.timeToFirstResponse = commentTime;
+          res.status(200).send({message:"Time to first response added"});
           await ticket.save();
-          res.status(200).send("Time to first response added");
-        } else {
-          res.status(200).send("First response time already recorded");
+          // res.status(200).send({message:"Time to first response added"});
+        } else if(ticket.timeToFirstResponse) {
+          res.status(200).send({message:"First response time already recorded"});
         }
       }
     }catch(error){
@@ -292,15 +277,14 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
-
-      await ticket.save();
       res.status(200).send({message: "Ticket todo checked updated"});
+      await ticket.save();
+      // res.status(200).send({message: "Ticket todo checked updated"});
     }
     else {
-      res.status(404).send("Ticket not found");
+      res.status(404).send({message:"Ticket not found"});
     }
   } catch(error) {
-    console.log(ticketId, updatedTodoChecked, req, res);
     res.status(500).send("Internal server error");
   }
 }));
