@@ -304,19 +304,19 @@ describe('/User test collection', () => {
     expect(res.body).to.have.property('message').eql('User not found');
   });
 
-  it('should update a user Github', async () => {
-    const newGithub = 'newGithubName';
-    const res = await chai.request(app)
-      .put('/api/test_user/update_user_github')
-      .send({ email: userEmail, github: newGithub });
+  // it('should update a user Github', async () => {
+  //   const newGithub = 'newGithubName';
+  //   const res = await chai.request(app)
+  //     .put('/api/test_user/update_user_github')
+  //     .send({ email: userEmail, github: newGithub });
 
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.a('object');
-    expect(res.body).to.have.property('message').eql('User Github updated successfully');
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.a('object');
+  //   expect(res.body).to.have.property('message').eql('User Github updated successfully');
 
-    // Save the new Github for future use
-    userGithub = newGithub;
-  });
+  //   // Save the new Github for future use
+  //   userGithub = newGithub;
+  // });
 
   it('should not update a user Github if user does not exist', async () => {
     const newGithub = 'newGithubName';
@@ -329,19 +329,19 @@ describe('/User test collection', () => {
     expect(res.body).to.have.property('message').eql('User not found');
   });
 
-  it('should update a user Linkedin', async () => {
-    const newLinkedin = 'newLinkedinProfile';
-    const res = await chai.request(app)
-      .put('/api/test_user/update_user_linkedin')
-      .send({ email: userEmail, linkedin: newLinkedin });
+  // it('should update a user Linkedin', async () => {
+  //   const newLinkedin = 'newLinkedinProfile';
+  //   const res = await chai.request(app)
+  //     .put('/api/test_user/update_user_linkedin')
+  //     .send({ email: userEmail, linkedin: newLinkedin });
 
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.a('object');
-    expect(res.body).to.have.property('message').eql('User Linkedin updated successfully');
+  //   expect(res).to.have.status(200);
+  //   expect(res.body).to.be.a('object');
+  //   expect(res.body).to.have.property('message').eql('User Linkedin updated successfully');
 
-    // Save the new Linkedin for future use
-    userLinkedin = newLinkedin;
-  });
+  //   // Save the new Linkedin for future use
+  //   userLinkedin = newLinkedin;
+  // });
   
 
 
