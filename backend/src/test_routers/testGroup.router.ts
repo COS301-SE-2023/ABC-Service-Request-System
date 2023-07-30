@@ -10,19 +10,6 @@ const router = Router();
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
 
-  router.post('/upload', upload.single('file'), async (req, res) => {
-      try {
-        if (!req.file) {
-          res.status(400).json({ message: 'No file uploaded' });
-          return;
-        }
-        const result = await cloudinary.uploader.upload(req.file.path);
-        res.status(200).json({ url: result.secure_url });
-      } catch (error) {
-        res.status(500).json({ message: 'File upload error' });
-      }
-  });
-
 
   router.get('/', expressAsyncHandler( //done
       async (req, res) => {
@@ -102,8 +89,6 @@ const upload = multer({ storage });
     const groupName = group.groupName;
     if (groupName) {
       res.status(200).json({groupName: groupName});
-    } else {
-      res.status(404).send({ message: 'Group name not found' });
     }
   }));
   
@@ -121,48 +106,6 @@ const upload = multer({ storage });
     res.status(200).send({ message: "Group deleted successfully" });
   }));
 
-
-  // router.put('/add-people', expressAsyncHandler(async(req,res)=>{
-  //   try {
-  //     const { group, people } = req.body;
-
-
-  //     const newGroup = await testGroupModel.findOneAndUpdate(
-  //       {_id: group},
-  //       {
-  //         $addToSet: {
-  //           people: people,
-  //         }
-  //       },
-  //       {new: true}
-  //     );
-
-
-  //     if (newGroup) {
-  //       res.status(200).json({message: 'users added to group'});
-  //     } else {
-  //       res.status(404).json({message: 'Group not found'});
-  //     }
-  //   }
-  //   catch (error) {
-  //     res.status(500).send({ error: 'Internal server error' });
-  //   }
-  // }))
-
-//   router.get('/objectId/:groupId', expressAsyncHandler(async (req, res) => {
-//     const groupId = req.params.groupId;
-//     try {
-//         const group = await testGroupModel.findOne({ _id: groupId });
-//         if (group) {
-//             res.status(200).send(group);
-//         } else {
-//             res.status(404).send('Group not found');
-//         }
-//     } catch (error) {
-//         res.status(500).send("An error occurred while fetching the group");
-//     }
-// }));
-
   router.get('/:groupId', expressAsyncHandler(async(req,res) => {
     try {
       const groupId = req.params.groupId;
@@ -179,15 +122,6 @@ const upload = multer({ storage });
     }
   }))
 
-//   router.get('/groupId/:id', expressAsyncHandler(async (req, res) => {
-//     const groupId = req.params.id;
-//     const group = await testGroupModel.findById(groupId);
-//     if (group) {
-//         res.send(group);
-//     } else {
-//         res.status(404).send("Group not found");
-//     }
-// }));
 
   router.put('/update_tickets', expressAsyncHandler(async(req,res) => {
     try {
