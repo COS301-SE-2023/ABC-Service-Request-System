@@ -3,10 +3,10 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '/dist/project')));
+app.use(express.static(path.join(__dirname, './dist/project')));
 
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/dist/project/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './dist/project/index.html'));
 });
 
 // default Heroku port
