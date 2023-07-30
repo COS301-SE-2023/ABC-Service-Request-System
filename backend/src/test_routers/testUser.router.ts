@@ -672,20 +672,6 @@ router.post('/addGroup' , expressAsyncHandler(
     }
 ));
 
-router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
-    const groupId = req.params.groupId;
-    const users = await TestUserModel.find({ groups: { $in: [groupId] } });
-    const userArray = users.map(user => ({ 
-        id: user.id, 
-        name: user.name, 
-        surname: user.surname, 
-        emailAddress: user.emailAddress, 
-        roles: user.roles[0],
-        profilePhoto: user.profilePhoto
-    }));
-    console.log(userArray);
-    res.send(userArray);
-}));
 
 router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
     const userEmail = decodeURIComponent(req.params.userEmail);
