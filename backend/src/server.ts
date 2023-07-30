@@ -29,49 +29,6 @@ app.use(cors({
 app.use(express.json());
 
 
-// app.use('/api/ticket', createProxyMiddleware({ 
-//   target: 'http://localhost:3001', 
-//   onError: function onError(err, req, res) {
-//     console.error('Something went wrong with the proxy middleware', err)
-//   },
-//   changeOrigin: true,
-// }));
-
-// app.use('/api/user', createProxyMiddleware({ 
-//   target: 'http://localhost:3002', 
-//   pathRewrite: {
-//       '^/api/user': '/api/user',
-//   },
-//   changeOrigin: true,
-// }));
-
-// app.use('/api/group', createProxyMiddleware({ 
-//   target: 'http://localhost:3003', 
-//   pathRewrite: {
-//       '^/api/group': '/api/group',
-//   },
-//   changeOrigin: true,
-// }));
-
-// app.use('/api/notifications', createProxyMiddleware({ 
-//   target: 'http://localhost:3004', 
-//   pathRewrite: {
-//       '^/api/notifications': '/api/notifications',
-//   },
-//   changeOrigin: true,
-// }));
-
-// app.use('/api/client', createProxyMiddleware({ 
-//   target: 'http://localhost:3005', 
-//   onError: function onError(err, req, res) {
-//     console.error('Something went wrong with the proxy middleware', err);
-//     res.status(500).send('Something went wrong with the proxy middleware');
-//   },
-//   changeOrigin: true,
-// }));
-
-
-
 app.use("/api/ticket", proxy("http://localhost:3001", {
   proxyReqPathResolver: (req) => {
     return `/api/ticket${req.url}`;

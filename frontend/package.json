@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "node server.ts",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "jest --coverage",
     "test:coverage": "ng test --no-watch --code-coverage --browsers=ChromeHeadless",
     "lint": "eslint \"src/**/*.ts\"",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "@types/quill": "^1.3.10",
     "chart.js": "^4.3.0",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "jasmine": "^5.0.0",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
