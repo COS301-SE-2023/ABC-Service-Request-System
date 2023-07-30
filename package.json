@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.1",
+    "mockingoose": "^2.16.2",
+    "sinon": "^15.2.0",
     "tailwindcss": "^3.3.2"
   }
 }

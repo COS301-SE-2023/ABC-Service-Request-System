@@ -5,8 +5,10 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 import { testGroupModel, group } from '../../backend/src/test_routers/testGroup.model';
+import sinon from 'sinon';
+import cloudinary from 'cloudinary';
 
-
+const cloudinaryStub = sinon.stub(cloudinary.v2.uploader, 'upload');
 chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
@@ -20,6 +22,7 @@ after(async () => {
     // await TicketModel.deleteMany({});
     await mongoose.connection.close();
     server.close();
+    cloudinaryStub.restore();
 });
 
 describe ('/Group test collection',() => {
@@ -237,3 +240,43 @@ describe ('/Group test collection',() => {
     });
 
 })
+
+
+describe ('File upload route',() => {
+    const filePath = 'path/to/file';
+    const fileUrl = 'https://sample.com/image.jpg';
+
+    it('should return an error if no file is uploaded', async () => {
+        const res = await chai.request(app)
+            .post('/upload');
+        
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.message.should.be.equal('No file uploaded');
+    });
+
+    // it('should upload a file', async () => {
+    //     // Set up cloudinary stub to return a successful response
+    //     cloudinaryStub.returns(Promise.resolve({ secure_url: fileUrl }));
+
+    //     const res = await chai.request(app)
+    //         .post('/upload')
+    //         .attach('file', filePath);
+
+    //     res.should.have.status(200);
+    //     res.body.should.be.a('object');
+    //     res.body.url.should.be.equal(fileUrl);
+    // });
+
+    // it('should return an error if the file upload fails', async () => {
+    //     cloudinaryStub.returns(Promise.reject(new Error()));
+
+    //     const res = await chai.request(app)
+    //         .post('/upload')
+    //         .attach('file', filePath);
+
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     res.body.message.should.be.equal('File upload error');
+    // });
+});
