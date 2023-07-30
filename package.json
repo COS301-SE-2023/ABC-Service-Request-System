@@ -1,8 +1,7 @@
 {
   "scripts": {
-    "start": "npm run build:frontend && concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "build:frontend": "npm install --prefix frontend && npm run heroku-postbuild --prefix frontend",
-    "start:frontend": "node frontend/server.js"
+    "start": "concurrently \"npm run start --prefix ./frontend\" \"npm run start --prefix ./backend\"",
+    "heroku-postbuild": "cd frontend && npm install && ng build --prod"
   },
   "dependencies": {
     "@angular/forms": "^16.1.2",
