@@ -366,7 +366,7 @@ router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
 );
 
 ///create a router.get to display the component that is suppose to get the new password from the user
-router.get('/activate_account',jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
+router.get('/activate_account', expressAsyncHandler(
     async (req, res) => {
         try{
             // console.log('Account activation request received:', req.query.token);
@@ -397,7 +397,7 @@ router.get('/activate_account',jwtVerify(['Admin', 'Manager', 'Technical', 'Func
 
 
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
-router.post('/activate_account', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']) , expressAsyncHandler(
+router.post('/activate_account', expressAsyncHandler(
     async (req, res) => {
       try {
         // console.log('Account activation request received:', req.body);
