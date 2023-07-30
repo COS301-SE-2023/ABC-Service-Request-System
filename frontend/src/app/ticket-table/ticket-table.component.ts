@@ -94,22 +94,41 @@ export class TicketTableComponent implements OnInit{
                 console.log("current user groups: ", this.currentUserGroups);
                 console.log("after filter", this.allTicketsArray);
 
+                const promises :any = [];
+
                 this.allTicketsArray.forEach(tickets => {
                   const assigneeEmail = tickets.assignee;
                   const assignedEmail = tickets.assigned;
 
-                  this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
-                    tickets.assignee = assignee.name + " " + assignee.surname;
+                  const assigneePromise = this.authservice.getUserNameByEmail(assigneeEmail).toPromise();
+                  promises.push(assigneePromise.then((assignee) => {
+                    tickets.assignee = assignee?.name + ' ' + assignee?.surname;
+                  }));
 
-                    this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
-                      tickets.assigned = assigned.name + " " + assigned.surname;
-                    })
-                  })
+                  const assignedPromise = this.authservice.getUserNameByEmail(assignedEmail).toPromise();
+                  promises.push(assignedPromise.then((assigned) => {
+                    tickets.assigned = assigned?.name + ' ' + assigned?.surname;
+                  }));
+
+                  // this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
+                  //   tickets.assignee = assignee.name + " " + assignee.surname;
+
+                  //   this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
+                  //     tickets.assigned = assigned.name + " " + assigned.surname;
+                  //   })
+                  // })
+                });
+
+                Promise.all(promises)
+                .then(() => {
+                  this.ticketsReady = true;
+                })
+                .catch((error) => {
+                  console.error('Error occurred during promise execution:', error);
                 });
 
                 this.allTicketsArray = this.sortTickets(this.allTicketsArray);
                 this.sortedTicketsArray = this.allTicketsArray.slice();
-                this.ticketsReady = true;
               });
             }
           });

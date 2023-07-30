@@ -7,8 +7,8 @@
 
 <router-outlet></router-outlet>
 
-<app-dash-panel *ngIf="!isLoginRoute"></app-dash-panel>
-<app-page-header *ngIf="!isLoginRoute"></app-page-header>
+<app-dash-panel *ngIf="!isLoginRoute && !isActivateAccountRoute"></app-dash-panel>
+<app-page-header *ngIf="!isLoginRoute && !isActivateAccountRoute"></app-page-header>
 
 
 

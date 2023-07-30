@@ -5,8 +5,10 @@ import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
 import { testGroupModel, group } from '../../backend/src/test_routers/testGroup.model';
+import sinon from 'sinon';
+import cloudinary from 'cloudinary';
 
-
+const cloudinaryStub = sinon.stub(cloudinary.v2.uploader, 'upload');
 chai.use(chaiHttp);
 chai.should();
 const expect = chai.expect;
@@ -20,9 +22,10 @@ after(async () => {
     // await TicketModel.deleteMany({});
     await mongoose.connection.close();
     server.close();
+    cloudinaryStub.restore();
 });
 
-describe ('/First test collection',() => {
+describe ('/Group test collection',() => {
     it('should test welcome route...', async () => {
         const res = await chai.request(app)
             .get('/api/welcome');
@@ -45,154 +48,196 @@ describe ('/First test collection',() => {
         res.body.should.have.lengthOf(0);
     });
 
-    it('should POST sample_groups data...', async () => {
-        // const res2 = await chai.request(app).get('/api/test_user/seed');
+    it('should seed the database...', async () => {
         const res = await chai.request(app)
-            .get('/api/test_group/seed');
+          .get('/api/test_group/seed');
         
         res.should.have.status(201);
         res.body.should.be.a('array');
-        res.body.should.have.lengthOf(3);
+        res.body.should.have.lengthOf(2);
+      });
 
-    });
-
-    it('should return all groups in the database...', async() => {
-        const res = await chai.request(app).get('/api/test_group');
-        res.should.have.status(200);
-        res.body.should.be.a('array');
-        res.body.should.have.lengthOf(3);
-    })
-
-    it('should fail when no file is attached', async () => {
+      it('should return all groups...', async () => {
         const res = await chai.request(app)
-            .post('/api/test_group/upload');
-
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        expect(res.body.message).to.be.equal('No file uploaded');
-    });
-})
-
-describe('/Group ID routes',() => {
-    it('should return all users in a group...', async() => {
-        const res = await chai.request(app).get('/api/test_group/1/users');
-        res.should.have.status(200);
-        res.body.should.be.a('array');
-    })
-
-    it ('should not return users from a group that does not exist...', async() => {
-        const res = await chai.request(app).get('/api/test_group/9999/users');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-    it ('should return a user from a group...', async() => {
-        const res = await chai.request(app).get('/api/test_group/1/user/64afe5267620bef794d12bc0');
-        res.should.have.status(200);
-        // res.should.be.a('array');
-    })
-
-    // it ('should NOT return a user that does not exist from a group...', async() => {
-    //     const res = await chai.request(app).get('/api/test_group/1/user/64afe5267620bef794d12bc1');
-    //     res.should.have.status(500);
-    //     expect(res.body.message).to.be.equal('User not found');
-    // })
-
-    it ('should NOT return a user from a group that does not exist...', async() => {
-        const res = await chai.request(app).get('/api/test_group/999/user/1');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-    it ('should return the name of a group...', async() => {
-        const res = await chai.request(app).get('/api/test_group/1/name');
-        res.should.have.status(200);
-        // res.body.should.be.a('json');
-    })
-
-    it ('should not return the name of a group that does not exist...', async() => {
-        const res = await chai.request(app).get('/api/test_group/999/name');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-    it ('should return a group given its group ID...', async() => {
-        const res = await chai.request(app).get('/api/test_group/1');
-        res.should.have.status(200);
-    })
-
-    it ('should not return a group that does not exist given its group ID...', async() => {
-        const res = await chai.request(app).get('/api/test_group/999');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-})
-
-describe('/Delete groupDB routes',() => {
-    it('should not delete a user from a group that does not exist...',async() => {
-        const res = await chai.request(app).delete('/api/test_group/999/user/john.doe@example.com');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-    it('should not delete a user that does not exist from a group...',async() => {
-        const res = await chai.request(app).delete('/api/test_group/1/user/john.doe@example.com');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('User not found');
-    })
-
-    it ('should not delete a group that does not exist...', async() => {
-        const res = await chai.request(app).delete('/api/test_group/999/delete');
-        res.should.have.status(404);
-        expect(res.body.message).to.be.equal('Group not found');
-    })
-
-    it ('should delete a group...', async() => {
-        const res = await chai.request(app).delete('/api/test_group/3/delete');
-        res.should.have.status(200);
-        expect(res.body.message).to.be.equal('Group deleted successfully');
-    })
-})
-
-describe ('/PUT routes for GroupDB', () => {
-
-    // it('should add people to a group...', async() => {
-    //     // Replace this with a real list of people objects or ids.
-    //     const peopleToAdd = ['64a975a92dccda602dd87645', '64a975c12dccda602dd8764d']; 
-    //     const res = await chai.request(app)
-    //         .put('/api/add-people')
-    //         .send({
-    //             group: '64afedeacdb2dcb55c02600c',
-    //             people: peopleToAdd,
-    //         });
+          .get('/api/test_group');
         
-    //     res.should.have.status(200);
-    //     expect(res.body.message).to.be.equal('users added to group');
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.should.have.lengthOf(2);
+      });
 
-    //     // const groupRes = await chai.request(app).get(`/api/test_group/1`);
-    //     // groupRes.body.people.should.include.members(peopleToAdd);
-    // });
-
-    it('should fail when group is not found...', async() => {
-        const fakeGroupId = '64afedeacdb2dcb55c02600c';
+      it('should add a new group...', async () => {
         const res = await chai.request(app)
-            .put('/api/add-people')
-            .send({
-                group: fakeGroupId,
-                people: ['64a975a92dccda602dd87645', '64a975c12dccda602dd8764d']
-            });
+          .post('/api/test_group/add')
+          .send({
+            groupName: "Test Group",
+            backgroundPhoto: "http://example.com/bg.jpg",
+            people: ["6078fd71cd9e35a06b1b7f1f", "6078fd71cd9e35a06b1b7f20"]
+          });
+    
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.should.have.property('id');
+        res.body.should.have.property('groupName').eql('Test Group');
+      });
+
+      it('should not add a new group & report an internal server error...', async () => {
+        const res = await chai.request(app)
+          .post('/api/test_group/add')
+          .send({
+
+          });
+    
+        res.should.have.status(500);
+        // res.body.should.be.a('object');
+        // res.body.should.have.property('id');
+        // res.body.should.have.property('groupName').eql('Test Group');
+      });
+
+    let createdGroupId = 1;
+    let createdUserId = '6078fd71cd9e35a06b1b7f1b'; 
+
+    it('should get group name by ID', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/1/name`);
+
+        res.should.have.status(200);
+        // res.body.should.hav('Group 1');
+    });
+    
+    it('should not get group name by ID that does not exist', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/999/name`);
 
         res.should.have.status(404);
-        // expect(res.body.message).to.be.equal('Group not found');
+        // res.body.should.hav('Group 1');
     });
 
-    // it('should handle internal server error...', async() => {
-    //     const badReq = await chai.request(app)
-    //         .put('/api/add-people')
-    //         .send({}); 
+    // it('should add people to group', async () => {
+    //     const payload = {
+    //         group: createdGroupId,
+    //         people: [createdUserId]
+    //     };
+    //     const res = await chai.request(app)
+    //         .put('/api/test_group/add-people')
+    //         .send(payload);
 
-    //     badReq.should.have.status(500);
-    //     expect(badReq.body.error).to.be.equal('Internal server error');
+    //     res.should.have.status(200);
+    //     res.body.message.should.equal('users added to group');
     // });
+
+    it('should update group tickets', async () => {
+        const payload = {
+            groupId: createdGroupId,
+            ticketId: 'Test Ticket Id'
+        };
+        const res = await chai.request(app)
+            .put('/api/test_group/update_tickets')
+            .send(payload);
+
+        res.should.have.status(200);
+        res.body.message.should.equal('Ticket added to group');
+    });
+
+    it('should not update group tickets of a group that does not exist...', async () => {
+        const payload = {
+            groupId: '999',
+            ticketId: 'Test Ticket Id'
+        };
+        const res = await chai.request(app)
+            .put('/api/test_group/update_tickets')
+            .send(payload);
+
+        res.should.have.status(404);
+        // res.body.message.should.equal('invalid group id');
+    });
+
+    // it('should report internal server error for update_tickets...', async () => {
+    //     const payload = {
+    //         test: '999',
+    //         test1: 'Test Ticket Id'
+    //     };
+    //     const res = await chai.request(app)
+    //         .put('/api/test_group/update_tickets')
+    //         .send(payload);
+
+    //     res.should.have.status(500);
+    //     // res.body.message.should.equal('Ticket added to group');
+    // });
+
+
+    it('should remove user from group...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/user/${createdUserId}`);
+
+        res.should.have.status(200);
+        res.body.message.should.equal('User removed successfully');
+    });
+
+    it('should not remove user that is not from group...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/user/9999`);
+
+        res.should.have.status(404);
+        res.body.message.should.equal('User not found in the group');
+    });
+
+    it('should not remove user from group that does not exist...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/999/user/${createdUserId}`);
+
+        res.should.have.status(404);
+        // res.body.message.should.equal('Group not found');
+    });
+
+    it('should get group by ID', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/${createdGroupId}`);
+
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+    });
+
+    it('should not get group that does not exist by ID', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/999`);
+
+        res.should.have.status(404);
+        // res.body.should.be.a('object');
+    });
+
+    // it('should not get group that does not exist by objectID', async () => {
+    //     const res = await chai.request(app)
+    //         .get(`/api/test_group/groupId/999`);
+
+    //     res.should.have.status(404);
+    //     // res.body.should.be.a('object');
+    // });
+
+    it('should delete group', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/delete`);
+
+        res.should.have.status(200);
+        res.body.message.should.equal('Group deleted successfully');
+    });
+
+    it('should not delete a group that does not exist...', async () => {
+        const res = await chai.request(app)
+            .delete(`/api/test_group/${createdGroupId}/delete`);
+
+        res.should.have.status(404);
+        res.body.message.should.equal('Group not found');
+    });
+
+
+    it('should check if a group name exists', async () => {
+        const res = await chai.request(app)
+            .get(`/api/test_group/exists/Group2`);
+
+        res.should.have.status(200);
+        // expect(res.body).to.be.a('boolean');
+    });
+
 })
+

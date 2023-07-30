@@ -4,6 +4,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/server";
 import { server } from "../src/server";
+import sinon from 'sinon';
 
 import { TestNotificationsModel } from "../src/test_routers/testNotifications.model";
 
@@ -22,7 +23,7 @@ after(async() => {
     server.close();
 });
 
-describe('/First test collection', () => {
+describe('/Notifications test collection', () => {
     it('Should verify that we have no notifications in the DB...', async () => {
         const res = await chai.request(app)
             .get('/api/test_notifications');
@@ -39,6 +40,15 @@ describe('/First test collection', () => {
         res.should.have.status(201);
         res.body.should.be.a('array');
         res.body.should.have.lengthOf(3);
+    });
+
+    it('Seed should fail because data already exists...', async () => {
+        const res = await chai.request(app)
+            .post('/api/test_notifications/seed');
+
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Seed is already done');
     });
 
     it('Should add a new notification...', async () => {
@@ -63,6 +73,21 @@ describe('/First test collection', () => {
         expect(res.body.message).to.be.equal('Notification created succesfully');
     });
 
+    // it('Should fail to add a new notification...', async() => {
+    //     const toSend = {
+    //         profilePhotoLink: 'https://i.imgur.com/zYxDCQT.jpg',
+    //         ticketSummary: 'Fail',
+    //     }
+
+    //     const res = await chai.request(app)
+    //         .post('/api/test_notifications/newnotif')
+    //         .send(toSend);
+
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('An error occurred during notification creation.');
+    // })
+
     it('Should check that notification 4 has ticketSummary = "Integration"...', async () => {    
         const res = await chai.request(app)
             .get('/api/test_notifications');
@@ -78,6 +103,7 @@ describe('/First test collection', () => {
     it('Should make notification 1 readStatus = "Read"...', async () => {
 
         const toSend = {
+            notificationsId: "1",
             id: '1'
         }
 
@@ -88,6 +114,33 @@ describe('/First test collection', () => {
         res.should.have.status(204);
         res.body.should.be.a('object');
     });
+
+    it('Should fail in updating notification 5 readStatus = "Read" as notification doesnt exist...', async() => {
+        const toSend = {
+            notificationsId: "5",
+            id: '5'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToRead')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
+    });
+
+    // it('Should fail in updating notification with the wrong information...', async() => {
+    //     const toSend = {}
+
+    //     const res = await chai.request(app)
+    //         .put('/api/test_notifications/changeToRead')
+    //         .send(toSend);
+
+    //     res.should.have.status(500);
+    //     res.body.should.be.a('object');
+    //     expect(res.body.message).to.be.equal('Internal server error');
+    // });
 
     it('Should make notification 3 readStatus = "Unread"...', async () => {
 
@@ -101,5 +154,49 @@ describe('/First test collection', () => {
 
         res.should.have.status(204);
         res.body.should.be.a('object');
+    });
+
+    it('Should fail in updating notification 5 readStatus = "Unread" as notification doesnt exist...', async() => {
+        const toSend = {
+            id: '5'
+        }
+
+        const res = await chai.request(app)
+            .put('/api/test_notifications/changeToUnread')
+            .send(toSend);
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
+    });
+
+    it('Should get the notification 1 from id search...', async() => {
+        const notificationId = "1";
+
+        const res = await chai.request(app)
+            .get(`/api/test_notifications/id`)
+            .query({id: notificationId});
+
+        res.body.should.be.a('object');
+    });
+
+    it('Should fail to get notification 5 from id search...', async() => {
+        let notificationId = "5";
+
+        const res = await chai.request(app)
+            .get('/api/test_notifications/id')
+            .query({id: notificationId});
+
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Notification not found');
+    });
+
+    it('Should delete the database...', async() => {
+        const res = await chai.request(app)
+            .get('/api/test_notifications/delete');
+
+        res.body.should.be.a('object');
+        expect(res.body.message).to.be.equal('Delete is done!');
     });
 });

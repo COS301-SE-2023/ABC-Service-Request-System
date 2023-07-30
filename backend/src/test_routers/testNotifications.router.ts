@@ -1,7 +1,7 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TestNotificationsModel } from "./testNotifications.model";
-import { sample_notifications } from "../sampleNotifications";
+import { sample_notifications } from "../../notifications/src/utils/sampleNotifications";
 
 const router = Router();
 
@@ -9,7 +9,7 @@ router.post('/seed', expressAsyncHandler(
     async (req, res) => {
         const notificationsCount = await TestNotificationsModel.countDocuments();
         if(notificationsCount > 0){
-            res.status(400).send("Seed is already done");
+            res.status(400).send({message: "Seed is already done"});
             return;
         }
 
@@ -30,14 +30,25 @@ router.get('/', expressAsyncHandler(
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TestNotificationsModel.deleteMany({});
-        res.send("Delete is done!");
+        res.send({message: "Delete is done!"});
+    }
+));
+
+router.get('/id', expressAsyncHandler(
+    async (req, res) => {
+        const notification = await TestNotificationsModel.findOne({ id: req.query.id });
+        if (notification) {
+            res.send(notification);
+        } else {
+            res.status(404).send({message: "Notification not found"});
+        }
     }
 ));
 
 router.post('/newnotif', expressAsyncHandler(
     async (req, res) => {
         try {
-            //console.log("New notification request received: ", req.body);
+            // console.log("New notification request received: ", req.body);
 
             const notificationsCount = await TestNotificationsModel.countDocuments();
     
@@ -51,16 +62,16 @@ router.post('/newnotif', expressAsyncHandler(
                 ticketStatus: req.body.ticketStatus,
                 notificationTime: req.body.notificationTime,
                 link: req.body.link,
-                readStatus: req.body.readStatus
+                readStatus: req.body.readStatus,
             });
     
             await newNotification.save();
     
-            //console.log("New notification created succesfully");
+            // console.log("New notification created succesfully");
             res.status(201).send({ message: "Notification created succesfully" });
         }
         catch (error) {
-            //console.error("Notification creation error:", error);
+            // console.error("Notification creation error:", error);
             res.status(500).send("An error occurred during notification creation.");
         }
     }
@@ -68,23 +79,21 @@ router.post('/newnotif', expressAsyncHandler(
 
 router.put('/changeToRead', expressAsyncHandler(
     async (req, res) => {
-        const notificationsId = req.body.id;
-    
-        try {
+        const notificationsLink = req.body.id;
+        const notificationsId = req.body.notificationsId;
+
             const notification = await TestNotificationsModel.findOneAndUpdate(
-              { id: notificationsId },
+              { link: notificationsLink,
+                id: notificationsId },
               { $set: { readStatus: 'Read' } },
               { new: true }
             );
 
             if (notification) {
-                res.status(204).json({ message: 'Read Status changed successfully' });
+                res.status(204).send({ message: 'Read Status changed successfully' });
             } else {
-                res.status(404).json({ message: 'Notification not found' });
+                res.status(404).send({ message: 'Notification not found' });
             }
-        } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
-        }
     }
 ));
 
@@ -92,21 +101,17 @@ router.put('/changeToUnread', expressAsyncHandler(
     async (req, res) => {
         const notificationsId = req.body.id;
     
-        try {
             const notification = await TestNotificationsModel.findOneAndUpdate(
-              { id: notificationsId },
+              { link: notificationsId },
               { $set: { readStatus: 'Unread' } },
               { new: true }
             );
 
             if (notification) {
-                res.status(204).json({ message: 'Read Status changed successfully' });
+                res.status(204).send({ message: 'Read Status changed successfully' });
             } else {
-                res.status(404).json({ message: 'Notification not found' });
+                res.status(404).send({ message: 'Notification not found' });
             }
-        } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
-        }
     }
 ));
 

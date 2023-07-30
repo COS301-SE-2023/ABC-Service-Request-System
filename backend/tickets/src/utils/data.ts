@@ -19,9 +19,7 @@ export const sample_tickets: ticket[] = [
       createdAt: new Date(),
       project: 'New project',
       todo: ["Change to Old Project"],
-      todoChecked: [true],
-      assigneeFullName: "Jesse Mwirygwi",
-      assignedFullName: "Jaimen Govender"
+      todoChecked: [true]
   },
   {
       id: "2",
@@ -44,11 +42,9 @@ export const sample_tickets: ticket[] = [
       ],
       description: "You need to test the tickets before the client has a chance to access their portal.",
       createdAt: new Date(),
-      project: 'Old project',
+      project: 'project',
       todo: ["Change name of project"],
-      todoChecked: [false],
-      assigneeFullName: "John Doe",
-      assignedFullName: "Ashir Butt"
+      todoChecked: [false]
   },
   {
       id: "3",
@@ -90,8 +86,6 @@ export const sample_tickets: ticket[] = [
       createdAt: new Date(),
       project: 'Some project',
       todo: ["Specify Project", "Backend"],
-      todoChecked: [true, false],
-      assigneeFullName: "Mark Tick",
-      assignedFullName: "Priyul Mahabeer"
+      todoChecked: [true, false]
   },
 ];
