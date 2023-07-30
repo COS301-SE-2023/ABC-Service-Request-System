@@ -25,6 +25,8 @@ after(async () => {
     server.close();
 });
 
+
+
 describe('/User test collection', () => {
     it('should verify that we have no users in the DB...', async () => {
         const res = await chai.request(app)
@@ -867,6 +869,51 @@ describe('/User test collection', () => {
         res.body.message.should.be.a('string');
         expect(res.body.message).to.be.equal('User not found');
     });
+
+    it('should add a group to a user...', async () => {
+      const toSend = {
+          userId: sarahsObjectId,
+          groupId: '5', // use an actual groupId that exists in the database
+      }
+  
+      const res = await chai.request(app)
+          .post('/api/test_user/addGroup')
+          .send(toSend);
+      
+      res.should.have.status(201);
+      res.body.should.be.a('object');
+      expect(res.body).to.have.property('groups');
+      res.body.groups.should.be.a('array');
+      expect(res.body.groups).to.include('5');
+  });
+
+
+  it('should get user by id...', async () => {
+    const res = await chai.request(app)
+        .get('/api/test_user/' + johnsObjectId);
+    
+    res.should.have.status(200);
+    res.body.should.be.a('object');
+    expect(res.body._id).to.be.equal(johnsObjectId);
+    expect(res.body.emailAddress).to.be.equal('Johndoe@gmail.com');
+    expect(res.body.name).to.be.equal('John');
+    expect(res.body.surname).to.be.equal('Doe');
+    expect(res.body.groups).to.be.an('array').that.includes('1');
+
+  });
+  // it('should return 404 when user does not exist', async () => {
+  //   const nonExistingId = '6078fd71cd9e35a06b1b7f7b';
+
+  //   const res = await chai.request(app)
+  //       .get('/api/test_user/' + nonExistingId);
+    
+  //   res.should.have.status(404);
+  //   res.body.should.be.a('object');
+  //   res.body.should.have.property('message');
+  //   res.body.message.should.be.equal('User not found');
+  // });
+
+
 
     it('should delete the database...', async() => {
         const res = await chai.request(app)
