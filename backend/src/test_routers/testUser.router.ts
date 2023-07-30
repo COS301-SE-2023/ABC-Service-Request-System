@@ -1,12 +1,15 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TestUserModel } from "./testUser.model";
-
 import crypto from "crypto";
 import nodemailer from "nodemailer";
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';       
+import multer, {Multer} from "multer";
 import jwt from 'jsonwebtoken';
+import { cloudinary } from '../configs/cloudinary';
+import dotenv from "dotenv";
 
+dotenv.config();
 
 const router = Router();
 
@@ -17,12 +20,72 @@ router.get('/', expressAsyncHandler(
     }
 ));
 
+router.post("/login", expressAsyncHandler(
+    async (req, res) => {
+      try {
+        const user = await TestUserModel.findOne({ emailAddress: req.body.emailAddress }).select("+password");
+  
+        if (user) {
+          const roles  = Object.values(user.roles);
+  
+          const validPassword = await bcrypt.compare(req.body.password, user.password);
+  
+          if (!validPassword) {
+            res.status(401).send({ auth: false, token: null });
+            return;
+          }
+  
+          const secretKey = process.env.JWT_SECRET;
+  
+          if (!secretKey) {
+            throw new Error('JWT Secret is not defined');
+          }
+          
+          //loop through roles and add them to the token
+          let setRoles: string[] = [];
+          setRoles = user.roles;
+
+
+          // let setRoles : string = "Default";
+
+
+          // for (let role of user.roles){
+          //   if(role == "Admin"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Manager"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Functional"){
+          //     setRoles = role;
+          //     break;
+          //   }else if(role == "Technical"){
+          //     setRoles = role;
+          //   }
+          // }
+          const token = jwt.sign({ _id: user._id, role: setRoles , user: user, name: user.name , objectName: "UserInfo"}, secretKey, {
+            expiresIn: 86400, // expires in 24 hours
+          });
+  
+          // console.log("Login successful");
+          res.status(200).send({ auth: true, token });
+        } else {
+          // console.log("User not found");
+          res.status(404).send({message: "No user found."});
+        }
+      } catch (error) {
+        // console.error("Login error:", error);
+        res.status(500).send("An error occurred during login.");
+      }
+    })
+  );
+
 router.get('/seed', expressAsyncHandler(
     async (req, res) => {
         try {
             const usersCount = await TestUserModel.countDocuments();
             if(usersCount > 0){
-                res.send("Seed is already done");
+                res.status(401).send({message: "Seed is already done"});
                 return;
             }
 
@@ -30,22 +93,30 @@ router.get('/seed', expressAsyncHandler(
             const hashedPassword = await bcrypt.hash("admin123", salt);
 
             const adminUser = {
+                id: "1",
                 name: "Admin",
                 surname: "admin",
-                profilePhoto: "http://example.com/img/bob.jpg",
+                profilePhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
                 emailAddress: "admin@admin.com",
                 emailVerified: true,
                 password: hashedPassword,
                 roles: ["Admin"],
-                groups: ["group1", "group2"]
+                groups: ["group1", "group2"],
+                bio: "I am the admin",
+                backgroundPhoto:"https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                linkedin: "https://www.linkedin.com",
+                facebook: "https://www.facebook.com",
+                github: "https://www.Github.com",
+                instagram: "https://www.instagram.com",
+                location: "Home"
+
             };
 
             const newUser = await TestUserModel.create(adminUser);
-            const secretKey = "Jetpad2023";
-            // Generate JWT token here, make sure it is the same as the one generated in "activate_account"
+            const secretKey: any = process.env.JWT_SECRET;
+
             const token = jwt.sign(
                 { _id: newUser._id, role: 'Admin' },
-                
                 secretKey,
                 { expiresIn: '1d' }
             );
@@ -61,12 +132,10 @@ router.get('/seed', expressAsyncHandler(
     }
 ));
 
-
-
 router.get('/delete', expressAsyncHandler(
     async (req, res) => {
         await TestUserModel.deleteMany({});
-        res.status(200).send({ message: 'Delete is done' });
+        res.send("Delete is done!");
     }
 ));
 
@@ -90,10 +159,10 @@ router.get('/delete', expressAsyncHandler(
 router.post("/create_user", expressAsyncHandler(
     async (req, res) => {
         try {
-            // console.log("User creation request received:", req.body);
+            //  console.log("User creation request received:", req.body);
 
             // check if a user with the provided email already exists
-            const existingUser = await TestUserModel.findOne({ emailAddress: req.body.emailAddress });
+            const existingUser = await TestUserModel.findOne({ emailAddress: req.body.email });
 
             if (existingUser) {
                 // console.log("User with this email already exists");
@@ -101,20 +170,40 @@ router.post("/create_user", expressAsyncHandler(
                 return;
             }
 
+            let roles: string[] = [];
+
+            if(req.body.manager){
+                roles.push("Manager");
+            }
+
+            if(req.body.technical){
+                roles.push("Technical");
+            }
+
+            if(req.body.Functional){
+                roles.push("Functional");
+            }
+
             // generate invite token
             const inviteToken = crypto.randomBytes(32).toString("hex");
 
+            const userCount = await TestUserModel.countDocuments();
             // create new user with pending status
             const newUser = new TestUserModel({
+                id: String(userCount + 1), // Assign the auto-incremented ID
                 name: req.body.name,
                 surname: req.body.surname,
-                profilePhoto: req.body.profilePhoto || "http://example.com/img/default.jpg",
-                emailAddress: req.body.emailAddress,
+                profilePhoto: req.body.profilePhoto || "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
+                headerPhoto: 'https://res.cloudinary.com/ds2qotysb/image/upload/v1689762139/htddlodqzbzytxmedebh.jpg',
+                emailAddress: req.body.email,
                 inviteToken,
                 status: "pending",
-                roles: req.body.roles,
-                groups: req.body.groups,
-                password: "Admin"
+                roles: roles,
+                groups: req.body.selectedGroups,
+                password: "Admin",
+                bio: '',
+                github: '',
+                linkedin: '',
             });
 
             // console.log("before save");
@@ -213,8 +302,6 @@ router.post("/create_user", expressAsyncHandler(
                 ]
             };
             
-            
-            
 
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
@@ -225,16 +312,13 @@ router.post("/create_user", expressAsyncHandler(
             });
 
             // console.log("User created successfully");
-            res.status(201).send({ message: 'User created successfully', inviteToken });
+            res.status(201).send({ message: 'User created successfully', inviteToken, user: newUser});
         } catch (error) {
             // console.error("User creation error:", error);
             res.status(500).send("An error occurred during user creation.");
         }
     })
 );
-
-
-//const token = req.query.token;
 
 ///create a router.get to display the component that is suppose to get the new password from the user
 router.get('/activate_account', expressAsyncHandler(
@@ -268,7 +352,7 @@ router.get('/activate_account', expressAsyncHandler(
 
 
 //ACTIVATE THE ACCOUNT WITH THE NEW PASSWORD//
-router.post('/activate_account', expressAsyncHandler(
+router.post('/activate_account' , expressAsyncHandler(
     async (req, res) => {
       try {
         // console.log('Account activation request received:', req.body);
@@ -304,28 +388,490 @@ router.post('/activate_account', expressAsyncHandler(
         // console.log('Account activated successfully');
         res.status(201).send({ message: 'Account activated successfully' });
       } catch (error) {
-        console.error('Account activation error:', error);
+        // console.error('Account activation error:', error);
         res.status(500).send('An error occurred during account activation.');
       }
     //   console.log(req.body);
     })
   );
 
+//DASH"S ROUTES//
+//UPDATE USER NAME - WORKING
 
-  router.post('/get_user_by_token', async (req, res) => {
+router.post('/get_user_by_token', async (req, res) => {
+try {
+    const { token } = req.body;
+
+    const user = await TestUserModel.findOne({ inviteToken: token });
+    if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ email: user.emailAddress });
+} catch (error) {
+    // console.error('Error retrieving user by token:', error);
+    res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+}
+});
+
+router.put('/update_user_name' ,expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const { name, email } = req.body;
+            // console.log("email: " + email);
+            // console.log("name: " + name);
+
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    name: name
+                  }
+                },
+                { new: true }
+            );
+
+            // console.log("user: ", user);
+        
+            if (user) {
+                res.status(200).json({ message: 'User name updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+//UPDATE USER PASSWORD - WORKING
+router.put('/update_user_password', expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const { password, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    password: password,
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User password updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+//UPDATE USER Location - WORKING
+router.put('/update_user_location', expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { location, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    location: location
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User location updated successfully' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER GITHUB - 
+router.put('/update_user_github',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { github, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    github: github
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User Github updated successfully' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//UPDATE USER GITHUB - 
+router.put('/update_user_linkedin', expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { linkedin, email } = req.body;
+            // console.log("email: " + email);
+
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    linkedin: linkedin
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User Linkedin updated successfully' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+))
+
+//GET USER
+router.get('/id', expressAsyncHandler(
+    async (req, res) => {
+        // const id = String(req.query.id);
+        // if (!mongoose.Types.ObjectId.isValid(id)) {
+        //     res.status(400).send('Invalid ObjectId');
+        //     return;
+        // }
+
+        // const objectId = new mongoose.Types.ObjectId(id);
+
+        const user = await TestUserModel.findOne({ id: req.query.id });
+        if(user){
+            res.status(200).send(user);
+        }else{
+            res.status(404).send("Id not found");
+        }
+    }
+));
+
+
+
+router.get('/email', expressAsyncHandler(
+    async (req, res) => {
+        const user = await TestUserModel.findOne({ emailAddress: req.query.email });
+        if(user){
+            res.status(200).send(user);
+        }else{
+            res.status(404).send("Id not found");
+        }
+    }
+));
+
+router.post('/:id/add-group', expressAsyncHandler(
+    async (req, res) => {
+        const groupId = req.body.groupId;
+        const user = await TestUserModel.findById(req.params.id);
+        if (user) {
+            user.groups.push(groupId);
+            const updatedUser = await user.save();
+            res.send(updatedUser);
+        } else {
+            res.status(404).send({ message: 'User Not Found' });
+        }
+    }
+));
+/* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
+router.post('/add-group-to-users', expressAsyncHandler(
+  async (req, res) => {
+    const groupId = req.body.groupId;
+    const userIds = req.body.userIds;
+    console.log('in add-group-to-users, group id: ' + groupId);
+
     try {
-      const { token } = req.body;
-  
-      const user = await TestUserModel.findOne({ inviteToken: token });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+      const users = await TestUserModel.updateMany(
+        { _id: { $in: userIds } },
+        { $addToSet: { groups: groupId } }
+      );
+
+      res.status(201).send(users);
+    }
+    catch (error) {
+      console.log(error);
+      res.status(500).send("An error occurred while adding the group to the users");
+    }
+  }  
+));
+
+
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await TestUserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+));
+router.delete('/:userId/group/:groupId', expressAsyncHandler(
+    async(req,res) => {
+        const user = await TestUserModel.findById(req.params.userId);
+        if (user) {
+            const groupIndex = user.groups.indexOf(req.params.groupId);
+            if (groupIndex !== -1) {
+                user.groups.splice(groupIndex,1);
+                const updatedUser = await user.save();
+                res.status(200).send({message: "Group removed from user's groups", user:updatedUser});
+            } else {
+                res.status(404).send({ message: "Group not found in user's groups" });
+            }
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+))
+
+const storage = multer.diskStorage({});
+const upload = multer({ storage });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        res.status(400).json({ message: 'No file uploaded' });
+        return;
       }
-  
-      res.status(200).json({ email: user.emailAddress });
+      console.log('in upload router');
+      const result = await cloudinary.uploader.upload(req.file.path);
+      console.log("result is: ", result);
+      res.status(200).json({ url: result.secure_url });
     } catch (error) {
-      console.error('Error retrieving user by token:', error);
-      res.status(500).json({ error: 'An error occurred while retrieving user by token' });
+      res.status(500).json({ message: 'File upload error' });
+    }
+});
+
+router.put('/updateProfilePicture', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await TestUserModel.updateOne({ id: userId }, { profilePhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile picture updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile picture', error: error.message });
     }
   });
+  
+  router.put('/updateProfileHeader', async (req, res) => {
+    try {
+      const { userId, url } = req.body;
+      const result = await TestUserModel.updateOne({ id: userId }, { headerPhoto: url });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Profile header updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating profile header', error: error.message });
+    }
+  });
+
+  router.put('/updateBio' , async (req, res) => {
+    try {
+      const { userId, bio } = req.body;
+      const result = await TestUserModel.updateOne({ id: userId }, { bio: bio });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Bio updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating bio', error: error.message });
+    }
+  });
+
+  router.put('/updateGithub', async (req, res) => {
+    try {
+      const { userId, githubLink } = req.body;
+      const result = await TestUserModel.updateOne({ id: userId }, { github: githubLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'Github link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating Github link', error: error.message });
+    }
+  });
+  
+  router.put('/updateLinkedin', async (req, res) => {
+    try {
+      const { userId, linkedinLink } = req.body;
+      const result = await TestUserModel.updateOne({ id: userId }, { linkedin: linkedinLink });
+  
+      if (!result) {
+        res.status(400).json({ message: 'No user found with the provided ID or no update was needed.' });
+      } else {
+        res.status(200).json({ message: 'LinkedIn link updated successfully.' });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error updating LinkedIn link', error: error.message });
+    }
+  });
+  
+router.post('/addGroup' , expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const user = await TestUserModel.findById(req.body.userId);
+            if(user) {
+                user.groups.push(req.body.groupId);
+                await user.save();
+                res.status(201).send(user);
+            } else {
+                res.status(404).send("User not found");
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("An error occurred during user update");
+        }
+    }
+));
+
+router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
+    const groupId = req.params.groupId;
+    const users = await TestUserModel.find({ groups: { $in: [groupId] } });
+    const userArray = users.map(user => ({ 
+        id: user.id, 
+        name: user.name, 
+        surname: user.surname, 
+        emailAddress: user.emailAddress, 
+        roles: user.roles[0],
+        profilePhoto: user.profilePhoto
+    }));
+    console.log(userArray);
+    res.send(userArray);
+}));
+
+router.get("/email/:userEmail", expressAsyncHandler(async (req, res) => {
+    const userEmail = decodeURIComponent(req.params.userEmail);
+    const user = await TestUserModel.findOne({ emailAddress: userEmail });
+  
+    if (!user) {
+      res.status(404).send({ message: 'User not found' });
+      return;
+    }
+  
+    res.send(user);
+  }));
+
+  
+
+router.get('/:id', expressAsyncHandler(
+    async (req, res) => {
+        const user = await TestUserModel.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send("User not found");
+        }
+    }
+));
+
+//UPDATE USER BACKGROUND PICTURE -
+router.put('/update_background_picture',upload.single('file'),expressAsyncHandler(
+    async (req,res)=> {
+        try{
+            if (!req.file) {
+                res.status(400).json({ message: 'No file uploaded' });
+                return;
+            }
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const { email } = req.body;
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    backgroundPhoto: result.secure_url,
+                  }
+                },
+                { new: true }
+            );
+            if (user) {
+                res.status(200).json({ message: 'User background photo updated successfuly', url: result.secure_url });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+));
+
+//UPDATE USER BIO - WORKING
+router.put('/update_user_bio',expressAsyncHandler(
+    async (req, res,next) => {
+        try{
+            const { bio, email } = req.body;
+            // console.log("email: " + email);
+            console.log("bio:"+bio);
+            const user = await TestUserModel.findOneAndUpdate(
+                { emailAddress: email },
+                {
+                  $set: {
+                    bio: bio
+                  }
+                },
+                { new: true }
+            );
+        
+            if (user) {
+                res.status(200).json({ message: 'User bio updated successfuly' });
+            } else {
+                res.status(404).json({ message: 'User not found' });
+            }
+
+        }catch(error){
+            // console.log(error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    }
+));
+
 
 export default router;

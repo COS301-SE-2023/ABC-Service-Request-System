@@ -3,6 +3,8 @@
 // import chaiHttp from 'chai-http';
 // import app from "../src/server";  // Import your Express app
 // import { TestUserModel } from "../src/test_routers/testUser.model"; // Import your User model
+// import { server } from "../src/server";
+// import mongoose from 'mongoose';
 
 // const jwt = require('jsonwebtoken');
 // import dotenv from "dotenv";
@@ -11,311 +13,502 @@
 // const { expect } = chai;
 // chai.use(chaiHttp);
 
-// // Test data
-// const testUser = {
-//     name: 'Test',
-//     surname: 'User',
-//     profilePhoto: 'path/to/photo',
-//     emailAddress: 'testuser@example.com',
-//     password: 'Password123',
-//     roles: ['Manager'],
-//     groups: ['Group1'],
-// };
-
-// describe('User API routes', () => {
-//     beforeEach(async () => {
-//         // Clean up the database before each test
-//         await TestUserModel.deleteMany({});
-//     });
-
-//     describe("GET /api/test_user/seed", () => {
-//       it("should verify that we have no users in the DB...", (done) => {
-//         chai
-//           .request(app)
-//           .get("/api/test_user/delete")
-//           .end((err, res) => {
-//             res.should.have.status(200);
-//             res.body.should.be.a("object");
-//             res.body.message.should.equal("Delete is done");
-//             done();
-//           });
-//       });
-//     });
-
-//     describe("GET /api/test_user/seed", () => {
-//       it("should seed the database with sample users", (done) => {
-//         chai
-//           .request(app)
-//           .get("/api/test_user/seed")
-//           .end((err, res) => {
-//             res.should.have.status(200);
-//             res.body.should.be.a("object");
-//             res.body.message.should.equal("Seed is done!");
-//             done();
-//           });
-//       });
-//     });
-
-//     describe('POST /api/test_user/create_user', () => {
-//         it('should create a new user', (done) => {
-//             chai.request(app)
-//                 .post('/api/test_user/create_user')
-//                 .send(testUser)
-//                 .end((err, res) => {
-//                     expect(res).to.have.status(201);
-//                     expect(res.body.message).to.equal('User created successfully');
-//                     done();
-//                 });
-//         });
-//     });
-
-//     // describe('POST /api/test_user/activate_account', () => {
-//     //     it('should activate a user account', async () => {
-//     //         // Create a test user
-//     //         const user = new TestUserModel(testUser);
-//     //         await user.save();
-
-//     //         const res = await chai.request(app)
-//     //             .post('/api/test_user/activate_account')
-//     //             .send({ inviteToken: user.inviteToken, password: 'NewPassword123' });
-
-//     //         expect(res).to.have.status(201);
-//     //         expect(res.body.message).to.equal('Account activated successfully');
-//     //     });
-//     // });
-    
-//     // describe("GET /api/test_user/activate_account", () => {
-//     //   it("should redirect to the password reset page with a valid token", (done) => {
-//     //     // Create a test user with an invite token
-//     //     const user = new TestUserModel({
-//     //       name: "John",
-//     //       surname: "Doe",
-//     //       profilePhoto: "photo.jpg",
-//     //       emailAddress: "john.doe@example.com",
-//     //       roles: ["Manager"],
-//     //       groups: ["Group1"],
-//     //       password: "password",
-//     //       inviteToken: "valid_token",
-//     //     });
-    
-//     //     user.save()
-//     //       .then((savedUser) => {
-//     //         chai
-//     //           .request(app)
-//     //           .get("/api/test_user/activate_account")
-//     //           .query({ token: savedUser.inviteToken })
-//     //           .end((err, res) => {
-//     //             if (err) {
-//     //               return done(err);
-//     //             }
-    
-//     //             res.should.redirectTo(`http://localhost:4200/activate_account/${savedUser.inviteToken}`);
-//     //             done();
-//     //           });
-//     //       })
-//     //       .catch((err) => {
-//     //         done(err);
-//     //       });
-//     //   });
-    
-    
-//     //   it("should return 409 status for an invalid token", (done) => {
-//     //     chai
-//     //       .request(app)
-//     //       .get("/api/test_user/activate_account")
-//     //       .query({ token: "invalid_token" })
-//     //       .end((err, res) => {
-//     //         res.should.have.status(409);
-//     //         res.text.should.equal("Invalid token.");
-//     //         done();
-//     //       });
-//     //   });
-//     // });
-    
-
-//     describe("User API", () => {
-    
-//       beforeEach(async () => {
-//         // Prepare the test data or reset the database to a known state
-//         // This will be executed before each test case
-//         await TestUserModel.deleteMany({});
-//     });
-    
-    
-//       afterEach(async () => {
-//         // Clean up any resources created during the test case
-//         // This will be executed after each test case
-//       });
-    
-//       describe("GET /api/test_user", () => {
-//         it("should return an empty array when no users are present", (done) => {
-//           chai
-//             .request(app)
-//             .get("/api/test_user")
-//             .end((err, res) => {
-//               res.should.have.status(200);
-//               res.body.should.be.a("array");
-//               res.body.length.should.be.eql(0); // Expecting no users
-//               done();
-//             });
-//         });
-//       });
-    
-//       // describe("POST /api/test_user/create_user", () => {
-//       //   it("should create a new user", (done) => {
-//       //     chai
-//       //       .request(app)
-//       //       .post("/api/test_user/create_user")
-//       //       .send({
-//       //         name: "John",
-//       //         surname: "Doe",
-//       //         profilePhoto: "photo.jpg",
-//       //         emailAddress: "john.doe@example.com",
-//       //         roles: ["Manager"],
-//       //         groups: ["Group1"]
-//       //       })
-//       //       .end((err, res) => {
-//       //         res.should.have.status(201);
-//       //         res.body.should.be.a("object");
-//       //         res.body.should.have.property("message").eql("User created successfully");
-//       //         done();
-//       //       });
-//       //   });
-//       // });
-    
-//       describe("GET /api/test_user", () => {
-//         it("should get all users", (done) => {
-//           const user1 = new TestUserModel({
-//             name: "John",
-//             surname: "Doe",
-//             profilePhoto: "photo.jpg",
-//             emailAddress: "john.doe@example.com",
-//             roles: ["Manager"],
-//             groups: ["Group1"],
-//             password: "password" // Add the password field
-//           });
-      
-//           const user2 = new TestUserModel({
-//             name: "Jane",
-//             surname: "Doe",
-//             profilePhoto: "photo2.jpg",
-//             emailAddress: "jane.doe@example.com",
-//             roles: ["Admin"],
-//             groups: ["Group2"],
-//             password: "password" // Add the password field
-//           });
-      
-//           Promise.all([user1.save(), user2.save()])
-//             .then(() => {
-//               chai
-//                 .request(app)
-//                 .get("/api/test_user")
-//                 .end((err, res) => {
-//                   res.should.have.status(200);
-//                   res.body.should.be.a("array");
-//                   res.body.length.should.be.eql(2);
-//                   done();
-//                 });
-//             })
-//             .catch((err) => {
-//               done(err);
-//             });
-//         });
-//       });
-    
-//       describe("GET /api/test_user/delete", () => {
-//         it("should delete all users from the database", async () => {
-//           const res = await chai.request(app).get("/api/test_user/delete");
-//           console.log("Response:", res.body); // Log the response body
-//           try {
-//             await TestUserModel.deleteMany({});
-//             console.log("Users deleted successfully");
-//             expect(res).to.have.status(200);
-//             res.body.message.should.equal("Delete is done");
-//           } catch (error) {
-//             console.error("Error deleting users:", error);
-//             throw error;
-//           }
-//         });
-//       });
-
-//       // Test for login
-//       describe("POST /api/login", () => {
-//         it("should Login, provide a token and return status 200", (done) => {
-//           chai.request(app)
-//             .post('/api/login')
-//             .send({ emailAddress: 'test@gmail.com', password: 'password' })
-//             .end((err, res) => {
-//               if (res.status === 404) {
-//                 // User not found
-//                 console.log("User not found");
-//                 // Add appropriate assertions or response handling for user not found scenario
-//                 done();
-//               } else {
-//                 // User found
-//                 res.should.have.status(200);
-//                 res.body.should.have.property('auth').eql(true);
-//                 res.body.should.have.property('token');
-//                 done();
-//               }
-//             });
-//         });
-//       });
-      
-      
-//       describe('POST /api/test_user/get_user_by_token', () => {
-//         it('should retrieve user email by token', (done) => {
-//           const token = '$2a$10$ybiL.zvlMsFKXdBoM.lMGuMFLn7qlz5Ow93wOSZYtCPI.lL/j8SWq'; // Replace with an actual token
-      
-//           chai.request(app)
-//             .post('/api/test_user/get_user_by_token')
-//             .send({ token })
-//             .end((err, res) => {
-//               res.should.have.status(404); // Update the expected status code to 404
-//               res.body.should.have.property('error').eql('User not found'); // Update the assertion
-//               done();
-//             });
-//         });
-//       });
-      
-      
-      
-//       // describe('GET /api/welcome', () => {
-//       //   it('should return a welcome message', (done) => {
-//       //     chai.request(app)
-//       //       .get('/api/welcome')
-//       //       .end((err, res) => {
-//       //         res.should.have.status(200);
-//       //         res.body.should.have.property('message').eql('Welcome to the server!');
-//       //         done();
-//       //       });
-//       //   });
-//       // });
-      
-      
-//       // describe('POST /api/signup', () => {
-//       //   it('should create a new user', (done) => {
-//       //     chai.request(app)
-//       //       .post('/api/signup')
-//       //       .send({
-//       //         name: 'John',
-//       //         surname: 'Doe',
-//       //         profilePhoto: 'photo.jpg',
-//       //         emailAddress: 'john.doe@example.com',
-//       //         roles: ['Manager'],
-//       //         groups: ['Group1'],
-//       //         password: 'password'
-//       //       })
-//       //       .end((err, res) => {
-//       //         res.should.have.status(201);
-//       //         res.body.should.be.a('object');
-//       //         res.body.should.have.property('message').eql('User created successfully');
-//       //         done();
-//       //       });
-//       //   });
-//       // });
-      
-      
-//   });
-// });
+// before(async () => {
+//   await TestUserModel.deleteMany({}); 
   
+// });
+
+// after(async () => {
+//   await mongoose.connection.close();
+//   server.close();
+// });
+
+// describe('/User test collection', () => {
+
+//   let token = '';
+//   let inviteToken = '';
+//   let userId = '';
+//   let userEmail = '';
+//   let userName = '';
+//   let userLocation = '';
+//   let userGithub = '';
+//   let userLinkedin = '';
+
+//   let groupIds = [];
+
+//   // it('should verify that we have no users in the DB...', async () => {
+//   //   const res = await chai.request(app)
+//   //       .get('/api/test_user');
+    
+//   //   res.should.have.status(200);
+//   //   res.body.should.be.a('array');
+//   //   res.body.should.have.lengthOf(0);
+//   // });
+
+//   // it('should seed the database...', async () => {
+//   //   const res = await chai.request(app)
+//   //       .get('/api/test_user/seed');
+    
+//   //   res.should.have.status(500);
+//   //   // res.body.should.be.a('object');
+//   //   // res.body.should.have.property('message').eql('Seed is done!');
+//   // });
+
+//   it('should not reseed the database...', async () => {
+//     const res = await chai.request(app)
+//         .get('/api/test_user/seed');
+    
+//     res.should.have.status(401);
+//     res.body.should.be.a('object');
+//     res.body.should.have.property('message').eql('Seed is already done');
+//   });
+
+//   it('should return all users...', async () => {
+//     const res = await chai.request(app)
+//         .get('/api/test_user');
+    
+//     res.should.have.status(200);
+//     res.body.should.be.a('array');
+//   });
+
+//   it('should delete all users...', async () => {
+//     const res = await chai.request(app)
+//         .get('/api/test_user/delete');
+    
+//     res.should.have.status(200);
+//     res.text.should.be.eql('Delete is done!');
+//   });
+
+//   it('should create a new user', async () => {
+//     const testUser = {
+//       name: 'John',
+//       surname: 'Doe',
+//       email: 'john@example.com',
+//       manager: true,
+//       selectedGroups: ['group1', 'group2']
+//     };
+
+//     const res = await chai.request(app)
+//       .post('/api/test_user/create_user')
+//       .send(testUser);
+
+//     expect(res).to.have.status(201);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User created successfully');
+//     expect(res.body).to.have.property('inviteToken');
+//     expect(res.body).to.have.property('user');
+
+//     inviteToken = res.body.inviteToken; 
+//     userEmail = testUser.email; 
+//     userId = res.body.user.id;
+//   });
+
+//   it('should not create a user with the email that already exists', async () => {
+//     const testUser = {
+//       name: 'John',
+//       surname: 'Doe',
+//       email: 'john@example.com',
+//       manager: true,
+//       selectedGroups: ['group1', 'group2']
+//     };
+
+//     // create a user
+//     await chai.request(app)
+//       .post('/api/test_user/create_user')
+//       .send(testUser);
+
+//     // try to create a user with the same email
+//     const res = await chai.request(app)
+//       .post('/api/test_user/create_user')
+//       .send(testUser);
+
+//     expect(res).to.have.status(409);
+//     expect(res.text).to.eql('User with this email already exists.');
+//   });
+
+// //   it('should return a redirect for valid invite token', async () => {
+// //     const res = await chai.request(app)
+// //       .get(`/api/test_user/activate_account?token=${inviteToken}`);
+
+// //     expect(res).to.redirect;
+// //   });
+
+//   it('should not return a redirect for invalid invite token', async () => {
+//     const res = await chai.request(app)
+//       .get('/api/test_user/activate_account?token=invalidToken');
+
+//     expect(res).to.have.status(409);
+//     expect(res.text).to.eql('Invalid token.');
+//   });
+
+//   it('should activate a user with valid invite token', async () => {
+//     const res = await chai.request(app)
+//       .post('/api/test_user/activate_account')
+//       .send({ inviteToken, password: 'newPassword' });
+
+//     expect(res).to.have.status(201);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('Account activated successfully');
+//   });
+
+//   it('should not activate a user with invalid invite token', async () => {
+//     const res = await chai.request(app)
+//       .post('/api/test_user/activate_account')
+//       .send({ inviteToken: 'invalidToken', password: 'newPassword' });
+
+//     expect(res).to.have.status(409);
+//     expect(res.text).to.eql('Invalid token.');
+//   });
+
+//   it('should not login a user with an invalid password...', async () => {
+//     const body = {
+//       emailAddress: 'john@example.com',
+//       password: 'InvalidPass'
+//     }
+//     const res = await chai.request(app)
+//         .post('/api/test_user/login')
+//         .send(body);
+    
+//     res.should.have.status(401);
+//     res.body.should.be.a('object');
+//     expect(res.body).to.have.property('auth');
+//     res.body.auth.should.be.a('boolean');
+//     expect(res.body.auth).to.be.equal(false);
+//   });
+
+//   // it('should login a valid user...', async () => {
+//   //   const body = {
+//   //     emailAddress: 'john@example.com',
+//   //     password: 'newPassword'
+//   //   }
+//   //   const res = await chai.request(app)
+//   //       .post('/api/test_user/login')
+//   //       .send(body);
+    
+//   //   res.should.have.status(200);
+//   //   res.body.should.be.a('object');
+//   //   expect(res.body).to.have.property('auth');
+//   //   res.body.auth.should.be.a('boolean');
+//   //   expect(res.body.auth).to.be.equal(true);
+//   // });
+
+//   it('should return 404 when invalid email entered for login', async () => {
+//     const body = {
+//       emailAddress: 'nothing@hhh.com',
+//       password: 'newPassword'
+//     }
+//     const res = await chai.request(app)
+//         .post('/api/test_user/login')
+//         .send(body);
+    
+//     res.should.have.status(404);
+//     res.body.should.be.a('object');
+//     expect(res.body.message).to.be.equal('No user found.');
+//   });
+
+//   it('should update a users password', async () => {
+//     const body = {
+//       email: 'john@example.com',
+//       password: 'newNewPassword'
+//     }
+//     const res = await chai.request(app)
+//         .put('/api/test_user/update_user_password')
+//         .send(body);
+    
+//     res.should.have.status(200);
+//     res.body.should.be.a('object');
+//     expect(res.body.message).to.be.equal('User password updated successfuly');
+//   });
+
+//   it('should return 404 for invalid user when updating password', async () => {
+//     const body = {
+//       emailAddress: 'john@example.com',
+//       password: 'newNewPassword'
+//     }
+//     const res = await chai.request(app)
+//         .put('/api/test_user/update_user_password')
+//         .send(body);
+    
+//     res.should.have.status(404);
+//     res.body.should.be.a('object');
+//     expect(res.body.message).to.be.equal('User not found');
+//   });
+
+//   it('should get a user by invite token', async () => {
+//     const res = await chai.request(app)
+//       .post('/api/test_user/get_user_by_token')
+//       .send({ inviteToken: inviteToken });
+
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('email').eql('john@example.com');
+//   });
+
+//   it('should not get a user by invalid invite token', async () => {
+//     const res = await chai.request(app)
+//       .post('/api/test_user/get_user_by_token')
+//       .send({ token: 'invalidtoken' });
+
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('error').eql('User not found');
+//   });
+
+//   it('should update a user name', async () => {
+//     const newName = 'Jane';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_name')
+//       .send({ email: userEmail, name: newName });
+
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User name updated successfuly');
+
+//     // Save the new name for future use
+//     userName = newName;
+//   });
+
+//   it('should not update a user name if user not found', async () => {
+//     const newName = 'Jane';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_name')
+//       .send({ email: 'nonexistent@example.com', name: newName });
+
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User not found');
+//   });
+
+//   it('should update a user location', async () => {
+//     const newLocation = 'London';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_location')
+//       .send({ email: userEmail, location: newLocation });
+  
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User location updated successfully');
+  
+//     // Save the new location for future use
+//     userLocation = newLocation;
+//   });
+  
+//   it('should not update a user location if user does not exist', async () => {
+//     const newLocation = 'London';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_location')
+//       .send({ email: 'nonexistentuser@example.com', location: newLocation });  // nonexistent email
+  
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User not found');
+//   });
+
+//   it('should update a user Github', async () => {
+//     const newGithub = 'newGithubName';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_github')
+//       .send({ email: userEmail, github: newGithub });
+
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User Github updated successfully');
+
+//     // Save the new Github for future use
+//     userGithub = newGithub;
+//   });
+
+//   it('should not update a user Github if user does not exist', async () => {
+//     const newGithub = 'newGithubName';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_github')
+//       .send({ email: 'nonexistentuser@example.com', github: newGithub });
+
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User not found');
+//   });
+
+//   it('should update a user Linkedin', async () => {
+//     const newLinkedin = 'newLinkedinProfile';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_linkedin')
+//       .send({ email: userEmail, linkedin: newLinkedin });
+
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User Linkedin updated successfully');
+
+//     // Save the new Linkedin for future use
+//     userLinkedin = newLinkedin;
+//   });
+  
+
+
+//   it('should not update Linkedin for non-existent user', async () => {
+//     const newLinkedin = 'newLinkedinProfile';
+//     const res = await chai.request(app)
+//       .put('/api/test_user/update_user_linkedin')
+//       .send({ email: 'nonexistent@example.com', linkedin: newLinkedin });
+
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('message').eql('User not found');
+//   });
+
+//   it('should get a user by id...', async () => {
+//     const res = await chai.request(app)
+//         .get(`/api/test_user/id?id=${userId}`);
+    
+//     res.should.have.status(200);
+//     res.body.should.be.a('object');
+//     expect(res.body.id).to.eql(userId);
+//   });
+  
+  
+  
+//   it('should return 404 when user id is not found...', async () => {
+//     const res = await chai.request(app)
+//         .get('/api/test_user/id?id=notAnExistingId');
+    
+//     res.should.have.status(404);
+//     res.text.should.be.eql('Id not found');
+//   });
+  
+
+//   it('should return a user by email', async () => {
+//     const res = await chai.request(app)
+//       .get('/api/test_user/email')
+//       .query({ email: userEmail });
+
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.be.a('object');
+//     expect(res.body).to.have.property('emailAddress').eql(userEmail);
+//   });
+
+//   it('should not return a user if email is not found', async () => {
+//     const res = await chai.request(app)
+//       .get('/api/test_user/email')
+//       .query({ email: 'nonexistent@example.com' });
+
+//     expect(res).to.have.status(404);
+//     expect(res.text).to.eql('Id not found');
+//   });
+
+//   it('should not update a bio for non-existent user', async () => {
+//     const newBio = 'This is a new bio';
+//     const res = await chai.request(app)
+//       .put('/updateBio')
+//       .send({ userId: 'non-existent-user-id', bio: newBio });
+
+//     expect(res).to.have.status(404);
+//   });
+
+//   // it('should add group to user if user exists', async () => {
+//   //   const groupId = 'validGroupId';
+  
+//   //   const res = await chai.request(app)
+//   //     .post(`/api/test_user/${userId}/add-group`)
+//   //     .send({ groupId });
+  
+//   //   expect(res).to.have.status(200);
+//   //   expect(res.body).to.be.a('object');
+//   //   expect(res.body.groups).to.include(groupId);
+//   // });
+
+//   // it('should return 404 if user does not exist', async () => {
+//   //   const invalidUserId = 'invalidUserId';
+//   //   const groupId = 'validGroupId';
+  
+//   //   const res = await chai.request(app)
+//   //     .post(`/api/test_user/${invalidUserId}/add-group`)
+//   //     .send({ groupId });
+  
+//   //   expect(res).to.have.status(500);
+//   //   expect(res.body).to.have.property('message').eql('User Not Found');
+//   // });
+
+//   // it('should add group to a user ', async () => {
+//   //   const groupId = 'validGroupId';
+  
+//   //   const res = await chai.request(app)
+//   //     .post(`/api/test_user/add-group-to-users`)
+//   //     .send({ groupId });
+  
+//   //   expect(res).to.have.status(201);
+//   //   expect(res.body).to.equal("An error occurred while adding the group to the users");
+//   // });
+
+//   it('should return user data for valid email', async () => {
+//     // Assuming you have a valid userEmail that exists in the database
+//     const userEmail = 'john@example.com';
+  
+//     const res = await chai.request(app)
+//       .get(`/api/test_user/email/${encodeURIComponent(userEmail)}`);
+  
+//     expect(res).to.have.status(200);
+//     expect(res.body).to.have.property('emailAddress').equal(userEmail);
+//   });
+  
+//   it('should return 404 for non-existent email', async () => {
+//     // Assuming you have an invalid userEmail that does not exist in the database
+//     const userEmail = 'non_existent_user@example.com';
+  
+//     const res = await chai.request(app)
+//       .get(`/api/test_user/email/${encodeURIComponent(userEmail)}`);
+  
+//     expect(res).to.have.status(404);
+//     expect(res.body).to.have.property('message').equal('User not found');
+//   });
+
+  
+  
+  
+  
+  
+  
+
+//   // it('should update a user Github link', async () => {
+//   //   const newGithubLink = 'https://github.com/new-link';
+//   //   const res = await chai.request(app)
+//   //     .put('/updateGithub')
+//   //     .send({ userId: userId, githubLink: newGithubLink });
+
+//   //   expect(res).to.have.status(200);
+//   //   expect(res.body).to.be.a('object');
+//   //   expect(res.body).to.have.property('message').eql('Github link updated successfully.');
+//   // });
+
+//   it('should not update a Github link for non-existent user', async () => {
+//       const newGithubLink = 'https://github.com/new-link';
+//       const res = await chai.request(app)
+//         .put('/updateGithub')
+//         .send({ userId: 'non-existent-user-id', githubLink: newGithubLink });
+
+//       expect(res).to.have.status(404);
+//   });
+
+//   // it('should update a user LinkedIn link', async () => {
+//   //   const newLinkedinLink = 'https://linkedin.com/in/new-link';
+//   //   const res = await chai.request(app)
+//   //     .put('/updateLinkedin')
+//   //     .send({ userId: userId, linkedinLink: newLinkedinLink });
+
+//   //   expect(res).to.have.status(200);
+//   //   expect(res.body).to.be.a('object');
+//   //   expect(res.body).to.have.property('message').eql('LinkedIn link updated successfully.');
+//   // });
+
+//   it('should not update a LinkedIn link for non-existent user', async () => {
+//       const newLinkedinLink = 'https://linkedin.com/in/new-link';
+//       const res = await chai.request(app)
+//         .put('/updateLinkedin')
+//         .send({ userId: 'non-existent-user-id', linkedinLink: newLinkedinLink });
+
+//       expect(res).to.have.status(404);
+//   });
+
+
+  
+  
+// });

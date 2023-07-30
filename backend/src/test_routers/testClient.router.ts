@@ -145,30 +145,26 @@ router.put("/remove_group", expressAsyncHandler(
         const groupsToRemove = req.body.groupsToRemove;
         const clientId = req.body.clientId;
 
-        try {
-            const client = await TestClientModel.findOne({id: clientId});
+        const client = await TestClientModel.findOne({id: clientId});
 
-            if(client){
-                const project = client.projects.find((project) => {
-                    return project.id == projectId;
+        if(client){
+            const project = client.projects.find((project) => {
+                return project.id == projectId;
+            });
+
+            if(project){
+                project.assignedGroups = project.assignedGroups?.filter((group) => {
+                    return !groupsToRemove.includes(group.groupName);
                 });
 
-                if(project){
-                    project.assignedGroups = project.assignedGroups?.filter((group) => {
-                        return !groupsToRemove.includes(group.groupName);
-                    });
+                await client.save();
 
-                    await client.save();
-
-                    res.status(200).send(project);
-                } else {
-                    res.status(404).send({ message: 'Project not found' });
-                }
+                res.status(200).send(project);
             } else {
-                res.status(404).send({ message: 'Client not found' });
+                res.status(404).send({ message: 'Project not found' });
             }
-        } catch (error) {
-            res.status(500).send("Internal server error removing group from clients project");
+        } else {
+            res.status(404).send({ message: 'Client not found' });
         }
     }
 ));
@@ -180,29 +176,24 @@ router.post("/add_group", expressAsyncHandler(
         const projectId = req.body.projectId;
         const newGroups: any = req.body.newGroups;
 
-        try{
-            const client = await TestClientModel.findOne({ id: clientId });
+        const client = await TestClientModel.findOne({ id: clientId });
 
-            if(client) {
-                const project = client.projects.find((project) => {
-                    return project.id == projectId;
-                });
+        if(client) {
+            const project = client.projects.find((project) => {
+                return project.id == projectId;
+            });
 
-                if(project) {
-                    project.assignedGroups?.push(...newGroups);
-                    await client.save();
+            if(project) {
+                project.assignedGroups?.push(...newGroups);
+                await client.save();
 
-                    res.status(201).send(project);
-                } else {
-                    res.status(404).send({ message: 'Project not found' });
-                }
-    
+                res.status(201).send(project);
             } else {
-                res.status(404).send({ message: 'Client not found' })
+                res.status(404).send({ message: 'Project not found' });
             }
 
-        } catch (error) {
-            res.status(500).send("Internal server error adding group to clients project");
+        } else {
+            res.status(404).send({ message: 'Client not found' })
         }
     } 
 ));
@@ -220,25 +211,21 @@ router.post("/add_project", expressAsyncHandler(
             assignedGroups: req.body.groups
         }
 
-        try{
-            const client = await TestClientModel.findOne({id: clientId});
+        const client = await TestClientModel.findOne({id: clientId});
 
-            if(client) {
-                const projectExists = client.projects.some(project => project.name === newProject.name);
-                if (projectExists) {
-                  res.status(400).send({ message: 'Project name already exists' });
-                  return;
-                }
-
-                newProject.id = (client.projects.length + 1).toString();
-
-                client.projects.push(newProject);
-                await client.save();
-
-                res.status(200).send(client);
+        if(client) {
+            const projectExists = client.projects.some(project => project.name === newProject.name);
+            if (projectExists) {
+                res.status(400).send({ message: 'Project name already exists' });
+                return;
             }
-        } catch (error) {
-            res.status(500).send("Internal server error adding project to client");
+
+            newProject.id = (client.projects.length + 1).toString();
+
+            client.projects.push(newProject);
+            await client.save();
+
+            res.status(200).send(client);
         }
     }
 ));
@@ -248,16 +235,12 @@ router.delete("/delete_client", expressAsyncHandler(
     async (req, res) => {
         const clientId = req.query.clientId;
         
-        try {
-            const deletedClient = await TestClientModel.findOneAndDelete({ id: clientId });
+        const deletedClient = await TestClientModel.findOneAndDelete({ id: clientId });
 
-            if(deletedClient){
-                res.status(200).send(deletedClient);
-            } else {
-                res.status(404).send({ message: 'Client not found' });
-            }
-        } catch (error) {
-            res.status(500).send("Internal server error deleting client");
+        if(deletedClient){
+            res.status(200).send(deletedClient);
+        } else {
+            res.status(404).send({ message: 'Client not found' });
         }
     }
 ));

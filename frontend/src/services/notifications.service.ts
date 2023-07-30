@@ -48,6 +48,6 @@ export class NotificationsService {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/:id?id=${id}` , {headers});
+    return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/id?id=${id}` , {headers});
   }
 }

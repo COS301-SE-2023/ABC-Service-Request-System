@@ -194,7 +194,7 @@ export class NewTicketFormComponent implements OnInit {
           }
         );
         // should navigate to ticket directly
-        //this.router.navigate([`/ticket/${newTicketId}`]);
+        this.router.navigate([`/ticket/${newTicketId}`]);
 
         // get the corresponding users
         let assigneeUser!: user;
@@ -204,7 +204,7 @@ export class NewTicketFormComponent implements OnInit {
             assigneeUser = response;
 
              // create a notification corresponding to the ticket
-        
+
         const profilePhotoLink = assigneeUser.profilePhoto;
         const notificationMessage = " assigned an issue to you";
         const creatorEmail = assignee;
@@ -220,7 +220,7 @@ export class NewTicketFormComponent implements OnInit {
         });
           }
         );
-        
+
       });
     }
   );

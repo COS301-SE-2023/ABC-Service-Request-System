@@ -1,58 +1,16 @@
-// import { UserModel } from "./models/user.model";
-
-const user1 = ({ 
-    id: "1",
-    name: "John",
-    surname: "Doe",
-    profilePhoto: "user1.jpg",
-    emailAddress: "john.doe@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Manager"],
-    groups: ["group1", "group2"],
-  });
-  
-  const user2 = ({
-    id: "2",
-    name: "Jane",
-    surname: "Smith",
-    profilePhoto: "user2.jpg",
-    emailAddress: "jane.smith@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Functional"],
-    groups: ["group1"],
-  });
-  
-  const user3 = ({
-    id: "3",
-    name: "Alice",
-    surname: "Johnson",
-    profilePhoto: "user3.jpg",
-    emailAddress: "alice.johnson@example.com",
-    emailVerified: true,
-    password: "password",
-    roles: ["Technical"],
-    groups: ["group2"],
-  });
-
-export const sample_groups: any[] = [
-    {
-        id: '1',
-        groupName: 'Frontend',
-        backgroundPhoto: '',
-        people: [user1, user2],
-    },
-    {
-        id: '2',
-        groupName: 'Backend',
-        backgroundPhoto: '',
-        people: [user2, user3],
-    },
-    {
-        id: '3',
-        groupName: 'Integration',
-        backgroundPhoto: '',
-        people: [user1, user3],
-    }
-]
+export const sample_groups = [
+  {
+      id: "1",
+      groupName: "Group 1",
+      backgroundPhoto: "http://example.com/bg1.jpg",
+      people: ["6078fd71cd9e35a06b1b7f1b", "6078fd71cd9e35a06b1b7f1c"],
+      tickets: ["Ticket1", "Ticket2"]
+  },
+  {
+      id: "2",
+      groupName: "Group2",
+      backgroundPhoto: "http://example.com/bg2.jpg",
+      people: ["6078fd71cd9e35a06b1b7f1d", "6078fd71cd9e35a06b1b7f1e"],
+      tickets: ["Ticket3", "Ticket4"]
+  }
+];
