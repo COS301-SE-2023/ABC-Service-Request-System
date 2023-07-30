@@ -244,21 +244,17 @@ router.put('/comment', expressAsyncHandler(
   ));
 
   router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
-    const ticketId = req.body.ticketId;
-    const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
-    
     try{
+      const ticketId = req.body.ticketId;
+    const commentTime = new Date(req.body.commentTime);
       const ticket = await TestTicketModel.findOne({ id: ticketId });
 
       if(ticket){
-        // check if timeToFirstResponse is not set yet
         if(!ticket.timeToFirstResponse){
           ticket.timeToFirstResponse = commentTime;
           await ticket.save();
           res.status(200).send({message:"Time to first response added"});
-          await ticket.save();
-          return;
-        } else if(ticket.timeToFirstResponse) {
+        } else{
           res.status(200).send({message:"First response time already recorded"});
         }
       }
@@ -278,15 +274,16 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
+      // res.status(200).send({message: "Ticket todo checked updated"});
       await ticket.save();
       res.status(200).send({message: "Ticket todo checked updated"});
-      return;
     }
     else {
       res.status(404).send({message:"Ticket not found"});
     }
   } catch(error) {
-    res.status(500).send("Internal server error");
+    // console.log('error:', error)
+    res.status(500).send({message:"Internal server error"});
   }
 }));
 
