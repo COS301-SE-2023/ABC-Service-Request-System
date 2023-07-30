@@ -11,10 +11,7 @@ dbConnection();
 
 const app = express();
 
-app.use(cors({
-    credentials: true,
-    origin: ["http://localhost:4200"]
-}));
+app.use(cors());
 
 app.use(express.json());
 
@@ -24,7 +21,7 @@ app.get('/api/welcome', (req: any, res :any) => {
     res.status(200).send({ message: 'Welcome to the ticket service!' });
 });
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 let server = app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
