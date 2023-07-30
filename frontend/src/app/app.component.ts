@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   title = 'Project';
 
   isLoginRoute = false;
+  isActivateAccountRoute = false;
+
   routerSubscription!: Subscription;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         console.log('app init url: ', event.urlAfterRedirects);
         this.isLoginRoute = event.urlAfterRedirects.includes('login');
+        this.isActivateAccountRoute = event.urlAfterRedirects.includes('activate_account');
       }
     });
   }

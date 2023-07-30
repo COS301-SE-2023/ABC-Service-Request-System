@@ -4,6 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent, Ticket } from './app.component';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { DashPanelComponent } from './dash-panel/dash-panel.component';
+import { PageHeaderComponent } from './page-header/page-header.component';
+import { MatIconModule } from '@angular/material/icon';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,8 +18,9 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      declarations: [AppComponent, DashPanelComponent, PageHeaderComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule, MatIconModule],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

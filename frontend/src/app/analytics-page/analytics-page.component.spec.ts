@@ -5,8 +5,8 @@ import { AuthService } from 'src/services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { group } from '../../../../backend/src/models/group.model';
-import { ticket } from '../../../../backend/src/models/ticket.model';
+import { group } from '../../../../backend/groups/src/models/group.model';
+import { ticket } from '../../../../backend/tickets/src/models/ticket.model';
 import { TicketsService } from 'src/services/ticket.service';
 import { Chart } from 'chart.js';
 
@@ -281,7 +281,9 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T10:00:00Z'),
         timeToFirstResponse: undefined,
         timeToTicketResolution: new Date('2023-07-18T12:00:00Z'),
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
       },
       {
         id: '2',
@@ -297,7 +299,9 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T11:00:00Z'),
         timeToFirstResponse: undefined,
         timeToTicketResolution: new Date('2023-07-18T14:30:00Z'),
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
       },
       {
         id: '3',
@@ -313,7 +317,9 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T09:00:00Z'),
         timeToFirstResponse: undefined,
         timeToTicketResolution: new Date('2023-07-18T10:30:00Z'),
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
       }
     ];
 
@@ -342,7 +348,10 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T10:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T11:30:00Z'),
         timeToTicketResolution: undefined,
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
+
       },
       {
         id: '2',
@@ -358,7 +367,9 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T11:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T13:30:00Z'),
         timeToTicketResolution: undefined,
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
       },
       {
         id: '3',
@@ -374,7 +385,9 @@ describe('AnalyticsPageComponent', () => {
         createdAt: new Date('2023-07-18T09:00:00Z'),
         timeToFirstResponse: new Date('2023-07-18T10:15:00Z'),
         timeToTicketResolution: undefined,
-        project: 'Project 1'
+        project: 'Project 1',
+        todo: ['Signup'],
+        todoChecked: [false]
       }
     ];
 
