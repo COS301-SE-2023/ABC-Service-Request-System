@@ -4,6 +4,7 @@
     "heroku-postbuild": "cd frontend && npm install && ng build --prod"
   },
   "dependencies": {
+    "@angular/cli": "^16.1.6",
     "@angular/forms": "^16.1.2",
     "cloudinary": "^1.37.2",
     "concurrently": "^8.2.0",
