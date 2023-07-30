@@ -4,9 +4,7 @@
     "heroku-postbuild": "cd frontend && npm install && ng build --prod"
   },
   "dependencies": {
-    "@angular/cli": "^16.1.6",
-    "@angular/core": "^16.1.7",
-    "@angular/forms": "^16.1.2",
+    "@angular/forms": "^16.1.7",
     "cloudinary": "^1.37.2",
     "concurrently": "^8.2.0",
     "dotenv": "^16.3.1",
@@ -15,6 +13,8 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^16.1.6",
+    "@angular/cli": "^16.1.6",
     "@types/babel__core": "^7.20.1",
     "mockingoose": "^2.16.2",
     "sinon": "^15.2.0",
