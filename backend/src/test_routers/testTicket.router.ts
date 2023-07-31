@@ -1,17 +1,11 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-// import { TicketModel } from "../models/ticket.model";
 import { TestTicketModel } from "./testTicket.model";
-//import { sample_tickets } from "../utils/data";
-import {sample_tickets} from "../../tickets/src/utils/data"
+import {sample_tickets} from "../test_samples/test_ticket_sample";
 
-import mongoose from "mongoose";
-// import { comment } from "../models/ticket.model";
-import { comment } from "../../tickets/src/models/ticket.model";
+import { comment } from "./testTicket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
-// import {jwtVerify} from "../../../jwtVerify/jwtVerify";
-import { jwtVerify } from "../../jwtVerify/jwtVerify";
 
 const router = Router();
 
@@ -244,17 +238,20 @@ router.put('/comment', expressAsyncHandler(
   ));
 
   router.post('/addTimeToFirstResponse', expressAsyncHandler(async (req, res) => {  
+    const ticketId = req.body.ticketId;
+    const commentTime = new Date(req.body.commentTime); // Ensure commentTime is Date type
+    
     try{
-      const ticketId = req.body.ticketId;
-    const commentTime = new Date(req.body.commentTime);
       const ticket = await TestTicketModel.findOne({ id: ticketId });
 
       if(ticket){
+        // check if timeToFirstResponse is not set yet
         if(!ticket.timeToFirstResponse){
           ticket.timeToFirstResponse = commentTime;
-          await ticket.save();
           res.status(200).send({message:"Time to first response added"});
-        } else{
+          await ticket.save();
+          return;
+        } else if(ticket.timeToFirstResponse) {
           res.status(200).send({message:"First response time already recorded"});
         }
       }
@@ -274,16 +271,15 @@ router.put('/updateTodoChecked/:id', expressAsyncHandler(async (req, res) => {
 
     if (ticket) {
       ticket.todoChecked = updatedTodoChecked;
-      // res.status(200).send({message: "Ticket todo checked updated"});
       await ticket.save();
       res.status(200).send({message: "Ticket todo checked updated"});
+      return;
     }
     else {
       res.status(404).send({message:"Ticket not found"});
     }
   } catch(error) {
-    // console.log('error:', error)
-    res.status(500).send({message:"Internal server error"});
+    res.status(500).send("Internal server error");
   }
 }));
 

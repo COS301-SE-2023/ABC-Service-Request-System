@@ -1,8 +1,7 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { sample_groups } from "../../groups/src/utils/sampleGroups";
+import { sample_groups } from "../test_samples/test_group_sample";
 import multer from 'multer';
-import { cloudinary } from '../configs/cloudinary';
 import { testGroupModel } from "./testGroup.model";
 
 const router = Router();

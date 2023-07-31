@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import { createProxyMiddleware } from 'http-proxy-middleware';
 import proxy = require("express-http-proxy");
-import { jwtVerify } from "../../backend/jwtVerify/jwtVerify";
 
 dotenv.config();
 //test
@@ -21,10 +20,7 @@ dbConnection();
 
 const app = express();
 
-app.use(cors({
-    // credentials: true,
-    // origin: ["http://localhost:4200"]
-}));
+app.use(cors());
 
 app.use(express.json());
 
@@ -34,63 +30,49 @@ app.use(function(req, res, next) {
   next();
 });
 
+let ticketUrl;
+let userUrl;
+let groupUrl;
+let clientUrl;
 
-// app.use('/api/ticket', createProxyMiddleware({ 
-//   target: 'http://localhost:3001', 
-//   onError: function onError(err, req, res) {
-//     console.error('Something went wrong with the proxy middleware', err)
-//   },
-//   changeOrigin: true,
-// }));
+if (process.env.NODE_ENV === 'production') {
+  ticketUrl = "https://luna-ticket-service-3504bae7e50a.herokuapp.com";
+} else {
+  ticketUrl = "http://localhost:3001";
+}
 
-// app.use('/api/user', createProxyMiddleware({ 
-//   target: 'http://localhost:3002', 
-//   pathRewrite: {
-//       '^/api/user': '/api/user',
-//   },
-//   changeOrigin: true,
-// }));
+if (process.env.NODE_ENV === 'production') {
+  userUrl = "https://luna-user-service-4883dabf907c.herokuapp.com";
+} else {
+  userUrl = "http://localhost:3002";
+}
 
-// app.use('/api/group', createProxyMiddleware({ 
-//   target: 'http://localhost:3003', 
-//   pathRewrite: {
-//       '^/api/group': '/api/group',
-//   },
-//   changeOrigin: true,
-// }));
+if (process.env.NODE_ENV === 'production') {
+  groupUrl = "https://luna-group-service-0ebbd0219a30.herokuapp.com";
+} else {
+  groupUrl = "http://localhost:3003";
+}
 
-// app.use('/api/notifications', createProxyMiddleware({ 
-//   target: 'http://localhost:3004', 
-//   pathRewrite: {
-//       '^/api/notifications': '/api/notifications',
-//   },
-//   changeOrigin: true,
-// }));
-
-// app.use('/api/client', createProxyMiddleware({ 
-//   target: 'http://localhost:3005', 
-//   onError: function onError(err, req, res) {
-//     console.error('Something went wrong with the proxy middleware', err);
-//     res.status(500).send('Something went wrong with the proxy middleware');
-//   },
-//   changeOrigin: true,
-// }));
+if (process.env.NODE_ENV === 'production') {
+  clientUrl = "https://luna-client-service-d5f98b3f6099.herokuapp.com";
+} else {
+  clientUrl = "http://localhost:3005";
+}
 
 
-
-app.use("/api/ticket", proxy("http://localhost:3001", {
+app.use("/api/ticket", proxy(ticketUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/ticket${req.url}`;
   },
 }));
 
-app.use("/api/user", proxy("http://localhost:3002", {
+app.use("/api/user", proxy(userUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/user${req.url}`;
   },
 }));
 
-app.use("/api/group", proxy("http://localhost:3003", {
+app.use("/api/group", proxy(groupUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/group${req.url}`;
   },
@@ -102,7 +84,7 @@ app.use("/api/notifications", proxy("http://localhost:3004", {
   },
 }));
 
-app.use("/api/client", proxy("http://localhost:3005", {
+app.use("/api/client", proxy(clientUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/client${req.url}`; // Prefix the request path with /api/user
   },
@@ -120,7 +102,7 @@ app.get('/api/welcome', (req: any, res :any) => {
 });
 
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 let server = app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

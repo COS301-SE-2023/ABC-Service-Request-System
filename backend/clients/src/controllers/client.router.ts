@@ -5,7 +5,7 @@ import { project } from "../models/client.model";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
-import { jwtVerify } from "../../../jwtVerify/jwtVerify";
+import { jwtVerify } from "../middleware/jwtVerify";
 
 const router = Router();
 

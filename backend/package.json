@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd src && nodemon server.ts",
-    "build": "tsc -p .",
+    "build": "babel --extensions .ts ./src -d ./dist",
+    "start": "cd dist && node server.js",
     "test": "nyc mocha -r ts-node/register --timeout 500000000 test/**/*.spec.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.22.9",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-typescript": "^7.22.5",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
@@ -34,8 +38,6 @@
     "typescript": "^5.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.1",
-    "@babel/preset-env": "^7.22.4",
     "@babel/register": "^7.21.0",
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
