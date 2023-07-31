@@ -6,7 +6,6 @@ import nodemailer from "nodemailer";
 import bcrypt from 'bcryptjs';       
 import multer, {Multer} from "multer";
 import jwt from 'jsonwebtoken';
-import { cloudinary } from '../configs/cloudinary';
 import dotenv from "dotenv";
 
 dotenv.config();

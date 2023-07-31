@@ -3,14 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { user } from "../../../backend/users/src/models/user.model";
 import { Observable, tap } from "rxjs";
-
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  API_URL = 'http://localhost:3000/api/user'; // replace with your API URL
-  LOGIN_URL = 'http://localhost:3000/api';
+
+
+  API_URL = environment.API_URL; // replace with your API URL
+  LOGIN_URL = environment.LOGIN_URL;
+  USER_UPLOAD_URL = environment.USER_UPLOAD_URL;
+  FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
 
   private token!: string | null;
 
@@ -155,24 +159,6 @@ export class UserService {
     return this.http.post(`${this.API_URL}/get_user_by_token`, { token }, { headers });
   }
 
-  // activateAccount(accountDetails: { inviteToken: string, password: string }) {
-
-  //   this.token = localStorage.getItem('token'); // retrieve token from localStorage
-  //   console.log('Token from storage:', this.token);
-  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-
-  //   const ret = this.http.post(`${this.API_URL}/activate_account`, accountDetails, { headers });
-
-  //   if (ret.forEach) {
-  //     ret.forEach((res: any) => {
-  //       if (res.message === 'Account activated successfully') {
-  //         this.router.navigateByUrl('http://localhost:4200/login');
-  //       }
-  //     });
-  //   }
-  //   return ret;
-  // }
-
   activateAccount(accountDetails: { inviteToken: string, password: string }): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     console.log('Token from storage:', this.token);
@@ -182,7 +168,7 @@ export class UserService {
       .pipe(
         tap((response: any) => {
           if (response.message === 'Account activated successfully') {
-            this.router.navigateByUrl('http://localhost:4200/login');
+            this.router.navigateByUrl(this.FRONTEND_LOGIN_URL);
           }
         })
       );
@@ -218,7 +204,7 @@ export class UserService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post<{ url: string }>(`http://localhost:3002/api/user/upload`, formData);
+    return this.http.post<{ url: string }>(this.USER_UPLOAD_URL, formData);
   }
 
   updateProfilePicture(userId: string, url: string) {

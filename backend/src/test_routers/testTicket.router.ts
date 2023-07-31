@@ -1,17 +1,11 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-// import { TicketModel } from "../models/ticket.model";
 import { TestTicketModel } from "./testTicket.model";
-//import { sample_tickets } from "../utils/data";
-import {sample_tickets} from "../../tickets/src/utils/data"
+import {sample_tickets} from "../test_samples/test_ticket_sample";
 
-import mongoose from "mongoose";
-// import { comment } from "../models/ticket.model";
-import { comment } from "../../tickets/src/models/ticket.model";
+import { comment } from "./testTicket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
-// import {jwtVerify} from "../../../jwtVerify/jwtVerify";
-import { jwtVerify } from "../../jwtVerify/jwtVerify";
 
 const router = Router();
 

@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import { createProxyMiddleware } from 'http-proxy-middleware';
 import proxy = require("express-http-proxy");
-import { jwtVerify } from "../../backend/jwtVerify/jwtVerify";
 
 dotenv.config();
 //test
@@ -31,20 +30,49 @@ app.use(function(req, res, next) {
   next();
 });
 
+let ticketUrl;
+let userUrl;
+let groupUrl;
+let clientUrl;
 
-app.use("/api/ticket", proxy("http://localhost:3001", {
+if (process.env.NODE_ENV === 'production') {
+  ticketUrl = "https://luna-ticket-service-3504bae7e50a.herokuapp.com";
+} else {
+  ticketUrl = "http://localhost:3001";
+}
+
+if (process.env.NODE_ENV === 'production') {
+  userUrl = "https://luna-user-service-4883dabf907c.herokuapp.com";
+} else {
+  userUrl = "http://localhost:3002";
+}
+
+if (process.env.NODE_ENV === 'production') {
+  groupUrl = "https://luna-group-service-0ebbd0219a30.herokuapp.com";
+} else {
+  groupUrl = "http://localhost:3003";
+}
+
+if (process.env.NODE_ENV === 'production') {
+  clientUrl = "https://luna-client-service-d5f98b3f6099.herokuapp.com";
+} else {
+  clientUrl = "http://localhost:3005";
+}
+
+
+app.use("/api/ticket", proxy(ticketUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/ticket${req.url}`;
   },
 }));
 
-app.use("/api/user", proxy("http://localhost:3002", {
+app.use("/api/user", proxy(userUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/user${req.url}`;
   },
 }));
 
-app.use("/api/group", proxy("http://localhost:3003", {
+app.use("/api/group", proxy(groupUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/group${req.url}`;
   },
@@ -56,7 +84,7 @@ app.use("/api/notifications", proxy("http://localhost:3004", {
   },
 }));
 
-app.use("/api/client", proxy("http://localhost:3005", {
+app.use("/api/client", proxy(clientUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/client${req.url}`; // Prefix the request path with /api/user
   },
