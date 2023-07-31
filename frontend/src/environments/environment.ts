@@ -8,6 +8,7 @@ export const environment = {
   TICKET_URL: 'http://localhost:3000/api/ticket',
   GROUP_URL: 'http://localhost:3000/api/group',
   USER_URL: 'http://localhost:3000/api/user/',
+  NOTIFICATION_URL: 'http://localhost:3000/api/notifications',
   CLIENT_URL: 'http://localhost:3000/api/client',
   FRONTEND_LOGIN_URL: 'http://localhost:4200/login'
 };
