@@ -8,11 +8,13 @@ The primary objective of this ticketing system is to streamline the project mana
 As a company grows it becomes increasingly challenging to manage numerous projects effectively. The proposed ticketing system will serve as a centralized management tool that processes and catalogs customer service requests, tracks project progress and allocates work among the management, technical, and functional teams.
 The ticketing system will enable seamless collaboration between teams by facilitating the assignment and tracking of tasks, communication through internal notes, and efficient handling of client requirements and project changes. Furthermore, the system will incorporate AI-driven data analytics to optimize ticket assignments, analyze project costs, and identify areas for improvement.
 
-[![Development Continuous Integration (CI)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml/badge.svg?branch=develop)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml)
+[![Continuous Deployment (CD)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml)
 
-[![Continuous Intergration (CI)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml/badge.svg?branch=develop)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml)
+[![Continuous Intergration (CI)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml)
 
-[![Testing](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml/badge.svg)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/backend_testing.yaml)
+[![Unit Testing](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml)
+
+[!Intergration Testing](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml)
 
 [![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
