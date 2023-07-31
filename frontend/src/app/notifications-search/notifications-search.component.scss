@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap%27');
+// @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap%27');
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
   }
-  
+
   .panel {
     width: 82%;
     float: right;
@@ -30,7 +30,7 @@
         display: flex;
         justify-content: center;
         align-self: center;
-        
+
         .filter-buttons{
             margin: 0.5em;
             border: 1px solid rgba(4, 83, 142);
@@ -45,7 +45,7 @@
         }
       }
 
-      
+
       .search-results{
         border-top: 1px solid #ccc;
        // margin-top: 1em;
@@ -55,7 +55,7 @@
                 //margin-top: 1em;
         align-items: center;
         flex-direction: column;
-        
+
         .search-user{
           display: -webkit-box;
           display: -ms-flexbox;
@@ -66,7 +66,7 @@
             width: 40vw;
             height: 15%;
             border: 1px solid rgba(73, 69, 69, 0.20);
-            border-radius: 8px;     
+            border-radius: 8px;
             background: white;
             cursor: pointer;
             padding: 1em 25px 0.5em;
@@ -76,7 +76,7 @@
                 font-weight: bold;
               }
             .search-user-default-img{
-              flex: 0 0 auto; 
+              flex: 0 0 auto;
               height: 3em;
               width: 3em;
               border-radius: 50px;
@@ -96,7 +96,7 @@
             }
 
             .search-user-description {
-              flex: 1; 
+              flex: 1;
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -104,7 +104,7 @@
             }
 
             .search-project-img{
-              flex: 0 0 auto; 
+              flex: 0 0 auto;
               height: 2.8em;
               width: 2.8em;
               border-radius: 50px;
@@ -140,24 +140,24 @@
                 font-style: normal;
                 font-size: 75%;
             }
-        }  
+        }
       }
 
-      
+
 
     .search-results-container::-webkit-scrollbar {
         width: 8px;
     }
-    
+
     .search-results-container::-webkit-scrollbar-thumb {
         background-color: #74ACCD;
         border-radius: 4px;
     }
-    
+
     .search-results-container::-webkit-scrollbar-track {
         background-color: #f2f2f2;
     }
-    
+
     .search-results-container::-webkit-scrollbar-thumb:vertical:hover {
         background-color: #0e80b5;
     }

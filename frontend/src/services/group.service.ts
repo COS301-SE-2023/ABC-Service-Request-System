@@ -4,7 +4,7 @@ import { Observable, switchMap, tap } from 'rxjs';
 import { group } from '../../../backend/groups/src/models/group.model';
 import { user } from "../../../backend/users/src/models/user.model";
 import { Router } from '@angular/router';
-
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,10 @@ import { Router } from '@angular/router';
 
 export class GroupService {
 
-  GROUPS_URL = 'http://localhost:3000/api/group';
+  GROUPS_URL = environment.GROUP_URL;
+  GROUP_UPLOAD_URL = environment.GROUP_UPLOAD_URL;
+  USER_URL = environment.USER_URL;
+
   private token!: string | null;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -22,7 +25,7 @@ export class GroupService {
     const formData = new FormData();
     formData.append('file', file);
     console.log(file.name);
-    return this.http.post<{ url: string }>(`http://localhost:3003/api/group/upload`, formData);
+    return this.http.post<{ url: string }>(this.GROUP_UPLOAD_URL, formData);
   }
 
   createGroup(group1: group): Observable<group> {
@@ -47,7 +50,7 @@ export class GroupService {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.post<any>(`http://localhost:3000/api/user/${userId}/add-group`, { groupId } , {headers});
+    return this.http.post<any>(`${this.USER_URL}/${userId}/add-group`, { groupId } , {headers});
   }
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
   addGroupToUsers(groupId: string, userIds: Array<string>): Observable<any> {
@@ -58,7 +61,7 @@ export class GroupService {
         switchMap(group => {
             const actualGroupId = group.id;
             console.log('actual group id: ' + actualGroupId);
-            return this.http.post<any>(`http://localhost:3000/api/user/add-group-to-users`, { groupId: actualGroupId, userIds } , {headers});
+            return this.http.post<any>(`${this.USER_URL}/add-group-to-users`, { groupId: actualGroupId, userIds } , {headers});
         })
     );
   }
@@ -68,7 +71,7 @@ export class GroupService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    return this.http.get<any>(`http://localhost:3000/api/group/objectId/${groupId}`, {headers});
+    return this.http.get<any>(`${this.GROUPS_URL}/objectId/${groupId}`, {headers});
   }
 
   getGroups(): Observable<group[]> {
