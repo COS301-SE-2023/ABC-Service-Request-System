@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/clients/src/models/client.model";
 import { group } from '../../../backend/groups/src/models/group.model';
 import { BehaviorSubject, Observable } from "rxjs";
-
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +15,8 @@ export class ClientService {
 
   project$ = this.projectsSubject.asObservable();
 
-  CLIENT_URL = 'http://localhost:3000/api/client';
+  CLIENT_URL = environment.CLIENT_URL;
+  USER_URL = environment.USER_URL;
 
   private token!: string | null;
 
@@ -52,6 +53,8 @@ export class ClientService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
+    console.log("client url should be luna but instead is: ", this.CLIENT_URL);
+    console.log("while user url is: ", this.USER_URL);
     return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`, {headers});
   }
 
@@ -92,7 +95,7 @@ export class ClientService {
     // this.token = localStorage.getItem('token'); // retrieve token from localStorage
     // console.log('Token from storage:', this.token);
     // const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    
+
     console.log("clientId in service: ", clientId);
     return this.http.delete<client>(`${this.CLIENT_URL}/delete_client`, { params: { clientId: clientId } });
   }

@@ -131,12 +131,12 @@ Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
 
 
 ## Demo 1
-View our [video](https://youtu.be/J1cRVKzwF0o)
+View our [video](https://youtu.be/J1cRVKzwF0o) <br>
 View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
 
 
 ## Demo 2
-View our [video]([https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=sharing](https://drive.google.com/drive/u/1/folders/1m7LIe8g_5pcapIm2fTp8kZS4Hu1MX9_K))
+View our [video](https://youtu.be/34bhsMyU1fc) <br>
 View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 # Project
 

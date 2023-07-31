@@ -1,3 +1,18 @@
 [submodule "luna-notification-service"]
 	path = luna-notification-service
 	url = https://github.com/SilentNight000/luna-notification-service.git
+[submodule "luna-user-service"]
+	path = luna-user-service
+	url = https://github.com/RaamnNoodlez99/luna-user-service.git
+[submodule "luna-backend"]
+	path = luna-backend
+	url = https://github.com/RaamnNoodlez99/luna-backend.git
+[submodule "luna-group-service"]
+	path = luna-group-service
+	url = https://github.com/RaamnNoodlez99/luna-group-service.git
+[submodule "luna-ticket-service"]
+	path = luna-ticket-service
+	url = https://github.com/RaamnNoodlez99/luna-ticket-service.git
+[submodule "luna-client-service"]
+	path = luna-client-service
+	url = https://github.com/RaamnNoodlez99/luna-client-service.git

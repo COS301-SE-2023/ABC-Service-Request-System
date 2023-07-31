@@ -46,3 +46,10 @@ jobs:
         run: ng test --watch=false --browsers=ChromeHeadless
         working-directory: frontend
 
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "infinite-reaches-07482" # replace with your Heroku app name
+          heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
+

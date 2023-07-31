@@ -2,15 +2,19 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { ticket, attachment, TicketModel } from "../../../backend/tickets/src/models/ticket.model";
-import { map, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 
 export class TicketsService {
-  TICKET_URL = 'http://localhost:3000/api/ticket';
-  USER_URL: any;
-  API_URL = 'http://localhost:3000/api/user';
+
+  API_URL = environment.API_URL; // replace with your API URL
+  TICKET_URL = environment.TICKET_URL;
+  COMMENT_URL = environment.COMMENT_URL;
+  USER_UPLOAD_URL = environment.USER_UPLOAD_URL;
+  GROUP_UPLOAD_URL = environment.GROUP_UPLOAD_URL;
+  FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
 
   private token!: string | null;
 
@@ -66,7 +70,7 @@ export class TicketsService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {ticketId, comment, author, authorPhoto, type, attachment};
-    return this.http.put(`http://localhost:3001/api/ticket/comment`, body, {headers});
+    return this.http.put(this.COMMENT_URL, body, {headers});
   }
 
   // Add Ticket Functionality
@@ -89,8 +93,7 @@ export class TicketsService {
   uploadFile(file: File) {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<{ url: string }>(`http://localhost:3003/api/group/upload`, formData);
-    // return this.http.post<{ url: string }>(`http://localhost:3001/api/ticket/upload`, formData);
+    return this.http.post<{ url: string }>(this.GROUP_UPLOAD_URL, formData);
   }
 
   updateTicketStatus(ticketId: string, status: string) {
