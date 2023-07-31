@@ -77,6 +77,7 @@ import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.compo
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 import { InternalAccountPage2Component } from './internal-account-page2/internal-account-page2.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { InternalAccountPage2Component } from './internal-account-page2/internal
     ViewProfileComponent,
     NotificationsSearchComponent,
     InternalAccountPage2Component,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

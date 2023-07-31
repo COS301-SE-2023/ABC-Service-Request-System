@@ -159,6 +159,6 @@ export class PageHeaderComponent {
   }
 
   navigateToSearch() {
-    this.router.navigate([`/notifications-search`]);
+    this.router.navigate([`/search`]);
   }
 }

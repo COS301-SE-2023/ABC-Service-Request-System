@@ -1,0 +1,112 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+<div>
+    <app-dash-panel></app-dash-panel>
+</div>
+
+<div class = "panel {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+    <div class="searchBar-container">
+        <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"class = "searchBar">
+    </div>
+    <div class = "filter-container">
+        <button class="filter-buttons" (click)="highlightButtonUsers($event)">Users</button>
+        <button class="filter-buttons" (click)="highlightButtonTickets($event)">Tickets</button>
+        <button class="filter-buttons" (click)="highlightButtonClients($event)">Clients</button>
+        <button class="filter-buttons" (click)="highlightButtonGroups($event)">Groups</button>
+        <button class="filter-buttons" (click)="highlightButtonProjects($event)">Projects</button>
+    </div>
+
+    <div class="search-results-container">
+        <div *ngIf="searchQuery.trim().length > 0" class="search-results">
+            <div *ngFor="let users of resultsUsers" class="search-user" (click) = "navigateToProfile(users.id)" tabindex="0">
+                <div class="search-user-default-img">
+                    <img [src]="users.profilePhoto" alt="user" style="border-radius: 50%;">
+                    <!-- <i class="fa-solid fa-user"></i> -->
+                </div>
+                <div class="search-user-description">
+                    <p class="title"><b>{{ users.name }}&nbsp;{{ users.surname}}</b></p>
+                    <p class ="additional-info"><b>Role: &nbsp;{{ users.roles[0]}}&nbsp;&nbsp;Group:&nbsp;{{users.groups[0]}}</b></p> 
+                </div>
+                <!-- <div class="graph-badge-red">
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+                    <p id="imp">11.91%</p>
+                  </div> -->
+                  <div class="graph-badge-green">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <p id="imp">20.1%</p>
+                  </div>
+            </div>
+            <div *ngFor="let clients of resultsClients" class="search-user">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-business-time"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class ="title"><b>{{clients.organisation}}</b></p>
+                    <p class ="additional-info"><b>{{clients.name}}&nbsp;</b> {{clients.email}}</p>
+                </div>
+            </div>
+            <div *ngFor="let clients of resultsClientsName" class="search-user">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-business-time"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class ="title"><b>{{clients.organisation}}</b></p>
+                    <p class ="additional-info"><b>Name:&nbsp;{{clients.name}}&nbsp; Email:&nbsp;{{clients.email}}</b></p>
+                </div>
+            </div>
+            <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-ticket-simple"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class = "title"><b>{{tickets.summary}}</b></p>
+                    <p class ="additional-info"><b>Assigned:&nbsp;{{tickets.assigned}}&nbsp;&nbsp;Group:&nbsp;{{tickets.group}}</b></p>
+                </div>
+            </div>
+            <div *ngFor="let tickets of resultsTicketsSummary" class="search-user" (click)="navigateToTicket(tickets.id)"  tabindex="0">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-ticket-simple"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class = "title"><b>{{highlightDescription(tickets.summary, searchQuery)}}</b></p>
+                    <p class ="additional-info"><b>Assigned:&nbsp;{{tickets.assigned}}&nbsp;&nbsp;Group:&nbsp;{{tickets.group}}</b></p>
+                </div>
+            </div>
+            <div *ngFor="let tickets of resultsTicketsDescription" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-ticket-simple"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class = "title"><b>{{ highlightDescription(tickets.description, searchQuery) }}</b></p>
+                    <p class ="additional-info"><b>Project:&nbsp;{{tickets.project}}&nbsp;&nbsp;Group:&nbsp;{{tickets.group}}</b></p>
+                </div>
+            </div>
+            <div *ngFor="let groups of resultsGroup" class="search-user" (click)="navigateToGroup()" tabindex="0">
+                <div class="search-user-default-img">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+                <div class="search-user-description">
+                    <p class = "title"><b>{{groups.groupName}}</b></p>
+                    <p class = "additional-info"><b>{{groups.id}}</b></p>
+                </div>
+            </div>
+            <div *ngFor="let projects of resultsProjectName" class="search-user">
+                <div class="search-project-img">
+                    <img src = "{{projects.logo}}" alt = "group-Icon">
+                </div>
+                <div class="search-user-description">
+                    <p class = "title"><b>{{projects.name}}</b></p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!searchQuery || searchQuery.trim().length === 0" class="search-results">
+
+        </div>
+    </div>
+
+</div>
+
+
+<div>
+    <app-page-header></app-page-header>
+</div>
