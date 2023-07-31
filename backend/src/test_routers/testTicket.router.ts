@@ -262,7 +262,7 @@ router.put('/comment', expressAsyncHandler(
         res.status(404).send({message:"Ticket not found"});
       }
     }catch(error){
-      res.status(500).send("Internal server error");
+      res.status(500).send({message:"Internal server error"});
     }
   }));
 

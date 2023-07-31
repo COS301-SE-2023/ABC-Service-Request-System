@@ -547,12 +547,10 @@ describe('/Ticket test collection', () => {
 
       it('should not add a time to first response if not set', async () => {
         const toSend= { ticketId: "2",  commentTime: "2023-07-22T12:34:56.789Z"};
-    
-        // Make a POST request to the /addTimeToFirstResponse route
         const res = await chai.request(app)
           .post('/api/test_ticket/addTimeToFirstResponse')
           .send(toSend);
-        // Assertions
+
         res.should.have.status(200);
         res.body.should.be.a('object');
         expect(res.body.message).to.equal('First response time already recorded');
@@ -569,12 +567,21 @@ describe('/Ticket test collection', () => {
           expect(res.body.message).to.equal('Ticket not found');
       })
 
+      it('should not add a time to first response should return 500 and a message', async () => {
+        const toSend= { ticketId: "1",  commentTime: "2023-07-22T12:34:56.789Z"};
+        const res = await chai.request(app)
+          .post('/api/test_ticket/addTimeToFirstResponse')
+          .send(toSend);
+        res.should.have.status(500);
+        res.body.should.be.a('object');
+        expect(res.body.message).to.equal('Internal server error');
+      });
+
     it('should updateTodos and return 200 and a message', async () => {
         const todoChecked = [ true ];
         const res = await chai.request(app)
             .put('/api/test_ticket/updateTodoChecked/2')
             .send({ todoChecked: todoChecked });
-            // console.log('HERE', res.body);
             res.should.have.status(200);
             res.body.should.be.an('object');
             expect(res.body.message).to.equal('Ticket todo checked updated');
@@ -596,8 +603,6 @@ describe('/Ticket test collection', () => {
             .get('/api/test_ticket/delete');
         
         res.should.have.status(200);
-        // res.body.should.be.a('array');
-        // res.body.should.have.lengthOf(0);
             res.body.should.be.a('object');
             expect(res.body.message).to.be.equal('Delete is done!');
     });
