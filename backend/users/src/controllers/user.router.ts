@@ -8,7 +8,7 @@ import multer, {Multer} from "multer";
 import jwt from 'jsonwebtoken';
 import { cloudinary } from '../configs/cloudinary';
 import dotenv from "dotenv";
-import { jwtVerify } from "../../../jwtVerify/jwtVerify";
+import { jwtVerify } from "../middleware/jwtVerify";
 dotenv.config();
 
 const router = Router();

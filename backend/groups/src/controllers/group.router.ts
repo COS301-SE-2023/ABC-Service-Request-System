@@ -4,7 +4,7 @@ import { sample_groups } from "../utils/sampleGroups";
 import multer from 'multer';
 import { cloudinary } from '../configs/cloudinary';
 import { groupModel } from "../models/group.model";
-import { jwtVerify } from "../../../jwtVerify/jwtVerify";
+import { jwtVerify } from "../middleware/jwtVerify";
 
 const router = Router();
 

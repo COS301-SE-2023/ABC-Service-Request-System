@@ -2,9 +2,8 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { TestClientModel } from "./testClient.model";
 import { project } from "./testClient.model";
-import { sample_clients } from "../../clients/src/utils/data";
+import { sample_clients } from "../test_samples/test_client_sample";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 
 const router = Router();

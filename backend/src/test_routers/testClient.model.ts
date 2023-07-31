@@ -1,5 +1,4 @@
 import { Schema, connection } from "mongoose"
-import { ticket, ticketSchema } from "./testTicket.model"
 import { group, groupSchema } from "./testGroup.model"
 
 export interface project {
