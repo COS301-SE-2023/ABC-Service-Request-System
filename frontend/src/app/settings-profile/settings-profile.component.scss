@@ -265,6 +265,30 @@ button.profile-picture {
   margin-top: 1em;
 }
 
+// .graph-badge-red {
+//   background-color: #F6CCCB;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 0.5em;
+//   max-width: fit-content;
+//   border-radius: 0.3em;
+//   position: absolute;
+//   top: 50%;
+//   right: 10%;
+//   transform: translateY(-50%);
+//   color: #8C2822;
+//   font-family: 'Montserrat', sans-serif;
+
+//   i {
+//     margin-right: 1em;
+//   }
+
+//   #imp {
+//     margin: 0 !important;
+//   }
+// }
+
 .graph-badge-green {
   background-color: #C7F5D3;
   display: flex;
@@ -275,7 +299,7 @@ button.profile-picture {
   border-radius: 0.3em;
   position: absolute;
   top: 50%;
-  right: 40%;
+  right: 10%;
   margin-left: 0.5em;
   transform: translateY(-50%);
   color: #33663D;
@@ -294,13 +318,14 @@ button.profile-picture {
 .line-chart-container {
   width: 40%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  margin-bottom: 60px;
 }
 
 .line-chart {
-  width: 100px;
-  height: 450px; /* Adjust the height as desired */
+  width: 100%;
 }
+
 
 .average-time {
   display: flex;
