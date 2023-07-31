@@ -183,7 +183,7 @@ export class UserService {
   }
 
   loginUser(userDetails: { emailAddress: string, password: string }) {
-
+    console.log("called login at route: ", this.API_URL);
     return this.http.post(`${this.API_URL}/login`, userDetails);
   }
 
