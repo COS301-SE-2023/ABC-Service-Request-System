@@ -2,7 +2,7 @@ import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { NotificationsModel } from "../models/notifications.model";
 import { sample_notifications } from "../utils/sampleNotifications";
-import { jwtVerify } from "../../../jwtVerify/jwtVerify";
+import { jwtVerify } from "../middleware/jwtVerify";
 const router = Router();
 
 router.post('/seed', expressAsyncHandler(
