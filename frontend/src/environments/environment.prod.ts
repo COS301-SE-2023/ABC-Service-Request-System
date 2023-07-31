@@ -8,5 +8,6 @@ export const environment = {
   TICKET_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/ticket',
   GROUP_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/group',
   USER_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user',
+  CLIENT_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/client',
   FRONTEND_LOGIN_URL: 'https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/login',
 };
