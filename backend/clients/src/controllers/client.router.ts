@@ -367,7 +367,7 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
                         </div>
                         <p class="greeting">Hello ${newClient.name},</p>
                         <p class="message">To complete your signup process, please click the button below.</p>
-                        <a href="http://localhost:3000/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
+                        <a href="https://luna-backend-fc437c959bfd.herokuapp.com/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
                     </div>
                 </body>
                 </html>
