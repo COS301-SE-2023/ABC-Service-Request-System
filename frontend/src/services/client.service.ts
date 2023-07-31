@@ -16,6 +16,7 @@ export class ClientService {
   project$ = this.projectsSubject.asObservable();
 
   CLIENT_URL = environment.CLIENT_URL;
+  USER_URL = environment.USER_URL;
 
   private token!: string | null;
 
@@ -52,6 +53,8 @@ export class ClientService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
+    console.log("client url should be luna but instead is: ", this.CLIENT_URL);
+    console.log("while user url is: ", this.USER_URL);
     return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`, {headers});
   }
 
