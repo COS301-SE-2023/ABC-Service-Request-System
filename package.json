@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "concurrently \"npm run start --prefix ./frontend\" \"npm run start --prefix ./backend\"",
-    "heroku-postbuild": "cd frontend && npm install && ng build --prod"
+    "heroku-postbuild": "cd frontend && npm install && ng build --configuration=production"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^16.1.6",
