@@ -3,6 +3,7 @@ import jwt_decode from 'jwt-decode';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
 import { user } from "../../../backend/users/src/models/user.model";
+import { environment } from '../environments/environment';
 
 interface DecodedToken {
   user: user;
@@ -12,6 +13,9 @@ interface DecodedToken {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  USER_URL = environment.USER_URL;
+
   private role: string[] = [];
   private name: string;
   private token: string | null;
@@ -65,7 +69,7 @@ export class AuthService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     console.log('user email: ', this.getUser().emailAddress);
-    const API_URL = 'http://localhost:3000/api/user/email'; // Replace with your API URL
+    const API_URL = `${this.USER_URL}/email`; // Replace with your API URL
     return this.http.get<user>(`${API_URL}?email=${this.getUser().emailAddress}`, { headers });
   }
 
@@ -74,7 +78,7 @@ export class AuthService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    const API_URL = 'http://localhost:3000/api/user/email';
+    const API_URL = `${this.USER_URL}/email`;
     return this.http.get<user>(`${API_URL}?email=${emailAddress}`, { headers });
   }
 
@@ -102,7 +106,7 @@ export class AuthService {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     console.log('Token from storage create_user:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const API_URL = 'http://localhost:3000/api/user'; // Replace with your API URL
+    const API_URL = this.USER_URL; // Replace with your API URL
     return this.http.post(`${API_URL}/create_user`, userDetails, { headers });
   }
 }
