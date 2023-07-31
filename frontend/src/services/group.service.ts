@@ -30,6 +30,9 @@ export class GroupService {
 
   createGroup(group1: group): Observable<group> {
     console.log('in service, group object:');
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const groupName = group1.groupName;
     const backgroundPhoto = group1.backgroundPhoto;
@@ -38,7 +41,7 @@ export class GroupService {
     const group2 = {groupName, backgroundPhoto, people};
     console.log(group2);
 
-    return this.http.post<group>(`${this.GROUPS_URL}/add`, group2).pipe(
+    return this.http.post<group>(`${this.GROUPS_URL}/add`, group2, {headers}).pipe(
       tap({
         next: () => console.log('Group created successfully'),
         error: (error) => console.error('Failed to create group', error),
