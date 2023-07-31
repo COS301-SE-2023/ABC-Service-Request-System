@@ -93,7 +93,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     console.log('in analytics page');
 
     //change name to id
-    this.userId = this.authService.getUser().name;
+    this.userId = this.authService.getUser().emailAddress;
     console.log('user id: ', this.userId);
 
     const userGroups: any [] = this.authService.getUser().groups;
@@ -164,6 +164,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
       console.log(todaysDate);
 
+      console.log('user id is: ', this.userId);
       this.ticketsService.getTicketsWithName(this.userId).subscribe(
         (response) => {
           console.log(response);
@@ -494,10 +495,10 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
             backgroundColor: 'rgba(26, 188, 156, 0.2)',  // Change opacity to 0.2 for better visualization
             tension: 0,   // Slightly increase tension for smoother lines
             pointRadius: 5,
-            pointHoverRadius: 7,
+            pointHoverRadius: 6,
             pointBorderColor: '#fff',
             pointBackgroundColor: 'rgba(26, 188, 156, 1)',
-            borderWidth: 2    // Increase the line width for better visibility
+            borderWidth: 2   // Increase the line width for better visibility
           },
           {
             label: 'Tickets Resolved',
@@ -506,7 +507,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
             backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Change opacity to 0.2 for better visualization
             tension: 0,   // Slightly increase tension for smoother lines
             pointRadius: 5,
-            pointHoverRadius: 7,
+            pointHoverRadius: 6,
             pointBorderColor: '#fff',
             pointBackgroundColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 2    // Increase the line width for better visibility
@@ -659,6 +660,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
                     labels: {
                         usePointStyle: true, // makes legend markers round
                     }
+
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0,0,0,0.7)', // make tooltips slightly transparent
@@ -706,8 +708,12 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
         responsive: false,
         plugins: {
           legend: {
-            position: 'left'
-          }
+            position: 'left',
+            labels: {
+              usePointStyle: true, // Use point styles for legend
+              pointStyle: 'circle' // You can set this to any valid point style
+            }
+          },
         },
         scales: {
           r: {
@@ -720,7 +726,8 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
                     color: 'white', // White tick labels for contrast
             },
           }
-        }
+        },
+
       }
     });
   }
@@ -736,3 +743,5 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     this.polarChart.update();
   }
 }
+
+// export { AnalyticsPageComponents }

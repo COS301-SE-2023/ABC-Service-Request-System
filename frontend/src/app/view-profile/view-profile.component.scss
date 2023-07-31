@@ -230,7 +230,7 @@ button.profile-picture {
   border-radius: 0.3em;
   position: absolute;
   top: 50%;
-  right: 40%;
+  right: 10%;
   margin-left: 0.5em;
   transform: translateY(-50%);
   color: #33663D;
@@ -249,13 +249,14 @@ button.profile-picture {
 .line-chart-container {
   width: 40%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  margin-bottom: 60px;
 }
 
 .line-chart {
-  width: 100px;
-  height: 450px; /* Adjust the height as desired */
+  width: 100%;
 }
+
 
 .average-time {
   display: flex;
