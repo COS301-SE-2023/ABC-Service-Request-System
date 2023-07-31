@@ -558,6 +558,17 @@ describe('/Ticket test collection', () => {
         expect(res.body.message).to.equal('First response time already recorded');
       });
 
+      it('should not find a ticket to add the first response to',async () => 
+      {
+        const toSend = {ticketId:"999", commentTime: "2023-07-22T12:34:56.789Z"} 
+        const res = await chai.request(app)
+          .post('/api/test_ticket/addTimeToFirstResponse')
+          .send(toSend);
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          expect(res.body.message).to.equal('Ticket not found');
+      })
+
     it('should updateTodos and return 200 and a message', async () => {
         const todoChecked = [ true ];
         const res = await chai.request(app)

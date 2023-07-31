@@ -258,6 +258,9 @@ router.put('/comment', expressAsyncHandler(
           res.status(200).send({message:"First response time already recorded"});
         }
       }
+      else{
+        res.status(404).send({message:"Ticket not found"});
+      }
     }catch(error){
       res.status(500).send("Internal server error");
     }
