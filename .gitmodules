@@ -1,6 +1,3 @@
-[submodule "luna-notification-service"]
-	path = luna-notification-service
-	url = https://github.com/SilentNight000/luna-notification-service.git
 [submodule "luna-user-service"]
 	path = luna-user-service
 	url = https://github.com/RaamnNoodlez99/luna-user-service.git

@@ -33,6 +33,7 @@ app.use(function(req, res, next) {
 let ticketUrl;
 let userUrl;
 let groupUrl;
+let notificationUrl;
 let clientUrl;
 
 if (process.env.NODE_ENV === 'production') {
@@ -51,6 +52,12 @@ if (process.env.NODE_ENV === 'production') {
   groupUrl = "https://luna-group-service-0ebbd0219a30.herokuapp.com";
 } else {
   groupUrl = "http://localhost:3003";
+}
+
+if (process.env.NODE_ENV === 'production') {
+  notificationUrl = "https://luna-notification-service-029a9c4e1fc3.herokuapp.com";
+} else {
+  notificationUrl = "http://localhost:3004";
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -78,7 +85,7 @@ app.use("/api/group", proxy(groupUrl, {
   },
 }));
 
-app.use("/api/notifications", proxy("http://localhost:3004", {
+app.use("/api/notifications", proxy(notificationUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/notifications${req.url}`;
   },
