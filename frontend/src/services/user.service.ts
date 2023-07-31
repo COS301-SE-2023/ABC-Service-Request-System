@@ -11,15 +11,15 @@ import { environment } from '../environments/environment';
 export class UserService {
 
 
-  // API_URL = environment.API_URL; // replace with your API URL
+  API_URL = environment.API_URL; // replace with your API URL
   // LOGIN_URL = environment.LOGIN_URL;
-  // USER_UPLOAD_URL = environment.USER_UPLOAD_URL;
-  // FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
+  USER_UPLOAD_URL = environment.USER_UPLOAD_URL;
+  FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
 
-    API_URL = 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user'; // replace with your API URL
+    // API_URL = 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user'; // replace with your API URL
   LOGIN_URL = 'https://luna-backend-fc437c959bfd.herokuapp.com/api';
-  USER_UPLOAD_URL = 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user/upload';
-  FRONTEND_LOGIN_URL = 'https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/login';
+  // USER_UPLOAD_URL = 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user/upload';
+  // FRONTEND_LOGIN_URL = 'https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/login';
 
   private token!: string | null;
 
