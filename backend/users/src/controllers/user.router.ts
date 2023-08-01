@@ -382,7 +382,7 @@ router.get('/activate_account', expressAsyncHandler(
                 res.status(409).send('Invalid token.');
                 return;
             }else{
-                res.redirect(`http://localhost:4200/activate_account/${inviteToken}`);
+                res.redirect(`https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/activate_account/${inviteToken}`);
                 // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
             }
             
