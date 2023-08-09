@@ -67,7 +67,11 @@ export class SettingsProfileComponent { // implements OnInit{
 
   @ViewChild('lineChartCanvas', { static: true }) lineChartCanvas!: ElementRef;
   @ViewChild('ticketResolutionLineChartCanvas', { static: true }) ticketResolutionLineChartCanvas!: ElementRef;
+  numUpdates = 0;
+  activeCounter = 0;
 
+  headerPhotoPreview?: string;
+  profilePhotoPreview?: string;
 
   makeBioEditable() {
     this.bioEditable = true;
@@ -82,6 +86,22 @@ export class SettingsProfileComponent { // implements OnInit{
   constructor(private userService: UserService, private authService: AuthService,
   private groupService: GroupService, private cdr: ChangeDetectorRef, private navbarService: NavbarService,
   private router: Router,  private ticketsService: TicketsService) {}
+
+  isModalOpen = false;
+
+  toggleModal(): void {
+    // console.log('toggle modal');
+    if (!this.isModalOpen) {
+      this.headerPhotoPreview = this.currentUser.headerPhoto;
+      this.profilePhotoPreview = this.currentUser.profilePhoto;
+    } else {
+      this.currentUser.headerPhoto = this.headerPhotoPreview!;
+      this.currentUser.profilePhoto = this.profilePhotoPreview!;
+    }
+
+    this.isModalOpen = !this.isModalOpen;
+  }
+
 
   ngOnInit(): void {
     this.navbarService.collapsed$.subscribe(collapsed => {
@@ -181,9 +201,6 @@ export class SettingsProfileComponent { // implements OnInit{
         );
       }
     );
-
-
-
   }
 
   @ViewChild('fileUploader')
@@ -207,7 +224,27 @@ export class SettingsProfileComponent { // implements OnInit{
     }
   }
 
+  @ViewChild('headerInput')
+  headerInput!: ElementRef;
 
+  onHeaderChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      const file = target.files[0];
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = e => {
+        if (typeof reader.result === 'string') {
+          this.currentUser.headerPhoto = reader.result;
+          this.profileHeader = file;
+        }
+      };
+      this.profileChanged = true;
+      reader.readAsDataURL(file);
+    }
+    // this.currentUser.headerPhoto = newImageUrl;
+  }
 
   @ViewChild('headerFileUploader')
   headerFileUploader!: ElementRef;
@@ -231,11 +268,32 @@ export class SettingsProfileComponent { // implements OnInit{
   }
 
   saveProfile() {
+    console.log('in save profile()');
     this.profileChanged = false;
     this.bioEditable = false;
     this.socialsEditable = false;
 
+    this.numUpdates = 0;
+    this.activeCounter = 0;
+
+    // if (this.profilePicture) {
+    //   this.numUpdates++;
+    // }
+    // if (this.profileHeader) {
+    //   this.numUpdates++;
+    // }
+    if (this.githubLink && (this.githubLink != this.oldGithubLink)){
+      this.numUpdates++;
+    }
+    if (this.userBio && (this.userBio != this.oldUserBio)) {
+      this.numUpdates++;
+    }
+    if (this.linkedinLink && (this.linkedinLink != this.oldLinkedinLink)) {
+      this.numUpdates++;
+    }
+
     if (this.profilePicture) {
+      this.activeCounter++;
       this.userService.uploadFile(this.profilePicture).subscribe(
         (result:any) => {
           const url = result.url;
@@ -254,6 +312,7 @@ export class SettingsProfileComponent { // implements OnInit{
               )
               this.profilePicture = undefined;
               alert('Profile picture updated');
+              this.toggleModal();
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -267,7 +326,7 @@ export class SettingsProfileComponent { // implements OnInit{
     }
 
     if (this.profileHeader) {
-      console.log('this.profileHeader');
+      this.activeCounter++;
       this.userService.uploadFile(this.profileHeader).subscribe(
         (result:any) => {
           const url = result.url;
@@ -284,6 +343,7 @@ export class SettingsProfileComponent { // implements OnInit{
               )
               this.profileHeader = undefined;
               alert('Profile header updated');
+              this.toggleModal();
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -297,6 +357,7 @@ export class SettingsProfileComponent { // implements OnInit{
     }
 
     if (this.userBio && (this.userBio != this.oldUserBio)) {
+      this.activeCounter++;
       this.userService.updateBio(this.currentUser.id, this.userBio).subscribe(
         (result:any) => {
           console.log(result);
@@ -313,6 +374,7 @@ export class SettingsProfileComponent { // implements OnInit{
     }
 
     if (this.githubLink && (this.githubLink != this.oldGithubLink)) {
+      this.activeCounter++;
       this.userService.updateGithub(this.currentUser.id, this.githubLink).subscribe(
         (result:any) => {
           console.log(result);
@@ -328,6 +390,7 @@ export class SettingsProfileComponent { // implements OnInit{
     }
 
     if (this.linkedinLink && (this.linkedinLink != this.oldLinkedinLink)) {
+      this.activeCounter++;
       this.userService.updateLinkedin(this.currentUser.id, this.linkedinLink).subscribe(
         (result:any) => {
           console.log(result);
@@ -341,6 +404,13 @@ export class SettingsProfileComponent { // implements OnInit{
           console.log('Error updating LinkedIn link', error);
         }
       )
+    }
+
+    console.log('numupdates ' + this.numUpdates);
+    console.log('active counter: ' + this.activeCounter);
+    if (this.activeCounter === this.numUpdates) {
+      console.log('this.activeCounter === this.numUpdates');
+      this.toggleModal();
     }
   }
 

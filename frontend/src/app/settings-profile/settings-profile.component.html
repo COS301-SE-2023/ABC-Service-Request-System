@@ -1,22 +1,18 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- <app-page-header></app-page-header> -->
 
 <div class="settings-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 
-  <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader>
+  <!-- <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader> -->
   <div class = "profile-header">
-    <button class="profile-header-btn" (click)="headerFileUploader.click()">
-      <div class = "edit-icon">
-        <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
-      </div>
+    <button class="profile-header-btn">
       <img *ngIf = "this.currentUser" class = "profile-header-img" src = "{{currentUser.headerPhoto}}" alt = "profile-header">
     </button>
   </div>
 
-  <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
-
-  <button class="profile-picture" (click)="fileUploader.click()">
+  <button class="profile-picture">
     <img  *ngIf = "this.currentUser" class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
     <!-- <div class="edit-icon">
       <img class="edit-icon-img" src="../../assets/pen.png" alt="edit-icon">
@@ -32,8 +28,8 @@
       <div  *ngIf = "this.currentUser" class="name">{{currentUser.name}}</div>
       <div  *ngIf = "this.currentUser" class="surname">{{currentUser.surname}}</div>
     </div>
-    <div class="save-profile-btn-container" *ngIf="profileChanged">
-      <button class="save-profile-btn" (click)="saveProfile()">Save profile</button>
+    <div class="save-profile-btn-container">
+      <button class="save-profile-btn" (click)="toggleModal()">Edit profile</button>
     </div>
     <div class="email">
       <img src="../../assets/email.png" alt="mail-icon">
@@ -53,13 +49,13 @@
       <input class = "input-bio" [(ngModel)]="userBio" [readonly]="!bioEditable" placeholder="" name="userBio">
 
     </form>
-    <div class="edit-icon-container-2">
+    <!-- <div class="edit-icon-container-2">
       <img class="edit-icon-img-2"
         src="../../assets/pencil.png"
         alt="edit-icon"
         tabindex="0"
         (click)="makeBioEditable()">
-    </div>
+    </div> -->
     <!-- <button (click)="saveProfile()">Save</button> -->
   </div>
 
@@ -139,13 +135,13 @@
 
   <div class="socials">
     <p class="socials-text">Socials</p>
-    <div class="edit-icon-container-3">
+    <!-- <div class="edit-icon-container-3">
       <img class="edit-icon-img-3"
         src="../../assets/pencil.png"
         alt="edit-icon"
         tabindex="0"
         (click)="makeSocialsEditable()">
-    </div>
+    </div> -->
     <div class="socials-container">
       <div class="column">
         <div class="social-card">
@@ -189,5 +185,50 @@
     <p class="notifications-text">Notification Settings</p>
   </div>
 </div>
+
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-header">
+    <button class="save-button" (click)="saveProfile()">Save</button>
+    <p class = "edit-profile-text">Edit Profile<p>
+    <button class="close-button" (click)="toggleModal()">
+      <img src="../../assets/close.png" alt="Close Modal">
+    </button>
+  </div>
+  <div class="modal-content">
+    <div class="header-photo-container">
+      <input type="file" (change)="onHeaderChange($event)" style="display:none" #headerInput>
+      <img *ngIf="this.currentUser"
+           class="header-photo pointer"
+           src="{{currentUser.headerPhoto}}"
+           alt="Header Photo"
+           (click)="headerInput.click()">
+    </div>
+    <div class="profile-photo-container">
+      <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
+      <img *ngIf="this.currentUser"
+           class="profile-photo pointer"
+           src="{{currentUser.profilePhoto}}"
+           alt="profile Photo"
+           (click)="fileUploader.click()">
+    </div>
+    <div class="name-modal">{{currentUser.name}} {{currentUser.surname}}</div>
+    <div class="user-info">
+      <div class="bio-modal">
+        <label>Bio</label>
+        <input type="text" placeholder="{{currentUser.bio}}" [(ngModel)]="userBio">
+      </div>
+      <div class="github-modal">
+        <label>GitHub</label>
+        <input type="url" placeholder="Enter your GitHub link" [(ngModel)]="githubLink">
+      </div>
+      <div class="linkedin-modal">
+        <label>LinkedIn</label>
+        <input type="url" placeholder="Enter your LinkedIn link" [(ngModel)]="linkedinLink">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="toggleModal()"></div>
+
 
 <!-- <app-dash-panel></app-dash-panel> -->

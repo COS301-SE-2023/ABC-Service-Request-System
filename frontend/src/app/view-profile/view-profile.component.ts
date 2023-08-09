@@ -80,7 +80,6 @@ export class ViewProfileComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       const id = params['id'];
-      console.log(id);
       if (id) {
         this.userService.getUser(id).subscribe(user => {
           this.currentUser = user;
@@ -90,31 +89,23 @@ export class ViewProfileComponent implements OnInit {
           this.currentUser.groups.forEach(groupId => {
             this.groupService.getGroupById(groupId).subscribe(group => {
               this.groups.push(group);
-            });
-          });
-          if (this.lineChart) {
-            this.lineChart.destroy();
-          }
+              if (this.lineChart) {
+                this.lineChart.destroy();
+              }
 
-          if (this.ticketResolutionLineChart) {
-            this.ticketResolutionLineChart.destroy();
-          }
-
-          this.currentUser.groups.forEach(groupId => {
-            this.groupService.getGroupById(groupId).subscribe(group => {
-              this.groups.push(group);
+              if (this.ticketResolutionLineChart) {
+                this.ticketResolutionLineChart.destroy();
+              }
               this.createLineChart();
               this.createTicketResolutionLineChart();
               this.flag = true
             });
           });
-
         });
       }
     });
 
     if (this.flag) {
-
       this.route.queryParams.subscribe(params => {
         const id = params['id'];
         console.log(id);
