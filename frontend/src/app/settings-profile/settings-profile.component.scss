@@ -38,14 +38,6 @@ app-page-header {
 
 }
 
-.profile-header:hover .profile-header-img {
-  cursor: pointer;
-  filter: grayscale(30%);
-}
-
-.profile-header:hover .edit-icon-img {
-  display: block;
-}
 .profile-header-btn {
   width: 100%;
   background: none;
@@ -53,20 +45,11 @@ app-page-header {
   padding: 0;
 }
 
-.profile-picture:hover .profile-picture-img {
-  cursor: pointer;
-  filter: grayscale(30%);
-}
-
-.profile-picture:hover .edit-icon-img {
-  display: block;
-}
 
 button.profile-picture {
   background: none;
   border: none;
   padding: 0;
-  /* include any other styles to reset any button defaults */
 }
 
 
@@ -167,7 +150,7 @@ button.profile-picture {
 .edit-icon-img {
   width: 35px;
   height:35px;
-  cursor: pointer;
+  // cursor: pointer;
   // right: 800px;
 }
 
@@ -181,7 +164,7 @@ button.profile-picture {
 .edit-icon-img-2 {
   width: 18px;
   height: 18px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 .bio-line-one {
@@ -591,7 +574,7 @@ button.profile-picture {
 .edit-icon-img-3 {
   width: 18px;
   height: 18px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 .go-icon{

@@ -8,9 +8,6 @@
   <!-- <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader> -->
   <div class = "profile-header">
     <button class="profile-header-btn">
-      <div class = "edit-icon">
-        <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
-      </div>
       <img *ngIf = "this.currentUser" class = "profile-header-img" src = "{{currentUser.headerPhoto}}" alt = "profile-header">
     </button>
   </div>
