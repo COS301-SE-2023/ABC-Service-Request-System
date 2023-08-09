@@ -70,6 +70,8 @@ export class SettingsProfileComponent { // implements OnInit{
   numUpdates = 0;
   activeCounter = 0;
 
+  headerPhotoPreview?: string;
+  profilePhotoPreview?: string;
 
   makeBioEditable() {
     this.bioEditable = true;
@@ -89,6 +91,14 @@ export class SettingsProfileComponent { // implements OnInit{
 
   toggleModal(): void {
     // console.log('toggle modal');
+    if (!this.isModalOpen) {
+      this.headerPhotoPreview = this.currentUser.headerPhoto;
+      this.profilePhotoPreview = this.currentUser.profilePhoto;
+    } else {
+      this.currentUser.headerPhoto = this.headerPhotoPreview!;
+      this.currentUser.profilePhoto = this.profilePhotoPreview!;
+    }
+
     this.isModalOpen = !this.isModalOpen;
   }
 
@@ -233,6 +243,7 @@ export class SettingsProfileComponent { // implements OnInit{
       this.profileChanged = true;
       reader.readAsDataURL(file);
     }
+    // this.currentUser.headerPhoto = newImageUrl;
   }
 
   @ViewChild('headerFileUploader')
@@ -265,12 +276,12 @@ export class SettingsProfileComponent { // implements OnInit{
     this.numUpdates = 0;
     this.activeCounter = 0;
 
-    if (this.profilePicture) {
-      this.numUpdates++;
-    }
-    if (this.profileHeader) {
-      this.numUpdates++;
-    }
+    // if (this.profilePicture) {
+    //   this.numUpdates++;
+    // }
+    // if (this.profileHeader) {
+    //   this.numUpdates++;
+    // }
     if (this.githubLink && (this.githubLink != this.oldGithubLink)){
       this.numUpdates++;
     }
@@ -301,6 +312,7 @@ export class SettingsProfileComponent { // implements OnInit{
               )
               this.profilePicture = undefined;
               alert('Profile picture updated');
+              this.toggleModal();
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -331,6 +343,7 @@ export class SettingsProfileComponent { // implements OnInit{
               )
               this.profileHeader = undefined;
               alert('Profile header updated');
+              this.toggleModal();
             },
             (error: any) => {
               console.log('Error updating profile picture', error);

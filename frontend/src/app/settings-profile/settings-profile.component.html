@@ -5,9 +5,9 @@
 
 <div class="settings-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
 
-  <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader>
+  <!-- <input type="file" (change)="onHeaderFileSelected($event)" style="display: none;" #headerFileUploader> -->
   <div class = "profile-header">
-    <button class="profile-header-btn" (click)="headerFileUploader.click()">
+    <button class="profile-header-btn">
       <div class = "edit-icon">
         <img class = "edit-icon-img" src = "../../assets/pen.png" alt = "edit-icon">
       </div>
@@ -15,9 +15,7 @@
     </button>
   </div>
 
-  <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
-
-  <button class="profile-picture" (click)="fileUploader.click()">
+  <button class="profile-picture">
     <img  *ngIf = "this.currentUser" class="profile-picture-img" src="{{currentUser.profilePhoto}}" alt="profile-picture-img">
     <!-- <div class="edit-icon">
       <img class="edit-icon-img" src="../../assets/pen.png" alt="edit-icon">
@@ -209,7 +207,7 @@
            (click)="headerInput.click()">
     </div>
     <div class="profile-photo-container">
-      <input type="file" (change)="onFileSelected($event)" style="display:none" #headerInput>
+      <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUploader>
       <img *ngIf="this.currentUser"
            class="profile-photo pointer"
            src="{{currentUser.profilePhoto}}"
