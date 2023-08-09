@@ -267,6 +267,8 @@ export class SettingsProfileComponent { // implements OnInit{
     }
   }
 
+  profilePicChanged = false;
+  profileHeadChanged = false;
   saveProfile() {
     console.log('in save profile()');
     this.profileChanged = false;
@@ -276,12 +278,12 @@ export class SettingsProfileComponent { // implements OnInit{
     this.numUpdates = 0;
     this.activeCounter = 0;
 
-    // if (this.profilePicture) {
-    //   this.numUpdates++;
-    // }
-    // if (this.profileHeader) {
-    //   this.numUpdates++;
-    // }
+    if (this.profilePicture) {
+      this.profilePicChanged = true;
+    }
+    if (this.profileHeader) {
+      this.profileHeadChanged = true;
+    }
     if (this.githubLink && (this.githubLink != this.oldGithubLink)){
       this.numUpdates++;
     }
@@ -312,7 +314,9 @@ export class SettingsProfileComponent { // implements OnInit{
               )
               this.profilePicture = undefined;
               alert('Profile picture updated');
-              this.toggleModal();
+              if (this.profileHeadChanged === false) {
+                this.toggleModal();
+              }
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
