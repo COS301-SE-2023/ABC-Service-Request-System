@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { notifications } from "../../../backend/notifications/src/models/notifications.model";
-
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 
 export class NotificationsService {
-  NOTIFICATIONS_URL = 'http://localhost:3000/api/notifications';
+  NOTIFICATIONS_URL = environment.NOTIFICATION_URL;
   private token!: string | null;
 
   constructor(private http: HttpClient, private router: Router) { }

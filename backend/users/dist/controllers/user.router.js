@@ -464,7 +464,7 @@ router.get('/activate_account', (0, _expressAsyncHandler["default"])( /*#__PURE_
           res.status(409).send('Invalid token.');
           return _context7.abrupt("return");
         case 10:
-          res.redirect("http://localhost:4200/activate_account/".concat(inviteToken));
+          res.redirect("https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/activate_account/".concat(inviteToken));
           // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
         case 11:
           _context7.next = 15;
