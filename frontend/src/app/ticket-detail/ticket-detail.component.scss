@@ -571,3 +571,177 @@ app-user-dropdown{
     margin: 0 !important;
   }
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  
+  left: 40px;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);  /* semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;  /* makes sure it appears on top of other content */
+  
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 40%;
+}
+
+.rounded-button {
+  border-radius: 10px; 
+  padding: 10px 20px;  
+  background-color: #007bff; 
+  color: white;  
+  border: none;  
+  cursor: pointer;  
+  transition: background-color 0.3s; 
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.rounded-button:hover {
+  background-color: #0056b3;  
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block; 
+}
+
+textarea {
+  width: 100%;
+  resize: vertical; 
+}
+
+.modal-header {
+    margin-bottom: 10px;
+}
+
+
+.time-fields {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.date-time-fields {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.time-fields > .form-group, 
+.date-time-fields > .form-group {
+  flex: 1; 
+  margin-right: 10px;
+}
+
+.time-fields > .form-group:last-child,
+.date-time-fields > .form-group:last-child {
+  margin-right: 0;
+}
+
+
+.button-group {
+  margin-top: 20px;
+}
+
+
+.custom-quill-editor .ql-container {
+  height: 150px; 
+  width: 100%; 
+}
+
+.ql-editor {
+  max-height: 250px; 
+  overflow-y: auto; 
+}
+
+.button-group button {
+  margin-right: 10px; 
+}
+
+.button-group button[type="submit"] {
+  background-color: #007BFF; 
+  color: #ffffff; 
+  border: black; 
+  border-radius: 5px; 
+}
+
+.custom-bullet {
+  font-size: 24px; /* adjust this value to your liking */
+}
+
+.form-group input {
+  transition: border 0.3s;  /* This ensures a smooth transition when hovering */
+  border-radius: 5px;
+}
+
+/* Define the hover state style for the input elements */
+.form-group input:hover {
+  border: 1px solid blue;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+.button-group button[type="submit"] {
+  background-color: #007BFF;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 10px 20px; /* Added padding for better visual appeal */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s, border-color 0.3s; /* Smooth transition effect */
+  text-align: center; /* Align text to center */
+}
+
+/* Hover effect */
+.button-group button[type="submit"]:hover {
+  background-color: #0056b3;
+  
+}
+
+/* Active effect (when the button is clicked) */
+.button-group button[type="submit"]:active {
+  background-color: #004499;
+  
+}
+
+/* Focus effect (for accessibility) */
+.button-group button[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Added a subtle shadow for focus effect */
+}

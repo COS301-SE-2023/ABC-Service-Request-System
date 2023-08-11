@@ -64,6 +64,18 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   todosChanged: boolean[] = [];
   numReversed = 0;
 
+  isFormVisible = false;
+  description = '';
+
+  toggleForm() {
+    this.isFormVisible = !this.isFormVisible;
+  }
+
+  cancel() {
+    // Add your logic for cancelling here. 
+    // For instance, you might want to reset the form, navigate away, etc.
+  }
+
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;

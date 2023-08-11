@@ -194,6 +194,50 @@
         <!-- <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button> -->
       </div>
 
+      <button class="rounded-button" (click)="toggleForm()">Log Work Hours</button>
+      <div class="modal" *ngIf="isFormVisible">
+          <div class="modal-content">
+              <form>
+                  <h2 class="modal-header" style="color: blue;">Time tracking</h2>
+                  <hr style="border-color: blue; width: 100%;">
+                  <div class="time-fields">
+                      <div class="form-group">
+                          <label for="timeSpent">Time Spent:</label>
+                          <input id="timeSpent" name="timeSpent">
+                      </div>
+                      <div class="form-group">
+                          <label for="timeRemaining">Time Remaining:</label>
+                          <input id="timeRemaining" name="timeRemaining">
+                      </div>
+                  </div>
+                  <p>Use the format: 2w 4d 6h 45m</p>
+                  <p>&bull; w = weeks</p>
+                  <p>&bull; d = days</p>
+                  <p>&bull; h = hours</p>
+                  <p>&bull; m = minutes</p>
+
+                  <div class="date-time-fields">
+                      <div class="form-group">
+                          <label for="dateStarted">Date Started:</label>
+                          <input type="date" id="dateStarted" name="dateStarted">
+                      </div>
+                      <div class="form-group">
+                          <label for="timeStarted">Time Started:</label>
+                          <input type="time" id="timeStarted" name="timeStarted">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Description:</label>
+                      <quill-editor [(ngModel)]="description" id="description" name="description"></quill-editor>
+                  </div>
+                  <div class="button-group">
+                      <button type="submit">Save</button>
+                      <button type="button" (click)="cancel()">Cancel</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+
 
       <div class="sla-area">
         <mat-expansion-panel (opened)="SLAPanelOpenState = true"
