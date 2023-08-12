@@ -1,0 +1,138 @@
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.login-container{
+  background: -webkit-linear-gradient(left, #DE3DBF 10%, #67219E 100%, #fff 150%);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.background-img{
+  position: fixed;
+  bottom: 0em;
+  z-index: -1000;
+}
+
+.login-outer-container{
+  display: flex;
+  justify-content: center;
+  // background-color: red;
+
+  .login-inner-container{
+    width: 40%;
+    margin: 2em;
+    // background-color: green;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+
+    .logo-header {
+      display: flex;
+      // background-color: yellow;
+      align-items: center;
+      position: absolute;
+      top: 0;
+
+      img{
+        width: 10%;
+      }
+
+      h1{
+        font-family: "Futura PT", sans-serif;
+        background: -webkit-linear-gradient(23deg, #67219E 10%, #DE3DBF 190%, #fff 210%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.03em;
+        font-size: 3em;
+        margin: 0;
+        margin-left: 0.5em;
+        font-weight: 500;
+      }
+    }
+
+    .form-area{
+      // background-color: red;
+      h1{
+        font-size: 5em;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 900;
+        margin-bottom: 0.5em;
+        color: white;
+      }
+
+      p{
+        font-family: 'Montserrat';
+        font-size: 1.2em;
+        color: white;
+      }
+
+      label{
+        color: white;
+        font-family: 'Montserrat';
+      }
+
+      input[type="email"], input[type="password"]{
+        background-color: transparent;
+        border: 1px solid white;
+        padding: 1em;
+        border-radius: 1em;
+        width: 100%;
+        color: white;
+        outline: none;
+        margin-top: 0.5em;
+      }
+
+      ::placeholder{
+        color: rgba(255,255,255,0.8);
+      }
+
+      p{
+        width: 100%;
+        // text-align: center;
+        margin-top: 1em;
+      }
+    }
+  }
+}
+
+.slide-toggle-title{
+  color: white;
+}
+
+mat-slide-toggle{
+  margin-bottom: 2em;
+}
+
+.login-button{
+  width: 100%;
+}
+
+.btn{
+  background-color: white;
+  width: 100%;
+  padding: 0.8em;
+  border-radius: 0.5em;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+}
+
+.or{
+  width: 100%;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+}
