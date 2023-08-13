@@ -42,12 +42,19 @@ router.post('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
+router.get('/', expressAsyncHandler(
     async (req, res) => {
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
     }
 ));
+
+// router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
+//   async (req, res) => {
+//       const tickets = await TicketModel.find();
+//       res.status(200).send(tickets);
+//   }
+// ));
 
 router.get('/assigned', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
   async (req, res) => {
@@ -298,6 +305,35 @@ router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functio
     res.status(500).send("Internal server error");
   }
 }));
+
+router.post('/:id/worklogs', expressAsyncHandler(async (req, res) => {
+  const ticketId = req.params.id;
+
+  try {
+      const ticket = await TicketModel.findOne({ id: ticketId });
+
+      if (ticket) {
+          // Check if workLogs exists, if not initialize it as an empty array
+          if (!ticket.workLogs) {
+              ticket.workLogs = [];
+          }
+          
+          ticket.workLogs.push(req.body);
+          await ticket.save();
+          res.status(201).send(ticket);
+      } else {
+          res.status(404).send("Ticket not found");
+      }
+  } catch (error) {
+      console.error("Error adding worklog:", error);
+      res.status(500).send("Internal server error");
+  }
+}));
+
+
+router.get('/test', (req, res) => {
+  res.send('Test route works!');
+});
 
   
 
