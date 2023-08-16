@@ -575,8 +575,7 @@ app-user-dropdown{
 .modal {
   position: fixed;
   top: 0;
-  
-  left: 40px;
+  left: 0px;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);  /* semi-transparent black background */
@@ -593,6 +592,9 @@ app-user-dropdown{
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: 40%;
+  height: 80%;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .rounded-button {
