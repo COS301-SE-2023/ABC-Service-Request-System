@@ -443,6 +443,49 @@ router.post('/activate_account', expressAsyncHandler(
             res.status(500).send('An error occurred during account activation.');
         }
     }
+));
+
+router.post("/login", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const client = await ClientModel.findOne({email: req.body.email}).select("+password");
+
+            if(client) {
+                console.log("found");
+                const validPassword = await bcrypt.compare(req.body.password, client?.password!);
+
+                if (!validPassword) {
+                    console.log("Invalid password");
+                    res.status(401).send({ auth: false, token: null });
+                    return;
+                }
+    
+                console.log("validated");
+                const secretKey = process.env.JWT_SECRET;
+    
+                if (!secretKey) {
+                    console.log("JWT Secret is not defined");
+                    throw new Error('JWT Secret is not defined');
+                }
+    
+    
+                const token = jwt.sign({ _id: client?._id , client: client, name: client?.name , objectName: "UserInfo"}, secretKey, {
+                    expiresIn: 86400, // expires in 24 hours
+                });
+    
+                console.log("Token:", token);
+    
+                res.status(200).send({ auth: true, token, client: client});
+            }else {
+                console.log(req.body.email);
+                // console.log("User not found");
+                res.status(404).send("No user found.");
+            }
+
+        } catch (error) {
+            res.status(500).send("An error occurred during login.");
+        }
+    }
 ))
 
 export default router;

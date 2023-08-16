@@ -19,12 +19,14 @@ import { AnalyticsPageComponent } from './analytics-page/analytics-page.componen
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
+import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'client-login', component: ClientLoginComponent},
+  { path: 'client-dashboard', component: ClientDashboardComponent},
   { path: 'dashboard', component: DashboardComponent },
- // { path: '', redirectTo: '/login', pathMatch: 'full' },
+ { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: 'activate_account/:token/client', component: ActivateAccountComponent },

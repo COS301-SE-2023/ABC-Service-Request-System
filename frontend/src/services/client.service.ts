@@ -13,6 +13,8 @@ export class ClientService {
   private projectsSubject = new BehaviorSubject<project | undefined>(undefined);
   private projectInitialized = false;
 
+
+
   project$ = this.projectsSubject.asObservable();
 
   CLIENT_URL = environment.CLIENT_URL;
@@ -54,6 +56,11 @@ export class ClientService {
           }
         })
       );
+  }
+
+  loginClient(userDetails: { email: string, password: string }) {
+    console.log("called login at route: ", this.CLIENT_URL);
+    return this.http.post(`${this.CLIENT_URL}/login`, userDetails);
   }
 
   //bug can occur if seperate organisations have the same name and for this reason, when creating an organisation, we need to ensure that organisation name is not already in the db

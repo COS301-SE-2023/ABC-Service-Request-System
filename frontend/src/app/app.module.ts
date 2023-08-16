@@ -78,6 +78,7 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 import { InternalAccountPage2Component } from './internal-account-page2/internal-account-page2.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
+import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { ClientLoginComponent } from './client-login/client-login.component';
     NotificationsSearchComponent,
     InternalAccountPage2Component,
     ClientLoginComponent,
+    ClientDashboardComponent,
   ],
   imports: [
     BrowserModule,

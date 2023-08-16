@@ -1,0 +1,206 @@
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Poppins&display=swap');
+
+.dashboard-container{
+  background: -webkit-linear-gradient(left, #DE3DBF 10%, #67219E 100%, #fff 150%);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: scroll;
+}
+
+.background-img{
+  position: fixed;
+  bottom: -10em;
+  z-index: -1000;
+}
+
+.client-dashboard-outer-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// .client-dashboard-outer-container{
+//   display: flex;
+//   justify-content: center;
+//   // background-color: yellow;
+//   margin: 0;
+//   padding: 0;
+
+//   .logo-header {
+//     display: flex;
+//     // background-color: yellow;
+//     align-items: center;
+//     position: absolute;
+//     top: 0;
+//     width: 100%;
+//     padding: 2em;
+
+//     .header{
+//       display: flex;
+
+//       img{
+//         width: 3em;
+//         height: 3em;
+//         margin-right: 10px;
+//         margin-bottom: 0px;
+//       }
+
+//       h1{
+//         font-family: "Futura PT", sans-serif;
+//         background: -webkit-linear-gradient(23deg, #67219E 10%, #00C4FF 180%, #fff 210%);
+//         -webkit-background-clip: text;
+//         -webkit-text-fill-color: transparent;
+//         letter-spacing: 0.03em;
+//         font-size: 3em;
+//         margin: 0;
+//         margin-left: 0.5em;
+//         font-weight: 500;
+//       }
+//     }
+
+//   }
+//   // background-color: red;
+
+//   .client-dashboard-inner-container{
+//     width: 40%;
+//     margin: 2em;
+//     // background-color: green;
+//     height: 75vh;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-end;
+//     position: relative;
+//     background-color: green;
+//     margin-top: 10em;
+
+//   }
+// }
+
+.header-container{
+  padding-top: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logo-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 2em;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 0px;
+}
+
+.logo-container h1 {
+  display: inline-block;
+  inline-size: min-content;
+  font-family: "Futura Pt", sans-serif;
+  font-size: 40px;
+  background: -webkit-linear-gradient(23deg, #67219E 10%, #00C4FF 180%, #fff 210%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.03em;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.logo-container img {
+  width: 4em;
+  height: 4em;
+  margin-right: 1em;
+  margin-bottom: 0px;
+}
+
+.organisation-container{
+  color: white;
+  font-family: 'Montserrat';
+  padding-right: 2em;
+
+  span{
+    font-weight: bolder;
+  }
+}
+
+.client-dashboard-inner-container{
+  background-color: rgba(255,255,255,1);
+  width: 70%;
+  height: 100%;
+  margin-top: 3em;
+  border-radius: 0.5em;
+  padding: 2em;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 3em;
+
+  .url-container {
+    font-size: 1.3em;
+    color: #8D30AA;
+    font-family: 'Montserrat';
+
+    span {
+      font-weight: 800;
+    }
+  }
+
+  .welcome {
+    margin: 2em;
+    font-size: 1.3em;
+    line-height: 1.5em;
+
+    span {
+      font-weight: 800;
+    }
+  }
+
+  h1 {
+    margin: 2em;
+
+    i{
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.expansion-panel {
+  margin: 2em;
+  padding: 2em;
+  border-radius: 0.8em;
+  background: linear-gradient(133deg, #8529A8 0%, #CB3CBB 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  h2 {
+    font-family: 'Poppins';
+    color: white;
+    font-size: 2em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  p {
+    font-family: 'Montserrat';
+    color: rgba(255,255,255, 0.7);
+    margin: 0;
+    padding: 0;
+    margin-top: -0.5em;
+  }
+
+  i{
+    color: white;
+    font-size: 3em;
+    margin-left: 2em;
+  }
+}
