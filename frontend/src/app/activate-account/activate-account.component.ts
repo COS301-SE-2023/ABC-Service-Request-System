@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
-
+import { ClientService } from 'src/services/client.service';
+import { Router } from '@angular/router';
+import { response } from 'express';
 @Component({
   selector: 'app-activate-account',
   templateUrl: './activate-account.component.html',
@@ -15,7 +17,10 @@ export class ActivateAccountComponent implements OnInit {
   confirmPassword: string = '';
   user: { email: string } = { email: '' };
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private route: ActivatedRoute,
+              private userService: UserService,
+              private clientService: ClientService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get('token');
@@ -32,10 +37,20 @@ export class ActivateAccountComponent implements OnInit {
   resetPassword(): void {
     if (this.password === this.confirmPassword) {
       if (this.token) {
-        this.userService.activateAccount({ inviteToken: this.token, password: this.password }).subscribe({
-          next: (response: any) => console.log(response),
-          error: (error: any) => console.error(error),
-        });
+
+        if(this.router.url.includes('client')){
+          console.log("found it");
+          this.clientService.activateAccount({inviteToken: this.token, password: this.password}).subscribe({
+            next: (response: any) => this.router.navigateByUrl("/client-login"),
+            error: (error: any) => console.log(error),
+          });
+        }else {
+          this.userService.activateAccount({ inviteToken: this.token, password: this.password }).subscribe({
+            next: (response: any) => console.log(response),
+            error: (error: any) => console.error(error),
+          });
+        }
+
       } else {
         console.log('Token is missing');
       }

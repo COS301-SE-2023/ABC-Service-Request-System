@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
 import { user } from "../../../backend/users/src/models/user.model";
 import { environment } from '../environments/environment';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { client } from '../../../backend/clients/src/models/client.model';
 
 interface DecodedToken {
   user: user;
@@ -21,6 +23,8 @@ export class AuthService {
   private token: string | null;
   private user!: user;
 
+  private loggedInClientSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   constructor(private http: HttpClient, private userService: UserService) {
     this.name = '';
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
@@ -28,6 +32,14 @@ export class AuthService {
     if (this.token) {
       this.decodeToken(); // decode token if it exists
     }
+  }
+
+  setLoggedInClient(client: client): void {
+    this.loggedInClientSubject.next(client);
+  }
+
+  getLoggedInClient(): Observable<any> {
+    return this.loggedInClientSubject.asObservable();
   }
 
   setToken(token: string): void {

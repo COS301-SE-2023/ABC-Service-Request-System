@@ -6,6 +6,9 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 import { jwtVerify } from "../middleware/jwtVerify";
+import bcrypt from 'bcryptjs';
+import cli from "@angular/cli";
+import jwt from 'jsonwebtoken';
 
 const router = Router();
 
@@ -367,7 +370,7 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
                         </div>
                         <p class="greeting">Hello ${newClient.name},</p>
                         <p class="message">To complete your signup process, please click the button below.</p>
-                        <a href="https://luna-backend-fc437c959bfd.herokuapp.com/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
+                        <a href="http://localhost:3000/api/client/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
                     </div>
                 </body>
                 </html>
@@ -387,5 +390,102 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
         res.status(201).send({ message: 'Client created successfully', inviteToken, client: newClient});
     }
 ));
+
+router.get('/activate_account', expressAsyncHandler(
+    async (req, res) => {
+        try{  
+            const inviteToken = req.query.token;
+    
+            const user = await ClientModel.findOne({ inviteToken });
+
+            if (!user) {
+                res.status(409).send('Invalid token.');
+                return;
+            }else{
+                res.redirect(`http://localhost:4200/activate_account/${inviteToken}/client`);
+            }
+        }catch(error){
+            // console.log(error);
+        }
+    }
+));
+
+router.post('/activate_account', expressAsyncHandler(
+    async(req, res) => {
+        try {
+            const { inviteToken, password } = req.body;
+
+            const client = await ClientModel.findOne({ inviteToken });
+
+            if (!client) {
+                //   console.log('Invalid token');
+                  res.status(409).send('Invalid token.');
+                  return;
+            }
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            client.password = hashedPassword;
+            client.emailVerified = true; // Assuming the activation also verifies the email
+            client.inviteToken = undefined;
+
+            await client.save();
+            const secretKey = "Jetpad2023";
+            const token = jwt.sign(
+                { _id: client._id },
+                secretKey,
+                { expiresIn: '1d' }
+            );
+
+            res.status(201).send({ message: 'Account activated successfully' });
+        }catch (error) {
+            res.status(500).send('An error occurred during account activation.');
+        }
+    }
+));
+
+router.post("/login", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const client = await ClientModel.findOne({email: req.body.email}).select("+password");
+
+            if(client) {
+                console.log("found");
+                const validPassword = await bcrypt.compare(req.body.password, client?.password!);
+
+                if (!validPassword) {
+                    console.log("Invalid password");
+                    res.status(401).send({ auth: false, token: null });
+                    return;
+                }
+    
+                console.log("validated");
+                const secretKey = process.env.JWT_SECRET;
+    
+                if (!secretKey) {
+                    console.log("JWT Secret is not defined");
+                    throw new Error('JWT Secret is not defined');
+                }
+    
+    
+                const token = jwt.sign({ _id: client?._id , client: client, name: client?.name , objectName: "UserInfo"}, secretKey, {
+                    expiresIn: 86400, // expires in 24 hours
+                });
+    
+                console.log("Token:", token);
+    
+                res.status(200).send({ auth: true, token, client: client});
+            }else {
+                console.log(req.body.email);
+                // console.log("User not found");
+                res.status(404).send("No user found.");
+            }
+
+        } catch (error) {
+            res.status(500).send("An error occurred during login.");
+        }
+    }
+))
 
 export default router;

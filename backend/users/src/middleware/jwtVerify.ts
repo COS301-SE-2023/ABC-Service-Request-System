@@ -115,16 +115,16 @@ export const jwtVerify = (allowedRoles: string[]) => {
                 return res.status(401).send({ message: 'Unauthorized token' });
             }
 
-            console.log('Decoded token:', decoded);
+          //  console.log('Decoded token:', decoded);
 
             const roles = decoded.role; // Access the 'role' property directly
-            console.log('Decoded roles:', roles);
+         //   console.log('Decoded roles:', roles);
 
             req.user = decoded.user; // Access the 'user' property directly
             req.roles = roles; // Store the roles in the 'req' object for later use
 
-            console.log('Allowed roles:', allowedRoles);
-            console.log('Decoded roles:', roles);
+       //     console.log('Allowed roles:', allowedRoles);
+       //     console.log('Decoded roles:', roles);
 
             // Check if the user has any allowed role
             const hasAllowedRole = roles.some((role: string) => allowedRoles.includes(role));
@@ -134,7 +134,7 @@ export const jwtVerify = (allowedRoles: string[]) => {
                 return res.status(401).send({ message: 'Unauthorized token roles' });
             }
 
-            console.log('User has the required roles');
+      //      console.log('User has the required roles');
             next(); // Proceed to the next middleware
         });
     };

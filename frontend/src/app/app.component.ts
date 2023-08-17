@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
 
   isLoginRoute = false;
   isActivateAccountRoute = false;
+  isClientRoute = false;
 
   routerSubscription!: Subscription;
 
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
         console.log('app init url: ', event.urlAfterRedirects);
         this.isLoginRoute = event.urlAfterRedirects.includes('login');
         this.isActivateAccountRoute = event.urlAfterRedirects.includes('activate_account');
+        this.isClientRoute = event.urlAfterRedirects.includes('client-dashboard') || event.urlAfterRedirects.includes('room');
       }
     });
   }

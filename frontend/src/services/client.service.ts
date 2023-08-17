@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/clients/src/models/client.model";
 import { group } from '../../../backend/groups/src/models/group.model';
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,12 @@ export class ClientService {
   private projectsSubject = new BehaviorSubject<project | undefined>(undefined);
   private projectInitialized = false;
 
+
+
   project$ = this.projectsSubject.asObservable();
 
   CLIENT_URL = environment.CLIENT_URL;
+  FRONTEND_CLIENT_LOGIN_URL = environment.FRONTEND_CLIENT_LOGIN_URL;
   USER_URL = environment.USER_URL;
 
   private token!: string | null;
@@ -37,6 +40,27 @@ export class ClientService {
 
     console.log('in service', formData);
     return this.http.post<any>(`${this.CLIENT_URL}/create_client`, formData, {headers});
+  }
+
+  activateAccount(accountDetails: { inviteToken: string, password: string }): Observable<any> {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.post(`${this.CLIENT_URL}/activate_account`, accountDetails, { headers })
+      .pipe(
+        tap((response: any) => {
+          if (response.message === 'Account activated successfully') {
+            console.log("newest url is: ", this.FRONTEND_CLIENT_LOGIN_URL);
+            // this.router.navigateByUrl(this.FRONTEND_CLIENT_LOGIN_URL);
+          }
+        })
+      );
+  }
+
+  loginClient(userDetails: { email: string, password: string }) {
+    console.log("called login at route: ", this.CLIENT_URL);
+    return this.http.post(`${this.CLIENT_URL}/login`, userDetails);
   }
 
   //bug can occur if seperate organisations have the same name and for this reason, when creating an organisation, we need to ensure that organisation name is not already in the db

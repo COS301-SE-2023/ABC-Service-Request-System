@@ -17,6 +17,7 @@
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-typescript": "^7.22.5",
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^1.40.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",

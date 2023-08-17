@@ -1,0 +1,65 @@
+<div class="dashboard-container">
+  <img src="/assets/client_background.svg" alt="background image" class="background-img">
+
+  <div class="client-dashboard-outer-container">
+
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="/assets/app_logo_transparent.png" alt="app logo">
+        <h1>LUNA</h1>
+      </div>
+
+      <div class="organisation-container" *ngIf="loggedInClient$ | async as clientData">
+        <p>Organisation: <span> {{clientData.organisation}} </span></p>
+      </div>
+    </div>
+
+    <div class="client-dashboard-inner-container">
+      <div class="url-container" *ngIf="loggedInClient$ | async as clientData">
+        <p>Client Portal / <span> {{clientData.organisation}} </span></p>
+      </div>
+
+      <div class="welcome">Welcome to Luna’s client portal. Here you can raise new requests on behalf of <span>EpiUse</span> as well as view analytics and detailed information for your projects.</div>
+
+      <h1>Welcome to video chat</h1>
+      <div>
+        <p>Speak to a consultant</p>
+        <button (click)="createRoom()">Create a new WebRTC room</button>
+      </div>
+      <h1>
+        <i class="fa-regular fa-flag"></i>
+        Make a Request
+      </h1>
+
+      <div class="expansion-panel">
+        <div class="text-info">
+          <h2>Start a new project</h2>
+          <p>Start a completely new project for a new feature or idea.</p>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <div class="expansion-panel">
+        <div class="text-info">
+          <h2>Make a request</h2>
+          <p>Make a request for a new feature or idea for an existing project. If you’d like to make changes to your product, you can do that here too.</p>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <h1>
+        <i class="fa-solid fa-chart-simple"></i>
+        View Analytics
+      </h1>
+
+      <div class="expansion-panel">
+        <div class="text-info">
+          <h2>View Analytics</h2>
+          <p>View analytics and progress for existing requests.</p>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+    </div>
+  </div>
+</div>
