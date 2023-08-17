@@ -20,6 +20,7 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
+import { VideoRoomComponent } from './video-room/video-room.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -39,6 +40,8 @@ const routes: Routes = [
   { path: 'settings', component: SettingsProfileComponent },
   { path: 'view-profile',component: ViewProfileComponent},
   { path: 'notifications-search',component: NotificationsSearchComponent},
+
+  { path: 'room/:roomId',component: VideoRoomComponent},
 
   //{ path: 'settings-profile',component: SettingsProfileComponent},
   //{ path: '**', redirectTo: '/login' }, //fallback

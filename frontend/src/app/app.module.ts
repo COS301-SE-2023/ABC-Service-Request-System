@@ -80,6 +80,10 @@ import { InternalAccountPage2Component } from './internal-account-page2/internal
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 
+//CONFERENCING
+import { SocketIoModule } from "ngx-socket-io";
+import { VideoRoomComponent } from './video-room/video-room.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,6 +127,7 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
     InternalAccountPage2Component,
     ClientLoginComponent,
     ClientDashboardComponent,
+    VideoRoomComponent,
   ],
   imports: [
     BrowserModule,
@@ -151,7 +156,10 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
     MatCheckboxModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    SocketIoModule.forRoot({
+      url: '/'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

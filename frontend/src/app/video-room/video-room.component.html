@@ -1,0 +1,20 @@
+<div class="video-grid">
+  <!-- <div *ngFor="let video of videos">
+    <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
+    <ng-template #currentUserVideoLabel>
+      <span>You</span>
+    </ng-template>
+    <video [srcObject]="video.srcObject" (loadedmetadata)="onLoadedMetadata($event)" [muted]="video.muted"></video>
+  </div> -->
+
+  <h2>Connect with peer</h2>
+  <span>PeerId: {{peerId}}</span>
+  <div style="width: 400px; height: 300px; border: 2px solid black;" id="remote-video"></div>
+
+  <br>
+
+  <div style="margin-top: 20px;">
+    <input type="text" placeholder="peer id" [(ngModel)]="peerIdShare">
+    <button class="button" (click)="connectWithPeer()">Call peer</button>
+  </div>
+</div>
