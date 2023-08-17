@@ -111,4 +111,36 @@ export class VideoRoomComponent implements OnInit {
 
     document.getElementById('remote-video')?.append(video);
   }
+
+  screenShare(): void {
+    this.shareScreen();
+  }
+
+  private shareScreen() {
+    navigator.mediaDevices.getDisplayMedia({
+      video: {
+        // cursor: 'always'
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+    }).then(stream => {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.onended = () => {
+        this.stopScreenShare();
+      };
+
+      const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
+      sender.replaceTrack(videoTrack);
+    }).catch(err => {
+      console.log('Unable to get display media ' + err);
+    });
+  }
+
+  private stopScreenShare() {
+    const videoTrack = this.lazyStream.getVideoTracks()[0];
+    const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
+    sender.replaceTrack(videoTrack);
+  }
 }
