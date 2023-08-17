@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { client } from '../../../../backend/clients/src/models/client.model';
 import { AuthService } from 'src/services/auth.service';
 import { Observable } from 'rxjs';
-import { v4 as uuidv4} from 'uuid';
+// import { v4 as uuidv4} from 'uuid';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,8 +21,8 @@ export class ClientDashboardComponent implements OnInit {
 
   createRoom(){
     console.log("create room");
-    const uuid = uuidv4();
-    this.router.navigate([`/room/${uuid}`]);
+    // const uuid = uuidv4();
+    this.router.navigate([`/room/${Date.now()}`]);
   }
 
 }
