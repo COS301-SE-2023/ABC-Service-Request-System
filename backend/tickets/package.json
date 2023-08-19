@@ -27,7 +27,6 @@
     "memory-pager": "^1.5.0",
     "mongodb": "^5.7.0",
     "mongodb-connection-string-url": "^2.6.0",
-    "mongoose": "^7.4.1",
     "mpath": "^0.9.0",
     "mquery": "^5.0.0",
     "ms": "^2.1.3",

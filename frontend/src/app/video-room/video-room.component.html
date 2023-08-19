@@ -1,20 +1,51 @@
-<div class="video-grid">
-  <!-- <div *ngFor="let video of videos">
-    <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
-    <ng-template #currentUserVideoLabel>
-      <span>You</span>
-    </ng-template>
-    <video [srcObject]="video.srcObject" (loadedmetadata)="onLoadedMetadata($event)" [muted]="video.muted"></video>
-  </div> -->
+<div class="video-container">
+  <img src="/assets/client_background.svg" alt="background image" class="background-img">
 
-  <h2>Connect with peer</h2>
-  <span>PeerId: {{peerId}}</span>
-  <div style="width: 400px; height: 300px; border: 2px solid black;" id="remote-video"></div>
-  <button class="button" (click)="screenShare()">Screen share</button>
-  <br>
+  <div class="header-container">
+    <div class="logo-container">
+      <img src="/assets/app_logo_transparent.png" alt="app logo">
+      <h1>LUNA</h1>
+    </div>
+  </div>
+
+  <div class="video-outer-container">
+    <div class="video-inner-container">
+      <h4>Please hold for one our staff to assist you</h4>
+      <p class="userId">{{peerId}}</p>
+      <div id="remote-video">
+        <div class="text-content" *ngIf="!lazyStream">
+          <img src="../../assets/user.png" alt="user">
+          <p>Waiting for John to connect</p>
+          <mat-spinner color="accent" diameter="20" class="loading"></mat-spinner>
+        </div>
+      </div>
+      <video id="local-video" class="video flipped-video" autoplay></video>
+
+      <div class="buttons">
+
+        <button class="button">
+          <img src="../../assets/video-camera.png" alt="video-camera">
+        </button>
+
+        <button class="button">
+          <img src="../../assets/mic.png" alt="mic">
+        </button>
+
+        <button class="button" (click)="screenShare()">
+          <img src="../../assets/share-video.png" alt="video-share">
+        </button>
+
+        <button class="button" id="endCallBtn" (click)="connectWithPeer()">
+          <img src="../../assets/end-call.png" alt="end-call">
+        </button>
+
+      </div>
+
+    </div>
+  </div>
 
   <div style="margin-top: 20px;">
-    <input type="text" placeholder="peer id" [(ngModel)]="peerIdShare">
-    <button class="button" (click)="connectWithPeer()">Call peer</button>
+    <input type="text" placeholder="peer id" [(ngModel)]="peerIdShare" style="z-index: 1000000;">
   </div>
+
 </div>

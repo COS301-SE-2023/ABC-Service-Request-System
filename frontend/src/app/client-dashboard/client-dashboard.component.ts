@@ -13,6 +13,11 @@ import { Router } from '@angular/router';
 export class ClientDashboardComponent implements OnInit {
   loggedInClient$!: Observable<client>;
 
+  //panel expansions
+  isProjectExpanded = false;
+  isRequestExpanded = false;
+
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -23,6 +28,21 @@ export class ClientDashboardComponent implements OnInit {
     console.log("create room");
     // const uuid = uuidv4();
     this.router.navigate([`/room/${Date.now()}`]);
+  }
+
+  submitProjectForm(form: any) {
+    if (form.valid) {
+      console.log('Form submitted!', form.value);
+    }
+  }
+
+  //expansions
+  toggleProjectExpansion() {
+    this.isProjectExpanded = !this.isProjectExpanded;
+  }
+
+  toggleRequestExpansion() {
+    this.isRequestExpanded = !this.isRequestExpanded;
   }
 
 }

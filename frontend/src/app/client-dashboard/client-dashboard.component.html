@@ -31,20 +31,41 @@
         Make a Request
       </h1>
 
-      <div class="expansion-panel">
-        <div class="text-info">
-          <h2>Start a new project</h2>
-          <p>Start a completely new project for a new feature or idea.</p>
+      <div class="expansion-wrapper">
+        <div class="expansion-panel" [class.expanded]="isProjectExpanded" (click)="toggleProjectExpansion()" tabindex="0" (keyup)="toggleProjectExpansion()">
+          <div class="text-info">
+            <h2>Start a new project</h2>
+            <p>Start a completely new project for a new feature or idea.</p>
+
+            <div class="form-container" *ngIf="isProjectExpanded">
+              <form #projectForm="ngForm" (ngSubmit)="submitProjectForm(projectForm)">
+                <div class="form-item">
+                  <label for="project-name">Project Name</label>
+                  <input type="text" name="projectName" id="project-name" ngModel required>
+                </div>
+
+                <div class="form-item">
+                  <label for="additional-project-info">Additional Information</label>
+                  <textarea name="additionalProjectInfo" id="additional-project-info" cols="30" rows="10"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+              </form>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
         </div>
-        <i class="fa-solid fa-chevron-right"></i>
       </div>
 
-      <div class="expansion-panel">
-        <div class="text-info">
-          <h2>Make a request</h2>
-          <p>Make a request for a new feature or idea for an existing project. If you’d like to make changes to your product, you can do that here too.</p>
+
+      <div class="expansion-wrapper">
+        <div class="expansion-panel" [class.expanded]="isRequestExpanded" (click)="toggleRequestExpansion()" tabindex="1" (keyup)="toggleRequestExpansion()">
+          <div class="text-info">
+            <h2>Make a request</h2>
+            <p>Make a request for a new feature or idea for an existing project. If you’d like to make changes to your product, you can do that here too.</p>
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
         </div>
-        <i class="fa-solid fa-chevron-right"></i>
       </div>
 
       <h1>

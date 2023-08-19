@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import Peer from 'peerjs';
 
 @Component({
@@ -6,23 +6,52 @@ import Peer from 'peerjs';
   templateUrl: './video-room.component.html',
   styleUrls: ['./video-room.component.scss']
 })
-export class VideoRoomComponent implements OnInit {
+export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private peer!: Peer;
-  private lazyStream: any;
+  public lazyStream: any;
+  private localStream: any;
   private peerList: Array<any> = [];
 
   peerIdShare!: string;
   peerId!: string;
   currentPeer: any;
 
-  constructor(){
+  constructor(private elementRef: ElementRef){
     this.peer = new Peer
   }
 
   ngOnInit(): void {
     this.setupPeerConnection();
     this.getPeerId();
+    this.startLocalStream();
+  }
+
+  ngOnDestroy(): void {
+    if (this.localStream) {
+      this.localStream.getTracks().forEach((track: any) => track.stop());
+    }
+
+    if (this.lazyStream) {
+      this.lazyStream.getTracks().forEach((track: any) => track.stop());
+    }
+
+    if (this.peer) {
+      this.peer.destroy();
+    }
+  }
+
+  startLocalStream(): void {
+    navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    }).then((stream) => {
+      this.localStream = stream; // Store the local stream
+      const localVideo = document.getElementById('local-video') as HTMLVideoElement;
+      localVideo.srcObject = stream;
+    }).catch(err => {
+      console.log("Unable to access local media: ", err);
+    });
   }
 
   getPeerId = () => {
@@ -94,6 +123,7 @@ export class VideoRoomComponent implements OnInit {
       call.on('stream', (remoteStream) => {
         if(!this.peerList.includes(call.peer)){
           this.streamRemoteVideo(remoteStream);
+          this.streamLocalVideo(this.localStream);
           this.currentPeer = call.peerConnection;
           this.peerList.push(call.peer);
         }
@@ -109,7 +139,19 @@ export class VideoRoomComponent implements OnInit {
     video.srcObject = stream;
     video.play();
 
+    // video.classList.add('flipped-video');
+    video.style.transform = 'scaleX(-1)';
+    video.style.width = '100%';
+    video.style.objectFit = 'cover';
+    video.style.borderRadius = '0.7em';
+
+
     document.getElementById('remote-video')?.append(video);
+  }
+
+  streamLocalVideo(stream: any): void {
+    const localVideo = document.getElementById('local-video') as HTMLVideoElement;
+    localVideo.srcObject = stream;
   }
 
   screenShare(): void {

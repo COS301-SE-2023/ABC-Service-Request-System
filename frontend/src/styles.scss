@@ -12,11 +12,10 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $Project-primary: mat.define-palette(mat.$indigo-palette);
-$Project-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
+$Project-accent: mat.define-palette(mat.$gray-palette, A100, A100, A100);
+$Project-secondary: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $Project-warn: mat.define-palette(mat.$red-palette);
-
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $Project-theme: mat.define-light-theme((
@@ -24,6 +23,7 @@ $Project-theme: mat.define-light-theme((
     primary: $Project-primary,
     accent: $Project-accent,
     warn: $Project-warn,
+    secondary: $Project-secondary,
   )
 ));
 
@@ -72,4 +72,10 @@ div.mat-expansion-panel-body {
 
 .widen {
   width: 94% !important;
+}
+
+.mat-spinner {
+  ::ng-deep circle {
+      stroke: #33dd82;
+  }
 }
