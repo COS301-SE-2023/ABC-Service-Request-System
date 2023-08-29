@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket, attachment, TicketModel } from "../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, TicketModel , worklog} from "../../../backend/tickets/src/models/ticket.model";
 import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,12 @@ export class TicketsService {
     console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket[]>(`${this.TICKET_URL}/project?name=${projectName}`, {headers});
+  }
+
+  addWorkLogToTicket(ticketId: string, workLog: worklog) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post<ticket>(`${this.TICKET_URL}/${ticketId}/worklogs`, workLog, {headers});
   }
 
   getAllProjectNamesForCurrentUserWithGroupName(groupName: string){

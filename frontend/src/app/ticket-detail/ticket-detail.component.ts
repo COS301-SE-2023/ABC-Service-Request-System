@@ -5,8 +5,9 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment, comment } from "../../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, comment, worklog } from "../../../../backend/tickets/src/models/ticket.model";
 import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from "../../../../backend/users/src/models/user.model";
@@ -24,6 +25,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private ticketService: TicketsService,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
@@ -66,15 +68,39 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   isFormVisible = false;
   description = '';
+  workLogForm!: FormGroup;
+
 
   toggleForm() {
     this.isFormVisible = !this.isFormVisible;
   }
 
   cancel() {
-    // Add your logic for cancelling here. 
-    // For instance, you might want to reset the form, navigate away, etc.
+    this.isFormVisible = false;
   }
+
+  onSubmit() {
+    if (this.workLogForm.valid) {
+      // Parse out HTML tags from the 'description' field
+      const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
+      const textContent = parsedHtml.body.textContent || "";
+      this.workLogForm.get('description')!.setValue(textContent);
+  
+      this.ticketService.addWorkLogToTicket(this.ticket.id, this.workLogForm.value)
+        .subscribe(response => {
+          this.ticket = response;
+          this.toggleForm(); // to close the form after submission
+          // Consider adding a message or a toast notification here to inform the user of successful submission.
+        }, error => {
+          // Handle errors. For instance, show an error message to the user.
+          console.error("There was an error submitting the form:", error);
+        });
+    }
+  }
+  
+  
+  
+
 
 
   onFileChange(event: any) {
@@ -119,6 +145,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+      this.workLogForm = this.formBuilder.group({
+      timeSpent: ['', Validators.required],
+      timeRemaining: ['', Validators.required],
+      dateStarted: ['', Validators.required],
+      timeStarted: ['', Validators.required],
+      description: ['', Validators.required]
+  });
+
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
@@ -484,6 +518,18 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showCommentsOnly(): void {
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
+  }
+
+  displayedWorklogs?: worklog [] = [];
+
+  showWorkLogs(): void {
+    if(this.ticket){
+      this.displayedWorklogs = this.ticket.workLogs;
+      if(this.numReversed != 1){
+        this.displayedWorklogs?.reverse();
+        this.numReversed = 1;
+      }
+    }
   }
 
   highlightButton(event: any) {
