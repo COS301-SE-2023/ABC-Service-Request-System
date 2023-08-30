@@ -72,7 +72,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   workLogsOnly = false;
 
-  
+  activeTab = 'All';
 
 
   toggleForm() {
@@ -84,6 +84,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.activeTab = 'Work Logs';
     if (this.workLogForm.valid) {
         // Parse out HTML tags from the 'description' field
         const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
@@ -522,6 +523,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   displayedComments?: comment[] = [];
   showAll(): void {
+    this.activeTab = 'All';
     if(this.ticket && this.ticket.comments){
       this.displayedComments = this.ticket.comments;
       if (this.numReversed != 1) {
@@ -544,14 +546,25 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   displayedWorklogs?: worklog [] = [];
 
   showWorkLogs(): void {
-    if(this.ticket){
-      this.displayedWorklogs = this.ticket.workLogs;
-      if(this.numReversed != 1){
-        this.displayedWorklogs?.reverse();
-        this.numReversed = 1;
+    this.activeTab = 'Work Logs';
+    if (this.ticket) {
+      if (this.ticket.workLogs) { // Check if workLogs property is defined
+        this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
+        this.numReversed = 0;
       }
     }
   }
+
+  // showWorkLogs(): void {
+  //   this.activeTab = 'Work Logs';
+  //   if(this.ticket){
+  //     this.displayedWorklogs = this.ticket.workLogs;
+  //     if(this.numReversed != 1){
+  //       this.displayedWorklogs?.reverse();
+  //       this.numReversed = 1;
+  //     }
+  //   }
+  // }
 
   highlightButton(event: any) {
 

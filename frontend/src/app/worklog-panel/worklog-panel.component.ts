@@ -1,3 +1,4 @@
+
 import { Component , Input} from '@angular/core';
 
 @Component({
@@ -8,24 +9,26 @@ import { Component , Input} from '@angular/core';
 export class WorklogPanelComponent {
   @Input() worklog: any;
   timeLoggedAgo!: string;
-
+  
   ngOnInit(): void {
-    this.calculateTimeLoggedAgo();
+    this.calculateTimeLoggedAgo(); 
   }
 
   calculateTimeLoggedAgo(): void {
     const dateStarted = new Date(this.worklog.dateStarted);
     const timeStarted = this.worklog.timeStarted.split(':');
-    dateStarted.setHours(+timeStarted[0]);
-    dateStarted.setMinutes(+timeStarted[1]);
-  
+    dateStarted.setUTCHours(+timeStarted[0]);
+    dateStarted.setUTCMinutes(+timeStarted[1]);
+
     const currentDate = new Date();
-    console.log("current date" + currentDate);
-    const diffInMilliseconds = currentDate.valueOf() - dateStarted.valueOf();
+    const offset = currentDate.getTimezoneOffset() * 60000;
+    const currentDateUTC = new Date(currentDate.getTime() - offset);
+    const diffInMilliseconds = currentDateUTC.valueOf() - dateStarted.valueOf();
     this.timeLoggedAgo = this.convertMillisecondsToTime(diffInMilliseconds);
-    
+
     console.log('Time logged ago:', this.timeLoggedAgo);
   }
+
   
 
   // calculateTimeLoggedAgo(): void {
@@ -62,3 +65,4 @@ export class WorklogPanelComponent {
   }
 
 }
+
