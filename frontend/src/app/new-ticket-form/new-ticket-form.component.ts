@@ -425,6 +425,37 @@ export class NewTicketFormComponent implements OnInit {
     return user.profilePhoto;
   }
 
+  addAITodo(todo: string) {
+    this.todoArray.push(todo);
+    console.log("Todo Value: ", todo);
+    console.log("Todo Array: ", this.todoArray);
+    this.todo.reset();
+    this.toggleAddTodoOverlay();
+
+    if (this.todoArray.length > 0) {
+      this.todoAdded = true;
+    }
+  }
+
+  generateTodo() {
+    const ticketFormValues = this.ticketForm.value;
+    const trimmedDescription = this.stripPTags(ticketFormValues.description);
+    console.log('in generateTodo(), ticket form info: ' + trimmedDescription);
+
+    this.ticketService.generateTodosFromDescription(trimmedDescription).subscribe(
+        (todos: string[]) => {
+            todos.forEach(todo => {
+              console.log(todo);
+                this.addAITodo(todo);
+            });
+        },
+        (error) => {
+            console.error("Error generating todos:", error);
+        }
+    );
+}
+
+
  /* ticketForm = this.fb.group({
     id: [''], //automatic incrr
     summary: [''],

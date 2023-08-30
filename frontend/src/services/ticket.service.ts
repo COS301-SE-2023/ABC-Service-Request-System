@@ -117,4 +117,10 @@ export class TicketsService {
     return this.http.post(`${this.TICKET_URL}/addTimeToFirstResponse`, {ticketId, commentTime}, {headers});
   }
 
+  generateTodosFromDescription(description: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post<string[]>(`${this.API_URL}/generateTodoFromDescription`, { description }, {headers});
+  }
+
 }
