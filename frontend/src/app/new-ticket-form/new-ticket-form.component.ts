@@ -32,6 +32,7 @@ export class NewTicketFormComponent implements OnInit {
   todo: FormControl = new FormControl();
   todoArray: string[] = [];
   todoChecked: boolean[] = [];
+  isLoading = false;
 
   constructor(
     private ticketService: TicketsService,
@@ -442,6 +443,7 @@ generateTodo() {
     const trimmedDescription = this.stripPTags(ticketFormValues.description);
     console.log('in generateTodo(), ticket form info: ' + trimmedDescription);
 
+    this.isLoading = true;
     this.ticketService.generateTodosFromDescription(trimmedDescription).subscribe(
       (todos: string[]) => {
           console.log('in generateTodo');
@@ -453,9 +455,11 @@ generateTodo() {
             this.isAddTodoOverlayOpened = false;
           }
           console.log('out of generateTodo');
+          this.isLoading = false;
       },
       (error) => {
           console.error("Error generating todos:", error);
+          this.isLoading = false;
       }
   );
 }

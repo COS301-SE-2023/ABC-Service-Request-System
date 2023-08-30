@@ -28,6 +28,7 @@
         <div class="generateTodoButton">
           <button id="generate-todo-button" (click) = "generateTodo()">Generate To-do's</button>
         </div>
+
       </div>
 
       <div class="todos">
@@ -57,7 +58,9 @@
         <div class="todos=col2">
           <label>AI Generated Todo's</label>
 
-          <p>Work in Progress</p>
+          <div *ngIf="isLoading">
+            <img src="../../assets/loading.gif" alt="Loading...">
+          </div>
 
           <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
         </div>
