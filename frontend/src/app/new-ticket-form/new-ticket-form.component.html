@@ -25,23 +25,8 @@
 
         <label class="descriptionLabel">Description<span class="required">*</span></label>
         <quill-editor formControlName="description" [trimOnValidation]="true"></quill-editor>
-      </div>
-
-      <div class="ticket-information">
-        <div class="ticket-information-col1">
-          <label>End Date<span class="required">*</span></label>
-          <input type="date" formControlName="endDate" required>
-
-          <label class="priorityLabel">Priority<span class="required">*</span></label>
-          <select formControlName="priority" required>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
-        </div>
-
-        <div class="ticket-information-col2">
-
+        <div class="generateTodoButton">
+          <button id="generate-todo-button" (click) = "generateTodo()">Generate To-do's</button>
         </div>
       </div>
 
@@ -72,10 +57,27 @@
         <div class="todos=col2">
           <label>AI Generated Todo's</label>
 
-          <!-- AI GENERATION HERE -->
           <p>Work in Progress</p>
 
           <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
+        </div>
+      </div>
+
+      <div class="ticket-information">
+        <div class="ticket-information-col1">
+          <label>End Date<span class="required">*</span></label>
+          <input type="date" formControlName="endDate" required>
+
+          <label class="priorityLabel">Priority<span class="required">*</span></label>
+          <select formControlName="priority" required>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <div class="ticket-information-col2">
+
         </div>
       </div>
 

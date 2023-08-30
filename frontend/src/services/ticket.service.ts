@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { ticket, attachment, TicketModel , worklog} from "../../../backend/tickets/src/models/ticket.model";
 import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,9 +18,16 @@ export class TicketsService {
   GROUP_UPLOAD_URL = environment.GROUP_UPLOAD_URL;
   FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
 
+
   private token!: string | null;
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  generateTodoFromDescription(description: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post<string[]>(`${this.TICKET_URL}/generateTodoFromDescription`, { description }, {headers});
+  }
 
   getAllTickets(){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
@@ -120,7 +129,7 @@ export class TicketsService {
   generateTodosFromDescription(description: string) {
     this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    return this.http.post<string[]>(`${this.API_URL}/generateTodoFromDescription`, { description }, {headers});
+    return this.http.post<string[]>(`${this.TICKET_URL}/generateTodoFromDescription`, { description }, {headers});
   }
 
 }

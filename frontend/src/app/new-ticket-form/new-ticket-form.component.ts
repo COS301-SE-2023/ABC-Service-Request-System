@@ -120,7 +120,7 @@ export class NewTicketFormComponent implements OnInit {
       this.allUsers = response.filter((user) => {
         return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
       });
-      console.log("All Users: ", this.allUsers);
+      // console.log("All Users: ", this.allUsers);
       return this.allUsers;
     });
   }
@@ -437,23 +437,29 @@ export class NewTicketFormComponent implements OnInit {
     }
   }
 
-  generateTodo() {
+generateTodo() {
     const ticketFormValues = this.ticketForm.value;
     const trimmedDescription = this.stripPTags(ticketFormValues.description);
     console.log('in generateTodo(), ticket form info: ' + trimmedDescription);
 
     this.ticketService.generateTodosFromDescription(trimmedDescription).subscribe(
-        (todos: string[]) => {
-            todos.forEach(todo => {
-              console.log(todo);
-                this.addAITodo(todo);
-            });
-        },
-        (error) => {
-            console.error("Error generating todos:", error);
-        }
-    );
+      (todos: string[]) => {
+          console.log('in generateTodo');
+          // console.log('todos[0]:');
+          // console.log(todos[0]);
+          for (const todo of todos) {
+            console.log(todo);
+            this.addAITodo(todo);
+            this.isAddTodoOverlayOpened = false;
+          }
+          console.log('out of generateTodo');
+      },
+      (error) => {
+          console.error("Error generating todos:", error);
+      }
+  );
 }
+
 
 
  /* ticketForm = this.fb.group({
