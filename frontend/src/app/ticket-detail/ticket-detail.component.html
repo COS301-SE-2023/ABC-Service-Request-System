@@ -206,11 +206,35 @@
           </div>
         </div>
 
+        <div class="worklogs-and-comments" *ngIf="showWorkLogs">
+          <div *ngFor="let worklog of displayedWorklogs">
+            <app-worklog-panel [worklog]="worklog"></app-worklog-panel>
+          </div>
+          <div class="note-button-area">
+            <div class="user-profile-img">
+              <img src="{{userProfilePic}}" alt="user profile image">
+            </div>
+            <textarea [formControl]="commentInputControl" contenteditable="true" class="note-content" placeholder="Add a note..." (input)="adjustTextareaHeight($event.target)" [(ngModel)]="textareaValue"></textarea>
+            <label for="fileInput" class="file-input-label">
+              <input type="file" id="fileInput" class="file-input" (change)="onFileChange($event)" />
+            </label>
+          </div>
+          <div class="save-btn-container">
+            <button (click)="saveData()" class="save-btn">Save</button>
+          </div>
+          <div class="attachment-preview" *ngIf="preview">
+            <ng-container *ngIf="isPDF(file!.name)">
+              <div class="pdf-preview">
+                <img src="../../assets/pdf.png" style="max-width: 100px; max-height: 100px;" alt="PDF Attachment Preview" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!isPDF(file!.name)">
+              <img [src]="preview" alt="Image Attachment Preview" />
+            </ng-container>
+            <input type="text" class="attachment-filename" [(ngModel)]="editedAttachmentName" (input)="updateEditedAttachmentName($event)" [placeholder]="file?.name" />
+          </div>
+        </div>
         
-        
-
-        
-
       </div>
     </div>
 

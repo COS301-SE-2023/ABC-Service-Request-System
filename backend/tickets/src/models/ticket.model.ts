@@ -16,6 +16,8 @@ export interface attachment {
 }
 
 export interface worklog {
+    author: string;
+    authorPhoto: string;
     timeSpent: string;
     timeRemaining: string;
     dateStarted: Date;
@@ -67,6 +69,8 @@ const commentSchema = new Schema<comment>(
 
 const worklogSchema = new Schema<worklog>(
     {
+        author: { type: String, required: true },
+        authorPhoto: { type: String, required: true},
         timeSpent: { type: String, required: true },
         timeRemaining: { type: String, required: true },
         dateStarted: { type: Date, required: true },

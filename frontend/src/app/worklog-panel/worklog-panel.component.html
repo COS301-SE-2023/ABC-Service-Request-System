@@ -1,0 +1,14 @@
+<div class="comment-outer-container">
+    <div class="comment-inner-container">
+      <div class="comment-header">
+        <div class="user-profile-img">
+            <img src="{{ this.worklog.authorPhoto }}" alt="author profile image">
+        </div>
+        <h3><span>{{ this.worklog.author }}</span> logged {{ worklog.timeSpent }} in
+        <span [title]="worklog.dateStarted | date:'medium'">{{ timeLoggedAgo }}</span></h3>
+        <div class="comment-info-tab">Worklog</div>
+      </div>
+      <p>{{ worklog.description }}</p>
+    </div>
+  </div>
+  

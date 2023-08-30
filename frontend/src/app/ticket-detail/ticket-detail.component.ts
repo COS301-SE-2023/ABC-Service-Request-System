@@ -70,6 +70,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   description = '';
   workLogForm!: FormGroup;
 
+  workLogsOnly = false;
+
+  
+
 
   toggleForm() {
     this.isFormVisible = !this.isFormVisible;
@@ -81,22 +85,39 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.workLogForm.valid) {
-      // Parse out HTML tags from the 'description' field
-      const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
-      const textContent = parsedHtml.body.textContent || "";
-      this.workLogForm.get('description')!.setValue(textContent);
-  
-      this.ticketService.addWorkLogToTicket(this.ticket.id, this.workLogForm.value)
-        .subscribe(response => {
-          this.ticket = response;
-          this.toggleForm(); // to close the form after submission
-          // Consider adding a message or a toast notification here to inform the user of successful submission.
-        }, error => {
-          // Handle errors. For instance, show an error message to the user.
-          console.error("There was an error submitting the form:", error);
-        });
+        // Parse out HTML tags from the 'description' field
+        const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
+        const textContent = parsedHtml.body.textContent || "";
+        this.workLogForm.get('description')!.setValue(textContent);
+        
+        let currentUser!: user;
+        
+        this.authService.getUserObject().subscribe(
+            (response) => {
+                currentUser = response;
+                
+                console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
+                const workLog: worklog = {
+                    author: currentUser.name,
+                    authorPhoto: currentUser.profilePhoto, // Use the email address as the author
+                    ...this.workLogForm.value
+                };
+                
+                console.log('workLog', workLog);
+                this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
+                    .subscribe(response => {
+                        this.ticket = response;
+                        this.toggleForm(); // to close the form after submission
+                        // Consider adding a message or a toast notification here to inform the user of successful submission.
+                    }, error => {
+                        // Handle errors. For instance, show an error message to the user.
+                        console.error("There was an error submitting the form:", error);
+                    });
+            }, (error) => { console.log("error fetching current user ") }
+        );
     }
-  }
+}
+
   
   
   
