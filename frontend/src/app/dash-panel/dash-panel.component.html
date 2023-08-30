@@ -1,4 +1,4 @@
-<div class = "sidenav {{isCollapsed === true ? 'collapsed-menu' : ''}}">
+<div class = "sidenav {{isCollapsed === true ? 'collapsed-menu' : ''}} dark-theme">
   <div class="nav-items">
     <div class="collapse-button">
       <div class="inner-collapse-button">
@@ -85,5 +85,7 @@
       <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
     </div>
   </div>
+
+  <mat-slide-toggle [(ngModel)]="isDarkMode" (click)="toggleDarkMode()"></mat-slide-toggle>
 
 </div>

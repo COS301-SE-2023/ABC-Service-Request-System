@@ -7,6 +7,7 @@ import { TicketsService } from 'src/services/ticket.service';
 import { GroupService } from 'src/services/group.service';
 import { project } from '../../../../backend/clients/src/models/client.model';
 import { user } from '../../../../backend/users/src/models/user.model';
+import { ThemeService } from 'src/services/theme.service';
 @Component({
   selector: 'app-dash-panel',
   templateUrl: './dash-panel.component.html',
@@ -21,7 +22,12 @@ export class DashPanelComponent implements OnInit{
   selectedProject!: project;
   isProjectOverlayOpen = false;
 
-  constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService) { }
+  isDarkMode!: boolean;
+
+  constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService, private themeService: ThemeService) {
+    this.themeService.initTheme();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   ngOnInit(): void {
     const isProjectInitialized = this.clientService.getInitialized();
@@ -180,5 +186,10 @@ export class DashPanelComponent implements OnInit{
 
   toggleProjectOverlay() {
     this.isProjectOverlayOpen = !this.isProjectOverlayOpen;
+  }
+
+  toggleDarkMode(){
+    this.isDarkMode = this.themeService.isDarkMode();
+    this.isDarkMode ? this.themeService.update('light-theme') : this.themeService.update('dark-theme');
   }
 }

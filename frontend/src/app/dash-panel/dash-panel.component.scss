@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.cdnfonts.com/css/futura-pt');
 
+
 @keyframes hover{
   0% {
     height: 70%;
@@ -14,7 +15,7 @@
 .sidenav {
   height: 100vh;
   width: 18%;
-  background: rgb(249, 251, 252);
+  //background: rgb(249, 251, 252);
   transition: all 300ms;
 //   background: rgba(4,83,142);
 // background: linear-gradient(147deg, rgba(4,83,142,1) -20%, rgba(0,196,255,1) 100%);
