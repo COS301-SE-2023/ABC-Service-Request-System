@@ -37,7 +37,7 @@ let notificationUrl;
 let clientUrl;
 
 if (process.env.NODE_ENV === 'production') {
-  ticketUrl = "https://luna-ticket-service-3504bae7e50a.herokuapp.com";
+  ticketUrl = "https://luna-ticket-service-production.up.railway.app";
 } else {
   ticketUrl = "http://localhost:3001";
 }

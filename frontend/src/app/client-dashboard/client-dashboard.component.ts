@@ -4,6 +4,7 @@ import { AuthService } from 'src/services/auth.service';
 import { Observable } from 'rxjs';
 // import { v4 as uuidv4} from 'uuid';
 import { Router } from '@angular/router';
+import { ClientService } from 'src/services/client.service';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -13,12 +14,20 @@ import { Router } from '@angular/router';
 export class ClientDashboardComponent implements OnInit {
   loggedInClient$!: Observable<client>;
 
+  loggedInClientObject!: client;
   //panel expansions
   isProjectExpanded = false;
   isRequestExpanded = false;
 
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private clientService: ClientService) {
+    this.loggedInClient$ = this.authService.getLoggedInClient();
+
+    this.loggedInClient$.subscribe((loggedInClient) => {
+      this.loggedInClientObject = loggedInClient;
+      console.log(this.loggedInClientObject);
+    });
+  }
 
   ngOnInit(): void {
     this.loggedInClient$ = this.authService.getLoggedInClient();
@@ -33,6 +42,15 @@ export class ClientDashboardComponent implements OnInit {
   submitProjectForm(form: any) {
     if (form.valid) {
       console.log('Form submitted!', form.value);
+
+      this.clientService.addProjectRequest(form.value.projectName, form.value.additionalProjectInfo, this.loggedInClientObject.id).subscribe(
+        (response) => {
+          console.log("recieved client response: ", response);
+        },
+        (err) => {
+          console.log("recieved error:", err);
+        }
+      );
     }
   }
 
@@ -43,6 +61,10 @@ export class ClientDashboardComponent implements OnInit {
 
   toggleRequestExpansion() {
     this.isRequestExpanded = !this.isRequestExpanded;
+  }
+
+  stopPropagation(event: Event) {
+    event.stopPropagation();
   }
 
 }

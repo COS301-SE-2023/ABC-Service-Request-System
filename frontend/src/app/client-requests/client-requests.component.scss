@@ -1,0 +1,168 @@
+.requests-container {
+  // padding-left: 330px;
+  margin-top: 60px;
+  width: 82%;
+  float: right;
+  transition: all 300ms;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1, select {
+    align-self: flex-start;
+    padding-left: 1.5em;
+    margin-bottom: 2em;
+  }
+}
+
+
+.requests-inner-container {
+ width: 90%;
+}
+
+.card {
+  // border: 1px solid grey;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.18);
+  border-radius: 0.3em;
+  padding: 1.5em;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em;
+
+    .client-details {
+
+      display: flex;
+      align-items: center;
+
+      .client-img {
+        width: 3em;
+        height: 3em;
+        overflow: hidden;
+        border-radius: 50%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .client-info {
+        margin-left: 1em;
+
+        h3 {
+          font-size: 1.2em;
+          color: rgba(0,0,0,0.5);
+        }
+
+        p {
+          font-size: 0.9em;
+          color: rgba(0,0,0,0.3);
+        }
+      }
+    }
+
+    .requst-type {
+     // background-color: #545151a4;
+      // background: -webkit-linear-gradient(left, rgba(4, 83, 142, 0.5) 0%, rgba(0, 196, 255, 0.5) 100%,);
+      background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Poppins';
+      color: white;
+      padding: 0.3em 0.9em;
+      border-radius: 0.7em;
+      max-width: 20%;
+      min-width: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .card-content {
+    font-family: 'Montserrat';
+
+    label {
+      font-family: 'Montserrat';
+      font-size: 1.2em;
+      font-weight: 100;
+      color: rgba(0,0,0,0.6);
+    }
+
+    input {
+      width: 100%;
+      border-radius: 0.3em;
+      padding: 0.8em;
+      border: 1px solid #494545;
+      margin-top: 0.5em;
+      outline: none;
+      background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1em;
+    }
+
+    .additional-info-label {
+      font-family: 'Montserrat';
+      font-size: 1.2em;
+      font-weight: 100;
+      color: rgba(0,0,0,0.6);
+    }
+
+    .additional-info {
+      box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.18);
+      width: 100%;
+      padding: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
+
+.approve-btn{
+  background: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,);
+  font-family: 'Poppins';
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.18);
+  color: white;
+  padding: 0.8em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 0.3em;
+  margin-top: 1.5em;
+  margin-right: 1.5em;
+  min-width: 8em;
+  transition: all 300ms;
+}
+
+.approve-btn:hover {
+  background: -webkit-linear-gradient(left, rgb(5, 105, 181) 0%, rgb(38, 203, 253) 100%,);
+}
+
+.reject-btn{
+  background: -webkit-linear-gradient(290deg, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Poppins';
+  padding: 0.8em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: 0.7em;
+  margin-top: 1.5em;
+  min-width: 8em;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.18);
+  border-radius: 0.3em;
+  transition: all 300ms
+}
+
+.reject-btn:hover {
+  background: -webkit-linear-gradient(left, rgb(5, 105, 181) 0%, rgb(38, 203, 253) 100%,);
+  background-clip: border-box;
+  -webkit-text-fill-color: white;
+}

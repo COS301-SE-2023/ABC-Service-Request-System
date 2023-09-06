@@ -32,7 +32,7 @@
       </h1>
 
       <div class="expansion-wrapper">
-        <div class="expansion-panel" [class.expanded]="isProjectExpanded" (click)="toggleProjectExpansion()" tabindex="0" (keyup)="toggleProjectExpansion()">
+        <div class="expansion-panel" [class.expanded]="isProjectExpanded" (click)="toggleProjectExpansion()" tabindex="0" (keyup)="stopPropagation($event)">
           <div class="text-info">
             <h2>Start a new project</h2>
             <p>Start a completely new project for a new feature or idea.</p>
@@ -40,16 +40,16 @@
             <div class="form-container" *ngIf="isProjectExpanded">
               <form #projectForm="ngForm" (ngSubmit)="submitProjectForm(projectForm)">
                 <div class="form-item">
-                  <label for="project-name">Project Name</label>
-                  <input type="text" name="projectName" id="project-name" ngModel required>
+                  <label for="project-name" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project Name</label>
+                  <input type="text" name="projectName" id="project-name" ngModel required (click)="stopPropagation($event)">
                 </div>
 
                 <div class="form-item">
-                  <label for="additional-project-info">Additional Information</label>
-                  <textarea name="additionalProjectInfo" id="additional-project-info" cols="30" rows="10"></textarea>
+                  <label for="additional-project-info" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Additional Information</label>
+                  <textarea name="additionalProjectInfo" id="additional-project-info" ngModel cols="30" rows="10" (click)="stopPropagation($event)"></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn">Submit</button>
+                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button>
               </form>
             </div>
           </div>

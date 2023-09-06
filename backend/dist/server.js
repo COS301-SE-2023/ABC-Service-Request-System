@@ -30,27 +30,57 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use("/api/ticket", proxy("http://localhost:3001", {
+var ticketUrl;
+var userUrl;
+var groupUrl;
+var notificationUrl;
+var clientUrl;
+if (process.env.NODE_ENV === 'production') {
+  ticketUrl = "https://luna-ticket-service-3504bae7e50a.herokuapp.com";
+} else {
+  ticketUrl = "http://localhost:3001";
+}
+if (process.env.NODE_ENV === 'production') {
+  userUrl = "https://luna-user-service-4883dabf907c.herokuapp.com";
+} else {
+  userUrl = "http://localhost:3002";
+}
+if (process.env.NODE_ENV === 'production') {
+  groupUrl = "https://luna-group-service-0ebbd0219a30.herokuapp.com";
+} else {
+  groupUrl = "http://localhost:3003";
+}
+if (process.env.NODE_ENV === 'production') {
+  notificationUrl = "https://luna-notification-service-029a9c4e1fc3.herokuapp.com";
+} else {
+  notificationUrl = "http://localhost:3004";
+}
+if (process.env.NODE_ENV === 'production') {
+  clientUrl = "https://luna-client-service-d5f98b3f6099.herokuapp.com";
+} else {
+  clientUrl = "http://localhost:3005";
+}
+app.use("/api/ticket", proxy(ticketUrl, {
   proxyReqPathResolver: function proxyReqPathResolver(req) {
     return "/api/ticket".concat(req.url);
   }
 }));
-app.use("/api/user", proxy("http://localhost:3002", {
+app.use("/api/user", proxy(userUrl, {
   proxyReqPathResolver: function proxyReqPathResolver(req) {
     return "/api/user".concat(req.url);
   }
 }));
-app.use("/api/group", proxy("http://localhost:3003", {
+app.use("/api/group", proxy(groupUrl, {
   proxyReqPathResolver: function proxyReqPathResolver(req) {
     return "/api/group".concat(req.url);
   }
 }));
-app.use("/api/notifications", proxy("http://localhost:3004", {
+app.use("/api/notifications", proxy(notificationUrl, {
   proxyReqPathResolver: function proxyReqPathResolver(req) {
     return "/api/notifications".concat(req.url);
   }
 }));
-app.use("/api/client", proxy("http://localhost:3005", {
+app.use("/api/client", proxy(clientUrl, {
   proxyReqPathResolver: function proxyReqPathResolver(req) {
     return "/api/client".concat(req.url); // Prefix the request path with /api/user
   }

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _express = require("express");
 var _expressAsyncHandler = _interopRequireDefault(require("express-async-handler"));
-var _sampleGroups = require("../../groups/src/utils/sampleGroups");
+var _test_group_sample = require("../test_samples/test_group_sample");
 var _multer = _interopRequireDefault(require("multer"));
 var _testGroup = require("./testGroup.model");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -56,7 +56,7 @@ function () {
           return _testGroup.testGroupModel.countDocuments();
         case 2:
           groupsCount = _context2.sent;
-          _testGroup.testGroupModel.create(_sampleGroups.sample_groups).then(function (data) {
+          _testGroup.testGroupModel.create(_test_group_sample.sample_groups).then(function (data) {
             res.status(201).send(data);
           })["catch"](function (err) {
             res.status(500).send({

@@ -159,4 +159,19 @@ export class ClientService {
   getInitialized(): boolean {
     return this.projectInitialized;
   }
+
+  //clients dashboard
+  addProjectRequest(projectName: string, additionalInformation: string, clientId: string) {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      projectName: projectName,
+      additionalInformation: additionalInformation,
+      clientId: clientId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
+  }
 }

@@ -83,6 +83,7 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
 //CONFERENCING
 import { SocketIoModule } from "ngx-socket-io";
 import { VideoRoomComponent } from './video-room/video-room.component';
+import { ClientRequestsComponent } from './client-requests/client-requests.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { VideoRoomComponent } from './video-room/video-room.component';
     ClientLoginComponent,
     ClientDashboardComponent,
     VideoRoomComponent,
+    ClientRequestsComponent,
   ],
   imports: [
     BrowserModule,

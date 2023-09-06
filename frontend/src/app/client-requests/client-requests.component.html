@@ -1,0 +1,51 @@
+<div class="requests-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+
+  <h1>Requests</h1>
+
+  <!-- <select name="filter" id="filter" (change)="filterChange($event)"> -->
+  <select name="filter" id="filter">
+    <option value="all" selected>All</option>
+    <option value="active">Pending</option>
+    <option value="pending">Approved</option>
+    <option value="done">Rejected</option>
+  </select>
+
+  <div class="requests-inner-container">
+    <div class="card">
+
+      <div class="card-header">
+        <div class="client-details">
+          <div class="client-img">
+              <img src="../../assets/background.png" alt="user-logo">
+          </div>
+
+          <div class="client-info">
+            <h3>Name Surname</h3>
+            <p>Epiuse</p>
+          </div>
+
+        </div>
+
+        <div class="requst-type">
+          Project Request
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="requested-project-name">
+          <label for="requestedProjectName">Requested Project Name</label>
+          <input type="text" value="hi" name="requestedProjectName" id="requestedProjectName">
+        </div>
+
+        <p class="additional-info-label">Additional Info</p>
+        <p class="additional-info">No additional information was received with this request...</p>
+      </div>
+
+      <div class="card-buttons">
+        <button class="approve-btn">Approve</button>
+        <button class="reject-btn">Reject</button>
+      </div>
+    </div>
+  </div>
+
+</div>

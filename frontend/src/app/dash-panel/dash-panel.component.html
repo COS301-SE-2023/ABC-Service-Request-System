@@ -67,8 +67,17 @@
       <div *ngIf="!checkIfCreateAccountRoute()" class="inactive-background"></div>
     </div>
 
+    <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager() || authService.isFunctional()" [ngClass]="{ 'white-color': checkIfClientRequestsRoute() }">
+      <button (click)="openClientRequests()" class="add-ticket-button">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>Client Requests</span>
+      </button>
+      <div *ngIf="checkIfClientRequestsRoute()" class="active-background"></div>
+      <div *ngIf="!checkIfClientRequestsRoute()" class="inactive-background"></div>
+    </div>
+
     <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateTicketRoute() }">
-      <button (click)="openNewTicketForm()" class="add-ticket-button">
+      <button (click)="openClientRequests()" class="add-ticket-button">
         <i class="fa-solid fa-circle-plus"></i>
         <span>Add Ticket</span>
       </button>

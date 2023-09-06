@@ -12,6 +12,15 @@ export interface project {
     assignedGroups?: group [],
 }
 
+export interface request {
+    id: string,
+    type: string,
+    status: string,
+    additionalInformation: string,
+    projectName: string
+}
+
+
 export interface client {
     id: string,
     name: string,
@@ -22,7 +31,8 @@ export interface client {
     password: string,
     industry: string,
     inviteToken?: string,
-    projects: project []
+    projects: project [],
+    requests: request []
 }
 
 export const projectSchema = new Schema<project>(
@@ -33,6 +43,16 @@ export const projectSchema = new Schema<project>(
         color: { type: String, required: true},
         // tickets: { type: [ticketSchema], required: false},
         assignedGroups: { type: [groupSchema], required: false},
+    }
+)
+
+export const requestSchema = new Schema<request>(
+    {
+        id: { type: String, required: true},
+        type: { type: String, required: true},
+        status: { type: String, required: true},
+        additionalInformation: { type: String, required: false},
+        projectName: { type: String, required: false},
     }
 )
 
@@ -48,6 +68,7 @@ const clientSchema = new Schema<client>(
         industry: { type: String, required: true},
         inviteToken: { type: String }, // Add inviteToken field
         projects: { type: [projectSchema], required: true},
+        requests: { type: [requestSchema], required: false}
     },{
         toJSON: {
             virtuals: true

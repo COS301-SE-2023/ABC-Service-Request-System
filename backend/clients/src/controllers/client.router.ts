@@ -1,6 +1,6 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { ClientModel } from "../models/client.model";
+import { ClientModel, request, requestSchema } from "../models/client.model";
 import { project } from "../models/client.model";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -236,6 +236,47 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     }
 ));
 
+//MAKE A PROJECT REQUEST
+router.post("/project_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const newRequest: request = {
+            id: '',
+            type: 'New Project Request',
+            status: 'Pending',
+            additionalInformation: req.body.additionalInformation,
+            projectName: req.body.projectName
+        }
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                if(client.requests) {
+                    newRequest.id = Date.now().toString();
+
+                    client.requests.push(newRequest);
+                    await client.save();
+
+                    res.status(200).send(client);
+                } else {
+                    let requests: request[] = [];
+                    requests.push(newRequest);
+                    client.requests = requests;
+                    await client.save();
+
+                    res.status(200).send(client);
+                }
+            } else {
+                res.status(404).send("Client does not exist");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error adding request to client");
+        }
+    }
+))
+
 //REMOVE A CLIENT GIVEN THE CLIENT ID
 router.delete("/delete_client", expressAsyncHandler(
     async (req, res) => {
@@ -254,6 +295,7 @@ router.delete("/delete_client", expressAsyncHandler(
         }
     }
 ));
+
 
 router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {

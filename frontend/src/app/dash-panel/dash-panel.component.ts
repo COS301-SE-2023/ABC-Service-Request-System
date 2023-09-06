@@ -106,6 +106,10 @@ export class DashPanelComponent implements OnInit{
     this.router.navigate(['/new-ticket-form']);
   }
 
+  openClientRequests() {
+    this.router.navigate(['/client-requests']);
+  }
+
   openCreateAccount() {
     this.router.navigate(['/create-account'], { queryParams: { home: true } });
   }
@@ -155,6 +159,14 @@ export class DashPanelComponent implements OnInit{
     const currentUrl = this.router.url;
     if (currentUrl) {
       return currentUrl.includes('create-account');
+    }
+    return false;
+  }
+
+  checkIfClientRequestsRoute(): boolean {
+    const currentUrl = this.router.url;
+    if (currentUrl) {
+      return currentUrl.includes('client-requests');
     }
     return false;
   }
