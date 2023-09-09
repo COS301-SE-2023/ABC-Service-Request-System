@@ -90,7 +90,7 @@
                     <p class = "additional-info"><b>{{groups.id}}</b></p>
                 </div>
             </div>
-            <div *ngFor="let projects of resultsProjectName" class="search-user">
+            <div *ngFor="let projects of resultsProjectName" (click)="openCreateAccount()" tabindex="0" class="search-user">
                 <div class="search-project-img">
                     <img src = "{{projects.logo}}" alt = "group-Icon">
                 </div>

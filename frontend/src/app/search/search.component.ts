@@ -214,6 +214,10 @@ navigateToProfile(id: string) {
   this.router.navigate(['/view-profile'], { queryParams: { id: id } });
 }
 
+openCreateAccount() {
+  this.router.navigate(['/create-account'], { queryParams: { home: true } });
+}
+
 highlightButtonUsers(event: any) {
 
   if(event.target.classList.contains('selected'))
@@ -436,3 +440,4 @@ highlightDescription(description: string, searchQuery: string): string {
     return description;
   }
 }
+
