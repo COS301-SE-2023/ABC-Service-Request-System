@@ -32,6 +32,8 @@ export class NewTicketFormComponent implements OnInit {
   todo: FormControl = new FormControl();
   todoArray: string[] = [];
   todoChecked: boolean[] = [];
+  suggestionAllUsers: user[] = [];
+  suggestionGroup!: string;
 
   constructor(
     private ticketService: TicketsService,
@@ -104,6 +106,15 @@ export class NewTicketFormComponent implements OnInit {
   onGroupChanged(event: Event) {
     const groupSelectedId = (event.target as HTMLSelectElement).value;
     console.log('group selected id: ', groupSelectedId);
+
+    //Edwin's Code
+    this.groupService.getGroupNameById(groupSelectedId).subscribe((response) => {
+      console.log("getGroupNameById: ", response);
+      this.suggestionGroup = response.groupName;
+
+      this.suggestionAllUsers = this.allUsers;
+      console.log("Suggested All Users: ", this.suggestionAllUsers);
+    });
   }
 
   getAssigneeName() {
@@ -120,7 +131,7 @@ export class NewTicketFormComponent implements OnInit {
       this.allUsers = response.filter((user) => {
         return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
       });
-      console.log("All Users: ", this.allUsers);
+
       return this.allUsers;
     });
   }
@@ -135,6 +146,9 @@ export class NewTicketFormComponent implements OnInit {
         this.allGroups = selectedProject.assignedGroups;
 
       this.getAllAssignable(this.allGroups);
+
+      this.suggestionAllUsers = [];
+      this.suggestionGroup = "";
     } else {
       console.log('Project not found:', selectedProjectName);
     }

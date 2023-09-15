@@ -390,6 +390,87 @@
   border-radius: 8px;
 }
 
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock {
+  margin-top: 1em;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  height: 32vh;
+  overflow: auto;
+  background: #fff;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  align-items: center;
+  padding: 1em 25px 0.5em;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0.5em;
+  background: #fff;
+  cursor: pointer;
+
+  .memberAIDetail {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin-top: auto; 
+    color: #000;
+  }
+
+  .Summary {
+    margin-top: auto; 
+    font-size: medium;
+    color: #04538E;
+  }
+
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI:hover {
+  background: rgba(116, 172, 205, 0.3);
+  background-clip: padding-box, margin-box;
+  transition-duration: 0.2s;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI .memberAIPhoto {
+  flex: 0 0 auto; 
+  height: 3em;
+  width: 3em;
+  border-radius: 50px;
+  margin-right: 20px;
+
+  img {
+        width: 100%;
+        height: 100%;
+  }
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar {
+  width: 8px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-thumb {
+  background-color: #74ACCD;
+  border-radius: 4px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-thumb:vertical:hover {
+  background-color: #0e80b5;
+}
+
 // css to make asterisk red
 .required {
   color: red;

@@ -69,14 +69,6 @@
           </button>
         </div>
 
-        <div class="todos=col2">
-          <label>AI Generated Todo's</label>
-
-          <!-- AI GENERATION HERE -->
-          <p>Work in Progress</p>
-
-          <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
-        </div>
       </div>
 
       <div class="assignedInformation">
@@ -95,9 +87,20 @@
         <div class="assignedInformation-col2">
           <div class="memberAIBlock">
             <label>Suggested Technical Members</label>
+            <div class="memberAIContentBlock">
+              <div class="memberAI" *ngFor="let user of suggestionAllUsers">
+                <div class="memberAIOrder">
 
-            <div class="memberAIContent">
-
+                </div>
+                <div class="memberAIPhoto">
+                  <img [src]="user.profilePhoto" alt="user" style="border-radius:50%;">
+                </div>
+                <div class="memberAIDetail">
+                  <p class="Summary"><b>{{ user.name }} {{ user.surname}}</b></p>
+                  <p><b>{{ user.roles }}</b> {{ this.suggestionGroup }}</p> 
+                  <!-- <p><small></small></p> -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -115,7 +118,7 @@
   <div class="todo-overlay" *ngIf="isAddTodoOverlayOpened">
     <div class="todo-overlay-inner-wrapper">
       <h1>Add a todo</h1>
-      <textarea [formControl]="todo"></textarea>
+      <textarea placeholder="Todo Description..." [formControl]="todo"></textarea>
       <br>
 
       <div class="todo-overlay-buttons">

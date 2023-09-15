@@ -36,8 +36,8 @@ router.post('/seed', expressAsyncHandler(
         }
 
         TicketModel.create(sample_tickets)
-            .then(data => {res.status(201).send(data)})
-            .catch(err => {res.status(500).send({message: err.message}); });
+            .then((data: any) => {res.status(201).send(data)})
+            .catch((err: { message: any; }) => {res.status(500).send({message: err.message}); });
         // res.status(200).send("Seed is done!");
     }
 ));
@@ -69,7 +69,7 @@ router.get('/projects', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin'
       const tickets = await TicketModel.find({ group: groupName});
 
       if(tickets){
-        tickets.forEach((ticket) => {
+        tickets.forEach((ticket: { project: string; }) => {
           if(ticket.project && !projects.includes(ticket.project))
             projects.push(ticket.project);
         });
