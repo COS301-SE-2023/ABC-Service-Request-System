@@ -83,14 +83,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.isFormVisible = false;
   }
 
+
   onSubmit() {
     this.activeTab = 'Work Logs';
+
     if (this.workLogForm.valid) {
         // Parse out HTML tags from the 'description' field
         const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
         const textContent = parsedHtml.body.textContent || "";
         this.workLogForm.get('description')!.setValue(textContent);
-        
+
         let currentUser!: user;
         
         this.authService.getUserObject().subscribe(
@@ -100,7 +102,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
                 console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
                 const workLog: worklog = {
                     author: currentUser.name,
-                    authorPhoto: currentUser.profilePhoto, // Use the email address as the author
+                    authorPhoto: currentUser.profilePhoto,
                     ...this.workLogForm.value
                 };
                 
@@ -109,6 +111,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
                     .subscribe(response => {
                         this.ticket = response;
                         this.toggleForm(); // to close the form after submission
+
+                        // Update work logs display right after successfully adding a work log
+                        this.showWorkLogs();
+
                         // Consider adding a message or a toast notification here to inform the user of successful submission.
                     }, error => {
                         // Handle errors. For instance, show an error message to the user.
@@ -118,6 +124,42 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         );
     }
 }
+
+//   onSubmit() {
+//     this.activeTab = 'Work Logs';
+//     if (this.workLogForm.valid) {
+//         // Parse out HTML tags from the 'description' field
+//         const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
+//         const textContent = parsedHtml.body.textContent || "";
+//         this.workLogForm.get('description')!.setValue(textContent);
+        
+//         let currentUser!: user;
+        
+//         this.authService.getUserObject().subscribe(
+//             (response) => {
+//                 currentUser = response;
+                
+//                 console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
+//                 const workLog: worklog = {
+//                     author: currentUser.name,
+//                     authorPhoto: currentUser.profilePhoto, // Use the email address as the author
+//                     ...this.workLogForm.value
+//                 };
+                
+//                 console.log('workLog', workLog);
+//                 this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
+//                     .subscribe(response => {
+//                         this.ticket = response;
+//                         this.toggleForm(); // to close the form after submission
+//                         // Consider adding a message or a toast notification here to inform the user of successful submission.
+//                     }, error => {
+//                         // Handle errors. For instance, show an error message to the user.
+//                         console.error("There was an error submitting the form:", error);
+//                     });
+//             }, (error) => { console.log("error fetching current user ") }
+//         );
+//     }
+// }
 
   
   
@@ -521,7 +563,55 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.attachmentsOnly = false;
   }
 
+  allActivities: (comment | worklog)[] = [];
+
   displayedComments?: comment[] = [];
+
+  displayedItems: (comment | worklog)[] = [];
+
+// showAll(): void {
+//   this.activeTab = 'All';
+  
+//   // Create a merged array of comments and worklogs
+//   let combinedItems: (comment | worklog)[] = [];
+
+//   console.log("showAll function triggered.");
+
+//   if (this.ticket) {
+//     console.log("ticket object exists.");
+
+//     if (this.ticket.comments) {
+//       console.log(`Found ${this.ticket.comments.length} comments.`);
+//       combinedItems = combinedItems.concat(this.ticket.comments);
+//     } else {
+//       console.log("No comments found.");
+//     }
+
+//     if (this.ticket.workLogs) {
+//       console.log(`Found ${this.ticket.workLogs.length} worklogs.`);
+//       combinedItems = combinedItems.concat(this.ticket.workLogs);
+//     } else {
+//       console.log("No worklogs found.");
+//     }
+
+//   } else {
+//     console.error("ticket object does not exist.");
+//     return;
+//   }
+
+//   // Sort combinedItems by timestamp
+//   combinedItems.sort((a, b) => {
+//     const timeStampA = 'createdAt' in a ? new Date(a.createdAt).getTime() : new Date(a.dateStarted + 'T' + a.timeStarted + ':00').getTime();
+//     const timeStampB = 'createdAt' in b ? new Date(b.createdAt).getTime() : new Date(b.dateStarted + 'T' + b.timeStarted + ':00').getTime();
+
+//     return timeStampB - timeStampA; // This sorts in descending order. Switch the subtraction if you want ascending order.
+//   });
+
+//   this.displayedItems = combinedItems;
+//   console.log(`Total items to display: ${this.displayedItems.length}`);
+// }
+
+
   showAll(): void {
     this.activeTab = 'All';
     if(this.ticket && this.ticket.comments){
@@ -547,6 +637,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   showWorkLogs(): void {
     this.activeTab = 'Work Logs';
+    this.displayedComments = []; // Clear the displayed comments array when showing work logs
+  
     if (this.ticket) {
       if (this.ticket.workLogs) { // Check if workLogs property is defined
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
@@ -554,6 +646,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
+  // showWorkLogs(): void {
+  //   this.activeTab = 'Work Logs';
+  //   if (this.ticket) {
+  //     if (this.ticket.workLogs) { // Check if workLogs property is defined
+  //       this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
+  //       this.numReversed = 0;
+  //     }
+  //   }
+  // }
 
   // showWorkLogs(): void {
   //   this.activeTab = 'Work Logs';

@@ -5,9 +5,9 @@
             <img src="{{ this.worklog.authorPhoto }}" alt="author profile image">
         </div>
         <h3><span>{{ this.worklog.author }}</span> logged {{ worklog.timeSpent }} in
-          <span [title]="(worklog.dateStarted | slice:0:10) + 'T' + worklog.timeStarted + 'Z' | date:'medium'">{{ timeLoggedAgo }}</span>
+          <span [title]="(worklog.dateStarted | slice:0:10) + 'T' + worklog.timeStarted | date:'medium'">{{ timeLoggedAgo }}</span>
         </h3>
-        <div class="comment-info-tab">Worklog</div>
+        <div class="comment-info-tab">Work Log</div>
       </div>
       <p>{{ worklog.description }}</p>
     </div>

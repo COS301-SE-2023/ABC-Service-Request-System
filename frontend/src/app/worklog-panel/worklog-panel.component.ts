@@ -1,12 +1,12 @@
 
-import { Component , Input} from '@angular/core';
+import { Component , Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-worklog-panel',
   templateUrl: './worklog-panel.component.html',
   styleUrls: ['./worklog-panel.component.scss']
 })
-export class WorklogPanelComponent {
+export class WorklogPanelComponent implements OnInit{
   @Input() worklog: any;
   timeLoggedAgo!: string;
   
@@ -14,21 +14,22 @@ export class WorklogPanelComponent {
     this.calculateTimeLoggedAgo(); 
   }
 
+ 
+
   calculateTimeLoggedAgo(): void {
     const dateStarted = new Date(this.worklog.dateStarted);
-    const timeStarted = this.worklog.timeStarted.split(':');
-    dateStarted.setUTCHours(+timeStarted[0]);
-    dateStarted.setUTCMinutes(+timeStarted[1]);
-
+    
+    const [hours, minutes] = this.worklog.timeStarted.split(':').map(Number);
+    const adjustedHour = (hours - 2 + 24) % 24;  // Adjust for GMT+2 and wrap around if needed
+  
+    this.worklog.adjustedTimeStarted = `${adjustedHour.toString().padStart(2, '0')}:${minutes}`;
+  
     const currentDate = new Date();
-    const offset = currentDate.getTimezoneOffset() * 60000;
-    const currentDateUTC = new Date(currentDate.getTime() - offset);
-    const diffInMilliseconds = currentDateUTC.valueOf() - dateStarted.valueOf();
+    const diffInMilliseconds = currentDate.valueOf() - dateStarted.valueOf();
     this.timeLoggedAgo = this.convertMillisecondsToTime(diffInMilliseconds);
-
+  
     console.log('Time logged ago:', this.timeLoggedAgo);
   }
-
   
 
   // calculateTimeLoggedAgo(): void {

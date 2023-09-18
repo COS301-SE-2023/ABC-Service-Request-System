@@ -40,7 +40,7 @@
       <div class="activity-area">
         <h2>Activity</h2>
 
-        <button class="activity-filter-button selected" (click)="highlightButton($event); showAll()">All</button>
+        <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
         <button class="activity-filter-button" (click)="highlightButton($event);">History</button>
@@ -86,7 +86,7 @@
             </ng-container>
           </div>
         </div> -->
-        <div class = "comments-area-with-attachments" *ngIf="attachmentsOnly === false">
+        <div class = "comments-area-with-attachments" *ngIf="attachmentsOnly === false" >
           <div class = "comments-area" *ngFor="let comment of displayedComments">
             <app-comment-panel [comment]="comment"></app-comment-panel>
             <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
@@ -206,7 +206,7 @@
           </div>
         </div>
 
-        <div class="worklogs-and-comments" *ngIf="showWorkLogs">
+        <div class="worklogs-and-comments" *ngIf="activeTab ==='Work Logs'">
           <div *ngFor="let worklog of displayedWorklogs">
             <app-worklog-panel [worklog]="worklog"></app-worklog-panel>
           </div>
@@ -214,6 +214,7 @@
             <app-comment-panel [comment]="comment"></app-comment-panel>
           </div> -->
         </div>
+        
       </div>
     </div>
 
