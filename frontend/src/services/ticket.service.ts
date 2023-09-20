@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
-import { ticket, attachment, TicketModel , worklog} from "../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, TicketModel , worklog, WorklogEntry} from "../../../backend/tickets/src/models/ticket.model";
 import { environment } from '../environments/environment';
+import { Observable } from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +30,14 @@ export class TicketsService {
     // console.log('Ticket HEADER:', headers);
     return this.http.get<ticket[]>(this.TICKET_URL, {headers});
   }
+
+  // getUserLatestWorklogs(username: string) {
+  //   this.token = localStorage.getItem('token'); // retrieve token from localStorage
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+  //   const url = `${this.API_URL}/api/worklogs/${username}`; // adjust this URL as per your backend route's path
+
+  //   return this.http.get<worklog[]>(url, {headers});
+  // }
 
   getTicketWithID(objectId: string){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
@@ -116,5 +125,19 @@ export class TicketsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.post(`${this.TICKET_URL}/addTimeToFirstResponse`, {ticketId, commentTime}, {headers});
   }
+
+  // getUserLatestWorklogs(username: string) {
+  //   return this.http.get<worklog[]>(`${this.TICKET_URL}/latestworklogs/${username}`, {});
+  // }
+
+  getUserLatestWorklogs(username: string): Observable<WorklogEntry[]> {
+    return this.http.get<WorklogEntry[]>(`${this.TICKET_URL}/latestworklogs/${username}`);
+  }
+
+  getUserLatestWorklogsByGroup(username: string, group: string): Observable<WorklogEntry[]> {
+    return this.http.get<WorklogEntry[]>(`${this.TICKET_URL}/latestworklogsbygroup/${username}/${group}`);
+  }
+  
+
 
 }

@@ -42,7 +42,7 @@ router.post('/seed', expressAsyncHandler(
     }
 ));
 
-router.get('/', expressAsyncHandler(
+router.get('/', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(
     async (req, res) => {
         const tickets = await TicketModel.find();
         res.status(200).send(tickets);
@@ -332,29 +332,115 @@ router.post('/:id/worklogs', expressAsyncHandler(async (req, res) => {
 }));
 
 
-// router.post('/:id/worklogs', expressAsyncHandler(async (req, res) => {
-//   const ticketId = req.params.id;
+router.get('/latestworklogs/:author', async (req, res) => {
+  const author = req.params.author;
 
-//   try {
-//       const ticket = await TicketModel.findOne({ id: ticketId });
+  try {
+    // Find tickets with workLogs by the author
+    const tickets = await TicketModel.find({ "workLogs.author": author })
+      .populate({
+        path: "workLogs",
+        match: { author: author },
+      })
+      .select("summary workLogs")
+      .exec();
 
-//       if (ticket) {
-//           // Check if workLogs exists, if not initialize it as an empty array
-//           if (!ticket.workLogs) {
-//               ticket.workLogs = [];
-//           }
-          
-//           ticket.workLogs.push(req.body);
-//           await ticket.save();
-//           res.status(201).send(ticket);
-//       } else {
-//           res.status(404).send("Ticket not found");
-//       }
-//   } catch (error) {
-//       console.error("Error adding worklog:", error);
-//       res.status(500).send("Internal server error");
-//   }
-// }));
+    let results: any[] = [];
+
+    tickets.forEach(ticket => {
+      if (ticket.workLogs) {
+        ticket.workLogs.forEach(worklog => {
+          if (worklog.author === author) {
+            results.push({
+              ticketSummary: ticket.summary,
+              worklog: worklog
+            });
+          }
+        });
+      }
+    });
+
+    // Sort the results by date and then time
+    results.sort((a, b) => {
+      const dateA = new Date(a.worklog.dateStarted);
+      const dateB = new Date(b.worklog.dateStarted);
+
+      // If dates are the same, compare timeStarted
+      if (dateA.getTime() === dateB.getTime()) {
+        const timeA = a.worklog.timeStarted.split(':').map(Number);
+        const timeB = b.worklog.timeStarted.split(':').map(Number);
+        return (timeB[0] * 60 + timeB[1]) - (timeA[0] * 60 + timeA[1]);
+      }
+
+      return dateB.getTime() - dateA.getTime(); // latest first
+    });
+
+    // Take the top 5
+    results = results.slice(0, 5);
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).send({ message: 'Server error', error });
+  }
+});
+
+
+router.get('/latestworklogsbygroup/:author/:group', async (req, res) => {
+  const author = req.params.author;
+  const group = req.params.group;
+
+  try {
+    // Find tickets with workLogs by the author and belonging to the given group
+    const tickets = await TicketModel.find({
+        group: group, 
+        "workLogs.author": author
+      })
+      .populate({
+        path: "workLogs",
+        match: { author: author }
+      })
+      .select("summary workLogs")
+      .exec();
+
+    let results: any[] = [];
+
+    tickets.forEach(ticket => {
+      if (ticket.workLogs) {
+        ticket.workLogs.forEach(worklog => {
+          if (worklog.author === author) {
+            results.push({
+              ticketSummary: ticket.summary,
+              worklog: worklog
+            });
+          }
+        });
+      }
+    });
+
+    // Sort the results by date and then time
+    results.sort((a, b) => {
+      const dateA = new Date(a.worklog.dateStarted);
+      const dateB = new Date(b.worklog.dateStarted);
+
+      if (dateA.getTime() === dateB.getTime()) {
+        const timeA = a.worklog.timeStarted.split(':').map(Number);
+        const timeB = b.worklog.timeStarted.split(':').map(Number);
+        return (timeB[0] * 60 + timeB[1]) - (timeA[0] * 60 + timeA[1]); // latest first
+      }
+
+      return dateB.getTime() - dateA.getTime(); // latest first
+    });
+
+    // Take the top 5
+    results = results.slice(0, 5);
+
+    res.json(results);
+  } catch (error) {
+    console.error("Server error:", error); // Log the error for debugging
+    res.status(500).send({ message: 'Server error', error });
+  }
+});
+
 
 
 router.get('/test', (req, res) => {

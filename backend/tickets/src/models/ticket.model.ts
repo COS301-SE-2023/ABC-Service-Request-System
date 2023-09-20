@@ -25,6 +25,17 @@ export interface worklog {
     description: string;
 }
 
+// export interface WorklogResponse {
+//     summary: string[];
+//     worklogs: worklog[];
+// }
+
+export interface WorklogEntry {
+    ticketSummary: string;
+    worklog: worklog;
+}
+
+
 export interface ticket{
     id: string,
     summary: string,

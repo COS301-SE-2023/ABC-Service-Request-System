@@ -10,7 +10,7 @@ import { GroupService } from 'src/services/group.service';
 import { UserService } from 'src/services/user.service';
 import { user } from "../../../../backend/users/src/models/user.model";
 import * as moment from 'moment';
-import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
+import { WorklogEntry, ticket } from "../../../../backend/tickets/src/models/ticket.model";
 
 @Component({
   selector: 'app-analytics-page',
@@ -38,10 +38,15 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
   navbarIsCollapsed!: boolean;
 
+  latestWorklogs: WorklogEntry[] = [];
+
+
   ngOnInit(): void {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
+
+    this.fetchLatestWorklogs();
   }
 
   personalHighPriorityTicketsCount = 0;
@@ -68,7 +73,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   averageResponseMinutes!: string;
 
 
-
+  
 
   //charts
   doughnutChart!: Chart<"doughnut", (number | null)[], string>;
@@ -93,10 +98,13 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     console.log('in analytics page');
 
     //change name to id
+    
     this.userId = this.authService.getUser().emailAddress;
     console.log('user id: ', this.userId);
 
     const userGroups: any [] = this.authService.getUser().groups;
+
+    console.log("User groups: " + userGroups)
 
     this.typeChanged('personal');
 
@@ -131,23 +139,86 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     this.createTicketVolumeTrendChart();
   }
 
+  private fetchLatestWorklogs() {
+    const username = this.authService.getUser().name;
+    console.log(username + " username")
+
+    this.ticketsService.getUserLatestWorklogs(username).subscribe((response: WorklogEntry[]) => {
+        if (response && response.length > 0) {
+            this.latestWorklogs = response;
+        } else {
+            console.warn('Unexpected format for worklogs data:', response);
+        }
+        console.log('Latest Worklogs:', this.latestWorklogs);
+    }, error => {
+        console.error('Error fetching latest worklogs:', error);
+    });
+}
+
+fetchUserWorklogsInGroup(userId: string, groupName: string): void {
+  this.ticketsService.getUserLatestWorklogsByGroup(userId, groupName).subscribe(
+      data => {
+          this.latestWorklogs = data;
+          console.log("latestWorklogs" , this.latestWorklogs);
+      },
+      error => {
+          console.error("Error fetching user's worklogs in group:", error);
+      }
+  );
+}
+
+
+  // private fetchLatestWorklogs(){
+  //   const username = this.authService.getUser().name;
+  //   console.log(username + " username")
+
+  //   this.ticketsService.getUserLatestWorklogs(username).subscribe(data => {
+  //     this.latestWorklogs = data;
+  //     console.log('Latest Worklogs:', data);
+  //   }, error => {
+  //     console.error('Error fetching latest worklogs:', error);
+  //   });
+  // }
+
+  getHours(timeSpent: string): number {
+    return parseInt(timeSpent.replace('h', ''), 10);
+  }
+  
 
   selectGroup(id: string): void {
+    const username = this.authService.getUser().name;
     console.log('Selected Group ID # 1:', this.sgroup)
     const group = this.groups.find(group => group.id === id);
     if (group) {
         this.selectedGroup = group;
         console.log('Selected Group ID # 2:', group.groupName);
         this.onGroupSelected(group.groupName);
+        
+        this.fetchUserWorklogsInGroup(username, group.groupName);
+        console.log("user idddd:" , username);
+        console.log("user group:" , group.groupName);
     } else {
         console.log(`No group found with id ${id}`);
     }
-  }
+}
+
+  // selectGroup(id: string): void {
+  //   console.log('Selected Group ID # 1:', this.sgroup)
+  //   const group = this.groups.find(group => group.id === id);
+  //   if (group) {
+  //       this.selectedGroup = group;
+  //       console.log('Selected Group ID # 2:', group.groupName);
+  //       this.onGroupSelected(group.groupName);
+  //   } else {
+  //       console.log(`No group found with id ${id}`);
+  //   }
+  // }
 
   typeChanged(value: any) {
     console.log('value is: ', value);
 
     if(value === 'personal') {
+      this.fetchLatestWorklogs();
       this.ActiveTicketsCount = 0;
       this.PendingTicketsCount = 0;
       this.ticketsDueTodayCount = 0;
@@ -219,6 +290,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
 
 
       this.selectGroup(this.groups[0].id);
+      
 
 
     }

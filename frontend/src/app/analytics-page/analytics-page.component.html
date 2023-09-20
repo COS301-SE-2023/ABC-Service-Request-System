@@ -48,34 +48,33 @@
           </div>
 
           <!-- Time and Expenses -->
+          <!-- worklog.component.html -->
           <div class="grid-item grid-item-5">
             <h2>Hours Logged</h2>
             <div class="table-container">
-              <div class="table-item">
-                <div class="item-description">
-                  <p>Update user interface for sy...<p>
+                <div *ngFor="let entry of latestWorklogs" class="table-item">
+                    
+                    <!-- Display the ticket summary -->
+                    <!-- <div class="item-summary">
+                        <p>{{ entry.ticketSummary }}</p>
+                    </div> -->
+        
+                    <!-- Display the worklog description -->
+                    <div class="item-description">
+                      <p>{{ entry.ticketSummary }}</p>
+                    </div>
+        
+                    <div class="line-seperator"></div>
+        
+                    <!-- Display the hours -->
+                    <div class="item-duration">
+                        <p>{{ getHours(entry.worklog.timeSpent) }} <span>HOURS</span></p>
+                    </div>
                 </div>
-                <div class="line-seperator"></div>
-                <div class="item-duration">
-                  <p>3 <span>HOURS</span><p>
-                </div>
-              </div>
-              <!-- <table class="logged-hours-table">
-                <thead>
-                  <tr>
-                    <th>Ticket Description</th>
-                    <th>Time Taken</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let entry of loggedHoursData">
-                    <td>{{ entry.ticketDescription }}</td>
-                    <td>{{ entry.timeTaken }}</td>
-                  </tr>
-                </tbody>
-              </table> -->
             </div>
-          </div>
+        </div>
+        
+
 
           <!-- Ticket Lifecycle -->
           <!-- Time to First Response -->

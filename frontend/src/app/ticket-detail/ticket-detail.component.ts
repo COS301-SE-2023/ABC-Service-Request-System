@@ -647,26 +647,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
   }
   
-  // showWorkLogs(): void {
-  //   this.activeTab = 'Work Logs';
-  //   if (this.ticket) {
-  //     if (this.ticket.workLogs) { // Check if workLogs property is defined
-  //       this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
-  //       this.numReversed = 0;
-  //     }
-  //   }
-  // }
-
-  // showWorkLogs(): void {
-  //   this.activeTab = 'Work Logs';
-  //   if(this.ticket){
-  //     this.displayedWorklogs = this.ticket.workLogs;
-  //     if(this.numReversed != 1){
-  //       this.displayedWorklogs?.reverse();
-  //       this.numReversed = 1;
-  //     }
-  //   }
-  // }
 
   highlightButton(event: any) {
 
