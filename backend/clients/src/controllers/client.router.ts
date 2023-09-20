@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 import { jwtVerify } from "../middleware/jwtVerify";
 import bcrypt from 'bcryptjs';
-import cli from "@angular/cli";
+// import cli from "@angular/cli";
 import jwt from 'jsonwebtoken';
 
 const router = Router();
