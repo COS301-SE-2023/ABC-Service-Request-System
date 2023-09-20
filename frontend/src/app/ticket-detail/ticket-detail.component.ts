@@ -628,6 +628,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.numReversed = 1;
       }
     }
+    this.historyOnly = false;
+    this.displayedHistory = [];
   }
 
   showAttachmentsOnly(): void {
