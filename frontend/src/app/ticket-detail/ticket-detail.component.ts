@@ -60,6 +60,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   assigneeUser!: user;
   assigneeImage!: string;
+  assigneeName!:string;
+  assignedGroup!:string;
 
   checkChanges = false;
 
@@ -85,7 +87,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
       const textContent = parsedHtml.body.textContent || "";
       this.workLogForm.get('description')!.setValue(textContent);
-  
+
       this.ticketService.addWorkLogToTicket(this.ticket.id, this.workLogForm.value)
         .subscribe(response => {
           this.ticket = response;
@@ -97,9 +99,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         });
     }
   }
-  
-  
-  
+
+
+
 
 
 
@@ -165,18 +167,21 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.ticketService.getTicketWithID(id).subscribe(
           (response) => {
             this.ticket = response;
-            console.log(this.ticket, " ticket");
-            console.log("assignee email: ", response.assignee);
+            // console.log(this.ticket, " ticket");
+            // console.log("assignee email: ", response.assignee);
+            this.assignedGroup = response.group;
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {
                 this.assigneeUser = response;
+                this.assigneeName = response.name;
                 this.assigneeImage = response.profilePhoto;
+
 
                 for (let i = 0; i < this.ticket.todoChecked.length; i++) {
                   this.todosChanged[i] = this.ticket.todoChecked[i];
                 }
-          
+
                 console.log("todosChanged: ", this.todosChanged);
               }
             )
@@ -228,7 +233,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       // this.getAssigneeUserImage(this.ticket.assignee);
 
-      
+
     });
   }
 
@@ -454,12 +459,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     console.log("todosChanged: ", this.todosChanged);
 
-    
+
     this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).subscribe((response) => {
       console.log(response);
       location.reload();
     });
-  
+
   }
 
   onCheckChanged(i: number) {

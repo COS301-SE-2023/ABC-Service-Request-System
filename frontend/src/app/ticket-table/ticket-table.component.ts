@@ -30,6 +30,9 @@ export class TicketTableComponent implements OnInit{
 
   ticketsReady = false;
 
+  assignedName = '';
+  assigneeName = '';
+
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
 
@@ -233,13 +236,15 @@ export class TicketTableComponent implements OnInit{
 
   getAssigneeName(email: string) {
     this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
-      return response.name;
+      this.assignedName = response.name;
+      // return response.name;
     });
   }
 
   getAssignedName(email: string) {
     this.authservice.getUserNameByEmail(email).subscribe((response: user) => {
-      return response.name;
+      this.assigneeName = response.name;
+      // return response.name;
     });
   }
 

@@ -11,24 +11,12 @@
   <div *ngIf="isDropDownOpen" class="close-options" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()"></div>
 
   <ul class="options" *ngIf="isDropDownOpen">
-    <li class="option" tabindex="1" (click)="selectOption(optionText1.textContent)" (keyup)="selectOption(optionText1.textContent)">
-        <div class="user-img"></div>
-        <span class="option-text" #optionText1>Edwin</span>
-    </li>
-
-    <li class="option" tabindex="2" (click)="selectOption(optionText2.textContent)" (keyup)="selectOption(optionText2.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText2>John</span>
-    </li>
-
-    <li class="option" tabindex="3" (click)="selectOption(optionText3.textContent)" (keyup)="selectOption(optionText3.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText3>Liam</span>
-    </li>
-
-    <li class="option" tabindex="4" (click)="selectOption(optionText4.textContent)" (keyup)="selectOption(optionText4.textContent)">
-      <div class="user-img"></div>
-      <span class="option-text" #optionText4>Matthew</span>
+    <li *ngFor="let user of loadedUsers" class="option" tabindex="..." (click) = "selectOption(optionText1.textContent)" (keyup) = "selectOption(optionText1.textContent)">
+      <div class="user-img">
+        <img src = {{user.profilePhoto}} alt = "user-profile-pic">
+      </div>
+      <span class="option-text" #optionText1 >{{ user.name }}</span>
     </li>
   </ul>
+
 </div>

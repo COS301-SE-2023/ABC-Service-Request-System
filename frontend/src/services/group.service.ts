@@ -164,4 +164,11 @@ export class GroupService {
   checkGroupNameExists(groupName: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.GROUPS_URL}/exists/${groupName}`);
   }
+
+  getGroupByGroupName(groupName: string):Observable<group> {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.get<group>(`${this.GROUPS_URL}/getGroupByName/${groupName}`, {headers});
+  }
 }

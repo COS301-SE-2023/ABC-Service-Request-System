@@ -24,7 +24,7 @@ export class ClientService {
 
   getAllClients() {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<client[]>(`${this.CLIENT_URL}`, {headers});
@@ -32,17 +32,17 @@ export class ClientService {
 
   createClient(formData: any) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log('in service', formData);
+    // console.log('in service', formData);
     return this.http.post<any>(`${this.CLIENT_URL}/create_client`, formData, {headers});
   }
 
   //bug can occur if seperate organisations have the same name and for this reason, when creating an organisation, we need to ensure that organisation name is not already in the db
   getClientsByOrganisationName(organisationName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<client[]>(`${this.CLIENT_URL}/organisation?organisation=${organisationName}`, {headers});
@@ -50,17 +50,17 @@ export class ClientService {
 
   getClientsByGroupName(groupName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log("client url should be luna but instead is: ", this.CLIENT_URL);
-    console.log("while user url is: ", this.USER_URL);
+    // console.log("client url should be luna but instead is: ", this.CLIENT_URL);
+    // console.log("while user url is: ", this.USER_URL);
     return this.http.get<client[]>(`${this.CLIENT_URL}/group?group=${groupName}`, {headers});
   }
 
   getClientByProjectName(projectName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<client>(`${this.CLIENT_URL}/project?projectName=${projectName}`, {headers});
@@ -68,7 +68,7 @@ export class ClientService {
 
   getProjectByObjectId(projectId: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<any>(`${this.CLIENT_URL}/project/id?projectId=${projectId}` , {headers});
@@ -76,7 +76,7 @@ export class ClientService {
 
   getProjectByProjectIdAndClienId(projectId: string, clientId: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<project>(`${this.CLIENT_URL}/project/client?projectId=${projectId}&clientId=${clientId}`, {headers});
@@ -84,10 +84,10 @@ export class ClientService {
 
   removeGroupFromProject(clientId: string, projectId: string, groupsToRemove: string []) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log("in remove group service");
+    // console.log("in remove group service");
     return this.http.put<project>(`${this.CLIENT_URL}/remove_group`, {clientId: clientId, projectId: projectId, groupsToRemove: groupsToRemove} , {headers});
   }
 
@@ -96,26 +96,26 @@ export class ClientService {
     // console.log('Token from storage:', this.token);
     // const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log("clientId in service: ", clientId);
+    // console.log("clientId in service: ", clientId);
     return this.http.delete<client>(`${this.CLIENT_URL}/delete_client`, { params: { clientId: clientId } });
   }
 
   addGroupsToProject(clientId: string, projectId: string, newGroups: group []) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const body = {clientId, projectId, newGroups};
-    console.log('body in service: ', body);
+    // console.log('body in service: ', body);
     return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body, {headers});
   }
 
   addProject(formData: any) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log('in service', formData);
+    // console.log('in service', formData);
     return this.http.post<any>(`${this.CLIENT_URL}/add_project`, formData, {headers});
   }
 
