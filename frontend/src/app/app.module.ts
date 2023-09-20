@@ -77,6 +77,7 @@ import { ProfileOverlayComponent } from './profile-overlay/profile-overlay.compo
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { NotificationsSearchComponent } from './notifications-search/notifications-search.component';
 import { InternalAccountPage2Component } from './internal-account-page2/internal-account-page2.component';
+import { WorklogPanelComponent } from './worklog-panel/worklog-panel.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 
@@ -128,6 +129,7 @@ import { VideoRoomComponent } from './video-room/video-room.component';
     ClientLoginComponent,
     ClientDashboardComponent,
     VideoRoomComponent,
+    WorklogPanelComponent,
   ],
   imports: [
     BrowserModule,

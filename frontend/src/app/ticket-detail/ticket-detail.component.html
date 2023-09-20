@@ -40,11 +40,11 @@
       <div class="activity-area">
         <h2>Activity</h2>
 
-        <button class="activity-filter-button selected" (click)="highlightButton($event); showAll()">All</button>
+        <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
         <button class="activity-filter-button" (click)="highlightButton($event);">History</button>
-        <button class="activity-filter-button" (click)="highlightButton($event);">Work Logs</button>
+        <button class="activity-filter-button" [class.selected]="activeTab === 'Work Logs'" (click)="highlightButton($event); showWorkLogs()">Work Logs</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showAttachmentsOnly()">Attachments</button>
 
         <div class="note-button-area">
@@ -86,7 +86,7 @@
             </ng-container>
           </div>
         </div> -->
-        <div class = "comments-area-with-attachments" *ngIf="attachmentsOnly === false">
+        <div class = "comments-area-with-attachments" *ngIf="attachmentsOnly === false" >
           <div class = "comments-area" *ngFor="let comment of displayedComments">
             <app-comment-panel [comment]="comment"></app-comment-panel>
             <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
@@ -177,6 +177,44 @@
           </div>
         </div>
 
+        <div class = "comments-only" *ngIf="attachmentsOnly">
+          <div class = "comments-area" *ngFor="let comment of displayedComments">
+            <app-comment-panel [comment]="comment"></app-comment-panel>
+            <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span>{{ comment.content }} <br>
+                    <a [href] = "comment.attachment!.url">{{comment.attachment?.name}}</a>
+
+                  </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="ticket-attachment">
+                <ng-container *ngIf="comment?.attachment?.name; ">
+                  <!-- <a *ngIf="isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" target="_blank" >'{{comment.attachment!.name}}'</a> -->
+                  <img *ngIf="!isPDF(comment.attachment!.url)" [src]="comment.attachment?.url" alt="Attachment">
+                  <!-- <a *ngIf="!isPDF(comment.attachment!.url)" [href]="comment.attachment?.url" download>{{ comment.attachment!.name }}</a> -->
+                </ng-container>
+                <ng-template #noAttachments>
+                  No attachments
+                </ng-template>
+              </div>
+            </mat-expansion-panel>
+            <!-- <p *ngIf="!comment?.attachment?.name" style = "margin-left: 60px;">
+              {{comment.content}}
+            </p> -->
+          </div>
+        </div>
+
+        <div class="worklogs-and-comments" *ngIf="activeTab ==='Work Logs'">
+          <div *ngFor="let worklog of displayedWorklogs">
+            <app-worklog-panel [worklog]="worklog"></app-worklog-panel>
+          </div>
+          <!-- <div *ngFor="let comment of displayedComments">
+            <app-comment-panel [comment]="comment"></app-comment-panel>
+          </div> -->
+        </div>
+
       </div>
     </div>
 
@@ -192,6 +230,54 @@
           </mat-select>
         </mat-form-field>
         <!-- <button class="update-status-button" mat-raised-button color="primary" (click)="updateTicketStatus()">Update Status</button> -->
+      </div>
+
+      <button class="rounded-button" (click)="toggleForm()">Log Work Hours</button>
+      <div class="modal" *ngIf="isFormVisible">
+          <div class="modal-content">
+              <!-- Link form with Angular formGroup -->
+              <form [formGroup]="workLogForm" (ngSubmit)="onSubmit()">
+                  <h2 class="modal-header" style="color: blue;">Time tracking</h2>
+                  <hr style="border-color: blue; width: 100%;">
+                  <div class="time-fields">
+                      <div class="form-group">
+                          <label for="timeSpent">Time Spent:</label>
+                          <!-- Bind control to formControlName -->
+                          <input id="timeSpent" formControlName="timeSpent">
+                      </div>
+                      <div class="form-group">
+                          <label for="timeRemaining">Time Remaining:</label>
+                          <input id="timeRemaining" formControlName="timeRemaining">
+                      </div>
+                  </div>
+                  <p>Use the format: 2w 4d 6h 45m</p>
+                  <p>&bull; w = weeks</p>
+                  <p>&bull; d = days</p>
+                  <p>&bull; h = hours</p>
+                  <p>&bull; m = minutes</p>
+
+                  <div class="date-time-fields">
+                      <div class="form-group">
+                          <label for="dateStarted">Date Started:</label>
+                          <input type="date" id="dateStarted" formControlName="dateStarted">
+                      </div>
+                      <div class="form-group">
+                          <label for="timeStarted">Time Started:</label>
+                          <input type="time" id="timeStarted" formControlName="timeStarted">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Description:</label>
+                      <!-- quill-editor uses ngModel. However, for consistency, using formControlName would be recommended. For now, I'll leave it as it is. -->
+                      <quill-editor formControlName="description"></quill-editor>
+
+                  </div>
+                  <div class="button-group">
+                      <button type="submit">Save</button>
+                      <button type="button" (click)="cancel()">Cancel</button>
+                  </div>
+              </form>
+          </div>
       </div>
 
 
@@ -228,14 +314,16 @@
           <div class="expansion-item">
             <p class="bold-label">Assignee </p>
             <div class="content">
-              <div class="user-img"></div>
-              <p class="assigned-text">John</p>
+              <div class="user-img">
+                <img src = {{assigneeImage}} alt= "assignee-image">
+              </div>
+              <p class="assigned-text">{{assigneeName}}</p>
             </div>
           </div>
 
           <div class="expansion-item">
             <p>Assigned </p>
-            <app-user-dropdown></app-user-dropdown>
+            <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned"></app-user-dropdown>
           </div>
 
           <div class="expansion-item flex-start">

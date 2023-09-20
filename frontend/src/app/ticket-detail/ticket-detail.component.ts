@@ -5,8 +5,9 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment, comment } from "../../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, comment, worklog } from "../../../../backend/tickets/src/models/ticket.model";
 import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from "../../../../backend/users/src/models/user.model";
@@ -24,6 +25,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private ticketService: TicketsService,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
@@ -58,11 +60,114 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   assigneeUser!: user;
   assigneeImage!: string;
+  assigneeName!:string;
+  assignedGroup!:string;
+  currentAssigned!:string;
 
   checkChanges = false;
 
   todosChanged: boolean[] = [];
   numReversed = 0;
+
+  isFormVisible = false;
+  description = '';
+  workLogForm!: FormGroup;
+
+  workLogsOnly = false;
+
+  activeTab = 'All';
+
+
+  toggleForm() {
+    this.isFormVisible = !this.isFormVisible;
+  }
+
+  cancel() {
+    this.isFormVisible = false;
+  }
+
+
+  onSubmit() {
+    this.activeTab = 'Work Logs';
+
+    if (this.workLogForm.valid) {
+        // Parse out HTML tags from the 'description' field
+        const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
+        const textContent = parsedHtml.body.textContent || "";
+        this.workLogForm.get('description')!.setValue(textContent);
+
+        let currentUser!: user;
+
+        this.authService.getUserObject().subscribe(
+            (response) => {
+                currentUser = response;
+
+                console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
+                const workLog: worklog = {
+                    author: currentUser.name,
+                    authorPhoto: currentUser.profilePhoto,
+                    ...this.workLogForm.value
+                };
+
+                console.log('workLog', workLog);
+                this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
+                    .subscribe(response => {
+                        this.ticket = response;
+                        this.toggleForm(); // to close the form after submission
+
+                        // Update work logs display right after successfully adding a work log
+                        this.showWorkLogs();
+
+                        // Consider adding a message or a toast notification here to inform the user of successful submission.
+                    }, error => {
+                        // Handle errors. For instance, show an error message to the user.
+                        console.error("There was an error submitting the form:", error);
+                    });
+            }, (error) => { console.log("error fetching current user ") }
+        );
+    }
+}
+
+//   onSubmit() {
+//     this.activeTab = 'Work Logs';
+//     if (this.workLogForm.valid) {
+//         // Parse out HTML tags from the 'description' field
+//         const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
+//         const textContent = parsedHtml.body.textContent || "";
+//         this.workLogForm.get('description')!.setValue(textContent);
+
+//         let currentUser!: user;
+
+//         this.authService.getUserObject().subscribe(
+//             (response) => {
+//                 currentUser = response;
+
+//                 console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
+//                 const workLog: worklog = {
+//                     author: currentUser.name,
+//                     authorPhoto: currentUser.profilePhoto, // Use the email address as the author
+//                     ...this.workLogForm.value
+//                 };
+
+//                 console.log('workLog', workLog);
+//                 this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
+//                     .subscribe(response => {
+//                         this.ticket = response;
+//                         this.toggleForm(); // to close the form after submission
+//                         // Consider adding a message or a toast notification here to inform the user of successful submission.
+//                     }, error => {
+//                         // Handle errors. For instance, show an error message to the user.
+//                         console.error("There was an error submitting the form:", error);
+//                     });
+//             }, (error) => { console.log("error fetching current user ") }
+//         );
+//     }
+// }
+
+
+
+
+
 
 
   onFileChange(event: any) {
@@ -107,6 +212,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+      this.workLogForm = this.formBuilder.group({
+      timeSpent: ['', Validators.required],
+      timeRemaining: ['', Validators.required],
+      dateStarted: ['', Validators.required],
+      timeStarted: ['', Validators.required],
+      description: ['', Validators.required]
+  });
+
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
@@ -119,18 +232,22 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.ticketService.getTicketWithID(id).subscribe(
           (response) => {
             this.ticket = response;
-            console.log(this.ticket, " ticket");
-            console.log("assignee email: ", response.assignee);
+            // console.log(this.ticket, " ticket");
+            // console.log("assigned email: ", response.assigned);
+            this.assignedGroup = response.group;
+            this.currentAssigned = response.assigned;
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {
                 this.assigneeUser = response;
+                this.assigneeName = response.name;
                 this.assigneeImage = response.profilePhoto;
+
 
                 for (let i = 0; i < this.ticket.todoChecked.length; i++) {
                   this.todosChanged[i] = this.ticket.todoChecked[i];
                 }
-          
+
                 console.log("todosChanged: ", this.todosChanged);
               }
             )
@@ -182,7 +299,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       // this.getAssigneeUserImage(this.ticket.assignee);
 
-      
+
     });
   }
 
@@ -408,12 +525,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     console.log("todosChanged: ", this.todosChanged);
 
-    
+
     this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).subscribe((response) => {
       console.log(response);
       location.reload();
     });
-  
+
   }
 
   onCheckChanged(i: number) {
@@ -453,8 +570,57 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.attachmentsOnly = false;
   }
 
+  allActivities: (comment | worklog)[] = [];
+
   displayedComments?: comment[] = [];
+
+  displayedItems: (comment | worklog)[] = [];
+
+// showAll(): void {
+//   this.activeTab = 'All';
+
+//   // Create a merged array of comments and worklogs
+//   let combinedItems: (comment | worklog)[] = [];
+
+//   console.log("showAll function triggered.");
+
+//   if (this.ticket) {
+//     console.log("ticket object exists.");
+
+//     if (this.ticket.comments) {
+//       console.log(`Found ${this.ticket.comments.length} comments.`);
+//       combinedItems = combinedItems.concat(this.ticket.comments);
+//     } else {
+//       console.log("No comments found.");
+//     }
+
+//     if (this.ticket.workLogs) {
+//       console.log(`Found ${this.ticket.workLogs.length} worklogs.`);
+//       combinedItems = combinedItems.concat(this.ticket.workLogs);
+//     } else {
+//       console.log("No worklogs found.");
+//     }
+
+//   } else {
+//     console.error("ticket object does not exist.");
+//     return;
+//   }
+
+//   // Sort combinedItems by timestamp
+//   combinedItems.sort((a, b) => {
+//     const timeStampA = 'createdAt' in a ? new Date(a.createdAt).getTime() : new Date(a.dateStarted + 'T' + a.timeStarted + ':00').getTime();
+//     const timeStampB = 'createdAt' in b ? new Date(b.createdAt).getTime() : new Date(b.dateStarted + 'T' + b.timeStarted + ':00').getTime();
+
+//     return timeStampB - timeStampA; // This sorts in descending order. Switch the subtraction if you want ascending order.
+//   });
+
+//   this.displayedItems = combinedItems;
+//   console.log(`Total items to display: ${this.displayedItems.length}`);
+// }
+
+
   showAll(): void {
+    this.activeTab = 'All';
     if(this.ticket && this.ticket.comments){
       this.displayedComments = this.ticket.comments;
       if (this.numReversed != 1) {
@@ -473,6 +639,21 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
+
+  displayedWorklogs?: worklog [] = [];
+
+  showWorkLogs(): void {
+    this.activeTab = 'Work Logs';
+    this.displayedComments = []; // Clear the displayed comments array when showing work logs
+
+    if (this.ticket) {
+      if (this.ticket.workLogs) { // Check if workLogs property is defined
+        this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
+        this.numReversed = 0;
+      }
+    }
+  }
+
 
   highlightButton(event: any) {
 

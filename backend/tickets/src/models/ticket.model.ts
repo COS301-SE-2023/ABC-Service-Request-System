@@ -15,6 +15,27 @@ export interface attachment {
     url: string
 }
 
+export interface worklog {
+    author: string;
+    authorPhoto: string;
+    timeSpent: string;
+    timeRemaining: string;
+    dateStarted: Date;
+    timeStarted: string;
+    description: string;
+}
+
+// export interface WorklogResponse {
+//     summary: string[];
+//     worklogs: worklog[];
+// }
+
+export interface WorklogEntry {
+    ticketSummary: string;
+    worklog: worklog;
+}
+
+
 export interface ticket{
     id: string,
     summary: string,
@@ -26,6 +47,7 @@ export interface ticket{
     endDate: string,
     status: "Done" | "Pending" | "Active",
     comments?: comment [],
+    workLogs?: worklog[],
     description: string,
     createdAt: Date;
     timeToFirstResponse?: Date,
@@ -56,6 +78,18 @@ const commentSchema = new Schema<comment>(
     }
 );
 
+const worklogSchema = new Schema<worklog>(
+    {
+        author: { type: String, required: true },
+        authorPhoto: { type: String, required: true},
+        timeSpent: { type: String, required: true },
+        timeRemaining: { type: String, required: true },
+        dateStarted: { type: Date, required: true },
+        timeStarted: { type: String, required: true },
+        description: { type: String, required: true },
+    }
+);
+
 export const ticketSchema = new Schema<ticket>(
     {
         id: {type: String, required: true},
@@ -68,6 +102,7 @@ export const ticketSchema = new Schema<ticket>(
         endDate: {type: String, required: true},
         status: {type: String, required: true},
         comments: {type: [commentSchema]},
+        workLogs: [worklogSchema],
         description: {type: String, required: true},
         timeToFirstResponse: {type: Date},
         timeToTicketResolution: {type: Date},

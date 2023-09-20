@@ -44,14 +44,14 @@ export class UserService {
   //get all users
   getAllUsers(): Observable<user[]> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<user[]>(this.API_URL, {headers});
   }
 
   getUserById(id: string): Observable<user> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<user>(`${this.API_URL}/${id}`, {headers});
   }
@@ -60,7 +60,7 @@ export class UserService {
   getUser(userID: string)
   {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<user>(`${this.API_URL}/id?id=${userID}`, {headers});
   }
@@ -68,14 +68,14 @@ export class UserService {
   // Edwin's Function
   getUserForNotifications(userId: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<user>(`${this.API_URL}/${userId}` , {headers});
   }
 
   updateProfileName(name: string, email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const url = `${this.API_URL}/update_user_name`;
     const body = { name, email };
@@ -84,7 +84,7 @@ export class UserService {
 
   updateProfileLocation(location: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const url = `${this.API_URL}/update_user_location`;
@@ -95,7 +95,7 @@ export class UserService {
 
   updateProfileFB(facebook: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const url = `${this.API_URL}/update_user_facebook`;
     const body = { facebook,email };
@@ -104,7 +104,7 @@ export class UserService {
 
   updateProfileIG(instagram: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const url = `${this.API_URL}/update_user_instagram`;
@@ -114,7 +114,7 @@ export class UserService {
 
   updateProfileLI(linkedin: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const url = `${this.API_URL}/update_user_linkedin`;
@@ -124,7 +124,7 @@ export class UserService {
 
   updateProfileGH(github: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const url = `${this.API_URL}/update_user_github`;
@@ -134,7 +134,7 @@ export class UserService {
 
   updateProfilePassword(password: string,email: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const url = `${this.API_URL}/update_user_password`;
@@ -153,7 +153,7 @@ export class UserService {
 
   getUserByToken(token: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.post(`${this.API_URL}/get_user_by_token`, { token }, { headers });
@@ -161,7 +161,7 @@ export class UserService {
 
   activateAccount(accountDetails: { inviteToken: string, password: string }): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.post(`${this.API_URL}/activate_account`, accountDetails, { headers })
@@ -176,29 +176,29 @@ export class UserService {
 
   createUser(userDetails: any) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage create_user:', this.token);
+    //('Token from storage create_user:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.post(`${this.API_URL}/create_user`, userDetails, { headers });
   }
 
   loginUser(userDetails: { emailAddress: string, password: string }) {
-    console.log("called login at route: ", this.API_URL);
+    //("called login at route: ", this.API_URL);
     return this.http.post(`${this.API_URL}/login`, userDetails);
   }
 
   deleteUserGroup(userId: string, groupId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log(userId);
+    //(userId);
     return this.http.delete(`${this.API_URL}/${userId}/group/${groupId}`, { headers });
   }
 
   uploadFile(file: File) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const formData = new FormData();
@@ -209,15 +209,15 @@ export class UserService {
 
   updateProfilePicture(userId: string, url: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    // console.log('in service');
+    // //('in service');
     return this.http.put(`${this.API_URL}/updateProfilePicture`, { userId, url }, { headers });
   }
 
   updateProfileHeader(userId: string, url: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.put(`${this.API_URL}/updateProfileHeader`, { userId, url } , { headers });
@@ -225,14 +225,14 @@ export class UserService {
 
   updateBio(userId: string, bio: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.put(`${this.API_URL}/updateBio`, { userId, bio }, { headers });
   }
 
   updateGithub(userId: string, githubLink: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.put(`${this.API_URL}/updateGithub`, { userId, githubLink }, { headers });
@@ -240,7 +240,7 @@ export class UserService {
 
   updateLinkedin(userId: string, linkedinLink: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.put(`${this.API_URL}/updateLinkedin`, { userId, linkedinLink }, { headers });
@@ -248,12 +248,12 @@ export class UserService {
 
   addGroupToUser(userId: string, groupId: string): Observable<user> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.post<user>(`${this.API_URL}/addGroup`, { userId, groupId }, {headers}).pipe(
       tap({
-        next: () => console.log('Group added to user successfully'),
+        next: () => ('Group added to user successfully'),
         error: (error) => console.error('Failed to add group to user', error),
       })
     );
@@ -261,7 +261,7 @@ export class UserService {
 
   getUsersByGroupId(groupId: string): Observable<user[]> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<user[]>(`${this.API_URL}/byGroup/${groupId}`, { headers });
@@ -269,7 +269,7 @@ export class UserService {
 
   getUserByEmail(email: string): Observable<user> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<user>(`${this.API_URL}/email/${encodeURIComponent(email)}`, { headers });
