@@ -21,17 +21,17 @@ export class GroupService {
   constructor(private http: HttpClient, private router: Router) { }
 
   uploadFile(file: File) {
-    console.log('in group service upload fikle');
+    //('in group service upload fikle');
     const formData = new FormData();
     formData.append('file', file);
-    console.log(file.name);
+    //(file.name);
     return this.http.post<{ url: string }>(this.GROUP_UPLOAD_URL, formData);
   }
 
   createGroup(group1: group): Observable<group> {
-    console.log('in service, group object:');
+    //('in service, group object:');
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const groupName = group1.groupName;
@@ -39,11 +39,11 @@ export class GroupService {
     const people = group1.people;
 
     const group2 = {groupName, backgroundPhoto, people};
-    console.log(group2);
+    //(group2);
 
     return this.http.post<group>(`${this.GROUPS_URL}/add`, group2, {headers}).pipe(
       tap({
-        next: () => console.log('Group created successfully'),
+        next: () => ('Group created successfully'),
         error: (error) => console.error('Failed to create group', error),
       })
     );
@@ -51,19 +51,19 @@ export class GroupService {
 
   addGroupToUser(userId: string, groupId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.post<any>(`${this.USER_URL}/${userId}/add-group`, { groupId } , {headers});
   }
 /* THESE ARE DIFFERENT FUNCTIONS, DO NOT DELETE EITHER */
   addGroupToUsers(groupId: string, userIds: Array<string>): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.getGroupByObjectId(groupId).pipe(
         switchMap(group => {
             const actualGroupId = group.id;
-            console.log('actual group id: ' + actualGroupId);
+            //('actual group id: ' + actualGroupId);
             return this.http.post<any>(`${this.USER_URL}/add-group-to-users`, { groupId: actualGroupId, userIds } , {headers});
         })
     );
@@ -71,7 +71,7 @@ export class GroupService {
 
   getGroupByObjectId(groupId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<any>(`${this.GROUPS_URL}/objectId/${groupId}`, {headers});
@@ -79,7 +79,7 @@ export class GroupService {
 
   getGroups(): Observable<group[]> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<group[]>(`${this.GROUPS_URL}`, {headers});
@@ -87,7 +87,7 @@ export class GroupService {
 
   getUsersByGroupId(groupId: string): Observable<user[]> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<user[]>(`${this.GROUPS_URL}/${groupId}/users`, {headers});
@@ -95,7 +95,7 @@ export class GroupService {
 
   getGroupForNotification(groupId: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<group>(`${this.GROUPS_URL}/groupId/${groupId}`, {headers});
@@ -103,7 +103,7 @@ export class GroupService {
 
   removeUserFromGroup(groupId: string, userId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.delete(`${this.GROUPS_URL}/${groupId}/user/${userId}`, {headers});
@@ -112,7 +112,7 @@ export class GroupService {
 
   getGroupNameById(groupId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<any>(`${this.GROUPS_URL}/${groupId}/name`, {headers});
@@ -120,19 +120,19 @@ export class GroupService {
 
   addPeopleToGroup(group: group, people: user) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const body = {group, people};
     const url = `${this.GROUPS_URL}/add-people`
-    console.log('hello from service');
-    console.log(body);
+    //('hello from service');
+    //(body);
     return this.http.put<any>(url, body, {headers});
   }
 
   getGroupById(groupId: string): Observable<group> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<group>(`${this.GROUPS_URL}/${groupId}` , {headers})
@@ -140,7 +140,7 @@ export class GroupService {
 
   deleteGroup(groupId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.delete(`${this.GROUPS_URL}/${groupId}/delete`, {headers})
@@ -148,14 +148,14 @@ export class GroupService {
 
   getGroupsByUserId( groupId: string): Observable<group> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<group>(`${this.GROUPS_URL}/${groupId}`, {headers});
   }
 
   updateTicketsinGroup(groupId: string, ticketId: string): Observable<any> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.put<any>(`${this.GROUPS_URL}/update_tickets`, { ticketId , groupId } , {headers});
@@ -167,7 +167,7 @@ export class GroupService {
 
   getGroupByGroupName(groupName: string):Observable<group> {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<group>(`${this.GROUPS_URL}/getGroupByName/${groupName}`, {headers});
   }

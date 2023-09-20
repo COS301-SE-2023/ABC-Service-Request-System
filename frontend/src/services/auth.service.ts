@@ -65,17 +65,17 @@ export class AuthService {
 
   getUserObject() {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    console.log('user email: ', this.getUser().emailAddress);
+    // console.log('user email: ', this.getUser().emailAddress);
     const API_URL = `${this.USER_URL}/email`; // Replace with your API URL
     return this.http.get<user>(`${API_URL}?email=${this.getUser().emailAddress}`, { headers });
   }
 
   getUserNameByEmail(emailAddress: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    // console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const API_URL = `${this.USER_URL}/email`;
@@ -104,7 +104,7 @@ export class AuthService {
 
   createUser(userDetails: any) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage create_user:', this.token);
+    // console.log('Token from storage create_user:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const API_URL = this.USER_URL; // Replace with your API URL
     return this.http.post(`${API_URL}/create_user`, userDetails, { headers });

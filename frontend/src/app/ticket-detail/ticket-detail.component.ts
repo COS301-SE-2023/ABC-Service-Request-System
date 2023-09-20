@@ -62,6 +62,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   assigneeImage!: string;
   assigneeName!:string;
   assignedGroup!:string;
+  currentAssigned!:string;
 
   checkChanges = false;
 
@@ -168,8 +169,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           (response) => {
             this.ticket = response;
             // console.log(this.ticket, " ticket");
-            // console.log("assignee email: ", response.assignee);
+            // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
+            this.currentAssigned = response.assigned;
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {

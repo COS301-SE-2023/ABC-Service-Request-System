@@ -1,9 +1,12 @@
 <div class="select-menu">
   <div class="select-btn" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()">
     <div class="content">
-      <div *ngIf="selectedOption" class="user-img"></div>
-      <span *ngIf="!selectedOption" class="sBtn-text">Select your options</span>
-      <span *ngIf="selectedOption" class="sBtn-text">{{ selectedOption }}</span>
+      <div *ngIf="!selectedOption" class="user-img">
+        <img src = "{{currentAssignedImg}}" alt = "currentAssignedImg">
+      </div>
+      <span *ngIf="!selectedOption" class="sBtn-text">{{currentAssigned}}</span>
+      <span *ngIf="selectedOption" class="sBtn-text">{{selectedOption}}</span>
+
     </div>
     <i class="fa-solid fa-chevron-down"></i>
   </div>
@@ -13,10 +16,14 @@
   <ul class="options" *ngIf="isDropDownOpen">
     <li *ngFor="let user of loadedUsers" class="option" tabindex="..." (click) = "selectOption(optionText1.textContent)" (keyup) = "selectOption(optionText1.textContent)">
       <div class="user-img">
-        <img src = {{user.profilePhoto}} alt = "user-profile-pic">
+        <img src = {{user.profilePhoto}} alt = "user-profile-pic" #image>
       </div>
       <span class="option-text" #optionText1 >{{ user.name }}</span>
     </li>
   </ul>
 
+</div>
+
+<div *ngIf = "assignedChange" class = "assigned-change">
+  <button class = "rounded-button">Change Assigned Member</button>
 </div>

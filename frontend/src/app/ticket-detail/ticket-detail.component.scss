@@ -603,20 +603,20 @@ app-user-dropdown{
 }
 
 .rounded-button {
-  border-radius: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+  padding: 0.7em;
+  // margin-left: 500px;
+  border-radius: 1em;
   color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-  margin-bottom: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  margin: 1em;
 }
 
-.rounded-button:hover {
-  background-color: #0056b3;
-}
+// .rounded-button:hover {
+//   background-color: #0056b3;
+// }
 
 .form-group {
   margin-bottom: 15px;
