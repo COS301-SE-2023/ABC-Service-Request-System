@@ -152,6 +152,22 @@ export class TicketsService {
     return this.http.get<WorklogEntry[]>(`${this.TICKET_URL}/latestworklogsbygroup/${username}/${group}`);
   }
 
+  updateCurrentAssigned(ticketId: string, newAssignedEmail: string) {
+    console.log('in uopdateCurrentAssigned service' );
+    console.log(ticketId);
+    console.log(newAssignedEmail);
 
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    const body = {newAssignedEmail};
+    return this.http.put(`${this.TICKET_URL}/${ticketId}/updateAssigned`, body, {headers});
+  }
 
+  addHistory(ticketId:string, personWhoChangedAssigned: string, prevAssignedName: string, prevAssignedPhoto:string, newAssignedName:string, newAssignedPhoto:string ) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {personWhoChangedAssigned, prevAssignedName, prevAssignedPhoto, newAssignedName, newAssignedPhoto};
+    return this.http.post<any>(`${this.TICKET_URL}/${ticketId}/addHistory`,  body , {headers});
+  }
 }

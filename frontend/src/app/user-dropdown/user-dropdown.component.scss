@@ -73,12 +73,11 @@
 .user-img {
   width: 3em;
   height: 3em;
-  // background-color: gray;
   margin-right: 1em;
-  transform: scale(1) translate(0, 0%);
-  img {
+  overflow: hidden;
+  // img {
     border-radius: 50%;
-  }
+  // }
 }
 
 .content {

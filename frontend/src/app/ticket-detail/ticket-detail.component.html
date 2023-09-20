@@ -43,7 +43,7 @@
         <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
-        <button class="activity-filter-button" (click)="highlightButton($event);">History</button>
+        <button class="activity-filter-button" (click)="highlightButton($event); showHistoryOnly()">History</button>
         <button class="activity-filter-button" [class.selected]="activeTab === 'Work Logs'" (click)="highlightButton($event); showWorkLogs()">Work Logs</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showAttachmentsOnly()">Attachments</button>
 
@@ -311,8 +311,16 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
+          <div class = "expansion-item">
+            <p>Group   </p>
+            <div class="content">
+
+              <p class="assigned-text-2">{{assignedGroup}}</p>
+            </div>
+          </div>
+
           <div class="expansion-item">
-            <p class="bold-label">Assignee </p>
+            <p class="bold-label">Assignee</p>
             <div class="content">
               <div class="user-img">
                 <img src = {{assigneeImage}} alt= "assignee-image">
@@ -322,7 +330,7 @@
           </div>
 
           <div class="expansion-item">
-            <p>Assigned </p>
+            <p>Assigned</p>
             <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned"></app-user-dropdown>
           </div>
 

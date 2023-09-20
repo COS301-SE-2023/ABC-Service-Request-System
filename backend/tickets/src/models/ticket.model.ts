@@ -10,6 +10,14 @@ export interface comment {
     attachment?: attachment,
 }
 
+export interface history {
+    personWhoChangedAssigned : string;
+    prevAssignedName : string;
+    prevAssignedPhoto: string;
+    newAssignedName: string;
+    newAssignedPhoto: string;
+}
+
 export interface attachment {
     name: string,
     url: string
@@ -47,6 +55,7 @@ export interface ticket{
     endDate: string,
     status: "Done" | "Pending" | "Active",
     comments?: comment [],
+    history?: history[],
     workLogs?: worklog[],
     description: string,
     createdAt: Date;
@@ -78,6 +87,20 @@ const commentSchema = new Schema<comment>(
     }
 );
 
+const historySchema = new Schema<history>(
+    {
+        personWhoChangedAssigned : {type: String, required: true},
+        prevAssignedName : {type: String, required: true},
+        prevAssignedPhoto: {type: String, required: true},
+        newAssignedName: {type: String, required: true},
+        newAssignedPhoto: {type: String, required: true},
+    },
+    {
+        _id: false,
+    }
+);
+
+
 const worklogSchema = new Schema<worklog>(
     {
         author: { type: String, required: true },
@@ -102,6 +125,7 @@ export const ticketSchema = new Schema<ticket>(
         endDate: {type: String, required: true},
         status: {type: String, required: true},
         comments: {type: [commentSchema]},
+        history: {type: [historySchema]},
         workLogs: [worklogSchema],
         description: {type: String, required: true},
         timeToFirstResponse: {type: Date},

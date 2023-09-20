@@ -5,7 +5,7 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment, comment, worklog } from "../../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, comment, worklog, history } from '../../../../backend/tickets/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ import { user } from "../../../../backend/users/src/models/user.model";
 import { NavbarService } from 'src/services/navbar.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { tick } from '@angular/core/testing';
+// import { history } from '../../../../backend/tickets/src/models/ticket.model';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -163,12 +164,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 //         );
 //     }
 // }
-
-
-
-
-
-
 
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
@@ -573,6 +568,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   allActivities: (comment | worklog)[] = [];
 
   displayedComments?: comment[] = [];
+  displayedHistory?: history[] = [];
 
   displayedItems: (comment | worklog)[] = [];
 
@@ -638,6 +634,19 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showCommentsOnly(): void {
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
+  }
+
+  showHistoryOnly(): void {
+    if (this.ticket.history != null) {
+      this.displayedHistory = this.ticket.history;
+    }
+
+    // console.log(this.displayedHistory );
+    this.showHistory();
+  }
+
+  showHistory(): void {
+    console.log(this.displayedHistory);
   }
 
   displayedWorklogs?: worklog [] = [];

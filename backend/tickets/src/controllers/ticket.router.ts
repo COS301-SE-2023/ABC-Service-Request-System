@@ -3,6 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import { TicketModel } from "../models/ticket.model";
 import { sample_tickets } from "../utils/data";
 import { comment } from "../models/ticket.model";
+import { history } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
 import {jwtVerify} from "../middleware/jwtVerify";
@@ -126,10 +127,10 @@ router.get('/project', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']
       const tickets = await TicketModel.find({ project: projectName});
 
       if(tickets){
-        console.log('tickets found', tickets);
+        // console.log('tickets found', tickets);
         res.status(200).send(tickets);
       } else {
-        console.log('no tickets found');
+        // console.log('no tickets found');
         res.status(404).send("No tickets for this project");
       }
     } catch {
@@ -192,7 +193,7 @@ router.post('/addticket', jwtVerify(['Admin', 'Manager']), expressAsyncHandler( 
             todoChecked: req.body.todoChecked
         });
 
-        console.log("new ticket: ", newTicket);
+        // console.log("new ticket: ", newTicket);
 
         await newTicket.save();
 
@@ -331,7 +332,7 @@ router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functio
       res.status(404).send("Ticket not found");
     }
   } catch(error) {
-    console.log(ticketId, updatedTodoChecked, req, res);
+    // console.log(ticketId, updatedTodoChecked, req, res);
     res.status(500).send("Internal server error");
   }
 }));
@@ -508,5 +509,67 @@ router.post('/generateTodoFromDescription', async (req, res) => {
       res.status(500).json({ message: 'Error calling OpenAI API.' });
   }
 });
+
+router.put('/:id/updateAssigned', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(async (req, res) => {
+  const ticketId = req.params.id;
+  const newAssignedEmail = req.body.newAssignedEmail;
+  console.log('in ticket.router');
+  console.log(ticketId);
+  console.log(newAssignedEmail);
+
+  try {
+    const ticket = await TicketModel.findOne({ id: ticketId });
+    
+    if (ticket) {
+      console.log(ticket);
+      ticket.assigned = newAssignedEmail;
+
+      await ticket.save();
+      res.status(200).send({message: "Ticket assigned member updated"});
+    }
+    else {
+      res.status(404).send("Ticket not found");
+    }
+  } catch(error) {
+    console.log(error);
+    res.status(500).send("Internal server error");
+  }
+}));
+
+router.post('/:id/addHistory',jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(async(req,res) => {
+  const ticketId = req.params.id;
+
+  const personWhoChangedAssigned = req.body.personWhoChangedAssigned;
+  const prevAssignedName = req.body.prevAssignedName;
+  const prevAssignedPhoto = req.body.prevAssignedPhoto;
+  const newAssignedName = req.body.newAssignedName;
+  const newAssignedPhoto = req.body.newAssignedPhoto;
+
+  const newHistory: history = {
+    personWhoChangedAssigned: personWhoChangedAssigned,
+    prevAssignedName: prevAssignedName,
+    prevAssignedPhoto: prevAssignedPhoto,
+    newAssignedName: newAssignedName,
+    newAssignedPhoto: newAssignedPhoto
+  };
+
+  console.log(newHistory);
+
+  try {
+    const ticket = await TicketModel.findOneAndUpdate(
+      { id: ticketId },
+      { $push: { history: newHistory } },
+      { new: true }
+    );
+
+    if (ticket) {
+      res.status(200).json({ message: 'History added successfully' });
+    } else {
+      res.status(404).json({ message: 'Ticket not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}));
 
 export default router;

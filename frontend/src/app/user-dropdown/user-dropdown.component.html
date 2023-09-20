@@ -1,10 +1,16 @@
 <div class="select-menu">
   <div class="select-btn" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()">
     <div class="content">
+
+
       <div *ngIf="!selectedOption" class="user-img">
         <img src = "{{currentAssignedImg}}" alt = "currentAssignedImg">
       </div>
       <span *ngIf="!selectedOption" class="sBtn-text">{{currentAssigned}}</span>
+
+      <div *ngIf="selectedOption" class="user-img">
+        <img src = "{{selectedImg}}" alt = "currentAssignedImg">
+      </div>
       <span *ngIf="selectedOption" class="sBtn-text">{{selectedOption}}</span>
 
     </div>
@@ -14,7 +20,7 @@
   <div *ngIf="isDropDownOpen" class="close-options" tabindex="0" (click)="toggleDropDown()" (keyup)="toggleDropDown()"></div>
 
   <ul class="options" *ngIf="isDropDownOpen">
-    <li *ngFor="let user of loadedUsers" class="option" tabindex="..." (click) = "selectOption(optionText1.textContent)" (keyup) = "selectOption(optionText1.textContent)">
+    <li *ngFor="let user of loadedUsers" class="option" tabindex="..." (click) = "selectOption(optionText1.textContent, user.profilePhoto, user)" (keyup) = "selectOption(optionText1.textContent, user.profilePhoto, user)">
       <div class="user-img">
         <img src = {{user.profilePhoto}} alt = "user-profile-pic" #image>
       </div>
@@ -24,6 +30,6 @@
 
 </div>
 
-<div *ngIf = "assignedChange" class = "assigned-change">
+<!-- <div *ngIf = "assignedChange" class = "assigned-change">
   <button class = "rounded-button">Change Assigned Member</button>
-</div>
+</div> -->
