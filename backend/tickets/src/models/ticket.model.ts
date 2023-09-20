@@ -12,6 +12,7 @@ export interface comment {
 
 export interface history {
     personWhoChangedAssigned : string;
+    personWhoChangedPhoto: string;
     prevAssignedName : string;
     prevAssignedPhoto: string;
     newAssignedName: string;
@@ -90,6 +91,7 @@ const commentSchema = new Schema<comment>(
 const historySchema = new Schema<history>(
     {
         personWhoChangedAssigned : {type: String, required: true},
+        personWhoChangedPhoto: {type: String, required: true},
         prevAssignedName : {type: String, required: true},
         prevAssignedPhoto: {type: String, required: true},
         newAssignedName: {type: String, required: true},

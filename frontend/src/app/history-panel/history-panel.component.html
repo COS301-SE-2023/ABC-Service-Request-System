@@ -1,0 +1,33 @@
+<div class="comment-outer-container">
+  <div class="comment-inner-container">
+    <div class="comment-header">
+      <div class="user-profile-img">
+          <img src="{{ this.history.personWhoChangedPhoto }}" alt="author profile image">
+      </div>
+      <h3><span>{{ this.history.personWhoChangedAssigned }}</span> updated the person assigned to this ticket
+
+      </h3>
+      <div class="comment-info-tab">History</div>
+    </div>
+    <div class = "comment-body">
+      <div class="user-profile-img-1">
+        <div class = "image">
+          <img src="{{ this.history.prevAssignedPhoto }}" alt="prevAssigned profile image">
+        </div>
+        <p> {{this.history.prevAssignedName}}</p>
+      </div>
+
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+
+      <div class = "user-profile-img-1">
+        <div class = "image">
+          <img src="{{ this.history.newAssignedPhoto }}" alt="prevAssigned profile image">
+        </div>
+        <p> {{this.history.newAssignedName}}</p>
+      </div>
+
+    </div>
+  </div>
+</div>

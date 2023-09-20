@@ -55,6 +55,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   uploadProgress = 0;
   attachmentsOnly = false;
   commentsOnly = false;
+  historyOnly = false;
   allComments = false;
 
   userId !: string;
@@ -69,6 +70,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   todosChanged: boolean[] = [];
   numReversed = 0;
+  numReversedHistory = 0;
 
   isFormVisible = false;
   description = '';
@@ -559,10 +561,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   viewAttachments(): void {
     this.attachmentsOnly = true;
+    this.historyOnly = false;
   }
 
   viewAllComments(): void {
     this.attachmentsOnly = false;
+    this.historyOnly = false;
   }
 
   allActivities: (comment | worklog)[] = [];
@@ -627,27 +631,32 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   }
 
   showAttachmentsOnly(): void {
+    this.historyOnly = false;
     this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
     console.log(this.displayedComments);
   }
 
   showCommentsOnly(): void {
+    this.historyOnly = false;
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
 
   showHistoryOnly(): void {
+    this.displayedComments = [];
+    this.historyOnly = true;
     if (this.ticket.history != null) {
       this.displayedHistory = this.ticket.history;
     }
 
+    if (this.numReversedHistory != 1) {
+      this.displayedHistory?.reverse();
+      this.numReversed = 1;
+    }
+
     // console.log(this.displayedHistory );
-    this.showHistory();
   }
 
-  showHistory(): void {
-    console.log(this.displayedHistory);
-  }
 
   displayedWorklogs?: worklog [] = [];
 

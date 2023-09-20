@@ -540,6 +540,7 @@ router.post('/:id/addHistory',jwtVerify(['Manager', 'Technical', 'Functional', '
   const ticketId = req.params.id;
 
   const personWhoChangedAssigned = req.body.personWhoChangedAssigned;
+  const personWhoChangedPhoto = req.body.personWhoChangedPhoto;
   const prevAssignedName = req.body.prevAssignedName;
   const prevAssignedPhoto = req.body.prevAssignedPhoto;
   const newAssignedName = req.body.newAssignedName;
@@ -547,6 +548,7 @@ router.post('/:id/addHistory',jwtVerify(['Manager', 'Technical', 'Functional', '
 
   const newHistory: history = {
     personWhoChangedAssigned: personWhoChangedAssigned,
+    personWhoChangedPhoto: personWhoChangedPhoto,
     prevAssignedName: prevAssignedName,
     prevAssignedPhoto: prevAssignedPhoto,
     newAssignedName: newAssignedName,

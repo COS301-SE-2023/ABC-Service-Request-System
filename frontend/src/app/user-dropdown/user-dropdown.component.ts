@@ -89,11 +89,12 @@ export class UserDropdownComponent implements OnInit {
     this.ticketService.updateCurrentAssigned(this.ticketId, this.user.emailAddress).subscribe(
       (response) => {
         console.log(response);
-        this.ticketService.addHistory(this.ticketId, this.currentUser.name, this.currentAssigned!, this.currentAssignedImg, this.user.name, this.user.profilePhoto).subscribe(
+        this.ticketService.addHistory(this.ticketId, this.currentUser.name, this.currentUser.profilePhoto, this.currentAssigned!, this.currentAssignedImg, this.user.name, this.user.profilePhoto).subscribe(
           (response) => {
             console.log(response);
             this.currentAssigned = user.name;
             this.currentAssignedImg = user.profilePhoto;
+            location.reload();
           },
           (error) => {
             console.error('Error updating ticket.history:', error);

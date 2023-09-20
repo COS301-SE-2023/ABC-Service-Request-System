@@ -215,6 +215,12 @@
           </div> -->
         </div>
 
+        <div class = "history" *ngIf = "historyOnly">
+          <div *ngFor = "let history of displayedHistory">
+            <app-history-panel [history] = "history"></app-history-panel>
+          </div>
+        </div>
+
       </div>
     </div>
 
