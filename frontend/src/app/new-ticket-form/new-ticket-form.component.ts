@@ -442,6 +442,7 @@ generateTodo() {
     const ticketFormValues = this.ticketForm.value;
     const trimmedDescription = this.stripPTags(ticketFormValues.description);
     console.log('in generateTodo(), ticket form info: ' + trimmedDescription);
+    this.todoArray = [];
 
     this.isLoading = true;
     this.ticketService.generateTodosFromDescription(trimmedDescription).subscribe(
