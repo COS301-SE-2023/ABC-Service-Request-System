@@ -15,14 +15,14 @@ export class NotificationsService {
 
   getAllNotifications() {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<notifications[]>(this.NOTIFICATIONS_URL, {headers});
   }
 
   newNotification(profilePhotoLink: string, notificationMessage: string, creatorEmail: string, assignedEmail: string, ticketSummary: string, ticketStatus: string, notificationTime: Date, link: string, readStatus: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus};
     return this.http.post(`${this.NOTIFICATIONS_URL}/newnotif`, body , {headers});
@@ -30,7 +30,7 @@ export class NotificationsService {
 
   changeNotificationToRead(id: string, notificationsId: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {id, notificationsId};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToRead`, body , {headers});
@@ -38,7 +38,7 @@ export class NotificationsService {
 
   changeNotificationToUnread(id: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {id};
     return this.http.put(`${this.NOTIFICATIONS_URL}/changeToUnread`, body , {headers});
@@ -46,7 +46,7 @@ export class NotificationsService {
 
   getNotificationById(id: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<notifications>(`${this.NOTIFICATIONS_URL}/id?id=${id}` , {headers});
   }

@@ -6,11 +6,41 @@ import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
 import {jwtVerify} from "../middleware/jwtVerify";
+import axios from "axios";
+import OpenAI from "openai";
+import Configuration from "openai";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = Router();
 
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
+
+
+router.post('/generateTodoFromDescription', async(req,res) => {
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const {description} = req.body;
+  const chatCompletion = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo", 
+        messages: [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": `Based on the description "${description}", generate three todos. The todos must be a maximum of 50 words each.:`}
+        ]
+  });
+  
+  if (chatCompletion.choices) {
+    const todos = chatCompletion.choices[0].message.content!.split("\n").filter((todo:string) => todo.trim() !== '').map((todo:string) => todo.trim());
+      res.status(200).json(todos);
+        // console.log(todos);
+    } else {
+        res.status(500).json({ message: 'Failed to generate todos from OpenAI.' });
+    }
+
+})
 
 router.post('/upload', upload.single('file'), async (req, res) => {
     try {
@@ -447,6 +477,36 @@ router.get('/test', (req, res) => {
   res.send('Test route works!');
 });
 
-  
+
+router.post('/generateTodoFromDescription', async (req, res) => {
+  const { description } = req.body;
+
+  const OPENAI_API_KEY = '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';
+  const OPENAI_ENDPOINT = 'https://api.openai.com/v2/chat/completions'; 
+  const headers = {
+      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      'Content-Type': 'application/json'
+  };
+  const payload = {
+      model: "gpt-3.5-turbo",
+      messages: [
+          {"role": "system", "content": "You are a helpful assistant."},
+          {"role": "user", "content": `Based on the description "${description}", generate three todos:`}
+      ]
+  };
+
+  try {
+      const response = await axios.post(OPENAI_ENDPOINT, payload, { headers });
+      if (response.data && response.data.choices && response.data.choices[0] && response.data.choices[0].message) {
+          const todos = response.data.choices[0].message.content.split("\n").filter((todo:string) => todo.trim() !== '').map((todo:string) => todo.trim());
+          res.status(200).json({ todos });
+      } else {
+          res.status(500).json({ message: 'Failed to generate todos from OpenAI.' });
+      }
+  } catch (error) {
+      console.error('Error details:', error);
+      res.status(500).json({ message: 'Error calling OpenAI API.' });
+  }
+});
 
 export default router;

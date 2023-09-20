@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
@@ -17,17 +18,24 @@ export class TicketsService {
   GROUP_UPLOAD_URL = environment.GROUP_UPLOAD_URL;
   FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
 
+
   private token!: string | null;
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  generateTodoFromDescription(description: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post<string[]>(`${this.TICKET_URL}/generateTodoFromDescription`, { description }, {headers});
+  }
+
   getAllTickets(){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-    // console.log('Bearer ${this.token}:', `Bearer ${this.token}`);
-    // console.log('Ticket HEADER:', headers);
+    // //('Bearer ${this.token}:', `Bearer ${this.token}`);
+    // //('Ticket HEADER:', headers);
     return this.http.get<ticket[]>(this.TICKET_URL, {headers});
   }
 
@@ -41,21 +49,21 @@ export class TicketsService {
 
   getTicketWithID(objectId: string){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket>(`${this.TICKET_URL}/id?id=${objectId}`, {headers});
   }
 
   getTicketsWithName(userName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket[]>(`${this.TICKET_URL}/assigned?id=${userName}`, {headers});
   }
 
   getTicketsWithProjectName(projectName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket[]>(`${this.TICKET_URL}/project?name=${projectName}`, {headers});
   }
@@ -68,21 +76,21 @@ export class TicketsService {
 
   getAllProjectNamesForCurrentUserWithGroupName(groupName: string){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<string[]>(`${this.TICKET_URL}/projects?groupName=${groupName}`, {headers});
   }
 
   getTicketsWithGroupName(groupName: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<ticket[]>(`${this.TICKET_URL}/group?name=${groupName}`, {headers});
   }
 
   makeAComment(ticketId: string, comment: string, author: string, authorPhoto: string, type: string, attachment: attachment){
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {ticketId, comment, author, authorPhoto, type, attachment};
     return this.http.put(this.COMMENT_URL, body, {headers});
@@ -92,14 +100,14 @@ export class TicketsService {
   addTicket(summary: string,  description: string, assignee: string, assigned: string, group: string, priority: string, startDate: string, endDate: string, status: string, comments: string[], project: string, todo: string[], todoChecked: boolean[]) {
     const body = {summary, description, assignee, assigned, group, priority, startDate, endDate, status, comments, project, todo, todoChecked};
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.post(`${this.TICKET_URL}/addticket`, body , {headers});
   }
 
   updateTodoChecked(id: string, todoChecked: boolean[]) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = { todoChecked };
     return this.http.put(`${this.TICKET_URL}/updateTodoChecked/${id}`, body, {headers});
@@ -113,7 +121,7 @@ export class TicketsService {
 
   updateTicketStatus(ticketId: string, status: string) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     const body = {ticketId, status};
     return this.http.put(`${this.TICKET_URL}/updateStatus`, body , {headers});
@@ -121,9 +129,15 @@ export class TicketsService {
 
   addTimeToFirstResponse(ticketId: string, commentTime: Date) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
-    console.log('Token from storage:', this.token);
+    //('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.post(`${this.TICKET_URL}/addTimeToFirstResponse`, {ticketId, commentTime}, {headers});
+  }
+
+  generateTodosFromDescription(description: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.post<string[]>(`${this.TICKET_URL}/generateTodoFromDescription`, { description }, {headers});
   }
 
   // getUserLatestWorklogs(username: string) {
@@ -137,7 +151,7 @@ export class TicketsService {
   getUserLatestWorklogsByGroup(username: string, group: string): Observable<WorklogEntry[]> {
     return this.http.get<WorklogEntry[]>(`${this.TICKET_URL}/latestworklogsbygroup/${username}/${group}`);
   }
-  
+
 
 
 }

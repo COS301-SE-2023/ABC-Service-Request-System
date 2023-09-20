@@ -60,6 +60,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   assigneeUser!: user;
   assigneeImage!: string;
+  assigneeName!:string;
+  assignedGroup!:string;
+  currentAssigned!:string;
 
   checkChanges = false;
 
@@ -94,18 +97,18 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.workLogForm.get('description')!.setValue(textContent);
 
         let currentUser!: user;
-        
+
         this.authService.getUserObject().subscribe(
             (response) => {
                 currentUser = response;
-                
+
                 console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
                 const workLog: worklog = {
                     author: currentUser.name,
                     authorPhoto: currentUser.profilePhoto,
                     ...this.workLogForm.value
                 };
-                
+
                 console.log('workLog', workLog);
                 this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
                     .subscribe(response => {
@@ -132,20 +135,20 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 //         const parsedHtml = new DOMParser().parseFromString(this.workLogForm.value.description, 'text/html');
 //         const textContent = parsedHtml.body.textContent || "";
 //         this.workLogForm.get('description')!.setValue(textContent);
-        
+
 //         let currentUser!: user;
-        
+
 //         this.authService.getUserObject().subscribe(
 //             (response) => {
 //                 currentUser = response;
-                
+
 //                 console.log('currentUser.profilePhoto:', currentUser.profilePhoto);
 //                 const workLog: worklog = {
 //                     author: currentUser.name,
 //                     authorPhoto: currentUser.profilePhoto, // Use the email address as the author
 //                     ...this.workLogForm.value
 //                 };
-                
+
 //                 console.log('workLog', workLog);
 //                 this.ticketService.addWorkLogToTicket(this.ticket.id, workLog)
 //                     .subscribe(response => {
@@ -161,9 +164,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 //     }
 // }
 
-  
-  
-  
+
+
+
 
 
 
@@ -229,18 +232,22 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.ticketService.getTicketWithID(id).subscribe(
           (response) => {
             this.ticket = response;
-            console.log(this.ticket, " ticket");
-            console.log("assignee email: ", response.assignee);
+            // console.log(this.ticket, " ticket");
+            // console.log("assigned email: ", response.assigned);
+            this.assignedGroup = response.group;
+            this.currentAssigned = response.assigned;
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {
                 this.assigneeUser = response;
+                this.assigneeName = response.name;
                 this.assigneeImage = response.profilePhoto;
+
 
                 for (let i = 0; i < this.ticket.todoChecked.length; i++) {
                   this.todosChanged[i] = this.ticket.todoChecked[i];
                 }
-          
+
                 console.log("todosChanged: ", this.todosChanged);
               }
             )
@@ -292,7 +299,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       // this.getAssigneeUserImage(this.ticket.assignee);
 
-      
+
     });
   }
 
@@ -518,12 +525,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     console.log("todosChanged: ", this.todosChanged);
 
-    
+
     this.ticketService.updateTodoChecked(this.ticket.id, this.todosChanged).subscribe((response) => {
       console.log(response);
       location.reload();
     });
-  
+
   }
 
   onCheckChanged(i: number) {
@@ -571,7 +578,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
 // showAll(): void {
 //   this.activeTab = 'All';
-  
+
 //   // Create a merged array of comments and worklogs
 //   let combinedItems: (comment | worklog)[] = [];
 
@@ -638,7 +645,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showWorkLogs(): void {
     this.activeTab = 'Work Logs';
     this.displayedComments = []; // Clear the displayed comments array when showing work logs
-  
+
     if (this.ticket) {
       if (this.ticket.workLogs) { // Check if workLogs property is defined
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
@@ -646,7 +653,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
 
   highlightButton(event: any) {
 

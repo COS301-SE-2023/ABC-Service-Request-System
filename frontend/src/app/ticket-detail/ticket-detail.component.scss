@@ -505,11 +505,16 @@ mat-expansion-panel-header.mat-expanded,
     }
 
     .user-img {
-      width: 2em;
-      height: 2em;
+      width: 3em;
+      height: 3em;
       background-color: gray;
       border-radius: 50%;
       margin-right: 1em;
+      transform: scale(1) translate(0, 0%);
+
+      img {
+        border-radius: 50%;
+      }
     }
   }
 }
@@ -583,7 +588,7 @@ app-user-dropdown{
   justify-content: center;
   align-items: center;
   z-index: 1000;  /* makes sure it appears on top of other content */
-  
+
 }
 
 .modal-content {
@@ -598,32 +603,32 @@ app-user-dropdown{
 }
 
 .rounded-button {
-  border-radius: 10px; 
-  padding: 10px 20px;  
-  background-color: #007bff; 
-  color: white;  
-  border: none;  
-  cursor: pointer;  
-  transition: background-color 0.3s; 
-  width: 100%;
-  margin-bottom: 20px;
+  background: linear-gradient(147deg, rgba(4,83,142,1) 0%, rgba(0,196,255,0.7) 150%) !important;
+  padding: 0.7em;
+  // margin-left: 500px;
+  border-radius: 1em;
+  color: white;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.50);
+  margin: 1em;
 }
 
-.rounded-button:hover {
-  background-color: #0056b3;  
-}
+// .rounded-button:hover {
+//   background-color: #0056b3;
+// }
 
 .form-group {
   margin-bottom: 15px;
 }
 
 .form-group label {
-  display: block; 
+  display: block;
 }
 
 textarea {
   width: 100%;
-  resize: vertical; 
+  resize: vertical;
 }
 
 .modal-header {
@@ -643,9 +648,9 @@ textarea {
 }
 
 
-.time-fields > .form-group, 
+.time-fields > .form-group,
 .date-time-fields > .form-group {
-  flex: 1; 
+  flex: 1;
   margin-right: 10px;
 }
 
@@ -661,24 +666,24 @@ textarea {
 
 
 .custom-quill-editor .ql-container {
-  height: 150px; 
-  width: 100%; 
+  height: 150px;
+  width: 100%;
 }
 
 .ql-editor {
-  max-height: 250px; 
-  overflow-y: auto; 
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .button-group button {
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .button-group button[type="submit"] {
-  background-color: #007BFF; 
-  color: #ffffff; 
-  border: black; 
-  border-radius: 5px; 
+  background-color: #007BFF;
+  color: #ffffff;
+  border: black;
+  border-radius: 5px;
 }
 
 .custom-bullet {
@@ -733,17 +738,38 @@ input:focus {
 /* Hover effect */
 .button-group button[type="submit"]:hover {
   background-color: #0056b3;
-  
+
 }
 
 /* Active effect (when the button is clicked) */
 .button-group button[type="submit"]:active {
   background-color: #004499;
-  
+
 }
 
 /* Focus effect (for accessibility) */
 .button-group button[type="submit"]:focus {
   outline: none;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Added a subtle shadow for focus effect */
+}
+
+.assignee-profile-image {
+  width: 4em;
+  height: 4em;
+  background-color: gray;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+
+  img{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55%;
+    transform: scale(1) translate(0, 0%);
+  }
 }

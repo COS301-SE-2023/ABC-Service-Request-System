@@ -214,7 +214,7 @@
             <app-comment-panel [comment]="comment"></app-comment-panel>
           </div> -->
         </div>
-        
+
       </div>
     </div>
 
@@ -314,14 +314,16 @@
           <div class="expansion-item">
             <p class="bold-label">Assignee </p>
             <div class="content">
-              <div class="user-img"></div>
-              <p class="assigned-text">John</p>
+              <div class="user-img">
+                <img src = {{assigneeImage}} alt= "assignee-image">
+              </div>
+              <p class="assigned-text">{{assigneeName}}</p>
             </div>
           </div>
 
           <div class="expansion-item">
             <p>Assigned </p>
-            <app-user-dropdown></app-user-dropdown>
+            <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned"></app-user-dropdown>
           </div>
 
           <div class="expansion-item flex-start">

@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import OpenAI from "openai";
+import Configuration from "openai";
+
 dotenv.config();
 
 import ticketRouter from './controllers/ticket.router'
@@ -10,6 +13,7 @@ import { dbConnection } from "./configs/ticketDB.config";
 dbConnection();
 
 const app = express();
+
 
 app.use(cors());
 

@@ -276,4 +276,24 @@ router.post('/add', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     }
   ));
 
+  router.get('/getGroupByName/:groupName', expressAsyncHandler(
+    async(req,res) => {
+      try {
+        const groupName = req.params.groupName;
+        // const groupExists = await groupModel.exists({ groupName: req.params.groupName });
+        const group = await groupModel.findOne({groupName: groupName});
+
+        if (!group) {
+          res.status(404).send({message:"Group not found"});
+          return;
+        } else {
+          res.status(200).send(group);
+        }
+  
+      } catch (error) { 
+        res.status(500).send({ error: 'Internal server error' });
+      }
+    }
+  ));
+
 export default router;
