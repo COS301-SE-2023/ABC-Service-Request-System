@@ -11,41 +11,47 @@
   </select>
 
   <div class="requests-inner-container">
-    <div class="card">
 
-      <div class="card-header">
-        <div class="client-details">
-          <div class="client-img">
-              <img src="../../assets/background.png" alt="user-logo">
+
+    <div class="outer-card-container" *ngFor="let clientRequest of clientRequests">
+      <div class="card" *ngFor="let request of clientRequest.requests">
+        <div class="card-header">
+          <div class="client-details">
+            <div class="client-img">
+                <img src="{{clientRequest.profilePhoto}}" alt="user-logo">
+            </div>
+
+            <div class="client-info">
+              <h3>{{clientRequest.name}} {{clientRequest.surname}}</h3>
+              <p>{{clientRequest.organisation}}</p>
+            </div>
+
           </div>
 
-          <div class="client-info">
-            <h3>Name Surname</h3>
-            <p>Epiuse</p>
+          <div class="requst-type">
+            {{request.type}}
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="requested-project-name">
+            <label for="requestedProjectName">Requested Project Name</label>
+            <!-- <input type="text" value="{{request.projectName}}" name="requestedProjectName" id="requestedProjectName" #requestedProjectInput> -->
+            <input type="text" [(ngModel)]="request.projectName" name="requestedProjectName" id="requestedProjectName" #requestedProjectInput>
           </div>
 
+          <p class="additional-info-label">Additional Info</p>
+          <p class="additional-info" *ngIf="request.additionalInformation === undefined">No additional information was received with this request...</p>
+          <p class="additional-info text-left" *ngIf="request.additionalInformation !== undefined">{{request.additionalInformation}}</p>
         </div>
 
-        <div class="requst-type">
-          Project Request
+        <div class="card-buttons">
+          <button class="approve-btn" (click)="approveRequest(clientRequest, request.id, requestedProjectInput.value)">Approve</button>
+          <button class="reject-btn" (click)="rejectRequest(clientRequest, request.id)">Reject</button>
         </div>
-      </div>
-
-      <div class="card-content">
-        <div class="requested-project-name">
-          <label for="requestedProjectName">Requested Project Name</label>
-          <input type="text" value="hi" name="requestedProjectName" id="requestedProjectName">
-        </div>
-
-        <p class="additional-info-label">Additional Info</p>
-        <p class="additional-info">No additional information was received with this request...</p>
-      </div>
-
-      <div class="card-buttons">
-        <button class="approve-btn">Approve</button>
-        <button class="reject-btn">Reject</button>
       </div>
     </div>
+
   </div>
 
 </div>

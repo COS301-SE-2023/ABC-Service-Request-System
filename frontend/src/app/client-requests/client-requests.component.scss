@@ -22,9 +22,10 @@
 
 .card {
   // border: 1px solid grey;
-  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.18);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.18);
   border-radius: 0.3em;
   padding: 1.5em;
+  margin-bottom: 2em;
 
   .card-header {
     display: flex;
@@ -165,4 +166,8 @@
   background: -webkit-linear-gradient(left, rgb(5, 105, 181) 0%, rgb(38, 203, 253) 100%,);
   background-clip: border-box;
   -webkit-text-fill-color: white;
+}
+
+.text-left {
+  display: block !important;
 }

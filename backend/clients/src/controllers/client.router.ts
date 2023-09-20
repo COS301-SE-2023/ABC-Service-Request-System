@@ -34,6 +34,21 @@ router.get('/organisation', jwtVerify(['Admin', 'Manager']) , expressAsyncHandle
     }
 ));
 
+//fetch client by their id
+router.get(`/id`, expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.query.id;
+
+        const client = await ClientModel.findOne({id: clientId});
+
+        if(client){
+            res.status(200).send(client);
+        } else {
+            res.status(404).send({message: 'Client not found with that ID'});
+        }
+    }
+))
+
 //fetch all clients containing assigned groups
 router.get('/group', jwtVerify(['Admin', 'Manager', 'Functional', 'Technical']), expressAsyncHandler(
     async (req, res) => {
@@ -275,7 +290,46 @@ router.post("/project_request", expressAsyncHandler(
             res.status(500).send("Internal server error adding request to client");
         }
     }
-))
+));
+
+router.get("/all_requests", expressAsyncHandler(
+    async(req, res) => {
+        try{
+       
+            const clients = await ClientModel.find({requests: {$exists: true, $not: { $size: 0}}});
+    
+            res.status(200).send(clients);
+        } catch (error) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+));
+
+router.put("/update_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const client = await ClientModel.findOne({id: clientId});
+
+        if(client) {
+            const request = client.requests.find((request) => {
+                return request.id == req.body.requestId;
+            });
+
+            if(request) {
+                request.status = req.body.status;
+
+                await client.save();
+                res.status(200).send(request);
+            } else {
+                res.status(404).send('Request not found');
+            }
+        } else {
+            res.status(404).send('Client not found');
+        }
+    }
+));
+
 
 //REMOVE A CLIENT GIVEN THE CLIENT ID
 router.delete("/delete_client", expressAsyncHandler(
@@ -327,6 +381,7 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
             email: req.body.email,
             inviteToken,
             organisation: req.body.organisation,
+            profilePhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
             industry: req.body.industry,
             projects: newProject,
             password: "Admin"

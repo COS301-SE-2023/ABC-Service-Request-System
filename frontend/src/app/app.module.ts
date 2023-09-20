@@ -45,6 +45,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { TeamsPageComponent } from './teams-page/teams-page.component';
 
 import {MatCardModule} from '@angular/material/card';
@@ -163,7 +164,9 @@ import { ClientRequestsComponent } from './client-requests/client-requests.compo
       url: '/'
     })
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

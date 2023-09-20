@@ -66,7 +66,6 @@ if (process.env.NODE_ENV === 'production') {
   clientUrl = "http://localhost:3005";
 }
 
-
 app.use("/api/ticket", proxy(ticketUrl, {
   proxyReqPathResolver: (req) => {
     return `/api/ticket${req.url}`;

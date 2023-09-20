@@ -174,4 +174,34 @@ export class ClientService {
 
     return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
   }
+
+  getAllClientsWithAllRequests() {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/all_requests`, {headers});
+  }
+
+  updateRequest(clientId: string, requestId: string, status: string) {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId,
+      requestId: requestId,
+      status: status
+    }
+
+    return this.http.put<any>(`${this.CLIENT_URL}/update_request`, body, {headers});
+  }
+
+  getClientById(clientId: string) {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client>(`${this.CLIENT_URL}/id?id=${clientId}`, {headers});
+  }
 }
