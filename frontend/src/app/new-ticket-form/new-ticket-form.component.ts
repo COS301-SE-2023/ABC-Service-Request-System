@@ -32,11 +32,14 @@ export class NewTicketFormComponent implements OnInit {
   todo: FormControl = new FormControl();
   todoArray: string[] = [];
   todoChecked: boolean[] = [];
-  suggestionAllUsers: user[] = [];
-  suggestionGroup!: string;
   sortUsers: any[] = [];
   sortTickets: ticket[] = [];
   sortTimes: number[] = [];
+  overallTimes!: number;
+  userCount!: number;
+  suggestedUsers: any[] = [];
+  groupSelectedId!: string;
+  ticketCount!: number;
 
   constructor(
     private ticketService: TicketsService,
@@ -71,6 +74,10 @@ export class NewTicketFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.overallTimes = 0;
+    this.userCount = 0;
+    this.ticketCount = 0;
+
     this.getAssigneeName();
 
     this.navbarService.collapsed$.subscribe(collapsed => {
@@ -92,7 +99,7 @@ export class NewTicketFormComponent implements OnInit {
                 this.ticketForm.get('project')?.setValue(this.allProjects[0].name);
                 if(this.allProjects[0].assignedGroups){
                   this.allGroups = this.allProjects[0].assignedGroups;
-                  this.getAllAssignable(this.allGroups);
+                  this.getAllAssignable();
                 }
               }
           })
@@ -100,6 +107,8 @@ export class NewTicketFormComponent implements OnInit {
 
         // Edwin's Algorithm
         this.userService.getAllUsers().subscribe((users) => {
+
+          let userTicketFlag = false;
 
           users.forEach((user) => {
             this.ticketService.getTicketsForUser(user.emailAddress).subscribe((tickets) => {
@@ -109,10 +118,10 @@ export class NewTicketFormComponent implements OnInit {
               let timeSpentInHours;
 
               let totalTime = 0;
-              let ticketCount = 0;
-              
+          
               this.sortTickets.forEach((ticket) => {
                 if (ticket.timeToFirstResponse && ticket.timeToTicketResolution) {
+                  userTicketFlag = true;
                   const startDate = new Date(ticket.timeToFirstResponse);
                   const endDate = new Date(ticket.timeToTicketResolution);
 
@@ -123,18 +132,32 @@ export class NewTicketFormComponent implements OnInit {
 
                   totalTime += timeSpentInHours;
 
-                  ticketCount++;
+                  this.ticketCount += 1;
+
+                  this.overallTimes += timeSpentInHours;
                 }
               })
 
-              const averageTime = totalTime / ticketCount;
+              const averageTime = totalTime / this.ticketCount;
 
-              this.sortUsers.push({
-                overallPerformance: averageTime,
-                userInfo: user
-              })
+              if (user.emailAddress !== "admin@admin.com") {
+                this.sortUsers.push({
+                  overallPerformance: averageTime,
+                  userInfo: user,
+                  statistics: null
+                })
+              }
+
+              if (userTicketFlag) {
+                this.userCount++;
+                userTicketFlag = false;
+              }
             })
+            
           })
+
+          console.log("Overall Times: ", this.overallTimes);
+          // console.log("userCount: ", this.userCount);
         })
       }, (error) => {
         console.log("Error fetching all clients", error);
@@ -146,34 +169,75 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   onGroupChanged(event: Event) {
-    const groupSelectedId = (event.target as HTMLSelectElement).value;
-    console.log('group selected id: ', groupSelectedId);
+    this.groupSelectedId = (event.target as HTMLSelectElement).value;
 
     //Edwin's Code
-    this.groupService.getGroupNameById(groupSelectedId).subscribe((response) => {
-      console.log("getGroupNameById: ", response);
-      this.suggestionGroup = response.groupName;
 
-      this.suggestionAllUsers = this.allUsers;
-      console.log("Suggested All Users: ", this.suggestionAllUsers);
+    // console.log("sortUsers after adding statistics: ", this.sortUsers);
 
-      this.sortUsers.sort((a, b) => {
-        const aPerformance = a.overallPerformance;
-        const bPerformance = b.overallPerformance;
+    const minPerformance = Math.min(...this.sortUsers.map((user) => user.overallPerformance));
+    console.log("minPerformance: ", minPerformance);
 
-        if (isNaN(aPerformance) && isNaN(bPerformance)) {
-          return 0;
-        } else if (isNaN(aPerformance)) {
-          return 1;
-        } else if (isNaN(bPerformance)) {
-          return -1;
-        } else {
-          return aPerformance - bPerformance;
-        }
-      })
+    const maxPerformance = Math.max(...this.sortUsers.map((user) => user.overallPerformance)) * 1.2;
+    console.log("maxPerformance: ", maxPerformance);
 
-      console.log("sorted Users: ", this.sortUsers);
+    const range = (maxPerformance - minPerformance); // Ensure at least 10% range
+    console.log("range: ", range);
+
+    this.sortUsers.forEach((user) => {
+      if (user.overallPerformance === 0) {
+        user.statistics = NaN;
+      }
+      else if (!isNaN(user.overallPerformance)) {
+      // Calculate the percentage relative to maxPerformance
+        const percentage = ((maxPerformance - user.overallPerformance) / range) * 100;
+        user.statistics = Math.round(percentage * 100) / 100;
+      } else {
+        user.statistics = NaN;
+        user.overallPerformance = NaN;
+      }
+
+      console.log("Users: ", user);
     });
+
+   
+    this.sortUsers.sort((a, b) => {
+      const aPerformance = a.statistics;
+      const bPerformance = b.statistics;
+    
+      if (isNaN(aPerformance) && isNaN(bPerformance)) {
+        return 0;
+      } else if (isNaN(aPerformance) || aPerformance === 0) {
+        return 1;
+      } else if (isNaN(bPerformance) || bPerformance === 0) {
+        return -1;
+      } else {
+        // Sort in descending order (highest at the top)
+        return bPerformance - aPerformance;
+      }
+    });
+    
+
+    this.suggestedUsers = this.sortUsers.filter(users =>  users.userInfo.groups.some((group: any) => group === this.groupSelectedId));
+
+    this.getAllAssignable();
+  }
+
+  isNaN(data: any) {
+    if (data === "NaN") {
+      return true;
+    }
+
+    return false;
+  }
+
+  getUserStatisticsClass(statistics: string): string {
+    const numericValue = parseFloat(statistics);
+    if (!isNaN(numericValue)) {
+      return numericValue > 50 ? 'graph-badge-green' : 'graph-badge-orange';
+    } else {
+      return 'graph-badge-red';
+    }
   }
 
   getAssigneeName() {
@@ -185,13 +249,9 @@ export class NewTicketFormComponent implements OnInit {
     return this.assigneeName;
   }
 
-  getAllAssignable(selectedTodos: group[]) {
+  getAllAssignable() {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
-      this.allUsers = response.filter((user) => {
-        return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
-      });
-
-      return this.allUsers;
+      this.allUsers = response.filter(user => user.groups.some((group) => group === this.groupSelectedId));
     });
   }
 
@@ -204,10 +264,8 @@ export class NewTicketFormComponent implements OnInit {
       if(selectedProject.assignedGroups)
         this.allGroups = selectedProject.assignedGroups;
 
-      this.getAllAssignable(this.allGroups);
+      this.getAllAssignable();
 
-      this.suggestionAllUsers = [];
-      this.suggestionGroup = "";
     } else {
       console.log('Project not found:', selectedProjectName);
     }

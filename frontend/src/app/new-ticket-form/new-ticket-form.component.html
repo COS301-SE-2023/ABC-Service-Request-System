@@ -39,10 +39,6 @@
             <option value="Low">Low</option>
           </select>
         </div>
-
-        <div class="ticket-information-col2">
-
-        </div>
       </div>
 
       <div class="todos">
@@ -80,30 +76,31 @@
 
           <label class="assignedLabel">Assigned<span class="required">*</span></label>
           <select formControlName="assigned" required (change)="onAssignedChange()">
-            <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
+            <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}  {{ user.surname }}</option>
           </select>
         </div>
 
         <div class="assignedInformation-col2">
           <div class="memberAIBlock">
-            <label>Suggested Technical Members</label>
+            <label>Suggested Members</label>
             <div class="memberAIContentBlock">
-              <div class="memberAI" *ngFor="let user of suggestionAllUsers">
-                <div class="memberAIOrder">
-
-                </div>
+              <div class="memberAI" *ngFor="let user of suggestedUsers">
                 <div class="memberAIPhoto">
-                  <img [src]="user.profilePhoto" alt="user" style="border-radius:50%;">
+                  <img [src]="user.userInfo.profilePhoto" alt="user" style="border-radius:50%;">
                 </div>
 
                 <div class="memberAIDetail">
-                  <p class="Summary"><b>{{ user.name }} {{ user.surname}}</b></p>
-                  <p><b>{{ user.roles }}</b></p> 
-                  <p>{{ this.suggestionGroup }}</p>
+                  <p class="Summary"><b>{{ user.userInfo.name }} {{ user.userInfo.surname}}</b></p>
+                  <p><b>{{ user.userInfo.roles }}</b></p> 
                 </div>
 
                 <div class="memberAIStats">
-                  
+                  <p class="Summary"><b>Performance</b></p>
+                  <div [ngClass]="getUserStatisticsClass(user.statistics)">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <p id="imp">{{ user.statistics }}%</p>
+                  </div>
+                 
                 </div>
               </div>
             </div>
