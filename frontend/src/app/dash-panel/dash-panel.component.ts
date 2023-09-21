@@ -8,6 +8,8 @@ import { GroupService } from 'src/services/group.service';
 import { project } from '../../../../backend/clients/src/models/client.model';
 import { user } from '../../../../backend/users/src/models/user.model';
 import { ThemeService } from 'src/services/theme.service';
+import * as DarkReader from 'darkreader';
+
 @Component({
   selector: 'app-dash-panel',
   templateUrl: './dash-panel.component.html',
@@ -30,6 +32,8 @@ export class DashPanelComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    //dark mode preference
+    this.checkDarkModePreference();
     const isProjectInitialized = this.clientService.getInitialized();
 
     this.navbarService.collapsed$.subscribe(collapsed => {
@@ -188,8 +192,36 @@ export class DashPanelComponent implements OnInit{
     this.isProjectOverlayOpen = !this.isProjectOverlayOpen;
   }
 
-  toggleDarkMode(){
-    this.isDarkMode = this.themeService.isDarkMode();
-    this.isDarkMode ? this.themeService.update('light-theme') : this.themeService.update('dark-theme');
+  checkDarkModePreference(): void {
+    const darkModeSetting = localStorage.getItem('darkMode');
+    if (darkModeSetting === 'enabled') {
+      this.enableDarkMode();
+    } else if (darkModeSetting === 'disabled') {
+      DarkReader.disable();
+    }
   }
+
+  toggleDarkMode(): void {
+      if (DarkReader.isEnabled()) {
+        DarkReader.disable();
+        localStorage.setItem('darkMode', 'disabled');
+      } else {
+        this.enableDarkMode();
+        localStorage.setItem('darkMode', 'enabled');
+      }
+  }
+
+  enableDarkMode(): void {
+    // Set the fetch method for DarkReader
+    DarkReader.setFetchMethod(window.fetch);
+    
+    // Now enable DarkReader
+    DarkReader.enable({
+        brightness: 100,
+        contrast: 90,
+        sepia: 10
+    });
+  }
+  
+
 }

@@ -16,7 +16,7 @@
   height: 100vh;
   width: 18%;
   //background: rgb(249, 251, 252);
-  transition: all 300ms;
+  // transition: all 300ms;
 //   background: rgba(4,83,142);
 // background: linear-gradient(147deg, rgba(4,83,142,1) -20%, rgba(0,196,255,1) 100%);
   // background: linear-gradient(180deg, rgba(4,83,142,1) 0%, rgba(116,172,205,1) 80.73%, rgba(0,167,218,1) 100%);
@@ -351,6 +351,14 @@
 .blue-cl:hover {
   background-color: rgb(37, 84, 120);
 }
+
+/* Add this to your styles */
+body.dark-mode-transition * {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Add any other properties that need a smooth transition */
+}
+
+
 
 // .project-header {
 //   position: relative;

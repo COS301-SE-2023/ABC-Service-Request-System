@@ -80,6 +80,7 @@ import { InternalAccountPage2Component } from './internal-account-page2/internal
 import { WorklogPanelComponent } from './worklog-panel/worklog-panel.component';
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
+import * as DarkReader from 'darkreader';
 
 //CONFERENCING
 import { SocketIoModule } from "ngx-socket-io";
