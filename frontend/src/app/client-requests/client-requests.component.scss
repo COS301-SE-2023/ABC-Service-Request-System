@@ -171,3 +171,20 @@
 .text-left {
   display: block !important;
 }
+
+.no-requests {
+  width: 98%;
+  margin: 1em;
+  border: 2px dashed rgba(0,0,0,0.4);
+  padding: 1em;
+  border-radius: 0.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    font-size: 1.2em;
+    margin-top: 0.4em;
+  }
+}

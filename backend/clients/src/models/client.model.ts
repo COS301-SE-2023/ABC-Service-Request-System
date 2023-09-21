@@ -16,8 +16,12 @@ export interface request {
     id: string,
     type: string,
     status: string,
-    additionalInformation: string,
-    projectName: string
+    additionalInformation?: string,
+    projectName?: string,
+    projectSelected?: string,
+    summary?: string,
+    description?: string,
+    priority?: string,
 }
 
 
@@ -54,6 +58,10 @@ export const requestSchema = new Schema<request>(
         status: { type: String, required: true},
         additionalInformation: { type: String, required: false},
         projectName: { type: String, required: false},
+        projectSelected: { type: String, required: false},
+        summary: { type: String, required: false},
+        description: { type: String, required: false},
+        priority: { type: String, required: false},
     }
 )
 

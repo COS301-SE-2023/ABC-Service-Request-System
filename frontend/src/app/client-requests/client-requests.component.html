@@ -12,6 +12,9 @@
 
   <div class="requests-inner-container">
 
+    <div class="no-requests" *ngIf="clientRequests.length === 0">
+        <p>There are no new client requests</p>
+    </div>
 
     <div class="outer-card-container" *ngFor="let clientRequest of clientRequests">
       <div class="card" *ngFor="let request of clientRequest.requests">

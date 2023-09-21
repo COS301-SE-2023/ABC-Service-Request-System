@@ -251,6 +251,28 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     }
 ));
 
+router.post("/ticket_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const newRequest: request = {
+            id: '',
+            type: 'New Ticket Request',
+            status: 'Pending',
+            projectSelected: req.body.projectSelected,
+            summary: req.body.summary,
+            description: req.body.description,
+            priority: req.body.priority
+        }
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+        } catch (error) {
+            res.status(500).send("Internal server error adding ticket request to client");
+        }
+    }
+));
+
 //MAKE A PROJECT REQUEST
 router.post("/project_request", expressAsyncHandler(
     async (req, res) => {

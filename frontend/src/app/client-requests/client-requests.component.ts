@@ -29,8 +29,12 @@ export class ClientRequestsComponent implements OnInit {
         this.clientRequests.forEach(client => {
           client.requests = client.requests.filter(request => {
             return request.status === 'Pending';
-          })
+          });
         })
+
+        this.clientRequests = this.clientRequests.filter(client => {
+          return client.requests.length !== 0;
+        });
 
         console.log('cli', this.clientRequests);
       },

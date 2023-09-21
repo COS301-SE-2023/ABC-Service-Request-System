@@ -73,14 +73,44 @@
 
 
       <div class="expansion-wrapper">
-        <div class="expansion-panel" [class.expanded]="isRequestExpanded" (click)="toggleRequestExpansion()" tabindex="1" (keyup)="toggleRequestExpansion()">
+        <div class="expansion-panel" [class.expanded]="isRequestExpanded" (click)="toggleRequestExpansion()" tabindex="1" (keyup)="stopPropagation($event)">
           <div class="text-info">
             <h2>Make a request</h2>
             <p>Make a request for a new feature or idea for an existing project. If you’d like to make changes to your product, you can do that here too.</p>
 
             <div class="form-container" *ngIf="isRequestExpanded">
               <form #requestForm="ngForm" (ngSubmit)="submitRequestForm(requestForm)">
-                <label for="project-selected">Project</label>
+
+                <div class="form-item">
+                  <label for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project</label>
+                  <select name="project-seelct" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)">
+                    <option *ngFor="let project of clientData.projects" [value]="project.name" (click)="stopPropagation($event)">{{ project.name }}</option>
+                  </select>
+                </div>
+
+                <div class="form-item">
+                  <label for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary</label>
+                  <input type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)">
+                </div>
+
+                <div class="form-item">
+                  <label for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description</label>
+                  <quill-editor id="description" [trimOnValidation]="true" (click)="stopPropagation($event)"></quill-editor>
+                </div>
+
+                <br> <br> <br>
+
+                <div class="form-item">
+                  <label for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority</label>
+                  <select id="priority" (click)="stopPropagation($event)">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button>
+
               </form>
             </div>
           </div>
