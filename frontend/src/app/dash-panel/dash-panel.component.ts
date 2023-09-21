@@ -217,8 +217,8 @@ export class DashPanelComponent implements OnInit{
     
     // Now enable DarkReader
     DarkReader.enable({
-        brightness: 100,
-        contrast: 90,
+        brightness: 80,
+        contrast: 100,
         sepia: 10
     });
   }
