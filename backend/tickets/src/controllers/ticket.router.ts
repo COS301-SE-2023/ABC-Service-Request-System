@@ -274,8 +274,7 @@ router.put('/comment',jwtVerify(['Manager', 'Technical', 'Functional', 'Admin'])
     }
   }));
 
-// Edwin's Router Functions for Todo list
-
+// Edwin's Router Functions
 router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(async (req, res) => {
   const ticketId = req.params.id;
   const updatedTodoChecked = req.body.todoChecked;
@@ -299,6 +298,17 @@ router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functio
   }
 }));
 
-  
+router.get('/getTicketUserEmail', jwtVerify(['Manager', 'Technical', 'Functinal', 'Admin']), expressAsyncHandler(async(req, res)=> {
+  const userEmail = req.query.emailAddress;
+
+  try {
+    const tickets = await TicketModel.find({ assigned: userEmail });
+    
+    res.status(200).send(tickets);
+  }
+  catch(error) {
+    res.status(500).send("Internal server error");
+  }
+}));
 
 export default router;

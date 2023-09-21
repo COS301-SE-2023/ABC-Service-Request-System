@@ -95,10 +95,15 @@
                 <div class="memberAIPhoto">
                   <img [src]="user.profilePhoto" alt="user" style="border-radius:50%;">
                 </div>
+
                 <div class="memberAIDetail">
                   <p class="Summary"><b>{{ user.name }} {{ user.surname}}</b></p>
-                  <p><b>{{ user.roles }}</b> {{ this.suggestionGroup }}</p> 
-                  <!-- <p><small></small></p> -->
+                  <p><b>{{ user.roles }}</b></p> 
+                  <p>{{ this.suggestionGroup }}</p>
+                </div>
+
+                <div class="memberAIStats">
+                  
                 </div>
               </div>
             </div>

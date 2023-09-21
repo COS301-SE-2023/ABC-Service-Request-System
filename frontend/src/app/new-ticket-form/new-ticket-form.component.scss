@@ -432,6 +432,13 @@
     color: #04538E;
   }
 
+  .memberAIStats {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI:hover {

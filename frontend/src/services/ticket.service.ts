@@ -111,4 +111,10 @@ export class TicketsService {
     return this.http.post(`${this.TICKET_URL}/addTimeToFirstResponse`, {ticketId, commentTime}, {headers});
   }
 
+  getTicketsForUser(emailAddress: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.get(`${this.TICKET_URL}/getTicketUserEmail?emailAddress=${emailAddress}`, {headers});
+  }
+
 }

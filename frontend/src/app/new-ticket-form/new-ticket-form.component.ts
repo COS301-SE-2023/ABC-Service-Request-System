@@ -34,6 +34,9 @@ export class NewTicketFormComponent implements OnInit {
   todoChecked: boolean[] = [];
   suggestionAllUsers: user[] = [];
   suggestionGroup!: string;
+  sortUsers: any[] = [];
+  sortTickets: ticket[] = [];
+  sortTimes: number[] = [];
 
   constructor(
     private ticketService: TicketsService,
@@ -94,6 +97,45 @@ export class NewTicketFormComponent implements OnInit {
               }
           })
         })
+
+        // Edwin's Algorithm
+        this.userService.getAllUsers().subscribe((users) => {
+
+          users.forEach((user) => {
+            this.ticketService.getTicketsForUser(user.emailAddress).subscribe((tickets) => {
+              this.sortTickets = tickets as ticket[];
+
+              let timeSpent;
+              let timeSpentInHours;
+
+              let totalTime = 0;
+              let ticketCount = 0;
+              
+              this.sortTickets.forEach((ticket) => {
+                if (ticket.timeToFirstResponse && ticket.timeToTicketResolution) {
+                  const startDate = new Date(ticket.timeToFirstResponse);
+                  const endDate = new Date(ticket.timeToTicketResolution);
+
+                  timeSpent = endDate.getTime() - startDate.getTime();
+                  timeSpent = Math.abs(timeSpent);
+
+                  timeSpentInHours = timeSpent / 3600000;
+
+                  totalTime += timeSpentInHours;
+
+                  ticketCount++;
+                }
+              })
+
+              const averageTime = totalTime / ticketCount;
+
+              this.sortUsers.push({
+                overallPerformance: averageTime,
+                userInfo: user
+              })
+            })
+          })
+        })
       }, (error) => {
         console.log("Error fetching all clients", error);
       }
@@ -114,6 +156,23 @@ export class NewTicketFormComponent implements OnInit {
 
       this.suggestionAllUsers = this.allUsers;
       console.log("Suggested All Users: ", this.suggestionAllUsers);
+
+      this.sortUsers.sort((a, b) => {
+        const aPerformance = a.overallPerformance;
+        const bPerformance = b.overallPerformance;
+
+        if (isNaN(aPerformance) && isNaN(bPerformance)) {
+          return 0;
+        } else if (isNaN(aPerformance)) {
+          return 1;
+        } else if (isNaN(bPerformance)) {
+          return -1;
+        } else {
+          return aPerformance - bPerformance;
+        }
+      })
+
+      console.log("sorted Users: ", this.sortUsers);
     });
   }
 
