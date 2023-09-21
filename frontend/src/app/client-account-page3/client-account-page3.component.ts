@@ -7,6 +7,7 @@ import { AuthService } from 'src/services/auth.service';
 import { ClientService } from 'src/services/client.service';
 import { group } from '../../../../backend/groups/src/models/group.model';
 import { client } from '../../../../backend/clients/src/models/client.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-client-account-page3',
@@ -41,11 +42,16 @@ export class ClientAccountPage3Component implements OnInit{
 
   selectedClient!: client;
 
+  low = 'Low';
+  medium = 'Medium';
+  high = 'High';
+
   constructor (
     public authService: AuthService,
     private formBuilder: FormBuilder,
     private groupService: GroupService,
-    private clientService: ClientService) {
+    private clientService: ClientService,
+    private snackBar: MatSnackBar) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
@@ -133,49 +139,130 @@ export class ClientAccountPage3Component implements OnInit{
       this.backClicked.emit(1);
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
+
+  validatePriority(priority: string): boolean {
+    const pattern = /^[0-9]+[wdhm]$/;
+    return pattern.test(priority);
+  }
+
+  lowPriority = '';
+  mediumPriority = '';
+  highPriority = '';
   onCompleteClicked(): void{
     if(this.selectedOrganisation !== undefined) {
+      let isValid = true;
+      if (!this.validatePriority(this.lowPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Low Priority');
+      }
+
+      if (!this.validatePriority(this.mediumPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Medium Priority');
+      }
+
+      if (!this.validatePriority(this.highPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in High Priority');
+      }
+
+      if (isValid) {
+        console.log('All priorities adhere to the format.');
+        const priorities = [this.lowPriority, this.mediumPriority, this.highPriority];
+
+        if (priorities.every(priority => priorities.filter(p => p.endsWith(priority.slice(-1))).length === 1)) {
+          console.log('Each priority has only one unit.');
+        } else {
+          this.showSnackBar('Each priority should have only one unit');
+        }
+      }
+
       this.formData = {
         ...this.formData,
         logo: this.projectImageUrl,
         color: this.projectImageColor,
         groups: this.selectedGroups,
-        clientId: this.selectedClient.id
+        clientId: this.selectedClient.id,
+        lowPriorityTime: this.lowPriority,
+        mediumPriorityTime: this.mediumPriority,
+        highPriorityTime: this.highPriority,
       }
 
-      console.log(this.formData, ' form-data');
-
-      this.clientService.addProject(this.formData).subscribe(
-        (response) => {
-          console.log('Response: ', response);
-          this.createdClient = response;
-          this.clientCreated.emit(this.createdClient);
-          this.completeClicked.emit();
-        },
-        (error) => {
-          console.error('Error:', error);
-        }
-      );
-
+      // console.log(this.formData, ' form-data');
+      if (isValid) {
+        this.clientService.addProject(this.formData).subscribe(
+          (response) => {
+            // console.log('Response: ', response);
+            this.createdClient = response;
+            this.clientCreated.emit(this.createdClient);
+            this.completeClicked.emit();
+          },
+          (error) => {
+            console.error('Error:', error);
+          }
+        );
+      }
     } else {
       console.log(this.projectImageUrl, this.projectImageColor, this.selectedGroups);
       this.formData.logo = this.projectImageUrl;
       this.formData.color = this.projectImageColor;
       this.formData.groups = this.selectedGroups;
+      this.formData.lowPriorityTime = this.lowPriority;
+      this.formData.mediumPriorityTime = this.mediumPriority;
+      this.formData.highPriorityTime = this.highPriority;
 
       console.log(this.formData);
+      console.log('heloooooo');
+      console.log('Low Priority:', this.lowPriority);
+      console.log('Medium Priority:', this.mediumPriority);
+      console.log('High Priority:', this.highPriority);
 
-      this.clientService.createClient(this.formData).subscribe(
-        (response) => {
-          console.log('Response:', response);
-          this.createdClient = response.client;
-          this.clientCreated.emit(this.createdClient);
-          this.completeClicked.emit();
-        },
-        (error) => {
-          console.error('Error:', error);
+      let isValid = true;
+      if (!this.validatePriority(this.lowPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Low Priority');
+      }
+
+      if (!this.validatePriority(this.mediumPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Medium Priority');
+      }
+
+      if (!this.validatePriority(this.highPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in High Priority');
+      }
+
+      if (isValid) {
+        console.log('All priorities adhere to the format.');
+        const priorities = [this.lowPriority, this.mediumPriority, this.highPriority];
+
+        if (priorities.every(priority => priorities.filter(p => p.endsWith(priority.slice(-1))).length === 1)) {
+          console.log('Each priority has only one unit.');
+        } else {
+          this.showSnackBar('Each priority should have only one unit');
         }
-      );
+      }
+
+      if (isValid) {
+        this.clientService.createClient(this.formData).subscribe(
+          (response) => {
+            // console.log('Response:', response);
+            this.createdClient = response.client;
+            this.clientCreated.emit(this.createdClient);
+            this.completeClicked.emit();
+          },
+          (error) => {
+            console.error('Error:', error);
+          }
+        );
+      }
     }
   }
 

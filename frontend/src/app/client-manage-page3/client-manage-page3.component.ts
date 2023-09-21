@@ -9,6 +9,7 @@ import {map, startWith} from 'rxjs/operators';
 import { ticket } from "../../../../backend/tickets/src/models/ticket.model";
 import { ClientService } from 'src/services/client.service';
 import { TicketsService } from 'src/services/ticket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -43,11 +44,20 @@ export class ClientManagePage3Component implements OnInit{
 
   projectTickets: ticket[] = [];
 
+  currLow!: string;
+  currMed!: string;
+  currHigh!: string;
+
+  lowPriority = '';
+  mediumPriority = '';
+  highPriority = '';
+
   constructor(private router: Router,
       private formBuilder: FormBuilder,
       private groupService: GroupService,
       private clientService: ClientService,
-      private ticketService: TicketsService) {
+      private ticketService: TicketsService,
+      private snackBar: MatSnackBar) {
     this.selectedGroupsForm = this.formBuilder.array([]);
   }
 
@@ -84,6 +94,10 @@ export class ClientManagePage3Component implements OnInit{
         this.clientService.getProjectByObjectId(this.projectToEdit._id!).subscribe(
           (response) => {
             this.projectToEdit = response.project[0];
+
+            this.currLow = this.projectToEdit.lowPriorityTime!;
+            this.currMed = this.projectToEdit.mediumPriorityTime!;
+            this.currHigh = this.projectToEdit.highPriorityTime!;
 
             if (this.projectToEdit.assignedGroups && this.projectToEdit.assignedGroups.length > 0) {
               this.existingGroups = this.projectToEdit.assignedGroups.slice();
@@ -134,6 +148,19 @@ export class ClientManagePage3Component implements OnInit{
     this.backClicked.emit();
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
+
+  validatePriority(priority: string): boolean {
+    const pattern = /^[0-9]+[wdhm]$/;
+    return pattern.test(priority);
+  }
+
+
   onUpdateAndBack() {
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
 
@@ -156,6 +183,48 @@ export class ClientManagePage3Component implements OnInit{
         console.log('group removed', respone);
       }
     )
+
+    let isValid = true;
+    if (!this.validatePriority(this.lowPriority)) {
+      isValid = false;
+      this.showSnackBar('Invalid format in Low Priority');
+    }
+
+    if (!this.validatePriority(this.mediumPriority)) {
+      isValid = false;
+      this.showSnackBar('Invalid format in Medium Priority');
+    }
+
+    if (!this.validatePriority(this.highPriority)) {
+      isValid = false;
+      this.showSnackBar('Invalid format in High Priority');
+    }
+
+    if (isValid) {
+      console.log('All priorities adhere to the format.');
+      const priorities = [this.lowPriority, this.mediumPriority, this.highPriority];
+
+      if (priorities.every(priority => priorities.filter(p => p.endsWith(priority.slice(-1))).length === 1)) {
+        console.log('Each priority has only one unit.');
+      } else {
+        this.showSnackBar('Each priority should have only one unit');
+      }
+    }
+
+    if (isValid) {
+      this.clientService.editPriorities(this.clientToEdit.id, this.projectToEdit.id, this.lowPriority, this.mediumPriority, this.highPriority).subscribe(
+        (response) => {
+          console.log(response);
+        }, (error) => {
+          console.log(error);
+        }
+      )
+    }
+
+    console.log('heloooooo from latest compionentttt');
+    console.log('Low Priority:', this.lowPriority);
+    console.log('Medium Priority:', this.mediumPriority);
+    console.log('High Priority:', this.highPriority);
 
     this.selectedGroups = [];
     this.backClicked.emit();

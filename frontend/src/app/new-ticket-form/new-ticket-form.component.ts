@@ -33,6 +33,7 @@ export class NewTicketFormComponent implements OnInit {
   todoArray: string[] = [];
   todoChecked: boolean[] = [];
   isLoading = false;
+  currentProject!: any;
 
   constructor(
     private ticketService: TicketsService,
@@ -131,7 +132,7 @@ export class NewTicketFormComponent implements OnInit {
     const selectedProject = this.allProjects.find((project) => project.name === selectedProjectName);
     if (selectedProject) {
       console.log('Selected Project:', selectedProject);
-
+      this.currentProject = selectedProject;
       if(selectedProject.assignedGroups)
         this.allGroups = selectedProject.assignedGroups;
 
@@ -164,7 +165,55 @@ export class NewTicketFormComponent implements OnInit {
       const currentDate = new Date();
 
       const startDate = this.formatDate(this.stringFormatDate(currentDate));
-      const endDate = this.formatDate(ticketFormValues.endDate);
+
+      const lowPriorityTime = this.currentProject.lowPriorityTime;
+      const mediumPriorityTime = this.currentProject.mediumPriorityTime;
+      const highPriorityTime = this.currentProject.highPriorityTime;
+      //this works
+      let numericValue = parseInt(lowPriorityTime);
+      let unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      if (priority == 'Low') {
+        numericValue = parseInt(lowPriorityTime);
+        unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      } else if (priority == 'Medium') {
+        numericValue = parseInt(mediumPriorityTime);
+        unit = mediumPriorityTime.charAt(mediumPriorityTime.length - 1);
+      } else if (priority == 'High') {
+        numericValue = parseInt(highPriorityTime);
+        unit = highPriorityTime.charAt(highPriorityTime.length - 1);
+      }
+
+      const endDate = new Date(currentDate);
+      if (priority === 'Low') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (priority === 'Medium') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (priority === 'High') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      }
+
+      const endDateString = endDate.toLocaleDateString();
+      console.log('99999');
+      console.log(endDateString);
+
       const status = "Active";
       const comments = ticketFormValues.comments;
       const description = trimmedDescription;
@@ -172,12 +221,12 @@ export class NewTicketFormComponent implements OnInit {
       const project = ticketFormValues.project;
 
 
-      console.log("todoArray.length: ", this.todoArray.length);
+      // console.log("todoArray.length: ", this.todoArray.length);
       for (let i = 0; i < this.todoArray.length; i++) {
         this.todoChecked.push(false);
       }
 
-      console.log("todoChecked", this.todoChecked);
+      // console.log("todoChecked", this.todoChecked);
 
 
       let groupName = "";
@@ -186,12 +235,12 @@ export class NewTicketFormComponent implements OnInit {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDateString, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
-        console.log(response);
+        // console.log(response);
 
         this.groupService.updateTicketsinGroup(group, newTicketId).subscribe((response: any) => {
-          console.log(response);
+          // console.log(response);
           }
         );
         // should navigate to ticket directly
@@ -239,7 +288,7 @@ export class NewTicketFormComponent implements OnInit {
         group: group,
         priority: priority,
         startDate: startDate,
-        endDate: endDate,
+        endDate: endDateString,
         status: status,
         comments: comments,
         description: description,
