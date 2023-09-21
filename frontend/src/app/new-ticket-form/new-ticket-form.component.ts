@@ -53,7 +53,7 @@ export class NewTicketFormComponent implements OnInit {
       group: '',
       priority: '',
       startDate: '',
-      endDate: '',
+      // endDate: '',
       status: '',
       comments: '',
       project: '',
