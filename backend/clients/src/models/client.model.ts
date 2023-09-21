@@ -10,9 +10,9 @@ export interface project {
     color: string,
     // tickets?: ticket [],
     assignedGroups?: group [],
-    lowPriorityTime?: string,
-    mediumPriorityTime?: string,
-    highPriorityTime?:string,
+    lowPriorityTime: string,
+    mediumPriorityTime: string,
+    highPriorityTime:string,
 }
 
 export interface client {

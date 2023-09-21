@@ -164,40 +164,32 @@ export class ClientManagePage3Component implements OnInit{
   onUpdateAndBack() {
     this.selectedGroups = this.selectedGroups.filter(group => !this.existingGroups.includes(group));
 
-    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
-      (response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      }
-    )
-
-    const removingGroupsNames: string [] = [];
-
-    this.removingGroups.forEach(group => {
-      removingGroupsNames.push(group.groupName);
-    });
-
-    this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
-      (respone) => {
-        console.log('group removed', respone);
-      }
-    )
-
     let isValid = true;
-    if (!this.validatePriority(this.lowPriority)) {
-      isValid = false;
-      this.showSnackBar('Invalid format in Low Priority');
+    if (this.lowPriority != '') {
+      if (!this.validatePriority(this.lowPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Low Priority');
+      }
+    } else {
+      this.lowPriority = this.currLow;
     }
 
-    if (!this.validatePriority(this.mediumPriority)) {
-      isValid = false;
-      this.showSnackBar('Invalid format in Medium Priority');
+    if (this.mediumPriority != '') {
+      if (!this.validatePriority(this.mediumPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in Medium Priority');
+      }
+    } else {
+      this.mediumPriority = this.currMed;
     }
 
-    if (!this.validatePriority(this.highPriority)) {
-      isValid = false;
-      this.showSnackBar('Invalid format in High Priority');
+    if (this.highPriority != '') {
+      if (!this.validatePriority(this.highPriority)) {
+        isValid = false;
+        this.showSnackBar('Invalid format in High Priority');
+      }
+    } else {
+      this.highPriority = this.currHigh;
     }
 
     if (isValid) {
@@ -212,9 +204,32 @@ export class ClientManagePage3Component implements OnInit{
     }
 
     if (isValid) {
+      this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
+        (response) => {
+          console.log(response);
+        }, (error) => {
+          console.log(error);
+        }
+      )
+
+      const removingGroupsNames: string [] = [];
+
+      this.removingGroups.forEach(group => {
+        removingGroupsNames.push(group.groupName);
+      });
+
+      this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
+        (respone) => {
+          console.log('group removed', respone);
+        }
+      )
+    }
+
+    if (isValid) {
       this.clientService.editPriorities(this.clientToEdit.id, this.projectToEdit.id, this.lowPriority, this.mediumPriority, this.highPriority).subscribe(
         (response) => {
           console.log(response);
+          this.backClicked.emit();
         }, (error) => {
           console.log(error);
         }
@@ -227,7 +242,7 @@ export class ClientManagePage3Component implements OnInit{
     console.log('High Priority:', this.highPriority);
 
     this.selectedGroups = [];
-    this.backClicked.emit();
+    // this.backClicked.emit();
   }
 
   addGroup() {
