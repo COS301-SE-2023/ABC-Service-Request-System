@@ -267,6 +267,26 @@ router.post("/ticket_request", expressAsyncHandler(
 
         try {
             const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                if(client.requests) {
+                    newRequest.id = Date.now().toString();
+
+                    client.requests.push(newRequest);
+                    await client.save();
+
+                    res.status(200).send(client);
+                } else {
+                    let requests: request[] = [];
+                    requests.push(newRequest);
+                    client.requests = requests;
+                    await client.save();
+
+                    res.status(200).send(client);
+                }
+            } else {
+                res.status(404).send("Client does not exist");
+            }
         } catch (error) {
             res.status(500).send("Internal server error adding ticket request to client");
         }

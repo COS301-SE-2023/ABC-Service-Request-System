@@ -163,7 +163,6 @@ export class ClientService {
   //clients dashboard
   addProjectRequest(projectName: string, additionalInformation: string, clientId: string) {
     this.token = localStorage.getItem('token');
-    console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     const body = {
@@ -173,6 +172,21 @@ export class ClientService {
     }
 
     return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
+  }
+
+  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      projectSelected: projectSelected,
+      summary: summary,
+      description: description,
+      priority: priority,
+      clientId: clientId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/ticket_request`, body, {headers});
   }
 
   getAllClientsWithAllRequests() {

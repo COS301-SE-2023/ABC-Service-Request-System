@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ClientService } from 'src/services/client.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { response } from 'express';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -22,6 +23,11 @@ export class ClientDashboardComponent implements OnInit {
   isViewRequestExpanded = false;
 
   requestsMade: request[] = [];
+
+  projectSelectedError = false;
+  summaryError = false;
+  descriptionError = false;
+  priorityError = false;
 
   constructor(private authService: AuthService, private router: Router, private clientService: ClientService, private snackBar: MatSnackBar) {
     this.loggedInClient$ = this.authService.getLoggedInClient();
@@ -71,7 +77,38 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   submitRequestForm(form: any) {
-    console.log('submit form');
+    if(form.valid) {
+      form.value.description = form.value.description.replace(/<\/?p>/g, '');
+      console.log('Form submitted!', form.value);
+
+      // this.clientService.addTicketRequest(form.value.projectSelected, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id).subscribe(
+      //   (response) => {
+      //     console.log("recieved client response", response);
+      //     this.toggleRequestExpansion();
+      //     form.resetForm();
+      //     this.openSnackBar("Request Sent", "OK");
+      //   },
+      //   (err) => {
+      //     console.log("received error: ", err);
+      //   }
+      // )
+    } else {
+      if(form.value.projectSelected == ""){
+        this.projectSelectedError = true;
+      }
+
+      if(form.value.summary == ""){
+        this.summaryError = true;
+      }
+
+      if(form.value.description == ""){
+        this.descriptionError = true;
+      }
+
+      if(form.value.priority == ""){
+        this.priorityError = true;
+      }
+    }
   }
 
   getClientRequests() {

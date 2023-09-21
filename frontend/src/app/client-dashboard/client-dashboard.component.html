@@ -82,34 +82,36 @@
               <form #requestForm="ngForm" (ngSubmit)="submitRequestForm(requestForm)">
 
                 <div class="form-item">
-                  <label for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project</label>
-                  <select name="project-seelct" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)">
+                  <label class="errMsg" for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project<sup>*</sup></label>
+                  <select name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" ngModel required>
                     <option *ngFor="let project of clientData.projects" [value]="project.name" (click)="stopPropagation($event)">{{ project.name }}</option>
                   </select>
                 </div>
 
                 <div class="form-item">
-                  <label for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary</label>
-                  <input type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)">
+                  <label for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary<sup>*</sup></label>
+                  <input type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)" ngModel required>
                 </div>
 
                 <div class="form-item">
-                  <label for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description</label>
-                  <quill-editor id="description" [trimOnValidation]="true" (click)="stopPropagation($event)"></quill-editor>
+                  <label for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description<sup>*</sup></label>
+                  <quill-editor id="description" name="description" [trimOnValidation]="true" (click)="stopPropagation($event)" ngModel [required]="true"></quill-editor>
                 </div>
 
                 <br> <br> <br>
 
                 <div class="form-item">
-                  <label for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority</label>
-                  <select id="priority" (click)="stopPropagation($event)">
+                  <label for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority<sup>*</sup></label>
+                  <select id="priority" name="priority" (click)="stopPropagation($event)" ngModel required>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
                   </select>
                 </div>
 
-                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button>
+                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button> <br> <br>
+
+                <span class="errMsg">Please complete all fields marked with <sup>*</sup></span>
 
               </form>
             </div>
