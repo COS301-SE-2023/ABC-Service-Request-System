@@ -42,7 +42,7 @@
 
         <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
-        <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
+        <!-- <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button> -->
         <button class="activity-filter-button" (click)="highlightButton($event); showHistoryOnly()">History</button>
         <button class="activity-filter-button" [class.selected]="activeTab === 'Work Logs'" (click)="highlightButton($event); showWorkLogs()">Work Logs</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showAttachmentsOnly()">Attachments</button>

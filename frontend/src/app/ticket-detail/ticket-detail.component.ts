@@ -630,21 +630,25 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     }
     this.historyOnly = false;
     this.displayedHistory = [];
+    this.displayedWorklogs = [];
   }
 
   showAttachmentsOnly(): void {
     this.historyOnly = false;
+    this.displayedWorklogs = [];
     this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
     console.log(this.displayedComments);
   }
 
   showCommentsOnly(): void {
     this.historyOnly = false;
+    this.displayedWorklogs = [];
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
 
   showHistoryOnly(): void {
+    this.displayedWorklogs = [];
     this.displayedComments = [];
     this.historyOnly = true;
     if (this.ticket.history != null) {
@@ -665,7 +669,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showWorkLogs(): void {
     this.activeTab = 'Work Logs';
     this.displayedComments = []; // Clear the displayed comments array when showing work logs
-
+    this.displayedHistory = [];
     if (this.ticket) {
       if (this.ticket.workLogs) { // Check if workLogs property is defined
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
