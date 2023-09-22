@@ -34,8 +34,13 @@ export class DashboardComponent implements OnInit{
     });
     this.ticketService.getAllTickets().subscribe((tickets) => {
       this.allTickets = tickets;
-      // Perform filtering here after tickets are fetched
-      this.filterTicketsByStatus(this.currentStatus);
+      this.filterTicketsByStatusAndProject(this.currentStatus);
+    });
+    this.authService.selectedProject$.subscribe((project) => {
+      this.selectedProjectName = project;
+      console.log('in dashboard ngOninit...');
+      console.log('currently selected project:');
+      console.log(this.selectedProjectName);
     });
   }
 
@@ -106,12 +111,20 @@ export class DashboardComponent implements OnInit{
   }
 
   currentStatus = 'all';
-  filterTicketsByStatus(status: string): void {
+  filterTicketsByStatusAndProject(status: string): void {
     this.currentStatus = status;
     if (status === 'all') {
-      this.filteredTickets = this.allTickets;
+      // If 'all' status is selected, filter by project name as well
+      this.filteredTickets = this.allTickets.filter(
+        (ticket) => ticket.project === this.selectedProjectName
+      );
     } else {
-      this.filteredTickets = this.allTickets.filter(ticket => ticket.status.toLowerCase() === status);
+      // Filter by both status and project name
+      this.filteredTickets = this.allTickets.filter(
+        (ticket) =>
+          ticket.status.toLowerCase() === status &&
+          ticket.project === this.selectedProjectName
+      );
     }
   }
 
