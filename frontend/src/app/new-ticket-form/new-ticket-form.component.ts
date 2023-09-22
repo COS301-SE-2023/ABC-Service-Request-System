@@ -13,6 +13,7 @@ import { group } from '../../../../backend/groups/src/models/group.model';
 import{ GroupService } from 'src/services/group.service';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ClientService } from 'src/services/client.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -35,6 +36,7 @@ export class NewTicketFormComponent implements OnInit {
   isLoading = false;
   currentProject!: any;
   isCustomEndDate = false;
+  Selectagroup = 'Select a group';
 
   constructor(
     private ticketService: TicketsService,
@@ -45,7 +47,8 @@ export class NewTicketFormComponent implements OnInit {
     private router: Router,
     private groupService: GroupService,
     private navbarService: NavbarService,
-    private clientService: ClientService) {
+    private clientService: ClientService,
+    private snackBar: MatSnackBar) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -134,6 +137,13 @@ export class NewTicketFormComponent implements OnInit {
       });
       // console.log("All Users: ", this.allUsers);
       return this.allUsers;
+    });
+  }
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
     });
   }
 
@@ -290,6 +300,7 @@ export class NewTicketFormComponent implements OnInit {
 
       });
     }
+
   );
 
 
@@ -323,9 +334,7 @@ export class NewTicketFormComponent implements OnInit {
     }
     else {
       this.markFormControlsAsTouched(this.ticketForm);
-
-      // Handle invalid form submission
-      console.log('Form is invalid. Please fill in all required fields.');
+      this.showSnackBar('Please fill out all details before submitting');
     }
   }
 
