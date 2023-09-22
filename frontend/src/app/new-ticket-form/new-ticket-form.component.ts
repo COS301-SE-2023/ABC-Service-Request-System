@@ -34,6 +34,7 @@ export class NewTicketFormComponent implements OnInit {
   todoChecked: boolean[] = [];
   isLoading = false;
   currentProject!: any;
+  isCustomEndDate = false;
 
   constructor(
     private ticketService: TicketsService,
@@ -53,12 +54,13 @@ export class NewTicketFormComponent implements OnInit {
       group: '',
       priority: '',
       startDate: '',
-      // endDate: '',
+      endDateCustom: '',
       status: '',
       comments: '',
       project: '',
       todo: ''
     });
+
 
     this.assigneeName = '';
   }
@@ -101,6 +103,14 @@ export class NewTicketFormComponent implements OnInit {
 
     // this.todoArray.length = 0;
     // this.todoChecked.length = 0;
+  }
+
+  toggleDate() {
+    if (this.isCustomEndDate == false) {
+      this.isCustomEndDate = true;
+    } else {
+      this.isCustomEndDate = false;
+    }
   }
 
   onGroupChanged(event: Event) {
@@ -160,6 +170,10 @@ export class NewTicketFormComponent implements OnInit {
       const assigned = this.assignedUser.emailAddress;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
+      let endDateCustom = '';
+      if (this.isCustomEndDate) {
+        endDateCustom = this.formatDate(ticketFormValues.endDateCustom);
+      }
 
       // get Current Date in String Format
       const currentDate = new Date();
@@ -210,7 +224,10 @@ export class NewTicketFormComponent implements OnInit {
         }
       }
 
-      const endDateString = endDate.toLocaleDateString();
+      let endDateString = endDate.toLocaleDateString();
+      if (this.isCustomEndDate) {
+        endDateString = endDateCustom;
+      }
       console.log('99999');
       console.log(endDateString);
 
