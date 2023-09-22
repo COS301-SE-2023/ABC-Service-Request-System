@@ -114,12 +114,10 @@ export class DashboardComponent implements OnInit{
   filterTicketsByStatusAndProject(status: string): void {
     this.currentStatus = status;
     if (status === 'all') {
-      // If 'all' status is selected, filter by project name as well
       this.filteredTickets = this.allTickets.filter(
         (ticket) => ticket.project === this.selectedProjectName
       );
     } else {
-      // Filter by both status and project name
       this.filteredTickets = this.allTickets.filter(
         (ticket) =>
           ticket.status.toLowerCase() === status &&
