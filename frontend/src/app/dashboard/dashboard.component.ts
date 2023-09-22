@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit{
   allTickets!: any[];
 
   navbarIsCollapsed!: boolean;
+  selectedProjectName = '';
+
 
   constructor(private router: Router, public authService: AuthService,
     public navbarService: NavbarService, public ticketService: TicketsService) {}
@@ -111,6 +113,12 @@ export class DashboardComponent implements OnInit{
     } else {
       this.filteredTickets = this.allTickets.filter(ticket => ticket.status.toLowerCase() === status);
     }
+  }
+
+  onProjectChanged(newProjectName: string) {
+    this.selectedProjectName = newProjectName;
+    console.log('in dashboard.compionent...');
+    console.log(this.selectedProjectName);
   }
 
 }

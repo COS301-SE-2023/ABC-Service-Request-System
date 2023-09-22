@@ -243,8 +243,8 @@
           <div class="modal-content">
               <!-- Link form with Angular formGroup -->
               <form [formGroup]="workLogForm" (ngSubmit)="onSubmit()">
-                  <h2 class="modal-header" style="color: blue;">Time tracking</h2>
-                  <hr style="border-color: blue; width: 100%;">
+                  <h2 class="modal-header" >Time tracking</h2>
+                  <hr style="border-color: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,); width: 100%; margin-bottom: 15px">
                   <div class="time-fields">
                       <div class="form-group">
                           <label for="timeSpent">Time Spent:</label>
@@ -279,7 +279,7 @@
 
                   </div>
                   <div class="button-group">
-                      <button type="submit">Save</button>
+                      <button class = "save-button-worklog" type="submit">Save</button>
                       <button type="button" (click)="cancel()">Cancel</button>
                   </div>
               </form>

@@ -51,6 +51,36 @@
     <img class = "bio-line-1" src = "../../assets/line5.png" alt = "line">
   </div>
 
+  <div class="socials">
+    <p class="socials-text">Socials</p>
+    <div class="edit-icon-container-3">
+    </div>
+    <div class="socials-container">
+      <div class="column">
+        <div class="social-card">
+          <img class="social-icon" src="../../assets/github.png" alt="icon">
+          <input class="social-input-github" [(ngModel)]="githubLink" [readonly]="true" placeholder="" name="githubLink">
+          <a [href]="githubLink" target="_blank" class="social-link">
+            <img class = "go-icon" src="../../assets/go.png" alt="Go">
+          </a>
+        </div>
+      </div>
+      <div class="column">
+        <div class="social-card">
+          <img class="social-icon" src="../../assets/linkedin.png" alt="icon">
+          <input class="social-input-linkedin" [(ngModel)]="linkedinLink" [readonly]="true" placeholder="" name="linkedinLink">
+          <a [href]="linkedinLink" target="_blank" class="social-link">
+            <img class = "go-icon" src="../../assets/go.png" alt="Go">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class = "bio-line-three">
+    <img class = "bio-line-3" src = "../../assets/line5.png" alt = "line">
+  </div>
+
   <div class = "analytics">
     <p class = "analytics-text">Analytics</p>
   </div>
@@ -116,36 +146,6 @@
 
   <div class = "bio-line-two">
     <img class = "bio-line-2" src = "../../assets/line5.png" alt = "line">
-  </div>
-
-  <div class="socials">
-    <p class="socials-text">Socials</p>
-    <div class="edit-icon-container-3">
-    </div>
-    <div class="socials-container">
-      <div class="column">
-        <div class="social-card">
-          <img class="social-icon" src="../../assets/github.png" alt="icon">
-          <input class="social-input-github" [(ngModel)]="githubLink" [readonly]="true" placeholder="" name="githubLink">
-          <a [href]="githubLink" target="_blank" class="social-link">
-            <img class = "go-icon" src="../../assets/go.png" alt="Go">
-          </a>
-        </div>
-      </div>
-      <div class="column">
-        <div class="social-card">
-          <img class="social-icon" src="../../assets/linkedin.png" alt="icon">
-          <input class="social-input-linkedin" [(ngModel)]="linkedinLink" [readonly]="true" placeholder="" name="linkedinLink">
-          <a [href]="linkedinLink" target="_blank" class="social-link">
-            <img class = "go-icon" src="../../assets/go.png" alt="Go">
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class = "bio-line-three">
-    <img class = "bio-line-3" src = "../../assets/line5.png" alt = "line">
   </div>
 
   <div class = "groups">
