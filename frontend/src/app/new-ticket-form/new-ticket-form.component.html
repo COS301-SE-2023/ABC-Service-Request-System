@@ -72,9 +72,9 @@
             <input type="checkbox" (change)="toggleDate()">
             <p>Custom End Date</p>
           </div>
-          <div *ngIf = "isCustomEndDate">
+          <div class = "endDateSection" *ngIf = "isCustomEndDate">
             <label>End Date<span class="required">*</span></label>
-            <input type="date" formControlName="endDateCustom" required>
+            <input class = "endDateCustom" type="date" formControlName="endDateCustom" required>
           </div>
 
           <label class="priorityLabel">Priority<span class="required">*</span></label>
