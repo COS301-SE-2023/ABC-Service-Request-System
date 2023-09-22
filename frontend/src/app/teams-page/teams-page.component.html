@@ -129,7 +129,7 @@
 <div class="remove-group-overlay" *ngIf="isRemoveGroupOverlayOpened">
   <div class="remove-group-overlay-inner-wrapper">
     <h3>Confirm Action</h3>
-    <p>Are you sure you'd like to remove <span class="important-white">{{ groupToRemoveName }}</span> from the application? Doing so will delete the group.</p>
+    <p>Are you sure you'd like to remove <span class="important-white">{{ groupToRemoveName }}</span> from the application? Doing so will delete the group permanently.</p>
     <button class="remove-group-btn" (click)="removeGroup(groupToRemoveObject)">Remove Group</button>
     <button class="cancel-remove-group-btn" (click)="toggleRemoveGroupOverlay(null, null)">No, take me back</button>
   </div>

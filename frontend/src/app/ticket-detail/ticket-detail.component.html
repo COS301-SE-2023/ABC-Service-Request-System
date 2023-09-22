@@ -340,21 +340,40 @@
           </div>
 
           <div class="expansion-item flex-start">
-            <p>Priority </p>
-            <p class="text-center">
-              <span class="font-medium uppercase tracking-wider ml-8 text-lg priority
-                {{ ticket.priority === 'Low' ? 'text-green-800 bg-green-200' :
-                   ticket.priority === 'Medium' ? 'text-yellow-800 bg-yellow-200' :
-                   ticket.priority === 'High' ? 'text-red-800 bg-red-200' : '' }}
-                rounded-lg">
-                {{ ticket.priority }}
-              </span>
-            </p>
+            <p class = "priority-text">Priority </p>
+            <div *ngIf = "lowPriority" class = "priority-low">
+              <div class = "low-container">
+                <p class="text-low">
+                  LOW
+                </p>
+              </div> 
+            </div>
+
+            <div *ngIf = "medPriority" class = "priority-medium">
+              <div class = "medium-container">
+                <p class="medium-low"> 
+                  MEDIUM
+                </p>
+              </div>
+            </div>
+
+            <div *ngIf = "highPriority" class = "priority-high">
+              <div class = "high-container">
+                <p class="high-low">
+                  HIGH
+                </p>
+              </div>
+            </div>
+      
           </div>
 
           <div class="expansion-item flex-start">
-            <p>Created </p>
-            <p class="left-margin">27 May 2023 &#x2022; 19:28</p>
+            <p class = "created-text">Created</p>
+            <p class="left-margin">{{ticket.startDate}}</p>
+          </div>
+          <div class="expansion-item flex-start">
+            <p>Deadline</p>
+            <p class="left-margin">{{ticket.endDate}}</p>
           </div>
         </mat-expansion-panel>
       </div>

@@ -79,6 +79,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   workLogsOnly = false;
 
   activeTab = 'All';
+  lowPriority = false;
+  medPriority=false;
+  highPriority=false;
 
 
   toggleForm() {
@@ -233,6 +236,15 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
             this.currentAssigned = response.assigned;
+            
+            if (response.priority == 'Low') {
+              this.lowPriority = true;
+            } else if (response.priority == 'Medium'){
+              this.medPriority = true;
+            } else {
+              this.highPriority = true;
+            }
+
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {

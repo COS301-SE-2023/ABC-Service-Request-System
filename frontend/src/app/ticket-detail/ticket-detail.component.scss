@@ -496,6 +496,7 @@ mat-expansion-panel-header.mat-expanded,
   justify-content: space-between;
   align-items: center;
   padding: 0.5em;
+  // padding(0 0.5 0.5)
   font-family: 'Poppins';
   padding-bottom: 0.2em;
 
@@ -511,6 +512,10 @@ mat-expansion-panel-header.mat-expanded,
   .left-margin {
     margin-left: 2em;
     color: rgba(0,0,0,0.44);
+  }
+
+  .created-text {
+    margin-right: 5px;
   }
 
   .content-2 {
@@ -702,6 +707,133 @@ textarea {
 .date-time-fields > .form-group:last-child {
   margin-right: 0;
 }
+
+// .priority-text{
+//   margin-top: 10px;
+// }
+
+.priority-low {
+  // background-color:yellow;
+  display: flex;
+  // margin-top:10px;
+  // padding: 1em;
+
+  .low-container {
+    background-color: rgb(175,247,198);
+    border-radius: 0.5em;
+    height: 100%;
+    width: 100%;
+    // margin-top: 5px;
+    margin-left: 55px;
+    top: 10px;
+
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    .text-low {
+      color: rgb(21,84,39);
+
+    }
+  }
+  
+
+  .low-input {
+    width: 80%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid rgba(73, 69, 69, 0.2);
+    margin-left:30px;
+
+    font-size: 0/8em;
+    font-family: 'Poppins';
+
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.priority-medium {
+  // background-color:yellow;
+  display: flex;
+  // margin-top:15px;
+  // padding: 1em;
+
+  .medium-container {
+    background-color: rgb(254,238,119);
+    border-radius: 0.5em;
+    height: 80%;
+    width: 100%;
+    // margin-top: 5px;
+    margin-left: 55px;
+
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    .text-medium {
+      color: rgb(113,60,14);
+
+    }
+  }
+  
+
+  .medium-input {
+    width: 80%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid rgba(73, 69, 69, 0.2);
+    margin-left:30px;
+
+    font-size: 0/8em;
+    font-family: 'Poppins';
+
+    display: flex;
+    align-items: center;
+  }
+}
+
+.priority-high {
+  // background-color:yellow;
+  display: flex;
+  // margin-top:15px;
+  // padding: 1em;
+
+  .high-container {
+    background-color: rgb(253,189,190);
+    border-radius: 0.5em;
+    height: 80%;
+    width: 100%;
+    // margin-top: 5px;
+    margin-left: 55px;
+
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    .text-high {
+      color: rgb(147,33,37);
+      //commentinho
+    }
+  }
+  
+
+  .high-input {
+    width: 80%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid rgba(73, 69, 69, 0.2);
+    margin-left:30px;
+
+    font-size: 0/8em;
+    font-family: 'Poppins';
+
+    display: flex;
+    align-items: center;
+  }
+}
+
 
 
 .button-group {
