@@ -83,6 +83,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   medPriority=false;
   highPriority=false;
 
+  thisVar = 1;
+
 
   toggleForm() {
     this.isFormVisible = !this.isFormVisible;
@@ -236,7 +238,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
             this.currentAssigned = response.assigned;
-            
+
             if (response.priority == 'Low') {
               this.lowPriority = true;
             } else if (response.priority == 'Medium'){
@@ -669,7 +671,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     if (this.numReversedHistory != 1) {
       this.displayedHistory?.reverse();
-      this.numReversed = 1;
+      this.numReversedHistory = 1;
     }
 
     // console.log(this.displayedHistory );
