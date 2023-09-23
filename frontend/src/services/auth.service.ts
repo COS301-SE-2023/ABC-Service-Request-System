@@ -33,7 +33,7 @@ export class AuthService {
       this.decodeToken(); // decode token if it exists
     }
 
-    const storedClientData = localStorage.getItem('loggedInClient');
+    const storedClientData = sessionStorage.getItem('loggedInClient');
     this.loggedInClientSubject = new BehaviorSubject<client | null>(
       storedClientData ? JSON.parse(storedClientData) : null
     );
@@ -41,7 +41,7 @@ export class AuthService {
 
   setLoggedInClient(client: client): void {
     this.loggedInClientSubject.next(client);
-    localStorage.setItem('loggedInClient', JSON.stringify(client));
+    sessionStorage.setItem('loggedInClient', JSON.stringify(client));
   }
 
   getLoggedInClient(): Observable<any> {

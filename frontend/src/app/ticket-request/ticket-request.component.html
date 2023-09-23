@@ -1,0 +1,93 @@
+<div class="card-header">
+  <div class="client-details">
+    <div class="client-img">
+        <img src="{{clientRequest.profilePhoto}}" alt="user-logo">
+    </div>
+
+    <div class="client-info">
+      <h3>{{clientRequest.name}} {{clientRequest.surname}}</h3>
+      <p>{{clientRequest.organisation}}</p>
+    </div>
+
+  </div>
+
+  <div class="requst-type">
+    {{request.type}}
+  </div>
+</div>
+
+<div class="card-content">
+  <div class="requested-project-name">
+    <label for="projectSelected">Project</label>
+    <p class="input-p">{{request.projectSelected}}</p>
+  </div>
+
+  <div class="requested-project-name">
+    <label for="requestedSummary">Summary</label>
+
+    <div class="input-icon">
+      <input type="text" [(ngModel)]="request.summary" name="requestedSummary" id="requestedSummary" #requestedSummaryInput>
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="requested-project-name">
+    <label for="requestedDescription">Description</label>
+
+    <div class="input-icon">
+        <quill-editor [(ngModel)]="request.description" name="requestedDescription" id="requestedDescription" [trimOnValidation]="true" #requestedDescriptionInput></quill-editor>
+        <i class="fa-solid fa-pencil"></i>
+    </div> <br> <br> <br> <br>
+  </div>
+
+  <div class="requested-project-name">
+    <label for="requestedPriority">Priority</label>
+
+    <div class="input-icon">
+      <select [(ngModel)]="request.priority" name="requestedPriority" id="requestedPriority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="requested-project-name">
+    <label for="requestedGroup">Group</label>
+
+    <div class="input-icon">
+      <select name="requestedGroup" id="requestedGroup" (change)="onGroupChanged($event)" #groupSelected>
+        <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+      </select>
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="requested-project-name">
+    <label for="requestedAssigned">Assigned</label>
+
+    <div class="input-icon">
+      <select name="requestedAssigned" id="requestedAssigned" [(ngModel)]="selectedAssignedUser">
+        <option *ngFor="let user of assignableUsers" [ngValue]="user">{{ user.name }}</option>
+      </select>
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+  </div>
+</div>
+
+<div class="card-buttons">
+  <button class="approve-btn" (click)="approveTicketRequest(request.projectSelected!,
+                                                            requestedSummaryInput.value,
+                                                            request.description!,
+                                                            request.priority!,
+                                                            groupSelected.value,
+                                                            selectedAssignedUser)">Approve</button>
+  <button class="reject-btn" (click)="rejectRequest(clientRequest, request.id)">Reject</button>
+</div>

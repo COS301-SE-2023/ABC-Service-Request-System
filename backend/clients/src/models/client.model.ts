@@ -37,7 +37,8 @@ export interface client {
     industry: string,
     inviteToken?: string,
     projects: project [],
-    requests: request []
+    requests: request [],
+    chatId?: string,
 }
 
 export const projectSchema = new Schema<project>(
@@ -78,7 +79,8 @@ const clientSchema = new Schema<client>(
         industry: { type: String, required: true},
         inviteToken: { type: String }, // Add inviteToken field
         projects: { type: [projectSchema], required: true},
-        requests: { type: [requestSchema], required: false}
+        requests: { type: [requestSchema], required: false},
+        chatId: { type: String, required: false}
     },{
         toJSON: {
             virtuals: true

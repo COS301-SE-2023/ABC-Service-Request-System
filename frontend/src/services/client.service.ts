@@ -3,8 +3,9 @@ import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/clients/src/models/client.model";
 import { group } from '../../../backend/groups/src/models/group.model';
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap, interval } from "rxjs";
 import { environment } from '../environments/environment';
+import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -213,9 +214,49 @@ export class ClientService {
 
   getClientById(clientId: string) {
     this.token = localStorage.getItem('token');
-    console.log('Token from storage:', this.token);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
     return this.http.get<client>(`${this.CLIENT_URL}/id?id=${clientId}`, {headers});
+  }
+
+  //chat room
+  setChatId(clientId: string, roomId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId,
+      roomId: roomId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/chatId`, body, {headers});
+  }
+
+  getCallingClientsQuick() {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/calling`, {headers});
+  }
+
+  getCallingClients(): Observable<any> {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return interval(5000) // Poll every 5 seconds (adjust as needed)
+      .pipe(
+        switchMap(() => this.http.get<client[]>(`${this.CLIENT_URL}/calling`, {headers})
+      ));
+  }
+
+  resetCallingClient(clientId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId
+    }
+
+    return this.http.put<any>(`${this.CLIENT_URL}/calling_reset`, body, {headers});
   }
 }

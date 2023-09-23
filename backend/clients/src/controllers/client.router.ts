@@ -251,6 +251,65 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     }
 ));
 
+router.put("/calling_reset", expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const client = await ClientModel.findOne({id: req.body.clientId});
+
+            if(client) {
+                client.chatId = '';
+                await client.save();
+    
+                res.status(200).send(client);
+            } else {
+                res.status(404).send("Client not found");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error setting resetting client chatId");
+
+        }
+    }
+))
+
+router.get("/calling", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const clients = await ClientModel.find({chatId: { $exists: true, $ne: '' }});
+
+            if(clients) {
+                res.status(200).send(clients);
+            } else {
+                res.status(400).send("No clients calling");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error getting calling clients");
+        }
+    }
+));
+
+router.post("/chatId", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const clientId = req.body.clientId;
+            const roomId = req.body.roomId;
+
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                client.chatId = roomId;
+                await client.save();
+
+                res.status(200).send(client);
+            } else {
+                res.status(404).send("Client does not exist");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error adding chatID to client");
+        }
+    }
+));
+
+
 router.post("/ticket_request", expressAsyncHandler(
     async (req, res) => {
         const clientId = req.body.clientId;

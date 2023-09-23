@@ -4,6 +4,10 @@ import { NavbarService } from 'src/services/navbar.service';
 import { client } from '../../../../backend/clients/src/models/client.model';
 import { group } from '../../../../backend/clients/src/models/group.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { GroupService } from 'src/services/group.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-client-requests',
@@ -12,15 +16,53 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class ClientRequestsComponent implements OnInit {
 
-  constructor(private navbarService: NavbarService, private clientService: ClientService, private snackBar: MatSnackBar) {}
+  constructor(private navbarService: NavbarService,
+    private clientService: ClientService,
+    private snackBar: MatSnackBar,
+    private groupService: GroupService,
+    private userService: UserService) {}
 
   navbarIsCollapsed!: boolean;
   clientRequests: client[] = [];
+
+  isAddTodoOverlayOpened = false;
+  todo: FormControl = new FormControl();
+
+  selectedTodoIndex!: string;
+
+  clientTodoArrays: any[][] = [];
+
+  callingClients: client[] = [];
+
+  outerIndex!: number;
+  innerIndex!: number;
+
+  getCallingClients() {
+    this.clientService.getCallingClientsQuick().subscribe(
+      (data) => {
+        this.callingClients = data;
+      },
+      (err) => {
+        console.error('Error fetching calling clients', err);
+      }
+    )
+
+    this.clientService.getCallingClients().subscribe(
+      (data) => {
+        this.callingClients = data;
+      },
+      (err) => {
+        console.error('Error fetching calling clients', err);
+      }
+    )
+  }
 
   ngOnInit(): void {
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
+
+    this.getCallingClients();
 
     this.clientService.getAllClientsWithAllRequests().subscribe(
       (res: client[]) => {
@@ -33,6 +75,9 @@ export class ClientRequestsComponent implements OnInit {
         })
 
         this.clientRequests = this.clientRequests.filter(client => {
+          if(client.requests.length !== 0) {
+            this.clientTodoArrays.push([]);
+          }
           return client.requests.length !== 0;
         });
 
@@ -132,6 +177,36 @@ export class ClientRequestsComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
   }
+
+  joinCall(roomId: string) {
+    const url = environment.CLIENT_ROOM + roomId + `?roomId=${roomId}`;
+    window.open(url, '_blank');
+  }
+
+  // addTodo() {
+  //   if(!this.clientTodoArrays[this.innerIndex]) {
+  //     this.clientTodoArrays[this.innerIndex] = [];
+  //   }
+
+  //   if(!this.clientTodoArrays[this.innerIndex][this.outerIndex]){
+  //     this.clientTodoArrays[this.innerIndex][this.outerIndex] = [];
+  //   }
+
+  //   this.clientTodoArrays[this.innerIndex][this.outerIndex].push(this.todo.value);
+
+  //   console.log("Todo Value: ", this.todo.value);
+  //   console.log("arrays: ", this.clientTodoArrays);
+
+  //   this.todo.reset();
+  //   this.toggleAddTodoOverlay(this.innerIndex, this.outerIndex);
+  // }
+
+  // toggleAddTodoOverlay(innerIndex: number, outerIndex: number){
+  //   this.innerIndex = innerIndex;
+  //   this.outerIndex = outerIndex;
+  //   console.log('selected index: ', this.innerIndex, ' ', this.outerIndex);
+  //   this.isAddTodoOverlayOpened = !this.isAddTodoOverlayOpened;
+  // }
 
 
 }

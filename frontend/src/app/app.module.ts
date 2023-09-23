@@ -85,6 +85,7 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
 import { SocketIoModule } from "ngx-socket-io";
 import { VideoRoomComponent } from './video-room/video-room.component';
 import { ClientRequestsComponent } from './client-requests/client-requests.component';
+import { TicketRequestComponent } from './ticket-request/ticket-request.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { ClientRequestsComponent } from './client-requests/client-requests.compo
     ClientDashboardComponent,
     VideoRoomComponent,
     ClientRequestsComponent,
+    TicketRequestComponent,
   ],
   imports: [
     BrowserModule,

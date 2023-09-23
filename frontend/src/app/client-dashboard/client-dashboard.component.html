@@ -82,27 +82,27 @@
               <form #requestForm="ngForm" (ngSubmit)="submitRequestForm(requestForm)">
 
                 <div class="form-item">
-                  <label class="errMsg" for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project<sup>*</sup></label>
-                  <select name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" ngModel required>
+                  <label class="{{projectSelectedError ? 'errMsg' : ''}}" for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project<sup>*</sup></label>
+                  <select class="{{projectSelectedError ? 'errBorder' : ''}}" name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('project')">
                     <option *ngFor="let project of clientData.projects" [value]="project.name" (click)="stopPropagation($event)">{{ project.name }}</option>
                   </select>
                 </div>
 
                 <div class="form-item">
-                  <label for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary<sup>*</sup></label>
-                  <input type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)" ngModel required>
+                  <label class="{{summaryError ? 'errMsg' : ''}}" for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary<sup>*</sup></label>
+                  <input class="{{summaryError ? 'errBorder' : ''}}" type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('summary')">
                 </div>
 
                 <div class="form-item">
-                  <label for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description<sup>*</sup></label>
-                  <quill-editor id="description" name="description" [trimOnValidation]="true" (click)="stopPropagation($event)" ngModel [required]="true"></quill-editor>
+                  <label class="{{descriptionError ? 'errMsg' : ''}}" for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description<sup>*</sup></label>
+                  <quill-editor class="{{descriptionError ? 'errBorder' : ''}}" id="description" name="description" [trimOnValidation]="true" (click)="stopPropagation($event)" ngModel [required]="true" (ngModelChange)="inputChanged('description')"></quill-editor>
                 </div>
 
                 <br> <br> <br>
 
                 <div class="form-item">
-                  <label for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority<sup>*</sup></label>
-                  <select id="priority" name="priority" (click)="stopPropagation($event)" ngModel required>
+                  <label class="{{priorityError ? 'errMsg' : ''}}" for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority<sup>*</sup></label>
+                  <select class="{{priorityError ? 'errBorder' : ''}}" id="priority" name="priority" (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('priority')">
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
@@ -111,7 +111,7 @@
 
                 <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button> <br> <br>
 
-                <span class="errMsg">Please complete all fields marked with <sup>*</sup></span>
+                <span class="errMsg" *ngIf="projectSelectedError || summaryError || descriptionError || priorityError">Please complete all fields marked with <sup>*</sup></span>
 
               </form>
             </div>
@@ -141,7 +141,7 @@
 
               <tbody>
                 <tr class="odd:bg-white even:bg-slate-200" *ngFor="let request of requestsMade">
-                  <td class="text-left pl-2 pt-2">{{request.projectName}}</td>
+                  <td class="text-left pl-2 pt-2">{{request.projectName ? request.projectName : request.summary}}</td>
                   <td class="text-left pt-2">{{request.type}}</td>
                   <td class="text-left pl-4 pt-2">{{request.status}}</td>
                   <td class="text-left pl-4 pt-2">{{convertToDate(request.id)}}</td>

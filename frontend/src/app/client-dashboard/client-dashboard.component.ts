@@ -16,6 +16,7 @@ import { response } from 'express';
 export class ClientDashboardComponent implements OnInit {
   loggedInClient$!: Observable<client>;
 
+
   loggedInClientObject!: client;
   //panel expansions
   isProjectExpanded = false;
@@ -30,6 +31,10 @@ export class ClientDashboardComponent implements OnInit {
   priorityError = false;
 
   constructor(private authService: AuthService, private router: Router, private clientService: ClientService, private snackBar: MatSnackBar) {
+    this.getClient();
+  }
+
+  getClient() {
     this.loggedInClient$ = this.authService.getLoggedInClient();
 
     this.loggedInClient$.subscribe((loggedInClient) => {
@@ -68,6 +73,7 @@ export class ClientDashboardComponent implements OnInit {
           this.toggleProjectExpansion();
           form.resetForm();
           this.openSnackBar("Request Sent", "OK");
+          this.getClient();
         },
         (err) => {
           console.log("recieved error:", err);
@@ -81,17 +87,18 @@ export class ClientDashboardComponent implements OnInit {
       form.value.description = form.value.description.replace(/<\/?p>/g, '');
       console.log('Form submitted!', form.value);
 
-      // this.clientService.addTicketRequest(form.value.projectSelected, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id).subscribe(
-      //   (response) => {
-      //     console.log("recieved client response", response);
-      //     this.toggleRequestExpansion();
-      //     form.resetForm();
-      //     this.openSnackBar("Request Sent", "OK");
-      //   },
-      //   (err) => {
-      //     console.log("received error: ", err);
-      //   }
-      // )
+      this.clientService.addTicketRequest(form.value.projectSelected, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id).subscribe(
+        (response) => {
+          console.log("recieved client response", response);
+          this.toggleRequestExpansion();
+          form.resetForm();
+          this.openSnackBar("Request Sent", "OK");
+          this.getClient();
+        },
+        (err) => {
+          console.log("received error: ", err);
+        }
+      )
     } else {
       if(form.value.projectSelected == ""){
         this.projectSelectedError = true;
@@ -108,6 +115,25 @@ export class ClientDashboardComponent implements OnInit {
       if(form.value.priority == ""){
         this.priorityError = true;
       }
+    }
+  }
+
+  inputChanged(componentType: string) {
+    switch (componentType) {
+      case 'project':
+        this.projectSelectedError = false;
+        break;
+      case 'summary':
+        this.summaryError = false;
+        break;
+      case 'description':
+        this.descriptionError = false;
+        break;
+      case 'priority':
+        this.priorityError = false;
+        break;
+      default:
+        break;
     }
   }
 

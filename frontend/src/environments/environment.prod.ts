@@ -13,4 +13,6 @@ export const environment = {
   CLIENT_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/client',
   FRONTEND_LOGIN_URL: 'https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/login',
   FRONTEND_CLIENT_LOGIN_URL: 'https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/client-login',
+  FRONTENT_CLIENT_DASHBOARD_URL: 'http://localhost:4200/client-dashboard',
+  CLIENT_ROOM: 'http://localhost:4200/room/'
 };

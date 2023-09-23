@@ -11,5 +11,7 @@ export const environment = {
   NOTIFICATION_URL: 'http://localhost:3000/api/notifications',
   CLIENT_URL: 'http://localhost:3000/api/client',
   FRONTEND_LOGIN_URL: 'http://localhost:4200/login',
-  FRONTEND_CLIENT_LOGIN_URL: 'http://localhost:4200/client-login'
+  FRONTEND_CLIENT_LOGIN_URL: 'http://localhost:4200/client-login',
+  FRONTENT_CLIENT_DASHBOARD_URL: 'http://localhost:4200/client-dashboard',
+  CLIENT_ROOM: 'http://localhost:4200/room/'
 };
