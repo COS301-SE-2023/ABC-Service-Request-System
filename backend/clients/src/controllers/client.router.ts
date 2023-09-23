@@ -164,6 +164,57 @@ router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
     }
 ));
 
+router.put("/edit_priorities", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
+  async(req,res) => {
+    const projectId = req.body.projectId;
+    const clientId = req.body.clientId;
+    const lowPriorityTime = req.body.lowPriorityTime;
+    const mediumPriorityTime = req.body.mediumPriorityTime;
+    const highPriorityTime = req.body.highPriorityTime;
+
+    try {
+      const client = await ClientModel.findOne({id: clientId});
+
+      if(client){
+          console.log("client found");
+          const project = client.projects.find((project) => {
+              return project.id == projectId;
+          });
+
+          if(project){
+              console.log("project found: ", project);
+              if (project.lowPriorityTime) {
+                project.lowPriorityTime = lowPriorityTime;
+              }
+              if (project.mediumPriorityTime) {
+                project.mediumPriorityTime = mediumPriorityTime;
+              }
+              if (project.highPriorityTime) {
+                project.highPriorityTime = highPriorityTime; 
+              }
+              // project.lowPriorityTime = lowPriorityTime;
+              // project.mediumPriorityTime = mediumPriorityTime;
+              // project.highPriorityTime = highPriorityTime;
+
+              // console.log("assigned groups: ", project.assignedGroups);
+              console.log('priorities updated');
+              console.log(project.lowPriorityTime);
+              console.log(project.mediumPriorityTime);
+              console.log(project.highPriorityTime);
+              await client.save();
+              res.status(200).send(project);
+          } else {
+              res.status(404).send("Project not found");
+          }
+      } else {
+          res.status(404).send("Client not found");
+      }
+    } catch (error) {
+        res.status(500).send("Internal server error removing group from clients project");
+    }
+  }
+))
+
 //add a group to a project given the client id and project id
 router.post("/add_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
@@ -210,8 +261,15 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
             name: req.body.projectName,
             logo: req.body.logo,
             color: req.body.color,
-            assignedGroups: req.body.groups
+            assignedGroups: req.body.groups,
+
+            lowPriorityTime: req.body.lowPriorityTime,
+            mediumPriorityTime: req.body.mediumPriorityTime,
+            highPriorityTime: req.body.highPriorityTime,
         }
+
+        console.log('hiii ;)');
+        console.log(newProject.lowPriorityTime);
 
         try{
             const client = await ClientModel.findOne({id: clientId});
@@ -222,11 +280,11 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
                   res.status(400).send("Project name already exists");
                   return;
                 }
-
+                // console.log(newProject);
                 newProject.id = (client.projects.length + 1).toString();
-
                 client.projects.push(newProject);
                 await client.save();
+                console.log('DRUGS');
 
                 res.status(200).send(client);
             }
@@ -274,8 +332,14 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
             name: req.body.projectName,
             logo: req.body.logo,
             color: req.body.color,
-            assignedGroups: req.body.groups
+            assignedGroups: req.body.groups,
+            lowPriorityTime: req.body.lowPriorityTime,
+            mediumPriorityTime: req.body.mediumPriorityTime,
+            highPriorityTime: req.body.highPriorityTime,
         }
+
+        console.log('helooooooo;)');
+        console.log(newProject.lowPriorityTime);
 
         // create new client
         const newClient = new ClientModel({

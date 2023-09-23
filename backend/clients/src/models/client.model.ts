@@ -10,6 +10,9 @@ export interface project {
     color: string,
     // tickets?: ticket [],
     assignedGroups?: group [],
+    lowPriorityTime: string,
+    mediumPriorityTime: string,
+    highPriorityTime:string,
 }
 
 export interface client {
@@ -33,6 +36,9 @@ export const projectSchema = new Schema<project>(
         color: { type: String, required: true},
         // tickets: { type: [ticketSchema], required: false},
         assignedGroups: { type: [groupSchema], required: false},
+        lowPriorityTime: { type: String, required: false},
+        mediumPriorityTime: { type: String, required: false},
+        highPriorityTime:{ type: String, required: false},
     }
 )
 

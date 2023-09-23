@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit{
   allTickets!: any[];
 
   navbarIsCollapsed!: boolean;
+  selectedProjectName = '';
+
 
   constructor(private router: Router, public authService: AuthService,
     public navbarService: NavbarService, public ticketService: TicketsService) {}
@@ -32,8 +34,13 @@ export class DashboardComponent implements OnInit{
     });
     this.ticketService.getAllTickets().subscribe((tickets) => {
       this.allTickets = tickets;
-      // Perform filtering here after tickets are fetched
-      this.filterTicketsByStatus(this.currentStatus);
+      this.filterTicketsByStatusAndProject(this.currentStatus);
+    });
+    this.authService.selectedProject$.subscribe((project) => {
+      this.selectedProjectName = project;
+      console.log('in dashboard ngOninit...');
+      console.log('currently selected project:');
+      console.log(this.selectedProjectName);
     });
   }
 
@@ -104,13 +111,25 @@ export class DashboardComponent implements OnInit{
   }
 
   currentStatus = 'all';
-  filterTicketsByStatus(status: string): void {
+  filterTicketsByStatusAndProject(status: string): void {
     this.currentStatus = status;
     if (status === 'all') {
-      this.filteredTickets = this.allTickets;
+      this.filteredTickets = this.allTickets.filter(
+        (ticket) => ticket.project === this.selectedProjectName
+      );
     } else {
-      this.filteredTickets = this.allTickets.filter(ticket => ticket.status.toLowerCase() === status);
+      this.filteredTickets = this.allTickets.filter(
+        (ticket) =>
+          ticket.status.toLowerCase() === status &&
+          ticket.project === this.selectedProjectName
+      );
     }
+  }
+
+  onProjectChanged(newProjectName: string) {
+    this.selectedProjectName = newProjectName;
+    console.log('in dashboard.compionent...');
+    console.log(this.selectedProjectName);
   }
 
 }

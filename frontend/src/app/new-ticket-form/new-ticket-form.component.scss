@@ -127,6 +127,25 @@
   display: flex;
   flex-basis: 50%;
   flex-direction: column;
+
+  .toggleEndDate {
+    display:flex;
+  }
+
+  p {
+    margin-left: 10px;
+  }
+
+  .endDateSection label {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .endDateSection input {
+    display: block;
+    margin-top: 5px;
+  }
 }
 
 .ticket-information-col1 .priorityLabel {

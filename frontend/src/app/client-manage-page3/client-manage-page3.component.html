@@ -103,7 +103,7 @@
 
   <h3>Assigned Groups</h3>
 
-  <div class="all-groups">
+  <div class="all-groups"> 
     <div class="group-tab" *ngFor="let group of selectedGroups; let i = index">
       <p>{{ group.groupName }}</p>
       <i class="fa-solid fa-xmark" [tabindex]="i" (click)="removeGroupTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
@@ -119,6 +119,51 @@
     <button class="add-btn-for-group" (click)="toggleAddGroupOverlay()" type="button" *ngIf="groupSelected">
       <i class="fa-solid fa-plus"></i>
     </button>
+  </div>
+
+  <h3>Priority Times</h3>
+  <div class="priority-section">
+    <div class="priority-text">
+      <div class = "priority-text-align">
+        <p>What does priority mean to you?</p>
+        <p class = "smaller-text"> Use the format: 2w 4d 6h 45m </p>
+        <p class = "smaller-text"> • w = weeks </p>
+        <p class = "smaller-text">  • d = days </p>
+        <p class = "smaller-text">  • h = hours </p>
+        <p class = "smaller-text">  • m = minutes </p>
+        <!-- <i class="fa-solid fa-question"></i> -->
+      </div>
+      <div class = "priority-low">
+        <div class = "low-container">
+          <p class="text-low">
+            LOW
+          </p>
+        </div>
+
+        <input class="low-input" type="text" placeholder="{{currLow}}" [(ngModel)]="lowPriority" style="outline: none;">
+      </div>
+
+      <div class = "priority-medium">
+        <div class = "medium-container">
+          <p class="medium-low">
+            MEDIUM
+          </p>
+        </div>
+
+        <input class="medium-input" type="text" placeholder="{{currMed}}" [(ngModel)]="mediumPriority" style="outline: none;">
+      </div>
+
+      <div class = "priority-high">
+        <div class = "high-container">
+          <p class="high-low">
+            HIGH
+          </p>
+        </div>
+
+        <input class="high-input" type="text" placeholder="{{currHigh}}" [(ngModel)]="highPriority" style="outline: none;">
+      </div>
+
+    </div>
   </div>
 
   <button class="complete-btn" (click)="onUpdateAndBack()">Update</button>

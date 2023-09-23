@@ -15,15 +15,16 @@
       <div class="project-details">
         <label>Project<span class="required">*</span></label>
         <select formControlName="project" required (change)="projectChanged($event)">
+          <option disabled selected value="">Select a project</option>
           <option *ngFor="let project of allProjects" [value]="project.name">{{ project.name }}</option>
         </select>
       </div>
 
       <div class="ticket-details">
-        <label>Summary<span class="required">*</span></label>
-        <input type="text" formControlName="summary" required>
+        <label>Ticket Summary<span class="required">*</span></label>
+        <input placeholder="Enter ticket summary" type="text" formControlName="summary" required>
 
-        <label class="descriptionLabel">Description<span class="required">*</span></label>
+        <label class="descriptionLabel">Ticket Description<span class="required">*</span></label>
         <quill-editor formControlName="description" [trimOnValidation]="true"></quill-editor>
         <div class="generateTodoButton">
           <button id="generate-todo-button" (click) = "generateTodo()">Generate To-do's</button>
@@ -68,11 +69,18 @@
 
       <div class="ticket-information">
         <div class="ticket-information-col1">
-          <label>End Date<span class="required">*</span></label>
-          <input type="date" formControlName="endDate" required>
+          <div class = "toggleEndDate">
+            <input type="checkbox" (change)="toggleDate()">
+            <p>Custom End Date</p>
+          </div>
+          <div class = "endDateSection" *ngIf = "isCustomEndDate">
+            <label>End Date<span class="required">*</span></label>
+            <input class = "endDateCustom" type="date" formControlName="endDateCustom" required>
+          </div>
 
           <label class="priorityLabel">Priority<span class="required">*</span></label>
           <select formControlName="priority" required>
+            <option disabled selected value="">Select ticket's priority</option>
             <option value="High">High</option>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
@@ -88,11 +96,13 @@
         <div class="assignedInformation-col1">
           <label class="groupLabel">Group<span class="required">*</span></label>
           <select formControlName="group" required (change)="onGroupChanged($event)">
+            <option disabled selected value="">Select a group</option>
             <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
           </select>
 
           <label class="assignedLabel">Assigned<span class="required">*</span></label>
           <select formControlName="assigned" required (change)="onAssignedChange()">
+            <option disabled selected value="">Select a person to assign</option>
             <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
           </select>
         </div>

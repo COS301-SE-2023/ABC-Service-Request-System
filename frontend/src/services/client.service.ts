@@ -134,6 +134,16 @@ export class ClientService {
     return this.http.post<project>(`${this.CLIENT_URL}/add_group`, body, {headers});
   }
 
+  editPriorities(clientId: string, projectId: string, lowPriorityTime: string, mediumPriorityTime:string, highPriorityTime:string) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    // console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {clientId, projectId, lowPriorityTime, mediumPriorityTime, highPriorityTime};
+    // console.log('body in service: ', body);
+    return this.http.put<project>(`${this.CLIENT_URL}/edit_priorities`, body, {headers});
+  }
+
   addProject(formData: any) {
     this.token = localStorage.getItem('token'); // retrieve token from localStorage
     // console.log('Token from storage:', this.token);

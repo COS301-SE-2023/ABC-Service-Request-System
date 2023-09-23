@@ -14,8 +14,10 @@ export class SearchBarComponent {
   }
 
   @Output() filterChangeEvent = new EventEmitter<string>();
+  @Output() filterChangeProjectEvent = new EventEmitter<string>();
   filterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.filterChangeEvent.emit(selectElement.value);
+    this.filterChangeProjectEvent.emit('project');
   }
 }

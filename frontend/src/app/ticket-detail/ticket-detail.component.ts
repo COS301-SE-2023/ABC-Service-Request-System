@@ -5,7 +5,7 @@ import { tickets } from '../data';
 import { Subscription } from 'rxjs';
 import { TicketsService } from 'src/services/ticket.service';
 import { AuthService } from 'src/services/auth.service';
-import { ticket, attachment, comment, worklog } from "../../../../backend/tickets/src/models/ticket.model";
+import { ticket, attachment, comment, worklog, history } from '../../../../backend/tickets/src/models/ticket.model';
 import { FormControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ import { user } from "../../../../backend/users/src/models/user.model";
 import { NavbarService } from 'src/services/navbar.service';
 import { NotificationsService } from 'src/services/notifications.service';
 import { tick } from '@angular/core/testing';
+// import { history } from '../../../../backend/tickets/src/models/ticket.model';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -54,6 +55,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   uploadProgress = 0;
   attachmentsOnly = false;
   commentsOnly = false;
+  historyOnly = false;
   allComments = false;
 
   userId !: string;
@@ -68,6 +70,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   todosChanged: boolean[] = [];
   numReversed = 0;
+  numReversedHistory = 0;
 
   isFormVisible = false;
   description = '';
@@ -76,6 +79,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   workLogsOnly = false;
 
   activeTab = 'All';
+  lowPriority = false;
+  medPriority=false;
+  highPriority=false;
 
 
   toggleForm() {
@@ -164,12 +170,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 //     }
 // }
 
-
-
-
-
-
-
   onFileChange(event: any) {
     const file = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
     this.file = file as File | null;
@@ -236,6 +236,15 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
             this.currentAssigned = response.assigned;
+            
+            if (response.priority == 'Low') {
+              this.lowPriority = true;
+            } else if (response.priority == 'Medium'){
+              this.medPriority = true;
+            } else {
+              this.highPriority = true;
+            }
+
             this.showAll();
             this.authService.getUserNameByEmail(response.assignee).subscribe(
               (response) => {
@@ -564,15 +573,18 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   viewAttachments(): void {
     this.attachmentsOnly = true;
+    this.historyOnly = false;
   }
 
   viewAllComments(): void {
     this.attachmentsOnly = false;
+    this.historyOnly = false;
   }
 
   allActivities: (comment | worklog)[] = [];
 
   displayedComments?: comment[] = [];
+  displayedHistory?: history[] = [];
 
   displayedItems: (comment | worklog)[] = [];
 
@@ -628,24 +640,48 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.numReversed = 1;
       }
     }
+    this.historyOnly = false;
+    this.displayedHistory = [];
+    this.displayedWorklogs = [];
   }
 
   showAttachmentsOnly(): void {
+    this.historyOnly = false;
+    this.displayedWorklogs = [];
     this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
     console.log(this.displayedComments);
   }
 
   showCommentsOnly(): void {
+    this.historyOnly = false;
+    this.displayedWorklogs = [];
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
+
+  showHistoryOnly(): void {
+    this.displayedWorklogs = [];
+    this.displayedComments = [];
+    this.historyOnly = true;
+    if (this.ticket.history != null) {
+      this.displayedHistory = this.ticket.history;
+    }
+
+    if (this.numReversedHistory != 1) {
+      this.displayedHistory?.reverse();
+      this.numReversed = 1;
+    }
+
+    // console.log(this.displayedHistory );
+  }
+
 
   displayedWorklogs?: worklog [] = [];
 
   showWorkLogs(): void {
     this.activeTab = 'Work Logs';
     this.displayedComments = []; // Clear the displayed comments array when showing work logs
-
+    this.displayedHistory = [];
     if (this.ticket) {
       if (this.ticket.workLogs) { // Check if workLogs property is defined
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();

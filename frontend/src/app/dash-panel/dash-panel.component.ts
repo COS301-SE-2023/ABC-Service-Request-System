@@ -29,6 +29,11 @@ export class DashPanelComponent implements OnInit{
     this.isDarkMode = this.themeService.isDarkMode();
   }
 
+  onSelectProject(project: any) {
+    this.selectedProject = project;
+    this.authService.setSelectedProject(project);
+  }
+
   ngOnInit(): void {
     const isProjectInitialized = this.clientService.getInitialized();
 
@@ -180,7 +185,7 @@ export class DashPanelComponent implements OnInit{
     this.selectedProject = project;
 
     this.clientService.setProjectsObservables(this.selectedProject);
-
+    this.authService.setSelectedProject(this.selectedProject.name);
     this.toggleProjectOverlay();
   }
 

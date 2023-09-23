@@ -42,8 +42,8 @@
 
         <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
-        <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button>
-        <button class="activity-filter-button" (click)="highlightButton($event);">History</button>
+        <!-- <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Internal Note</button> -->
+        <button class="activity-filter-button" (click)="highlightButton($event); showHistoryOnly()">History</button>
         <button class="activity-filter-button" [class.selected]="activeTab === 'Work Logs'" (click)="highlightButton($event); showWorkLogs()">Work Logs</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showAttachmentsOnly()">Attachments</button>
 
@@ -215,6 +215,12 @@
           </div> -->
         </div>
 
+        <div class = "history" *ngIf = "historyOnly">
+          <div *ngFor = "let history of displayedHistory">
+            <app-history-panel [history] = "history"></app-history-panel>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -237,8 +243,8 @@
           <div class="modal-content">
               <!-- Link form with Angular formGroup -->
               <form [formGroup]="workLogForm" (ngSubmit)="onSubmit()">
-                  <h2 class="modal-header" style="color: blue;">Time tracking</h2>
-                  <hr style="border-color: blue; width: 100%;">
+                  <h2 class="modal-header" >Time tracking</h2>
+                  <hr style="border-color: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,); width: 100%; margin-bottom: 15px">
                   <div class="time-fields">
                       <div class="form-group">
                           <label for="timeSpent">Time Spent:</label>
@@ -273,7 +279,7 @@
 
                   </div>
                   <div class="button-group">
-                      <button type="submit">Save</button>
+                      <button class = "save-button-worklog" type="submit">Save</button>
                       <button type="button" (click)="cancel()">Cancel</button>
                   </div>
               </form>
@@ -311,8 +317,15 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <div class="expansion-item">
-            <p class="bold-label">Assignee </p>
+          <div class = "expansion-item">
+            <p>Group   `</p>
+            <div class="content-2">
+              <p class="assigned-text-2">{{assignedGroup}}</p>
+            </div>
+          </div>
+
+          <div class="expansion-item">  
+            <p class="bold-label">Assignee</p>
             <div class="content">
               <div class="user-img">
                 <img src = {{assigneeImage}} alt= "assignee-image">
@@ -322,26 +335,45 @@
           </div>
 
           <div class="expansion-item">
-            <p>Assigned </p>
+            <p>Assigned</p>
             <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned"></app-user-dropdown>
           </div>
 
           <div class="expansion-item flex-start">
-            <p>Priority </p>
-            <p class="text-center">
-              <span class="font-medium uppercase tracking-wider ml-8 text-lg priority
-                {{ ticket.priority === 'Low' ? 'text-green-800 bg-green-200' :
-                   ticket.priority === 'Medium' ? 'text-yellow-800 bg-yellow-200' :
-                   ticket.priority === 'High' ? 'text-red-800 bg-red-200' : '' }}
-                rounded-lg">
-                {{ ticket.priority }}
-              </span>
-            </p>
+            <p class = "priority-text">Priority </p>
+            <div *ngIf = "lowPriority" class = "priority-low">
+              <div class = "low-container">
+                <p class="text-low">
+                  LOW
+                </p>
+              </div> 
+            </div>
+
+            <div *ngIf = "medPriority" class = "priority-medium">
+              <div class = "medium-container">
+                <p class="medium-low"> 
+                  MEDIUM
+                </p>
+              </div>
+            </div>
+
+            <div *ngIf = "highPriority" class = "priority-high">
+              <div class = "high-container">
+                <p class="high-low">
+                  HIGH
+                </p>
+              </div>
+            </div>
+      
           </div>
 
           <div class="expansion-item flex-start">
-            <p>Created </p>
-            <p class="left-margin">27 May 2023 &#x2022; 19:28</p>
+            <p class = "created-text">Created</p>
+            <p class="left-margin">{{ticket.startDate}}</p>
+          </div>
+          <div class="expansion-item flex-start">
+            <p>Deadline</p>
+            <p class="left-margin">{{ticket.endDate}}</p>
           </div>
         </mat-expansion-panel>
       </div>

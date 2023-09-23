@@ -9,6 +9,7 @@ import { group } from '../../../../backend/groups/src/models/group.model';
 import { UserModel } from '../../../../backend/users/src/models/user.model';
 import { switchMap } from 'rxjs';
 import { NavbarService } from 'src/services/navbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-teams-page',
@@ -26,6 +27,8 @@ export class TeamsPageComponent implements OnInit{
   userImages: Map<string, string> = new Map();
 
   isModalVisible = false;
+  isRemoveGroupOverlayOpened = false;
+  isRemoveUserOverlayOpened = false;
 
   navbarIsCollapsed!: boolean;
   // selectedGroup: any = null;
@@ -33,7 +36,15 @@ export class TeamsPageComponent implements OnInit{
 
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private userService: UserService,
-    private changeDetector: ChangeDetectorRef, private navbarService: NavbarService) {}
+    private changeDetector: ChangeDetectorRef, private navbarService: NavbarService,
+    private snackBar: MatSnackBar) {}
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
 
   onGroupSelected(groupId: string): void {
     this.groupId = groupId;
@@ -168,9 +179,38 @@ export class TeamsPageComponent implements OnInit{
     this.selectedGroup = group;
   }
 
+  userToRemoveName = '';
+  userToRemoveObject!:user;
+  toggleRemoveUserOverlay(vari:any, user:any):void {
+    if (vari == null) {
+      this.isRemoveUserOverlayOpened = false;
+    } else {
+      if (user) {
+        this.isRemoveUserOverlayOpened = true;
+        this.userToRemoveName = user.name + ' ' + user.surname;
+        this.userToRemoveObject = user;
 
+      }
+    }
+  }
+
+  groupToRemoveName = '';
+  groupToRemoveObject!: group;
+  toggleRemoveGroupOverlay(vari:any, group:any):void {
+    if (vari == null) {
+      this.isRemoveGroupOverlayOpened = false;
+    } else {
+      if (group) {
+        this.isRemoveGroupOverlayOpened = true;
+        this.groupToRemoveName = group.groupName;
+        this.groupToRemoveObject = group;
+      }
+    }
+
+  }
+
+  
   removeGroup(group: group): void {
-
     group.people?.forEach(userId => {
       this.userService.deleteUserGroup(userId, group.id).subscribe(
         (response) => {
@@ -185,6 +225,8 @@ export class TeamsPageComponent implements OnInit{
     this.groupService.deleteGroup(group.id).subscribe(
       (response) => {
         this.groups = this.groups.filter(g => g.id !== group.id);
+        this.isRemoveGroupOverlayOpened = false;
+        this.showSnackBar('Group: ' + this.groupToRemoveName + ' deleted!');
       },
       (error) => {
         console.log(error);
@@ -217,7 +259,9 @@ export class TeamsPageComponent implements OnInit{
       (userResponse) => {
         console.log(userResponse);
         this.onGroupSelected(this.groupId);
-        location.reload();
+        this.isRemoveUserOverlayOpened = false;
+        this.showSnackBar(this.userToRemoveName + ' has been removed from ' + this.selectedGroup.groupName);
+        // location.reload();
       },
       (error) => {
         console.log(error);

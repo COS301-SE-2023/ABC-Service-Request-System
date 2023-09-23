@@ -16,6 +16,13 @@ interface DecodedToken {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
+  private selectedProjectSource = new BehaviorSubject<any>(null);
+  selectedProject$ = this.selectedProjectSource.asObservable();
+
+  setSelectedProject(project: any) {
+    this.selectedProjectSource.next(project);
+  }
+
   USER_URL = environment.USER_URL;
 
   private role: string[] = [];

@@ -13,6 +13,7 @@ import { group } from '../../../../backend/groups/src/models/group.model';
 import{ GroupService } from 'src/services/group.service';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ClientService } from 'src/services/client.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -33,6 +34,9 @@ export class NewTicketFormComponent implements OnInit {
   todoArray: string[] = [];
   todoChecked: boolean[] = [];
   isLoading = false;
+  currentProject!: any;
+  isCustomEndDate = false;
+  Selectagroup = 'Select a group';
 
   constructor(
     private ticketService: TicketsService,
@@ -43,7 +47,8 @@ export class NewTicketFormComponent implements OnInit {
     private router: Router,
     private groupService: GroupService,
     private navbarService: NavbarService,
-    private clientService: ClientService) {
+    private clientService: ClientService,
+    private snackBar: MatSnackBar) {
     this.ticketForm = this.formBuilder.group({
       summary: '',
       description: '',
@@ -52,12 +57,13 @@ export class NewTicketFormComponent implements OnInit {
       group: '',
       priority: '',
       startDate: '',
-      endDate: '',
+      endDateCustom: '',
       status: '',
       comments: '',
       project: '',
       todo: ''
     });
+
 
     this.assigneeName = '';
   }
@@ -102,6 +108,14 @@ export class NewTicketFormComponent implements OnInit {
     // this.todoChecked.length = 0;
   }
 
+  toggleDate() {
+    if (this.isCustomEndDate == false) {
+      this.isCustomEndDate = true;
+    } else {
+      this.isCustomEndDate = false;
+    }
+  }
+
   onGroupChanged(event: Event) {
     const groupSelectedId = (event.target as HTMLSelectElement).value;
     console.log('group selected id: ', groupSelectedId);
@@ -126,12 +140,19 @@ export class NewTicketFormComponent implements OnInit {
     });
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
+
   projectChanged(event: Event){
     const selectedProjectName = (event.target as HTMLSelectElement).value;
     const selectedProject = this.allProjects.find((project) => project.name === selectedProjectName);
     if (selectedProject) {
       console.log('Selected Project:', selectedProject);
-
+      this.currentProject = selectedProject;
       if(selectedProject.assignedGroups)
         this.allGroups = selectedProject.assignedGroups;
 
@@ -159,12 +180,67 @@ export class NewTicketFormComponent implements OnInit {
       const assigned = this.assignedUser.emailAddress;
       const group = ticketFormValues.group;
       const priority = ticketFormValues.priority;
+      let endDateCustom = '';
+      if (this.isCustomEndDate) {
+        endDateCustom = this.formatDate(ticketFormValues.endDateCustom);
+      }
 
       // get Current Date in String Format
       const currentDate = new Date();
 
       const startDate = this.formatDate(this.stringFormatDate(currentDate));
-      const endDate = this.formatDate(ticketFormValues.endDate);
+
+      const lowPriorityTime = this.currentProject.lowPriorityTime;
+      const mediumPriorityTime = this.currentProject.mediumPriorityTime;
+      const highPriorityTime = this.currentProject.highPriorityTime;
+      //this works
+      let numericValue = parseInt(lowPriorityTime);
+      let unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      if (priority == 'Low') {
+        numericValue = parseInt(lowPriorityTime);
+        unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      } else if (priority == 'Medium') {
+        numericValue = parseInt(mediumPriorityTime);
+        unit = mediumPriorityTime.charAt(mediumPriorityTime.length - 1);
+      } else if (priority == 'High') {
+        numericValue = parseInt(highPriorityTime);
+        unit = highPriorityTime.charAt(highPriorityTime.length - 1);
+      }
+
+      const endDate = new Date(currentDate);
+      if (priority === 'Low') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (priority === 'Medium') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (priority === 'High') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      }
+
+      let endDateString = endDate.toLocaleDateString();
+      if (this.isCustomEndDate) {
+        endDateString = endDateCustom;
+      }
+      console.log('99999');
+      console.log(endDateString);
+
       const status = "Active";
       const comments = ticketFormValues.comments;
       const description = trimmedDescription;
@@ -172,12 +248,12 @@ export class NewTicketFormComponent implements OnInit {
       const project = ticketFormValues.project;
 
 
-      console.log("todoArray.length: ", this.todoArray.length);
+      // console.log("todoArray.length: ", this.todoArray.length);
       for (let i = 0; i < this.todoArray.length; i++) {
         this.todoChecked.push(false);
       }
 
-      console.log("todoChecked", this.todoChecked);
+      // console.log("todoChecked", this.todoChecked);
 
 
       let groupName = "";
@@ -186,12 +262,12 @@ export class NewTicketFormComponent implements OnInit {
           groupName = response.groupName;
 
            // adding new ticket
-      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDate, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
+      this.ticketService.addTicket(summary, description, assignee, assigned, groupName, priority, startDate, endDateString, status, comments, project, this.todoArray, this.todoChecked).subscribe((response: any) => {
         const newTicketId = response.newTicketID;
-        console.log(response);
+        // console.log(response);
 
         this.groupService.updateTicketsinGroup(group, newTicketId).subscribe((response: any) => {
-          console.log(response);
+          // console.log(response);
           }
         );
         // should navigate to ticket directly
@@ -224,6 +300,7 @@ export class NewTicketFormComponent implements OnInit {
 
       });
     }
+
   );
 
 
@@ -239,7 +316,7 @@ export class NewTicketFormComponent implements OnInit {
         group: group,
         priority: priority,
         startDate: startDate,
-        endDate: endDate,
+        endDate: endDateString,
         status: status,
         comments: comments,
         description: description,
@@ -257,9 +334,7 @@ export class NewTicketFormComponent implements OnInit {
     }
     else {
       this.markFormControlsAsTouched(this.ticketForm);
-
-      // Handle invalid form submission
-      console.log('Form is invalid. Please fill in all required fields.');
+      this.showSnackBar('Please fill out all details before submitting');
     }
   }
 
