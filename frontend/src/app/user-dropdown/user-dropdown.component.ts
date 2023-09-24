@@ -94,7 +94,7 @@ export class UserDropdownComponent implements OnInit {
             console.log(response);
             this.currentAssigned = user.name;
             this.currentAssignedImg = user.profilePhoto;
-            location.reload();
+            // location.reload();
           },
           (error) => {
             console.error('Error updating ticket.history:', error);
