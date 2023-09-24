@@ -54,33 +54,42 @@
   display: flex;
   float: right;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 50px;
   font-family: 'Poppins', sans-serif;
+  width: 40%;
 }
 
-.header-container-right div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 50px;
-  width: 3em;
-  border-radius: 0.3em;
-}
+// .header-container-right div {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   height: 50px;
+//   width: 3em;
+//   border-radius: 0.3em;
+// }
 
 .header-container-right div:hover {
   background-color: rgba(116, 172, 205, 0.3);
   transition: 0.3s ease-in-out;
 }
 
+.notifications {
+  transform: translateY(0.3em);
+}
+
 .profile-photo{
   width: 2em;
   height: 2em;
+  border-radius: 50%;
+  overflow: hidden;
+  justify-self: flex-end !important;
+
   img {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   margin-right: 2em;
   cursor: pointer;

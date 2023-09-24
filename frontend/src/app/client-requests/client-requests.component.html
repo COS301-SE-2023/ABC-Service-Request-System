@@ -1,0 +1,191 @@
+<div class="requests-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
+
+  <!-- <select name="filter" id="filter" (change)="filterChange($event)"> -->
+  <!-- <select name="filter" id="filter">
+    <option value="all" selected>All</option>
+    <option value="active">Pending</option>
+    <option value="pending">Approved</option>
+    <option value="done">Rejected</option>
+  </select> -->
+
+  <div class="requests-inner-container">
+
+    <div class="calling-client" *ngFor="let client of callingClients">
+
+      <div class="header-wrapper">
+        <div class="img-wrapper">
+          <img src="{{client.profilePhoto}}" alt="user-logo">
+        </div>
+
+        <div class="client-info">
+          <p>{{client.name}} {{client.surname}}</p>
+          <p class="org">{{client.organisation}}</p>
+        </div>
+      </div>
+
+      <button (click)="joinCall(client.chatId!)">Join Call</button>
+    </div>
+
+    <div class="no-requests" *ngIf="clientRequests.length === 0">
+        <p>There are no new client requests</p>
+    </div>
+
+    <div class="outer-card-container" *ngFor="let clientRequest of clientRequests; let j = index">
+      <div class="card" *ngFor="let request of clientRequest.requests; let i = index">
+
+        <ng-container *ngIf="request.type === 'New Project Request'">
+          <div class="card-header">
+            <div class="client-details">
+              <div class="client-img">
+                  <img src="{{clientRequest.profilePhoto}}" alt="user-logo">
+              </div>
+
+              <div class="client-info">
+                <h3>{{clientRequest.name}} {{clientRequest.surname}}</h3>
+                <p>{{clientRequest.organisation}}</p>
+              </div>
+
+            </div>
+
+            <div class="requst-type">
+              {{request.type}}
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="requested-project-name">
+              <label for="requestedProjectName">Requested Project Name</label>
+              <div class="input-icon">
+                <input type="text" [(ngModel)]="request.projectName" name="requestedProjectName" id="requestedProjectName" #requestedProjectInput>
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+
+            <p class="additional-info-label">Additional Info</p>
+            <p class="additional-info" *ngIf="request.additionalInformation === undefined">No additional information was received with this request...</p>
+            <p class="additional-info text-left" *ngIf="request.additionalInformation !== undefined">{{request.additionalInformation}}</p>
+          </div>
+
+          <div class="card-buttons">
+            <button class="approve-btn" (click)="approveRequest(clientRequest, request.id, requestedProjectInput.value)">Approve</button>
+            <button class="reject-btn" (click)="rejectRequest(clientRequest, request.id)">Reject</button>
+          </div>
+        </ng-container>
+
+
+
+        <ng-container *ngIf="request.type === 'New Ticket Request'">
+
+          <app-ticket-request [clientRequest]="clientRequest" [request]="request"></app-ticket-request>
+
+          <!-- <div class="card-header">
+            <div class="client-details">
+              <div class="client-img">
+                  <img src="{{clientRequest.profilePhoto}}" alt="user-logo">
+              </div>
+
+              <div class="client-info">
+                <h3>{{clientRequest.name}} {{clientRequest.surname}}</h3>
+                <p>{{clientRequest.organisation}}</p>
+              </div>
+
+            </div>
+
+            <div class="requst-type">
+              {{request.type}}
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="requested-project-name">
+              <label for="projectSelected">Project</label>
+              <p class="input-p">{{request.projectSelected}}</p>
+            </div>
+
+            <div class="requested-project-name">
+              <label for="requestedSummary">Summary</label>
+
+              <div class="input-icon">
+                <input type="text" [(ngModel)]="request.summary" name="requestedSummary" id="requestedSummary" #requestedSummaryInput>
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="requested-project-name">
+              <label for="requestedDescription">Description</label>
+
+              <div class="input-icon">
+                  <quill-editor [(ngModel)]="request.description" name="requestedDescription" id="requestedDescription" [trimOnValidation]="true"></quill-editor>
+                  <i class="fa-solid fa-pencil"></i>
+              </div> <br> <br> <br> <br>
+            </div>
+
+            <div class="requested-project-name">
+              <label for="requestedPriority">Priority</label>
+
+              <div class="input-icon">
+                <select [(ngModel)]="request.priority" name="requestedPriority" id="requestedPriority">
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="requested-project-name">
+              <label for="requestedGroup">Group</label>
+
+              <div class="input-icon">
+                <select name="requestedGroup" id="requestedGroup" (change)="onGroupChanged($event)">
+                  <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+                </select>
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="requested-project-name">
+              <label for="requestedAssigned">Assigned</label>
+
+              <div class="input-icon">
+                <select name="requestedAssigned" id="requestedAssigned">
+                  <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
+                </select>
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-buttons">
+            <button class="approve-btn" (click)="approveTicketRequest()">Approve</button>
+            <button class="reject-btn" (click)="rejectRequest(clientRequest, request.id)">Reject</button>
+          </div> -->
+        </ng-container>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!--
+<div class="todo-overlay" *ngIf="isAddTodoOverlayOpened">
+  <div class="todo-overlay-inner-wrapper">
+    <h1>Add a todo</h1>
+    <textarea [formControl]="todo"></textarea>
+    <br>
+
+    <div class="todo-overlay-buttons">
+      <button class="add-todo-btn" (click)="addTodo()">Add Todo</button>
+      <button class="cancel-btn" (click)="toggleAddTodoOverlay(this.innerIndex, this.outerIndex)">Cancel</button>
+    </div>
+  </div>
+</div> -->

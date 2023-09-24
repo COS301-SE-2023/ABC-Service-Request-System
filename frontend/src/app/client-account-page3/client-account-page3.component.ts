@@ -36,6 +36,8 @@ export class ClientAccountPage3Component implements OnInit{
   selectedGroupsForm: FormArray;
   groupSelected = false;
 
+  groupNumberError = false;
+
   createdClient!: client;
 
   hovered = false;
@@ -155,6 +157,12 @@ export class ClientAccountPage3Component implements OnInit{
   mediumPriority = '';
   highPriority = '';
   onCompleteClicked(): void{
+
+    if(this.selectedGroups.length < 1) {
+      this.groupNumberError = true;
+      return;
+    }
+
     if(this.selectedOrganisation !== undefined) {
       let isValid = true;
       if (!this.validatePriority(this.lowPriority)) {
@@ -304,6 +312,7 @@ export class ClientAccountPage3Component implements OnInit{
           this.selectedGroups.push(selectedGroup);
           this.selectedGroupsForm.push(this.formBuilder.control(selectedGroup.id));
           this.allGroups = this.allGroups.filter(group => group.id !== selectedGroup.id);
+          this.groupNumberError = false;
         }
       }
     this.groupControl.reset();

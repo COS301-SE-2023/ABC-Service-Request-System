@@ -45,6 +45,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { TeamsPageComponent } from './teams-page/teams-page.component';
 
 import {MatCardModule} from '@angular/material/card';
@@ -85,6 +86,8 @@ import { ClientDashboardComponent } from './client-dashboard/client-dashboard.co
 import { SocketIoModule } from "ngx-socket-io";
 import { VideoRoomComponent } from './video-room/video-room.component';
 import { HistoryPanelComponent } from './history-panel/history-panel.component';
+import { ClientRequestsComponent } from './client-requests/client-requests.component';
+import { TicketRequestComponent } from './ticket-request/ticket-request.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +135,8 @@ import { HistoryPanelComponent } from './history-panel/history-panel.component';
     VideoRoomComponent,
     WorklogPanelComponent,
     HistoryPanelComponent,
+    ClientRequestsComponent,
+    TicketRequestComponent,
   ],
   imports: [
     BrowserModule,
@@ -165,7 +170,9 @@ import { HistoryPanelComponent } from './history-panel/history-panel.component';
       url: '/'
     })
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

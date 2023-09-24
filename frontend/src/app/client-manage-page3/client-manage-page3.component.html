@@ -103,7 +103,7 @@
 
   <h3>Assigned Groups</h3>
 
-  <div class="all-groups"> 
+  <div class="all-groups">
     <div class="group-tab" *ngFor="let group of selectedGroups; let i = index">
       <p>{{ group.groupName }}</p>
       <i class="fa-solid fa-xmark" [tabindex]="i" (click)="removeGroupTab($event, i)" (keyup)="handleKeyupEvent($event)"></i>
@@ -165,6 +165,8 @@
 
     </div>
   </div>
+  <br>
+  <p *ngIf="groupNumberError" class="errorTxt"> <sup>*</sup> Need to select at least 1 group</p>
 
   <button class="complete-btn" (click)="onUpdateAndBack()">Update</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>

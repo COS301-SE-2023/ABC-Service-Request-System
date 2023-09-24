@@ -23,6 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: black;
 }
 
 // .client-dashboard-outer-container{
@@ -200,8 +201,9 @@
     font-family: 'Montserrat';
     color: rgba(255,255,255, 0.7);
     margin: 0;
+    margin-top: 0.5em;
     padding: 0;
-    margin-top: -0.5em;
+    // margin-top: -0.5em;
     max-width: 90%;
   }
 
@@ -232,18 +234,18 @@
       border-radius: 8px;
       outline: none;
     }
+
+    select {
+      background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 97% 50%;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      border: 1px solid #494545;
+      padding: 1em;
+      border-radius: 8px;
+      outline: none;
+    }
   }
-}
-
-.collapsed {
-
-}
-
-.expansion-wrapper{
-  // position: relative;
-  // background: linear-gradient(133deg, #8529A8 0%, #CB3CBB 100%);
-  // border-radius: 0.8em;
-  // padding: 1px;
 }
 
 .expanded {
@@ -277,4 +279,48 @@
   border-radius: 9px;
   margin-top: 0.5em;
   min-width: 10em;
+}
+
+.profile-img {
+  width: 3em;
+  height: 3em;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 2em;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.cancel-btn {
+  border: 2px solid rgb(45, 109, 218);
+  border-radius: 2em;
+  padding: 0.5em;
+  margin: 1em;
+  margin-left: 0em;
+  color: rgb(45, 109, 218);
+  transition: all 300ms;
+}
+
+.cancel-btn:hover {
+  background-color: rgb(45, 109, 218);
+  color: white;
+}
+
+#description {
+  margin-top: 0.5em;
+  border-radius: 8px;
+  height: 25vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.errMsg {
+  color: rgb(255, 87, 87) !important;
+}
+
+.errBorder {
+  border-color: rgb(255, 87, 87) !important;
 }

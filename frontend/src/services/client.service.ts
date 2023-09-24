@@ -3,8 +3,9 @@ import { Router } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { client, project } from "../../../backend/clients/src/models/client.model";
 import { group } from '../../../backend/groups/src/models/group.model';
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap, interval } from "rxjs";
 import { environment } from '../environments/environment';
+import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -168,5 +169,116 @@ export class ClientService {
 
   getInitialized(): boolean {
     return this.projectInitialized;
+  }
+
+  //clients dashboard
+  addProjectRequest(projectName: string, additionalInformation: string, clientId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      projectName: projectName,
+      additionalInformation: additionalInformation,
+      clientId: clientId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
+  }
+
+  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string, projectId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      projectSelected: projectSelected,
+      summary: summary,
+      description: description,
+      priority: priority,
+      clientId: clientId,
+      projectId: projectId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/ticket_request`, body, {headers});
+  }
+
+  getAllClientsWithAllRequests() {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/all_requests`, {headers});
+  }
+
+  updateRequest(clientId: string, requestId: string, status: string) {
+    this.token = localStorage.getItem('token');
+    console.log('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId,
+      requestId: requestId,
+      status: status
+    }
+
+    return this.http.put<any>(`${this.CLIENT_URL}/update_request`, body, {headers});
+  }
+
+  getClientById(clientId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client>(`${this.CLIENT_URL}/id?id=${clientId}`, {headers});
+  }
+
+  //chat room
+  setChatId(clientId: string, roomId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId,
+      roomId: roomId
+    }
+
+    return this.http.post<any>(`${this.CLIENT_URL}/chatId`, body, {headers});
+  }
+
+  getCallingClientsQuick() {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<client[]>(`${this.CLIENT_URL}/calling`, {headers});
+  }
+
+  getCallingClients(): Observable<any> {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return interval(5000) // Poll every 5 seconds (adjust as needed)
+      .pipe(
+        switchMap(() => this.http.get<client[]>(`${this.CLIENT_URL}/calling`, {headers})
+      ));
+  }
+
+  resetCallingClient(clientId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    const body = {
+      clientId: clientId
+    }
+
+    return this.http.put<any>(`${this.CLIENT_URL}/calling_reset`, body, {headers});
+  }
+
+  getGroupsIdsForClientAndProject(clientId: string, projectId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    console.log('cliiiii id: ', clientId);
+    console.log('projecttttt id: ', projectId);
+
+
+    return this.http.get<any>(`${this.CLIENT_URL}/groupIDs?clientId=${clientId}&projectId=${projectId}`, {headers});
   }
 }

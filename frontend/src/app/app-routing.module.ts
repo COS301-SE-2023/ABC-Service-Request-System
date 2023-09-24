@@ -21,19 +21,21 @@ import { NotificationsSearchComponent } from './notifications-search/notificatio
 import { ClientLoginComponent } from './client-login/client-login.component';
 import { ClientDashboardComponent } from './client-dashboard/client-dashboard.component';
 import { VideoRoomComponent } from './video-room/video-room.component';
+import { ClientRequestsComponent } from './client-requests/client-requests.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'client-login', component: ClientLoginComponent},
   { path: 'client-dashboard', component: ClientDashboardComponent},
   { path: 'dashboard', component: DashboardComponent },
- { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent },
   { path: 'activate_account/:token', component: ActivateAccountComponent },
   { path: 'activate_account/:token/client', component: ActivateAccountComponent },
   { path: 'analytics-page', component: AnalyticsPageComponent},
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'new-ticket-form', component: NewTicketFormComponent},
+  { path: 'client-requests', component: ClientRequestsComponent},
   { path: 'settings-notifications',component: SettingsNotificationsComponent},
   { path: 'settings-profile',component: SettingsProfileComponent},
   { path: 'teams', component: TeamsPageComponent},

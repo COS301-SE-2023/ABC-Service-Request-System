@@ -1,5 +1,11 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import Peer from 'peerjs';
+import { Observable } from 'rxjs';
+import Peer, { MediaConnection } from 'peerjs';
+import { ClientService } from 'src/services/client.service';
+import { client } from '../../../../backend/clients/src/models/client.model';
+import { AuthService } from 'src/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-video-room',
@@ -7,6 +13,9 @@ import Peer from 'peerjs';
   styleUrls: ['./video-room.component.scss']
 })
 export class VideoRoomComponent implements OnInit, OnDestroy {
+
+  loggedInClient$!: Observable<client>;
+  loggedInClientObject!: client;
 
   private peer!: Peer;
   public lazyStream: any;
@@ -17,14 +26,54 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   peerId!: string;
   currentPeer: any;
 
-  constructor(private elementRef: ElementRef){
-    this.peer = new Peer
+  mediaConnection!: MediaConnection;
+
+  isConnectionClosed = false;
+
+  constructor(private elementRef: ElementRef,
+              private clientService: ClientService,
+              private authService: AuthService,
+              private route: ActivatedRoute,
+              private router: Router){
+    this.peer = new Peer;
+    this.getClient();
+  }
+
+  getClient() {
+    this.loggedInClient$ = this.authService.getLoggedInClient();
+
+    this.loggedInClient$.subscribe((loggedInClient) => {
+      this.loggedInClientObject = loggedInClient;
+
+      if(!loggedInClient)
+        return;
+
+      this.clientService.getClientById(loggedInClient.id).subscribe(
+        (res) => {
+          this.loggedInClientObject = res;
+        },
+        (err) => {
+          console.log('an error occured when trying to get client', err);
+        }
+      )
+    });
   }
 
   ngOnInit(): void {
     this.setupPeerConnection();
     this.getPeerId();
     this.startLocalStream();
+
+    if(!this.loggedInClientObject) {
+      const currentRoomId = this.route.snapshot.paramMap.get('roomId');
+
+      if (currentRoomId) {
+        this.callPeer(currentRoomId);
+      }
+      // this.callPeer()
+    } else {
+      console.log(this.loggedInClientObject);
+    }
   }
 
   ngOnDestroy(): void {
@@ -57,10 +106,22 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   getPeerId = () => {
     this.peer.on('open', (id) => {
       this.peerId = id;
-    })
+      if (this.loggedInClientObject){
+        this.clientService.setChatId(this.loggedInClientObject.id, id).subscribe(
+          (res) => {
+            console.log(res);
+          },
+          (err) => {
+            console.log('error', err);
+          }
+        );
+      }
+    });
 
     this.peer.on('call', (call) => {
       const isAccepted = confirm("Incoming call. Do you want to accept?");
+
+      this.mediaConnection = call;
 
       if(isAccepted){
         navigator.mediaDevices.getUserMedia({
@@ -77,6 +138,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
               this.peerList.push(call.peer);
             }
           });
+
         }).catch(err => {
           console.log("Unable to connect: ", err);
         });
@@ -88,6 +150,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         this.sendDeclinedMessage(call.peer, declinedMessage);
       }
 
+      call.on('close', () => {
+        // alert(`Call with ${call.peer} has ended.`);
+        // Notify the user here that the call has ended
+      });
+
     })
   }
 
@@ -96,7 +163,20 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.peer.on('connection', (connection) => {
       connection.on('data', (data) => {
         // Handle the declined message, e.g., show an alert to the sender
-        alert(data);
+
+        if(data == 'Call ended'){
+          this.isConnectionClosed = true;
+          if (this.loggedInClientObject) {
+            this.clientService.resetCallingClient(this.loggedInClientObject.id).subscribe(
+              (res) => {
+                console.log(res);
+              }, (err) => {
+                console.log(err);
+              }
+            )
+          }
+        }else
+          alert(data);
       });
     });
   }
@@ -120,6 +200,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       this.lazyStream = stream;
 
       const call = this.peer.call(id, stream);
+
+      this.mediaConnection = call;
+
       call.on('stream', (remoteStream) => {
         if(!this.peerList.includes(call.peer)){
           this.streamRemoteVideo(remoteStream);
@@ -184,5 +267,56 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     const videoTrack = this.lazyStream.getVideoTracks()[0];
     const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
     sender.replaceTrack(videoTrack);
+  }
+
+  endCall() {
+    if(this.loggedInClientObject) {
+      this.clientService.resetCallingClient(this.loggedInClientObject.id).subscribe(
+        (res) => {
+          console.log('res', res);
+
+          if(this.mediaConnection){
+            this.mediaConnection.close();
+            this.sendCallEndedMessage(this.mediaConnection.peer);
+          } else {
+            setTimeout(() => {
+              // this.router.navigate(['/client-dashboard']);
+              window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+            }, 200);
+          }
+        },
+        (err) => {
+          console.log('error resetting client chatID', err);
+        }
+      )
+    } else {
+      this.mediaConnection.close();
+      this.sendCallEndedMessage(this.mediaConnection.peer);
+      setTimeout(() => {
+        window.close();
+      }, 500);
+    }
+  }
+
+  sendCallEndedMessage(callerPeerId: string) {
+    // alert('peer id is: ' + callerPeerId);
+    const connection = this.peer.connect(callerPeerId);
+    connection.on('open', () => {
+      connection.send('Call ended');
+
+      if(this.loggedInClientObject)
+        setTimeout(() => {
+          // this.router.navigate(['/client-dashboard']);
+          window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+        }, 200);
+    });
+  }
+
+  navigateOut() {
+    if(this.loggedInClientObject)
+      // this.router.navigate(['/client-dashboard']);
+      window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+    else
+      window.close();
   }
 }

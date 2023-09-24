@@ -15,17 +15,35 @@ export interface project {
     highPriorityTime:string,
 }
 
+export interface request {
+    id: string,
+    type: string,
+    status: string,
+    additionalInformation?: string,
+    projectName?: string,
+    projectId?: string,
+    clientId?: string,
+    projectSelected?: string,
+    summary?: string,
+    description?: string,
+    priority?: string,
+}
+
+
 export interface client {
     id: string,
     name: string,
     surname: string,
     organisation: string,
+    profilePhoto: string,
     email: string,
     emailVerified: boolean,
     password: string,
     industry: string,
     inviteToken?: string,
-    projects: project []
+    projects: project [],
+    requests: request [],
+    chatId?: string,
 }
 
 export const projectSchema = new Schema<project>(
@@ -42,18 +60,37 @@ export const projectSchema = new Schema<project>(
     }
 )
 
+export const requestSchema = new Schema<request>(
+    {
+        id: { type: String, required: true},
+        type: { type: String, required: true},
+        status: { type: String, required: true},
+        additionalInformation: { type: String, required: false},
+        projectName: { type: String, required: false},
+        projectId: { type: String, required: false},
+        clientId: { type: String, required: false},
+        projectSelected: { type: String, required: false},
+        summary: { type: String, required: false},
+        description: { type: String, required: false},
+        priority: { type: String, required: false},
+    }
+)
+
 const clientSchema = new Schema<client>(
     {
         id: { type: String, required: true},
         name: { type: String, required: true},
         surname: { type: String, required: true},
         organisation: { type: String, required: true},
+        profilePhoto: { type: String, required: true},
         email: { type: String, required: true},
         emailVerified: {type: Boolean, required: true, default: false},
         password: {type: String, required: true, select: true},
         industry: { type: String, required: true},
         inviteToken: { type: String }, // Add inviteToken field
         projects: { type: [projectSchema], required: true},
+        requests: { type: [requestSchema], required: false},
+        chatId: { type: String, required: false}
     },{
         toJSON: {
             virtuals: true

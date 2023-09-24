@@ -3,6 +3,7 @@
 
   <div class="client-dashboard-outer-container">
 
+
     <div class="header-container">
       <div class="logo-container">
         <img src="/assets/app_logo_transparent.png" alt="app logo">
@@ -12,6 +13,10 @@
       <div class="organisation-container" *ngIf="loggedInClient$ | async as clientData">
         <p>Organisation: <span> {{clientData.organisation}} </span></p>
       </div>
+
+      <div class="profile-img">
+        <img src="https://res.cloudinary.com/ds2qotysb/image/upload/v1690833416/ob0dlr9dgp6orefginpr.jpg" alt="profile-img">
+      </div>
     </div>
 
     <div class="client-dashboard-inner-container">
@@ -19,20 +24,29 @@
         <p>Client Portal / <span> {{clientData.organisation}} </span></p>
       </div>
 
-      <div class="welcome">Welcome to Luna’s client portal. Here you can raise new requests on behalf of <span>EpiUse</span> as well as view analytics and detailed information for your projects.</div>
+      <div class="welcome" *ngIf="loggedInClient$ | async as clientData">Welcome to Luna’s client portal. Here you can raise new requests on behalf of <span>{{clientData.organisation}}</span> as well as view analytics and detailed information for your projects.</div>
 
-      <h1>Welcome to video chat</h1>
-      <div>
-        <p>Speak to a consultant</p>
-        <button (click)="createRoom()">Create a new WebRTC room</button>
+      <h1>
+        <i class="fa-solid fa-headset"></i>
+        Support
+      </h1>
+
+      <div class="expansion-wrapper">
+        <div class="expansion-panel" (click)="createRoom()" tabindex="1" (keyup)="createRoom()">
+          <div class="text-info">
+            <h2>Speak to a consultant</h2>
+            <p>Talk to our staff and skip the hassle of making manual requests!</p>
+          </div>
+        </div>
       </div>
+
       <h1>
         <i class="fa-regular fa-flag"></i>
         Make a Request
       </h1>
 
       <div class="expansion-wrapper">
-        <div class="expansion-panel" [class.expanded]="isProjectExpanded" (click)="toggleProjectExpansion()" tabindex="0" (keyup)="toggleProjectExpansion()">
+        <div class="expansion-panel" [class.expanded]="isProjectExpanded" (click)="toggleProjectExpansion()" tabindex="0" (keyup)="stopPropagation($event)">
           <div class="text-info">
             <h2>Start a new project</h2>
             <p>Start a completely new project for a new feature or idea.</p>
@@ -40,16 +54,16 @@
             <div class="form-container" *ngIf="isProjectExpanded">
               <form #projectForm="ngForm" (ngSubmit)="submitProjectForm(projectForm)">
                 <div class="form-item">
-                  <label for="project-name">Project Name</label>
-                  <input type="text" name="projectName" id="project-name" ngModel required>
+                  <label for="project-name" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project Name</label>
+                  <input type="text" name="projectName" id="project-name" ngModel required (click)="stopPropagation($event)">
                 </div>
 
                 <div class="form-item">
-                  <label for="additional-project-info">Additional Information</label>
-                  <textarea name="additionalProjectInfo" id="additional-project-info" cols="30" rows="10"></textarea>
+                  <label for="additional-project-info" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Additional Information</label>
+                  <textarea name="additionalProjectInfo" id="additional-project-info" ngModel cols="30" rows="10" (click)="stopPropagation($event)"></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn">Submit</button>
+                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button>
               </form>
             </div>
           </div>
@@ -59,10 +73,86 @@
 
 
       <div class="expansion-wrapper">
-        <div class="expansion-panel" [class.expanded]="isRequestExpanded" (click)="toggleRequestExpansion()" tabindex="1" (keyup)="toggleRequestExpansion()">
+        <div class="expansion-panel" [class.expanded]="isRequestExpanded" (click)="toggleRequestExpansion()" tabindex="1" (keyup)="stopPropagation($event)">
           <div class="text-info">
             <h2>Make a request</h2>
             <p>Make a request for a new feature or idea for an existing project. If you’d like to make changes to your product, you can do that here too.</p>
+
+            <div class="form-container" *ngIf="isRequestExpanded">
+              <form #requestForm="ngForm" (ngSubmit)="submitRequestForm(requestForm)">
+
+                <div class="form-item">
+                  <label class="{{projectSelectedError ? 'errMsg' : ''}}" for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project<sup>*</sup></label>
+                  <select class="{{projectSelectedError ? 'errBorder' : ''}}" name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" [(ngModel)]="selectedProject" required (ngModelChange)="inputChanged('project')">
+                    <option *ngFor="let project of clientData.projects" [value]="project.name" [ngValue]="project" (click)="stopPropagation($event)">{{ project.name }}</option>
+                  </select>
+                </div>
+
+                <div class="form-item">
+                  <label class="{{summaryError ? 'errMsg' : ''}}" for="summary" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Summary<sup>*</sup></label>
+                  <input class="{{summaryError ? 'errBorder' : ''}}" type="text" name="summary" id="summary" ngModel (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('summary')">
+                </div>
+
+                <div class="form-item">
+                  <label class="{{descriptionError ? 'errMsg' : ''}}" for="description" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Description<sup>*</sup></label>
+                  <quill-editor class="{{descriptionError ? 'errBorder' : ''}}" id="description" name="description" [trimOnValidation]="true" (click)="stopPropagation($event)" ngModel [required]="true" (ngModelChange)="inputChanged('description')"></quill-editor>
+                </div>
+
+                <br> <br> <br>
+
+                <div class="form-item">
+                  <label class="{{priorityError ? 'errMsg' : ''}}" for="priority" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Priority<sup>*</sup></label>
+                  <select class="{{priorityError ? 'errBorder' : ''}}" id="priority" name="priority" (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('priority')">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="submit-btn" (click)="stopPropagation($event)">Submit</button> <br> <br>
+
+                <span class="errMsg" *ngIf="projectSelectedError || summaryError || descriptionError || priorityError">Please complete all fields marked with <sup>*</sup></span>
+
+              </form>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </div>
+
+      <div class="expansion-wrapper">
+        <div class="expansion-panel" [class.expanded]="isViewRequestExpanded" (click)="toggleViewRequestExpansion()" tabindex="1" (keyup)="toggleViewRequestExpansion()">
+          <div class="text-info">
+            <h2>View Request Status</h2>
+            <p>View the status of all the requests you have made.</p>
+
+            <h1 *ngIf="isViewRequestExpanded && requestsMade.length === 0">You have made no requests yet</h1>
+
+            <table class="w-full mt-10" *ngIf="isViewRequestExpanded && requestsMade.length > 0">
+              <thead class="bg-gray border-b-2 border-gray-200">
+                <tr>
+                  <th class="w-44 pl-2 text-sm font-semibold tracking-wide text-left">Subject</th>
+                  <th class="w-6 text-sm font-semibold tracking-wide text-left">Type</th>
+                  <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Status</th>
+                  <th class="w-6 pl-4 text-sm font-semibold tracking-wide text-left">Date Submitted</th>
+                  <th class="w-1 text-sm text-center"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="odd:bg-white even:bg-slate-200" *ngFor="let request of requestsMade">
+                  <td class="text-left pl-2 pt-2">{{request.projectName ? request.projectName : request.summary}}</td>
+                  <td class="text-left pt-2">{{request.type}}</td>
+                  <td class="text-left pl-4 pt-2">{{request.status}}</td>
+                  <td class="text-left pl-4 pt-2">{{convertToDate(request.id)}}</td>
+                  <td class="text-center">
+                    <button class="cancel-btn" *ngIf="request.status === 'Pending'">Cancel Request</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
           </div>
           <i class="fa-solid fa-chevron-right"></i>
         </div>

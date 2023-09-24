@@ -1,14 +1,14 @@
 import { Router } from "express";
 import expressAsyncHandler from "express-async-handler";
-import { ClientModel } from "../models/client.model";
+import { ClientModel, request, requestSchema } from "../models/client.model";
 import { project } from "../models/client.model";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 import { jwtVerify } from "../middleware/jwtVerify";
 import bcrypt from 'bcryptjs';
-// import cli from "@angular/cli";
 import jwt from 'jsonwebtoken';
+import { group } from "../models/group.model";
 
 const router = Router();
 
@@ -33,6 +33,21 @@ router.get('/organisation', jwtVerify(['Admin', 'Manager']) , expressAsyncHandle
         }
     }
 ));
+
+//fetch client by their id
+router.get(`/id`, expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.query.id;
+
+        const client = await ClientModel.findOne({id: clientId});
+
+        if(client){
+            res.status(200).send(client);
+        } else {
+            res.status(404).send({message: 'Client not found with that ID'});
+        }
+    }
+))
 
 //fetch all clients containing assigned groups
 router.get('/group', jwtVerify(['Admin', 'Manager', 'Functional', 'Technical']), expressAsyncHandler(
@@ -137,20 +152,18 @@ router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
             const client = await ClientModel.findOne({id: clientId});
 
             if(client){
-                console.log("client found");
                 const project = client.projects.find((project) => {
                     return project.id == projectId;
                 });
 
                 if(project){
-                    console.log("project found: ", project);
 
                     project.assignedGroups = project.assignedGroups?.filter((group) => {
                         return !groupsToRemove.includes(group.groupName);
                     });
 
-                    console.log("assigned groups: ", project.assignedGroups);
                     await client.save();
+
                     res.status(200).send(project);
                 } else {
                     res.status(404).send("Project not found");
@@ -159,6 +172,7 @@ router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                 res.status(404).send("Client not found");
             }
         } catch (error) {
+            console.log('error: ', error);
             res.status(500).send("Internal server error removing group from clients project");
         }
     }
@@ -294,6 +308,228 @@ router.post("/add_project",jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     }
 ));
 
+router.put("/calling_reset", expressAsyncHandler(
+    async (req, res) => {
+        try{
+            const client = await ClientModel.findOne({id: req.body.clientId});
+
+            if(client) {
+                client.chatId = '';
+                await client.save();
+    
+                res.status(200).send(client);
+            } else {
+                res.status(404).send("Client not found");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error setting resetting client chatId");
+
+        }
+    }
+))
+
+router.get("/calling", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const clients = await ClientModel.find({chatId: { $exists: true, $ne: '' }});
+
+            if(clients) {
+                res.status(200).send(clients);
+            } else {
+                res.status(400).send("No clients calling");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error getting calling clients");
+        }
+    }
+));
+
+router.post("/chatId", expressAsyncHandler(
+    async (req, res) => {
+        try {
+            const clientId = req.body.clientId;
+            const roomId = req.body.roomId;
+
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                client.chatId = roomId;
+                await client.save();
+
+                res.status(200).send(client);
+            } else {
+                res.status(404).send("Client does not exist");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error adding chatID to client");
+        }
+    }
+));
+
+router.get("/groupIDs", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.query.clientId;
+        const projectId = req.query.projectId
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            const groupIdArray: string [] = [];
+
+            if(client) {
+                if(client.projects && client.projects.length > 0){
+
+                    const selectedProject = client.projects.filter(project => {
+                        return project.id == projectId;
+                    });
+
+                    const finalProject = selectedProject[0];
+
+                    if(finalProject.assignedGroups && finalProject.assignedGroups.length > 0) {
+                        finalProject.assignedGroups.forEach((group: group) => {
+                            groupIdArray.push(group.id);
+                        });
+                    }
+                }
+
+                if(groupIdArray.length > 0) {
+                    res.status(200).send(groupIdArray);
+                } else {
+                    res.status(400).send('Error occured while trying to get group IDs');
+                }
+
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error while getting group IDs");
+        }
+    }
+));
+
+
+router.post("/ticket_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const newRequest: request = {
+            id: '',
+            type: 'New Ticket Request',
+            status: 'Pending',
+            projectSelected: req.body.projectSelected,
+            summary: req.body.summary,
+            description: req.body.description,
+            priority: req.body.priority,
+            clientId: req.body.clientId,
+            projectId: req.body.projectId
+        }
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                if(client.requests) {
+                    newRequest.id = Date.now().toString();
+
+                    client.requests.push(newRequest);
+                    await client.save();
+
+                    res.status(200).send(client);
+                } else {
+                    let requests: request[] = [];
+                    requests.push(newRequest);
+                    client.requests = requests;
+                    await client.save();
+
+                    res.status(200).send(client);
+                }
+            } else {
+                res.status(404).send("Client does not exist");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error adding ticket request to client");
+        }
+    }
+));
+
+//MAKE A PROJECT REQUEST
+router.post("/project_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const newRequest: request = {
+            id: '',
+            type: 'New Project Request',
+            status: 'Pending',
+            additionalInformation: req.body.additionalInformation,
+            projectName: req.body.projectName
+        }
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            if(client) {
+                if(client.requests) {
+                    newRequest.id = Date.now().toString();
+
+                    client.requests.push(newRequest);
+                    await client.save();
+
+                    res.status(200).send(client);
+                } else {
+                    let requests: request[] = [];
+                    requests.push(newRequest);
+                    client.requests = requests;
+                    await client.save();
+
+                    res.status(200).send(client);
+                }
+            } else {
+                res.status(404).send("Client does not exist");
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error adding request to client");
+        }
+    }
+));
+
+router.get("/all_requests", expressAsyncHandler(
+    async(req, res) => {
+        try{
+       
+            const clients = await ClientModel.find({requests: {$exists: true, $not: { $size: 0}}});
+    
+            res.status(200).send(clients);
+        } catch (error) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+));
+
+router.put("/update_request", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.body.clientId;
+
+        const client = await ClientModel.findOne({id: clientId});
+
+        if(client) {
+            const request = client.requests.find((request) => {
+                return request.id == req.body.requestId;
+            });
+
+            if(request) {
+                request.status = req.body.status;
+
+                await client.save();
+                res.status(200).send(request);
+            } else {
+                res.status(404).send('Request not found');
+            }
+        } else {
+            res.status(404).send('Client not found');
+        }
+    }
+));
+
+
 //REMOVE A CLIENT GIVEN THE CLIENT ID
 router.delete("/delete_client", expressAsyncHandler(
     async (req, res) => {
@@ -312,6 +548,7 @@ router.delete("/delete_client", expressAsyncHandler(
         }
     }
 ));
+
 
 router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
     async (req, res) => {
@@ -349,6 +586,7 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
             email: req.body.email,
             inviteToken,
             organisation: req.body.organisation,
+            profilePhoto: "https://res.cloudinary.com/ds2qotysb/image/upload/v1687775046/n2cjwxkijhdgdrgw7zkj.png",
             industry: req.body.industry,
             projects: newProject,
             password: "Admin"

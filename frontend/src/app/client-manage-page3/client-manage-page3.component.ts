@@ -51,6 +51,7 @@ export class ClientManagePage3Component implements OnInit{
   lowPriority = '';
   mediumPriority = '';
   highPriority = '';
+  groupNumberError = false;
 
   constructor(private router: Router,
       private formBuilder: FormBuilder,
@@ -243,6 +244,47 @@ export class ClientManagePage3Component implements OnInit{
 
     this.selectedGroups = [];
     // this.backClicked.emit();
+    if(this.existingGroups.length == 0) {
+      //need to check if they added any groups
+      if(this.selectedGroups.length == 0) {
+        this.groupNumberError = true;
+        return;
+      }
+    } else {
+      //need to check if they no remove any groups
+      if(this.removingGroups.length > 0) {
+        if(this.selectedGroups.length == 0) {
+          this.groupNumberError = true;
+          return;
+        }
+      }
+    }
+    // if(this.selectedGroups.length < 1) {
+    //   this.groupNumberError = true;
+    //   return;
+    // }
+
+    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
+      (response) => {
+        console.log(response);
+        const removingGroupsNames: string [] = [];
+
+        this.removingGroups.forEach(group => {
+          removingGroupsNames.push(group.groupName);
+        });
+
+        this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
+          (respone) => {
+            console.log('group removed', respone);
+          }
+        )
+
+        this.selectedGroups = [];
+        this.backClicked.emit();
+      }, (error) => {
+        console.log(error);
+      }
+    )
   }
 
   addGroup() {
@@ -253,6 +295,7 @@ export class ClientManagePage3Component implements OnInit{
           this.selectedGroups.push(selectedGroup);
           this.selectedGroupsForm.push(this.formBuilder.control(selectedGroup.id));
           this.allGroups = this.allGroups.filter(group => group.id !== selectedGroup.id);
+          this.groupNumberError = false;
         }
       }
     this.groupControl.reset();

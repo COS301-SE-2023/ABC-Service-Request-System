@@ -8,7 +8,7 @@ exports["default"] = void 0;
 var _express = require("express");
 var _expressAsyncHandler = _interopRequireDefault(require("express-async-handler"));
 var _testClient = require("./testClient.model");
-var _data = require("../../clients/src/utils/data");
+var _test_client_sample = require("../test_samples/test_client_sample");
 var _crypto = _interopRequireDefault(require("crypto"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -62,7 +62,7 @@ router.post('/seed', (0, _expressAsyncHandler["default"])( /*#__PURE__*/function
           });
           return _context2.abrupt("return");
         case 6:
-          _testClient.TestClientModel.create(_data.sample_clients).then(function (data) {
+          _testClient.TestClientModel.create(_test_client_sample.sample_clients).then(function (data) {
             res.status(201).send(data);
           })["catch"](function (err) {
             res.status(500).send({
