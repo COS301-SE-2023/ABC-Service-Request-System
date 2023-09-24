@@ -88,6 +88,7 @@ import { VideoRoomComponent } from './video-room/video-room.component';
 import { HistoryPanelComponent } from './history-panel/history-panel.component';
 import { ClientRequestsComponent } from './client-requests/client-requests.component';
 import { TicketRequestComponent } from './ticket-request/ticket-request.component';
+import { DarkModeToggleComponent } from './dark-mode-toggle/dark-mode-toggle.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { TicketRequestComponent } from './ticket-request/ticket-request.componen
     HistoryPanelComponent,
     ClientRequestsComponent,
     TicketRequestComponent,
+    DarkModeToggleComponent,
   ],
   imports: [
     BrowserModule,
