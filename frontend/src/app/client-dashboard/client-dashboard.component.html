@@ -83,8 +83,8 @@
 
                 <div class="form-item">
                   <label class="{{projectSelectedError ? 'errMsg' : ''}}" for="project-selected" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">Project<sup>*</sup></label>
-                  <select class="{{projectSelectedError ? 'errBorder' : ''}}" name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" ngModel required (ngModelChange)="inputChanged('project')">
-                    <option *ngFor="let project of clientData.projects" [value]="project.name" (click)="stopPropagation($event)">{{ project.name }}</option>
+                  <select class="{{projectSelectedError ? 'errBorder' : ''}}" name="projectSelected" id="project-selected" *ngIf="loggedInClient$ | async as clientData" (click)="stopPropagation($event)" [(ngModel)]="selectedProject" required (ngModelChange)="inputChanged('project')">
+                    <option *ngFor="let project of clientData.projects" [value]="project.name" [ngValue]="project" (click)="stopPropagation($event)">{{ project.name }}</option>
                   </select>
                 </div>
 

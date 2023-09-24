@@ -121,6 +121,9 @@
     </button>
   </div>
 
+  <br>
+  <p *ngIf="groupNumberError" class="errorTxt"> <sup>*</sup> Need to select at least 1 group</p>
+
   <button class="complete-btn" (click)="onUpdateAndBack()">Update</button>
   <button class="back-btn" (click)="onBackClicked()">Back</button>
 

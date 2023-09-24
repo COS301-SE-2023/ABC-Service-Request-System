@@ -35,6 +35,8 @@ export class ClientAccountPage3Component implements OnInit{
   selectedGroupsForm: FormArray;
   groupSelected = false;
 
+  groupNumberError = false;
+
   createdClient!: client;
 
   hovered = false;
@@ -134,6 +136,12 @@ export class ClientAccountPage3Component implements OnInit{
   }
 
   onCompleteClicked(): void{
+
+    if(this.selectedGroups.length < 1) {
+      this.groupNumberError = true;
+      return;
+    }
+
     if(this.selectedOrganisation !== undefined) {
       this.formData = {
         ...this.formData,
@@ -217,6 +225,7 @@ export class ClientAccountPage3Component implements OnInit{
           this.selectedGroups.push(selectedGroup);
           this.selectedGroupsForm.push(this.formBuilder.control(selectedGroup.id));
           this.allGroups = this.allGroups.filter(group => group.id !== selectedGroup.id);
+          this.groupNumberError = false;
         }
       }
     this.groupControl.reset();

@@ -175,7 +175,7 @@ export class ClientService {
     return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
   }
 
-  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string) {
+  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string, projectId: string) {
     this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
@@ -184,7 +184,8 @@ export class ClientService {
       summary: summary,
       description: description,
       priority: priority,
-      clientId: clientId
+      clientId: clientId,
+      projectId: projectId
     }
 
     return this.http.post<any>(`${this.CLIENT_URL}/ticket_request`, body, {headers});
@@ -258,5 +259,16 @@ export class ClientService {
     }
 
     return this.http.put<any>(`${this.CLIENT_URL}/calling_reset`, body, {headers});
+  }
+
+  getGroupsIdsForClientAndProject(clientId: string, projectId: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    console.log('cliiiii id: ', clientId);
+    console.log('projecttttt id: ', projectId);
+
+
+    return this.http.get<any>(`${this.CLIENT_URL}/groupIDs?clientId=${clientId}&projectId=${projectId}`, {headers});
   }
 }

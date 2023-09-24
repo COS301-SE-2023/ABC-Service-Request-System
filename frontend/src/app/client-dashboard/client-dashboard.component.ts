@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { client, request } from '../../../../backend/clients/src/models/client.model';
+import { client, project, request } from '../../../../backend/clients/src/models/client.model';
 import { AuthService } from 'src/services/auth.service';
 import { Observable } from 'rxjs';
 // import { v4 as uuidv4} from 'uuid';
@@ -16,6 +16,7 @@ import { response } from 'express';
 export class ClientDashboardComponent implements OnInit {
   loggedInClient$!: Observable<client>;
 
+  selectedProject!: project;
 
   loggedInClientObject!: client;
   //panel expansions
@@ -87,7 +88,7 @@ export class ClientDashboardComponent implements OnInit {
       form.value.description = form.value.description.replace(/<\/?p>/g, '');
       console.log('Form submitted!', form.value);
 
-      this.clientService.addTicketRequest(form.value.projectSelected, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id).subscribe(
+      this.clientService.addTicketRequest(form.value.projectSelected.name, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id, this.selectedProject.id).subscribe(
         (response) => {
           console.log("recieved client response", response);
           this.toggleRequestExpansion();

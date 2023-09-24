@@ -7,8 +7,8 @@ import nodemailer from "nodemailer";
 import mongoose from "mongoose";
 import { jwtVerify } from "../middleware/jwtVerify";
 import bcrypt from 'bcryptjs';
-import cli from "@angular/cli";
 import jwt from 'jsonwebtoken';
+import { group } from "../models/group.model";
 
 const router = Router();
 
@@ -152,20 +152,18 @@ router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
             const client = await ClientModel.findOne({id: clientId});
 
             if(client){
-                console.log("client found");
                 const project = client.projects.find((project) => {
                     return project.id == projectId;
                 });
 
                 if(project){
-                    console.log("project found: ", project);
 
                     project.assignedGroups = project.assignedGroups?.filter((group) => {
                         return !groupsToRemove.includes(group.groupName);
                     });
 
-                    console.log("assigned groups: ", project.assignedGroups);
                     await client.save();
+
                     res.status(200).send(project);
                 } else {
                     res.status(404).send("Project not found");
@@ -174,6 +172,7 @@ router.put("/remove_group", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                 res.status(404).send("Client not found");
             }
         } catch (error) {
+            console.log('error: ', error);
             res.status(500).send("Internal server error removing group from clients project");
         }
     }
@@ -309,6 +308,45 @@ router.post("/chatId", expressAsyncHandler(
     }
 ));
 
+router.get("/groupIDs", expressAsyncHandler(
+    async (req, res) => {
+        const clientId = req.query.clientId;
+        const projectId = req.query.projectId
+
+        try {
+            const client = await ClientModel.findOne({id: clientId});
+
+            const groupIdArray: string [] = [];
+
+            if(client) {
+                if(client.projects && client.projects.length > 0){
+
+                    const selectedProject = client.projects.filter(project => {
+                        return project.id == projectId;
+                    });
+
+                    const finalProject = selectedProject[0];
+
+                    if(finalProject.assignedGroups && finalProject.assignedGroups.length > 0) {
+                        finalProject.assignedGroups.forEach((group: group) => {
+                            groupIdArray.push(group.id);
+                        });
+                    }
+                }
+
+                if(groupIdArray.length > 0) {
+                    res.status(200).send(groupIdArray);
+                } else {
+                    res.status(400).send('Error occured while trying to get group IDs');
+                }
+
+            }
+        } catch (error) {
+            res.status(500).send("Internal server error while getting group IDs");
+        }
+    }
+));
+
 
 router.post("/ticket_request", expressAsyncHandler(
     async (req, res) => {
@@ -321,7 +359,9 @@ router.post("/ticket_request", expressAsyncHandler(
             projectSelected: req.body.projectSelected,
             summary: req.body.summary,
             description: req.body.description,
-            priority: req.body.priority
+            priority: req.body.priority,
+            clientId: req.body.clientId,
+            projectId: req.body.projectId
         }
 
         try {

@@ -28,8 +28,8 @@ export class TicketRequestComponent implements OnInit {
   constructor (private groupService: GroupService, private userService: UserService, private authService: AuthService, private ticketService: TicketsService, private snackBar: MatSnackBar, private clientService: ClientService) {}
 
   ngOnInit(): void {
-    this.getAllGroups();
-    this.getCurrentUser();
+      this.getAllGroups();
+      this.getCurrentUser();
   }
 
   getCurrentUser() {
@@ -85,20 +85,46 @@ export class TicketRequestComponent implements OnInit {
     });
   }
 
-  rejectRequest(clientRequest: client, requestId: string) {
-    console.log('rejected');
+  rejectRequest(client: client, requestId: string) {
+    this.clientService.updateRequest(client.id, requestId, 'Rejected').subscribe(
+      (response) => {
+        console.log('request status updated to: ', response);
+        this.openSnackBar("Request Rejected", "OK");
+      },
+      (error) => {
+        console.log('error when updating status: ', error);
+      }
+    )
   }
 
   getAllGroups() {
-    this.groupService.getGroups().subscribe(
+    this.clientService.getGroupsIdsForClientAndProject(this.request.clientId!, this.request.projectId!).subscribe(
       (res) => {
-        console.log('groups got: ', res);
-        this.allGroups = res;
-        this.updateAssignedUserOptions(this.allGroups[0].id);
-      }, (err) => {
-        console.log('error getting all groups: ', err);
+        const arrayOfIds = res;
+
+        arrayOfIds.forEach((groupId: string) => {
+          this.groupService.getGroupById(groupId).subscribe(
+            (res) => {
+              this.allGroups.push(res);
+              this.updateAssignedUserOptions(this.allGroups[0].id);
+            }
+          )
+        });
+      },
+      (err) => {
+        console.log('error getting group IDS', err);
       }
     )
+
+    // this.groupService.getGroups().subscribe(
+    //   (res) => {
+    //     console.log('groups got: ', res);
+    //     this.allGroups = res;
+    //     this.updateAssignedUserOptions(this.allGroups[0].id);
+    //   }, (err) => {
+    //     console.log('error getting all groups: ', err);
+    //   }
+    // )
   }
 
   onGroupChanged(event: Event) {
@@ -119,6 +145,9 @@ export class TicketRequestComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action);
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   }
 
   private formatDate(date: string): string {
