@@ -239,53 +239,6 @@
       </div>
 
       <button class="rounded-button" (click)="toggleForm()">Log Work Hours</button>
-      <div class="modal" *ngIf="isFormVisible">
-          <div class="modal-content">
-              <!-- Link form with Angular formGroup -->
-              <form [formGroup]="workLogForm" (ngSubmit)="onSubmit()">
-                  <h2 class="modal-header" >Time tracking</h2>
-                  <hr style="border-color: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,); width: 100%; margin-bottom: 15px">
-                  <div class="time-fields">
-                      <div class="form-group">
-                          <label for="timeSpent">Time Spent:</label>
-                          <!-- Bind control to formControlName -->
-                          <input id="timeSpent" formControlName="timeSpent">
-                      </div>
-                      <div class="form-group">
-                          <label for="timeRemaining">Time Remaining:</label>
-                          <input id="timeRemaining" formControlName="timeRemaining">
-                      </div>
-                  </div>
-                  <p>Use the format: 2w 4d 6h 45m</p>
-                  <p>&bull; w = weeks</p>
-                  <p>&bull; d = days</p>
-                  <p>&bull; h = hours</p>
-                  <p>&bull; m = minutes</p>
-
-                  <div class="date-time-fields">
-                      <div class="form-group">
-                          <label for="dateStarted">Date Started:</label>
-                          <input type="date" id="dateStarted" formControlName="dateStarted">
-                      </div>
-                      <div class="form-group">
-                          <label for="timeStarted">Time Started:</label>
-                          <input type="time" id="timeStarted" formControlName="timeStarted">
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label for="description">Description:</label>
-                      <!-- quill-editor uses ngModel. However, for consistency, using formControlName would be recommended. For now, I'll leave it as it is. -->
-                      <quill-editor formControlName="description"></quill-editor>
-
-                  </div>
-                  <div class="button-group">
-                      <button class = "save-button-worklog" type="submit">Save</button>
-                      <button type="button" (click)="cancel()">Cancel</button>
-                  </div>
-              </form>
-          </div>
-      </div>
-
 
       <div class="sla-area">
         <mat-expansion-panel (opened)="SLAPanelOpenState = true"
@@ -324,7 +277,7 @@
             </div>
           </div>
 
-          <div class="expansion-item">  
+          <div class="expansion-item">
             <p class="bold-label">Assignee</p>
             <div class="content">
               <div class="user-img">
@@ -346,12 +299,12 @@
                 <p class="text-low">
                   LOW
                 </p>
-              </div> 
+              </div>
             </div>
 
             <div *ngIf = "medPriority" class = "priority-medium">
               <div class = "medium-container">
-                <p class="medium-low"> 
+                <p class="medium-low">
                   MEDIUM
                 </p>
               </div>
@@ -364,7 +317,7 @@
                 </p>
               </div>
             </div>
-      
+
           </div>
 
           <div class="expansion-item flex-start">
@@ -382,6 +335,53 @@
   </div>
 
   <app-page-header></app-page-header>
+
+  <div class="modal" *ngIf="isFormVisible">
+    <div class="modal-content">
+        <!-- Link form with Angular formGroup -->
+        <form [formGroup]="workLogForm" (ngSubmit)="onSubmit()">
+            <h2 class="modal-header" >Time tracking</h2>
+            <hr style="border-color: -webkit-linear-gradient(left, rgba(4, 83, 142) 0%, rgba(0, 196, 255) 100%,); width: 100%; margin-bottom: 15px">
+            <div class="time-fields">
+                <div class="form-group">
+                    <label for="timeSpent">Time Spent:</label>
+                    <!-- Bind control to formControlName -->
+                    <input id="timeSpent" formControlName="timeSpent">
+                </div>
+                <div class="form-group">
+                    <label for="timeRemaining">Time Remaining:</label>
+                    <input id="timeRemaining" formControlName="timeRemaining">
+                </div>
+            </div>
+            <p>Use the format: 2w 4d 6h 45m</p>
+            <p>&bull; w = weeks</p>
+            <p>&bull; d = days</p>
+            <p>&bull; h = hours</p>
+            <p>&bull; m = minutes</p>
+
+            <div class="date-time-fields">
+                <div class="form-group">
+                    <label for="dateStarted">Date Started:</label>
+                    <input type="date" id="dateStarted" formControlName="dateStarted">
+                </div>
+                <div class="form-group">
+                    <label for="timeStarted">Time Started:</label>
+                    <input type="time" id="timeStarted" formControlName="timeStarted">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <!-- quill-editor uses ngModel. However, for consistency, using formControlName would be recommended. For now, I'll leave it as it is. -->
+                <quill-editor formControlName="description"></quill-editor>
+
+            </div>
+            <div class="button-group">
+                <button class = "save-button-worklog" type="submit">Save</button>
+                <button type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 <!--
   <table class="individual-ticket">
     <tr>
