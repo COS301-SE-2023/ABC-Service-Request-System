@@ -40,6 +40,7 @@ export class NewTicketFormComponent implements OnInit {
   suggestedUsers: any[] = [];
   groupSelectedId!: string;
   ticketCount!: number;
+  emailAddresses!: string[];
 
   constructor(
     private ticketService: TicketsService,
@@ -219,6 +220,7 @@ export class NewTicketFormComponent implements OnInit {
     
 
     this.suggestedUsers = this.sortUsers.filter(users =>  users.userInfo.groups.some((group: any) => group === this.groupSelectedId));
+    
 
     this.getAllAssignable();
   }
@@ -348,6 +350,14 @@ export class NewTicketFormComponent implements OnInit {
 
         this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
           console.log(response);
+
+          this.userService.getUsersByGroupId(group).subscribe((users) => {
+            this.emailAddresses = users.map(user => user.emailAddress);
+
+            this.ticketService.sendEmailNotification(this.emailAddresses, summary, newTicketId, endDate, priority, this.assignee.profilePhoto, this.assignee.emailAddress, this.assignedUser.profilePhoto, this.assignedUser.emailAddress).subscribe((response: any) => {
+              console.log(response);
+            });
+          })
         });
           }
         );
