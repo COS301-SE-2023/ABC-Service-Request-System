@@ -6,6 +6,10 @@ import { comment } from "../models/ticket.model";
 import multer from 'multer';
 import { cloudinary } from "../configs/cloudinary";
 import {jwtVerify} from "../middleware/jwtVerify";
+import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+
+dotenv.config();
 
 const router = Router();
 
@@ -309,6 +313,198 @@ router.get('/getTicketUserEmail', jwtVerify(['Manager', 'Technical', 'Functinal'
   catch(error) {
     res.status(500).send("Internal server error");
   }
+}));
+
+router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(async(req, res) => {
+  const userEmails = req.body.emailAddresses;
+  const ticketSummary = req.body.ticketSummary;
+  const id = req.body.ticketId;
+  const endDate = req.body.endDate;
+  const priority = req.body.priority;
+  const assigneePic = req.body.assigneePic;
+  const assigneeEmail = req.body.assigneeEmail;
+  const assignedPic = req.body.assignedPic;
+  const assignedEmail = req.body.assignedEmail;
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "hyperiontech.capstone@gmail.com",
+      pass: "zycjmbveivhamcgt"
+    }
+  });
+
+  const recipients = userEmails.join(', ');
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: recipients,
+    subject: "Ticket has been created",
+    html: `
+    <html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: rgba(33, 33, 33, 1);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #04538E;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px;
+            height: auto;
+        }
+
+        .greeting {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .ticket-id {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .due-date {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .priority {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .assignee-content,
+        .assigned-content {
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #fff;
+            justify-content: center !important;
+        }
+
+        .assigneePic,
+        .assignedPic {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            align-self: center;
+            justify-self: center;
+            margin: 20px 0;
+            border-radius: 50%;
+        }
+
+        .assigneeEmail,
+        .assignedEmail {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin-left: 1em;
+            align-self: center !important;
+            justify-content: center !important;
+        }
+
+        .assignee {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .assigned {
+            font-size: 18px;
+            color: rgba(122, 122, 122, 1);
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="cid:logo" alt="Luna Logo" class="logo">
+            <h1>Ticket: ${ticketSummary} has been created</h1>
+        </div>
+        <p class="greeting">Notification for Ticket Creation</p>
+        <p class="message">You will be able to communicate between the team members by replying to this email</p>
+
+        <div class="content">
+            <p class="greeting">Ticket Content</p>
+            <div class="ticket-content">
+                <p class="ticket-id">Ticket ID: ${id}</p>
+                <p class="due-date">Due Date: ${endDate}</p>
+                <p class="priority">Priority: ${priority}</p>
+            </div>
+            <p class="assignee">Assignee:</p>
+            <div class="assignee-content" style="display: flex; align-items: center; justify-content: center;">
+                <img src=${assigneePic} alt="assigneePic" class="assigneePic">
+                <p class="assigneeEmail" style="display: flex; align-self: center; justify-self: center;">${assigneeEmail}</p>
+            </div>
+            <p class="assigned">Assigned: </p>
+            <div class="assigned-content" style="display: flex; align-items: center; justify-content: center;">
+                <img src=${assignedPic} alt="assignedPic" class="assignedPic">
+                <p class="assignedEmail" style="display: flex; align-self: center; justify-self: center;">${assignedEmail}</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+    `,
+    // attachments: [
+    //     {
+    //         filename: 'luna-logo.png',
+    //         path: 'assets/luna-logo.png',
+    //         cid: 'logo'
+    //     }
+    // ]
+  };
+
+    try {
+      await transporter.sendMail(mailOptions); // Assuming you have a configured transporter
+      res.status(200).send({message: "Emails sent!", recipients});
+    } catch (error) {
+      res.status(404).send({message: "Email not found!"});
+    }
+
 }));
 
 export default router;
