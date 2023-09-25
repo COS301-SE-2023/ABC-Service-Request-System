@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { ClientService } from 'src/services/client.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { response } from 'express';
+import { ticket } from '../../../../backend/clients/src/models/ticket.model';
+import { TicketsService } from 'src/services/ticket.service';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -31,7 +33,9 @@ export class ClientDashboardComponent implements OnInit {
   descriptionError = false;
   priorityError = false;
 
-  constructor(private authService: AuthService, private router: Router, private clientService: ClientService, private snackBar: MatSnackBar) {
+  clientTickets: ticket[] = [];
+
+  constructor(private authService: AuthService, private router: Router, private clientService: ClientService, private snackBar: MatSnackBar, private ticketService: TicketsService) {
     this.getClient();
   }
 
@@ -46,6 +50,7 @@ export class ClientDashboardComponent implements OnInit {
           this.loggedInClientObject = res;
           console.log(this.loggedInClientObject);
           this.getClientRequests();
+          this.getClientTickets();
         },
         (err) => {
           console.log('an error occured when trying to get client', err);
@@ -56,6 +61,20 @@ export class ClientDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInClient$ = this.authService.getLoggedInClient();
+  }
+
+  getClientTickets() {
+    const clientProjects: project [] = this.loggedInClientObject.projects;
+
+    if(clientProjects && clientProjects.length > 0) {
+      clientProjects.forEach((project: project) => {
+        this.ticketService.getTicketsWithProjectName(project.name).subscribe(
+          (res: ticket[]) => {
+            this.clientTickets.push(...res);
+          }
+        )
+      })
+    }
   }
 
   createRoom(){
