@@ -9,6 +9,7 @@ import {jwtVerify} from "../middleware/jwtVerify";
 import axios from "axios";
 import OpenAI from "openai";
 import Configuration from "openai";
+import nodemailer from "nodemailer";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -17,6 +18,14 @@ const router = Router();
 
 const storage = multer.diskStorage({});
 const upload = multer({ storage });
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+      user: "hyperiontech.capstone@gmail.com",
+      pass: "zycjmbveivhamcgt"
+  }
+});
 
 
 router.post('/generateTodoFromDescription', async(req,res) => {
@@ -195,6 +204,31 @@ router.post('/addticket', jwtVerify(['Admin', 'Manager']), expressAsyncHandler( 
         console.log("new ticket: ", newTicket);
 
         await newTicket.save();
+
+        const mailOptions = {
+          from: 'hyperiontech.capstone@gmail.com',
+          to: req.body.assigned, // Replace with the recipient's email. Maybe from the user who creates the ticket or another party you want to notify.
+          subject: 'New Ticket Created',
+          html: `
+              <h1>New Ticket Created</h1>
+              <p><strong>Ticket ID:</strong> ${newTicket.id}</p>
+              <p><strong>Description:</strong> ${newTicket.description}</p>
+              <p><strong>Summary:</strong> ${newTicket.summary}</p>
+              <p><strong>Assignee:</strong> ${newTicket.assignee}</p>
+              <p><strong>Priority:</strong> ${newTicket.priority}</p>
+              <p><strong>Start Date:</strong> ${newTicket.startDate}</p>
+              <p><strong>End Date:</strong> ${newTicket.endDate}</p>
+              <p>Thank you for using our ticket system!</p>
+          `
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+              console.log("Error sending email:", error);
+          } else {
+              console.log('Email sent:', info.response);
+          }
+      });
 
         // console.log("New ticket created succesfully");
         res.status(201).send({ message: "Ticket created succesfully" , newTicketID : newTicket.id});
