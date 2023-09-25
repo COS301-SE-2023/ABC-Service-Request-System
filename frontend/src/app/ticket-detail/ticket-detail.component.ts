@@ -83,6 +83,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   medPriority=false;
   highPriority=false;
 
+  timeToFirstResponse = 'Pending';
+  timeToTicketResolution = 'Pending';
+
 
   toggleForm() {
     this.isFormVisible = !this.isFormVisible;
@@ -243,6 +246,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               this.medPriority = true;
             } else {
               this.highPriority = true;
+            }
+
+            if (this.ticket.timeToFirstResponse) {
+
+            }   
+            if (this.ticket.timeToTicketResolution) {
+
             }
 
             this.showAll();

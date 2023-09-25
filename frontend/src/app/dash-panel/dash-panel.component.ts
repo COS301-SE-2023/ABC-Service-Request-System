@@ -32,6 +32,7 @@ export class DashPanelComponent implements OnInit{
   onSelectProject(project: any) {
     this.selectedProject = project;
     this.authService.setSelectedProject(project);
+    this.router.navigate(['/dashboard']);
   }
 
   ngOnInit(): void {
@@ -199,6 +200,7 @@ export class DashPanelComponent implements OnInit{
     this.clientService.setProjectsObservables(this.selectedProject);
     this.authService.setSelectedProject(this.selectedProject.name);
     this.toggleProjectOverlay();
+    this.router.navigate(['/dashboard']);
   }
 
   toggleProjectOverlay() {

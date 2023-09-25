@@ -275,5 +275,13 @@ export class UserService {
     return this.http.get<user>(`${this.API_URL}/email/${encodeURIComponent(email)}`, { headers });
   }
 
+  getUserByEmailNoObservable(email: string) {
+    this.token = localStorage.getItem('token'); // retrieve token from localStorage
+    //('Token from storage:', this.token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<user>(`${this.API_URL}/email/${encodeURIComponent(email)}`, { headers });
+  }
+
 
 }
