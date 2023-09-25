@@ -165,8 +165,10 @@
 
       <div class="expansion-panel">
         <div class="text-info">
-          <h2>View Analytics</h2>
-          <p>View analytics and progress for existing requests.</p>
+          <h2>View Existing Tickets</h2>
+          <p>View all your exxisting tickets and ticket details.</p>
+
+          <app-ticket-table [tickets]="clientTickets"></app-ticket-table>
         </div>
         <i class="fa-solid fa-chevron-right"></i>
       </div>
