@@ -507,7 +507,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
         case 'negative': return "fa-solid fa-arrow-trend-up";  
         default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
     }
-}
+} 
 
 
 

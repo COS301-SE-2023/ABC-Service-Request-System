@@ -93,12 +93,7 @@
                   <p class="average-unit hour-unit">HOURS</p>
                   <p class="average-unit minute-unit">MINUTES</p>
                 </div>
-
-                <!-- <div class="graph-badge-green" [ngClass]="getBadgeResponseClass()">
-                  <i class="fa-solid fa-arrow-trend-up"></i>
-                  <p id="imp">{{ this.responsePercentChange }}</p>
-                </div> -->
-
+                
                 <div class="graph-badge-green" [style.background-color]="calculateResponseTrend()">
                   <i [ngClass]="getArrowResponseClass()"></i>
                   <p id="imp">{{ this.responsePercentChange  }}</p>
