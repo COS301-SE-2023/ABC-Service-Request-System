@@ -207,20 +207,52 @@ router.post('/addticket', jwtVerify(['Admin', 'Manager']), expressAsyncHandler( 
 
         const mailOptions = {
           from: 'hyperiontech.capstone@gmail.com',
-          to: req.body.assigned, // Replace with the recipient's email. Maybe from the user who creates the ticket or another party you want to notify.
+          to: req.body.assigned,
           subject: 'New Ticket Created',
           html: `
-              <h1>New Ticket Created</h1>
-              <p><strong>Ticket ID:</strong> ${newTicket.id}</p>
-              <p><strong>Description:</strong> ${newTicket.description}</p>
-              <p><strong>Summary:</strong> ${newTicket.summary}</p>
-              <p><strong>Assignee:</strong> ${newTicket.assignee}</p>
-              <p><strong>Priority:</strong> ${newTicket.priority}</p>
-              <p><strong>Start Date:</strong> ${newTicket.startDate}</p>
-              <p><strong>End Date:</strong> ${newTicket.endDate}</p>
-              <p>Thank you for using our ticket system!</p>
+              <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; max-width: 600px; margin: 20px auto; border: 1px solid #dfe2e5; border-radius: 6px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                
+                  
+                  <h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 15px; margin-bottom: 25px; font-size: 24px;">Ticket Notification</h1>
+                  
+                  <table style="width: 100%; border-collapse: collapse;">
+                      <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; width: 150px; text-align: right; font-weight: bold; color: #7f8c8d;">Ticket ID:</td>
+                          <td style="padding: 10px 15px;">${newTicket.id}</td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Description:</td>
+                          <td style="padding: 10px 15px;">${newTicket.description}</td>
+                      </tr>
+                      <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Summary:</td>
+                          <td style="padding: 10px 15px;">${newTicket.summary}</td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Assignee:</td>
+                          <td style="padding: 10px 15px;">${newTicket.assignee}</td>
+                      </tr>
+                      <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Priority:</td>
+                          <td style="padding: 10px 15px;">${newTicket.priority}</td>
+                      </tr>
+                      <tr style="border-bottom: 1px solid #e9e9e9;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Start Date:</td>
+                          <td style="padding: 10px 15px;">${newTicket.startDate}</td>
+                      </tr>
+                      <tr style="background-color: #f5f8fa;">
+                          <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">End Date:</td>
+                          <td style="padding: 10px 15px;">${newTicket.endDate}</td>
+                      </tr>
+                  </table>
+                  
+                  <div style="margin-top: 30px; padding: 15px; background-color: #3498db; color: #ffffff; text-align: center; border-radius: 4px;">
+                      Thank you for using our ticket system!
+                  </div>
+              </div>
           `
       };
+      
 
       transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
