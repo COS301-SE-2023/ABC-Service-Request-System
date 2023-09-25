@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 import Peer, { MediaConnection } from 'peerjs';
 import { ClientService } from 'src/services/client.service';
@@ -22,6 +22,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   private localStream: any;
   private peerList: Array<any> = [];
 
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: Event) {
+    this.endCall();
+  }
+
   peerIdShare!: string;
   peerId!: string;
   currentPeer: any;
@@ -29,6 +34,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   mediaConnection!: MediaConnection;
 
   isConnectionClosed = false;
+
+  sharingScreen = false;
 
   constructor(private elementRef: ElementRef,
               private clientService: ClientService,
@@ -77,6 +84,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.endCall();
+
+    if(this.mediaConnection){
+      this.mediaConnection.close();
+      this.sendCallEndedMessage(this.mediaConnection.peer);
+    }
+
     if (this.localStream) {
       this.localStream.getTracks().forEach((track: any) => track.stop());
     }
@@ -223,7 +237,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     video.play();
 
     // video.classList.add('flipped-video');
-    video.style.transform = 'scaleX(-1)';
+    // video.style.transform = 'scaleX(-1)';
     video.style.width = '100%';
     video.style.objectFit = 'cover';
     video.style.borderRadius = '0.7em';
@@ -238,7 +252,20 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   screenShare(): void {
-    this.shareScreen();
+    const shareButton = document.querySelector('#shareButton');
+    const shareIcon = shareButton?.querySelector('img');
+
+    if(!this.sharingScreen) {
+      this.shareScreen();
+      this.sharingScreen = true;
+      if(shareIcon)
+        shareIcon.src = '../../assets/share-video.png';
+    } else {
+      this.stopScreenShare();
+      this.sharingScreen = false;
+      if(shareIcon)
+        shareIcon.src = '../../assets/share-video-off.png';
+    }
   }
 
   toggleCamera() {
@@ -259,7 +286,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         this.replaceVideoTrack(this.localStream, this.lazyStream.getVideoTracks()[0]);
       } else {
         cameraIcon.src = '../../assets/video-camera-off.png';
-        this.replaceVideoTrack(this.localStream, this.createBlackVideoTrack());
+        if(!this.sharingScreen)
+          this.replaceVideoTrack(this.localStream, this.createBlackVideoTrack());
       }
     }
   }
@@ -295,6 +323,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         this.stopScreenShare();
       };
 
+      const localVideo = document.getElementById('local-video') as HTMLVideoElement;
+      localVideo.srcObject = stream;
+
       const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
       sender.replaceTrack(videoTrack);
     }).catch(err => {
@@ -304,8 +335,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private stopScreenShare() {
     const videoTrack = this.lazyStream.getVideoTracks()[0];
-    const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
-    sender.replaceTrack(videoTrack);
+    if(this.currentPeer) {
+      const sender = this.currentPeer.getSenders().find((s:any) => s.track.kind === videoTrack.kind);
+      sender.replaceTrack(videoTrack);
+    }
+    this.startLocalStream();
   }
 
   endCall() {
@@ -320,7 +354,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           } else {
             setTimeout(() => {
               // this.router.navigate(['/client-dashboard']);
-              window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+              window.location.href = environment.FRONTEND_CLIENT_DASHBOARD_URL;
             }, 200);
           }
         },
@@ -346,7 +380,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       if(this.loggedInClientObject)
         setTimeout(() => {
           // this.router.navigate(['/client-dashboard']);
-          window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+          window.location.href = environment.FRONTEND_CLIENT_DASHBOARD_URL;
         }, 200);
     });
   }
@@ -354,7 +388,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   navigateOut() {
     if(this.loggedInClientObject)
       // this.router.navigate(['/client-dashboard']);
-      window.location.href = environment.FRONTENT_CLIENT_DASHBOARD_URL;
+      window.location.href = environment.FRONTEND_CLIENT_DASHBOARD_URL;
     else
       window.close();
   }
