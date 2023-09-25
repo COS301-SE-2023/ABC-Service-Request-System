@@ -513,8 +513,8 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
 
   getArrowResolutionClass(): string {
     switch(this.resolutionTrend ) {
-        case 'positive': return "fa-solid fa-arrow-trend-up";  // Assuming arrow down indicates improvement
-        case 'negative': return "fa-solid fa-arrow-trend-down";    // Arrow up for worsening trend
+        case 'positive': return "fa-solid fa-arrow-trend-down";  // Assuming arrow down indicates improvement
+        case 'negative': return "fa-solid fa-arrow-trend-up";    // Arrow up for worsening trend
         default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
     }
   }
@@ -564,6 +564,8 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
         // Access the last two tickets
         const lastTicket = this.timeToTicketResolutionArray[lastIndex];
         const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
+
+
 
         // Convert the timeToTicketResolution to Date objects with non-null assertion
         const lastResolutionTime = new Date(lastTicket.timeToTicketResolution!).getTime();

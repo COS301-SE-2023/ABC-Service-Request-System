@@ -431,20 +431,22 @@ export class SettingsProfileComponent { // implements OnInit{
     if (this.ticketResolutionLineChart) {
       this.ticketResolutionLineChart.destroy();
     }
+
+    const trendColour = this.calculateResolutionTrend();
     this.ticketResolutionLineChart = new Chart(this.ticketResolutionLineChartCanvas.nativeElement, {
       type: 'line',
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to Ticket Resolution (minutes)',
+          label: 'minutes: ',
           data: [],
-          borderColor: 'rgba(255, 91, 91, 0.66)',
-          backgroundColor: 'rgba(255, 91, 91, 0.66)',
+          borderColor: trendColour,
+          backgroundColor: trendColour,
           tension: 0.4,
           pointRadius: 5,
           pointHoverRadius: 7,
           pointBorderColor: '#fff',
-          pointBackgroundColor: 'rgba(255, 91, 91, 1)'
+          pointBackgroundColor: trendColour
         }],
       },
       options: {
@@ -477,7 +479,7 @@ export class SettingsProfileComponent { // implements OnInit{
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to First Response (minutes)',
+          label: 'minutes: ',
           data: [],
           borderColor: trendColour,
           backgroundColor: trendColour,
@@ -700,8 +702,8 @@ export class SettingsProfileComponent { // implements OnInit{
 
   getArrowResolutionClass(): string {
     switch(this.resolutionTrend ) {
-        case 'positive': return "fa-solid fa-arrow-trend-up";  // Assuming arrow down indicates improvement
-        case 'negative': return "fa-solid fa-arrow-trend-down";    // Arrow up for worsening trend
+        case 'positive': return "fa-solid fa-arrow-trend-down";  // Assuming arrow down indicates improvement
+        case 'negative': return "fa-solid fa-arrow-trend-up";    // Arrow up for worsening trend
         default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
     }
   }
@@ -794,6 +796,13 @@ export class SettingsProfileComponent { // implements OnInit{
     console.log("Chart labels:", this.ticketResolutionLineChart.data.labels); // Log labels
     console.log("Chart data:", this.ticketResolutionLineChart.data.datasets[0].data); // Log data
     // Update the chart to reflect new data for Ticket Resolution
+    const trendColor = this.calculateResolutionTrend();
+    // console.log ("Updated Resolution trendColor", trendColor)
+    this.ticketResolutionLineChart.data.datasets[0].borderColor = trendColor;
+    this.ticketResolutionLineChart.data.datasets[0].backgroundColor = trendColor;
+    this.ticketResolutionLineChart.data.datasets[0].pointBackgroundColor = trendColor;
+
+
     this.ticketResolutionLineChart.update();
   }
 
