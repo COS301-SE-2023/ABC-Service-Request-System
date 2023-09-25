@@ -74,7 +74,7 @@
       max-height: 3em;
       border-radius: 0.4em;
       margin-right: 1em;
-      margin-left: 1em;
+      margin-left: 0em;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -85,7 +85,7 @@
     }
 
     h2 {
-      font-size: 1.2em !important;
+      font-size: 0.8em !important;
       font-family: 'Montserrat' !important;
       margin-bottom: 0;
       line-height: 1.3em;
@@ -139,7 +139,7 @@
     width: 98%;
     border-end-end-radius: 0.2em;
     padding: 1em;
-    font-size: 1.2em;
+    font-size: 1em;
     color: #44546F;
     // color: rgba(255,255,255,0.7);
     font-family: "Poppins";

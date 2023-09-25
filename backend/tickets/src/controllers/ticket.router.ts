@@ -120,7 +120,7 @@ router.get('/projects', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin'
   }
 ));
 
-router.get('/project', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(
+router.get('/project', expressAsyncHandler(
   async (req, res) => {
     const projectName = req.query.name;
     try {
@@ -133,7 +133,8 @@ router.get('/project', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']
         // console.log('no tickets found');
         res.status(404).send("No tickets for this project");
       }
-    } catch {
+    } catch (error) {
+      console.log(error);
       res.status(500).send("Internal Server Error fetching projects");
     }
   }

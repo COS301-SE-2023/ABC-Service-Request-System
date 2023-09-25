@@ -691,7 +691,7 @@ router.get('/id', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), ex
 
 
 
-router.get('/email', jwtVerify(['Admin', 'Manager', 'Technical', 'Functional']), expressAsyncHandler(
+router.get('/email', expressAsyncHandler(
     async (req, res) => {
         const user = await UserModel.findOne({ emailAddress: req.query.email });
         if(user){

@@ -60,8 +60,8 @@
 
     <div class="button-wrapper" *ngIf="authService.isAdmin() || authService.isManager()" [ngClass]="{ 'white-color': checkIfCreateAccountRoute() }">
       <button class="creat-account" (click)="openCreateAccount()">
-        <i class="fa-solid fa-user-plus"></i>
-        <span>Create Account</span>
+        <i class="fa-solid fa-key"></i>
+        <span>Manage Accounts</span>
       </button>
       <div *ngIf="checkIfCreateAccountRoute()" class="active-background"></div>
       <div *ngIf="!checkIfCreateAccountRoute()" class="inactive-background"></div>

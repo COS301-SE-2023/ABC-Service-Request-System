@@ -151,27 +151,49 @@
                 </tr>
               </tbody>
             </table>
-
-
           </div>
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </div>
 
       <h1>
-        <i class="fa-solid fa-chart-simple"></i>
-        View Analytics
+        <i class="fa-solid fa-ticket"></i>
+        View Tickets
       </h1>
 
-      <div class="expansion-panel">
+
+
+
+
+      <div class="expansion-wrapper">
+        <div class="expansion-panel" [class.expanded]="isViewTicketsExpanded" (click)="toggleViewTicketsExpansion()" tabindex="1" (keyup)="stopPropagation($event)">
+          <div class="text-info">
+            <h2>View Existing Tickets</h2>
+            <p>View all your existing tickets and ticket details.</p>
+
+            <div *ngIf="loggedInClientObject && loggedInClientObject !== null && loggedInClientObject !== undefined && isViewTicketsExpanded" class="ticketsContainer">
+              <app-ticket-table [clientObjectRecieved]="loggedInClientObject"></app-ticket-table>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </div>
+
+
+
+
+
+      <!-- <div class="expansion-panel">
         <div class="text-info">
           <h2>View Existing Tickets</h2>
           <p>View all your exxisting tickets and ticket details.</p>
 
-          <app-ticket-table [tickets]="clientTickets"></app-ticket-table>
+          <ng-container *ngIf="loggedInClientObject && loggedInClientObject !== null && loggedInClientObject !== undefined && isViewTicketsExpanded">
+            <app-ticket-table [clientObjectRecieved]="loggedInClientObject"></app-ticket-table>
+          </ng-container>
         </div>
         <i class="fa-solid fa-chevron-right"></i>
-      </div>
+      </div> -->
 
     </div>
   </div>

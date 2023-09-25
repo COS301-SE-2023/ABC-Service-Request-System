@@ -241,6 +241,45 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.shareScreen();
   }
 
+  toggleCamera() {
+    const videoTracks = this.localStream.getVideoTracks();
+
+    if (videoTracks.length === 0) {
+      return;
+    }
+
+    videoTracks[0].enabled = !videoTracks[0].enabled;
+
+    const cameraButton = document.querySelector('.button');
+    const cameraIcon = cameraButton?.querySelector('img');
+
+    if(cameraIcon) {
+      if (videoTracks[0].enabled) {
+        cameraIcon.src = '../../assets/video-camera.png';
+        this.replaceVideoTrack(this.localStream, this.lazyStream.getVideoTracks()[0]);
+      } else {
+        cameraIcon.src = '../../assets/video-camera-off.png';
+        this.replaceVideoTrack(this.localStream, this.createBlackVideoTrack());
+      }
+    }
+  }
+
+  replaceVideoTrack(stream: any, newTrack: any) {
+    const videoSender = this.currentPeer.getSenders().find((sender: any) => sender.track.kind === 'video');
+    videoSender.replaceTrack(newTrack);
+  }
+
+  createBlackVideoTrack() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 640;
+    canvas.height = 480;
+    ctx!.fillStyle = 'black';
+    ctx!.fillRect(0, 0, canvas.width, canvas.height);
+    const stream = canvas.captureStream();
+    return stream.getVideoTracks()[0];
+  }
+
   private shareScreen() {
     navigator.mediaDevices.getDisplayMedia({
       video: {

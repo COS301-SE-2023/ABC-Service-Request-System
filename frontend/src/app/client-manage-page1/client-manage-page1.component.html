@@ -11,7 +11,7 @@
 
   <ul class="options" *ngIf="isDropDownOpen">
     <li *ngFor="let organisation of organisationsToShow; let i = index" class="option"  [tabindex]="i" (click)="selectOption(organisation)" (keyup)="selectOption(organisation)">
-      <div class="user-img" [class]="organisation.projects[0].color">
+      <div class="user-img" [class]="organisation.projects[0].color" (click)="toggleDropDown()" tabindex="0" (keyup)="toggleDropDown()">
         <img [src]="organisation.projects[0].logo" alt="organisation logo">
       </div>
       <span class="option-text" id="optionText{{i}}"> {{ organisation.organisation }} </span>
