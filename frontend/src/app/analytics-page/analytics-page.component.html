@@ -2,10 +2,10 @@
   <div class="main-content">
     <div class="analytics-page">
       <div class="analytics-content">
-        <h1 class="page-title">Analytics</h1>
+        <!-- <h1 class="page-title">Analytics</h1> -->
 
         <div class="dropdown-container">
-          <label for="analytics-type">Select Analytics:</label>
+          <!-- <label for="analytics-type">Select Analytics:</label> -->
           <select id="analytics-type" [(ngModel)]="filterValue" (change)="typeChanged(filterValue)">
             <option value="personal">Personal</option>
             <option value="group">Group</option>
@@ -13,7 +13,7 @@
 
           <div *ngIf="filterValue === 'group'" class="group-dropdown">
             <label for="group-analytics">Select Group:</label>
-            <select [(ngModel)]="sgroup" #selectElement (change)="selectGroup(sgroup)">
+            <select [(ngModel)]="sgroup" #selectElement (change)="selectGroup(sgroup)" style="width: 80%;">
               <option value="" disabled selected>Select group</option>
               <option *ngFor="let group of groups" [value]="group.id">{{group.groupName}}</option>
             </select>
@@ -53,19 +53,19 @@
             <h2>Hours Logged</h2>
             <div class="table-container">
                 <div *ngFor="let entry of latestWorklogs" class="table-item">
-                    
+
                     <!-- Display the ticket summary -->
                     <!-- <div class="item-summary">
                         <p>{{ entry.ticketSummary }}</p>
                     </div> -->
-        
+
                     <!-- Display the worklog description -->
                     <div class="item-description">
                       <p>{{ entry.ticketSummary }}</p>
                     </div>
-        
+
                     <div class="line-seperator"></div>
-        
+
                     <!-- Display the hours -->
                     <div class="item-duration">
                         <p>{{ getHours(entry.worklog.timeSpent) }} <span>HOURS</span></p>
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        
+
 
 
           <!-- Ticket Lifecycle -->

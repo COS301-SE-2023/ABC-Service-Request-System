@@ -15,6 +15,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-top: 60px;
 }
 
 .analytics-page {
@@ -26,8 +27,8 @@
 }
 
 .dropdown-container {
-  margin-left: 23%;
-  margin-top: 25px;
+  margin-left: 2em;
+  // margin-top: 25px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -35,6 +36,18 @@
   position: relative;
   align-items: center;
   // width: 95%;
+}
+
+select {
+  background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 97% 50%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  width: 40%;
+  outline: none;
 }
 
 
@@ -63,8 +76,8 @@
 .group-dropdown {
   display: flex;
   align-items: center;
-  margin-left: 10px;
-  margin-top: 5px;
+  margin-left: 2em;
+  // margin-top: 5px;
 }
 
 .group-dropdown label {
@@ -131,16 +144,16 @@
 
 h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 2em;
+  font-size: 1.4em;
   margin-bottom: 0 !important;
 }
 
 .count {
   position: absolute; /* Add position absolute */
   font-family: 'Poppins', sans-serif;
-  bottom: 0.5em;
+  bottom: 0em;
   right: 0.5em;
-  font-size: 4em;
+  font-size: 5em;
   color: rgba(255, 91, 91, 0.66);
   font-weight: bold;
 }
@@ -148,9 +161,9 @@ h2 {
 .count2 {
   position: absolute; /* Add position absolute */
   font-family: 'Poppins', sans-serif;
-  bottom: 0.5em;
+  bottom: 0em;
   right: 0.5em;
-  font-size: 6em;
+  font-size: 5em;
   color: rgba(0, 0, 0, 0.66);
   font-weight: bold;
 }
@@ -229,6 +242,7 @@ h2 {
   transform: translateY(-50%);
   color: #33663D;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
 
   i {
     margin-right: 1em;
@@ -253,6 +267,8 @@ h2 {
   transform: translateY(-50%);
   color: #8C2822;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
+
 
   i {
     margin-right: 1em;
@@ -313,7 +329,7 @@ h2 {
   justify-content: space-between;
   align-items: center;
   margin: 1em;
-  // padding: 2em;
+  padding: 1em;
   border-radius: 0.8em;
   height: fit-content;
   position: relative;
@@ -327,7 +343,7 @@ h2 {
 
 .item-description {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.5em;
+  font-size: 1em;
   color: rgba(0,0,0,0.66);
   max-width: 70%;
 
@@ -343,7 +359,7 @@ h2 {
   p{
     margin-bottom: 0 !important;
     font-family: 'Poppins', sans-serif;
-    font-size: 3em;
+    font-size: 1.5em;
     color: rgba(0,0,0,0.66);
     padding: 0.5em;
     padding-bottom: 0em;
@@ -365,7 +381,7 @@ h2 {
   .average-hours {
     margin-top: 0.5em;
     font-family: 'Poppins', sans-serif;
-    font-size: 4em;
+    font-size: 2.5em;
     font-weight: bold;
     color: rgba(0,0,0,0.66);
     min-width: 50%;
@@ -374,7 +390,7 @@ h2 {
   .average-minutes {
     margin-top: 0.5em;
     font-family: 'Poppins', sans-serif;
-    font-size: 4em;
+    font-size: 2.5em;
     font-weight: bold;
     color: rgba(0,0,0,0.66);
     min-width: 40%;

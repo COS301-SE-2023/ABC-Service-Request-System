@@ -73,7 +73,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   averageResponseMinutes!: string;
 
 
-  
+
 
   //charts
   doughnutChart!: Chart<"doughnut", (number | null)[], string>;
@@ -98,7 +98,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     console.log('in analytics page');
 
     //change name to id
-    
+
     this.userId = this.authService.getUser().emailAddress;
     console.log('user id: ', this.userId);
 
@@ -183,7 +183,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
   getHours(timeSpent: string): number {
     return parseInt(timeSpent.replace('h', ''), 10);
   }
-  
+
 
   selectGroup(id: string): void {
     const username = this.authService.getUser().name;
@@ -193,7 +193,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
         this.selectedGroup = group;
         console.log('Selected Group ID # 2:', group.groupName);
         this.onGroupSelected(group.groupName);
-        
+
         this.fetchUserWorklogsInGroup(username, group.groupName);
         console.log("user idddd:" , username);
         console.log("user group:" , group.groupName);
@@ -290,7 +290,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
 
 
       this.selectGroup(this.groups[0].id);
-      
+
 
 
     }
@@ -488,7 +488,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to First Response (minutes)',
+          label: '(minutes)',
           data: [],
           borderColor: 'rgba(26, 188, 156, 1)',
           backgroundColor: 'rgba(26, 188, 156, 1)',
@@ -524,7 +524,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to Ticket Resolution (minutes)',
+          label: '(minutes)',
           data: [],
           borderColor: 'rgba(255, 91, 91, 0.66)',
           backgroundColor: 'rgba(255, 91, 91, 0.66)',
