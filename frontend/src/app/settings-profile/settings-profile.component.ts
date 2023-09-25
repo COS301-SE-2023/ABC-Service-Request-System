@@ -59,6 +59,7 @@ export class SettingsProfileComponent { // implements OnInit{
   personalLowPriorityTicketsCount = 0;
 
   personalClosedTicketsCount = 0;
+  currentTickets!: ticket[];
 
 
   lineChart!: Chart<'line', (number | null)[], string>;
@@ -155,6 +156,7 @@ export class SettingsProfileComponent { // implements OnInit{
         this.ticketsService.getTicketsWithName(this.currentUser.emailAddress).subscribe(
           (response) => {
             console.log(response);
+            this.currentTickets = response;
 
               response.forEach((ticket) => {
                 // Parse the ticket endDate as a Date object

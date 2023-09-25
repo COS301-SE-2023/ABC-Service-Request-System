@@ -177,11 +177,16 @@
     </div>
   </div>
 
-  <!-- <div class = "bio-line-four">
+  <div class = "bio-line-four">
     <img class = "bio-line-4" src = "../../assets/line5.png" alt = "line">
   </div>
+  
+  <div class = "tickets">
+    <p class="tickets-text">Tickets</p>
+    <app-ticket-table [tickets]="currentTickets"></app-ticket-table>
+  </div>
 
-  <div class = "notification-settings">
+  <!-- <div class = "notification-settings">
     <p class="notifications-text">Notification Settings</p>
   </div> -->
 </div>
@@ -229,6 +234,7 @@
   </div>
 </div>
 <div class="modal-overlay" *ngIf="isModalOpen" (click)="toggleModal()"></div>
+
 
 
 <!-- <app-dash-panel></app-dash-panel> -->

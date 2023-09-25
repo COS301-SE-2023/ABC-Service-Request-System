@@ -10,6 +10,7 @@ import { GroupService } from 'src/services/group.service';
 import { ClientService } from 'src/services/client.service';
 import { project } from '../../../../backend/clients/src/models/client.model';
 import { forkJoin } from 'rxjs';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-ticket-table',
@@ -18,7 +19,8 @@ import { forkJoin } from 'rxjs';
 })
 
 export class TicketTableComponent implements OnInit{
-  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, private clientService: ClientService, private route: ActivatedRoute) { }
+  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, 
+    private userService: UserService, private clientService: ClientService, private route: ActivatedRoute) { }
 
   allTicketsArray: ticket[] = [];
   sortedTicketsArray: ticket[] = [];
@@ -30,9 +32,11 @@ export class TicketTableComponent implements OnInit{
 
   ticketsReady = false;
 
+
   assignedName = '';
   assigneeName = '';
 
+  @Input() viewProfileEmail = '';
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
 
@@ -41,37 +45,99 @@ export class TicketTableComponent implements OnInit{
   }
 
   getClientGroups() {
-    this.authservice.getUserObject().subscribe(
-      (response) => {
-        const user = response;
-        const groupObservables = user.groups.map(group => {
-          return this.groupService.getGroupNameById(group);
-        });
+    if (this.viewProfileEmail != '') {
+      this.userService.getUserByEmail(this.viewProfileEmail).subscribe(
+        (response) => {
+          const user = response;
+          const groupObservables = user.groups.map(group => {
+            return this.groupService.getGroupNameById(group);
+          });
+  
+          forkJoin(groupObservables).subscribe(
+            (responses: any) => {
+              responses.forEach((response:any) => {
+                const groupName = response.groupName;
+                if (!this.currentUserGroups.includes(groupName)) {
+                  this.currentUserGroups.push(groupName);
+                }
+              });
+  
+              // Call the different function here, as all group names have been fetched
+              this.getTicketsForTable();
+            },
+            (error) => {
+              console.log("Error fetching group names", error);
+            }
+          );
+        }
 
-        forkJoin(groupObservables).subscribe(
-          (responses) => {
-            responses.forEach(response => {
-              const groupName = response.groupName;
-              if (!this.currentUserGroups.includes(groupName)) {
-                this.currentUserGroups.push(groupName);
-              }
-            });
-
-            // Call the different function here, as all group names have been fetched
-            this.getTicketsForTable();
-          },
-          (error) => {
-            console.log("Error fetching group names", error);
-          }
-        );
-      }
-    );
+      )
+    } else {
+      this.authservice.getUserObject().subscribe(
+        (response) => {
+          const user = response;
+          const groupObservables = user.groups.map(group => {
+            return this.groupService.getGroupNameById(group);
+          });
+  
+          forkJoin(groupObservables).subscribe(
+            (responses) => {
+              responses.forEach(response => {
+                const groupName = response.groupName;
+                if (!this.currentUserGroups.includes(groupName)) {
+                  this.currentUserGroups.push(groupName);
+                }
+              });
+  
+              // Call the different function here, as all group names have been fetched
+              this.getTicketsForTable();
+            },
+            (error) => {
+              console.log("Error fetching group names", error);
+            }
+          );
+        }
+      );
+    }
   }
 
   getTicketsForTable(){
+    const currentURL: string = window.location.href;
+
     const projectsObservable = this.clientService.getProjectsObservable();
     this.route.queryParams.subscribe(params => {
-      if (params['id']) {
+      if (currentURL.includes('settings')) {
+        console.log('dog 2');
+        this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
+          console.log('important: ', response);
+          this.allTicketsArray = response.filter((ticket: ticket) => {
+            return (this.currentUserGroups.includes(ticket.group) );
+          })
+          console.log('settings ');
+          console.log(this.tickets);
+          this.tickets = this.sortTickets(this.tickets);
+          this.sortedTicketsArray = this.tickets.slice();
+          console.log(this.sortedTicketsArray);
+          this.ticketsReady = true;
+          this.tickets.forEach(tickets => {
+            const promises :any = [];
+            const assigneeEmail = tickets.assignee;
+            const assignedEmail = tickets.assigned;
+
+            const assigneePromise = this.authservice.getUserNameByEmail(assigneeEmail).toPromise();
+            promises.push(assigneePromise.then((assignee) => {
+              tickets.assignee = assignee?.name + ' ' + assignee?.surname;
+            }));
+
+            const assignedPromise = this.authservice.getUserNameByEmail(assignedEmail).toPromise();
+            promises.push(assignedPromise.then((assigned) => {
+              tickets.assigned = assigned?.name + ' ' + assigned?.surname;
+            }));
+
+          });
+        });
+
+      } else if (params['id']) {
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
           console.log('important: ', response);
           this.allTicketsArray = response.filter((ticket: ticket) => {
@@ -80,8 +146,26 @@ export class TicketTableComponent implements OnInit{
           this.allTicketsArray = this.sortTickets(this.allTicketsArray);
           this.sortedTicketsArray = this.allTicketsArray.slice();
           this.ticketsReady = true;
+          this.allTicketsArray.forEach(tickets => {
+            const promises :any = [];
+            const assigneeEmail = tickets.assignee;
+            const assignedEmail = tickets.assigned;
+
+            const assigneePromise = this.authservice.getUserNameByEmail(assigneeEmail).toPromise();
+            promises.push(assigneePromise.then((assignee) => {
+              tickets.assignee = assignee?.name + ' ' + assignee?.surname;
+            }));
+
+            const assignedPromise = this.authservice.getUserNameByEmail(assignedEmail).toPromise();
+            promises.push(assignedPromise.then((assigned) => {
+              tickets.assigned = assigned?.name + ' ' + assigned?.surname;
+            }));
+
+
+          });
         });
       } else {
+        console.log('WORKING');
         if (projectsObservable !== undefined) {
           projectsObservable.subscribe((project) => {
             if (project !== undefined) {
@@ -143,7 +227,7 @@ export class TicketTableComponent implements OnInit{
 
   ngOnInit(): void {
     this.getClientGroups();
-    //this.getTicketsForTable();
+    // this.getTicketsForTable();
 
       // this.assignedDetails.length = 0;
       // this.assigneeDetails.length = 0;
