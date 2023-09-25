@@ -57,6 +57,10 @@ export class AuthService {
     this.user = decodedToken.user;
   }
 
+  getToken(): string | null{
+    return this.token;
+  }
+
 
 
   getRole(): string []{
