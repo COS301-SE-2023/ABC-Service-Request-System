@@ -185,7 +185,7 @@ export class ClientService {
     return this.http.post<any>(`${this.CLIENT_URL}/project_request`, body, {headers});
   }
 
-  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string, projectId: string) {
+  addTicketRequest(projectSelected: string, summary: string, description: string, priority: string, clientId: string, projectId: string, endDate:string) {
     this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
@@ -195,7 +195,8 @@ export class ClientService {
       description: description,
       priority: priority,
       clientId: clientId,
-      projectId: projectId
+      projectId: projectId,
+      endDate: endDate
     }
 
     return this.http.post<any>(`${this.CLIENT_URL}/ticket_request`, body, {headers});

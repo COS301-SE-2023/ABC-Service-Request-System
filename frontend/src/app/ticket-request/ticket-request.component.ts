@@ -46,11 +46,11 @@ export class TicketRequestComponent implements OnInit {
     return content.replace(/<\/?p>/g, '');
   }
 
-  approveTicketRequest(project: string, summary: string, description: string, priority: string, group: string, assigned: user){
+  approveTicketRequest(project: string, summary: string, description: string, priority: string, group: string, assigned: user, endDateReq:string){
     const assignee = this.currentUserObject.emailAddress;
     const assignedEmail = assigned.emailAddress;
     const currentDate = new Date();
-    const endDate = '22/09/2023';
+    const endDate = endDateReq;
     const startDate = this.formatDate(this.stringFormatDate(currentDate));
     const status = "Active";
     const comments: string [] = [];

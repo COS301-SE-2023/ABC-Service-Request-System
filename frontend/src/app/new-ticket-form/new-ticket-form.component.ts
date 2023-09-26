@@ -185,7 +185,7 @@ export class NewTicketFormComponent implements OnInit {
         endDateCustom = this.formatDate(ticketFormValues.endDateCustom);
       }
 
-      // get Current Date in String Format
+
       const currentDate = new Date();
 
       const startDate = this.formatDate(this.stringFormatDate(currentDate));
@@ -302,10 +302,6 @@ export class NewTicketFormComponent implements OnInit {
     }
 
   );
-
-
-
-
 
       // emitting for now so that there's no errors
       const newTicket: ticket = {

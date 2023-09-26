@@ -83,8 +83,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   medPriority=false;
   highPriority=false;
 
-  timeToFirstResponse = 'Pending';
-  timeToTicketResolution = 'Pending';
+  timeToFirstResponse = 'pending';
+  timeToTicketResolution = 'pending';
 
 
   toggleForm() {
@@ -239,7 +239,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
             this.currentAssigned = response.assigned;
-            
+
             if (response.priority == 'Low') {
               this.lowPriority = true;
             } else if (response.priority == 'Medium'){
@@ -248,10 +248,83 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               this.highPriority = true;
             }
 
-            if (this.ticket.timeToFirstResponse) {
 
-            }   
+            // console.log('this.ticket.timeToFirstResponse');
+            // console.log(this.ticket.timeToFirstResponse);
+            if (this.ticket.timeToFirstResponse) {
+              // console.log('this.ticket.timeToFirstResponse');
+              const createdAtDateString = this.ticket.createdAt;
+              const createdAtDate = new Date(createdAtDateString);
+
+              const timeToFirstResponseString = this.ticket.timeToFirstResponse;
+              const timeToFirstResponse = new Date(timeToFirstResponseString);
+
+              const timeDifferenceToFirstResponse = timeToFirstResponse.getTime() - createdAtDate.getTime();
+              const daysToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60 * 24));
+
+              this.timeToFirstResponse = `${daysToFirstResponse} days`;
+              if (this.timeToFirstResponse == '1 days') {
+                // const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
+                this.timeToFirstResponse = '1 day';
+              }
+              if (this.timeToFirstResponse == '0 days') {
+                const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
+                this.timeToFirstResponse = `${hoursToFirstResponse} hours`;
+              }
+
+              if (this.timeToFirstResponse == '1 hours') {
+                // const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
+                this.timeToFirstResponse = '1 hour';
+              }
+              if (this.timeToFirstResponse == '0 hours') {
+                const minutesToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60));
+                this.timeToFirstResponse = `${minutesToFirstResponse} minutes`
+              }
+
+              if (this.timeToFirstResponse == '1 minutes') {
+                // const secondsToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000));
+                this.timeToFirstResponse = '1 minute';
+              }
+              if (this.timeToFirstResponse == '0 minutes') {
+                const secondsToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000));
+                this.timeToFirstResponse = `${secondsToFirstResponse} seconds`
+              }
+            }
             if (this.ticket.timeToTicketResolution) {
+              const createdAtDateString = this.ticket.createdAt;
+              const createdAtDate = new Date(createdAtDateString);
+
+              const timeToTicketResolutionString = this.ticket.timeToTicketResolution;
+              const timeToTicketResolution = new Date(timeToTicketResolutionString);
+
+              const timeDifferenceToTicketResolution = timeToTicketResolution.getTime() - createdAtDate.getTime();
+              const daysToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60 * 24));
+              this.timeToTicketResolution = `${daysToTicketResolution} days`;
+
+              if (this.timeToTicketResolution == '1 days') {
+                const hoursToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
+                this.timeToTicketResolution = `${hoursToTicketResolution} hours`;
+              }
+              if (this.timeToTicketResolution == '0 days') {
+                const hoursToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
+                this.timeToTicketResolution = `${hoursToTicketResolution} hours`;
+              }
+
+              if (this.timeToTicketResolution == '1 hours') {
+                this.timeToTicketResolution = '1 hour';
+              }
+              if (this.timeToTicketResolution == '0 hours') {
+                const minutesToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60));
+                this.timeToTicketResolution = `${minutesToTicketResolution} minutes`
+              }
+
+              if (this.timeToTicketResolution == '1 minutes') {
+                this.timeToTicketResolution = '1 minute';
+              }
+              if (this.timeToTicketResolution == '0 minutes') {
+                const secondsToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000));
+                this.timeToTicketResolution = `${secondsToTicketResolution} seconds`
+              }
 
             }
 
@@ -473,7 +546,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
         if (this.ticket.assigned === currentUser.emailAddress) {
           console.log("should go in here");
-          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Comment', attachment).subscribe(
             res => {
               console.log('Comment added successfully', res);
               // If comment is successfully added, add the time to first response
@@ -495,7 +568,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             }
           );
         } else {
-          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Internal Note', attachment).subscribe(
+          this.ticketService.makeAComment(this.ticket.id, comment, this.getCurrentUserName(), this.userProfilePic, 'Comment', attachment).subscribe(
             res => {
               console.log('Comment added successfully', res);
               location.reload();
@@ -643,6 +716,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   showAll(): void {
     this.activeTab = 'All';
+    this.displayedComments = [];
     if(this.ticket && this.ticket.comments){
       this.displayedComments = this.ticket.comments;
       if (this.numReversed != 1) {
@@ -650,14 +724,27 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         this.numReversed = 1;
       }
     }
+
     this.historyOnly = false;
     this.displayedHistory = [];
+    if (this.ticket.history != null) {
+      this.displayedHistory = this.ticket.history;
+    }
+
     this.displayedWorklogs = [];
+    if (this.ticket) {
+      if (this.ticket.workLogs) {
+        this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
+      }
+    }
+
+
   }
 
   showAttachmentsOnly(): void {
     this.historyOnly = false;
     this.displayedWorklogs = [];
+    this.displayedHistory = [];
     this.displayedComments = this.ticket.comments?.filter(comment => comment.attachment && comment.attachment.url);
     console.log(this.displayedComments);
   }
@@ -665,6 +752,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showCommentsOnly(): void {
     this.historyOnly = false;
     this.displayedWorklogs = [];
+    this.displayedHistory = [];
     this.displayedComments = this.ticket.comments?.filter(comment => !comment.attachment?.url);
     console.log(this.displayedComments);
   }
@@ -673,6 +761,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.displayedWorklogs = [];
     this.displayedComments = [];
     this.historyOnly = true;
+    this.displayedHistory = [];
     if (this.ticket.history != null) {
       this.displayedHistory = this.ticket.history;
     }
@@ -692,6 +781,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.activeTab = 'Work Logs';
     this.displayedComments = []; // Clear the displayed comments array when showing work logs
     this.displayedHistory = [];
+    this.displayedWorklogs = [];
     if (this.ticket) {
       if (this.ticket.workLogs) { // Check if workLogs property is defined
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
