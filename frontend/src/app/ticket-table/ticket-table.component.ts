@@ -38,6 +38,8 @@ export class TicketTableComponent implements OnInit{
   assignedName = '';
   assigneeName = '';
 
+  inProfileOrSettings = false;
+
   @Input() viewProfileEmail = '';
   @Input() tickets: any[] = [];
   @Output() openForm = new EventEmitter<string>();
@@ -131,6 +133,7 @@ export class TicketTableComponent implements OnInit{
     const projectsObservable = this.clientService.getProjectsObservable();
     this.route.queryParams.subscribe(params => {
       if (currentURL.includes('settings')) {
+        this.inProfileOrSettings = true;
         console.log('dog 2');
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
           console.log('important: ', response);
@@ -162,6 +165,7 @@ export class TicketTableComponent implements OnInit{
         });
 
       } else if (params['id']) {
+        this.inProfileOrSettings = true;
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
           // console.log('important: ', response);
           console.log('loggedin user groups)');
@@ -204,7 +208,8 @@ export class TicketTableComponent implements OnInit{
           });
         });
       } else {
-        console.log('WORKING');
+        // console.log('WORKING');
+        this.inProfileOrSettings = false;
         if (projectsObservable !== undefined) {
           projectsObservable.subscribe((project) => {
             if (project !== undefined) {

@@ -47,8 +47,12 @@
 
   <mat-progress-bar mode="indeterminate" *ngIf="!ticketsReady"></mat-progress-bar>
 
-  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0">
+  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === false">
     <p>There are no tickets for this project currently. Add new tickets to see them here!</p>
     <button (click)="routeToNewTickets()">Add tickets</button>
+  </div>
+  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === true">
+    <p>There are no tickets currently assigned to this user</p>
+    <!-- <button (click)="routeToNewTickets()">Add tickets</button> -->
   </div>
 </div>
