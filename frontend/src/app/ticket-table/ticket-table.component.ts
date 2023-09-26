@@ -310,34 +310,42 @@ export class TicketTableComponent implements OnInit{
 
   }
 
-  getDeadline(endDateString: string) {
-  
+  getOverdueDeadline(endDateString: string, ticketStatus: string) {
+
+    if(ticketStatus === 'Done')
+      return false;
+
     const dateFormat = 'dd/MM/yyyy';
 
     const endDate = parse(endDateString, dateFormat, new Date());
 
-    // const endDateDate = new Date(Date.parse(endDateString));
     const currentDate = new Date();
     console.log(endDate);
     const differenceInMilliseconds = endDate.getTime() - currentDate.getTime();
     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
-    console.log(differenceInDays);
-    if (differenceInDays > 3) {
-      this.normalDeadline = true;
-      this.upcomingDeadline = false;
-      this.overdueDeadline = false;
-    } else if (differenceInDays > 0 && differenceInDays <= 3) {
-      this.normalDeadline = false;
-      this.upcomingDeadline = true;
-      this.overdueDeadline = false;
-    } else if (differenceInDays <= 0){
-      this.normalDeadline = false;
-      this.upcomingDeadline = false;
-      this.overdueDeadline = true;
+    if (differenceInDays < -1){
+      return true
     }
 
-    return endDateString;
+    return false;
+  }
+
+  getApproacingDeadline(endDateString: string) {
+    const dateFormat = 'dd/MM/yyyy';
+
+    const endDate = parse(endDateString, dateFormat, new Date());
+
+    const currentDate = new Date();
+    console.log(endDate);
+    const differenceInMilliseconds = endDate.getTime() - currentDate.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+
+    if (differenceInDays > 0 && differenceInDays <= 3) {
+      return true
+    }
+
+    return false;
   }
 
   ngOnInit(): void {
