@@ -24,6 +24,8 @@ export class DashPanelComponent implements OnInit{
 
   isDarkMode!: boolean;
 
+  
+
   constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService, private themeService: ThemeService) {
     this.themeService.initTheme();
     this.isDarkMode = this.themeService.isDarkMode();
@@ -31,6 +33,7 @@ export class DashPanelComponent implements OnInit{
 
   onSelectProject(project: any) {
     this.selectedProject = project;
+    localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
     this.authService.setSelectedProject(project);
     this.router.navigate(['/dashboard']);
   }
@@ -43,6 +46,7 @@ export class DashPanelComponent implements OnInit{
     });
 
     let currentUser!: user;
+    localStorage.setItem('selectedProject', 'null');
 
     if(this.authService.getUser() != null || undefined) {
       this.authService.getUserObject().subscribe(
@@ -62,7 +66,21 @@ export class DashPanelComponent implements OnInit{
                         client.projects.forEach(project => {
                           if (!this.allProjects.some(p => p.name === project.name)) {
                             this.allProjects.push(project);
-                            this.selectedProject = this.allProjects[0];
+
+
+                            const itemFromLocalStorage = localStorage.getItem('selectedProject');
+                            console.log('item from local storage');
+                            console.log(itemFromLocalStorage);
+                            if (itemFromLocalStorage !== null && itemFromLocalStorage !== 'null') {
+                              alert('made it through');
+                              const savedData = JSON.parse(itemFromLocalStorage);
+                              if (savedData !== null) {
+                                this.selectedProject = savedData;
+                              }
+                            } else {
+                              this.selectedProject = this.allProjects[0];
+                            }
+
                             if(!isProjectInitialized){
                               this.clientService.setProjectsObservables(this.selectedProject);
                               this.clientService.setInitialized();

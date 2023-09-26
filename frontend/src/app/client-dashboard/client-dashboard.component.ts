@@ -88,7 +88,61 @@ export class ClientDashboardComponent implements OnInit {
       form.value.description = form.value.description.replace(/<\/?p>/g, '');
       console.log('Form submitted!', form.value);
 
-      this.clientService.addTicketRequest(form.value.projectSelected.name, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id, this.selectedProject.id).subscribe(
+      const selectedPriority = form.value.priority;
+      const currentDate = new Date();
+      const selectedProject = this.selectedProject;
+      const lowPriorityTime = this.selectedProject.lowPriorityTime;
+      const mediumPriorityTime = this.selectedProject.mediumPriorityTime;
+      const highPriorityTime = this.selectedProject.highPriorityTime;
+
+      let numericValue = parseInt(lowPriorityTime);
+      let unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      if (selectedPriority.toLowerCase() == 'low') {
+        numericValue = parseInt(lowPriorityTime);
+        unit = lowPriorityTime.charAt(lowPriorityTime.length - 1);
+      } else if (selectedPriority.toLowerCase() == 'medium') {
+        numericValue = parseInt(mediumPriorityTime);
+        unit = mediumPriorityTime.charAt(mediumPriorityTime.length - 1);
+      } else if (selectedPriority.toLowerCase() == 'high') {
+        numericValue = parseInt(highPriorityTime);
+        unit = highPriorityTime.charAt(highPriorityTime.length - 1);
+      }
+
+      const endDate = new Date(currentDate);
+      if (selectedPriority.toLowerCase() === 'low') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (selectedPriority.toLowerCase() === 'medium') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      } else if (selectedPriority.toLowerCase() === 'high') {
+        if (unit === 'h') {
+          endDate.setHours(currentDate.getHours() + numericValue);
+        } else if (unit === 'd') {
+          endDate.setDate(currentDate.getDate() + numericValue);
+        } else if (unit === 'w') {
+          endDate.setDate(currentDate.getDate() + numericValue * 7);
+        }
+      }
+      const endDateString = endDate.toLocaleDateString();
+      console.log('selected priority:' + selectedPriority);
+      console.log(lowPriorityTime);
+      console.log(mediumPriorityTime);
+      console.log(highPriorityTime);
+      console.log('azure');
+      console.log(endDateString);
+
+      this.clientService.addTicketRequest(form.value.projectSelected.name, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id, this.selectedProject.id, endDateString).subscribe(
         (response) => {
           console.log("recieved client response", response);
           this.toggleRequestExpansion();

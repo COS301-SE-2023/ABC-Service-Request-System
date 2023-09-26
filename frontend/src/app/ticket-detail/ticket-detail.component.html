@@ -89,7 +89,7 @@
         <div class = "comments-area-with-attachments" *ngIf="attachmentsOnly === false" >
           <div class = "comments-area" *ngFor="let comment of displayedComments">
             <app-comment-panel [comment]="comment"></app-comment-panel>
-            <mat-expansion-panel class = "comment-panel" style = "margin: 20px;"  *ngIf="comment?.attachment?.name;">
+            <mat-expansion-panel class = "comment-panel" style = "margin: 20px; margin-left:85px; max-height: 300px; overflow-y: auto;"  *ngIf="comment?.attachment?.name;">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <span>{{ comment.content }} <br>
@@ -109,13 +109,19 @@
                 </ng-template>
               </div>
             </mat-expansion-panel>
-            <p *ngIf="!comment?.attachment?.name" style = "margin-left: 60px;">
+            <p *ngIf="!comment?.attachment?.name" style = "margin-left: 80px;">
               {{comment.content}}
             </p>
             <!-- <p *ngIf="isPDF(comment?.attachment!.url)">
               {{comment.content}} <br>
               <a [href] = "comment.attachment?.url"> {{comment.attachment?.name}}</a>
             </p> -->
+          </div>
+          <div *ngFor="let worklog of displayedWorklogs">
+            <app-worklog-panel [worklog]="worklog"></app-worklog-panel>
+          </div>
+          <div *ngFor = "let history of displayedHistory">
+            <app-history-panel [history] = "history"></app-history-panel>
           </div>
         </div>
 

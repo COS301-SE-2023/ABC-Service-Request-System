@@ -13,6 +13,14 @@
     font-weight: bolder;
   }
 
+  .comment-panel .mat-expansion-panel-header .mat-panel-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  
+
   .ticket-summary-area{
     margin-top: 1em;
     font-family: 'Montserrat';

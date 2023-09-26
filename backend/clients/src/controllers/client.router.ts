@@ -408,6 +408,7 @@ router.get("/groupIDs", expressAsyncHandler(
 
 router.post("/ticket_request", expressAsyncHandler(
     async (req, res) => {
+
         const clientId = req.body.clientId;
 
         const newRequest: request = {
@@ -419,7 +420,8 @@ router.post("/ticket_request", expressAsyncHandler(
             description: req.body.description,
             priority: req.body.priority,
             clientId: req.body.clientId,
-            projectId: req.body.projectId
+            projectId: req.body.projectId,
+            endDate: req.body.endDate
         }
 
         try {
@@ -445,6 +447,8 @@ router.post("/ticket_request", expressAsyncHandler(
                 res.status(404).send("Client does not exist");
             }
         } catch (error) {
+            console.log('dog2');
+            console.log(error);
             res.status(500).send("Internal server error adding ticket request to client");
         }
     }

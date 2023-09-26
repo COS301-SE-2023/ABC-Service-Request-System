@@ -27,6 +27,7 @@ export interface request {
     summary?: string,
     description?: string,
     priority?: string,
+    endDate?: string
 }
 
 
@@ -73,6 +74,7 @@ export const requestSchema = new Schema<request>(
         summary: { type: String, required: false},
         description: { type: String, required: false},
         priority: { type: String, required: false},
+        endDate: { type: String, required: false}
     }
 )
 
