@@ -7,10 +7,12 @@
             </div>
             <div class="profileOverlayContent">
                 <div class="Account">
-                    <img src="{{ userPic }}" alt="ProfilePic">
+                    <div class="img-wrapper">
+                      <img src="{{ userPic }}" alt="ProfilePic">
+                    </div>
                     <div class="accountDetail">
                         <p><b>{{ userName }} {{ userSurname }}</b></p>
-                        <p><small>{{ userEmail }}</small></p>
+                        <p class="email">{{ userEmail }}</p>
                     </div>
                 </div>
 

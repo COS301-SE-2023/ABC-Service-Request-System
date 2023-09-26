@@ -59,34 +59,51 @@
 // Account========================================================================================
 .Account {
     display: flex;
-    padding-left: 0.8em;
-    height: 4em;
-    border-radius: 0.5em;
+    // padding-left: 0.8em;
+    // height: 4em;
+    // border-radius: 0.5em;
+    align-items: center;
+    margin-bottom: 1em;
 }
 
-.Account img {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    width: 2.5em;
-    height: 2.5em;
-    border-radius: 50%;
-}
+.img-wrapper {
+  min-width: 2.5em;
+  min-height: 2.5em;
+  max-width: 2.5em;
+  max-height: 2.5em;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
 .accountDetail {
     display: flex;
     flex-direction: column;
-    padding-left: 1em;
-    justify-content: center;
-    align-items: center;
+    // padding-left: 1em;
+    // justify-content: center;
+    // align-items: center;
+    margin-left: 0.3em;
+}
+
+.email {
+  font-size: 0.7em;
+  color: rgba(0,0,0,0.7);
 }
 
 .accountDetail p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     margin: 0;
     padding: 0;
+    text-align: left;
 }
 
 // Settings========================================================================================
