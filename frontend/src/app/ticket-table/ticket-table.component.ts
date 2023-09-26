@@ -11,6 +11,7 @@ import { ClientService } from 'src/services/client.service';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/services/user.service';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-ticket-table',
@@ -39,6 +40,9 @@ export class TicketTableComponent implements OnInit{
   assigneeName = '';
 
   inProfileOrSettings = false;
+  normalDeadline = true;
+  upcomingDeadline = false;
+  overdueDeadline = false;
 
   @Input() viewProfileEmail = '';
   @Input() clientObjectRecieved!: client;
@@ -284,13 +288,7 @@ export class TicketTableComponent implements OnInit{
                     tickets.assigned = assigned?.name + ' ' + assigned?.surname;
                   }));
 
-                  // this.authservice.getUserNameByEmail(assigneeEmail).subscribe((assignee) => {
-                  //   tickets.assignee = assignee.name + " " + assignee.surname;
 
-                  //   this.authservice.getUserNameByEmail(assignedEmail).subscribe((assigned) => {
-                  //     tickets.assigned = assigned.name + " " + assigned.surname;
-                  //   })
-                  // })
                 });
 
                 Promise.all(promises)
@@ -310,6 +308,36 @@ export class TicketTableComponent implements OnInit{
       }
     })
 
+  }
+
+  getDeadline(endDateString: string) {
+  
+    const dateFormat = 'dd/MM/yyyy';
+
+    const endDate = parse(endDateString, dateFormat, new Date());
+
+    // const endDateDate = new Date(Date.parse(endDateString));
+    const currentDate = new Date();
+    console.log(endDate);
+    const differenceInMilliseconds = endDate.getTime() - currentDate.getTime();
+    const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+
+    console.log(differenceInDays);
+    if (differenceInDays > 3) {
+      this.normalDeadline = true;
+      this.upcomingDeadline = false;
+      this.overdueDeadline = false;
+    } else if (differenceInDays > 0 && differenceInDays <= 3) {
+      this.normalDeadline = false;
+      this.upcomingDeadline = true;
+      this.overdueDeadline = false;
+    } else if (differenceInDays <= 0){
+      this.normalDeadline = false;
+      this.upcomingDeadline = false;
+      this.overdueDeadline = true;
+    }
+
+    return endDateString;
   }
 
   ngOnInit(): void {

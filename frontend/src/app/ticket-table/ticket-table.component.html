@@ -38,7 +38,12 @@
           </td>
           <td class="text-left">{{ ticket.status }}</td>
           <td class="text-left">{{ ticket.startDate }}</td>
-          <td class="text-left">{{ ticket.endDate }}</td>
+          <!-- <div *ngIf = "normalDeadline"> -->
+            <td class="text-left"  *ngIf = "normalDeadline && !upcomingDeadline && !overdueDeadline">{{ getDeadline(ticket.endDate) }}</td>
+          <!-- </div> -->
+            <td class="text-left"  *ngIf = "upcomingDeadline && !normalDeadline && !overdueDeadline" style = "color: rgb(180, 168, 0);">{{ getDeadline(ticket.endDate) }}</td>
+
+            <td class="text-left" *ngIf = "overdueDeadline && !normalDeadline && !upcomingDeadline" style = "color: rgb(239, 0, 0);">{{ getDeadline(ticket.endDate) }}</td>
         </tr>
       </ng-container>
 
