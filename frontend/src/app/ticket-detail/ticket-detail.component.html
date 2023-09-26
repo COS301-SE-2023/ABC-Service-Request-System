@@ -255,14 +255,24 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <div class="expansion-item">
+          <div class="expansion-item" *ngIf = "timeToFirstResponse !== 'pending'">
             <p class="bold-label">Time to first response </p>
             <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">{{timeToFirstResponse}} <i class="fa-regular fa-clock"></i></p>
           </div>
 
-          <div class="expansion-item">
+          <div class="expansion-item" *ngIf = "timeToFirstResponse === 'pending'">
+            <p class="bold-label">Time to first response </p>
+            <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg">{{timeToFirstResponse}} <i class="fa-regular fa-clock"></i></p>
+          </div>
+
+          <div class="expansion-item" *ngIf = "timeToTicketResolution !== 'pending'">
             <p class="bold-label">Time to resolution </p>
             <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg">{{timeToTicketResolution}}  <i class="fa-regular fa-clock"></i></p>
+          </div>
+
+          <div class="expansion-item" *ngIf = "timeToTicketResolution === 'pending'">
+            <p class="bold-label">Time to resolution </p>
+            <p class="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg">{{timeToTicketResolution}}  <i class="fa-regular fa-clock"></i></p>
           </div>
         </mat-expansion-panel>
       </div>
@@ -277,7 +287,7 @@
           </mat-expansion-panel-header>
 
           <div class = "expansion-item">
-            <p>Group   `</p>
+            <p>Group</p>
             <div class="content-2">
               <p class="assigned-text-2">{{assignedGroup}}</p>
             </div>

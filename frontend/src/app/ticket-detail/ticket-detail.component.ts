@@ -83,8 +83,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   medPriority=false;
   highPriority=false;
 
-  timeToFirstResponse = 'Pending';
-  timeToTicketResolution = 'Pending';
+  timeToFirstResponse = 'pending';
+  timeToTicketResolution = 'pending';
 
 
   toggleForm() {
