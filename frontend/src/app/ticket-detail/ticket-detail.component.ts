@@ -760,18 +760,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showHistoryOnly(): void {
     this.displayedWorklogs = [];
     this.displayedComments = [];
-    this.historyOnly = true;
     this.displayedHistory = [];
+    this.historyOnly = true;
     if (this.ticket.history != null) {
       this.displayedHistory = this.ticket.history;
     }
 
     if (this.numReversedHistory != 1) {
       this.displayedHistory?.reverse();
-      this.numReversed = 1;
+      this.numReversedHistory = 1;
     }
-
-    // console.log(this.displayedHistory );
   }
 
 

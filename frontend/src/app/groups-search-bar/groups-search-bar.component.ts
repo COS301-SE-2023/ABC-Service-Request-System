@@ -10,6 +10,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { NotificationsService } from 'src/services/notifications.service';
 import { AuthService } from 'src/services/auth.service';
 import { forkJoin } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-groups-search-bar',
@@ -35,7 +36,8 @@ export class GroupsSearchBarComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder, private groupService: GroupService, private userService: UserService, private notificationsService: NotificationsService
-    , private authService: AuthService, private eRef: ElementRef, private router: Router) {
+    , private authService: AuthService, private eRef: ElementRef, private router: Router,
+    private snackBar: MatSnackBar) {
     this.filterForm = this.formBuilder.group({
       name: '',
       surname: '',
@@ -116,6 +118,13 @@ export class GroupsSearchBarComponent implements OnInit {
     location.reload();
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
+
   closeAllDialogs() {
     this.isFilterDialogOpen = false;
     this.isAddPeopleDialogOpen = false;
@@ -180,13 +189,15 @@ export class GroupsSearchBarComponent implements OnInit {
               const backgroundPhoto = 'https://res.cloudinary.com/ds2qotysb/image/upload/v1688755927/ayajgqes9sguidd81qzc.jpg';
               console.log('background photo link:' + backgroundPhoto);
               this.addGroup(groupData, backgroundPhoto);
-              this.closeCreateGroupDialog();
+              // this.closeCreateGroupDialog();
               this.fetchGroupsAndUsers();
               this.createGroupForm.reset();
               // location.reload();
               this.groupService.getGroups().subscribe((groups: group[]) => {
                 this.groups = groups;
               });
+              this.closeAllDialogs();
+              this.showSnackBar('Group created!');
             }
           }
         }
@@ -219,8 +230,9 @@ export class GroupsSearchBarComponent implements OnInit {
           console.error('Failed to add group to user', error);
         }
       }
+
     } catch (error) {
-      console.error('Failed to create group', error);
+      console.error('Failed to add to group', error);
     }
     const people = groupData.people;
     // Edwin's Notification Code
@@ -247,7 +259,6 @@ export class GroupsSearchBarComponent implements OnInit {
         const readStatus = "Unread";
 
         //console.log("About to create notifications");
-
         await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
       }
     }
@@ -271,6 +282,9 @@ export class GroupsSearchBarComponent implements OnInit {
         await this.groupService.addPeopleToGroup(group, people).toPromise();
 
         await this.groupService.addGroupToUsers(group, people).toPromise();
+
+        this.closeAllDialogs();
+        this.showSnackBar('Added to group');
 
         // Edwin's Notification Code
         for (const userId of people) {
@@ -297,13 +311,13 @@ export class GroupsSearchBarComponent implements OnInit {
 
           //console.log("About to create notifications");
 
-          await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
+            await this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).toPromise();
           }
         }
         // Edwin's Notification Code End ============================
 
-        console.log('Group added to users successfully');
-        this.closeAddPeopleDialog();
+        // console.log('Group added to users successfully');
+        // this.closeAddPeopleDialog();
         this.fetchGroupsAndUsers();
         this.addPeopleForm.reset();
         // location.reload();

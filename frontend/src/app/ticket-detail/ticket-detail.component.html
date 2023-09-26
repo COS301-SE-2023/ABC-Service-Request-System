@@ -121,7 +121,9 @@
             <app-worklog-panel [worklog]="worklog"></app-worklog-panel>
           </div>
           <div *ngFor = "let history of displayedHistory">
-            <app-history-panel [history] = "history"></app-history-panel>
+            <div  *ngIf = "!historyOnly">
+              <app-history-panel [history] = "history"></app-history-panel>
+            </div>
           </div>
         </div>
 
