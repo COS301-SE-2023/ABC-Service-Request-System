@@ -69,8 +69,12 @@ export class PageHeaderComponent {
   }
 
   openProfile() {
-    this.showProfileForm = true;
-    this.showNotificationsForm = false;
+    if(this.showProfileForm) {
+      this.closeProfile();
+    } else {
+      this.showProfileForm = true;
+      this.showNotificationsForm = false;
+    }
   }
 
   closeProfile() {
