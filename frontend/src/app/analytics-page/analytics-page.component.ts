@@ -922,6 +922,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
                     ],
 
                     backgroundColor: ['rgba(231, 76, 60, 0.8)', 'rgba(241, 196, 15, 0.8)', 'rgba(46, 204, 113, 0.8)'],
+                    borderColor: 'transparent' ,
                     //hoverBackgroundColor: ['rgba(192, 57, 43, 0.4)', 'rgba(243, 156, 18, 0.4)', 'rgba(39, 174, 96, 0.4)'], // different colors when mouse hovers over
                     hoverBorderWidth: 2,
                     hoverBorderColor: '#fff' // white border on hover
@@ -980,8 +981,9 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
               this.personalClosedTicketsCount
             ],
             backgroundColor: ['rgba(46, 204, 113, 0.8)', 'rgba(241, 196, 15, 0.8)', 'rgba(231, 76, 60, 0.8)'],
-            borderWidth: 0,
-            borderColor: 'transparent' // Remove the lines
+           // borderWidth: 0,
+            borderColor: 'transparent', // Remove the lines
+            hoverBorderColor: '#fff' // white border on hover
           }
         ]
       },
