@@ -239,7 +239,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             // console.log("assigned email: ", response.assigned);
             this.assignedGroup = response.group;
             this.currentAssigned = response.assigned;
-            
+
             if (response.priority == 'Low') {
               this.lowPriority = true;
             } else if (response.priority == 'Medium'){
@@ -248,7 +248,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               this.highPriority = true;
             }
 
-            
+
             // console.log('this.ticket.timeToFirstResponse');
             // console.log(this.ticket.timeToFirstResponse);
             if (this.ticket.timeToFirstResponse) {
@@ -264,7 +264,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
               this.timeToFirstResponse = `${daysToFirstResponse} days`;
               if (this.timeToFirstResponse == '1 days') {
-                const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
+                // const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
                 this.timeToFirstResponse = '1 day';
               }
               if (this.timeToFirstResponse == '0 days') {
@@ -273,14 +273,23 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               }
 
               if (this.timeToFirstResponse == '1 hours') {
-                const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
+                // const hoursToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60 * 60));
                 this.timeToFirstResponse = '1 hour';
               }
               if (this.timeToFirstResponse == '0 hours') {
                 const minutesToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000 * 60));
                 this.timeToFirstResponse = `${minutesToFirstResponse} minutes`
               }
-            }   
+
+              if (this.timeToFirstResponse == '1 minutes') {
+                // const secondsToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000));
+                this.timeToFirstResponse = '1 minute';
+              }
+              if (this.timeToFirstResponse == '0 minutes') {
+                const secondsToFirstResponse = Math.floor(timeDifferenceToFirstResponse / (1000));
+                this.timeToFirstResponse = `${secondsToFirstResponse} seconds`
+              }
+            }
             if (this.ticket.timeToTicketResolution) {
               const createdAtDateString = this.ticket.createdAt;
               const createdAtDate = new Date(createdAtDateString);
@@ -293,20 +302,28 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
               this.timeToTicketResolution = `${daysToTicketResolution} days`;
 
               if (this.timeToTicketResolution == '1 days') {
-                const hoursToFirstResponse = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
-                this.timeToTicketResolution = `${hoursToFirstResponse} hours`;
+                const hoursToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
+                this.timeToTicketResolution = `${hoursToTicketResolution} hours`;
               }
               if (this.timeToTicketResolution == '0 days') {
-                const hoursToFirstResponse = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
-                this.timeToTicketResolution = `${hoursToFirstResponse} hours`;
+                const hoursToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60 * 60));
+                this.timeToTicketResolution = `${hoursToTicketResolution} hours`;
               }
 
               if (this.timeToTicketResolution == '1 hours') {
                 this.timeToTicketResolution = '1 hour';
               }
               if (this.timeToTicketResolution == '0 hours') {
-                const minutesToFirstResponse = Math.floor(timeDifferenceToTicketResolution / (1000 * 60));
-                this.timeToTicketResolution = `${minutesToFirstResponse} minutes`
+                const minutesToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000 * 60));
+                this.timeToTicketResolution = `${minutesToTicketResolution} minutes`
+              }
+
+              if (this.timeToTicketResolution == '1 minutes') {
+                this.timeToTicketResolution = '1 minute';
+              }
+              if (this.timeToTicketResolution == '0 minutes') {
+                const secondsToTicketResolution = Math.floor(timeDifferenceToTicketResolution / (1000));
+                this.timeToTicketResolution = `${secondsToTicketResolution} seconds`
               }
 
             }
@@ -716,7 +733,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
     this.displayedWorklogs = [];
     if (this.ticket) {
-      if (this.ticket.workLogs) { 
+      if (this.ticket.workLogs) {
         this.displayedWorklogs = this.ticket.workLogs.slice().reverse();
       }
     }

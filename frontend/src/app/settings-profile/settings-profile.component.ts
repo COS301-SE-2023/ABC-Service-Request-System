@@ -11,6 +11,7 @@ import { AnalyticsPageComponent } from '../analytics-page/analytics-page.compone
 import { Chart } from 'chart.js';
 import { ticket } from '../../../../backend/tickets/src/models/ticket.model';
 import { TicketsService } from 'src/services/ticket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-settings-profile',
@@ -60,7 +61,8 @@ export class SettingsProfileComponent { // implements OnInit{
 
   personalClosedTicketsCount = 0;
   currentTickets!: ticket[];
-
+  uploadFlag = false;
+  uploadHeaderFlag = false;
 
   lineChart!: Chart<'line', (number | null)[], string>;
   ticketResolutionLineChart!: Chart<'line', (number | null)[], string>;
@@ -86,7 +88,7 @@ export class SettingsProfileComponent { // implements OnInit{
 
   constructor(private userService: UserService, private authService: AuthService,
   private groupService: GroupService, private cdr: ChangeDetectorRef, private navbarService: NavbarService,
-  private router: Router,  private ticketsService: TicketsService) {}
+  private router: Router,  private ticketsService: TicketsService, private snackBar: MatSnackBar) {}
 
   isModalOpen = false;
 
@@ -248,6 +250,13 @@ export class SettingsProfileComponent { // implements OnInit{
     // this.currentUser.headerPhoto = newImageUrl;
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+    });
+  }
+
   @ViewChild('headerFileUploader')
   headerFileUploader!: ElementRef;
 
@@ -279,6 +288,7 @@ export class SettingsProfileComponent { // implements OnInit{
 
     this.numUpdates = 0;
     this.activeCounter = 0;
+    this.uploadFlag = false;
 
     if (this.profilePicture) {
       this.profilePicChanged = true;
@@ -315,10 +325,15 @@ export class SettingsProfileComponent { // implements OnInit{
                 }
               )
               this.profilePicture = undefined;
-              alert('Profile picture updated');
-              if (this.profileHeadChanged === false) {
-                this.toggleModal();
-              }
+              // this.showSnackBar('Profile updated');
+              // if (this.profileHeadChanged === false) {
+              //   // this.toggleModal();
+              // }
+              // this.uploadFlag = true;
+              // if (this.uploadFlag == true) {
+              //   this.toggleModal();
+              //   this.showSnackBar('Profile updated');
+              // }
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -348,8 +363,12 @@ export class SettingsProfileComponent { // implements OnInit{
                 }
               )
               this.profileHeader = undefined;
-              alert('Profile header updated');
-              this.toggleModal();
+
+              // this.uploadHeaderFlag = true;
+              // if (this.uploadFlag != true && this.uploadHeaderFlag == true) {
+              //   this.toggleModal();
+              //   this.showSnackBar('Profile updated');
+              // }
             },
             (error: any) => {
               console.log('Error updating profile picture', error);
@@ -371,7 +390,8 @@ export class SettingsProfileComponent { // implements OnInit{
           this.authService.updateUserData(this.currentUser);
           // this.userBio = undefined;
           this.oldUserBio = this.userBio;
-          alert('Bio updated');
+          // alert('Bio updated');
+          // this.showSnackBar('Profile updated');
         },
         (error: any) => {
           console.log('Error updating bio', error);
@@ -387,7 +407,8 @@ export class SettingsProfileComponent { // implements OnInit{
           this.currentUser.github = this.githubLink!;
           this.authService.updateUserData(this.currentUser);
           this.oldGithubLink = this.githubLink;
-          alert('Github link updated');
+          // alert('Github link updated');
+          // this.showSnackBar('Profile updated');
         },
         (error: any) => {
           console.log('Error updating Github link', error);
@@ -404,7 +425,8 @@ export class SettingsProfileComponent { // implements OnInit{
           this.authService.updateUserData(this.currentUser);
           // this.linkedinLink = undefined;
           this.oldLinkedinLink = this.linkedinLink;
-          alert('LinkedIn link updated');
+          // alert('LinkedIn link updated');
+          // this.showSnackBar('Profile updated');
         },
         (error: any) => {
           console.log('Error updating LinkedIn link', error);
@@ -416,8 +438,13 @@ export class SettingsProfileComponent { // implements OnInit{
     console.log('active counter: ' + this.activeCounter);
     if (this.activeCounter === this.numUpdates) {
       console.log('this.activeCounter === this.numUpdates');
-      this.toggleModal();
     }
+
+    if (this.activeCounter > 0) {
+      this.toggleModal();
+      this.showSnackBar('Profile updated');
+    }
+
   }
 
   createTicketResolutionLineChart(): void {

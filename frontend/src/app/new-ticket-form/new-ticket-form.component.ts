@@ -303,10 +303,6 @@ export class NewTicketFormComponent implements OnInit {
 
   );
 
-
-
-
-
       // emitting for now so that there's no errors
       const newTicket: ticket = {
         id: "test",

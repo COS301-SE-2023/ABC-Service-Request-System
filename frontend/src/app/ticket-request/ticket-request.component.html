@@ -91,6 +91,7 @@
                                                             request.description!,
                                                             request.priority!,
                                                             groupSelected.value,
-                                                            selectedAssignedUser)">Approve</button>
+                                                            selectedAssignedUser,
+                                                            request.endDate!)">Approve</button>
   <button class="reject-btn" (click)="rejectRequest(clientRequest, request.id)">Reject</button>
 </div>
