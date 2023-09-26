@@ -13,9 +13,9 @@
     <div class="calling-client" *ngFor="let client of callingClients">
 
       <div class="header-wrapper">
-        <div class="img-wrapper">
+        <!-- <div class="img-wrapper">
           <img src="{{client.profilePhoto}}" alt="user-logo">
-        </div>
+        </div> -->
 
         <div class="client-info">
           <p>{{client.name}} {{client.surname}}</p>
@@ -36,9 +36,9 @@
         <ng-container *ngIf="request.type === 'New Project Request'">
           <div class="card-header">
             <div class="client-details">
-              <div class="client-img">
+              <!-- <div class="client-img">
                   <img src="{{clientRequest.profilePhoto}}" alt="user-logo">
-              </div>
+              </div> -->
 
               <div class="client-info">
                 <h3>{{clientRequest.name}} {{clientRequest.surname}}</h3>
