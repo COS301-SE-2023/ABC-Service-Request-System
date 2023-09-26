@@ -24,7 +24,7 @@ export class DashPanelComponent implements OnInit{
 
   isDarkMode!: boolean;
 
-  
+
 
   constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService, private themeService: ThemeService) {
     this.themeService.initTheme();
@@ -69,8 +69,8 @@ export class DashPanelComponent implements OnInit{
 
 
                             const itemFromLocalStorage = localStorage.getItem('selectedProject');
-                            console.log('item from local storage');
-                            console.log(itemFromLocalStorage);
+                            // console.log('item from local storage');
+                            // console.log(itemFromLocalStorage);
                             if (itemFromLocalStorage !== null && itemFromLocalStorage !== 'null') {
                               alert('made it through');
                               const savedData = JSON.parse(itemFromLocalStorage);

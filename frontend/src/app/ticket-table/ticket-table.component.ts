@@ -19,12 +19,14 @@ import { UserService } from 'src/services/user.service';
 })
 
 export class TicketTableComponent implements OnInit{
-  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService, 
+  constructor(private ticketService: TicketsService, private router: Router, private authservice: AuthService, private groupService: GroupService,
     private userService: UserService, private clientService: ClientService, private route: ActivatedRoute) { }
 
   allTicketsArray: ticket[] = [];
   sortedTicketsArray: ticket[] = [];
   currentUserGroups: string[] = [];
+  loggedInUserGroups:string[] = [];
+  mutualGroups:string[]=[];
   selectedProject!: project;
 
   assigneeDetails!: user[];
@@ -45,6 +47,30 @@ export class TicketTableComponent implements OnInit{
   }
 
   getClientGroups() {
+
+    this.authservice.getUserObject().subscribe(
+      (response) => {
+        const user = response;
+        const groupObservables = user.groups.map(group => {
+          return this.groupService.getGroupNameById(group);
+        });
+
+        forkJoin(groupObservables).subscribe(
+          (responses) => {
+            responses.forEach(response => {
+              const groupName = response.groupName;
+              if (!this.loggedInUserGroups.includes(groupName)) {
+                this.loggedInUserGroups.push(groupName);
+              }
+            });
+          },
+          (error) => {
+            console.log("Error fetching group names for logged in user", error);
+          }
+        );
+      }
+    );
+
     if (this.viewProfileEmail != '') {
       this.userService.getUserByEmail(this.viewProfileEmail).subscribe(
         (response) => {
@@ -52,7 +78,7 @@ export class TicketTableComponent implements OnInit{
           const groupObservables = user.groups.map(group => {
             return this.groupService.getGroupNameById(group);
           });
-  
+
           forkJoin(groupObservables).subscribe(
             (responses: any) => {
               responses.forEach((response:any) => {
@@ -61,8 +87,7 @@ export class TicketTableComponent implements OnInit{
                   this.currentUserGroups.push(groupName);
                 }
               });
-  
-              // Call the different function here, as all group names have been fetched
+
               this.getTicketsForTable();
             },
             (error) => {
@@ -70,7 +95,6 @@ export class TicketTableComponent implements OnInit{
             }
           );
         }
-
       )
     } else {
       this.authservice.getUserObject().subscribe(
@@ -79,7 +103,7 @@ export class TicketTableComponent implements OnInit{
           const groupObservables = user.groups.map(group => {
             return this.groupService.getGroupNameById(group);
           });
-  
+
           forkJoin(groupObservables).subscribe(
             (responses) => {
               responses.forEach(response => {
@@ -88,7 +112,7 @@ export class TicketTableComponent implements OnInit{
                   this.currentUserGroups.push(groupName);
                 }
               });
-  
+
               // Call the different function here, as all group names have been fetched
               this.getTicketsForTable();
             },
@@ -139,10 +163,25 @@ export class TicketTableComponent implements OnInit{
 
       } else if (params['id']) {
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-          console.log('important: ', response);
+          // console.log('important: ', response);
+          console.log('loggedin user groups)');
+          console.log(this.loggedInUserGroups);
+          console.log('curr user groips');
+          console.log(this.currentUserGroups);
+
+          for (const group of this.currentUserGroups) {
+            if (this.loggedInUserGroups.includes(group)) {
+              this.mutualGroups.push(group);
+            }
+          }
+
+          console.log('mutual groups');
+          console.log(this.mutualGroups);
+
           this.allTicketsArray = response.filter((ticket: ticket) => {
-            return (this.currentUserGroups.includes(ticket.group) );
+            return (this.mutualGroups.includes(ticket.group) );
           })
+
           this.allTicketsArray = this.sortTickets(this.allTicketsArray);
           this.sortedTicketsArray = this.allTicketsArray.slice();
           this.ticketsReady = true;
