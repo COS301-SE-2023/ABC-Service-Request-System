@@ -96,7 +96,7 @@
                 
                 <div class="graph-badge-green" [style.background-color]="calculateResponseTrend()">
                   <i [ngClass]="getArrowResponseClass()"></i>
-                  <p id="imp">{{ this.responsePercentChange  }}</p>
+                  <p id="imp">{{ this.responsePercentChange  }} %</p>
               </div>
 
               </div>
@@ -123,7 +123,7 @@
                 
                 <div class="graph-badge-green" [style.background-color]="calculateResolutionTrend()">
                   <i [ngClass]="getArrowResolutionClass()"></i>
-                  <p id="imp">{{ this.resolutionPercentChange }}</p>
+                  <p id="imp">{{ this.resolutionPercentChange }} % </p>
                 </div>
               </div>
               <div class="line-chart-container">

@@ -351,7 +351,7 @@ export class ViewProfileComponent implements OnInit {
 
         } else if (diffLast > diffSecondLast) {
             // console.log(`Negative Response trend: ${percentChange}% worsening`);
-            this.responseTrend = 'positive';
+            this.responseTrend = 'negative';
             trendColor = 'rgba(255, 85, 85, 1)'; // Negative trend
             console.log("trendColour Response", trendColor);
         } else {
