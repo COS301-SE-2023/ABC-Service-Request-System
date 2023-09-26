@@ -48,6 +48,7 @@ export class ClientManagePage1Component implements OnInit {
   selectOption(organisation: client){
     this.selectedOption = organisation;
     console.log(this.selectedOption);
+    this.toggleDropDown();
   }
 
   toggleDropDown(){
