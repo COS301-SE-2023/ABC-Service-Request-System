@@ -93,9 +93,14 @@
       <div *ngIf="checkIfProfileRoute()" class="active-background"></div>
       <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
     </div>
-  </div>
 
-  <app-dark-mode-toggle></app-dark-mode-toggle>
+    <div class="button-wrapper theme-wrapper">
+        <p>Theme</p>
+        <app-dark-mode-toggle></app-dark-mode-toggle>
+      <!-- <div *ngIf="checkIfProfileRoute()" class="active-background"></div> -->
+      <!-- <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div> -->
+    </div>
+  </div>
   <!-- <mat-slide-toggle [(ngModel)]="isDarkMode" (click)="toggleDarkMode()"></mat-slide-toggle> -->
 
 </div>

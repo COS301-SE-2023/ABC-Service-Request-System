@@ -1,10 +1,18 @@
-<div class="container">
+<!-- <div class="container">
   <div class="switch">
     <label for="toggle">
       <input id="toggle" class="toggle-switch" type="checkbox" [(ngModel)]="isDarkMode" (click)="toggleDarkMode()">
       <div class="sun-moon"><div class="dots"></div></div>
       <div class="background"><div class="stars1"></div><div class="stars2"></div></div>
-      <!-- <div class="fill"></div> -->
+    </label>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class = 'toggle-switch'>
+    <label>
+        <input type = 'checkbox' id="toggle" [(ngModel)]="isDarkMode" (click)="toggleDarkMode()">
+        <span class = 'slider'></span>
     </label>
   </div>
 </div>

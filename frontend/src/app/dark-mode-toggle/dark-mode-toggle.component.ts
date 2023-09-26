@@ -12,8 +12,9 @@ export class DarkModeToggleComponent implements OnInit {
 
   constructor(private themeService: ThemeService) {
     this.themeService.initTheme();
-    this.isDarkMode = this.themeService.isDarkMode();
-    this.themeService.update('light-theme');
+    this.isDarkMode = !this.themeService.isDarkMode();
+    // this.themeService.update('light-theme');
+    // alert('print');
   }
 
   ngOnInit(): void {
