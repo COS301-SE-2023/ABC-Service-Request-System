@@ -2,12 +2,14 @@
 <!-- <app-dash-panel></app-dash-panel> -->
 
 <div class="page-container {{this.navbarIsCollapsed === true ? 'widen' : ''}}">
-  <h1>Create Ticket</h1>
+  <!-- <h1>Create Ticket</h1> -->
 
   <div class="form-container">
     <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
       <div class="form-header">
-        <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
+        <div class="img-wrapper">
+          <img src="{{ getUsersProfilePicture() }}" alt="profile-picture">
+        </div>
         <h1 class="assignee">Assignee: {{ assigneeName }}</h1>
 
       </div>
@@ -63,6 +65,7 @@
             <img src="../../assets/loading.gif" alt="Loading...">
           </div>
 
+          <br>
           <label class="blueLabel" style="color:#04538E; font-size:0.9em;">Choose what to keep by selecting the checkboxes</label>
         </div>
       </div>

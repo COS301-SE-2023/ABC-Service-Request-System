@@ -6,7 +6,7 @@ export const environment = {
   GROUP_UPLOAD_URL: 'https://luna-group-service-0ebbd0219a30.herokuapp.com/api/group/upload',
   // COMMENT_URL: 'https://luna-ticket-service-3504bae7e50a.herokuapp.com/api/ticket/comment',
   COMMENT_URL: 'https://luna-ticket-service-production.up.railway.app/api/ticket/comment',
-  TICKET_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/ticket',
+  TICKET_URL: 'https://luna-ticket-service-production.up.railway.app/api/ticket',
   GROUP_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/group',
   USER_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/user',
   NOTIFICATION_URL: 'https://luna-backend-fc437c959bfd.herokuapp.com/api/notifications',

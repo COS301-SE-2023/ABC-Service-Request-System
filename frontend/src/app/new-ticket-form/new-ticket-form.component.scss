@@ -54,6 +54,7 @@
   display: flex;
   height: 4em;
   margin-bottom: 1.2em;
+  align-items: center;
 }
 
 .form-header h1 {
@@ -65,13 +66,21 @@
   padding: 0;
 }
 
-.form-header img {
-  display: flex;
-  justify-self: center;
-  height: 2.5em;
-  width: 2.5em;
+.img-wrapper {
+  width: 3em;
+  height: 3em;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 1em;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 // project details for selection
