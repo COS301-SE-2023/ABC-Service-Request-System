@@ -210,7 +210,7 @@ export class ViewProfileComponent implements OnInit {
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to Ticket Resolution (minutes)',
+          label: 'minutes: ',
           data: [],
           borderColor: trendColour,
           backgroundColor: trendColour,
@@ -251,7 +251,7 @@ export class ViewProfileComponent implements OnInit {
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to First Response (minutes)',
+          label: 'minutes',
           data: [],
           borderColor: trendColour,
           backgroundColor: trendColour,
