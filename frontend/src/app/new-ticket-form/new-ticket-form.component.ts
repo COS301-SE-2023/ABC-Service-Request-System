@@ -39,6 +39,7 @@ export class NewTicketFormComponent implements OnInit {
   isCustomEndDate = false;
   Selectagroup = 'Select a group';
   groupSelected = false;
+  generateToDoCalled = false;
 
   constructor(
     private ticketService: TicketsService,
@@ -166,6 +167,12 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   onSubmit() {
+
+    alert('on submit called');
+    if(this.generateToDoCalled == true) {
+      this.generateToDoCalled = false;
+      return;
+    }
 
     this.ticketForm.get('assignee')?.setValue(this.assigneeName);
 
@@ -513,6 +520,7 @@ export class NewTicketFormComponent implements OnInit {
   }
 
 generateTodo() {
+    this.generateToDoCalled = true;
     const ticketFormValues = this.ticketForm.value;
     const trimmedDescription = this.stripPTags(ticketFormValues.description);
     console.log('in generateTodo(), ticket form info: ' + trimmedDescription);

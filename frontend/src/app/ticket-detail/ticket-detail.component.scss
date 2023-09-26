@@ -342,6 +342,10 @@ mat-expansion-panel-header.mat-expanded,
   height: 100%;
 }
 
+.activity-text{
+  margin-left:10px;
+}
+
 ::ng-deep .specific-class > .mat-expansion-indicator:after {
   border-color: black;
   width: 0.5em;

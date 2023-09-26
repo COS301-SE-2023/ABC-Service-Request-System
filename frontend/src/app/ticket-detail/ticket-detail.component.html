@@ -23,7 +23,7 @@
         <p><b>Description</b></p>
         <p *ngIf="ticket.description"> {{ ticket.description }} </p>
         <p *ngIf="!ticket.description">
-          As a financial institution, Nedbank's user interface should be designed to provide a seamless and intuitive experience for its customers. The user interface should be user-friendly, visually appealing, and easy to navigate. It should enable customers to perform all their banking tasks efficiently, such as managing accounts, transferring funds, and applying for loans or credit cards.
+          No Ticket Description.
         </p>
 
         <div class="ticket-summary-area-todos" *ngIf="!todoEmpty()">
@@ -38,7 +38,7 @@
       </div>
 
       <div class="activity-area">
-        <h2>Activity</h2>
+        <h2 class = "activity-text">Activity</h2>
 
         <button class="activity-filter-button selected" (click)="highlightButton($event); showAll(); activeTab='All'">All</button>
         <button class="activity-filter-button" (click)="highlightButton($event); showCommentsOnly()">Comments</button>
