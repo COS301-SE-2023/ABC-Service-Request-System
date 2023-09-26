@@ -14,6 +14,7 @@ import{ GroupService } from 'src/services/group.service';
 import { client, project } from '../../../../backend/clients/src/models/client.model';
 import { ClientService } from 'src/services/client.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+// import { group } from '../../../../backend/clients/src/models/group.model';
 @Component({
   selector: 'app-new-ticket-form',
   templateUrl: './new-ticket-form.component.html',
@@ -37,6 +38,7 @@ export class NewTicketFormComponent implements OnInit {
   currentProject!: any;
   isCustomEndDate = false;
   Selectagroup = 'Select a group';
+  groupSelected = false;
 
   constructor(
     private ticketService: TicketsService,
@@ -118,7 +120,8 @@ export class NewTicketFormComponent implements OnInit {
 
   onGroupChanged(event: Event) {
     const groupSelectedId = (event.target as HTMLSelectElement).value;
-    console.log('group selected id: ', groupSelectedId);
+    // console.log('group selected id: ', groupSelectedId);
+    this.groupSelected = true;
   }
 
   getAssigneeName() {
