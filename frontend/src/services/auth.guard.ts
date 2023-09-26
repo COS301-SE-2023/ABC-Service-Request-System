@@ -14,8 +14,15 @@ export class AuthGuardService implements CanActivate {
             return true;  // token exists, grant access to route
         }
 
+        const currentUrl: string = window.location.href;
+
+        if(currentUrl.includes('client'))
+          this.router.navigate(['/client-login']);
+        else
+          this.router.navigate(['/login']);
+
+
         // if there's no token, redirect the user to the login page or another appropriate page
-        this.router.navigate(['/login']);
         return false;
     }
 }
