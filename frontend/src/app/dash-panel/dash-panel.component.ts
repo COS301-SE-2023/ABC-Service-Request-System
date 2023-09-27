@@ -26,14 +26,17 @@ export class DashPanelComponent implements OnInit{
 
 
 
-  constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService, private themeService: ThemeService) {
+  constructor(public authService: AuthService, private router: Router, public navbarService: NavbarService, private clientService: ClientService, private ticketService: TicketsService, private groupService: GroupService,
+    private themeService: ThemeService ) {
     this.themeService.initTheme();
     this.isDarkMode = this.themeService.isDarkMode();
+    // alert(this.selectedProject);
+    // localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
   }
 
   onSelectProject(project: any) {
     this.selectedProject = project;
-    localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
+    // localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
     this.authService.setSelectedProject(project);
     this.router.navigate(['/dashboard']);
   }
@@ -46,7 +49,7 @@ export class DashPanelComponent implements OnInit{
     });
 
     let currentUser!: user;
-    localStorage.setItem('selectedProject', 'null');
+    // localStorage.setItem('selectedProject', 'null');
 
     if(this.authService.getUser() != null || undefined) {
       this.authService.getUserObject().subscribe(
@@ -68,18 +71,26 @@ export class DashPanelComponent implements OnInit{
                             this.allProjects.push(project);
 
 
-                            const itemFromLocalStorage = localStorage.getItem('selectedProject');
+                            // const itemFromLocalStorage = localStorage.getItem('selectedProject');
                             // console.log('item from local storage');
                             // console.log(itemFromLocalStorage);
-                            if (itemFromLocalStorage !== null && itemFromLocalStorage !== 'null') {
-                              alert('made it through');
-                              const savedData = JSON.parse(itemFromLocalStorage);
-                              if (savedData !== null) {
-                                this.selectedProject = savedData;
-                              }
+                            // if (itemFromLocalStorage !== null && itemFromLocalStorage !== 'null') {
+                            //   // alert('made it through');
+                            //   const savedData = JSON.parse(itemFromLocalStorage);
+                            //   if (savedData !== null) {
+                            //     this.selectedProject = savedData;
+                            //   }
+                            // } else {
+                            //   this.selectedProject = this.allProjects[0];
+                            // }
+
+                            if (localStorage.getItem('selectedProject')) {
+                              const projectStorage = JSON.parse(localStorage.getItem('selectedProject')!);
+                              this.selectedProject = projectStorage;
                             } else {
                               this.selectedProject = this.allProjects[0];
                             }
+
 
                             if(!isProjectInitialized){
                               this.clientService.setProjectsObservables(this.selectedProject);
@@ -90,7 +101,15 @@ export class DashPanelComponent implements OnInit{
                             if (projectsObservable !== undefined) {
                               projectsObservable.subscribe((project) => {
                                 if (project !== undefined) {
-                                  this.selectedProject = project;
+                                  if (localStorage.getItem('selectedProject')) {
+                                    const projectStorage = JSON.parse(localStorage.getItem('selectedProject')!);
+                                    this.selectedProject = projectStorage;
+                                  } else {
+                                    this.selectedProject = project;
+                                  }
+                                  // this.selectedProject = project;
+                                  // console.log(this.selectedProject);
+                                  localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
                                 }
                               });
                             }
@@ -214,7 +233,7 @@ export class DashPanelComponent implements OnInit{
   //overlay functions
   selectOption(project: project){
     this.selectedProject = project;
-
+    localStorage.setItem('selectedProject', JSON.stringify(this.selectedProject));
     this.clientService.setProjectsObservables(this.selectedProject);
     this.authService.setSelectedProject(this.selectedProject.name);
     this.toggleProjectOverlay();

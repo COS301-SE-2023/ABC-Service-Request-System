@@ -168,7 +168,7 @@ export class TicketTableComponent implements OnInit{
                     }));
 
                     if(indexInner === ticketsArrayInner.length -1){
-                      console.log('temp tickets now: ', tempTickets);
+                      // console.log('temp tickets now: ', tempTickets);
                       this.ticketsReady = true;
                       this.sortedTicketsArray = tempTickets;
                     }
@@ -181,17 +181,17 @@ export class TicketTableComponent implements OnInit{
 
       } else if (currentURL.includes('settings')) {
         this.inProfileOrSettings = true;
-        console.log('dog 2');
+        // console.log('dog 2');
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-          console.log('important: ', response);
+          // console.log('important: ', response);
           this.allTicketsArray = response.filter((ticket: ticket) => {
             return (this.currentUserGroups.includes(ticket.group) );
           })
-          console.log('settings ');
-          console.log(this.tickets);
+          // console.log('settings ');
+          // console.log(this.tickets);
           this.tickets = this.sortTickets(this.tickets);
           this.sortedTicketsArray = this.tickets.slice();
-          console.log(this.sortedTicketsArray);
+          // console.log(this.sortedTicketsArray);
           this.ticketsReady = true;
           this.tickets.forEach(tickets => {
             const promises :any = [];
@@ -215,10 +215,10 @@ export class TicketTableComponent implements OnInit{
         this.inProfileOrSettings = true;
         this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
           // console.log('important: ', response);
-          console.log('loggedin user groups)');
-          console.log(this.loggedInUserGroups);
-          console.log('curr user groips');
-          console.log(this.currentUserGroups);
+          // console.log('loggedin user groups)');
+          // console.log(this.loggedInUserGroups);
+          // console.log('curr user groips');
+          // console.log(this.currentUserGroups);
 
           for (const group of this.currentUserGroups) {
             if (this.loggedInUserGroups.includes(group)) {
@@ -226,8 +226,8 @@ export class TicketTableComponent implements OnInit{
             }
           }
 
-          console.log('mutual groups');
-          console.log(this.mutualGroups);
+          // console.log('mutual groups');
+          // console.log(this.mutualGroups);
 
           this.allTicketsArray = response.filter((ticket: ticket) => {
             return (this.mutualGroups.includes(ticket.group) );
@@ -261,16 +261,16 @@ export class TicketTableComponent implements OnInit{
           projectsObservable.subscribe((project) => {
             if (project !== undefined) {
               this.selectedProject = project;
-              console.log(this.selectedProject, ' pr selected');
+              // console.log(this.selectedProject, ' pr selected');
 
               this.ticketService.getAllTickets().subscribe((response: ticket[]) => {
-                console.log('important: ', response);
+                // console.log('important: ', response);
                 this.allTicketsArray = response.filter((ticket: ticket) => {
                   return (this.currentUserGroups.includes(ticket.group) && ticket.project === this.selectedProject.name);
                 })
 
-                console.log("current user groups: ", this.currentUserGroups);
-                console.log("after filter", this.allTicketsArray);
+                // console.log("current user groups: ", this.currentUserGroups);
+                // console.log("after filter", this.allTicketsArray);
 
                 const promises :any = [];
 
@@ -320,7 +320,7 @@ export class TicketTableComponent implements OnInit{
     const endDate = parse(endDateString, dateFormat, new Date());
 
     const currentDate = new Date();
-    console.log(endDate);
+    // console.log(endDate);
     const differenceInMilliseconds = endDate.getTime() - currentDate.getTime();
     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
@@ -337,7 +337,7 @@ export class TicketTableComponent implements OnInit{
     const endDate = parse(endDateString, dateFormat, new Date());
 
     const currentDate = new Date();
-    console.log(endDate);
+    // console.log(endDate);
     const differenceInMilliseconds = endDate.getTime() - currentDate.getTime();
     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
