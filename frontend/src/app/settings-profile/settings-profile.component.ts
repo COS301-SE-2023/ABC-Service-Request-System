@@ -210,8 +210,8 @@ export class SettingsProfileComponent { // implements OnInit{
               this.updateLineChart(response);
               this.updateTicketResolutionLineChart(response);
               // this.updateTicketVolumeTrendChart(response);
-              this.calculateAverageResponseTime(response);
-              this.calculateAverageTimeToResolution(response);
+              this.sortResponseTimeTickets(response);
+              this.sortResolutionTimeTickets(response);
           }, (error) => {
             console.log("Error fetching tickets for current user", error);
           }
@@ -540,6 +540,40 @@ export class SettingsProfileComponent { // implements OnInit{
         }
       }
     });
+  }
+
+  sortResponseTimeTickets(tickets: ticket[]): void {
+    // Filter out tickets without a valid response time
+    const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
+  
+    // Sort the filtered tickets by response time
+    tempTickets.sort((a, b) => {
+      const responseTimeA = new Date(a.timeToFirstResponse!).getTime();
+      const responseTimeB = new Date(b.timeToFirstResponse!).getTime();
+  
+      // Compare response times for sorting
+      return responseTimeA - responseTimeB;
+    });
+  
+    console.log("Sorted tickets by response time:", tempTickets);
+    this.calculateAverageResponseTime(tempTickets);
+  }
+
+  sortResolutionTimeTickets(tickets: ticket[]): void {
+    // Filter out tickets without a valid response time
+    const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
+  
+    // Sort the filtered tickets by response time
+    tempTickets.sort((a, b) => {
+      const responseTimeA = new Date(a.timeToTicketResolution!).getTime();
+      const responseTimeB = new Date(b.timeToTicketResolution!).getTime();
+  
+      // Compare response times for sorting
+      return responseTimeA - responseTimeB;
+    });
+  
+    console.log("Sorted tickets by response time:", tempTickets);
+    this.calculateAverageTimeToResolution(tempTickets);
   }
 
   calculateAverageResponseTime(tickets: ticket[]): void {

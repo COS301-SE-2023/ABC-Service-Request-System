@@ -292,8 +292,8 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
           this.updateLineChart(response);
           this.updateTicketResolutionLineChart(response);
           this.updateTicketVolumeTrendChart(response);
-          this.calculateAverageResponseTime(response);
-          this.calculateAverageTimeToResolution(response);
+          this.sortResponseTimeTickets(response);
+          this.sortResolutionTimeTickets(response);
         }, (error) => {
           console.log("Error fetching tickets for current user", error);
         }
@@ -365,8 +365,8 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
           this.updateLineChart(response);
           this.updateTicketResolutionLineChart(response);
           this.updateTicketVolumeTrendChart(response);
-          this.calculateAverageResponseTime(response);
-          this.calculateAverageTimeToResolution(response);
+          this.sortResponseTimeTickets(response);
+          this.sortResolutionTimeTickets(response);
         });
 
       }, (error) => {
@@ -380,6 +380,41 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
     return value < 10
      ? `0${value}` : value.toString();
   }
+
+  sortResponseTimeTickets(tickets: ticket[]): void {
+    // Filter out tickets without a valid response time
+    const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
+  
+    // Sort the filtered tickets by response time
+    tempTickets.sort((a, b) => {
+      const responseTimeA = new Date(a.timeToFirstResponse!).getTime();
+      const responseTimeB = new Date(b.timeToFirstResponse!).getTime();
+  
+      // Compare response times for sorting
+      return responseTimeA - responseTimeB;
+    });
+  
+    console.log("Sorted tickets by response time:", tempTickets);
+    this.calculateAverageResponseTime(tempTickets);
+  }
+
+  sortResolutionTimeTickets(tickets: ticket[]): void {
+    // Filter out tickets without a valid response time
+    const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
+  
+    // Sort the filtered tickets by response time
+    tempTickets.sort((a, b) => {
+      const responseTimeA = new Date(a.timeToTicketResolution!).getTime();
+      const responseTimeB = new Date(b.timeToTicketResolution!).getTime();
+  
+      // Compare response times for sorting
+      return responseTimeA - responseTimeB;
+    });
+  
+    console.log("Sorted tickets by response time:", tempTickets);
+    this.calculateAverageTimeToResolution(tempTickets);
+  }
+  
 
   calculateAverageResponseTime(tickets: ticket[]): void {
     let totalResponseTime = 0;
@@ -714,40 +749,61 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
     // clear previous data
     this.lineChart.data.labels = [];
     this.lineChart.data.datasets[0].data = [];
-
+  
     // for each ticket
     for (const ticket of tickets) {
       // calculate time to first response (in minutes)
       const createdAt = new Date(ticket.createdAt);
       const firstResponseTime = new Date(ticket.timeToFirstResponse);
       const timeToFirstResponse = (firstResponseTime.getTime() - createdAt.getTime()) / (1000 * 60);
-
+  
       // check if timeToFirstResponse is not a number (NaN), if it is, skip to next ticket
       if (isNaN(timeToFirstResponse)) continue;
-
+  
       // convert time to hours and minutes format
       const hours = Math.floor(timeToFirstResponse / 60);
       const minutes = Math.round(timeToFirstResponse % 60);
       const formattedTime = hours * 100 + minutes;
-
+  
       // add ticket id to chart labels
       this.lineChart.data.labels.push(ticket.summary);
-
+  
       // add formatted time to chart data
       this.lineChart.data.datasets[0].data.push(formattedTime);
     }
-
+  
+    // Calculate time to first response for the latest ticket
+    const latestTicket = tickets[tickets.length - 1];
+    const createdAtLatest = new Date(latestTicket.createdAt);
+    const firstResponseTimeLatest = new Date(latestTicket.timeToFirstResponse);
+    const timeToFirstResponseLatest = (firstResponseTimeLatest.getTime() - createdAtLatest.getTime()) / (1000 * 60);
+  
+    // Check if timeToFirstResponseLatest is not a number (NaN), if it is, skip adding to the chart
+    if (!isNaN(timeToFirstResponseLatest)) {
+      // Convert time to hours and minutes format for the latest ticket
+      const hoursLatest = Math.floor(timeToFirstResponseLatest / 60);
+      const minutesLatest = Math.round(timeToFirstResponseLatest % 60);
+      const formattedTimeLatest = hoursLatest * 100 + minutesLatest;
+  
+      // Add the latest ticket id to the end of chart labels
+      this.lineChart.data.labels.push(latestTicket.summary);
+  
+      // Add the formatted time for the latest ticket to the end of chart data
+      this.lineChart.data.datasets[0].data.push(formattedTimeLatest);
+    }
+  
     // console.log("Chart labels:", this.lineChart.data.labels); // Log labels
     // console.log("Chart data:", this.lineChart.data.datasets[0].data); // Log data
-
+  
     const trendColor = this.calculateResponseTrend();
     this.lineChart.data.datasets[0].borderColor = trendColor;
     this.lineChart.data.datasets[0].backgroundColor = trendColor;
     this.lineChart.data.datasets[0].pointBackgroundColor = trendColor;
-
+  
     // update the chart to reflect new data
     this.lineChart.update();
   }
+  
 
   updateTicketResolutionLineChart(tickets: any[]): void {
     // Clear previous data
