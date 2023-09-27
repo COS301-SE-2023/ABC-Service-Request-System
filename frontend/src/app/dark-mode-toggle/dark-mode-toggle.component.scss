@@ -239,7 +239,7 @@ input {
 }
 
 input:checked ~ .slider {
-  background-color: #d8dbe0;
+  background-color: #e1e4e9;
 }
 
 .slider::before {
@@ -250,7 +250,7 @@ input:checked ~ .slider {
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  box-shadow: inset 28px -4px 0px 0px #d8dbe0;
+  box-shadow: inset 28px -4px 0px 0px #e1e4e9;
   background-color: #28292c;
   transition: 0.3s;
 }

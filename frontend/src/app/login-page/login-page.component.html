@@ -12,7 +12,8 @@
         <h1>Log in</h1>
         <p>Welcome back! Effortlessly streamline your service requests with Luna</p>
 
-        <form class="loginDetails">
+        <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+        <form class="loginDetails" (keyup.enter)="loginUser()">
           <label for="email"><strong>Email</strong></label> <br>
           <input type="email" id="email" name="email" placeholder="example@domain.com" class="form-control" [(ngModel)]="email" required><br>
           <br>
@@ -24,8 +25,6 @@
 
           <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-
-          <mat-slide-toggle color="primary"><span class="slide-toggle-title">Keep me logged in</span></mat-slide-toggle>
           <div class="loginButton">
           <button type="button" class="btn" (click)="loginUser()">Log in <mat-spinner style="margin:0em 0.6em;" [diameter]="20" *ngIf="logInClicked"></mat-spinner></button>
           </div>
