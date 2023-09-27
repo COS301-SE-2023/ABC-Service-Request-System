@@ -30,6 +30,7 @@
     "chart.js": "^4.3.0",
     "cors": "^2.8.5",
     "date-fns": "^2.30.0",
+    "darkreader": "^4.9.58",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jasmine": "^5.0.0",

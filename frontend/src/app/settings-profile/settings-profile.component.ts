@@ -64,6 +64,19 @@ export class SettingsProfileComponent { // implements OnInit{
   uploadFlag = false;
   uploadHeaderFlag = false;
 
+  timeToFirstResponseArray: ticket[] = [];
+  timeToTicketResolutionArray: ticket [] = [];
+
+  responsePercentChange = 0;
+  resolutionPercentChange = 0;
+
+  responseTrend!: string;
+  resolutionTrend!: string;
+
+  responsePercentChangeAbs = 0;
+  resolutionPercentChangeAbs = 0;
+
+
   lineChart!: Chart<'line', (number | null)[], string>;
   ticketResolutionLineChart!: Chart<'line', (number | null)[], string>;
  // ticketVolumeTrendChart!: Chart<'line', (number | null)[], string>;
@@ -451,20 +464,22 @@ export class SettingsProfileComponent { // implements OnInit{
     if (this.ticketResolutionLineChart) {
       this.ticketResolutionLineChart.destroy();
     }
+
+    const trendColour = this.calculateResolutionTrend();
     this.ticketResolutionLineChart = new Chart(this.ticketResolutionLineChartCanvas.nativeElement, {
       type: 'line',
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to Ticket Resolution (minutes)',
+          label: 'minutes: ',
           data: [],
-          borderColor: 'rgba(255, 91, 91, 0.66)',
-          backgroundColor: 'rgba(255, 91, 91, 0.66)',
+          borderColor: trendColour,
+          backgroundColor: trendColour,
           tension: 0.4,
           pointRadius: 5,
           pointHoverRadius: 7,
           pointBorderColor: '#fff',
-          pointBackgroundColor: 'rgba(255, 91, 91, 1)'
+          pointBackgroundColor: trendColour
         }],
       },
       options: {
@@ -491,20 +506,21 @@ export class SettingsProfileComponent { // implements OnInit{
       this.lineChart.destroy();
     }
 
+    const trendColour = this.calculateResponseTrend();
     this.lineChart = new Chart(this.lineChartCanvas.nativeElement, {
       type: 'line',
       data: {
         labels: [],
         datasets: [{
-          label: 'Time to First Response (minutes)',
+          label: 'minutes: ',
           data: [],
-          borderColor: 'rgba(26, 188, 156, 1)',
-          backgroundColor: 'rgba(26, 188, 156, 1)',
+          borderColor: trendColour,
+          backgroundColor: trendColour,
           tension: 0.4, // A bit smoother line
           pointRadius: 5, // Larger points
           pointHoverRadius: 7, // Even larger points on hover
           pointBorderColor: '#fff', // White points
-          pointBackgroundColor: 'rgba(26, 188, 156, 1)' // Green points
+          pointBackgroundColor: trendColour // Green points
         }],
       },
       options: {
@@ -526,27 +542,6 @@ export class SettingsProfileComponent { // implements OnInit{
     });
   }
 
-  calculateAverageTimeToResolution(tickets: ticket[]): void {
-    const resolvedTickets = tickets.filter(ticket => ticket.status === 'Done' && ticket.timeToTicketResolution);
-    const totalResolutionTime = resolvedTickets.reduce((total, ticket) => {
-      const createdAt = new Date(ticket.createdAt);
-      const resolutionTime = new Date(ticket.timeToTicketResolution!); // Assert that timeToTicketResolution is not undefined
-      const ticketResolutionTime = resolutionTime.getTime() - createdAt.getTime();
-      return total + ticketResolutionTime;
-    }, 0);
-
-    if (resolvedTickets.length > 0) {
-      const averageResolutionTime = totalResolutionTime / resolvedTickets.length;
-      this.averageResolutionHours = this.formatTimeValue(Math.floor(averageResolutionTime / (1000 * 60 * 60)));
-      this.averageResolutionMinutes = this.formatTimeValue(Math.floor((averageResolutionTime / (1000 * 60)) % 60));
-      console.log('averageResolutionHours', this.averageResolutionHours);
-      console.log('averageResolutionMinutes', this.averageResolutionMinutes);
-    } else {
-      this.averageResolutionHours = '00';
-      this.averageResolutionMinutes = '00';
-    }
-  }
-
   calculateAverageResponseTime(tickets: ticket[]): void {
     let totalResponseTime = 0;
     let count = 0;
@@ -556,11 +551,16 @@ export class SettingsProfileComponent { // implements OnInit{
         const created = new Date(ticket.createdAt);
         const firstResponse = new Date(ticket.timeToFirstResponse);
 
-        console.log('firstResponse', firstResponse);
+        // console.log('firstResponse', firstResponse);
         const diff = firstResponse.getTime() - created.getTime();
 
         totalResponseTime += diff;
         count++;
+
+        this.timeToFirstResponseArray.push(ticket);
+        // console.log("timeToFirstResponseArray: " , this.timeToFirstResponseArray);
+        this.calculateResponseTrend();
+
       }
     });
 
@@ -572,7 +572,271 @@ export class SettingsProfileComponent { // implements OnInit{
       this.averageResponseHours = '00';
       this.averageResponseMinutes = '00';
     }
+    this.updateLineChart(tickets);
   }
+
+  calculateResponseTrend(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255 , 1)';
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToFirstResponseArray.length >= 2) {
+        const lastIndex = this.timeToFirstResponseArray.length - 1;
+
+        // Access the last two tickets
+        const lastTicket = this.timeToFirstResponseArray[lastIndex];
+        const secondLastTicket = this.timeToFirstResponseArray[lastIndex - 1];
+
+        // Convert the timeToFirstResponse to Date objects with non-null assertion
+        const lastResponseTime = new Date(lastTicket.timeToFirstResponse!).getTime();
+        const secondLastResponseTime = new Date(secondLastTicket.timeToFirstResponse!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in response times for both tickets
+        const diffLast = lastResponseTime - lastCreatedTime;
+        const diffSecondLast = secondLastResponseTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal
+        this.responsePercentChangeAbs = Math.abs(this.responsePercentChange);
+
+        //this.updateBadge();
+        // Determine the trend and set the trendColor
+        if (diffLast < diffSecondLast) {
+            // console.log(`Positive Response trend: ${percentChange}% improvement`);
+            this.responseTrend = 'positive';
+            trendColor = 'rgba(26, 188, 156, 1)'; // Positive trend
+            console.log("trendColour Response", trendColor);
+
+        } else if (diffLast > diffSecondLast) {
+            // console.log(`Negative Response trend: ${percentChange}% worsening`);
+            this.responseTrend = 'negative';
+            trendColor = 'rgba(255, 85, 85, 1)'; // Negative trend
+            console.log("trendColour Response", trendColor);
+        } else {
+            // console.log("Neutral Response trend: 0% change");
+            this.responseTrend = 'neutral';
+            trendColor = 'rgb(0, 196, 255 , 1)'; // Neutral trend
+            console.log("trendColour Response", trendColor);
+        }
+    }
+
+    // this.lineChart.update();
+
+    return trendColor; // This will return one of the colors: "gray", "green", "red", or "yellow"
+  }
+
+  updateChartColors(): void {
+    const trendColor = this.calculateResponseTrend();
+    if (this.lineChart) {
+        this.lineChart.data.datasets[0].borderColor = trendColor;
+        this.lineChart.data.datasets[0].backgroundColor = trendColor;
+        this.lineChart.data.datasets[0].pointBackgroundColor = trendColor;
+        this.lineChart.update();
+
+    }
+    console.log("updateChartColors Response", trendColor)
+  }
+
+  getBadgeResponseClass(): string {
+    switch(this.responseTrend) {
+      case 'positive': return 'graph-badge-green';
+      case 'negative': return 'graph-badge-red';
+      default: return 'graph-badge-neutral';
+    }
+  }
+
+  getArrowResponseClass(): string {
+    switch(this.responseTrend) {
+        case 'positive': return "fa-solid fa-arrow-trend-down";
+        case 'negative': return "fa-solid fa-arrow-trend-up";
+        default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
+    }
+  }
+
+  calculateAverageTimeToResolution(tickets: ticket[]): void {
+    const resolvedTickets = tickets.filter(ticket => ticket.status === 'Done' && ticket.timeToTicketResolution);
+    this.timeToTicketResolutionArray = resolvedTickets;
+    console.log("timeToTicketResolutionArray", this.timeToTicketResolutionArray);
+
+    const totalResolutionTime = resolvedTickets.reduce((total, ticket) => {
+      const createdAt = new Date(ticket.createdAt);
+      const resolutionTime = new Date(ticket.timeToTicketResolution!); // Assert that timeToTicketResolution is not undefined
+      const ticketResolutionTime = resolutionTime.getTime() - createdAt.getTime();
+      return total + ticketResolutionTime;
+    }, 0);
+
+    if (resolvedTickets.length > 0) {
+      const averageResolutionTime = totalResolutionTime / resolvedTickets.length;
+      this.averageResolutionHours = this.formatTimeValue(Math.floor(averageResolutionTime / (1000 * 60 * 60)));
+      this.averageResolutionMinutes = this.formatTimeValue(Math.floor((averageResolutionTime / (1000 * 60)) % 60));
+
+      this.calculateResolutionTrend();
+      // console.log('averageResolutionHours', this.averageResolutionHours);
+      // console.log('averageResolutionMinutes', this.averageResolutionMinutes);
+    } else {
+      this.averageResolutionHours = '00';
+      this.averageResolutionMinutes = '00';
+    }
+
+
+    this.updateTicketResolutionLineChart(tickets);
+
+  }
+
+  calculateResolutionTrend(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255 , 1)';  // Neutral color
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToTicketResolutionArray.length >= 2) {
+        const lastIndex = this.timeToTicketResolutionArray.length - 1;
+
+        // Access the last two tickets
+        const lastTicket = this.timeToTicketResolutionArray[lastIndex];
+        const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
+
+        // Convert the timeToTicketResolution to Date objects with non-null assertion
+        const lastResolutionTime = new Date(lastTicket.timeToTicketResolution!).getTime();
+        const secondLastResolutionTime = new Date(secondLastTicket.timeToTicketResolution!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in resolution times for both tickets
+        const diffLast = lastResolutionTime - lastCreatedTime;
+        const diffSecondLast = secondLastResolutionTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.resolutionPercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.resolutionPercentChange = Math.round(this.resolutionPercentChange * 100) / 100;  // Rounding to 2 decimal places
+        this.resolutionPercentChangeAbs = Math.abs(this.resolutionPercentChange);
+        // Determine the trend and set the trendColor
+        if (this.resolutionPercentChange > 0) {
+            // console.log(`Negative Resolution trend: ${percentageChange}% worsening`);
+            this.resolutionTrend = "negative";
+            trendColor = 'rgba(255, 85, 85, 1)';  // Negative trend
+        } else if (this.resolutionPercentChange < 0) {
+            // console.log(`Positive Resolution trend: ${Math.abs(percentageChange)}% improvement`);
+            this.resolutionTrend = "positive";
+            trendColor = 'rgba(26, 188, 156, 1)';  // Positive trend
+        } else {
+            // console.log("Neutral Resolution trend: 0% change");
+            this.resolutionTrend = "neutral";
+            trendColor = 'rgb(0, 196, 255 , 1)';
+        }
+
+        console.log("trendColour Resolution", trendColor);
+    }
+
+    return trendColor;  // This will return one of the colors: "gray", "green", or "red"
+  }
+
+  getArrowResolutionClass(): string {
+    switch(this.resolutionTrend ) {
+        case 'positive': return "fa-solid fa-arrow-trend-down";  // Assuming arrow down indicates improvement
+        case 'negative': return "fa-solid fa-arrow-trend-up";    // Arrow up for worsening trend
+        default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
+    }
+  }
+
+  calculateResponseTrendCSS(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255 , 1)';
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToFirstResponseArray.length >= 2) {
+        const lastIndex = this.timeToFirstResponseArray.length - 1;
+
+        // Access the last two tickets
+        const lastTicket = this.timeToFirstResponseArray[lastIndex];
+        const secondLastTicket = this.timeToFirstResponseArray[lastIndex - 1];
+
+        // Convert the timeToFirstResponse to Date objects with non-null assertion
+        const lastResponseTime = new Date(lastTicket.timeToFirstResponse!).getTime();
+        const secondLastResponseTime = new Date(secondLastTicket.timeToFirstResponse!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in response times for both tickets
+        const diffLast = lastResponseTime - lastCreatedTime;
+        const diffSecondLast = secondLastResponseTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal
+        console.log(" this.responsePercentChange ",  this.responsePercentChange )
+
+        //this.updateBadge();
+        // Determine the trend and set the trendColor
+        if (diffLast < diffSecondLast) {
+            // console.log(`Positive Response trend: ${percentChange}% improvement`);
+            trendColor = 'graph-badge-green'; // Positive trend
+
+        } else if (diffLast > diffSecondLast) {
+            // console.log(`Negative Response trend: ${percentChange}% worsening`);
+            trendColor = 'graph-badge-red'; // Negative trend
+
+        } else {
+            // console.log("Neutral Response trend: 0% change")
+            trendColor = 'graph-badge-blue'; // Neutral trend
+        }
+    }
+
+    // this.lineChart.update();
+
+    return trendColor; // This will return one of the colors: "gray", "green", "red", or "yellow"
+}
+
+  calculateResolutionTrendCSS(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255 , 1)';  // Neutral color
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToTicketResolutionArray.length >= 2) {
+        const lastIndex = this.timeToTicketResolutionArray.length - 1;
+
+        // Access the last two tickets
+        const lastTicket = this.timeToTicketResolutionArray[lastIndex];
+        const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
+
+
+
+        // Convert the timeToTicketResolution to Date objects with non-null assertion
+        const lastResolutionTime = new Date(lastTicket.timeToTicketResolution!).getTime();
+        const secondLastResolutionTime = new Date(secondLastTicket.timeToTicketResolution!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in resolution times for both tickets
+        const diffLast = lastResolutionTime - lastCreatedTime;
+        const diffSecondLast = secondLastResolutionTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.resolutionPercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.resolutionPercentChange = Math.round(this.resolutionPercentChange * 100) / 100;  // Rounding to 2 decimal places
+
+        // Determine the trend and set the trendColor
+        if (this.resolutionPercentChange > 0) {
+            // console.log(`Negative Resolution trend: ${percentageChange}% worsening`);
+            trendColor = "graph-badge-red";  // Negative trend
+        } else if (this.resolutionPercentChange < 0) {
+            // console.log(`Positive Resolution trend: ${Math.abs(percentageChange)}% improvement`);
+            trendColor = "graph-badge-green";  // Positive trend
+        } else {
+            // console.log("Neutral Resolution trend: 0% change");
+            trendColor = 'graph-badge-blue';
+        }
+
+        console.log("trendColour Resolution", trendColor);
+    }
+
+    return trendColor;  // This will return one of the colors: "gray", "green", or "red"
+  }
+
+
+
 
   formatTimeValue(value: number): string {
     return value < 10 ? `0${value}` : value.toString();
@@ -618,6 +882,11 @@ export class SettingsProfileComponent { // implements OnInit{
     // console.log("Chart data:", this.lineChart.data.datasets[0].data); // Log data
 
     // update the chart to reflect new data
+    const trendColor = this.calculateResponseTrend();
+    this.lineChart.data.datasets[0].borderColor = trendColor;
+    this.lineChart.data.datasets[0].backgroundColor = trendColor;
+    this.lineChart.data.datasets[0].pointBackgroundColor = trendColor;
+
     this.lineChart.update();
   }
 
@@ -655,6 +924,13 @@ export class SettingsProfileComponent { // implements OnInit{
     console.log("Chart labels:", this.ticketResolutionLineChart.data.labels); // Log labels
     console.log("Chart data:", this.ticketResolutionLineChart.data.datasets[0].data); // Log data
     // Update the chart to reflect new data for Ticket Resolution
+    const trendColor = this.calculateResolutionTrend();
+    // console.log ("Updated Resolution trendColor", trendColor)
+    this.ticketResolutionLineChart.data.datasets[0].borderColor = trendColor;
+    this.ticketResolutionLineChart.data.datasets[0].backgroundColor = trendColor;
+    this.ticketResolutionLineChart.data.datasets[0].pointBackgroundColor = trendColor;
+
+
     this.ticketResolutionLineChart.update();
   }
 

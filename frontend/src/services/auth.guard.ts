@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  Router
-} from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+@Injectable({ providedIn: 'root' })
+export class AuthGuardService implements CanActivate {
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    const isManager = this.authService.isManager();
-    if (!isManager) {
-      this.router.navigate(['/']);
+    constructor(private authService: AuthService, private router: Router) { }
+
+    canActivate(): boolean {
+        const token = this.authService.getToken();
+
+        if (token) {
+            return true;  // token exists, grant access to route
+        }
+
+        const currentUrl: string = window.location.href;
+
+        if(currentUrl.includes('client'))
+          this.router.navigate(['/client-login']);
+        else
+          this.router.navigate(['/login']);
+
+
+        // if there's no token, redirect the user to the login page or another appropriate page
+        return false;
     }
-    return isManager;
-  }
 }

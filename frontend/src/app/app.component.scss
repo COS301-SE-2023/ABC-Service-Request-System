@@ -91,3 +91,7 @@
 .add-ticket-button:hover {
   background-color: #0056b3;
 }
+
+.no-transitions * {
+  transition: none !important;
+}

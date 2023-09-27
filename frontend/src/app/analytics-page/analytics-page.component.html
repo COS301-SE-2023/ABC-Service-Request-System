@@ -93,10 +93,12 @@
                   <p class="average-unit hour-unit">HOURS</p>
                   <p class="average-unit minute-unit">MINUTES</p>
                 </div>
-                <div class="graph-badge-green">
-                  <i class="fa-solid fa-arrow-trend-up"></i>
-                  <p id="imp">20.1%</p>
-                </div>
+                
+                <div class=" {{calculateResponseTrendCSS()}}">
+                  <i [ngClass]="getArrowResponseClass()"></i>
+                  <p id="imp">{{ this.responsePercentChangeAbs  }} %</p>
+              </div>
+
               </div>
               <div class="line-chart-container">
                 <canvas #lineChartCanvas class="line-chart"></canvas>
@@ -117,9 +119,11 @@
                   <p class="average-unit hour-unit">HOURS</p>
                   <p class="average-unit minute-unit">MINUTES</p>
                 </div>
-                <div class="graph-badge-red">
-                  <i class="fa-solid fa-arrow-trend-down"></i>
-                  <p id="imp">11.91%</p>
+                
+                
+                <div class="{{calculateResolutionTrendCSS()}}">
+                  <i [ngClass]="getArrowResolutionClass()"></i>
+                  <p id="imp">{{ this.resolutionPercentChangeAbs }} % </p>
                 </div>
               </div>
               <div class="line-chart-container">
