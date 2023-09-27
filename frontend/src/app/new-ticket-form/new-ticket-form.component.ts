@@ -40,6 +40,15 @@ export class NewTicketFormComponent implements OnInit {
   Selectagroup = 'Select a group';
   groupSelected = false;
   generateToDoCalled = false;
+  sortUsers: any[] = [];
+  sortTickets: ticket[] = [];
+  sortTimes: number[] = [];
+  overallTimes!: number;
+  userCount!: number;
+  suggestedUsers: any[] = [];
+  groupSelectedId!: string;
+  ticketCount!: number;
+  emailAddresses!: string[];
 
   constructor(
     private ticketService: TicketsService,
@@ -76,6 +85,10 @@ export class NewTicketFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.overallTimes = 0;
+    this.userCount = 0;
+    this.ticketCount = 0;
+
     this.getAssigneeName();
 
     this.navbarService.collapsed$.subscribe(collapsed => {
@@ -97,10 +110,65 @@ export class NewTicketFormComponent implements OnInit {
                 this.ticketForm.get('project')?.setValue(this.allProjects[0].name);
                 if(this.allProjects[0].assignedGroups){
                   this.allGroups = this.allProjects[0].assignedGroups;
-                  this.getAllAssignable(this.allGroups);
+                  this.getAllAssignable();
                 }
               }
           })
+        })
+
+        // Edwin's Algorithm
+        this.userService.getAllUsers().subscribe((users) => {
+
+          let userTicketFlag = false;
+
+          users.forEach((user) => {
+            this.ticketService.getTicketsForUser(user.emailAddress).subscribe((tickets) => {
+              this.sortTickets = tickets as ticket[];
+
+              let timeSpent;
+              let timeSpentInHours;
+
+              let totalTime = 0;
+
+              this.sortTickets.forEach((ticket) => {
+                if (ticket.timeToFirstResponse && ticket.timeToTicketResolution) {
+                  userTicketFlag = true;
+                  const startDate = new Date(ticket.timeToFirstResponse);
+                  const endDate = new Date(ticket.timeToTicketResolution);
+
+                  timeSpent = endDate.getTime() - startDate.getTime();
+                  timeSpent = Math.abs(timeSpent);
+
+                  timeSpentInHours = timeSpent / 3600000;
+
+                  totalTime += timeSpentInHours;
+
+                  this.ticketCount += 1;
+
+                  this.overallTimes += timeSpentInHours;
+                }
+              })
+
+              const averageTime = totalTime / this.ticketCount;
+
+              if (user.emailAddress !== "admin@admin.com") {
+                this.sortUsers.push({
+                  overallPerformance: averageTime,
+                  userInfo: user,
+                  statistics: null
+                })
+              }
+
+              if (userTicketFlag) {
+                this.userCount++;
+                userTicketFlag = false;
+              }
+            })
+
+          })
+
+          console.log("Overall Times: ", this.overallTimes);
+          // console.log("userCount: ", this.userCount);
         })
       }, (error) => {
         console.log("Error fetching all clients", error);
@@ -120,9 +188,79 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   onGroupChanged(event: Event) {
-    const groupSelectedId = (event.target as HTMLSelectElement).value;
+    // const groupSelectedId = (event.target as HTMLSelectElement).value;
     // console.log('group selected id: ', groupSelectedId);
     this.groupSelected = true;
+    this.groupSelectedId = (event.target as HTMLSelectElement).value;
+
+    //Edwin's Code
+
+    // console.log("sortUsers after adding statistics: ", this.sortUsers);
+
+    const minPerformance = Math.min(...this.sortUsers.map((user) => user.overallPerformance));
+    console.log("minPerformance: ", minPerformance);
+
+    const maxPerformance = Math.max(...this.sortUsers.map((user) => user.overallPerformance)) * 1.2;
+    console.log("maxPerformance: ", maxPerformance);
+
+    const range = (maxPerformance - minPerformance); // Ensure at least 10% range
+    console.log("range: ", range);
+
+    this.sortUsers.forEach((user) => {
+      if (user.overallPerformance === 0) {
+        user.statistics = NaN;
+      }
+      else if (!isNaN(user.overallPerformance)) {
+      // Calculate the percentage relative to maxPerformance
+        const percentage = ((maxPerformance - user.overallPerformance) / range) * 100;
+        user.statistics = Math.round(percentage * 100) / 100;
+      } else {
+        user.statistics = NaN;
+        user.overallPerformance = NaN;
+      }
+
+      console.log("Users: ", user);
+    });
+
+
+    this.sortUsers.sort((a, b) => {
+      const aPerformance = a.statistics;
+      const bPerformance = b.statistics;
+
+      if (isNaN(aPerformance) && isNaN(bPerformance)) {
+        return 0;
+      } else if (isNaN(aPerformance) || aPerformance === 0) {
+        return 1;
+      } else if (isNaN(bPerformance) || bPerformance === 0) {
+        return -1;
+      } else {
+        // Sort in descending order (highest at the top)
+        return bPerformance - aPerformance;
+      }
+    });
+
+
+    this.suggestedUsers = this.sortUsers.filter(users =>  users.userInfo.groups.some((group: any) => group === this.groupSelectedId));
+
+
+    this.getAllAssignable();
+  }
+
+  isNaN(data: any) {
+    if (data === "NaN") {
+      return true;
+    }
+
+    return false;
+  }
+
+  getUserStatisticsClass(statistics: string): string {
+    const numericValue = parseFloat(statistics);
+    if (!isNaN(numericValue)) {
+      return numericValue > 50 ? 'graph-badge-green' : 'graph-badge-orange';
+    } else {
+      return 'graph-badge-red';
+    }
   }
 
   getAssigneeName() {
@@ -134,13 +272,9 @@ export class NewTicketFormComponent implements OnInit {
     return this.assigneeName;
   }
 
-  getAllAssignable(selectedTodos: group[]) {
+  getAllAssignable() {
     const userArray = this.userService.getAllUsers().subscribe((response: user[]) => {
-      this.allUsers = response.filter((user) => {
-        return user.groups.some((userGroup) => selectedTodos.some((selectedGroup) => userGroup === selectedGroup.id));
-      });
-      // console.log("All Users: ", this.allUsers);
-      return this.allUsers;
+      this.allUsers = response.filter(user => user.groups.some((group) => group === this.groupSelectedId));
     });
   }
 
@@ -160,7 +294,8 @@ export class NewTicketFormComponent implements OnInit {
       if(selectedProject.assignedGroups)
         this.allGroups = selectedProject.assignedGroups;
 
-      this.getAllAssignable(this.allGroups);
+      this.getAllAssignable();
+
     } else {
       console.log('Project not found:', selectedProjectName);
     }
@@ -168,7 +303,7 @@ export class NewTicketFormComponent implements OnInit {
 
   onSubmit() {
 
-    alert('on submit called');
+    // alert('on submit called');
     if(this.generateToDoCalled == true) {
       this.generateToDoCalled = false;
       return;
@@ -304,6 +439,14 @@ export class NewTicketFormComponent implements OnInit {
 
         this.notificationsService.newNotification(profilePhotoLink, notificationMessage, creatorEmail, assignedEmail, ticketSummary, ticketStatus, notificationTime, link, readStatus).subscribe((response: any) => {
           console.log(response);
+
+          this.userService.getUsersByGroupId(group).subscribe((users) => {
+            this.emailAddresses = users.map(user => user.emailAddress);
+
+            this.ticketService.sendEmailNotification(this.emailAddresses, summary, newTicketId, endDateString, priority, this.assignee.emailAddress, this.assignedUser.emailAddress).subscribe((response: any) => {
+              console.log(response);
+            });
+          })
         });
           }
         );
@@ -361,18 +504,9 @@ export class NewTicketFormComponent implements OnInit {
   }
 
   private stringFormatDate(date: Date): string {
-    let month = '' + (date.getMonth() + 1);
-    let day = '' + date.getDate();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
     const year = date.getFullYear();
-
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-
-    if ( day.length < 2) {
-      day = '0' + day;
-    }
-
     return [year, month, day].join('-');
   }
 

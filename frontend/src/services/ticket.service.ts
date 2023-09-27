@@ -170,4 +170,17 @@ export class TicketsService {
     const body = {personWhoChangedAssigned, personWhoChangedPhoto, prevAssignedName, prevAssignedPhoto, newAssignedName, newAssignedPhoto};
     return this.http.post<any>(`${this.TICKET_URL}/${ticketId}/addHistory`,  body , {headers});
   }
+
+  getTicketsForUser(emailAddress: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.http.get(`${this.TICKET_URL}/getTicketUserEmail?emailAddress=${emailAddress}`, {headers});
+  }
+
+  sendEmailNotification(emailAddresses: string[], ticketSummary: string, ticketId: string, endDate: string, priority: string, assigneeEmail: string, assignedEmail: string) {
+    this.token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    const body = {emailAddresses, ticketSummary, ticketId, endDate, priority, assigneeEmail, assignedEmail};
+    return this.http.post(`${this.TICKET_URL}/sendEmailNotification`, body, {headers});
+  }
 }

@@ -90,6 +90,7 @@ import { HistoryPanelComponent } from './history-panel/history-panel.component';
 import { ClientRequestsComponent } from './client-requests/client-requests.component';
 import { TicketRequestComponent } from './ticket-request/ticket-request.component';
 import { DarkModeToggleComponent } from './dark-mode-toggle/dark-mode-toggle.component';
+import { EmailReplyComponent } from './email-reply/email-reply.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import { DarkModeToggleComponent } from './dark-mode-toggle/dark-mode-toggle.com
     ClientRequestsComponent,
     TicketRequestComponent,
     DarkModeToggleComponent,
+    EmailReplyComponent,
   ],
   imports: [
     BrowserModule,

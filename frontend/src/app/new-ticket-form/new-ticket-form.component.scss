@@ -418,6 +418,168 @@
   border-radius: 8px;
 }
 
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock {
+  margin-top: 1em;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  height: 32vh;
+  overflow: auto;
+  background: #fff;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  align-items: center;
+  padding: 1em 25px 0.5em;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0.5em;
+  background: #fff;
+
+  .memberAIDetail {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin-top: auto; 
+    color: #000;
+  }
+
+  .Summary {
+    margin-top: auto; 
+    font-size: medium;
+    color: #04538E;
+  }
+
+  .memberAIStats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .graph-badge-green {
+      background-color: #C7F5D3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: fit-content;
+      border-radius: 0.3em;
+      top: 50%;
+      right: 10%;
+      margin-top: 0.5em;
+      padding: 0.5em;
+      transform: translateY(-50%);
+      color: #33663D;
+      font-family: 'Montserrat', sans-serif;
+    
+      i {
+        margin-right: 1em;
+      }
+    
+      #imp {
+        margin: 0 !important;
+      }
+    }
+    
+    .graph-badge-orange {
+      background-color: #f6dccb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5em;
+      max-width: fit-content;
+      border-radius: 0.3em;
+      top: 50%;
+      margin-top: 0.5em;
+      right: 10%;
+      transform: translateY(-50%);
+      color: #ab773b;
+      font-family: 'Montserrat', sans-serif;
+    
+      i {
+        margin-right: 1em;
+      }
+    
+      #imp {
+        margin: 0 !important;
+      }
+    }
+
+    .graph-badge-red {
+      background-color: #F6CCCB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5em;
+      max-width: fit-content;
+      border-radius: 0.3em;
+      margin-top: 0.5em;
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      color: #8C2822;
+      font-family: 'Montserrat', sans-serif;
+    
+      i {
+        margin-right: 1em;
+      }
+    
+      #imp {
+        margin: 0 !important;
+      }
+    }
+  }
+}
+
+
+
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI:hover {
+  background: rgba(116, 172, 205, 0.3);
+  background-clip: padding-box, margin-box;
+  transition-duration: 0.2s;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock .memberAI .memberAIPhoto {
+  flex: 0 0 auto; 
+  height: 3em;
+  width: 3em;
+  border-radius: 50px;
+  margin-right: 20px;
+
+  img {
+        width: 100%;
+        height: 100%;
+  }
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar {
+  width: 8px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-thumb {
+  background-color: #74ACCD;
+  border-radius: 4px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+.assignedInformation .assignedInformation-col2 .memberAIBlock .memberAIContentBlock::-webkit-scrollbar-thumb:vertical:hover {
+  background-color: #0e80b5;
+}
+
 // css to make asterisk red
 .required {
   color: red;

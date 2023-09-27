@@ -76,8 +76,8 @@ router.post('/seed', expressAsyncHandler(
         }
 
         TicketModel.create(sample_tickets)
-            .then(data => {res.status(201).send(data)})
-            .catch(err => {res.status(500).send({message: err.message}); });
+            .then((data: any) => {res.status(201).send(data)})
+            .catch((err: { message: any; }) => {res.status(500).send({message: err.message}); });
         // res.status(200).send("Seed is done!");
     }
 ));
@@ -116,7 +116,7 @@ router.get('/projects', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin'
       const tickets = await TicketModel.find({ group: groupName});
 
       if(tickets){
-        tickets.forEach((ticket) => {
+        tickets.forEach((ticket: { project: string; }) => {
           if(ticket.project && !projects.includes(ticket.project))
             projects.push(ticket.project);
         });
@@ -379,8 +379,7 @@ router.put('/comment',jwtVerify(['Manager', 'Technical', 'Functional', 'Admin'])
     }
   }));
 
-// Edwin's Router Functions for Todo list
-
+// Edwin's Router Functions
 router.put('/updateTodoChecked/:id', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']) , expressAsyncHandler(async (req, res) => {
   const ticketId = req.params.id;
   const updatedTodoChecked = req.body.todoChecked;
@@ -586,7 +585,7 @@ router.put('/:id/updateAssigned', jwtVerify(['Manager', 'Technical', 'Functional
 
   try {
     const ticket = await TicketModel.findOne({ id: ticketId });
-    
+
     if (ticket) {
       console.log(ticket);
       ticket.assigned = newAssignedEmail;
@@ -639,6 +638,101 @@ router.post('/:id/addHistory',jwtVerify(['Manager', 'Technical', 'Functional', '
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
+}));
+
+
+router.get('/getTicketUserEmail', jwtVerify(['Manager', 'Technical', 'Functinal', 'Admin']), expressAsyncHandler(async(req, res)=> {
+  const userEmail = req.query.emailAddress;
+
+  try {
+    const tickets = await TicketModel.find({ assigned: userEmail });
+    
+    res.status(200).send(tickets);
+  }
+  catch(error) {
+    res.status(500).send("Internal server error");
+  }
+}));
+
+router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(async(req, res) => {
+  const userEmails = req.body.emailAddresses;
+  const ticketSummary = req.body.ticketSummary;
+  const id = req.body.ticketId;
+  const endDate = req.body.endDate;
+  const priority = req.body.priority;
+  const assigneeEmail = req.body.assigneeEmail;
+  const assignedEmail = req.body.assignedEmail;
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "hyperiontech.capstone@gmail.com",
+      pass: "zycjmbveivhamcgt"
+    }
+  });
+
+  const recipients = userEmails.join(', ');
+
+  const mailOptions = {
+    from: "hyperiontech.capstone@gmail.com",
+    to: recipients,
+    subject: "New Ticket Created",
+    headers: {
+      "In-Reply-To": id, // Set In-Reply-To header to the ticketId
+      References: id, // Set References header to the ticketId
+    },
+    html: `
+              <div
+    style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; max-width: 600px; margin: 20px auto; border: 1px solid #dfe2e5; border-radius: 6px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+
+
+    <h1
+        style="color: #2c3e50; border-bottom: 2px solid #04538E; padding-bottom: 15px; margin-bottom: 25px; font-size: 24px;">
+        Ticket Notification</h1>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; width: 150px; text-align: right; font-weight: bold; color: #7f8c8d;">Ticket ID:
+            </td>
+            <td style="padding: 10px 15px;">${id}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Summary:</td>
+            <td style="padding: 10px 15px;">${ticketSummary}</td>
+        </tr>
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Assignee:</td>
+            <td style="padding: 10px 15px;">${assigneeEmail}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Assigned:</td>
+            <td style="padding: 10px 15px;">${assignedEmail}</td>
+        </tr>
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Priority:</td>
+            <td style="padding: 10px 15px;">${priority}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">End Date:</td>
+            <td style="padding: 10px 15px;">${endDate}</td>
+        </tr>
+    </table>
+
+    <div
+        style="margin-top: 30px; padding: 15px; background-color: #04538E; color: #ffffff; text-align: center; border-radius: 4px;">
+        You will be able to communicate between the team members by replying to this email
+    </div>
+</div>
+          `,
+  };
+
+    try {
+      await transporter.sendMail(mailOptions); // Assuming you have a configured transporter
+      res.status(200).send({message: "Emails sent!", recipients});
+    } catch (error) {
+      res.status(404).send({message: "Email not found!"});
+    }
+
 }));
 
 export default router;

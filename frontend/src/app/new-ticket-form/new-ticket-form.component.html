@@ -31,7 +31,6 @@
         <div class="generateTodoButton">
           <button id="generate-todo-button" (click) = "generateTodo()">Generate To-do's</button>
         </div>
-
       </div>
 
       <div class="todos">
@@ -114,10 +113,27 @@
 
         <div class="assignedInformation-col2">
           <div class="memberAIBlock">
-            <label>Suggested Technical Members</label>
+            <label class="blue-label">Suggested Members</label>
+            <div class="memberAIContentBlock">
+              <div class="memberAI" *ngFor="let user of suggestedUsers">
+                <div class="memberAIPhoto">
+                  <img [src]="user.userInfo.profilePhoto" alt="user" style="border-radius:50%;">
+                </div>
 
-            <div class="memberAIContent">
+                <div class="memberAIDetail">
+                  <p class="Summary"><b>{{ user.userInfo.name }} {{ user.userInfo.surname}}</b></p>
+                  <p><b>{{ user.userInfo.roles }}</b></p>
+                </div>
 
+                <div class="memberAIStats">
+                  <p class="Summary"><b>Performance</b></p>
+                  <div [ngClass]="getUserStatisticsClass(user.statistics)">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <p id="imp">{{ user.statistics }}%</p>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -135,7 +151,7 @@
   <div class="todo-overlay" *ngIf="isAddTodoOverlayOpened">
     <div class="todo-overlay-inner-wrapper">
       <h1>Add a todo</h1>
-      <textarea [formControl]="todo"></textarea>
+      <textarea placeholder="Todo Description..." [formControl]="todo"></textarea>
       <br>
 
       <div class="todo-overlay-buttons">

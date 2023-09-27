@@ -880,7 +880,7 @@ router.post('/addGroup' , jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
 router.get("/byGroup/:groupId", expressAsyncHandler(async (req, res) => {
     const groupId = req.params.groupId;
     const users = await UserModel.find({ groups: { $in: [groupId] } });
-    const userArray = users.map(user => ({ 
+    const userArray = users.map((user: any) => ({ 
         id: user.id, 
         name: user.name, 
         surname: user.surname, 
