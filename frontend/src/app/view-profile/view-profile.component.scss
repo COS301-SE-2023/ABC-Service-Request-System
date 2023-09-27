@@ -235,6 +235,7 @@ button.profile-picture {
   transform: translateY(-50%);
   color: #33663D;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
 
   i {
     margin-right: 1em;
@@ -265,7 +266,7 @@ button.profile-picture {
   .average-hours {
     margin-top: 0.5em;
     font-family: 'Poppins', sans-serif;
-    font-size: 4em;
+    font-size: 1.8em;
     font-weight: bold;
     color: rgba(0,0,0,0.66);
     min-width: 50%;
@@ -274,7 +275,7 @@ button.profile-picture {
   .average-minutes {
     margin-top: 0.5em;
     font-family: 'Poppins', sans-serif;
-    font-size: 4em;
+    font-size: 1.8em;
     font-weight: bold;
     color: rgba(0,0,0,0.66);
     min-width: 40%;
@@ -294,6 +295,31 @@ button.profile-picture {
   }
 }
 
+.graph-badge-blue {
+  background-color:   rgb(134, 227, 255);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  color: rgba(4, 83, 142);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
 .graph-badge-red {
   background-color: #F6CCCB;
   display: flex;
@@ -308,6 +334,7 @@ button.profile-picture {
   transform: translateY(-50%);
   color: #8C2822;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
 
   i {
     margin-right: 1em;

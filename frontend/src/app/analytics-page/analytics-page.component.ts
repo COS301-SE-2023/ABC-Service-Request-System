@@ -613,7 +613,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
 
   calculateResponseTrendCSS(): string {
     // Default color for insufficient data
-    let trendColor = 'rgb(0, 196, 255)';
+    let trendColor = 'graph-badge-blue';
 
     // Ensure there are at least two tickets to compare
     if (this.timeToFirstResponseArray.length >= 2) {
@@ -661,7 +661,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
 
   calculateResolutionTrendCSS(): string {
     // Default color for insufficient data
-    let trendColor = 'rgb(0, 196, 255)';  // Neutral color
+    let trendColor = 'graph-badge-blue';  // Neutral color
 
     // Ensure there are at least two tickets to compare
     if (this.timeToTicketResolutionArray.length >= 2) {

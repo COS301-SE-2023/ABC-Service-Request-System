@@ -302,7 +302,7 @@ export class ViewProfileComponent implements OnInit {
         this.timeToFirstResponseArray.push(ticket);
         // console.log("timeToFirstResponseArray: " , this.timeToFirstResponseArray);
         this.calculateResponseTrend();
-        
+
       }
     });
 
@@ -324,7 +324,7 @@ export class ViewProfileComponent implements OnInit {
     // Ensure there are at least two tickets to compare
     if (this.timeToFirstResponseArray.length >= 2) {
         const lastIndex = this.timeToFirstResponseArray.length - 1;
-        
+
         // Access the last two tickets
         const lastTicket = this.timeToFirstResponseArray[lastIndex];
         const secondLastTicket = this.timeToFirstResponseArray[lastIndex - 1];
@@ -341,7 +341,7 @@ export class ViewProfileComponent implements OnInit {
 
         // Calculate the percentage change
         this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
-        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal 
+        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal
         this.responsePercentChangeAbs = Math.abs(this.responsePercentChange);
 
         //this.updateBadge();
@@ -366,7 +366,7 @@ export class ViewProfileComponent implements OnInit {
     }
 
     // this.lineChart.update();
-    
+
     return trendColor; // This will return one of the colors: "gray", "green", "red", or "yellow"
   }
 
@@ -377,7 +377,7 @@ export class ViewProfileComponent implements OnInit {
         this.lineChart.data.datasets[0].backgroundColor = trendColor;
         this.lineChart.data.datasets[0].pointBackgroundColor = trendColor;
         this.lineChart.update();
-        
+
     }
     console.log("updateChartColors Response", trendColor)
   }
@@ -392,11 +392,11 @@ export class ViewProfileComponent implements OnInit {
 
   getArrowResponseClass(): string {
     switch(this.responseTrend) {
-        case 'positive': return "fa-solid fa-arrow-trend-down";  
-        case 'negative': return "fa-solid fa-arrow-trend-up";  
+        case 'positive': return "fa-solid fa-arrow-trend-down";
+        case 'negative': return "fa-solid fa-arrow-trend-up";
         default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
     }
-  } 
+  }
 
   calculateAverageTimeToResolution(tickets: ticket[]): void {
     const resolvedTickets = tickets.filter(ticket => ticket.status === 'Done' && ticket.timeToTicketResolution);
@@ -422,10 +422,10 @@ export class ViewProfileComponent implements OnInit {
       this.averageResolutionHours = '00';
       this.averageResolutionMinutes = '00';
     }
-    
+
 
     this.updateTicketResolutionLineChart(tickets);
-    
+
   }
 
   calculateResolutionTrend(): string {
@@ -435,7 +435,7 @@ export class ViewProfileComponent implements OnInit {
     // Ensure there are at least two tickets to compare
     if (this.timeToTicketResolutionArray.length >= 2) {
         const lastIndex = this.timeToTicketResolutionArray.length - 1;
-        
+
         // Access the last two tickets
         const lastTicket = this.timeToTicketResolutionArray[lastIndex];
         const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
@@ -454,7 +454,7 @@ export class ViewProfileComponent implements OnInit {
         this.resolutionPercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
         this.resolutionPercentChange = Math.round(this.resolutionPercentChange * 100) / 100;  // Rounding to 2 decimal places
         this.resolutionPercentChangeAbs = Math.abs(this.resolutionPercentChange);
-        
+
         // Determine the trend and set the trendColor
         if (this.resolutionPercentChange > 0) {
             // console.log(`Negative Resolution trend: ${percentageChange}% worsening`);
@@ -486,12 +486,12 @@ export class ViewProfileComponent implements OnInit {
 
   calculateResponseTrendCSS(): string {
     // Default color for insufficient data
-    let trendColor = 'rgb(0, 196, 255)';
+    let trendColor = 'graph-badge-blue';
 
     // Ensure there are at least two tickets to compare
     if (this.timeToFirstResponseArray.length >= 2) {
         const lastIndex = this.timeToFirstResponseArray.length - 1;
-        
+
         // Access the last two tickets
         const lastTicket = this.timeToFirstResponseArray[lastIndex];
         const secondLastTicket = this.timeToFirstResponseArray[lastIndex - 1];
@@ -508,7 +508,7 @@ export class ViewProfileComponent implements OnInit {
 
         // Calculate the percentage change
         this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
-        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal 
+        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal
         console.log(" this.responsePercentChange ",  this.responsePercentChange )
 
         //this.updateBadge();
@@ -528,18 +528,18 @@ export class ViewProfileComponent implements OnInit {
     }
 
     // this.lineChart.update();
-    
+
     return trendColor; // This will return one of the colors: "gray", "green", "red", or "yellow"
 }
 
   calculateResolutionTrendCSS(): string {
     // Default color for insufficient data
-    let trendColor = 'rgb(0, 196, 255)';  // Neutral color
+    let trendColor = 'graph-badge-blue';  // Neutral color
 
     // Ensure there are at least two tickets to compare
     if (this.timeToTicketResolutionArray.length >= 2) {
         const lastIndex = this.timeToTicketResolutionArray.length - 1;
-        
+
         // Access the last two tickets
         const lastTicket = this.timeToTicketResolutionArray[lastIndex];
         const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
