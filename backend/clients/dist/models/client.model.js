@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.projectSchema = exports.ClientModel = void 0;
+exports.requestSchema = exports.projectSchema = exports.ClientModel = void 0;
 var _mongoose = require("mongoose");
 var _group = require("./group.model");
 var projectSchema = new _mongoose.Schema({
@@ -27,9 +27,72 @@ var projectSchema = new _mongoose.Schema({
   assignedGroups: {
     type: [_group.groupSchema],
     required: false
+  },
+  lowPriorityTime: {
+    type: String,
+    required: false
+  },
+  mediumPriorityTime: {
+    type: String,
+    required: false
+  },
+  highPriorityTime: {
+    type: String,
+    required: false
   }
 });
 exports.projectSchema = projectSchema;
+var requestSchema = new _mongoose.Schema({
+  id: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    required: true
+  },
+  additionalInformation: {
+    type: String,
+    required: false
+  },
+  projectName: {
+    type: String,
+    required: false
+  },
+  projectId: {
+    type: String,
+    required: false
+  },
+  clientId: {
+    type: String,
+    required: false
+  },
+  projectSelected: {
+    type: String,
+    required: false
+  },
+  summary: {
+    type: String,
+    required: false
+  },
+  description: {
+    type: String,
+    required: false
+  },
+  priority: {
+    type: String,
+    required: false
+  },
+  endDate: {
+    type: String,
+    required: false
+  }
+});
+exports.requestSchema = requestSchema;
 var clientSchema = new _mongoose.Schema({
   id: {
     type: String,
@@ -44,6 +107,10 @@ var clientSchema = new _mongoose.Schema({
     required: true
   },
   organisation: {
+    type: String,
+    required: true
+  },
+  profilePhoto: {
     type: String,
     required: true
   },
@@ -72,6 +139,14 @@ var clientSchema = new _mongoose.Schema({
   projects: {
     type: [projectSchema],
     required: true
+  },
+  requests: {
+    type: [requestSchema],
+    required: false
+  },
+  chatId: {
+    type: String,
+    required: false
   }
 }, {
   toJSON: {

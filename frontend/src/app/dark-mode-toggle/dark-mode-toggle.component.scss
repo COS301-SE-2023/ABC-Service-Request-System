@@ -236,6 +236,7 @@ input {
   height: 100%;
   border-radius: 50px;
   transition: 0.3s;
+  background-color: rgb(59, 59, 59);
 }
 
 input:checked ~ .slider {
@@ -250,8 +251,8 @@ input:checked ~ .slider {
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  box-shadow: inset 28px -4px 0px 0px #e1e4e9;
-  background-color: #28292c;
+  box-shadow: inset 28px -4px 0px 0px white;
+  background-color: rgb(59, 59, 59);
   transition: 0.3s;
 }
 
