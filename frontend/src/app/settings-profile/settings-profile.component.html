@@ -87,9 +87,9 @@
             <p class="average-unit minute-unit">MINUTES</p>
           </div>
           
-          <div class="graph-badge-green" [style.background-color]="calculateResponseTrend()">
+          <div class="{{calculateResponseTrendCSS()}}">
             <i [ngClass]="getArrowResponseClass()"></i>
-            <p id="imp">{{ this.responsePercentChange  }} %</p>
+            <p id="imp">{{ this.responsePercentChangeAbs }} %</p>
         </div>
 
         </div>
@@ -114,9 +114,9 @@
           </div>
           
           
-          <div class="graph-badge-green" [style.background-color]="calculateResolutionTrend()">
+          <div class="{{calculateResolutionTrendCSS()}}">
             <i [ngClass]="getArrowResolutionClass()"></i>
-            <p id="imp">{{ this.resolutionPercentChange }} %</p>
+            <p id="imp">{{ this.resolutionPercentChangeAbs }} %</p>
           </div>
         </div>
         <div class="line-chart-container">

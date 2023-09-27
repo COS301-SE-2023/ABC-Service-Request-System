@@ -62,7 +62,10 @@ export class ViewProfileComponent implements OnInit {
     resolutionPercentChange = 0;
 
     responseTrend!: string;
-  resolutionTrend!: string;
+    resolutionTrend!: string;
+
+    responsePercentChangeAbs = 0;
+    resolutionPercentChangeAbs = 0;
 
 
     lineChart!: Chart<'line', (number | null)[], string>;
@@ -316,7 +319,7 @@ export class ViewProfileComponent implements OnInit {
 
   calculateResponseTrend(): string {
     // Default color for insufficient data
-    let trendColor = 'rgba(169, 169, 169, 1)';
+    let trendColor = 'rgb(0, 196, 255, 1)';
 
     // Ensure there are at least two tickets to compare
     if (this.timeToFirstResponseArray.length >= 2) {
@@ -339,7 +342,7 @@ export class ViewProfileComponent implements OnInit {
         // Calculate the percentage change
         this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
         this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal 
-        console.log(" this.responsePercentChange ",  this.responsePercentChange )
+        this.responsePercentChangeAbs = Math.abs(this.responsePercentChange);
 
         //this.updateBadge();
         // Determine the trend and set the trendColor
@@ -357,7 +360,7 @@ export class ViewProfileComponent implements OnInit {
         } else {
             // console.log("Neutral Response trend: 0% change");
             this.responseTrend = 'neutral';
-            trendColor = 'rgba(169, 169, 169, 1)'; // Neutral trend
+            trendColor = 'rgb(0, 196, 255, 1)'; // Neutral trend
             console.log("trendColour Response", trendColor);
         }
     }
@@ -427,7 +430,7 @@ export class ViewProfileComponent implements OnInit {
 
   calculateResolutionTrend(): string {
     // Default color for insufficient data
-    let trendColor = 'rgba(169, 169, 169, 1)';  // Neutral color
+    let trendColor = 'rgb(0, 196, 255, 1)';  // Neutral color
 
     // Ensure there are at least two tickets to compare
     if (this.timeToTicketResolutionArray.length >= 2) {
@@ -450,7 +453,8 @@ export class ViewProfileComponent implements OnInit {
         // Calculate the percentage change
         this.resolutionPercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
         this.resolutionPercentChange = Math.round(this.resolutionPercentChange * 100) / 100;  // Rounding to 2 decimal places
-
+        this.resolutionPercentChangeAbs = Math.abs(this.resolutionPercentChange);
+        
         // Determine the trend and set the trendColor
         if (this.resolutionPercentChange > 0) {
             // console.log(`Negative Resolution trend: ${percentageChange}% worsening`);
@@ -463,7 +467,7 @@ export class ViewProfileComponent implements OnInit {
         } else {
             // console.log("Neutral Resolution trend: 0% change");
             this.resolutionTrend = "neutral";
-            trendColor = 'rgba(169, 169, 169, 1)';
+            trendColor = 'rgb(0, 196, 255 , 1)';
         }
 
         console.log("trendColour Resolution", trendColor);
@@ -479,6 +483,101 @@ export class ViewProfileComponent implements OnInit {
         default: return 'fa-solid fa-minus';               // Horizontal line for neutral trend
     }
   }
+
+  calculateResponseTrendCSS(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255)';
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToFirstResponseArray.length >= 2) {
+        const lastIndex = this.timeToFirstResponseArray.length - 1;
+        
+        // Access the last two tickets
+        const lastTicket = this.timeToFirstResponseArray[lastIndex];
+        const secondLastTicket = this.timeToFirstResponseArray[lastIndex - 1];
+
+        // Convert the timeToFirstResponse to Date objects with non-null assertion
+        const lastResponseTime = new Date(lastTicket.timeToFirstResponse!).getTime();
+        const secondLastResponseTime = new Date(secondLastTicket.timeToFirstResponse!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in response times for both tickets
+        const diffLast = lastResponseTime - lastCreatedTime;
+        const diffSecondLast = secondLastResponseTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.responsePercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.responsePercentChange = Math.round(this.responsePercentChange * 100) / 100; // Rounding to 2 decimal 
+        console.log(" this.responsePercentChange ",  this.responsePercentChange )
+
+        //this.updateBadge();
+        // Determine the trend and set the trendColor
+        if (diffLast < diffSecondLast) {
+            // console.log(`Positive Response trend: ${percentChange}% improvement`);
+            trendColor = 'graph-badge-green'; // Positive trend
+
+        } else if (diffLast > diffSecondLast) {
+            // console.log(`Negative Response trend: ${percentChange}% worsening`);
+            trendColor = 'graph-badge-red'; // Negative trend
+
+        } else {
+            // console.log("Neutral Response trend: 0% change")
+            trendColor = 'graph-badge-blue'; // Neutral trend
+        }
+    }
+
+    // this.lineChart.update();
+    
+    return trendColor; // This will return one of the colors: "gray", "green", "red", or "yellow"
+}
+
+  calculateResolutionTrendCSS(): string {
+    // Default color for insufficient data
+    let trendColor = 'rgb(0, 196, 255)';  // Neutral color
+
+    // Ensure there are at least two tickets to compare
+    if (this.timeToTicketResolutionArray.length >= 2) {
+        const lastIndex = this.timeToTicketResolutionArray.length - 1;
+        
+        // Access the last two tickets
+        const lastTicket = this.timeToTicketResolutionArray[lastIndex];
+        const secondLastTicket = this.timeToTicketResolutionArray[lastIndex - 1];
+
+
+
+        // Convert the timeToTicketResolution to Date objects with non-null assertion
+        const lastResolutionTime = new Date(lastTicket.timeToTicketResolution!).getTime();
+        const secondLastResolutionTime = new Date(secondLastTicket.timeToTicketResolution!).getTime();
+        const lastCreatedTime = new Date(lastTicket.createdAt).getTime();
+        const secondLastCreatedTime = new Date(secondLastTicket.createdAt).getTime();
+
+        // Calculate the difference in resolution times for both tickets
+        const diffLast = lastResolutionTime - lastCreatedTime;
+        const diffSecondLast = secondLastResolutionTime - secondLastCreatedTime;
+
+        // Calculate the percentage change
+        this.resolutionPercentChange = ((diffLast - diffSecondLast) / diffSecondLast) * 100;
+        this.resolutionPercentChange = Math.round(this.resolutionPercentChange * 100) / 100;  // Rounding to 2 decimal places
+
+        // Determine the trend and set the trendColor
+        if (this.resolutionPercentChange > 0) {
+            // console.log(`Negative Resolution trend: ${percentageChange}% worsening`);
+            trendColor = "graph-badge-red";  // Negative trend
+        } else if (this.resolutionPercentChange < 0) {
+            // console.log(`Positive Resolution trend: ${Math.abs(percentageChange)}% improvement`);
+            trendColor = "graph-badge-green";  // Positive trend
+        } else {
+            // console.log("Neutral Resolution trend: 0% change");
+            trendColor = 'graph-badge-blue';
+        }
+
+        console.log("trendColour Resolution", trendColor);
+    }
+
+    return trendColor;  // This will return one of the colors: "gray", "green", or "red"
+  }
+
 
 
 
