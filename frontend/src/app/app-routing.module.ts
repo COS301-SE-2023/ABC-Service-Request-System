@@ -42,7 +42,7 @@ const routes: Routes = [
 
   { path: 'login', component: LoginPageComponent },
   { path: 'client-login', component: ClientLoginComponent},
-  { path: 'client-dashboard', component: ClientDashboardComponent, canActivate: [AuthGuardService] },
+  { path: 'client-dashboard', component: ClientDashboardComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'ticket/:id', component: TicketDetailComponent, canActivate: [AuthGuardService] },
@@ -51,14 +51,14 @@ const routes: Routes = [
   { path: 'analytics-page', component: AnalyticsPageComponent, canActivate: [AuthGuardService] },
   { path: 'create-account', component: CreateAccountComponent, canActivate: [AuthGuardService]  },
   { path: 'new-ticket-form', component: NewTicketFormComponent, canActivate: [AuthGuardService] },
-  { path: 'client-requests', component: ClientRequestsComponent, canActivate: [AuthGuardService] },
+  { path: 'client-requests', component: ClientRequestsComponent },
   { path: 'settings-notifications',component: SettingsNotificationsComponent, canActivate: [AuthGuardService] },
   { path: 'settings-profile',component: SettingsProfileComponent, canActivate: [AuthGuardService] },
   { path: 'teams', component: TeamsPageComponent, canActivate: [AuthGuardService] },
   { path: 'settings', component: SettingsProfileComponent, canActivate: [AuthGuardService] },
   { path: 'view-profile',component: ViewProfileComponent, canActivate: [AuthGuardService] },
   { path: 'notifications-search',component: NotificationsSearchComponent, canActivate: [AuthGuardService] },
-  { path: 'room/:roomId',component: VideoRoomComponent, canActivate: [AuthGuardService] },
+  { path: 'room/:roomId',component: VideoRoomComponent},
 
 
 
