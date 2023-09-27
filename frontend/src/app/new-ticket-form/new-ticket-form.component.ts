@@ -122,6 +122,8 @@ export class NewTicketFormComponent implements OnInit {
 
               let totalNumOfTickets = 0;
               let totalResolvedTickets = 0;
+              let unresolvedTickets = 0;
+              let futureTickets = 0;
           
               this.sortTickets.forEach((ticket) => {
                 if (ticket.timeToFirstResponse && ticket.timeToTicketResolution) {
@@ -142,7 +144,23 @@ export class NewTicketFormComponent implements OnInit {
 
                   totalResolvedTickets++;
                 }
+                const [day, month, year] = ticket.endDate
+                  .split('/')
+                  .map(Number);
 
+                // Create a Date object for the given date (months are 0-based, so subtract 1 from the month)
+                const givenDate = new Date(year, month - 1, day);
+
+                // Get the current date
+                const currentDate = new Date();
+
+                if (givenDate >= currentDate) {
+                  futureTickets++;
+                }
+                else {
+                  unresolvedTickets++;
+                }
+                
                 totalNumOfTickets++;
               })
 
@@ -153,8 +171,10 @@ export class NewTicketFormComponent implements OnInit {
                   overallPerformance: averageTime,
                   userInfo: user,
                   statistics: null,
-                  numOfTickets: totalNumOfTickets,
-                  numOfTicketsCompleted: totalResolvedTickets
+                  numOfTickets: totalNumOfTickets as number,
+                  numOfTicketsCompleted: totalResolvedTickets as number,
+                  futureTickets: futureTickets as number,
+                  unresolvedTickets: unresolvedTickets as number,                  
                 })
               }
 
@@ -166,6 +186,7 @@ export class NewTicketFormComponent implements OnInit {
             
           })
 
+          console.log("sortUsers: ", this.sortUsers);
           console.log("Overall Times: ", this.overallTimes);
           // console.log("userCount: ", this.userCount);
         })
@@ -194,21 +215,40 @@ export class NewTicketFormComponent implements OnInit {
     const range = (maxPerformance - minPerformance); // Ensure at least 10% range
     console.log("range: ", range);
 
-    this.sortUsers.forEach((user) => {
+    for (const user of this.sortUsers) {
       if (user.overallPerformance === 0) {
         user.statistics = NaN;
-      }
-      else if (!isNaN(user.overallPerformance)) {
-      // Calculate the percentage relative to maxPerformance
-        const percentage = ((maxPerformance - user.overallPerformance) / range) * 100;
-        user.statistics = Math.round(percentage * 100) / 100;
+      } else if (!isNaN(user.overallPerformance)) {
+        const userPerformance = Number(user.overallPerformance);
+        const totalTickets = Number(user.numOfTickets); 
+        const completedTickets = Number(user.numOfTicketsCompleted);
+        const notCompletedTickets = Number(user.numOfTickets - user.unresolvedTickets);
+
+        const completionRatio = completedTickets / totalTickets;
+
+        // Calculate the detrimental factor based on the ratio of not completed tickets
+        const detrimentalFactor = (notCompletedTickets / totalTickets) * 100;
+
+        const completionWeight = 0.7;
+        const detrimentalWeight = 0.9; 
+
+        // Calculate the adjusted performance score with adjusted weights
+        const adjustedPerformance =
+          ((maxPerformance - user.overallPerformance) / range) * 100;
+
+        // Apply the adjustment based on completion ratio and detrimental factor
+        const adjustedScore =
+          completionRatio * completionWeight +
+          detrimentalFactor * detrimentalWeight;
+          
+        user.statistics = Math.round(adjustedPerformance + adjustedScore);
       } else {
-        user.statistics = NaN;
+        user.statistics = "N/A";
         user.overallPerformance = NaN;
       }
 
-      console.log("Users: ", user);
-    });
+      console.log('User: ', user);
+    }
 
    
     this.sortUsers.sort((a, b) => {
@@ -408,7 +448,7 @@ export class NewTicketFormComponent implements OnInit {
       this.markFormControlsAsTouched(this.ticketForm);
 
       // Handle invalid form submission
-      console.log('Form is invalid. Please fill in all required fields.');
+      alert('Form is invalid. Please fill in all required fields.');
     }
   }
 
