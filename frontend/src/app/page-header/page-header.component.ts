@@ -11,7 +11,7 @@ import { UserService } from 'src/services/user.service';
 @Component({
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
-  styleUrls: ['./page-header.component.scss']
+  styleUrls: ['./page-header.component.scss'],
 })
 export class PageHeaderComponent {
   tickets = tickets;
@@ -36,7 +36,13 @@ export class PageHeaderComponent {
   @Output() openForm = new EventEmitter<void>();
   // @Input() tickets: any[] = [];
 
-  constructor(private notificationsService: NotificationsService, private authService: AuthService, private userService: UserService, private router: Router, private elementRef: ElementRef) {}
+  constructor(
+    private notificationsService: NotificationsService,
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router,
+    private elementRef: ElementRef
+  ) {}
 
   allNotificationsArray: notifications[] = [];
   unreadNotificationsArray: notifications[] = [];
@@ -46,7 +52,9 @@ export class PageHeaderComponent {
   }
 
   getNewId(): number {
-    return this.tickets.length > 0 ? Math.max(...this.tickets.map(ticket => ticket.id)) + 1 : 1;
+    return this.tickets.length > 0
+      ? Math.max(...this.tickets.map((ticket) => ticket.id)) + 1
+      : 1;
   }
 
   addNewTicket(newTicket: Ticket) {
@@ -68,6 +76,11 @@ export class PageHeaderComponent {
     this.showNotificationsForm = false;
   }
 
+  openPdf() {
+    const pdfUrl = '/assets/UM.pdf'; // Adjust the path to your PDF file
+    window.open(pdfUrl, '_blank');
+  }
+  
   openProfile() {
     this.showProfileForm = true;
     this.showNotificationsForm = false;
@@ -83,55 +96,60 @@ export class PageHeaderComponent {
   }
 
   getNumOfUnreadNotifications() {
-    this.notificationsService.getAllNotifications().subscribe((response: notifications[]) => {
-      this.allNotificationsArray = response;
-      const user = this.authService.getUser();
-      this.unreadNotificationsArray = this.allNotificationsArray.filter(notifications => notifications.readStatus === 'Unread' && notifications.assignedEmail === user.emailAddress);
-      this.unreadNotificationsCount = this.unreadNotificationsArray.length;
-    });
+    this.notificationsService
+      .getAllNotifications()
+      .subscribe((response: notifications[]) => {
+        this.allNotificationsArray = response;
+        const user = this.authService.getUser();
+        this.unreadNotificationsArray = this.allNotificationsArray.filter(
+          (notifications) =>
+            notifications.readStatus === 'Unread' &&
+            notifications.assignedEmail === user.emailAddress
+        );
+        this.unreadNotificationsCount = this.unreadNotificationsArray.length;
+      });
   }
 
   getRoles() {
     this.authService.getUserObject().subscribe((response) => {
       const user = response;
 
-      if (user.roles[0] == "Admin") {
-        this.roles = "Admin"; // Admin is already admin so won't have any other roles
+      if (user.roles[0] == 'Admin') {
+        this.roles = 'Admin'; // Admin is already admin so won't have any other roles
       }
 
-      if (user.roles[0] == "Manager") {
-        this.roles = "Management";
+      if (user.roles[0] == 'Manager') {
+        this.roles = 'Management';
       }
 
-      if (user.roles[0] == "Functional") {
-        this.roles = "Functional";
+      if (user.roles[0] == 'Functional') {
+        this.roles = 'Functional';
       }
 
-      if (user.roles[0] == "Technical") {
-        this.roles = "Technical";
+      if (user.roles[0] == 'Technical') {
+        this.roles = 'Technical';
       }
 
       if (user.roles.length > 1) {
         for (let i = 1; i < user.roles.length; i++) {
-            if (user.roles[i] == "Manager") {
-              this.roles = this.roles + ", Management";
-            }
+          if (user.roles[i] == 'Manager') {
+            this.roles = this.roles + ', Management';
+          }
 
-            if (user.roles[i] == "Functional") {
-              this.roles = this.roles + ", Functional";
-            }
+          if (user.roles[i] == 'Functional') {
+            this.roles = this.roles + ', Functional';
+          }
 
-            if (user.roles[i] == "Technical") {
-              this.roles = this.roles + ", Technical";
-            }
+          if (user.roles[i] == 'Technical') {
+            this.roles = this.roles + ', Technical';
+          }
         }
       }
     });
-
   }
 
   ngOnInit() {
-    if(this.authService.getUser() != null || undefined){
+    if (this.authService.getUser() != null || undefined) {
       this.getNumOfUnreadNotifications();
       const userId = this.getUserObject().id;
       this.getUser(userId);
@@ -140,7 +158,6 @@ export class PageHeaderComponent {
   }
 
   getUser(userId: string) {
-
     this.userService.getUser(userId).subscribe(
       (user: user) => {
         this.user = user;
@@ -151,10 +168,9 @@ export class PageHeaderComponent {
         console.error(error);
       }
     );
-
   }
 
-  getUserObject(){
+  getUserObject() {
     return this.authService.getUser();
   }
 

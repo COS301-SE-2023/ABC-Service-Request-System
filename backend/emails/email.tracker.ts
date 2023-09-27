@@ -1,6 +1,7 @@
 const Imap = require("node-imap");
 const MailParser = require("mailparser").MailParser;
 const dotenv = require("dotenv");
+const fs = require("fs");
 dotenv.config();
 
 const imap = new Imap({
@@ -25,21 +26,32 @@ function fetchNewEmails() {
     const fetch = imap.seq.fetch(
       `${box.messages.total - 9}:${box.messages.total}`, // Adjust the range as needed
       {
-        bodies: "",
+        bodies: ""  ,
+        unseen: true,
       }
     );
 
-    console.log("fetch: ", fetch);
-
     fetch.on("message", (msg, seqno) => {
+      console.log("Fetch: ", msg);
       const mailparser = new MailParser();
 
       msg.on("body", (stream) => {
         stream.pipe(mailparser);
+        // console.log("MailParser(): ", mailparser);
+
+        // stream.on("error", (err) => {
+        //   console.error("Stream Error:", err);
+        // });
       });
+
+      // msg.on("end", () => {
+      //   console.log("Msg on end");
+      // });
 
       mailparser.on("end", (parsedMail) => {
         // Access the parsed email data
+        console.log("parsedMail: ", parsedMail);
+        
         const emailSubject = parsedMail.subject;
         const emailText = parsedMail.text;
         const inReplyTo = parsedMail.headers["in-reply-to"];
@@ -47,18 +59,25 @@ function fetchNewEmails() {
         console.log("emailText: ", emailText);
         console.log("inReplyTo: ", inReplyTo);
 
-        // Check if the email subject contains "Ticket ID:"
-        if (inReplyTo && inReplyTo.includes("Ticket ID:")) {
-          const ticketId = inReplyTo.match(/Ticket ID: (\d+)/)[1];
-          console.log(`Found email with Ticket ID: ${ticketId}`);
+        if (emailSubject.includes("New Ticket Created")) {
+          // Check if the email subject contains "Ticket ID:"
+          if (inReplyTo && inReplyTo.includes("Ticket ID:")) {
+            const ticketId = inReplyTo.match(/Ticket ID: (\d+)/)[1];
+            console.log(`Found email with Ticket ID: ${ticketId}`);
 
-          // Extract the user's reply from the email text
-          const userReply = extractUserReply(emailText);
-          console.log("User's Reply:", userReply);
+            // Extract the user's reply from the email text
+            const userReply = extractUserReply(emailText);
+            console.log("User's Reply:", userReply);
 
-          // Implement your further processing logic here.
+            // Implement your further processing logic here.
+          }
         }
       });
+
+      // mailparser.on("error", (err) => {
+      //   console.error("Mailparser Error:", err);
+      // });
+
     });
   });
 }
@@ -85,6 +104,7 @@ imap.on("reconnect", (timeout) => {
     imap.connect();
   }, timeout * 1000);
 });
+
 
 // Function to extract the user's reply from the email text
 function extractUserReply(emailText) {
