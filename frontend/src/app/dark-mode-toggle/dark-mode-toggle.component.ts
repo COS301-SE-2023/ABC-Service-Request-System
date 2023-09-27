@@ -12,6 +12,12 @@ export class DarkModeToggleComponent implements OnInit {
 
   constructor(private themeService: ThemeService) {
     this.themeService.initTheme();
+    // this.themeService.update('light-theme');
+    // alert('print');
+  }
+
+  ngOnInit(): void {
+    this.checkDarkModePreference();
 
     if(DarkReader.isEnabled())
       this.isDarkMode = false;
@@ -19,12 +25,6 @@ export class DarkModeToggleComponent implements OnInit {
       this.isDarkMode = true;
     else
       this.isDarkMode = !this.themeService.isDarkMode();
-    // this.themeService.update('light-theme');
-    // alert('print');
-  }
-
-  ngOnInit(): void {
-    this.checkDarkModePreference();
   }
 
   checkDarkModePreference(): void {
