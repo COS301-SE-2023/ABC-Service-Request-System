@@ -2,120 +2,91 @@ const Imap = require("node-imap");
 const MailParser = require("mailparser").MailParser;
 const dotenv = require("dotenv");
 const fs = require("fs");
+const moment = require("moment");
 dotenv.config();
 
-const imap = new Imap({
+const imapConfig = {
   user: process.env.GMAIL_USERNAME,
   password: process.env.GMAIL_PASSWORD,
   host: "imap.gmail.com",
   port: 993,
   tls: true,
   connTimeout: 10000,
-});
+};
 
-function openInbox(cb) {
-  imap.openBox("INBOX", true, cb);
-}
-
-function fetchNewEmails() {
-  openInbox((err, box) => {
-    if (err) throw err;
-
-
-    // Fetch the new emails
-    const fetch = imap.seq.fetch(
-      `${box.messages.total - 9}:${box.messages.total}`, // Adjust the range as needed
-      {
-        bodies: ""  ,
-        unseen: true,
-      }
-    );
-
-    fetch.on("message", (msg, seqno) => {
-      console.log("Fetch: ", msg);
-      const mailparser = new MailParser();
-
-      msg.on("body", (stream) => {
-        stream.pipe(mailparser);
-        // console.log("MailParser(): ", mailparser);
-
-        // stream.on("error", (err) => {
-        //   console.error("Stream Error:", err);
-        // });
-      });
-
-      // msg.on("end", () => {
-      //   console.log("Msg on end");
-      // });
-
-      mailparser.on("end", (parsedMail) => {
-        // Access the parsed email data
-        console.log("parsedMail: ", parsedMail);
-        
-        const emailSubject = parsedMail.subject;
-        const emailText = parsedMail.text;
-        const inReplyTo = parsedMail.headers["in-reply-to"];
-
-        console.log("emailText: ", emailText);
-        console.log("inReplyTo: ", inReplyTo);
-
-        if (emailSubject.includes("New Ticket Created")) {
-          // Check if the email subject contains "Ticket ID:"
-          if (inReplyTo && inReplyTo.includes("Ticket ID:")) {
-            const ticketId = inReplyTo.match(/Ticket ID: (\d+)/)[1];
-            console.log(`Found email with Ticket ID: ${ticketId}`);
-
-            // Extract the user's reply from the email text
-            const userReply = extractUserReply(emailText);
-            console.log("User's Reply:", userReply);
-
-            // Implement your further processing logic here.
-          }
-        }
-      });
-
-      // mailparser.on("error", (err) => {
-      //   console.error("Mailparser Error:", err);
-      // });
-
-    });
-  });
-}
+const imap = new Imap(imapConfig);
 
 imap.once("ready", () => {
-  // Start polling for new emails at a regular interval (e.g., every 30 seconds)
-  setInterval(fetchNewEmails, 3000);
-  console.log(`Checking for new emails in INBOX...`);
+  console.log("Connected to IMAP server");
+  openInbox();
+});
+
+imap.once("error", (err) => {
+  console.error("IMAP error:", err);
 });
 
 imap.connect();
 
-imap.once("error", (err) => {
-  console.error("IMAP Error:", err);
-});
+const currentDate = moment().format("YYYY-MM-DD"); 
 
-imap.on("end", () => {
-  console.log("IMAP Connection ended.");
-});
+function openInbox() {
+  imap.openBox("INBOX", false, (err, box) => {
+    if (err) {
+      console.error("Error opening mailbox:", err);
+      return;
+    }
 
-imap.on("reconnect", (timeout) => {
-  console.log(`Reconnecting in ${timeout} seconds...`);
-  setTimeout(() => {
-    imap.connect();
-  }, timeout * 1000);
-});
+    // Search for unread emails with a specific subject received on the current day
+    imap.search(
+      [["SUBJECT", "New Ticket Created"], "UNSEEN", ["SINCE", currentDate]],
+      (err, results) => {
+        if (err) {
+          console.error("Error searching for emails:", err);
+          return;
+        }
 
+        // Fetch email details for each result
+        results.forEach((emailUid) => {
+          const fetch = imap.fetch(emailUid, { bodies: "", unseen: true });
+          fetch.on("message", processEmail);
+          fetch.once("end", () => console.log("Email processing complete"));
+        });
+      }
+    );
+  });
+}
 
-// Function to extract the user's reply from the email text
-function extractUserReply(emailText) {
-  // Your logic to extract the user's reply here
-  // You might want to search for a specific pattern or use a library like NLP for more advanced processing
-  // For simplicity, let's assume the user's reply is everything after a certain delimiter, like "User Reply:"
-  const delimiter = "User Reply:";
-  const startIndex = emailText.indexOf(delimiter);
-  if (startIndex !== -1) {
-    return emailText.slice(startIndex + delimiter.length).trim();
-  } else {
-    return ""; // Return an empty string if no user reply is found
-  }
+function processEmail(msg) {
+  msg.on("body", (stream) => {
+    let data = "";
+
+    stream.on("data", (chunk) => {
+      data += chunk.toString("utf8");
+
+      
+    });
+
+    stream.once("end", () => {
+      const emailHeaders = Imap.parseHeader(data);
+      const ticketId = emailHeaders["In-Reply-To"]
+        ? emailHeaders["In-Reply-To"][0]
+        : null;
+      const response = emailHeaders["References"]
+        ? emailHeaders["References"][0]
+        : null;
+
+      // Check if the headers exist before accessing their values
+      if (ticketId) {
+        console.log("Ticket ID:", ticketId);
+      } else {
+        console.log("Ticket ID not found in email headers.");
+      }
+
+      if (response) {
+        console.log("Response:", response);
+      } else {
+        console.log("Response not found in email headers.");
+      }
+    });
+  });
 }
