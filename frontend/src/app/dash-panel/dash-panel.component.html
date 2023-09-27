@@ -94,8 +94,8 @@
       <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div>
     </div>
 
-    <div class="button-wrapper theme-wrapper">
-        <p>Theme</p>
+    <div class="button-wrapper theme-wrapper {{isCollapsed ? 'theme-wrapper-collapsed' : ''}}">
+        <p *ngIf="!isCollapsed">Theme</p>
         <app-dark-mode-toggle></app-dark-mode-toggle>
       <!-- <div *ngIf="checkIfProfileRoute()" class="active-background"></div> -->
       <!-- <div *ngIf="!checkIfProfileRoute()" class="inactive-background"></div> -->
