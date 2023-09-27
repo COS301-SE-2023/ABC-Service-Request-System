@@ -119,6 +119,9 @@ export class NewTicketFormComponent implements OnInit {
               let timeSpentInHours;
 
               let totalTime = 0;
+
+              let totalNumOfTickets = 0;
+              let totalResolvedTickets = 0;
           
               this.sortTickets.forEach((ticket) => {
                 if (ticket.timeToFirstResponse && ticket.timeToTicketResolution) {
@@ -136,7 +139,11 @@ export class NewTicketFormComponent implements OnInit {
                   this.ticketCount += 1;
 
                   this.overallTimes += timeSpentInHours;
+
+                  totalResolvedTickets++;
                 }
+
+                totalNumOfTickets++;
               })
 
               const averageTime = totalTime / this.ticketCount;
@@ -145,7 +152,9 @@ export class NewTicketFormComponent implements OnInit {
                 this.sortUsers.push({
                   overallPerformance: averageTime,
                   userInfo: user,
-                  statistics: null
+                  statistics: null,
+                  numOfTickets: totalNumOfTickets,
+                  numOfTicketsCompleted: totalResolvedTickets
                 })
               }
 

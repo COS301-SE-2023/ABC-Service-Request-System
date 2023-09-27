@@ -396,4 +396,36 @@ router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functi
 
 }));
 
+router.put("/commentEmail", expressAsyncHandler(async (req, res) => {
+    const ticketId = req.body.ticketId;
+    const comment = req.body.reply;
+    const author = req.body.author;
+    const authorPhoto = req.body.emailPhoto;
+    const newComment: comment = {
+      author: author,
+      content: comment,
+      createdAt: new Date(),
+      type: "Comment",
+      attachment: undefined,
+      authorPhoto: authorPhoto,
+    };
+
+    try {
+      const ticket = await TicketModel.findOneAndUpdate(
+        { id: ticketId },
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+
+      if (ticket) {
+        res.status(200).json({ message: "Comment added successfully" });
+      } else {
+        res.status(404).json({ message: "Ticket not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  })
+);
+
 export default router;

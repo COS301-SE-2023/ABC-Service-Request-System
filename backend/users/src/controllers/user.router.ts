@@ -916,6 +916,19 @@ router.get('/:id', expressAsyncHandler(
     }
 ));
 
+router.get("/userByEmail/:email", expressAsyncHandler(async (req, res) => {
+    const userEmail = decodeURIComponent(req.params.email);
+
+    const user = await UserModel.findOne({ emailAddress: userEmail });
+
+    if (!user) {
+        res.status(404).send({ message: 'User not found'});
+        return;
+    }
+
+    res.send(user);
+}));
+
 //UPDATE USER BACKGROUND PICTURE -
 router.put('/update_background_picture',upload.single('file'),expressAsyncHandler(
     async (req,res)=> {
