@@ -45,48 +45,70 @@ function openInbox() {
           return;
         }
 
-        // Fetch email details for each result
-        results.forEach((emailUid) => {
-          const fetch = imap.fetch(emailUid, { bodies: "", unseen: true });
-          fetch.on("message", processEmail);
+        // Process the latest email only
+        if (results.length > 0) {
+          const latestEmailUid = results[results.length - 1];
+          const fetch = imap.fetch(latestEmailUid, { bodies: "", unseen: true });
+          fetch.on("message", (msg) => {
+            processEmail(msg);
+            // Mark the email as read
+          
+
+            // imap.addFlags(latestEmailUid, flagsToAdd, (err) => {
+            //   if (err) {
+            //     console.error("Error marking email as read:", err);
+            //   } else {
+            //     console.log("Email marked as read.");
+            //   }
+            // });
+
+            imap.fetch(latestEmailUid, {
+              bodies: "",
+              markSeen: true,
+            });
+          });
           fetch.once("end", () => console.log("Email processing complete"));
-        });
+        } else {
+          console.log("No unread emails found.");
+        }
       }
     );
   });
 }
 
 function processEmail(msg) {
+  let emailBody = ""; // Initialize an empty string to store the email body
+
   msg.on("body", (stream) => {
-    let data = "";
-
     stream.on("data", (chunk) => {
-      data += chunk.toString("utf8");
-
-      
+      // Append each chunk of data to the emailBody string
+      emailBody += chunk.toString("utf8");
     });
 
     stream.once("end", () => {
-      const emailHeaders = Imap.parseHeader(data);
-      const ticketId = emailHeaders["In-Reply-To"]
-        ? emailHeaders["In-Reply-To"][0]
-        : null;
-      const response = emailHeaders["References"]
-        ? emailHeaders["References"][0]
-        : null;
+      // Use regular expressions to extract the reply
+      const replyRegex = /Content-Transfer-Encoding: quoted-printable\r\n\r\n([\s\S]*?)\r\n\r\nOn [\s\S]*? wrote:/;
+      const replyMatch = emailBody.match(replyRegex);
+      
+      if (replyMatch) {
+        const reply = replyMatch[1].trim();
+        console.log("Reply:", reply);
+      } else {
+        console.log("Reply not found in email body.");
+      }
 
-      // Check if the headers exist before accessing their values
+      // You can continue extracting other information from the email body as needed.
+      const ticketIdMatch = emailBody.match(/Ticket ID:\s*(\d+)/);
+      const ticketId = ticketIdMatch ? ticketIdMatch[1] : null;
+
       if (ticketId) {
         console.log("Ticket ID:", ticketId);
       } else {
-        console.log("Ticket ID not found in email headers.");
-      }
-
-      if (response) {
-        console.log("Response:", response);
-      } else {
-        console.log("Response not found in email headers.");
+        console.log("Ticket ID not found in email body.");
       }
     });
   });
 }
+
+
+
