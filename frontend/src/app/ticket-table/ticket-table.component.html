@@ -27,14 +27,14 @@
           <td class="text-left pr-6">{{ ticket.assigned }}</td>
           <!-- <td class="text-left">{{ getAssignedName(ticket.assigned) }}</td> -->
           <td class="text-left">{{ ticket.group }}</td>
-          <td class="text-left">
-            <span class="p-1.5 text-xs font-medium uppercase tracking-wider
+          <td class="text-left priority-td">
+            <p class="p-1.5 text-xs font-medium uppercase tracking-wider priority-span
               {{ ticket.priority === 'Low' ? 'text-green-800 bg-green-200' :
                  ticket.priority === 'Medium' ? 'text-yellow-800 bg-yellow-200' :
                  ticket.priority === 'High' ? 'text-red-800 bg-red-200' : '' }}
               rounded-lg">
               {{ ticket.priority }}
-            </span>
+            </p>
           </td>
           <td class="text-left">{{ ticket.status }}</td>
           <td class="text-left">{{ ticket.startDate }}</td>
