@@ -25,6 +25,31 @@ app-page-header {
   object-fit: cover;
 }
 
+.graph-badge-blue {
+  background-color:   rgb(134, 227, 255);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  max-width: fit-content;
+  border-radius: 0.3em;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  color: rgba(4, 83, 142);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8em;
+
+  i {
+    margin-right: 1em;
+  }
+
+  #imp {
+    margin: 0 !important;
+  }
+}
+
 .profile-picture img {
   width: 150px;
   height: 150px;
