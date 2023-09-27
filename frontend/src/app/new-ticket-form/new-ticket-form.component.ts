@@ -354,7 +354,7 @@ export class NewTicketFormComponent implements OnInit {
           this.userService.getUsersByGroupId(group).subscribe((users) => {
             this.emailAddresses = users.map(user => user.emailAddress);
 
-            this.ticketService.sendEmailNotification(this.emailAddresses, summary, newTicketId, endDate, priority, this.assignee.profilePhoto, this.assignee.emailAddress, this.assignedUser.profilePhoto, this.assignedUser.emailAddress).subscribe((response: any) => {
+            this.ticketService.sendEmailNotification(this.emailAddresses, summary, newTicketId, endDate, priority, this.assignee.emailAddress, this.assignedUser.emailAddress).subscribe((response: any) => {
               console.log(response);
             });
           })

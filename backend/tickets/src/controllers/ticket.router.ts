@@ -321,9 +321,7 @@ router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functi
   const id = req.body.ticketId;
   const endDate = req.body.endDate;
   const priority = req.body.priority;
-  const assigneePic = req.body.assigneePic;
   const assigneeEmail = req.body.assigneeEmail;
-  const assignedPic = req.body.assignedPic;
   const assignedEmail = req.body.assignedEmail;
 
   const transporter = nodemailer.createTransport({
@@ -337,165 +335,56 @@ router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functi
   const recipients = userEmails.join(', ');
 
   const mailOptions = {
-    from: process.env.EMAIL,
+    from: "hyperiontech.capstone@gmail.com",
     to: recipients,
-    subject: "Ticket has been created",
+    subject: "New Ticket Created",
+    headers: {
+      "In-Reply-To": id, // Set In-Reply-To header to the ticketId
+      References: id, // Set References header to the ticketId
+    },
     html: `
-    <html>
+              <div
+    style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; max-width: 600px; margin: 20px auto; border: 1px solid #dfe2e5; border-radius: 6px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
 
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
 
-        .email-container {
-            max-width: 600px;
-            margin: auto;
-            background-color: rgba(33, 33, 33, 1);
-            padding: 20px;
-        }
+    <h1
+        style="color: #2c3e50; border-bottom: 2px solid #04538E; padding-bottom: 15px; margin-bottom: 25px; font-size: 24px;">
+        Ticket Notification</h1>
 
-        .header {
-            background-color: #04538E;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; width: 150px; text-align: right; font-weight: bold; color: #7f8c8d;">Ticket ID:
+            </td>
+            <td style="padding: 10px 15px;">${id}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Summary:</td>
+            <td style="padding: 10px 15px;">${ticketSummary}</td>
+        </tr>
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Assignee:</td>
+            <td style="padding: 10px 15px;">${assigneeEmail}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Assigned:</td>
+            <td style="padding: 10px 15px;">${assignedEmail}</td>
+        </tr>
+        <tr style="background-color: #f5f8fa; border-bottom: 1px solid #e9e9e9;">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">Priority:</td>
+            <td style="padding: 10px 15px;">${priority}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e9e9e9">
+            <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7f8c8d;">End Date:</td>
+            <td style="padding: 10px 15px;">${endDate}</td>
+        </tr>
+    </table>
 
-        .header h1 {
-            margin: 0;
-        }
-
-        .logo {
-            display: block;
-            margin: 0 auto 20px;
-            width: 100px;
-            height: auto;
-        }
-
-        .greeting {
-            font-size: 24px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .message {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .ticket-id {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .due-date {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .priority {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .assignee-content,
-        .assigned-content {
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background: #fff;
-            justify-content: center !important;
-        }
-
-        .assigneePic,
-        .assignedPic {
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            align-self: center;
-            justify-self: center;
-            margin: 20px 0;
-            border-radius: 50%;
-        }
-
-        .assigneeEmail,
-        .assignedEmail {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin-left: 1em;
-            align-self: center !important;
-            justify-content: center !important;
-        }
-
-        .assignee {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .assigned {
-            font-size: 18px;
-            color: rgba(122, 122, 122, 1);
-            text-align: center;
-            margin: 20px 0;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="email-container">
-        <div class="header">
-            <img src="cid:logo" alt="Luna Logo" class="logo">
-            <h1>Ticket: ${ticketSummary} has been created</h1>
-        </div>
-        <p class="greeting">Notification for Ticket Creation</p>
-        <p class="message">You will be able to communicate between the team members by replying to this email</p>
-
-        <div class="content">
-            <p class="greeting">Ticket Content</p>
-            <div class="ticket-content">
-                <p class="ticket-id">Ticket ID: ${id}</p>
-                <p class="due-date">Due Date: ${endDate}</p>
-                <p class="priority">Priority: ${priority}</p>
-            </div>
-            <p class="assignee">Assignee:</p>
-            <div class="assignee-content" style="display: flex; align-items: center; justify-content: center;">
-                <img src=${assigneePic} alt="assigneePic" class="assigneePic">
-                <p class="assigneeEmail" style="display: flex; align-self: center; justify-self: center;">${assigneeEmail}</p>
-            </div>
-            <p class="assigned">Assigned: </p>
-            <div class="assigned-content" style="display: flex; align-items: center; justify-content: center;">
-                <img src=${assignedPic} alt="assignedPic" class="assignedPic">
-                <p class="assignedEmail" style="display: flex; align-self: center; justify-self: center;">${assignedEmail}</p>
-            </div>
-        </div>
+    <div
+        style="margin-top: 30px; padding: 15px; background-color: #04538E; color: #ffffff; text-align: center; border-radius: 4px;">
+        You will be able to communicate between the team members by replying to this email
     </div>
-</body>
-
-</html>
-    `,
-    // attachments: [
-    //     {
-    //         filename: 'luna-logo.png',
-    //         path: 'assets/luna-logo.png',
-    //         cid: 'logo'
-    //     }
-    // ]
+</div>
+          `,
   };
 
     try {

@@ -117,10 +117,10 @@ export class TicketsService {
     return this.http.get(`${this.TICKET_URL}/getTicketUserEmail?emailAddress=${emailAddress}`, {headers});
   }
 
-  sendEmailNotification(emailAddresses: string[], ticketSummary: string, ticketId: string, endDate: string, priority: string, assigneePic: string, assigneeEmail: string, assignedPic: string, assignedEmail: string) {
+  sendEmailNotification(emailAddresses: string[], ticketSummary: string, ticketId: string, endDate: string, priority: string, assigneeEmail: string, assignedEmail: string) {
     this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    const body = {emailAddresses, ticketSummary, ticketId, endDate, priority, assigneePic, assigneeEmail, assignedPic, assignedEmail};
+    const body = {emailAddresses, ticketSummary, ticketId, endDate, priority, assigneeEmail, assignedEmail};
     return this.http.post(`${this.TICKET_URL}/sendEmailNotification`, body, {headers});
   }
 }
