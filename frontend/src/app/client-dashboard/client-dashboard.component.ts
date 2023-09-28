@@ -149,7 +149,7 @@ export class ClientDashboardComponent implements OnInit {
       console.log('azure');
       console.log(endDateString);
 
-      this.clientService.addTicketRequest(form.value.projectSelected.name, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id, this.selectedProject.id, endDateString).subscribe(
+      this.clientService.addTicketRequest(form.value.projectSelected.name, form.value.summary, form.value.description, form.value.priority, this.loggedInClientObject.id, this.selectedProject.id!, endDateString).subscribe(
         (response) => {
           console.log("recieved client response", response);
           this.toggleRequestExpansion();
