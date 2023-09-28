@@ -140,12 +140,12 @@ View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCK
 
 
 ## Demo 4
-View our [SRS](https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=drive_link)<br>
-View our [Architecture](https://docs.google.com/document/d/1emhVoVhMxoPcJExZUGHD2rHOLJwbngQJ4gTS0SixLio/edit?usp=drive_link)<br>
-View our [Coding Standards](https://drive.google.com/drive/u/1/folders/1mrqUCUePF93C9AWxek-lNLRS2gLVE2o9)<br>
-View our [Installation Manual](https://docs.google.com/document/d/1XLjLjZPN2oBdqYelHpEP6gA4futQ8pqy_d7JF8DBC_s/edit?usp=drive_link)<br>
-View our [Testing Policy](https://docs.google.com/document/d/15D_ECqOGDyGc9us68LlLg9dTcOKbVbvhlyILo2T35V0/edit?usp=drive_link)<br>
-View our [User Manual](https://docs.google.com/document/d/1wfJOm2eOTGctc9VH0_3aCmI4QwMEiuVuUSHNGlTi3s8/edit?usp=drive_link)<br>
+View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
+View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
+View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
+View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
+View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy.pdf)<br>
+View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 # Project
 
 ## Development server
