@@ -45,3 +45,11 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "luna-hyperion-tech" # replace with your Heroku app name
           heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
+
+       # Deploy Backend to Heroku
+      - name: Deploy Backend to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "luna-backend" # replace with your Heroku app name
+          heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
