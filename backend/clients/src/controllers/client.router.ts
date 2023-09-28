@@ -580,7 +580,7 @@ router.post("/create_client", jwtVerify(['Admin', 'Manager']), expressAsyncHandl
         }
 
         console.log('helooooooo;)');
-        console.log(newProject.assignedGroups);
+        console.log(newProject.lowPriorityTime);
 
         // create new client
         const newClient = new ClientModel({
