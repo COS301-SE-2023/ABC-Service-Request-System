@@ -97,23 +97,21 @@
       <div class="assignedInformation">
         <div class="assignedInformation-col1">
           <label class="groupLabel">Group<span class="required">*</span></label>
-          <select formControlName="group" required (change)="onGroupChanged($event)">
-            <option disabled selected value="">Select a group</option>
+          <select formControlName="group" required [(ngModel)]="selectedGroup" (change)="onGroupChanged($event)">
+            <option value="" disabled selected>Select a group</option> 
             <option *ngFor="let option of allGroups" [value]="option.id">{{option.groupName}}</option>
           </select>
 
-          <div class = "assignedInformation-col1" *ngIf = "groupSelected">
-            <label class="assignedLabel">Assigned<span class="required">*</span></label>
-            <select formControlName="assigned" required (change)="onAssignedChange()">
-              <option disabled selected value="">Select a person to assign</option>
-              <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}</option>
-            </select>
-          </div>
+          <label class="assignedLabel">Assigned<span class="required">*</span></label>
+          <select formControlName="assigned" required [(ngModel)]="selectedAssigned" (change)="onAssignedChange()">
+            <option value="" disabled selected>Select assigned</option>
+            <option *ngFor="let user of allUsers" [ngValue]="user">{{ user.name }}  {{ user.surname }}</option>
+          </select>
         </div>
 
         <div class="assignedInformation-col2">
           <div class="memberAIBlock">
-            <label class="blue-label">Suggested Members</label>
+            <label class="blue-label">Suggested Members Based on Availability</label>
             <div class="memberAIContentBlock">
               <div class="memberAI" *ngFor="let user of suggestedUsers">
                 <div class="memberAIPhoto">
@@ -161,18 +159,18 @@
     </div>
   </div>
 
-  <!-- <div class="edit-todo-overlay" *ngIf="isEditTodoOverlayOpened">
-    <div class="edit-todo-overlay-inner-wrapper">
+  <div class="todo-overlay" *ngIf="isEditTodoOverlayOpened">
+    <div class="todo-overlay-inner-wrapper">
       <h1>Edit todo</h1>
-      <textarea [formControl]="todo"></textarea>
+      <textarea [(ngModel)]="temporaryTodo" [formControl]="todo"></textarea>
       <br>
 
-      <div class="edit-todo-overlay-buttons">
-        <button class="add-todo-btn" (click)="editTodo()">Add Todo</button>
+      <div class="todo-overlay-buttons">
+        <button class="add-todo-btn" (click)="editTodo()">Change Todo</button>
         <button class="cancel-btn" (click)="toggleEditTodoOverlay()">Cancel</button>
       </div>
     </div>
-  </div> -->
+  </div>
 
 </div>
 
