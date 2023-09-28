@@ -205,7 +205,7 @@ export class ClientManagePage3Component implements OnInit{
     }
 
     if (isValid) {
-      this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id!, this.selectedGroups).subscribe(
+      this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
         (response) => {
           console.log(response);
         }, (error) => {
@@ -219,7 +219,7 @@ export class ClientManagePage3Component implements OnInit{
         removingGroupsNames.push(group.groupName);
       });
 
-      this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id!, removingGroupsNames).subscribe(
+      this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
         (respone) => {
           console.log('group removed', respone);
         }
@@ -227,7 +227,7 @@ export class ClientManagePage3Component implements OnInit{
     }
 
     if (isValid) {
-      this.clientService.editPriorities(this.clientToEdit.id, this.projectToEdit.id!, this.lowPriority, this.mediumPriority, this.highPriority).subscribe(
+      this.clientService.editPriorities(this.clientToEdit.id, this.projectToEdit.id, this.lowPriority, this.mediumPriority, this.highPriority).subscribe(
         (response) => {
           console.log(response);
           this.backClicked.emit();
@@ -264,7 +264,7 @@ export class ClientManagePage3Component implements OnInit{
     //   return;
     // }
 
-    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id!, this.selectedGroups).subscribe(
+    this.clientService.addGroupsToProject(this.clientToEdit.id, this.projectToEdit.id, this.selectedGroups).subscribe(
       (response) => {
         console.log(response);
         const removingGroupsNames: string [] = [];
@@ -273,7 +273,7 @@ export class ClientManagePage3Component implements OnInit{
           removingGroupsNames.push(group.groupName);
         });
 
-        this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id!, removingGroupsNames).subscribe(
+        this.clientService.removeGroupFromProject(this.clientToEdit.id, this.projectToEdit.id, removingGroupsNames).subscribe(
           (respone) => {
             console.log('group removed', respone);
           }
