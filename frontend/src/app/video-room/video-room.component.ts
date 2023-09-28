@@ -353,8 +353,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
             this.sendCallEndedMessage(this.mediaConnection.peer);
           } else {
             setTimeout(() => {
-              // this.router.navigate(['/client-dashboard']);
-              window.location.href = environment.FRONTEND_CLIENT_DASHBOARD_URL;
+              console.log('client left')
+              this.router.navigate(['/client-dashboard']);
+              // window.location.href = environment.FRONTEND_CLIENT_DASHBOARD_URL;
             }, 200);
           }
         },
