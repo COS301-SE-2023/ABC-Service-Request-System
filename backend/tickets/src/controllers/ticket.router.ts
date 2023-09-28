@@ -644,14 +644,15 @@ router.post('/:id/addHistory',jwtVerify(['Manager', 'Technical', 'Functional', '
 router.get('/getTicketUserEmail', jwtVerify(['Manager', 'Technical', 'Functinal', 'Admin']), expressAsyncHandler(async(req, res)=> {
   const userEmail = req.query.emailAddress;
 
-  try {
     const tickets = await TicketModel.find({ assigned: userEmail });
     
-    res.status(200).send(tickets);
-  }
-  catch(error) {
-    res.status(500).send("Internal server error");
-  }
+    if (tickets) {
+      res.status(200).send(tickets);
+    }
+    else {
+      res.status(200).send({ message: "No tickets found"});
+    }
+ 
 }));
 
 router.post('/sendEmailNotification', jwtVerify(['Manager', 'Technical', 'Functional', 'Admin']), expressAsyncHandler(async(req, res) => {
