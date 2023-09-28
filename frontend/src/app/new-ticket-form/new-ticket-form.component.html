@@ -132,18 +132,18 @@
     </div>
   </div>
 
-  <!-- <div class="edit-todo-overlay" *ngIf="isEditTodoOverlayOpened">
-    <div class="edit-todo-overlay-inner-wrapper">
+  <div class="todo-overlay" *ngIf="isEditTodoOverlayOpened">
+    <div class="todo-overlay-inner-wrapper">
       <h1>Edit todo</h1>
-      <textarea [formControl]="todo"></textarea>
+      <textarea [(ngModel)]="temporaryTodo" [formControl]="todo"></textarea>
       <br>
 
-      <div class="edit-todo-overlay-buttons">
-        <button class="add-todo-btn" (click)="editTodo()">Add Todo</button>
+      <div class="todo-overlay-buttons">
+        <button class="add-todo-btn" (click)="editTodo()">Change Todo</button>
         <button class="cancel-btn" (click)="toggleEditTodoOverlay()">Cancel</button>
       </div>
     </div>
-  </div> -->
+  </div>
 
 </div>
 
