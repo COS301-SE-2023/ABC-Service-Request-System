@@ -27,6 +27,9 @@ jobs:
         run: npm install
         working-directory: frontend
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+        
       - name: Install Backend Dependencies
         run: npm install
         working-directory: backend
@@ -34,18 +37,24 @@ jobs:
       - name: Build Backend
         run: npm run build
         working-directory: backend
-        
-      - name: Install Frontend Dependencies
-        run: npm install
-        working-directory: frontend
 
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
+      # Deploy Frontend to Heroku
+      - name: Deploy Frontend to Heroku
+        run: |
+          heroku login -i
+          heroku git:remote -a luna-hyperion-tech 
+          git push heroku main
 
+      - name: Deploy Backend to Heroku
+        run: |
+          heroku login -i
+          heroku git:remote -a luna-backend
+          git push heroku master
+
+    
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "luna-hyperion-tech" # replace with your Heroku app name
           heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
-
