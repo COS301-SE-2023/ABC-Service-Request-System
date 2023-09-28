@@ -137,6 +137,15 @@ View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-
 ## Demo 2
 View our [video](https://youtu.be/34bhsMyU1fc) <br>
 View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
+## Demo 4
+View our [SRS](https://docs.google.com/document/d/1Yav019MN45qCMTBuCyzl-NPW-rF1hDY_TK2w1oiXhH8/edit?usp=drive_link)<br>
+View our [Architecture](https://docs.google.com/document/d/1emhVoVhMxoPcJExZUGHD2rHOLJwbngQJ4gTS0SixLio/edit?usp=drive_link)<br>
+View our [Coding Standards](https://docs.google.com/document/d/1zADV61aQEVy71fjGHeC-NFPWCcQcmN4nMz53eozK6bc/edit?usp=drive_link)<br>
+View our [Installation Manual](https://docs.google.com/document/d/1XLjLjZPN2oBdqYelHpEP6gA4futQ8pqy_d7JF8DBC_s/edit?usp=drive_link)<br>
+View our [Testing Policy](https://docs.google.com/document/d/15D_ECqOGDyGc9us68LlLg9dTcOKbVbvhlyILo2T35V0/edit?usp=drive_link)<br>
+View our [User Manual](https://docs.google.com/document/d/1wfJOm2eOTGctc9VH0_3aCmI4QwMEiuVuUSHNGlTi3s8/edit?usp=drive_link)<br>
 # Project
 
 ## Development server
