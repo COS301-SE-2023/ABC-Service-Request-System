@@ -59,7 +59,10 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getClient();
+    if(!localStorage.getItem('loggedInClient'))
+      this.getClient();
+    else
+      this.loggedInClientObject = JSON.parse(localStorage.getItem('loggedInClient')!);
   }
 
   createRoom(){
