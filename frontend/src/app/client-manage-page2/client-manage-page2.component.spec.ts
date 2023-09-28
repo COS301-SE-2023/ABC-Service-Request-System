@@ -19,12 +19,14 @@ describe('ClientManagePage2Component', () => {
       id: '1',
       name: 'John',
       surname: 'Doe',
+      organisation: 'Test Organisation',
+      profilePhoto:'',
       email: 'john.doe@example.com',
       emailVerified: true,
       password: 'password123',
-      organisation: 'Test Organisation',
       industry: 'Test Industry',
       projects: [],
+      requests:[],
     };
 
     fixture.detectChanges();
