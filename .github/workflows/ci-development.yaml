@@ -53,3 +53,12 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "luna-backend" # replace with your Heroku app name
           heroku_email: "hyperiontech.capstone@gmail.com" # replace with your Heroku email
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Login to Railway
+        run: railway login --token ${{ secrets.RAILWAY_API_TOKEN }}
+
+      - name: Deploy Client Service to Railway
+        run: railway up
