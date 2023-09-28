@@ -3,7 +3,7 @@ import { ticket, ticketSchema } from "./ticket.model"
 import { group, groupSchema } from "./group.model"
 
 export interface project {
-    id: string,
+    id?: string,
     _id?: string,
     name: string,
     logo: string,
@@ -49,7 +49,7 @@ export interface client {
 
 export const projectSchema = new Schema<project>(
     {
-        id: { type: String, required: true},
+        id: { type: String, required: false},
         name: { type: String, required: true},
         logo: { type: String, required: true},
         color: { type: String, required: true},
