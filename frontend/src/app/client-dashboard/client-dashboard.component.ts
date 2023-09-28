@@ -35,7 +35,8 @@ export class ClientDashboardComponent implements OnInit {
   priorityError = false;
 
   constructor(private authService: AuthService, private router: Router, private clientService: ClientService, private snackBar: MatSnackBar, private ticketService: TicketsService) {
-    this.getClient();
+    if (!this.loggedInClientObject)
+      this.getClient();
   }
 
   getClient() {
@@ -58,7 +59,7 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loggedInClient$ = this.authService.getLoggedInClient();
+    this.getClient();
   }
 
   createRoom(){
