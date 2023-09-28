@@ -41,6 +41,8 @@ export class NewTicketFormComponent implements OnInit {
   groupSelectedId!: string;
   ticketCount!: number;
   emailAddresses!: string[];
+  selectedGroup = '';
+  selectedAssigned = '';
 
   constructor(
     private ticketService: TicketsService,
@@ -268,10 +270,12 @@ export class NewTicketFormComponent implements OnInit {
     });
     
 
-    this.suggestedUsers = this.sortUsers.filter(users =>  users.userInfo.groups.some((group: any) => group === this.groupSelectedId));
+    this.suggestedUsers = this.sortUsers.filter(users =>  users.userInfo.groups.some((group: any) => group === this.groupSelectedId) && users.futureTickets < 5);
     
 
     this.getAllAssignable();
+
+    this.selectedAssigned = '';
   }
 
   isNaN(data: any) {
@@ -317,6 +321,8 @@ export class NewTicketFormComponent implements OnInit {
 
       this.getAllAssignable();
 
+      this.selectedGroup = '';
+      this.selectedAssigned = '';
     } else {
       console.log('Project not found:', selectedProjectName);
     }
