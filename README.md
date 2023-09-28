@@ -144,7 +144,7 @@ View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob
 View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
 View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
 View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
-View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy.pdf)<br>
+View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
 View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
 # Project
