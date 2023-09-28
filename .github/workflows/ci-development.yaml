@@ -43,7 +43,7 @@ jobs:
         run: |
           heroku login -i
           heroku git:remote -a luna-hyperion-tech 
-          git push heroku master
+          git push heroku main
 
       - name: Deploy Backend to Heroku
         run: |
