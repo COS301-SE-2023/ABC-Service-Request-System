@@ -36,22 +36,22 @@ var groupUrl;
 var notificationUrl;
 var clientUrl;
 if (process.env.NODE_ENV === 'production') {
-  ticketUrl = "https://luna-ticket-service-3504bae7e50a.herokuapp.com";
+  ticketUrl = "https://luna-ticket-service-production.up.railway.app";
 } else {
   ticketUrl = "http://localhost:3001";
 }
 if (process.env.NODE_ENV === 'production') {
-  userUrl = "https://luna-user-service-4883dabf907c.herokuapp.com";
+  userUrl = "https://luna-user-service-production.up.railway.app";
 } else {
   userUrl = "http://localhost:3002";
 }
 if (process.env.NODE_ENV === 'production') {
-  groupUrl = "https://luna-group-service-0ebbd0219a30.herokuapp.com";
+  groupUrl = "https://luna-group-service-production.up.railway.app";
 } else {
   groupUrl = "http://localhost:3003";
 }
 if (process.env.NODE_ENV === 'production') {
-  notificationUrl = "https://luna-notification-service-029a9c4e1fc3.herokuapp.com";
+  notificationUrl = "https://luna-notification-service-production.up.railway.app";
 } else {
   notificationUrl = "http://localhost:3004";
 }
