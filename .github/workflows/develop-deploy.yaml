@@ -27,6 +27,13 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm install
         working-directory: frontend
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Run Unit Tests
+        run: ng test --watch=false --browsers=ChromeHeadless
+        working-directory: frontend
         
       - name: Install Backend Dependencies
         run: npm install
@@ -36,7 +43,7 @@ jobs:
         run: npm run build
         working-directory: backend
       
-      - name: Run test
+      - name: Run Integration Tests
         run: npm test
         working-directory: backend
         env:
