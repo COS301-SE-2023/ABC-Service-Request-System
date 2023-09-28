@@ -146,6 +146,7 @@ View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Reques
 View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy.pdf)<br>
 View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
+View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
 # Project
 
 ## Development server
