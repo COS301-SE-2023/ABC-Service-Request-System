@@ -138,6 +138,10 @@ View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-
 View our [video](https://youtu.be/34bhsMyU1fc) <br>
 View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
+## Demo 3
+View our [video](https://youtu.be/34bhsMyU1fc) <br>
+View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 
 ## Demo 4
 View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
@@ -147,6 +151,7 @@ View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Req
 View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
 View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
+View our [Deployment Model](https://drive.google.com/file/d/1V5zx1g5jgwiuq_i9XT0u-KLZqQmzUTsm/view?usp=share_link)<br>
 # Project
 
 ## Development server
