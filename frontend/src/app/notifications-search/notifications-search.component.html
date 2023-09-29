@@ -48,7 +48,7 @@
             </div>
             <div *ngFor="let tickets of resultsTicketsAssigned" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
-                    <i class="fa-regular fa-ticket"></i>
+                    <i class="fa-solid fa-ticket"></i>
                 </div>
                 <div class="search-user-description">
                     <p class = "title"><b>{{tickets.summary}}</b></p>
@@ -57,7 +57,7 @@
             </div>
             <div *ngFor="let tickets of resultsTicketsSummary" class="search-user" (click)="navigateToTicket(tickets.id)"  tabindex="0">
                 <div class="search-user-default-img">
-                    <i class="fa-regular fa-ticket"></i>
+                    <i class="fa-solid fa-ticket"></i>
                 </div>
                 <div class="search-user-description">
                     <p class = "title"><b>{{highlightDescription(tickets.summary, searchQuery)}}</b></p>
@@ -66,7 +66,7 @@
             </div>
             <div *ngFor="let tickets of resultsTicketsDescription" class="search-user" (click)="navigateToTicket(tickets.id)" tabindex="0">
                 <div class="search-user-default-img">
-                    <i class="fa-regular fa-ticket"></i>
+                    <i class="fa-solid fa-ticket"></i>
                 </div>
                 <div class="search-user-description">
                     <p class = "title"><b>{{ highlightDescription(tickets.description, searchQuery) }}</b></p>
