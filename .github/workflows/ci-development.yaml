@@ -37,20 +37,6 @@ jobs:
       - name: Build Backend
         run: npm run build
         working-directory: backend
-
-      # Deploy Frontend to Heroku
-      - name: Deploy Frontend to Heroku
-        run: |
-          heroku login -i
-          heroku git:remote -a luna-hyperion-tech 
-          git push heroku main
-
-      - name: Deploy Backend to Heroku
-        run: |
-          heroku login -i
-          heroku git:remote -a luna-backend
-          git push heroku master
-
     
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
