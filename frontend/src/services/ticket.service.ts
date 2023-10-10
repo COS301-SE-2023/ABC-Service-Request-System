@@ -23,6 +23,21 @@ export class TicketsService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  checkServerHealth(): Promise<boolean> {
+    const url = 'http://localhost:3001/health';
+
+    return new Promise<boolean>((resolve) => {
+      this.http.get(url, { responseType: 'text' }).subscribe(
+        (response) => {
+          resolve(true);
+        },
+        (error) => {
+          resolve(false);
+        }
+      );
+    });
+  }
+
   generateTodoFromDescription(description: string) {
     this.token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);

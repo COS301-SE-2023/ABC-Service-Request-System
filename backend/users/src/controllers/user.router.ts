@@ -339,7 +339,7 @@ router.post("/create_user", jwtVerify(['Admin', 'Manager']), expressAsyncHandler
                             </div>
                             <p class="greeting">Hello ${newUser.name},</p>
                             <p class="message">To complete your signup process, please click the button below.</p>
-                            <a href="https://luna-backend-fc437c959bfd.herokuapp.com/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
+                            <a href="https://luna-backend-production.up.railway.app/api/user/activate_account?token=${inviteToken}" class="activation-link">Activate Account</a>
                         </div>
                     </body>
                     </html>
@@ -382,7 +382,7 @@ router.get('/activate_account', expressAsyncHandler(
                 res.status(409).send('Invalid token.');
                 return;
             }else{
-                res.redirect(`https://luna-hyperion-tech-f8b6991d9822.herokuapp.com/activate_account/${inviteToken}`);
+                res.redirect(`https://luna-backend-production.up.railway.app/activate_account/${inviteToken}`);
                 // res.status(200).send({ message: 'Token Authenticated', inviteToken: inviteToken });
             }
             

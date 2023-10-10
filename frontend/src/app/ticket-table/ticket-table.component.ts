@@ -47,6 +47,7 @@ export class TicketTableComponent implements OnInit{
   @Input() viewProfileEmail = '';
   @Input() clientObjectRecieved!: client;
   @Input() tickets: any[] = [];
+  @Input() ticketFailure!: boolean;
   @Output() openForm = new EventEmitter<string>();
 
   openUpdateForm(oldAssignee: string){
