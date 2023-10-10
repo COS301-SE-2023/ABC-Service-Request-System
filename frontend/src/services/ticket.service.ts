@@ -17,6 +17,7 @@ export class TicketsService {
   USER_UPLOAD_URL = environment.USER_UPLOAD_URL;
   GROUP_UPLOAD_URL = environment.GROUP_UPLOAD_URL;
   FRONTEND_LOGIN_URL = environment.FRONTEND_LOGIN_URL;
+  TICKET_HEALTH = environment.TICKET_HEALTH;
 
 
   private token!: string | null;
@@ -24,14 +25,19 @@ export class TicketsService {
   constructor(private http: HttpClient, private router: Router) { }
 
   checkServerHealth(): Promise<boolean> {
-    const url = 'http://localhost:3001/health';
+    const url = `${this.TICKET_HEALTH}`;
+
+
+    console.log('health url: ', url);
 
     return new Promise<boolean>((resolve) => {
       this.http.get(url, { responseType: 'text' }).subscribe(
         (response) => {
+          console.log('returned true for health meaning false for failure');
           resolve(true);
         },
         (error) => {
+          console.log('returned false for health meaning true for failure');
           resolve(false);
         }
       );

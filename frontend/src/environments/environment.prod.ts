@@ -14,5 +14,6 @@ export const environment = {
   FRONTEND_LOGIN_URL: 'http://luna-hyperion-tech.s3-website.eu-north-1.amazonaws.com/login',
   FRONTEND_CLIENT_LOGIN_URL: 'http://luna-hyperion-tech.s3-website.eu-north-1.amazonaws.com/client-login',
   FRONTEND_CLIENT_DASHBOARD_URL: 'http://luna-hyperion-tech.s3-website.eu-north-1.amazonaws.com/client-dashboard',
-  CLIENT_ROOM: 'http://luna-hyperion-tech.s3-website.eu-north-1.amazonaws.com/room/'
+  CLIENT_ROOM: 'http://luna-hyperion-tech.s3-website.eu-north-1.amazonaws.com/room/',
+  TICKET_HEALTH: 'https://luna-ticket-service-production.up.railway.app/health'
 };
