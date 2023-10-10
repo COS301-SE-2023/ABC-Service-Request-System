@@ -237,12 +237,17 @@ export class NewTicketFormComponent implements OnInit {
     // console.log("sortUsers after adding statistics: ", this.sortUsers);
 
     const minPerformance = Math.min(
-      ...this.sortUsers.map((user) => user.overallPerformance)
+      ...this.sortUsers
+        .map((user) => user.overallPerformance)
+        .filter((value) => !isNaN(value))
     );
     console.log('minPerformance: ', minPerformance);
 
-    const maxPerformance =
-      Math.max(...this.sortUsers.map((user) => user.overallPerformance)) * 1.2;
+    const maxPerformance = Math.max(
+      ...this.sortUsers
+        .map((user) => user.overallPerformance)
+        .filter((value) => !isNaN(value))
+    );
     console.log('maxPerformance: ', maxPerformance);
 
     const range = maxPerformance - minPerformance; // Ensure at least 10% range
@@ -269,7 +274,7 @@ export class NewTicketFormComponent implements OnInit {
 
         // Calculate the adjusted performance score with adjusted weights
         const adjustedPerformance =
-          ((maxPerformance - user.overallPerformance) / range) * 100;
+          ((Number(maxPerformance) - Number(userPerformance)) / Number(range)) * 100;
 
         // Apply the adjustment based on completion ratio and detrimental factor
         const adjustedScore =
@@ -278,7 +283,7 @@ export class NewTicketFormComponent implements OnInit {
 
         user.statistics = Math.round(adjustedPerformance + adjustedScore);
       } else {
-        user.statistics = 'N/A';
+        user.statistics = NaN;
         user.overallPerformance = NaN;
       }
 

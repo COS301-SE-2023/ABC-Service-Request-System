@@ -27,7 +27,7 @@ export class ActivateAccountComponent implements OnInit {
     if (!this.token) {
       console.log('Token is missing');
     } else {
-      console.log(`Token is ${this.token}`);
+      console.log(`Token is a ${this.token}`);
       this.userService.getUserByToken(this.token).subscribe((response: any) => {
         this.user.email = response.email;
       });
@@ -46,7 +46,7 @@ export class ActivateAccountComponent implements OnInit {
           });
         }else {
           this.userService.activateAccount({ inviteToken: this.token, password: this.password }).subscribe({
-            next: (response: any) => console.log(response),
+            next: (response: any) => this.router.navigateByUrl("/login"),
             error: (error: any) => console.error(error),
           });
         }
