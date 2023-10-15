@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GroupService } from 'src/services/group.service';
 import { UserService } from 'src/services/user.service';
 import { TicketsService } from 'src/services/ticket.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -23,8 +24,16 @@ export class UserDropdownComponent implements OnInit {
   loadedUsers: any[] = [];
   ticketId: any;
   // assignedGroup = '';
+  @Output() userSelected = new EventEmitter<any>();
 
-  constructor(private groupService: GroupService, private authService: AuthService, private userService: UserService, private ticketService: TicketsService, private route: ActivatedRoute) {}
+  constructor(private groupService: GroupService, private authService: AuthService, private userService: UserService, private ticketService: TicketsService, private route: ActivatedRoute, private _snackBar: MatSnackBar,) {}
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000, // milliseconds
+      panelClass: ['custom-snackbar']
+    });
+  }
 
   ngOnInit() {
     this.authService.getUserObject().subscribe(
@@ -94,6 +103,8 @@ export class UserDropdownComponent implements OnInit {
             console.log(response);
             this.currentAssigned = user.name;
             this.currentAssignedImg = user.profilePhoto;
+            this.openSnackBar("Assigned user has been updated", "OK");
+            this.userSelected.emit(user);
             // location.reload();
           },
           (error) => {
