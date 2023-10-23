@@ -142,7 +142,6 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 ## Advertisement
 ## Research
 ## Deployment
-View our [Deployment Model](https://drive.google.com/file/d/1V5zx1g5jgwiuq_i9XT0u-KLZqQmzUTsm/view?usp=share_link)<br>
 View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
 ## Tutorial
 ## Installation Guide
