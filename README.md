@@ -32,8 +32,18 @@ The ticketing system will enable seamless collaboration between teams by facilit
 <a href="https://nodejs.org/">
     <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
 </a>
-
-## 📄 Documentation and Users Manual
+## 📄 Documentation
+## Requirements and Design
+View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
+View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
+## Coding Standards
+View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
+## Testing Policy
+View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
+## Project Management
+View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
+## User Manual
+View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
@@ -125,33 +135,19 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 <br><br><br><br><br><br>
 </details>
 
+## Video Demo
+## Slideshow
+## Advertisement
+## Research
+## Deployment
+View our [Deployment Model](https://drive.google.com/file/d/1V5zx1g5jgwiuq_i9XT0u-KLZqQmzUTsm/view?usp=share_link)<br>
+## Tutorial
+## Installation Guide
+View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
+## Contribution Guide
 ## ✉️ Contact us:
 Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
 
-
-## Demo 1
-View our [video](https://youtu.be/J1cRVKzwF0o) <br>
-View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
-
-
-## Demo 2
-View our [video](https://youtu.be/34bhsMyU1fc) <br>
-View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-
-## Demo 3
-View our [video](https://youtu.be/34bhsMyU1fc) <br>
-View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-
-
-## Demo 4
-View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
-View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
-View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
-View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
-View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
-View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
-View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
-View our [Deployment Model](https://drive.google.com/file/d/1V5zx1g5jgwiuq_i9XT0u-KLZqQmzUTsm/view?usp=share_link)<br>
 # Project
 
 ## Development server
