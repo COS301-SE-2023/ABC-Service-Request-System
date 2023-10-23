@@ -137,19 +137,10 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 <br><br><br><br><br><br>
 </details>
 
-## Video Demo
-## Slideshow
-## Advertisement
+## Videos and Slides
 ## Research
 ## Deployment
 View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
 ## Tutorial
-## Installation Guide
-View our [Installation Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 ## Contribution Guide
-## ✉️ Contact us:
-Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
-
-## Documentation Link
-For more detailed information about our project, please visit our [ABC Service Request System Wiki](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki).
 
