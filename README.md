@@ -39,7 +39,7 @@ View our [SRS & Architectural documents](https://github.com/COS301-SE-2023/ABC-S
 View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
 
 ## Testing Policy
-View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
+View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Testing)<br>
 
 ## Project Management
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
