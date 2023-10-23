@@ -32,17 +32,23 @@ The ticketing system will enable seamless collaboration between teams by facilit
 <a href="https://nodejs.org/">
     <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
 </a>
+
 ## 📄 Documentation
-## Requirements and Design
+
+# Requirements and Design
 View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
 View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
-## Coding Standards
+
+# Coding Standards
 View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
-## Testing Policy
+
+# Testing Policy
 View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Testing_Policy(1).pdf)<br>
-## Project Management
+
+# Project Management
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
-## User Manual
+
+# User Manual
 View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf)<br>
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
