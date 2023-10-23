@@ -46,7 +46,7 @@ View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
 
 ## User Manual & Installation Guide
-View [here]([https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Manuals))<br>
+View our [User Manual and Installlation Guide]([https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/UM.pdf](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Manuals))<br>
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
