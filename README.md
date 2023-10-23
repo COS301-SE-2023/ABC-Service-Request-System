@@ -135,6 +135,7 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 
 ## Videos and Slides
 ## Research
+View our [Research](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Research)
 ## Deployment
 View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
 ## Tutorial, Installation Guide and Contribution Guide
