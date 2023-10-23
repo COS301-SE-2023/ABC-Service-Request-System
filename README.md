@@ -44,15 +44,11 @@ View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-
 ## Project Management
 View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
 
-## User Manual & Installation Guide
-View our [User Manual and Installlation Guide](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Manuals)<br>
+## User Manual
+View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Manuals)<br>
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
-## 📌 Project Board 
-- <a href="https://github.com/COS301-SE-2023/ABC-Service-Request-System/projects?query=is%3Aopen">
-    <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
-</a>
 
 ## :busts_in_silhouette: Team Members
 <details><summary>Priyul Mahabeer</summary><br>
