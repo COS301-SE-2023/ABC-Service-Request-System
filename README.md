@@ -33,8 +33,7 @@ The ticketing system will enable seamless collaboration between teams by facilit
 # 📄 Documentation
 
 ## Requirements and Design
-View our [SRS](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/SRS.pdf)<br>
-View our [Architecture](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Architectural_Document.pdf)<br>
+View our [SRS & Architectural documents](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/SRS-&-Architectural-Requirements)<br>
 
 ## Coding Standards
 View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
