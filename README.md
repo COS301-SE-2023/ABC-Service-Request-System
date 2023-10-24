@@ -30,6 +30,10 @@ The ticketing system will enable seamless collaboration between teams by facilit
     <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
 </a>
 
+# 🍄 Presentation
+View our [video promo](https://youtu.be/pSq-MSeMHqY)<br>
+View our [system presentation]()<br>
+
 # 📄 Documentation
 
 ## Requirements and Design
@@ -54,7 +58,13 @@ View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-Sys
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
 <p>
-Passionate about space exploration, quantum computing, and AI, I'm an aspiring software engineer inspired by great minds in the field. Skilled in languages like C++, Java, and Python, I'm eager to push boundaries and innovate for a better future.
+🚀 I am a passionate and forward-thinking technology enthusiast, specializing in outer space exploration, quantum computing, and artificial intelligence. With a keen interest in the pioneering work by OpenAI, Tesla and SpaceX, I strive to push the boundaries of what's possible and create a better future for humanity.
+
+🖥️ As an aspiring software engineer, I have extensive experience in programming languages such as C++, Java, Python, SQL, Angular, Ionic, JavaScript, and TypeScript. My computer literacy and technical expertise enable me to develop innovative solutions for complex problems in the rapidly evolving world of technology.
+
+🌌 My fascination for outer space and quantum computing drives me to stay updated with the latest advancements in these fields, inspiring me to take on new challenges and expand my skill set.
+
+🤖 As a strong advocate for artificial intelligence, I am amazed at what OpenAI has achieved and eagerly await the opportunity to contribute to their groundbreaking research and applications. Through collaboration and continuous learning, I believe that we can revolutionise the world, making it smarter, more efficient, and more sustainable.
 </p>
 <a href="https://github.com/Priyul" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
@@ -139,5 +149,5 @@ View our [Research](https://github.com/COS301-SE-2023/ABC-Service-Request-System
 ## Deployment
 View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
 ## Tutorial, Installation Guide and Contribution Guide
-[View](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Tutorial,-Contribution-Guide-and-Installation-Guide)
+View our [Tutorial](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Tutorial,-Contribution-Guide-and-Installation-Guide)
 
