@@ -17,6 +17,10 @@ export class ClientLoginComponent {
 
   constructor(private router: Router, private clientService: ClientService, private authService: AuthService) {  }
 
+  routeToLogin() {
+    this.router.navigate(['/login']);
+  }
+
   loginUser(): void {
     this.logInClicked = true;
     this.clientService.loginClient({ email: this.email, password: this.password }).subscribe({

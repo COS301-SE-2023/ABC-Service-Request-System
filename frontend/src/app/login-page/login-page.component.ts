@@ -17,11 +17,15 @@ export class LoginPageComponent  {
 
   constructor(private router: Router, private userService: UserService, private authService: AuthService) {  }
 
-  
+
 
   navigateToDashboard(event: Event) {
     event.preventDefault();
     this.router.navigate(['/dashboard']);
+  }
+
+  routeToClient() {
+    this.router.navigate(['/client-login']);
   }
 
   loginUser(): void {
