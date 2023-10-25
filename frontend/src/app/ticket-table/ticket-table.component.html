@@ -58,14 +58,24 @@
     </tbody>
   </table>
 
-  <mat-progress-bar mode="indeterminate" *ngIf="!ticketsReady"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" *ngIf="!ticketsReady && !ticketFailure"></mat-progress-bar>
 
-  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === false">
+  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === false && isManager === true">
     <p>There are no tickets for this project currently. Add new tickets to see them here!</p>
     <button (click)="routeToNewTickets()">Add tickets</button>
+  </div>
+  <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === false && isManager === false">
+    <p>There are no tickets for this project currently.</p>
   </div>
   <div class="no-ticket-yet" *ngIf="sortedTicketsArray.length === 0 && inProfileOrSettings === true">
     <p>There are no tickets currently assigned to this user</p>
     <!-- <button (click)="routeToNewTickets()">Add tickets</button> -->
+  </div>
+
+  <div class="service-down-wrapper">
+    <div class="service-down" *ngIf="ticketFailure">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p>The ticket service is currently unavailable</p>
+    </div>
   </div>
 </div>

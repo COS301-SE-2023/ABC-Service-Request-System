@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit{
   navbarIsCollapsed!: boolean;
   selectedProjectName = '';
 
+  ticketFailure = false;
+
 
   constructor(private router: Router, public authService: AuthService,
     public navbarService: NavbarService, public ticketService: TicketsService) {}
@@ -32,6 +34,15 @@ export class DashboardComponent implements OnInit{
     this.navbarService.collapsed$.subscribe(collapsed => {
       this.navbarIsCollapsed = collapsed;
     });
+
+    this.ticketService.checkServerHealth().then((isServerUp) => {
+      if (isServerUp) {
+        this.ticketFailure = false;
+      } else {
+        this.ticketFailure = true;
+      }
+    });
+
     this.ticketService.getAllTickets().subscribe((tickets) => {
       this.allTickets = tickets;
       this.filterTicketsByStatusAndProject(this.currentStatus);

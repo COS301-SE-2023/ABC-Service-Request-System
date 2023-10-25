@@ -145,3 +145,24 @@ td {
   max-width: 80%;
   text-align: center;
 }
+
+.service-down-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+
+  .service-down {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    background-color: #cc2851;
+    color: white;
+    border-radius: 0.4em;
+  }
+
+  i {
+    margin-right: 1em;
+    font-size: 1.3em;
+  }
+}

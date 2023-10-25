@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="login-container">
   <img src="/assets/client_background.svg" alt="background image" class="background-img">
 
@@ -29,6 +31,10 @@
           <!-- <button type="button" class="btn">Log in <mat-spinner style="margin:0em 0.6em;" [diameter]="20"></mat-spinner></button> -->
           <button type="button" class="btn" (click)="loginUser()">Log in <mat-spinner style="margin:0em 0.6em;" [diameter]="20" *ngIf="logInClicked"></mat-spinner></button>
 
+          </div>
+
+          <div class = "client-login-text">
+            <p (click) = "routeToLogin()">Go to Internal Portal</p>
           </div>
 
           <!-- <p class="or">OR</p> -->

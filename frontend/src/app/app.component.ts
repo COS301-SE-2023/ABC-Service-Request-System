@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
+    console.log('newest build')
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         console.log('app init url: ', event.urlAfterRedirects);

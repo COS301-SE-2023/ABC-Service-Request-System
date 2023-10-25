@@ -1,2 +1,4 @@
 node_modules
 .angular
+.DS_Store
+backend/.DS_Store

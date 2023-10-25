@@ -95,13 +95,14 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
   ticketResolutionLineChart!: Chart<'line', (number | null)[], string>;
  // ticketVolumeTrendChart!: Chart<'line', (number | null)[], string>;
  ticketVolumeTrendChart!: Chart<'line', (number)[], string>;
-
+  burnDownChart!: Chart<'line', (number)[], string>;
 
   @ViewChild('doughnutChartByPriorityCanvas', { static: true }) doughnutChartCanvas!: ElementRef;
   @ViewChild('polarChartCanvas', { static: true }) polarChartCanvas!: ElementRef;
   @ViewChild('lineChartCanvas', { static: true }) lineChartCanvas!: ElementRef;
   @ViewChild('ticketResolutionLineChartCanvas', { static: true }) ticketResolutionLineChartCanvas!: ElementRef;
   @ViewChild('ticketVolumeTrendChartCanvas', { static: true }) ticketVolumeTrendChartCanvas!: ElementRef;
+  @ViewChild('burnDownChartCanvas', {static: true}) burnDownChartCanvas!: ElementRef;
 
   constructor(private router: Router, public authService: AuthService,
     private groupService: GroupService, private ticketsService: TicketsService, private userService: UserService,
@@ -150,6 +151,7 @@ export class AnalyticsPageComponent implements AfterViewInit, OnInit {
     this.createLineChart();
     this.createTicketResolutionLineChart();
     this.createTicketVolumeTrendChart();
+    this.createBurnDownChart();
 
   }
 
@@ -181,19 +183,6 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
   );
 }
 
-
-  // private fetchLatestWorklogs(){
-  //   const username = this.authService.getUser().name;
-  //   console.log(username + " username")
-
-  //   this.ticketsService.getUserLatestWorklogs(username).subscribe(data => {
-  //     this.latestWorklogs = data;
-  //     console.log('Latest Worklogs:', data);
-  //   }, error => {
-  //     console.error('Error fetching latest worklogs:', error);
-  //   });
-  // }
-
   getHours(timeSpent: string): number {
     return parseInt(timeSpent.replace('h', ''), 10);
   }
@@ -215,18 +204,6 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
         console.log(`No group found with id ${id}`);
     }
 }
-
-  // selectGroup(id: string): void {
-  //   console.log('Selected Group ID # 1:', this.sgroup)
-  //   const group = this.groups.find(group => group.id === id);
-  //   if (group) {
-  //       this.selectedGroup = group;
-  //       console.log('Selected Group ID # 2:', group.groupName);
-  //       this.onGroupSelected(group.groupName);
-  //   } else {
-  //       console.log(`No group found with id ${id}`);
-  //   }
-  // }
 
   typeChanged(value: any) {
     console.log('value is: ', value);
@@ -289,11 +266,15 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
           });
           this.updatePolarChart();
           this.updateDoughnutChart();
-          this.updateLineChart(response);
+          // this.updateLineChart(response);
           this.updateTicketResolutionLineChart(response);
           this.updateTicketVolumeTrendChart(response);
           this.sortResponseTimeTickets(response);
           this.sortResolutionTimeTickets(response);
+
+          this.updateBurnDownChart(response);
+
+          // console.log('all tickets: ', response);
         }, (error) => {
           console.log("Error fetching tickets for current user", error);
         }
@@ -362,7 +343,7 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
           }
           this.updatePolarChart();
           this.updateDoughnutChart();
-          this.updateLineChart(response);
+          // this.updateLineChart(response);
           this.updateTicketResolutionLineChart(response);
           this.updateTicketVolumeTrendChart(response);
           this.sortResponseTimeTickets(response);
@@ -384,37 +365,39 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
   sortResponseTimeTickets(tickets: ticket[]): void {
     // Filter out tickets without a valid response time
     const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
-  
+
+
     // Sort the filtered tickets by response time
     tempTickets.sort((a, b) => {
       const responseTimeA = new Date(a.timeToFirstResponse!).getTime();
       const responseTimeB = new Date(b.timeToFirstResponse!).getTime();
-  
+
       // Compare response times for sorting
       return responseTimeA - responseTimeB;
     });
-  
+
+
     console.log("Sorted tickets by response time:", tempTickets);
     this.calculateAverageResponseTime(tempTickets);
   }
 
   sortResolutionTimeTickets(tickets: ticket[]): void {
     // Filter out tickets without a valid response time
-    const tempTickets = tickets.filter(ticket => ticket.timeToFirstResponse);
-  
+    const tempTickets = tickets.filter(ticket => ticket.timeToTicketResolution);
+
     // Sort the filtered tickets by response time
     tempTickets.sort((a, b) => {
       const responseTimeA = new Date(a.timeToTicketResolution!).getTime();
       const responseTimeB = new Date(b.timeToTicketResolution!).getTime();
-  
+
       // Compare response times for sorting
       return responseTimeA - responseTimeB;
     });
-  
+
     console.log("Sorted tickets by response time:", tempTickets);
     this.calculateAverageTimeToResolution(tempTickets);
   }
-  
+
 
   calculateAverageResponseTime(tickets: ticket[]): void {
     let totalResponseTime = 0;
@@ -749,63 +732,67 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
     // clear previous data
     this.lineChart.data.labels = [];
     this.lineChart.data.datasets[0].data = [];
-  
+
+    console.log('problem child, ', tickets);
     // for each ticket
     for (const ticket of tickets) {
       // calculate time to first response (in minutes)
       const createdAt = new Date(ticket.createdAt);
       const firstResponseTime = new Date(ticket.timeToFirstResponse);
       const timeToFirstResponse = (firstResponseTime.getTime() - createdAt.getTime()) / (1000 * 60);
-  
+
       // check if timeToFirstResponse is not a number (NaN), if it is, skip to next ticket
       if (isNaN(timeToFirstResponse)) continue;
-  
+
       // convert time to hours and minutes format
       const hours = Math.floor(timeToFirstResponse / 60);
       const minutes = Math.round(timeToFirstResponse % 60);
       const formattedTime = hours * 100 + minutes;
-  
+
       // add ticket id to chart labels
       this.lineChart.data.labels.push(ticket.summary);
-  
+
       // add formatted time to chart data
       this.lineChart.data.datasets[0].data.push(formattedTime);
     }
-  
+
     // Calculate time to first response for the latest ticket
-    const latestTicket = tickets[tickets.length - 1];
-    const createdAtLatest = new Date(latestTicket.createdAt);
-    const firstResponseTimeLatest = new Date(latestTicket.timeToFirstResponse);
-    const timeToFirstResponseLatest = (firstResponseTimeLatest.getTime() - createdAtLatest.getTime()) / (1000 * 60);
-  
-    // Check if timeToFirstResponseLatest is not a number (NaN), if it is, skip adding to the chart
-    if (!isNaN(timeToFirstResponseLatest)) {
-      // Convert time to hours and minutes format for the latest ticket
-      const hoursLatest = Math.floor(timeToFirstResponseLatest / 60);
-      const minutesLatest = Math.round(timeToFirstResponseLatest % 60);
-      const formattedTimeLatest = hoursLatest * 100 + minutesLatest;
-  
-      // Add the latest ticket id to the end of chart labels
-      this.lineChart.data.labels.push(latestTicket.summary);
-  
-      // Add the formatted time for the latest ticket to the end of chart data
-      this.lineChart.data.datasets[0].data.push(formattedTimeLatest);
-    }
-  
+    // const latestTicket = tickets[tickets.length - 1];
+    // if(latestTicket != undefined && latestTicket != null) {
+    //   const createdAtLatest = new Date(latestTicket.createdAt);
+    //   const firstResponseTimeLatest = new Date(latestTicket.timeToFirstResponse);
+    //   const timeToFirstResponseLatest = (firstResponseTimeLatest.getTime() - createdAtLatest.getTime()) / (1000 * 60);
+
+    //   // Check if timeToFirstResponseLatest is not a number (NaN), if it is, skip adding to the chart
+    //   if (!isNaN(timeToFirstResponseLatest)) {
+    //     // Convert time to hours and minutes format for the latest ticket
+    //     const hoursLatest = Math.floor(timeToFirstResponseLatest / 60);
+    //     const minutesLatest = Math.round(timeToFirstResponseLatest % 60);
+    //     const formattedTimeLatest = hoursLatest * 100 + minutesLatest;
+
+    //     // Add the latest ticket id to the end of chart labels
+    //     this.lineChart.data.labels.push(latestTicket.summary);
+
+    //     // Add the formatted time for the latest ticket to the end of chart data
+    //     this.lineChart.data.datasets[0].data.push(formattedTimeLatest);
+    //   }
+    // }
+
     // console.log("Chart labels:", this.lineChart.data.labels); // Log labels
     // console.log("Chart data:", this.lineChart.data.datasets[0].data); // Log data
-  
+
     const trendColor = this.calculateResponseTrend();
     this.lineChart.data.datasets[0].borderColor = trendColor;
     this.lineChart.data.datasets[0].backgroundColor = trendColor;
     this.lineChart.data.datasets[0].pointBackgroundColor = trendColor;
-  
+
     // update the chart to reflect new data
     this.lineChart.update();
   }
-  
+
 
   updateTicketResolutionLineChart(tickets: any[]): void {
+
     // Clear previous data
     this.ticketResolutionLineChart.data.labels = [];
     this.ticketResolutionLineChart.data.datasets[0].data = [];
@@ -968,6 +955,163 @@ fetchUserWorklogsInGroup(userId: string, groupName: string): void {
           y: {
             beginAtZero: false,
             max: 5,
+            display: true,
+            title: {
+              display: true,
+              text: 'Ticket Volume'   // Add title to Y-Axis
+            },
+            ticks: {
+              stepSize: 1,  // This will ensure the y-axis has a step size of 1
+              precision: 0,  // This will set the precision to 0, effectively displaying only whole numbers,
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',  // Change legend position to bottom
+            labels: {
+              boxWidth: 20,   // Increase the boxWidth
+              padding: 20     // Increase the padding
+            }
+          },
+          tooltip: {  // Enable tooltips
+            enabled: true,
+
+          }
+
+        }
+      }
+    });
+  }
+
+  updateBurnDownChart(tickets: ticket[]) {
+    console.log("day ticketssss", tickets);
+
+    //get current and next 7 days
+    const currentDate = new Date();
+    const daysArray = [];
+    const unresolvedCountArray = [];
+
+    for (let i = 6; i >= 0; i--) {
+        const pastDate = new Date(currentDate);
+        pastDate.setDate(currentDate.getDate() - i);
+        const day = pastDate.getDate();
+        const month = pastDate.getMonth() + 1; // Note: Months are zero-based
+        const year = pastDate.getFullYear();
+
+        daysArray.push(day + '/' + month + '/' + year);
+    }
+    //get tickets not been resolved on each day
+
+
+    for (const day of daysArray) {
+      const [dd, mm, yyyy] = day.split('/').map(Number);
+      const formattedDay = new Date(yyyy, mm - 1, dd);
+
+      const unresolvedTicketsOnDay = tickets.filter((ticket: ticket) => {
+          const ticketCreatedAt = new Date(ticket.createdAt);
+
+          ticketCreatedAt.setHours(0, 0, 0, 0);
+          formattedDay.setHours(0, 0, 0, 0);
+
+          console.log('ticket Created at day: ', ticketCreatedAt);
+          console.log('day day day is: ', formattedDay);
+          return ticketCreatedAt <= formattedDay;
+      });
+
+      // Filter out unresolved tickets and also any tickets resolved only after this formatted date
+      const unresolvedTicketsOnDayFiltered = unresolvedTicketsOnDay.filter(ticket => {
+        if (ticket.timeToTicketResolution) {
+          console.log('ticket dayyy time to resolution: ', ticket.timeToTicketResolution);
+          const ticketResolvedDate = new Date(ticket.timeToTicketResolution);
+          ticketResolvedDate.setHours(0, 0, 0, 0);
+          console.log("Resolved on dayyyy: ", ticketResolvedDate + " ticket name: ", ticket.summary);
+          return ticketResolvedDate > formattedDay;
+
+        }
+        return true;
+      });
+
+      console.log('On day: ', day, " the tickets that had been unresolved before this day are: ", unresolvedTicketsOnDayFiltered);
+
+      // Count the number of unresolved tickets
+      const unresolvedTicketCount = unresolvedTicketsOnDayFiltered.length;
+      unresolvedCountArray.push(unresolvedTicketCount);
+
+      console.log(`On ${day}: ${unresolvedTicketCount} unresolved tickets.`);
+    }
+
+
+    ///calculating the ideal time, taking into account number of initial tickets from the sprint
+    const idealTicketsArray = [];
+    const sprintLength = unresolvedCountArray.length;
+    const maxUnresolvedTickets = Math.max(...unresolvedCountArray);
+    const averageTicketsPerDay = Math.ceil(maxUnresolvedTickets / sprintLength);
+    let remainingTickets = maxUnresolvedTickets;
+    for (let i = 0; i < sprintLength; i++) {
+      idealTicketsArray.push(remainingTickets);
+
+      const resolvedTickets = Math.min(averageTicketsPerDay, remainingTickets);
+
+      remainingTickets -= resolvedTickets;
+    }
+
+
+    ///updating chart
+
+    this.burnDownChart.data.labels = daysArray;
+    this.burnDownChart.data.datasets[0].data = unresolvedCountArray;
+    this.burnDownChart.data.datasets[1].data = idealTicketsArray;
+    // this.ticketVolumeTrendChart.data.datasets[1].data = resolutionTimeData;
+    this.burnDownChart.update();
+  }
+
+  createBurnDownChart() {
+    this.burnDownChart = new Chart(this.burnDownChartCanvas.nativeElement, {
+      type: 'line',
+      data: {
+        labels : ["01-01-2017", "03-01-2017", "04-02-2017", "09-02-2017"],
+        datasets: [
+          {
+            label: 'Actual Ticket Situation',
+            data : [ 8, 7, 5, 7, 6, 5, 5 ],
+            borderColor: 'rgba(26, 188, 156, 1)',
+            backgroundColor: 'rgba(26, 188, 156, 0.2)',  // Change opacity to 0.2 for better visualization
+            tension: 0,   // Slightly increase tension for smoother lines
+            pointRadius: 5,
+            pointHoverRadius: 6,
+            pointBorderColor: '#fff',
+            pointBackgroundColor: 'rgba(26, 188, 156, 1)',
+            borderWidth: 2,   // Increase the line width for better visibility
+          },
+          {
+            label: 'Ideal Ticket Situation',
+            data : [ 8, 7, 5, 7, 6, 5, 5 ],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Change opacity to 0.2 for better visualization
+            tension: 0,   // Slightly increase tension for smoother lines
+            pointRadius: 5,
+            pointHoverRadius: 6,
+            pointBorderColor: '#fff',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,    // Increase the line width for better visibility,
+            fill: true,
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Date'   // Add title to X-Axis
+            }
+          },
+          y: {
+            beginAtZero: true,
             display: true,
             title: {
               display: true,

@@ -13,5 +13,6 @@ export const environment = {
   FRONTEND_LOGIN_URL: 'http://localhost:4200/login',
   FRONTEND_CLIENT_LOGIN_URL: 'http://localhost:4200/client-login',
   FRONTEND_CLIENT_DASHBOARD_URL: 'http://localhost:4200/client-dashboard',
-  CLIENT_ROOM: 'http://localhost:4200/room/'
+  CLIENT_ROOM: 'http://localhost:4200/room/',
+  TICKET_HEALTH: 'http://localhost:3001/health'
 };

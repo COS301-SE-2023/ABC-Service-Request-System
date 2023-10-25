@@ -25,6 +25,10 @@ app.get('/api/welcome', (req: any, res :any) => {
     res.status(200).send({ message: 'Welcome to the ticket service!' });
 });
 
+app.get('/health', (req, res) => {
+    res.send('Server is up and running!');
+});
+
 const port = process.env.PORT || 3001;
 
 let server = app.listen(port, () => {

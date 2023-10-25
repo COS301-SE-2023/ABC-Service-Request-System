@@ -307,7 +307,7 @@
 
           <div class="expansion-item">
             <p>Assigned</p>
-            <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned"></app-user-dropdown>
+            <app-user-dropdown [groupName]="assignedGroup" [currentAssigned]="currentAssigned" (userSelected)="userSelected($event)"></app-user-dropdown>
           </div>
 
           <div class="expansion-item flex-start">

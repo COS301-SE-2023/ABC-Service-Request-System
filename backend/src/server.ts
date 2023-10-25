@@ -61,7 +61,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  clientUrl = "luna-client-service-production.up.railway.app";
+  clientUrl = "https://luna-client-service-production.up.railway.app";
 } else {
   clientUrl = "http://localhost:3005";
 }

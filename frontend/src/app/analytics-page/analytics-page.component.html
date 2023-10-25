@@ -50,7 +50,7 @@
           <!-- Time and Expenses -->
           <!-- worklog.component.html -->
           <div class="grid-item grid-item-5">
-            <h2>Hours Logged</h2>
+            <h2>Hours Logged For</h2>
             <div class="table-container">
                 <div *ngFor="let entry of latestWorklogs" class="table-item">
 
@@ -93,7 +93,7 @@
                   <p class="average-unit hour-unit">HOURS</p>
                   <p class="average-unit minute-unit">MINUTES</p>
                 </div>
-                
+
                 <div class=" {{calculateResponseTrendCSS()}}">
                   <i [ngClass]="getArrowResponseClass()"></i>
                   <p id="imp">{{ this.responsePercentChangeAbs  }} %</p>
@@ -119,8 +119,8 @@
                   <p class="average-unit hour-unit">HOURS</p>
                   <p class="average-unit minute-unit">MINUTES</p>
                 </div>
-                
-                
+
+
                 <div class="{{calculateResolutionTrendCSS()}}">
                   <i [ngClass]="getArrowResolutionClass()"></i>
                   <p id="imp">{{ this.resolutionPercentChangeAbs }} % </p>
@@ -153,6 +153,18 @@
               <canvas #polarChartCanvas ></canvas>
             </div>
           </div>
+
+          <div class="grid-item grid-item-11">
+            <h2>Burn Down</h2>
+            <div id="chart-wrapper">
+              <canvas #burnDownChartCanvas style="width: 100%; height: 350px;"></canvas>
+            </div>
+          </div>
+<!--
+          <h2>Burn Down Chart</h2>
+          <div id="chart-wrapper" style="background-color: yellow; width: 100%;">
+            <canvas #burnDownChartCanvas style="width: 100%; height: 350px; background-color: red;"></canvas>
+          </div> -->
 
         </div>
       </div>

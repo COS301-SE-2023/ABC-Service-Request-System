@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tickets } from '../data';
 import { Subscription } from 'rxjs';
@@ -24,6 +24,8 @@ import { tick } from '@angular/core/testing';
 
 export class TicketDetailComponent implements OnInit, OnDestroy {
 
+
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -33,7 +35,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private notificationsService: NotificationsService,
     private navbarService: NavbarService,
-    private router: Router) { }
+    private router: Router) {
+
+    }
 
   ticket!: ticket;
   ticketPanelOpenState = false;
@@ -95,6 +99,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.isFormVisible = false;
   }
 
+  userSelected(event: any) {
+
+    this.numReversedHistory = 0;
+    this.showHistoryOnly();
+    // this.highlightHistoryButton('event');
+  }
+
 
   onSubmit() {
     this.activeTab = 'Work Logs';
@@ -136,6 +147,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         );
     }
 }
+
 
 //   onSubmit() {
 //     this.activeTab = 'Work Logs';
@@ -721,6 +733,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.displayedComments = this.ticket.comments;
       if (this.numReversed != 1) {
         this.displayedComments.reverse();
+        // alert('reverse');
         this.numReversed = 1;
       }
     }
@@ -762,14 +775,25 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.displayedComments = [];
     this.displayedHistory = [];
     this.historyOnly = true;
-    if (this.ticket.history != null) {
-      this.displayedHistory = this.ticket.history;
-    }
 
-    if (this.numReversedHistory != 1) {
-      this.displayedHistory?.reverse();
-      this.numReversedHistory = 1;
-    }
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if(id) {
+        this.ticketService.getTicketWithID(id).subscribe(
+          (response) => {
+            this.ticket = response;
+            if (this.ticket.history != null) {
+              this.displayedHistory = this.ticket.history;
+            }
+
+            if (this.numReversedHistory != 1) {
+              this.displayedHistory?.reverse();
+              this.numReversedHistory = 1;
+            }
+          });
+      }
+    });
+
   }
 
 
@@ -790,13 +814,15 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
 
   highlightButton(event: any) {
-
+    console.log(event);
     const buttons = document.getElementsByClassName('activity-filter-button');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove('selected');
     }
     event.target.classList.add('selected');
   }
+
+
 
   goBack(){
     this.router.navigate(['/dashboard']);

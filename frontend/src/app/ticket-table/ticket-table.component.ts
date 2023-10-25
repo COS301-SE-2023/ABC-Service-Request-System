@@ -44,9 +44,13 @@ export class TicketTableComponent implements OnInit{
   upcomingDeadline = false;
   overdueDeadline = false;
 
+  currentUser?: user;
+  isManager = true;
+
   @Input() viewProfileEmail = '';
   @Input() clientObjectRecieved!: client;
   @Input() tickets: any[] = [];
+  @Input() ticketFailure!: boolean;
   @Output() openForm = new EventEmitter<string>();
 
   openUpdateForm(oldAssignee: string){
@@ -359,6 +363,17 @@ export class TicketTableComponent implements OnInit{
 
       // this.assignedDetails.length = 0;
       // this.assigneeDetails.length = 0;
+      this.authservice.getUserObject().subscribe(
+        (result: any) => {
+          this.currentUser = result;
+          console.log(this.currentUser);
+          if (this.currentUser?.roles[0] === "Manager") {
+            this.isManager = true;
+          } else {
+            this.isManager = false;
+          }
+        });
+
   }
 
   navigateToTicket(id: string) {

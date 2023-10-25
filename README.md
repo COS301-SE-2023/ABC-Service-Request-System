@@ -10,12 +10,11 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 [![Continuous Deployment (CD)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/ci-development.yaml)
 
-[![Continuous Intergration (CI)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml/badge.svg?branch=main)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/actions/workflows/develop-deploy.yaml)
-
-
 [![codecov](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System/branch/develop/graph/badge.svg?token=8DEVQ31GUY)](https://codecov.io/gh/COS301-SE-2023/ABC-Service-Request-System)
 
 [![Contributors](https://img.shields.io/github/contributors/COS301-SE-2023/ABC-Service-Request-System?style=for-the-badge)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/graphs/contributors)
+
+https://github.com/COS301-SE-2023/ABC-Service-Request-System/assets/111005990/f4280dea-ca3f-46d1-8ccc-e9399d48f32f
 
 ## :rocket: Technologies 
 
@@ -33,20 +32,42 @@ The ticketing system will enable seamless collaboration between teams by facilit
     <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
 </a>
 
-## 📄 Documentation and Users Manual
+# 🍄 Presentation
+View our [system demo](https://youtu.be/Xy3IW-2nnF0)<br>
+View our [video promo](https://youtu.be/pSq-MSeMHqY)<br>
+View our [system presentation]()<br>
+
+# 📄 Documentation
+
+## Requirements and Design
+View our [SRS & Architectural documents](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/SRS-&-Architectural-Requirements)<br>
+
+## Coding Standards
+View our [Coding Standards](https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/Coding_Standards.pdf)<br>
+
+## Testing Policy
+View our [Testing Policy](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Testing)<br>
+
+## Project Management
+View our [Project Management](https://github.com/COS301-SE-2023/ABC-Service-Request-System/issues)<br>
+
+## User Manual
+View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Manuals)<br>
 
 [![View Repo](https://img.shields.io/badge/View%20Repo-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki)
 
-## 📌 Project Board 
-- <a href="https://github.com/COS301-SE-2023/ABC-Service-Request-System/projects?query=is%3Aopen">
-    <img alt="x" src="https://img.shields.io/badge/-Project%20Board-blue">
-</a>
 
 ## :busts_in_silhouette: Team Members
 <details><summary>Priyul Mahabeer</summary><br>
 <img align="right" src="https://github.com/COS301-SE-2023/ABC-Service-Request-System/blob/main/profilepictures/imagePriyul.jpeg" width=150>
 <p>
-Passionate about space exploration, quantum computing, and AI, I'm an aspiring software engineer inspired by great minds in the field. Skilled in languages like C++, Java, and Python, I'm eager to push boundaries and innovate for a better future.
+🚀 I am a passionate and forward-thinking technology enthusiast, specializing in outer space exploration, quantum computing, and artificial intelligence. With a keen interest in the pioneering work by OpenAI, Tesla and SpaceX, I strive to push the boundaries of what's possible and create a better future for humanity.
+
+🖥️ As an aspiring software engineer, I have extensive experience in programming languages such as C++, Java, Python, SQL, Angular, Ionic, JavaScript, and TypeScript. My computer literacy and technical expertise enable me to develop innovative solutions for complex problems in the rapidly evolving world of technology.
+
+🌌 My fascination for outer space and quantum computing drives me to stay updated with the latest advancements in these fields, inspiring me to take on new challenges and expand my skill set.
+
+🤖 As a strong advocate for artificial intelligence, I am amazed at what OpenAI has achieved and eagerly await the opportunity to contribute to their groundbreaking research and applications. Through collaboration and continuous learning, I believe that we can revolutionise the world, making it smarter, more efficient, and more sustainable.
 </p>
 <a href="https://github.com/Priyul" target="_blank">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
@@ -54,7 +75,7 @@ Passionate about space exploration, quantum computing, and AI, I'm an aspiring s
 <a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Ashir Butt</summary><br>
@@ -78,7 +99,7 @@ Passionate about space exploration, quantum computing, and AI, I'm an aspiring s
 <a href="https://www.linkedin.com/in/ashir-butt-074b6423a/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Jaimen Govender</summary><br>
@@ -92,7 +113,7 @@ I, Jaimen Govender am a final year student studying BSC Computer Science. I have
 <a href="https://www.linkedin.com/in/jaimen-govender-684084246/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Edwin Chang</summary><br>
@@ -106,7 +127,7 @@ I am in my final year of BSc Computer Science at the University of Pretoria. My 
 <a href="https://www.linkedin.com/in/edwin-chang-3b8378270/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Dharshan Pillay</summary><br>
@@ -122,47 +143,14 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 <a href="https://www.linkedin.com/in/dharshan-pillay-ab4bb0267/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
-## ✉️ Contact us:
-Email: [hyperiontech.capstone@gmail.com](mailto:hyperiontech.capstone@gmail.com)
-
-
-## Demo 1
-View our [video](https://youtu.be/J1cRVKzwF0o) <br>
-View our [presentation](https://www.canva.com/design/DAFjpMtOudE/tNFrL5YYlWDjl4-Q_CTVvg/view?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link&utm_source=homepage_design_menu)
-
-
-## Demo 2
-View our [video](https://youtu.be/34bhsMyU1fc) <br>
-View our [presentation]( https://www.canva.com/design/DAFjpMtOudE/AqLFxGNonxBVCKKj-C9NlA/edit?utm_content=DAFjpMtOudE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-# Project
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Documentation Link
-For more detailed information about our project, please visit our [ABC Service Request System Wiki](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki).
+# 🎥 Videos and Slides
+## Research
+View our [Research](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Research)
+## Deployment
+View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
+# 📚 Tutorial, Installation Guide and Contribution Guide
+View our [Tutorial](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Tutorial,-Contribution-Guide-and-Installation-Guide)
 

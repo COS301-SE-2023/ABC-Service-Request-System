@@ -3,7 +3,7 @@
   (searchEvent)="searchTicket($event)"
   (filterChangeEvent)="filterTicketsByStatusAndProject($event)"
 ></app-search-bar> -->
-  <app-ticket-table (openForm)="openUpdateForm($event)" [tickets]="filteredTickets"></app-ticket-table>
+  <app-ticket-table (openForm)="openUpdateForm($event)" [tickets]="filteredTickets" [ticketFailure]="ticketFailure"></app-ticket-table>
   <app-update-ticket-modal *ngIf="showUpdateForm" (closeUpdateForm)="closeUpdateForm()" (updateTicketEvent)="updateTicket($event)"></app-update-ticket-modal>
   <!-- <app-page-header></app-page-header> -->
   <app-new-ticket-form *ngIf="showForm" (newTicketEvent)="addNewTicket($event)" (closeForm)="closeForm()"></app-new-ticket-form>
