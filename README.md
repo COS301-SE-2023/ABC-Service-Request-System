@@ -14,6 +14,8 @@ The ticketing system will enable seamless collaboration between teams by facilit
 
 [![Contributors](https://img.shields.io/github/contributors/COS301-SE-2023/ABC-Service-Request-System?style=for-the-badge)](https://github.com/COS301-SE-2023/ABC-Service-Request-System/graphs/contributors)
 
+https://github.com/COS301-SE-2023/ABC-Service-Request-System/assets/111005990/f4280dea-ca3f-46d1-8ccc-e9399d48f32f
+
 ## :rocket: Technologies 
 
 <a href="https://www.mongodb.com/">
