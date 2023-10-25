@@ -72,7 +72,7 @@ View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-Sys
 <a href="https://www.linkedin.com/in/priyul-mahabeer/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Ashir Butt</summary><br>
@@ -96,7 +96,7 @@ View our [User Manual](https://github.com/COS301-SE-2023/ABC-Service-Request-Sys
 <a href="https://www.linkedin.com/in/ashir-butt-074b6423a/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Jaimen Govender</summary><br>
@@ -110,7 +110,7 @@ I, Jaimen Govender am a final year student studying BSC Computer Science. I have
 <a href="https://www.linkedin.com/in/jaimen-govender-684084246/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Edwin Chang</summary><br>
@@ -124,7 +124,7 @@ I am in my final year of BSc Computer Science at the University of Pretoria. My 
 <a href="https://www.linkedin.com/in/edwin-chang-3b8378270/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
 <details><summary>Dharshan Pillay</summary><br>
@@ -140,14 +140,14 @@ I have developed a keen interest in leveraging data to derive meaningful insight
 <a href="https://www.linkedin.com/in/dharshan-pillay-ab4bb0267/" target="_blank">
   <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
-<br><br><br><br><br><br>
+<br><br>
 </details>
 
-## Videos and Slides
+# 🎥 Videos and Slides
 ## Research
 View our [Research](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Research)
 ## Deployment
 View our [Deployed App](https://www.luna-hyperion-tech.xyz/login)<br>
-## Tutorial, Installation Guide and Contribution Guide
+# 📚 Tutorial, Installation Guide and Contribution Guide
 View our [Tutorial](https://github.com/COS301-SE-2023/ABC-Service-Request-System/wiki/Tutorial,-Contribution-Guide-and-Installation-Guide)
 
