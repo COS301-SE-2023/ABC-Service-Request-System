@@ -135,7 +135,7 @@ router.post('/add', jwtVerify(['Admin', 'Manager']), expressAsyncHandler(
 
     if (userIndex !== -1) {
       group.people!.splice(userIndex, 1);
-      await group.save();
+      const updatedGroup = await group.save();
       res.status(200).send({ message: 'User removed successfully' });
     } else {
       res.status(404).send({ message: 'User not found in the group' });

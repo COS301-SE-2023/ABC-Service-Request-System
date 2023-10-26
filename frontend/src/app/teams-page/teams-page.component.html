@@ -60,7 +60,7 @@
     <tbody>
       <tr *ngFor="let group of groups" class="odd:bg-white even:bg-slate-200 pointer">
         <td class="pt-3 pb-3 pl-4 text-left text-blue-500 hover:underline cursor-pointer" (click)="clickGroup(group)">{{group.groupName}}</td>
-        <td class="text-left">{{group.people?.length}}</td>
+        <td class="text-left">{{group.people!.length}}</td>
         <td class="text-red-500 hover:underline cursor-pointer text-left" tabindex="0"
           (click)="toggleRemoveGroupOverlay('hi', group)"
           (keyup.enter)="toggleRemoveGroupOverlay('hi', group)">

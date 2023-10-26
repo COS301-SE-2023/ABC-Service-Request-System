@@ -84,6 +84,7 @@ export class TeamsPageComponent implements OnInit{
       this.groupService.getGroups().subscribe(
         (response) => {
           this.groups = response;
+          console.log(this.groups);
         },
         (error) => {
           console.log(error);
@@ -209,7 +210,7 @@ export class TeamsPageComponent implements OnInit{
 
   }
 
-  
+
   removeGroup(group: group): void {
     group.people?.forEach(userId => {
       this.userService.deleteUserGroup(userId, group.id).subscribe(
@@ -249,6 +250,7 @@ export class TeamsPageComponent implements OnInit{
         // first, remove the user from the group
         return this.groupService.removeUserFromGroup(this.groupId, response._id).pipe(
           switchMap((groupResponse) => {
+            console.log('search');
             console.log(groupResponse);
             // after the user is removed from the group, remove the group from the user
             return this.userService.deleteUserGroup(response._id, this.groupId);
